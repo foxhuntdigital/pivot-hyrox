@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "Adaptive Athlete",
+    "slug": "pivot",
+    "scheme": "pivot",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.adaptiveathlete.pivot"
+    },
+    "android": {
+      "package": "com.adaptiveathlete.pivot",
+      "edgeToEdgeEnabled": true
+    },
+    "plugins": ["expo-router", "expo-font"],
+    "experiments": { "typedRoutes": true }
+  }
+}

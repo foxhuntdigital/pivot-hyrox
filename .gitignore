@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Expo / build output
+.expo/
+dist/
+build/
+web-build/
+*.tsbuildinfo
+
+# Supabase local state
+supabase/.branches/
+supabase/.temp/
+
+# OS / editor
+.DS_Store
+*.log

@@ -1,0 +1,15 @@
+{
+  "name": "pivot",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Adaptive Athlete — training that adapts to the athlete's life without losing the training objective.",
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "mobile": "npm run start --workspace apps/mobile",
+    "ios": "npm run ios --workspace apps/mobile",
+    "engine:test": "npm run test --workspace packages/engine",
+    "seed:build": "node scripts/convert-seed.mjs",
+    "db:verify": "./scripts/verify-schema.sh",
+    "test": "npm run engine:test"
+  }
+}

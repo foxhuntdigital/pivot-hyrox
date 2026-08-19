@@ -1,0 +1,45 @@
+# Supabase local config.
+#
+# `content` must be listed in api.schemas — PostgREST only exposes schemas it is
+# told about, and the curated workout library lives outside `public` so its
+# read-only policy is separate from athlete data.
+
+project_id = "pivot"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "content", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[auth]
+enabled = true
+site_url = "pivot://"
+additional_redirect_urls = ["pivot://"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false
+
+# Apple and Google sign-in per PRD §6.1. Secrets come from the environment,
+# never from this file.
+[auth.external.apple]
+enabled = false
+client_id = ""
+secret = ""
+
+[functions.today]
+verify_jwt = true
+
+[functions.adapt]
+verify_jwt = true
+
+[functions.complete-workout]
+verify_jwt = true

@@ -1,0 +1,3366 @@
+{
+  "exercises": [
+    {
+      "id": "ex_run",
+      "name": "Run",
+      "impact_level": "high",
+      "postpartum_friendly": true,
+      "equipment": [
+        "treadmill",
+        "outdoor"
+      ]
+    },
+    {
+      "id": "ex_incline_walk",
+      "name": "Incline Walk",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "treadmill"
+      ]
+    },
+    {
+      "id": "ex_skierg",
+      "name": "SkiErg",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "ski"
+      ]
+    },
+    {
+      "id": "ex_spin_bike",
+      "name": "Spin Bike",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "bike"
+      ]
+    },
+    {
+      "id": "ex_sled_push",
+      "name": "Sled Push",
+      "impact_level": "medium",
+      "postpartum_friendly": true,
+      "equipment": [
+        "sled"
+      ]
+    },
+    {
+      "id": "ex_sled_pull",
+      "name": "Sled Pull",
+      "impact_level": "medium",
+      "postpartum_friendly": true,
+      "equipment": [
+        "sled",
+        "rope"
+      ]
+    },
+    {
+      "id": "ex_burpee_broad_jump",
+      "name": "Burpee Broad Jump",
+      "impact_level": "high",
+      "postpartum_friendly": true,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_farmer_carry",
+      "name": "Farmer Carry",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "db",
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_sandbag_walking_lunge",
+      "name": "Sandbag Walking Lunge",
+      "impact_level": "medium",
+      "postpartum_friendly": true,
+      "equipment": [
+        "sandbag"
+      ]
+    },
+    {
+      "id": "ex_wall_ball",
+      "name": "Wall Ball",
+      "impact_level": "medium",
+      "postpartum_friendly": true,
+      "equipment": [
+        "wall_ball"
+      ]
+    },
+    {
+      "id": "ex_back_squat",
+      "name": "Back Squat",
+      "impact_level": "medium",
+      "postpartum_friendly": true,
+      "equipment": [
+        "barbell",
+        "rack"
+      ]
+    },
+    {
+      "id": "ex_front_squat",
+      "name": "Front Squat",
+      "impact_level": "medium",
+      "postpartum_friendly": true,
+      "equipment": [
+        "barbell",
+        "rack"
+      ]
+    },
+    {
+      "id": "ex_goblet_squat",
+      "name": "Goblet Squat",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "db",
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_deadlift",
+      "name": "Deadlift",
+      "impact_level": "medium",
+      "postpartum_friendly": true,
+      "equipment": [
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_romanian_deadlift",
+      "name": "Romanian Deadlift",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "barbell",
+        "db"
+      ]
+    },
+    {
+      "id": "ex_bulgarian_split_squat",
+      "name": "Bulgarian Split Squat",
+      "impact_level": "medium",
+      "postpartum_friendly": true,
+      "equipment": [
+        "db",
+        "bench"
+      ]
+    },
+    {
+      "id": "ex_walking_lunge",
+      "name": "Walking Lunge",
+      "impact_level": "medium",
+      "postpartum_friendly": true,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_reverse_lunge",
+      "name": "Reverse Lunge",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_push_press",
+      "name": "Push Press",
+      "impact_level": "medium",
+      "postpartum_friendly": true,
+      "equipment": [
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_incline_db_press",
+      "name": "Incline DB Press",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "db",
+        "bench"
+      ]
+    },
+    {
+      "id": "ex_landmine_press",
+      "name": "Landmine Press",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "landmine"
+      ]
+    },
+    {
+      "id": "ex_trx_push_up",
+      "name": "TRX Push-Up",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "trx"
+      ]
+    },
+    {
+      "id": "ex_db_row",
+      "name": "DB Row",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_pull_up",
+      "name": "Pull-Up",
+      "impact_level": "medium",
+      "postpartum_friendly": true,
+      "equipment": [
+        "rig"
+      ]
+    },
+    {
+      "id": "ex_cable_row",
+      "name": "Cable Row",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "cable"
+      ]
+    },
+    {
+      "id": "ex_kettlebell_swing",
+      "name": "Kettlebell Swing",
+      "impact_level": "medium",
+      "postpartum_friendly": true,
+      "equipment": [
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_box_step_over",
+      "name": "Box Step-Over",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "box"
+      ]
+    },
+    {
+      "id": "ex_box_jump",
+      "name": "Box Jump",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "box"
+      ]
+    },
+    {
+      "id": "ex_sandbag_carry",
+      "name": "Sandbag Carry",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "sandbag"
+      ]
+    },
+    {
+      "id": "ex_sandbag_front_rack_march",
+      "name": "Sandbag Front Rack March",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "sandbag"
+      ]
+    },
+    {
+      "id": "ex_landmine_rotation",
+      "name": "Landmine Rotation",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "landmine"
+      ]
+    },
+    {
+      "id": "ex_pallof_press",
+      "name": "Pallof Press",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "cable",
+        "bands"
+      ]
+    },
+    {
+      "id": "ex_side_plank",
+      "name": "Side Plank",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_glute_bridge",
+      "name": "Glute Bridge",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_air_squat",
+      "name": "Air Squat",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_push_up",
+      "name": "Push-Up",
+      "impact_level": "medium",
+      "postpartum_friendly": true,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_bear_crawl",
+      "name": "Bear Crawl",
+      "impact_level": "medium",
+      "postpartum_friendly": true,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_step_up",
+      "name": "Step-Up",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "box"
+      ]
+    },
+    {
+      "id": "ex_jump_rope",
+      "name": "Jump Rope",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "jump_rope"
+      ]
+    },
+    {
+      "id": "ex_boxing_bag",
+      "name": "Boxing Bag",
+      "impact_level": "medium",
+      "postpartum_friendly": true,
+      "equipment": [
+        "bag"
+      ]
+    },
+    {
+      "id": "ex_pilates_reformer",
+      "name": "Pilates Reformer",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "reformer"
+      ]
+    },
+    {
+      "id": "ex_mobility_flow",
+      "name": "Mobility Flow",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_breathing_core_reset",
+      "name": "Breathing Core Reset",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "bodyweight"
+      ]
+    }
+  ],
+  "templates": [
+    {
+      "id": "wo_zone_2_run_30",
+      "name": "Zone 2 Run 30",
+      "workout_family": "run_base",
+      "primary_goal": "aerobic_base",
+      "secondary_goal": "running_economy",
+      "estimated_minutes": 30,
+      "intensity_target": "RPE 3-4",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.6,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": false,
+      "description": "Easy conversational run",
+      "coaching_notes": "Walk briefly if needed",
+      "tags": [
+        "run",
+        "zone2",
+        "postpartum"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 10,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_zone_2_run_30_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Easy conversational run",
+          "rounds": null,
+          "duration_minutes": 30,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 30,
+              "quantity_unit": "min",
+              "intensity_note": "RPE 3-4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_zone_2_run_45",
+      "name": "Zone 2 Run 45",
+      "workout_family": "run_base",
+      "primary_goal": "aerobic_base",
+      "secondary_goal": "running_economy",
+      "estimated_minutes": 45,
+      "intensity_target": "RPE 3-4",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.7,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": false,
+      "description": "Long easy run",
+      "coaching_notes": "Keep easy",
+      "tags": [
+        "run",
+        "zone2"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 13,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_zone_2_run_45_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Long easy run",
+          "rounds": null,
+          "duration_minutes": 45,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "min",
+              "intensity_note": "RPE 3-4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_run_walk_rebuild",
+      "name": "Run Walk Rebuild",
+      "workout_family": "run_base",
+      "primary_goal": "aerobic_base",
+      "secondary_goal": "return_to_run",
+      "estimated_minutes": 30,
+      "intensity_target": "RPE 3-4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.5,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": false,
+      "description": "Run/walk rebuild",
+      "coaching_notes": "Symptom-free pacing",
+      "tags": [
+        "run",
+        "return_to_run",
+        "postpartum"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 10,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_run_walk_rebuild_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Run/walk rebuild",
+          "rounds": 10,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 2,
+              "quantity_unit": "min",
+              "intensity_note": "easy"
+            },
+            {
+              "exercise_id": "ex_incline_walk",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 1,
+              "quantity_unit": "min",
+              "intensity_note": "easy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_tempo_3x6",
+      "name": "Tempo 3x6",
+      "workout_family": "run_quality",
+      "primary_goal": "threshold",
+      "secondary_goal": "running_economy",
+      "estimated_minutes": 35,
+      "intensity_target": "RPE 6-7",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": false,
+      "description": "Controlled tempo",
+      "coaching_notes": "No sprinting",
+      "tags": [
+        "run",
+        "threshold"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 10,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_tempo_3x6_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Controlled tempo",
+          "rounds": 3,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 6,
+              "quantity_unit": "min",
+              "intensity_note": "RPE 6-7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_1k_repeat_builder",
+      "name": "1K Repeat Builder",
+      "workout_family": "run_quality",
+      "primary_goal": "race_pace",
+      "secondary_goal": "threshold",
+      "estimated_minutes": 42,
+      "intensity_target": "RPE 6-7",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": false,
+      "description": "1 km repeats",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "run",
+        "race_pace",
+        "hyrox"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 12,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_1k_repeat_builder_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "1 km repeats",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 1000,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6-7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_ski_zone_2_30",
+      "name": "Ski Zone 2 30",
+      "workout_family": "ski_base",
+      "primary_goal": "aerobic_base",
+      "secondary_goal": "ski_efficiency",
+      "estimated_minutes": 30,
+      "intensity_target": "RPE 3-4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": true,
+      "description": "Easy SkiErg",
+      "coaching_notes": "Smooth stroke",
+      "tags": [
+        "ski",
+        "zone2",
+        "postpartum"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 10,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_ski_zone_2_30_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Easy SkiErg",
+          "rounds": null,
+          "duration_minutes": 30,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 30,
+              "quantity_unit": "min",
+              "intensity_note": "RPE 3-4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_ski_10x250",
+      "name": "Ski 10x250",
+      "workout_family": "ski_quality",
+      "primary_goal": "power_endurance",
+      "secondary_goal": "ski_efficiency",
+      "estimated_minutes": 30,
+      "intensity_target": "RPE 6-7",
+      "impact_level": "low",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": true,
+      "description": "Short ski repeats",
+      "coaching_notes": "Crisp form",
+      "tags": [
+        "ski",
+        "intervals",
+        "hyrox"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 10,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_ski_10x250_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Short ski repeats",
+          "rounds": 10,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 250,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6-7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_ski_5x500",
+      "name": "Ski 5x500",
+      "workout_family": "ski_quality",
+      "primary_goal": "threshold",
+      "secondary_goal": "ski_efficiency",
+      "estimated_minutes": 35,
+      "intensity_target": "RPE 6-7",
+      "impact_level": "low",
+      "hyrox_specificity": 1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": true,
+      "description": "Threshold ski repeats",
+      "coaching_notes": "Consistent splits",
+      "tags": [
+        "ski",
+        "threshold",
+        "hyrox"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 10,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_ski_5x500_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Threshold ski repeats",
+          "rounds": 5,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6-7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_hyrox_legs_a",
+      "name": "HYROX Legs A",
+      "workout_family": "strength_legs",
+      "primary_goal": "strength",
+      "secondary_goal": "sled_lunge",
+      "estimated_minutes": 65,
+      "intensity_target": "RPE 7",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Lower-body strength",
+      "coaching_notes": "2-3 RIR",
+      "tags": [
+        "strength",
+        "legs",
+        "sled",
+        "hyrox"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 65,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 42,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 19,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_hyrox_legs_a_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Lower-body strength",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_back_squat",
+              "sequence_order": 1,
+              "prescription_type": "sets_reps",
+              "quantity": 4,
+              "quantity_unit": "x6",
+              "intensity_note": "RPE 7"
+            },
+            {
+              "exercise_id": "ex_bulgarian_split_squat",
+              "sequence_order": 2,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x10/leg",
+              "intensity_note": "RPE 7"
+            },
+            {
+              "exercise_id": "ex_walking_lunge",
+              "sequence_order": 3,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x12/leg",
+              "intensity_note": "RPE 7"
+            },
+            {
+              "exercise_id": "ex_sled_push",
+              "sequence_order": 4,
+              "prescription_type": "distance",
+              "quantity": 20,
+              "quantity_unit": "ft",
+              "intensity_note": "8 repeats"
+            },
+            {
+              "exercise_id": "ex_pallof_press",
+              "sequence_order": 5,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x12/side",
+              "intensity_note": "controlled"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_hyrox_legs_b",
+      "name": "HYROX Legs B",
+      "workout_family": "strength_legs",
+      "primary_goal": "strength_endurance",
+      "secondary_goal": "sled_lunge",
+      "estimated_minutes": 60,
+      "intensity_target": "RPE 7",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.85,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Leg strength endurance",
+      "coaching_notes": "Clean reps",
+      "tags": [
+        "strength",
+        "legs",
+        "sled",
+        "hyrox"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 60,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 39,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 18,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_hyrox_legs_b_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Leg strength endurance",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_front_squat",
+              "sequence_order": 1,
+              "prescription_type": "sets_reps",
+              "quantity": 4,
+              "quantity_unit": "x5",
+              "intensity_note": "RPE 7"
+            },
+            {
+              "exercise_id": "ex_romanian_deadlift",
+              "sequence_order": 2,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x8",
+              "intensity_note": "RPE 7"
+            },
+            {
+              "exercise_id": "ex_reverse_lunge",
+              "sequence_order": 3,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x10/leg",
+              "intensity_note": "RPE 7"
+            },
+            {
+              "exercise_id": "ex_sled_pull",
+              "sequence_order": 4,
+              "prescription_type": "distance",
+              "quantity": 20,
+              "quantity_unit": "ft",
+              "intensity_note": "8 repeats"
+            },
+            {
+              "exercise_id": "ex_side_plank",
+              "sequence_order": 5,
+              "prescription_type": "duration",
+              "quantity": 30,
+              "quantity_unit": "sec/side",
+              "intensity_note": "controlled"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_hyrox_push_a",
+      "name": "HYROX Push A",
+      "workout_family": "strength_push",
+      "primary_goal": "strength",
+      "secondary_goal": "wall_ball",
+      "estimated_minutes": 55,
+      "intensity_target": "RPE 7",
+      "impact_level": "low",
+      "hyrox_specificity": 0.65,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Press + wall balls",
+      "coaching_notes": "No failure",
+      "tags": [
+        "strength",
+        "push",
+        "wall_ball",
+        "hyrox"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 55,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 35,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 16,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_hyrox_push_a_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Press + wall balls",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_push_press",
+              "sequence_order": 1,
+              "prescription_type": "sets_reps",
+              "quantity": 4,
+              "quantity_unit": "x6",
+              "intensity_note": "RPE 7"
+            },
+            {
+              "exercise_id": "ex_incline_db_press",
+              "sequence_order": 2,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x10",
+              "intensity_note": "RPE 7"
+            },
+            {
+              "exercise_id": "ex_landmine_press",
+              "sequence_order": 3,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x10/side",
+              "intensity_note": "RPE 7"
+            },
+            {
+              "exercise_id": "ex_trx_push_up",
+              "sequence_order": 4,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x12",
+              "intensity_note": "smooth"
+            },
+            {
+              "exercise_id": "ex_wall_ball",
+              "sequence_order": 5,
+              "prescription_type": "sets_reps",
+              "quantity": 4,
+              "quantity_unit": "x15",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_hyrox_pull_a",
+      "name": "HYROX Pull A",
+      "workout_family": "strength_pull",
+      "primary_goal": "strength",
+      "secondary_goal": "grip_posterior",
+      "estimated_minutes": 60,
+      "intensity_target": "RPE 7",
+      "impact_level": "low",
+      "hyrox_specificity": 0.7,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Posterior chain + grip",
+      "coaching_notes": "Submax deadlift",
+      "tags": [
+        "strength",
+        "pull",
+        "carry",
+        "hyrox"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 60,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 39,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 18,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_hyrox_pull_a_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Posterior chain + grip",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_deadlift",
+              "sequence_order": 1,
+              "prescription_type": "sets_reps",
+              "quantity": 4,
+              "quantity_unit": "x5",
+              "intensity_note": "RPE 7"
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "sequence_order": 2,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x10/side",
+              "intensity_note": "RPE 7"
+            },
+            {
+              "exercise_id": "ex_pull_up",
+              "sequence_order": 3,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "AMRAP-2",
+              "intensity_note": "leave 2"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 4,
+              "prescription_type": "distance",
+              "quantity": 100,
+              "quantity_unit": "ft",
+              "intensity_note": "4 repeats"
+            },
+            {
+              "exercise_id": "ex_sandbag_carry",
+              "sequence_order": 5,
+              "prescription_type": "distance",
+              "quantity": 100,
+              "quantity_unit": "ft",
+              "intensity_note": "3 repeats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_run_ski_carry_builder",
+      "name": "Run Ski Carry Builder",
+      "workout_family": "hybrid",
+      "primary_goal": "aerobic_capacity",
+      "secondary_goal": "hyrox_capacity",
+      "estimated_minutes": 55,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": true,
+      "description": "Creative hybrid",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "hybrid",
+        "hyrox",
+        "variety"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 55,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 35,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 16,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_run_ski_carry_builder_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Creative hybrid",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 800,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 3,
+              "prescription_type": "distance",
+              "quantity": 100,
+              "quantity_unit": "ft",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_box_step_over",
+              "sequence_order": 4,
+              "prescription_type": "reps",
+              "quantity": 16,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_compromised_run_wall_ball",
+      "name": "Compromised Run Wall Ball",
+      "workout_family": "hybrid",
+      "primary_goal": "race_specific",
+      "secondary_goal": "hyrox_capacity",
+      "estimated_minutes": 45,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": false,
+      "description": "Creative hybrid",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "hybrid",
+        "hyrox",
+        "variety"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 13,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_compromised_run_wall_ball_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Creative hybrid",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 800,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_wall_ball",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 20,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_sled_sandwich",
+      "name": "Sled Sandwich",
+      "workout_family": "hybrid",
+      "primary_goal": "race_specific",
+      "secondary_goal": "hyrox_capacity",
+      "estimated_minutes": 50,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": false,
+      "description": "Creative hybrid",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "hybrid",
+        "hyrox",
+        "variety"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 50,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 32,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 15,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_sled_sandwich_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Creative hybrid",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 600,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_sled_push",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 40,
+              "quantity_unit": "ft",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_sled_pull",
+              "sequence_order": 3,
+              "prescription_type": "distance",
+              "quantity": 40,
+              "quantity_unit": "ft",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_burpee_run_builder",
+      "name": "Burpee Run Builder",
+      "workout_family": "hybrid",
+      "primary_goal": "race_specific",
+      "secondary_goal": "hyrox_capacity",
+      "estimated_minutes": 40,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "high",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": false,
+      "description": "Creative hybrid",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "hybrid",
+        "hyrox",
+        "variety"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 12,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_burpee_run_builder_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Creative hybrid",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_burpee_broad_jump",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 10,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_carry_lunge_chipper",
+      "name": "Carry Lunge Chipper",
+      "workout_family": "hybrid",
+      "primary_goal": "strength_endurance",
+      "secondary_goal": "hyrox_capacity",
+      "estimated_minutes": 45,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": true,
+      "description": "Creative hybrid",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "hybrid",
+        "hyrox",
+        "variety"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 13,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_carry_lunge_chipper_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Creative hybrid",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 100,
+              "quantity_unit": "ft",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_sandbag_walking_lunge",
+              "sequence_order": 3,
+              "prescription_type": "reps",
+              "quantity": 20,
+              "quantity_unit": "steps",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_box_step_over",
+              "sequence_order": 4,
+              "prescription_type": "reps",
+              "quantity": 12,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_long_hybrid_60",
+      "name": "Long Hybrid 60",
+      "workout_family": "hybrid",
+      "primary_goal": "aerobic_durability",
+      "secondary_goal": "hyrox_capacity",
+      "estimated_minutes": 60,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": true,
+      "description": "Creative hybrid",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "hybrid",
+        "hyrox",
+        "variety"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 60,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 39,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 18,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_long_hybrid_60_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Creative hybrid",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 800,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 3,
+              "prescription_type": "distance",
+              "quantity": 100,
+              "quantity_unit": "ft",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_sandbag_walking_lunge",
+              "sequence_order": 4,
+              "prescription_type": "reps",
+              "quantity": 20,
+              "quantity_unit": "steps",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_wall_ball",
+              "sequence_order": 5,
+              "prescription_type": "reps",
+              "quantity": 15,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_long_hybrid_75",
+      "name": "Long Hybrid 75",
+      "workout_family": "hybrid",
+      "primary_goal": "aerobic_durability",
+      "secondary_goal": "hyrox_capacity",
+      "estimated_minutes": 75,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": true,
+      "description": "Creative hybrid",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "hybrid",
+        "hyrox",
+        "variety"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 75,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 45,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 20,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_long_hybrid_75_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Creative hybrid",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 1000,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 3,
+              "prescription_type": "distance",
+              "quantity": 100,
+              "quantity_unit": "ft",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_box_step_over",
+              "sequence_order": 4,
+              "prescription_type": "reps",
+              "quantity": 15,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_wall_ball",
+              "sequence_order": 5,
+              "prescription_type": "reps",
+              "quantity": 15,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_ski_wall_ball_ladder",
+      "name": "Ski Wall Ball Ladder",
+      "workout_family": "hybrid",
+      "primary_goal": "station_durability",
+      "secondary_goal": "hyrox_capacity",
+      "estimated_minutes": 35,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": true,
+      "description": "Creative hybrid",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "hybrid",
+        "hyrox",
+        "variety"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 10,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_ski_wall_ball_ladder_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Creative hybrid",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 400,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_wall_ball",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 15,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_ski_sled_combo",
+      "name": "Ski Sled Combo",
+      "workout_family": "hybrid",
+      "primary_goal": "sled_efficiency",
+      "secondary_goal": "hyrox_capacity",
+      "estimated_minutes": 40,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": true,
+      "description": "Creative hybrid",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "hybrid",
+        "hyrox",
+        "variety"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 12,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_ski_sled_combo_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Creative hybrid",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 400,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_sled_push",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 40,
+              "quantity_unit": "ft",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_sled_pull",
+              "sequence_order": 3,
+              "prescription_type": "distance",
+              "quantity": 40,
+              "quantity_unit": "ft",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_run_farmer_lunge",
+      "name": "Run Farmer Lunge",
+      "workout_family": "hybrid",
+      "primary_goal": "compromised_running",
+      "secondary_goal": "hyrox_capacity",
+      "estimated_minutes": 45,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": false,
+      "description": "Creative hybrid",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "hybrid",
+        "hyrox",
+        "variety"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 13,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_run_farmer_lunge_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Creative hybrid",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 600,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 80,
+              "quantity_unit": "ft",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_sandbag_walking_lunge",
+              "sequence_order": 3,
+              "prescription_type": "reps",
+              "quantity": 16,
+              "quantity_unit": "steps",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_run_ski_wall_ball",
+      "name": "Run Ski Wall Ball",
+      "workout_family": "hybrid",
+      "primary_goal": "race_specific",
+      "secondary_goal": "hyrox_capacity",
+      "estimated_minutes": 50,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": true,
+      "description": "Creative hybrid",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "hybrid",
+        "hyrox",
+        "variety"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 50,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 32,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 15,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_run_ski_wall_ball_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Creative hybrid",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 600,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 400,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_wall_ball",
+              "sequence_order": 3,
+              "prescription_type": "reps",
+              "quantity": 15,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_run_sled_wall_ball",
+      "name": "Run Sled Wall Ball",
+      "workout_family": "hybrid",
+      "primary_goal": "race_specific",
+      "secondary_goal": "hyrox_capacity",
+      "estimated_minutes": 50,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": false,
+      "description": "Creative hybrid",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "hybrid",
+        "hyrox",
+        "variety"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 50,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 32,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 15,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_run_sled_wall_ball_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Creative hybrid",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 600,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_sled_push",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 40,
+              "quantity_unit": "ft",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_wall_ball",
+              "sequence_order": 3,
+              "prescription_type": "reps",
+              "quantity": 15,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_ski_carry_burpee",
+      "name": "Ski Carry Burpee",
+      "workout_family": "hybrid",
+      "primary_goal": "station_durability",
+      "secondary_goal": "hyrox_capacity",
+      "estimated_minutes": 40,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": true,
+      "description": "Creative hybrid",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "hybrid",
+        "hyrox",
+        "variety"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 12,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_ski_carry_burpee_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Creative hybrid",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 400,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 80,
+              "quantity_unit": "ft",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_burpee_broad_jump",
+              "sequence_order": 3,
+              "prescription_type": "reps",
+              "quantity": 8,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_treadmill_incline_hybrid",
+      "name": "Treadmill Incline Hybrid",
+      "workout_family": "hybrid",
+      "primary_goal": "aerobic_strength",
+      "secondary_goal": "hyrox_capacity",
+      "estimated_minutes": 40,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Creative hybrid",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "hybrid",
+        "hyrox",
+        "variety"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 12,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_treadmill_incline_hybrid_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Creative hybrid",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_incline_walk",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 4,
+              "quantity_unit": "min",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 12,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 3,
+              "prescription_type": "distance",
+              "quantity": 80,
+              "quantity_unit": "ft",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_box_carry_engine",
+      "name": "Box Carry Engine",
+      "workout_family": "hybrid",
+      "primary_goal": "aerobic_strength",
+      "secondary_goal": "hyrox_capacity",
+      "estimated_minutes": 40,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": true,
+      "description": "Creative hybrid",
+      "coaching_notes": "Repeatable pace",
+      "tags": [
+        "hybrid",
+        "hyrox",
+        "variety"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 12,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_box_carry_engine_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Creative hybrid",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 400,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_box_step_over",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 14,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 3,
+              "prescription_type": "distance",
+              "quantity": 80,
+              "quantity_unit": "ft",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_hyrox_density_emom_20",
+      "name": "HYROX Density EMOM 20",
+      "workout_family": "density",
+      "primary_goal": "station_durability",
+      "secondary_goal": "transition_efficiency",
+      "estimated_minutes": 20,
+      "intensity_target": "RPE 6",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.9,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": true,
+      "description": "Five-station EMOM",
+      "coaching_notes": "Finish each minute with breathing room",
+      "tags": [
+        "emom",
+        "hyrox",
+        "density"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 10,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_hyrox_density_emom_20_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Five-station EMOM",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 200,
+              "quantity_unit": "m",
+              "intensity_note": "controlled"
+            },
+            {
+              "exercise_id": "ex_wall_ball",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 12,
+              "quantity_unit": "reps",
+              "intensity_note": "smooth"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 3,
+              "prescription_type": "distance",
+              "quantity": 80,
+              "quantity_unit": "ft",
+              "intensity_note": "moderate"
+            },
+            {
+              "exercise_id": "ex_burpee_broad_jump",
+              "sequence_order": 4,
+              "prescription_type": "reps",
+              "quantity": 8,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_air_squat",
+              "sequence_order": 5,
+              "prescription_type": "reps",
+              "quantity": 15,
+              "quantity_unit": "reps",
+              "intensity_note": "easy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_micro_engine_12",
+      "name": "Micro Engine 12",
+      "workout_family": "micro",
+      "primary_goal": "aerobic_maintenance",
+      "secondary_goal": "time_crunched",
+      "estimated_minutes": 12,
+      "intensity_target": "RPE 5",
+      "impact_level": "low",
+      "hyrox_specificity": 0.6,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": true,
+      "description": "Minimum effective dose",
+      "coaching_notes": "Use on rough days",
+      "tags": [
+        "micro",
+        "ski",
+        "postpartum"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 10,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_micro_engine_12_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Minimum effective dose",
+          "rounds": null,
+          "duration_minutes": 12,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 250,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_air_squat",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 10,
+              "quantity_unit": "reps",
+              "intensity_note": "smooth"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_micro_strength_legs_15",
+      "name": "Micro Strength Legs 15",
+      "workout_family": "micro",
+      "primary_goal": "strength_maintenance",
+      "secondary_goal": "time_crunched",
+      "estimated_minutes": 15,
+      "intensity_target": "RPE 6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.4,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Short lower strength",
+      "coaching_notes": "Use on rough days",
+      "tags": [
+        "micro",
+        "strength"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 10,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_micro_strength_legs_15_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Short lower strength",
+          "rounds": null,
+          "duration_minutes": 15,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_goblet_squat",
+              "sequence_order": 1,
+              "prescription_type": "reps",
+              "quantity": 10,
+              "quantity_unit": "reps",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_reverse_lunge",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 8,
+              "quantity_unit": "reps/leg",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_glute_bridge",
+              "sequence_order": 3,
+              "prescription_type": "reps",
+              "quantity": 15,
+              "quantity_unit": "reps",
+              "intensity_note": "smooth"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_micro_upper_15",
+      "name": "Micro Upper 15",
+      "workout_family": "micro",
+      "primary_goal": "strength_maintenance",
+      "secondary_goal": "time_crunched",
+      "estimated_minutes": 15,
+      "intensity_target": "RPE 6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.35,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Short upper strength",
+      "coaching_notes": "Use on rough days",
+      "tags": [
+        "micro",
+        "strength"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 10,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_micro_upper_15_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Short upper strength",
+          "rounds": null,
+          "duration_minutes": 15,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_push_up",
+              "sequence_order": 1,
+              "prescription_type": "reps",
+              "quantity": 8,
+              "quantity_unit": "reps",
+              "intensity_note": "scaled"
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 10,
+              "quantity_unit": "reps/side",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_landmine_press",
+              "sequence_order": 3,
+              "prescription_type": "reps",
+              "quantity": 8,
+              "quantity_unit": "reps/side",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_micro_hyrox_18",
+      "name": "Micro HYROX 18",
+      "workout_family": "micro",
+      "primary_goal": "hyrox_maintenance",
+      "secondary_goal": "time_crunched",
+      "estimated_minutes": 18,
+      "intensity_target": "RPE 6",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.75,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": true,
+      "description": "Short HYROX session",
+      "coaching_notes": "Use on rough days",
+      "tags": [
+        "micro",
+        "hyrox",
+        "ski"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 10,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_micro_hyrox_18_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Short HYROX session",
+          "rounds": null,
+          "duration_minutes": 18,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 250,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_wall_ball",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 10,
+              "quantity_unit": "reps",
+              "intensity_note": "smooth"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 3,
+              "prescription_type": "distance",
+              "quantity": 60,
+              "quantity_unit": "ft",
+              "intensity_note": "moderate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_recovery_spin_mobility",
+      "name": "Recovery Spin Mobility",
+      "workout_family": "recovery",
+      "primary_goal": "recovery",
+      "secondary_goal": "aerobic_maintenance",
+      "estimated_minutes": 30,
+      "intensity_target": "RPE 2-3",
+      "impact_level": "low",
+      "hyrox_specificity": 0.15,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Recovery session",
+      "coaching_notes": "Very easy",
+      "tags": [
+        "recovery",
+        "mobility",
+        "postpartum"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 30,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 10,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_recovery_spin_mobility_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Recovery session",
+          "rounds": null,
+          "duration_minutes": 30,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_spin_bike",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 20,
+              "quantity_unit": "min",
+              "intensity_note": "RPE 2-3"
+            },
+            {
+              "exercise_id": "ex_mobility_flow",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 10,
+              "quantity_unit": "min",
+              "intensity_note": "easy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_half_hyrox_simulation",
+      "name": "Half HYROX Simulation",
+      "workout_family": "simulation",
+      "primary_goal": "race_specific",
+      "secondary_goal": "pacing",
+      "estimated_minutes": 75,
+      "intensity_target": "RPE 7",
+      "impact_level": "high",
+      "hyrox_specificity": 1,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": true,
+      "description": "Half-race simulation",
+      "coaching_notes": "Pace, do not race",
+      "tags": [
+        "simulation",
+        "benchmark",
+        "hyrox"
+      ],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 75,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 45,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "reduce rounds/sets; preserve purpose"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 20,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_half_hyrox_simulation_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Half-race simulation",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 1000,
+              "quantity_unit": "m",
+              "intensity_note": "controlled"
+            },
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 3,
+              "prescription_type": "distance",
+              "quantity": 1000,
+              "quantity_unit": "m",
+              "intensity_note": "controlled"
+            },
+            {
+              "exercise_id": "ex_sled_push",
+              "sequence_order": 4,
+              "prescription_type": "distance",
+              "quantity": 80,
+              "quantity_unit": "ft",
+              "intensity_note": "race-like"
+            },
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 5,
+              "prescription_type": "distance",
+              "quantity": 1000,
+              "quantity_unit": "m",
+              "intensity_note": "controlled"
+            },
+            {
+              "exercise_id": "ex_sled_pull",
+              "sequence_order": 6,
+              "prescription_type": "distance",
+              "quantity": 80,
+              "quantity_unit": "ft",
+              "intensity_note": "race-like"
+            },
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 7,
+              "prescription_type": "distance",
+              "quantity": 1000,
+              "quantity_unit": "m",
+              "intensity_note": "controlled"
+            },
+            {
+              "exercise_id": "ex_wall_ball",
+              "sequence_order": 8,
+              "prescription_type": "reps",
+              "quantity": 50,
+              "quantity_unit": "reps",
+              "intensity_note": "manageable sets"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "substitutions": [
+    {
+      "exercise_id": "ex_run",
+      "substitute_exercise_id": "ex_skierg",
+      "reason": "low-impact engine substitute",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_run",
+      "substitute_exercise_id": "ex_incline_walk",
+      "reason": "return-to-run / symptoms",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_burpee_broad_jump",
+      "substitute_exercise_id": "ex_box_step_over",
+      "reason": "reduce impact",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_wall_ball",
+      "substitute_exercise_id": "ex_goblet_squat",
+      "reason": "equipment/shoulder",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_sled_push",
+      "substitute_exercise_id": "ex_goblet_squat",
+      "reason": "no sled",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_sled_pull",
+      "substitute_exercise_id": "ex_cable_row",
+      "reason": "no sled/rope",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_farmer_carry",
+      "substitute_exercise_id": "ex_sandbag_carry",
+      "reason": "equipment",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_box_jump",
+      "substitute_exercise_id": "ex_box_step_over",
+      "reason": "reduce impact",
+      "priority": 1
+    }
+  ],
+  "equipment": [
+    {
+      "id": "treadmill",
+      "name": "Treadmill",
+      "category": "cardio"
+    },
+    {
+      "id": "outdoor",
+      "name": "Outdoor run",
+      "category": "cardio"
+    },
+    {
+      "id": "ski",
+      "name": "SkiErg",
+      "category": "cardio"
+    },
+    {
+      "id": "bike",
+      "name": "Spin bike",
+      "category": "cardio"
+    },
+    {
+      "id": "sled",
+      "name": "Sled",
+      "category": "hyrox"
+    },
+    {
+      "id": "rope",
+      "name": "Sled rope",
+      "category": "hyrox"
+    },
+    {
+      "id": "wall_ball",
+      "name": "Wall ball",
+      "category": "hyrox"
+    },
+    {
+      "id": "sandbag",
+      "name": "Sandbag",
+      "category": "strength"
+    },
+    {
+      "id": "db",
+      "name": "Dumbbells",
+      "category": "strength"
+    },
+    {
+      "id": "kb",
+      "name": "Kettlebells",
+      "category": "strength"
+    },
+    {
+      "id": "barbell",
+      "name": "Barbell",
+      "category": "strength"
+    },
+    {
+      "id": "rack",
+      "name": "Rack",
+      "category": "strength"
+    },
+    {
+      "id": "bench",
+      "name": "Bench",
+      "category": "strength"
+    },
+    {
+      "id": "box",
+      "name": "Box",
+      "category": "strength"
+    },
+    {
+      "id": "cable",
+      "name": "Cable machine",
+      "category": "strength"
+    },
+    {
+      "id": "bands",
+      "name": "Resistance bands",
+      "category": "strength"
+    },
+    {
+      "id": "trx",
+      "name": "TRX",
+      "category": "strength"
+    },
+    {
+      "id": "landmine",
+      "name": "Landmine",
+      "category": "strength"
+    },
+    {
+      "id": "rig",
+      "name": "Pull-up rig",
+      "category": "strength"
+    },
+    {
+      "id": "reformer",
+      "name": "Pilates reformer",
+      "category": "recovery"
+    },
+    {
+      "id": "jump_rope",
+      "name": "Jump rope",
+      "category": "conditioning"
+    },
+    {
+      "id": "bag",
+      "name": "Boxing bag",
+      "category": "conditioning"
+    },
+    {
+      "id": "bodyweight",
+      "name": "Bodyweight",
+      "category": "none"
+    }
+  ]
+}
