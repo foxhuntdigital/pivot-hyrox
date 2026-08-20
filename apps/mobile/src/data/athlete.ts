@@ -7,6 +7,7 @@
  * source, not a change of shape.
  */
 import type { CompletedSession, StimulusRequirement } from '@pivot/engine';
+import type { AthleteProfile } from './profile';
 
 export interface Race {
   name: string;
@@ -22,11 +23,16 @@ export interface Phase {
   name: string;
 }
 
-export const ATHLETE = {
-  first_name: 'Ashley',
-  full_name: 'Ashley Kerr',
-  initials: 'AK',
-  descriptor: 'Intermediate · Hybrid · 9 months postpartum',
+/**
+ * The seeded athlete, used until a Supabase session supplies a real profile.
+ * Name, experience level and postpartum date are editable at runtime (D22), and
+ * the descriptor is derived from them rather than stored — so it stays true as
+ * months pass instead of freezing at whatever was authored.
+ */
+export const DEFAULT_PROFILE: AthleteProfile = {
+  display_name: 'Ashley Kerr',
+  experience_level: 'intermediate',
+  postpartum_birth_date: '2025-11-01',
 };
 
 export const RACE: Race = {

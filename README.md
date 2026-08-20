@@ -108,10 +108,16 @@ Deliberate omissions, not oversights:
 - **Coach tab (D21 / FR-020) is not built.** It is P0 in the PRD but absent
   from the design file, which has four tabs where §5 specifies five. The schema
   (`coach_threads`, `coach_messages` with held `proposed_action`) is in place.
-- **Auth and onboarding (D01–D08) are not built.** The app runs against the
-  bundled content library and a fixed athlete in `src/data/athlete.ts`, shaped
-  exactly as the Supabase queries return so swapping to live data is a change of
-  source, not of shape.
+- **Onboarding (D02–D08) is not built.** Email/password auth is (D01): sign-in,
+  sign-up, session persistence, route gating and log out, with `0004` provisioning
+  `users` + `athlete_profiles` on signup. What is missing is the guided setup that
+  should follow a first sign-up — goal, equipment and considerations are edited on
+  Profile instead.
+- **Training data is still local.** Only the profile round-trips to Supabase. The
+  plan, sessions and readiness come from the bundled library and a fixed athlete in
+  `src/data/athlete.ts`, shaped exactly as the Supabase queries return so swapping
+  to live data is a change of source, not of shape. With no `EXPO_PUBLIC_SUPABASE_*`
+  configured the app runs entirely on that seed rather than refusing to start.
 - **HealthKit / WorkoutKit / Health Connect** are P1 and not started. Where the
   design showed heart rate and training load, the app shows a neutral
   "not connected" state rather than inventing numbers (§8.3).

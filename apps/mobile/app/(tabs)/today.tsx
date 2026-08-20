@@ -16,7 +16,8 @@ import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, InkPanel } from '@/components/primitives';
 import { AdaptSheet } from '@/components/AdaptSheet';
 import { useApp } from '@/state/store';
-import { ATHLETE, PHASE, PHASE_SEQUENCE, RACE, WEEK_STIMULI } from '@/data/athlete';
+import { PHASE, PHASE_SEQUENCE, RACE, WEEK_STIMULI } from '@/data/athlete';
+import { firstNameOf } from '@/data/profile';
 import { exerciseById } from '@/data/content';
 
 function greeting(): string {
@@ -84,7 +85,7 @@ export default function TodayScreen() {
       <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
         <View style={{ paddingHorizontal: space.gutter, paddingTop: 20, paddingBottom: 16 }}>
           <Text style={[t.greeting, { color: color.ink }]}>
-            {greeting()}, {ATHLETE.first_name}
+            {greeting()}, {firstNameOf(state.profile.display_name)}
           </Text>
         </View>
         <Rule />

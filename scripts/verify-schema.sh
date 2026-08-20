@@ -12,10 +12,24 @@ createdb "$DB"
 
 psql -q -v ON_ERROR_STOP=1 -d "$DB" <<'SQL'
 create schema auth;
-create table auth.users (id uuid primary key);
+-- Mirrors the columns our own triggers read off auth.users, so provisioning is
+-- actually exercised here rather than merely parsed.
+create table auth.users (
+  id uuid primary key,
+  email text,
+  raw_user_meta_data jsonb not null default '{}'::jsonb
+);
 create function auth.uid() returns uuid language sql stable as $$ select null::uuid $$;
-create role authenticated;
-create role anon;
+-- Roles are cluster-wide, so they outlive the throwaway database and are
+-- already present on every run after the first.
+do $$ begin
+  create role authenticated;
+exception when duplicate_object then null;
+end $$;
+do $$ begin
+  create role anon;
+exception when duplicate_object then null;
+end $$;
 SQL
 
 for f in supabase/migrations/*.sql; do

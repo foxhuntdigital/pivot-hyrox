@@ -11,16 +11,21 @@
  * recommendation is always derivable from current state rather than stored and
  * risked going stale.
  */
-import React, { createContext, useContext, useMemo, useReducer, useEffect, useRef } from 'react';
+import React, {
+  createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef, useState,
+} from 'react';
 import {
   recommend, computeReadiness, ENGINE_VERSION,
   type EngineDecision, type EngineInput, type Energy, type VariantCode,
 } from '@pivot/engine';
 import { EXERCISES, TEMPLATES, SUBSTITUTIONS } from '../data/content';
 import {
-  DEFAULT_CONSIDERATIONS, DEFAULT_EQUIPMENT, PHASE, RACE,
+  DEFAULT_CONSIDERATIONS, DEFAULT_EQUIPMENT, DEFAULT_PROFILE, PHASE, RACE,
   READINESS_INPUTS, RECENT_SESSIONS, WEEK_STIMULI,
 } from '../data/athlete';
+import type { AthleteProfile, ExperienceLevel } from '../data/profile';
+import { fetchProfile, saveProfile } from '../data/profileRepo';
+import { useSession } from './session';
 import { buildSteps, type Step } from './steps';
 
 /** PRD §8.4. */
@@ -29,6 +34,9 @@ export type WorkoutStatus =
   | 'completed_pending_review' | 'completed' | 'abandoned';
 
 interface State {
+  /** Editable athlete profile (D22). Hydrated from Supabase when signed in. */
+  profile: AthleteProfile;
+
   // Adaptation inputs
   available_minutes: number;
   energy: Energy;
@@ -58,6 +66,8 @@ interface State {
 }
 
 const initialState: State = {
+  profile: DEFAULT_PROFILE,
+
   available_minutes: 60,
   energy: 'normal',
   flags: ['Low sleep'],
@@ -82,6 +92,10 @@ const initialState: State = {
 };
 
 type Action =
+  | { type: 'set_name'; name: string }
+  | { type: 'set_experience'; level: ExperienceLevel }
+  | { type: 'set_postpartum_date'; date: string | null }
+  | { type: 'hydrate_profile'; profile: AthleteProfile }
   | { type: 'set_time'; minutes: number }
   | { type: 'set_energy'; energy: Energy }
   | { type: 'toggle_flag'; flag: string }
@@ -102,6 +116,15 @@ type Action =
 
 function reducer(s: State, a: Action): State {
   switch (a.type) {
+    case 'set_name':
+      return { ...s, profile: { ...s.profile, display_name: a.name } };
+    case 'set_experience':
+      return { ...s, profile: { ...s.profile, experience_level: a.level } };
+    case 'set_postpartum_date':
+      return { ...s, profile: { ...s.profile, postpartum_birth_date: a.date } };
+    case 'hydrate_profile':
+      return { ...s, profile: a.profile };
+
     case 'set_time':
       return { ...s, available_minutes: a.minutes };
     case 'set_energy':
@@ -169,12 +192,47 @@ interface Store {
   steps: Step[];
   readiness: ReturnType<typeof computeReadiness>;
   engineInput: EngineInput;
+  /**
+   * Writes a profile edit through to Supabase. Local state is already updated
+   * by the time this runs, so the field stays responsive; a failure surfaces in
+   * `profileError` rather than silently reverting what the athlete typed.
+   */
+  commitProfile(patch: Partial<AthleteProfile>): void;
+  profileError: string | null;
 }
 
 const Ctx = createContext<Store | null>(null);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { status: authStatus } = useSession();
+  const [profileError, setProfileError] = useState<string | null>(null);
+
+  // Hydrate the profile once a session exists. Unconfigured builds keep the
+  // seeded athlete, which is why this is gated on the status rather than run
+  // unconditionally and allowed to fail.
+  useEffect(() => {
+    if (authStatus !== 'signed_in') return;
+    let cancelled = false;
+    fetchProfile(DEFAULT_PROFILE.display_name)
+      .then(profile => {
+        if (!cancelled && profile) dispatch({ type: 'hydrate_profile', profile });
+      })
+      .catch(e => {
+        if (!cancelled) setProfileError(e instanceof Error ? e.message : 'Could not load profile');
+      });
+    return () => { cancelled = true; };
+  }, [authStatus]);
+
+  const authStatusRef = useRef(authStatus);
+  authStatusRef.current = authStatus;
+
+  const commitProfile = useCallback((patch: Partial<AthleteProfile>) => {
+    if (authStatusRef.current !== 'signed_in') return;
+    setProfileError(null);
+    saveProfile(patch).catch(e =>
+      setProfileError(e instanceof Error ? e.message : 'Could not save profile'));
+  }, []);
 
   const engineInput = useMemo<EngineInput>(() => {
     const noEquipment = state.flags.includes('No equipment');
@@ -229,8 +287,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ state, dispatch, decision, session, steps, readiness, engineInput }),
-    [state, decision, session, steps, readiness, engineInput]);
+    () => ({
+      state, dispatch, decision, session, steps, readiness, engineInput,
+      commitProfile, profileError,
+    }),
+    [state, decision, session, steps, readiness, engineInput, commitProfile, profileError]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
