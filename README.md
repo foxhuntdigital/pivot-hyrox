@@ -43,6 +43,22 @@ npm run mobile            # Expo dev server
 throwaway database, stubs the Supabase `auth` schema, applies every migration
 and the seed, then reports row counts and integrity checks.
 
+### iOS simulator
+
+```bash
+REACT_NATIVE_PACKAGER_HOSTNAME=127.0.0.1 npx expo start
+```
+
+Do **not** use `expo start --host localhost`. That binds Metro to `[::1]` only,
+while Expo Go requests the bundle over IPv4 — the app fails with "Could not
+connect to development server" pointing at `127.0.0.1:8081` even though the
+server is plainly running. The default bind is dual-stack; the environment
+variable only fixes the advertised URL, which otherwise resolves to the
+machine's LAN address and leaves `simctl openurl` to time out behind a hotspot
+or a changing network.
+
+Open the project with `xcrun simctl openurl <device-udid> exp://127.0.0.1:8081`.
+
 ## The engine
 
 `packages/engine` implements PRD §9. Given an `EngineInput` snapshot it returns
