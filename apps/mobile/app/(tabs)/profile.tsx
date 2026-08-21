@@ -39,6 +39,65 @@ function Divider() {
   );
 }
 
+/**
+ * Disclosure caret. The design has no icon set, so this is the same
+ * typographic arrow the steppers and action rows use, rotated a quarter turn
+ * when the section is open.
+ */
+function Caret({ open }: { open: boolean }) {
+  return (
+    <Text style={{
+      fontFamily: t.rowTitle.fontFamily, fontSize: 15, color: color.muted,
+      transform: [{ rotate: open ? '90deg' : '0deg' }],
+    }}>
+      ›
+    </Text>
+  );
+}
+
+/**
+ * A collapsible block. The whole header is the target rather than the caret
+ * alone — a 15px glyph is well under the 44pt minimum, and the caret states
+ * what the row does instead of being the only way to do it.
+ *
+ * Collapsing hides no information: name, level and postpartum all appear in the
+ * summary at the top of the screen, which is why these three collapse and the
+ * editing-only blocks below them do not.
+ */
+function Section({
+  title, open, onToggle, badge, children,
+}: {
+  title: string;
+  open: boolean;
+  onToggle: () => void;
+  badge?: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <Pressable
+        onPress={onToggle}
+        accessibilityRole="button"
+        accessibilityState={{ expanded: open }}
+        accessibilityLabel={title}
+        accessibilityHint={open ? `Collapse ${title}` : `Expand ${title}`}
+        style={({ pressed }) => ({
+          flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+          paddingHorizontal: space.gutter, paddingTop: 12, paddingBottom: 10,
+          backgroundColor: pressed ? color.hover : 'transparent',
+        })}
+      >
+        <Label tone="ink">{title}</Label>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+          {badge}
+          <Caret open={open} />
+        </View>
+      </Pressable>
+      {open ? children : null}
+    </>
+  );
+}
+
 /** `‹ value ›` — a flat stepper, since the design has no wheels or dropdowns. */
 function Stepper({
   value, onPrev, onNext, prevEnabled = true, nextEnabled = true, label,
@@ -90,6 +149,10 @@ export default function ProfileScreen() {
   const { profile } = state;
 
   const [signingOut, setSigningOut] = useState(false);
+  // Screen-local presentation state. It is deliberately not in the reducer:
+  // nothing outside this screen reads it and no engine input depends on it.
+  const [open, setOpen] = useState({ name: true, level: true, postpartum: true });
+  const toggle = (k: keyof typeof open) => setOpen(o => ({ ...o, [k]: !o[k] }));
 
   const now = new Date();
   const birth = profile.postpartum_birth_date
@@ -170,10 +233,8 @@ export default function ProfileScreen() {
       ) : null}
 
       {/* ── Name ─────────────────────────────────────────── */}
-      <Label tone="ink" style={{ paddingHorizontal: space.gutter, paddingTop: 16, paddingBottom: 7 }}>
-        Name
-      </Label>
-      <View style={{ paddingHorizontal: space.gutter }}>
+      <Section title="Name" open={open.name} onToggle={() => toggle('name')}>
+      <View style={{ paddingHorizontal: space.gutter, paddingBottom: 4 }}>
         <TextInput
           value={profile.display_name}
           onChangeText={name => dispatch({ type: 'set_name', name })}
@@ -191,13 +252,12 @@ export default function ProfileScreen() {
           }}
         />
       </View>
+      </Section>
 
       <Divider />
 
       {/* ── Experience level ─────────────────────────────── */}
-      <Label tone="ink" style={{ paddingHorizontal: space.gutter, paddingTop: 8, paddingBottom: 6 }}>
-        Fitness level
-      </Label>
+      <Section title="Fitness level" open={open.level} onToggle={() => toggle('level')}>
       <View style={{ flexDirection: 'row', gap: 6, paddingHorizontal: space.gutter }}>
         {EXPERIENCE_LEVELS.map(level => (
           <Chip
@@ -216,17 +276,19 @@ export default function ProfileScreen() {
         your readiness and the day's stimulus.
       </Text>
 
+      </Section>
+
       <Divider />
 
       {/* ── Postpartum ───────────────────────────────────── */}
-      <View style={{
-        flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between',
-        paddingHorizontal: space.gutter, paddingTop: 8, paddingBottom: 6,
-      }}>
-        <Label tone="ink">Postpartum</Label>
-        <Label size="sm" style={{ letterSpacing: 0.9 }}>Private</Label>
-      </View>
-
+      <Section
+        title="Postpartum"
+        open={open.postpartum}
+        onToggle={() => toggle('postpartum')}
+        // Kept visible whether or not the section is open: the privacy marker
+        // describes the stored field, not the disclosure state.
+        badge={<Label size="sm" style={{ letterSpacing: 0.9 }}>Private</Label>}
+      >
       {birth ? (
         <View style={{ paddingHorizontal: space.gutter }}>
           <View style={{ flexDirection: 'row', gap: 8 }}>
@@ -299,6 +361,7 @@ export default function ProfileScreen() {
         cleared for. Programming limits stay with the considerations below, and
         only you change those.
       </Text>
+      </Section>
 
       <Divider />
 
