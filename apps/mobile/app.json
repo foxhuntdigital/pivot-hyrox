@@ -9,13 +9,27 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.adaptiveathlete.pivot"
+      "bundleIdentifier": "com.adaptiveathlete.pivot",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.adaptiveathlete.pivot",
       "edgeToEdgeEnabled": true
     },
-    "plugins": ["expo-router", "expo-font"],
-    "experiments": { "typedRoutes": true }
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "15177b35-c97f-4a05-9006-f34a83a0b0a8"
+      }
+    }
   }
 }

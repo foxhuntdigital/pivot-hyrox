@@ -30,6 +30,10 @@ do $$ begin
   create role anon;
 exception when duplicate_object then null;
 end $$;
+do $$ begin
+  create role service_role;
+exception when duplicate_object then null;
+end $$;
 SQL
 
 for f in supabase/migrations/*.sql; do

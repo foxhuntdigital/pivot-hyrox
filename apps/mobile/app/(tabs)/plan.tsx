@@ -87,8 +87,8 @@ export default function PlanScreen() {
       </View>
 
       <View style={{ paddingHorizontal: space.gutter }}>
-        {[...COMPLETED.map(c => ({ ...c, done: true })), ...(todayRow ? [todayRow] : [])].map(s => (
-          <View key={s.name} style={{
+        {[...COMPLETED.map(c => ({ ...c, done: true })), ...(todayRow ? [todayRow] : [])].map((s, i) => (
+          <View key={`${i}-${s.name}`} style={{
             flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 13,
             borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
           }}>
