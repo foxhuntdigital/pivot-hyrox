@@ -16,12 +16,23 @@ import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 
 export type AuthStatus = 'loading' | 'signed_in' | 'signed_out' | 'unconfigured';
 
+/**
+ * What `signUp` could not communicate by throwing. With email confirmation on,
+ * Supabase creates the user but withholds the session until the emailed link is
+ * clicked: no error is raised and no auth event fires, so the status never
+ * leaves `signed_out` and the route gate has nothing to redirect on. The caller
+ * has to be told, or the screen waits on a redirect that will never come.
+ */
+export interface SignUpResult {
+  needsConfirmation: boolean;
+}
+
 interface SessionStore {
   status: AuthStatus;
   session: Session | null;
   email: string | null;
   signIn(email: string, password: string): Promise<void>;
-  signUp(email: string, password: string, displayName: string): Promise<void>;
+  signUp(email: string, password: string, displayName: string): Promise<SignUpResult>;
   signOut(): Promise<void>;
 }
 
@@ -64,12 +75,14 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     if (!supabase) throw new Error('Supabase is not configured.');
     // display_name rides along in user metadata so the provisioning trigger can
     // seed athlete_profiles in the same transaction as the auth insert.
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: email.trim(),
       password,
       options: { data: { display_name: displayName.trim() } },
     });
     if (error) throw error;
+    // A null session here means confirmation is pending, not that signup failed.
+    return { needsConfirmation: data.session === null };
   }, []);
 
   const signOut = useCallback(async () => {

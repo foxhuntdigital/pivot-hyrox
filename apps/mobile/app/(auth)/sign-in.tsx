@@ -51,6 +51,9 @@ export default function SignInScreen() {
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Separate from `error`: a pending confirmation is a successful signup, and
+  // reads as one. Reusing the error banner would call it a failure.
+  const [notice, setNotice] = useState<string | null>(null);
 
   const isSignUp = mode === 'sign_up';
   const canSubmit =
@@ -61,9 +64,21 @@ export default function SignInScreen() {
     if (!canSubmit) return;
     setBusy(true);
     setError(null);
+    setNotice(null);
     try {
-      if (isSignUp) await signUp(email, password, name);
-      else await signIn(email, password);
+      if (isSignUp) {
+        const { needsConfirmation } = await signUp(email, password, name);
+        // The account exists either way. When a session came back the listener
+        // takes over; when it did not, this is the only thing that will tell
+        // the athlete the signup worked.
+        if (needsConfirmation) {
+          setNotice(`Account created. Check ${email.trim()} for a confirmation link, then sign in.`);
+          setMode('sign_in');
+          setPassword('');
+        }
+      } else {
+        await signIn(email, password);
+      }
       // No navigation here: the session listener flips status and AuthGate
       // redirects, so there is one path into the app rather than two.
     } catch (e) {
@@ -133,6 +148,15 @@ export default function SignInScreen() {
               onSubmitEditing={submit} returnKeyType="go"
             />
 
+            {notice ? (
+              <View style={{
+                backgroundColor: color.tint, borderWidth: 1, borderColor: color.tintBorder,
+                paddingHorizontal: 13, paddingVertical: 12, marginBottom: 16,
+              }}>
+                <Text style={[t.bodySm, { color: color.ink }]}>{notice}</Text>
+              </View>
+            ) : null}
+
             {error ? (
               <View style={{
                 backgroundColor: color.tint, borderWidth: 1, borderColor: color.tintBorder,
@@ -150,7 +174,7 @@ export default function SignInScreen() {
             />
 
             <Pressable
-              onPress={() => { setMode(isSignUp ? 'sign_in' : 'sign_up'); setError(null); }}
+              onPress={() => { setMode(isSignUp ? 'sign_in' : 'sign_up'); setError(null); setNotice(null); }}
               style={{ paddingVertical: 18 }}
             >
               <Text style={[t.bodySm, { color: color.muted2, textAlign: 'center' }]}>
