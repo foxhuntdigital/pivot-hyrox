@@ -35,6 +35,9 @@ enabled = false
 client_id = ""
 secret = ""
 
+[functions.onboarding-plan]
+verify_jwt = true
+
 [functions.today]
 verify_jwt = true
 

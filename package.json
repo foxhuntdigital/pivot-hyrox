@@ -8,8 +8,9 @@
     "mobile": "npm run start --workspace apps/mobile",
     "ios": "npm run ios --workspace apps/mobile",
     "engine:test": "npm run test --workspace packages/engine",
+    "functions:test": "node --experimental-strip-types --test supabase/functions/_shared/*.test.ts",
     "seed:build": "node scripts/convert-seed.mjs",
     "db:verify": "./scripts/verify-schema.sh",
-    "test": "npm run engine:test"
+    "test": "npm run engine:test && npm run functions:test"
   }
 }
