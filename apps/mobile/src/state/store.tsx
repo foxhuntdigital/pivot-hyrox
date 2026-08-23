@@ -25,6 +25,7 @@ import {
 } from '../data/athlete';
 import type { AthleteProfile, ExperienceLevel } from '../data/profile';
 import { fetchProfile, saveProfile } from '../data/profileRepo';
+import { fetchToday, type TodayPayload } from '../data/todayRepo';
 import { useSession } from './session';
 import { buildSteps, type Step } from './steps';
 
@@ -199,6 +200,15 @@ interface Store {
    */
   commitProfile(patch: Partial<AthleteProfile>): void;
   profileError: string | null;
+  /**
+   * Server state backing the decision. Null on an unconfigured build, which
+   * runs on the seeded athlete instead (see `athlete.ts`).
+   */
+  today: TodayPayload | null;
+  todayLoading: boolean;
+  todayError: string | null;
+  /** Re-fetches today's decision — after completing a session, or on pull. */
+  refreshToday(): void;
 }
 
 const Ctx = createContext<Store | null>(null);
@@ -207,6 +217,29 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { status: authStatus } = useSession();
   const [profileError, setProfileError] = useState<string | null>(null);
+  const [today, setToday] = useState<TodayPayload | null>(null);
+  const [todayLoading, setTodayLoading] = useState(false);
+  const [todayError, setTodayError] = useState<string | null>(null);
+  const [todayNonce, setTodayNonce] = useState(0);
+
+  // Today's decision comes from the server so it is recorded against the engine
+  // version that produced it (PRD §24). A failure leaves `today` null and the
+  // seed showing, with the error surfaced rather than swallowed.
+  useEffect(() => {
+    if (authStatus !== 'signed_in') return;
+    let cancelled = false;
+    setTodayLoading(true);
+    setTodayError(null);
+    fetchToday()
+      .then(payload => { if (!cancelled) setToday(payload); })
+      .catch(e => {
+        if (!cancelled) setTodayError(e instanceof Error ? e.message : 'Could not load today');
+      })
+      .finally(() => { if (!cancelled) setTodayLoading(false); });
+    return () => { cancelled = true; };
+  }, [authStatus, todayNonce]);
+
+  const refreshToday = useCallback(() => setTodayNonce(n => n + 1), []);
 
   // Hydrate the profile once a session exists. Unconfigured builds keep the
   // seeded athlete, which is why this is gated on the status rather than run
@@ -237,11 +270,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const engineInput = useMemo<EngineInput>(() => {
     const noEquipment = state.flags.includes('No equipment');
     return {
-      local_date: new Date().toISOString().slice(0, 10),
-      phase_type: PHASE.type,
-      days_to_race: RACE.days_remaining,
-      stimulus_requirements: WEEK_STIMULI,
-      recent_sessions: RECENT_SESSIONS,
+      local_date: today?.date_local ?? new Date().toISOString().slice(0, 10),
+      phase_type: (today?.phase?.type as EngineInput['phase_type']) ?? PHASE.type,
+      days_to_race: today?.active_race?.days_remaining ?? RACE.days_remaining,
+      stimulus_requirements: today?.stimulus_requirements ?? WEEK_STIMULI,
+      recent_sessions: (today?.recent_sessions as EngineInput['recent_sessions'])
+        ?? RECENT_SESSIONS,
       recovery_state: 'okay',
       energy: state.energy,
       sleep_hours: state.flags.includes('Low sleep') ? state.sleep_hours : 7.5,
@@ -255,9 +289,21 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       variation_tolerance: 1,
     };
   }, [state.energy, state.flags, state.available_minutes, state.equipment,
-      state.considerations, state.sleep_hours]);
+      state.considerations, state.sleep_hours, today]);
 
-  const decision = useMemo(() => recommend(engineInput, EXERCISES), [engineInput]);
+  /**
+   * The server's decision is authoritative when there is one — it is the one
+   * written to `adaptation_events`. The local engine still runs so an adapted
+   * session can be re-ranked without a round trip, and because both sides are
+   * the same code fed the same inputs, the two agree.
+   */
+  const localDecision = useMemo(() => recommend(engineInput, EXERCISES), [engineInput]);
+
+  const decision = useMemo<EngineDecision>(() => {
+    if (today?.recommendation) return { kind: 'session', ...today.recommendation };
+    if (today?.no_session) return { kind: 'no_session', ...today.no_session };
+    return localDecision;
+  }, [today, localDecision]);
 
   // An accepted override still runs through the engine, so the same guardrails
   // apply to a session the athlete picked as to one the engine chose.
@@ -273,7 +319,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const steps = useMemo(
     () => (session.kind === 'session' ? buildSteps(session) : []), [session]);
 
-  const readiness = useMemo(() => computeReadiness(READINESS_INPUTS), []);
+  const readiness = useMemo(() => {
+    if (!today) return computeReadiness(READINESS_INPUTS);
+    return {
+      overall: today.readiness.overall,
+      confidence: today.readiness.confidence,
+      components: today.readiness.components,
+    } as ReturnType<typeof computeReadiness>;
+  }, [today]);
 
   // Elapsed-time ticker. Runs only while a block is active, so pausing stops
   // the clock rather than merely hiding it.
@@ -289,9 +342,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const value = useMemo(
     () => ({
       state, dispatch, decision, session, steps, readiness, engineInput,
-      commitProfile, profileError,
+      commitProfile, profileError, today, todayLoading, todayError, refreshToday,
     }),
-    [state, decision, session, steps, readiness, engineInput, commitProfile, profileError]);
+    [state, decision, session, steps, readiness, engineInput, commitProfile,
+     profileError, today, todayLoading, todayError, refreshToday]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

@@ -105,23 +105,24 @@ Deno.serve(async (req) => {
         components: readiness.components,
         model_version: READINESS_MODEL_VERSION,
       },
+      // The decision is returned as the engine produced it rather than
+      // flattened for the wire. The client renders `Recommendation` already, so
+      // reshaping here would force it to rebuild what it was just sent — and
+      // `template` carries fields (intensity_target) the steps list needs.
       recommendation: decision.kind === 'session' ? {
-        workout_template_id: decision.template.id,
-        name: decision.template.name,
-        variant: decision.variant.variant_code,
+        ...decision,
         variant_label: VARIANT_LABEL[decision.variant.variant_code],
-        estimated_minutes: decision.estimated_minutes,
-        primary_stimulus: decision.primary_stimulus,
-        blocks: decision.blocks,
-        reason_codes: decision.reason_codes,
-        rationale: decision.rationale,
-        substitutions_applied: decision.substitutions_applied,
       } : null,
       no_session: decision.kind === 'no_session' ? {
         reason_codes: decision.reason_codes,
         rationale: decision.rationale,
         guidance: decision.guidance,
       } : null,
+      // Engine inputs the client also renders (Plan's weekly stimuli, Progress's
+      // history). Sent alongside the decision so one round trip fills Today,
+      // Plan and Progress rather than three.
+      stimulus_requirements: state.stimulus_requirements,
+      recent_sessions,
       engine_version: ENGINE_VERSION,
     }, 200, origin);
   } catch (err) {
