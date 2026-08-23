@@ -11,6 +11,7 @@ import {
 
 import { AppProvider } from '@/state/store';
 import { SessionProvider, useSession } from '@/state/session';
+import { OnboardingProvider, useOnboarding } from '@/state/onboarding';
 import { color } from '@/theme/tokens';
 
 function Holding() {
@@ -31,22 +32,35 @@ function Holding() {
  */
 function AuthGate({ children }: { children: React.ReactNode }) {
   const { status } = useSession();
+  const { status: onboarding } = useOnboarding();
   const segments = useSegments();
   const router = useRouter();
 
   useEffect(() => {
     if (status === 'loading') return;
     const inAuthGroup = segments[0] === '(auth)';
+    const inOnboarding = segments[0] === '(onboarding)';
+
     if (status === 'signed_out' && !inAuthGroup) {
       router.replace('/sign-in' as never);
-    } else if (status === 'signed_in' && inAuthGroup) {
+      return;
+    }
+    if (status !== 'signed_in') return;
+
+    // A signed-in athlete with no program has nothing for Today to show, so the
+    // flow that creates one comes before the app rather than after it.
+    if (onboarding === 'needed' && !inOnboarding) {
+      router.replace('/goal' as never);
+    } else if (onboarding === 'complete' && (inAuthGroup || inOnboarding)) {
       router.replace('/today' as never);
     }
-  }, [status, segments, router]);
+  }, [status, onboarding, segments, router]);
 
   // Holding rather than the app: rendering tabs for an unresolved session would
-  // flash athlete data that may belong to a signed-out user.
+  // flash athlete data that may belong to a signed-out user, and rendering them
+  // before the program lookup returns would flash an empty plan.
   if (status === 'loading') return <Holding />;
+  if (status === 'signed_in' && onboarding === 'checking') return <Holding />;
   return <>{children}</>;
 }
 
@@ -63,6 +77,7 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <SessionProvider>
+        <OnboardingProvider>
         <AppProvider>
           <StatusBar style="dark" />
           <AuthGate>
@@ -74,12 +89,14 @@ export default function RootLayout() {
               }}
             >
               <Stack.Screen name="(auth)" />
+              <Stack.Screen name="(onboarding)" />
               <Stack.Screen name="(tabs)" />
               <Stack.Screen name="active" options={{ animation: 'slide_from_bottom', gestureEnabled: false }} />
               <Stack.Screen name="done" options={{ animation: 'fade', gestureEnabled: false }} />
             </Stack>
           </AuthGate>
         </AppProvider>
+        </OnboardingProvider>
       </SessionProvider>
     </SafeAreaProvider>
   );

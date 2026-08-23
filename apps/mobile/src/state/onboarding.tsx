@@ -1,0 +1,140 @@
+/**
+ * Onboarding draft and gate (PRD §6.1, D02–D08).
+ *
+ * Answers are held here rather than passed through route params: the flow is
+ * seven screens that submit once at the end, and a back-navigation must not
+ * lose what was already answered.
+ *
+ * The draft is deliberately not persisted. An abandoned onboarding resumes from
+ * the start on the next launch, which is honest — nothing was created server
+ * side, so there is no half-made plan to resume into.
+ */
+import React, {
+  createContext, useCallback, useContext, useEffect, useMemo, useState,
+} from 'react';
+
+import { createPlan, fetchActiveProgram, type PlanSummary } from '@/data/planRepo';
+import { useSession } from './session';
+
+export type Goal = 'finish_healthy' | 'performance' | 'custom';
+
+export interface OnboardingDraft {
+  sport: string;
+  goal_type: Goal;
+  event_name: string;
+  event_date: string | null;
+  division: string | null;
+  experience_level: 'beginner' | 'intermediate' | 'advanced';
+  training_age_years: number | null;
+  equipment: string[];
+  typical_session_minutes: number;
+  schedule_predictability: number;
+  impact_tolerance: 'low' | 'normal' | 'high';
+  considerations: string[];
+  health_connected: boolean;
+}
+
+/**
+ * `checking` is distinct from `needed`: routing an athlete into onboarding
+ * before the lookup returns would flash the flow at someone who already has a
+ * plan.
+ */
+export type OnboardingStatus = 'checking' | 'needed' | 'complete' | 'not_applicable';
+
+interface OnboardingStore {
+  status: OnboardingStatus;
+  draft: OnboardingDraft;
+  update(patch: Partial<OnboardingDraft>): void;
+  submit(): Promise<PlanSummary>;
+  summary: PlanSummary | null;
+  recheck(): void;
+}
+
+const EMPTY_DRAFT: OnboardingDraft = {
+  sport: 'hyrox',
+  goal_type: 'performance',
+  event_name: '',
+  event_date: null,
+  division: null,
+  experience_level: 'intermediate',
+  training_age_years: null,
+  equipment: [],
+  typical_session_minutes: 45,
+  schedule_predictability: 0.5,
+  impact_tolerance: 'normal',
+  considerations: [],
+  health_connected: false,
+};
+
+const Ctx = createContext<OnboardingStore | null>(null);
+
+export function OnboardingProvider({ children }: { children: React.ReactNode }) {
+  const { status: authStatus } = useSession();
+  const [status, setStatus] = useState<OnboardingStatus>('checking');
+  const [draft, setDraft] = useState<OnboardingDraft>(EMPTY_DRAFT);
+  const [summary, setSummary] = useState<PlanSummary | null>(null);
+  const [nonce, setNonce] = useState(0);
+
+  useEffect(() => {
+    // Without credentials the app runs on the seeded athlete, who already has a
+    // plan to look at. Onboarding would write nowhere.
+    if (authStatus === 'unconfigured') { setStatus('not_applicable'); return; }
+    if (authStatus !== 'signed_in') { setStatus('checking'); return; }
+
+    let cancelled = false;
+    setStatus('checking');
+    fetchActiveProgram()
+      .then(program => {
+        if (!cancelled) setStatus(program ? 'complete' : 'needed');
+      })
+      .catch(() => {
+        // A failed lookup is not evidence of a missing plan. Falling through to
+        // the app shows an error state there rather than trapping the athlete
+        // in an onboarding flow they may not need.
+        if (!cancelled) setStatus('complete');
+      });
+    return () => { cancelled = true; };
+  }, [authStatus, nonce]);
+
+  const update = useCallback((patch: Partial<OnboardingDraft>) => {
+    setDraft(d => ({ ...d, ...patch }));
+  }, []);
+
+  const recheck = useCallback(() => setNonce(n => n + 1), []);
+
+  const submit = useCallback(async () => {
+    if (!draft.event_date) throw new Error('A race date is required.');
+    const plan = await createPlan({
+      race: {
+        event_name: draft.event_name.trim() || 'My race',
+        event_date: draft.event_date,
+        division: draft.division,
+        goal_type: draft.goal_type,
+      },
+      equipment: draft.equipment,
+      profile: {
+        typical_session_minutes: draft.typical_session_minutes,
+        impact_tolerance: draft.impact_tolerance,
+        considerations: draft.considerations,
+      },
+    });
+    setSummary(plan);
+    // Status flips only after the server confirms, so a failed submit leaves
+    // the athlete in onboarding with their answers intact.
+    setStatus('complete');
+    return plan;
+  }, [draft]);
+
+  const value = useMemo<OnboardingStore>(
+    () => ({ status, draft, update, submit, summary, recheck }),
+    [status, draft, update, submit, summary, recheck],
+  );
+
+  return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
+}
+
+export function useOnboarding(): OnboardingStore {
+  const v = useContext(Ctx);
+  if (!v) throw new Error('useOnboarding must be used inside OnboardingProvider');
+  return v;
+}
