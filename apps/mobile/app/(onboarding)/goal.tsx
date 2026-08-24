@@ -18,17 +18,17 @@ const GOALS: { value: Goal; label: string; detail: string }[] = [
   {
     value: 'finish_healthy',
     label: 'Finish healthy',
-    detail: 'Complete the race well, with training that protects capacity over chasing a time.',
+    detail: 'Cross the line feeling strong. Training builds you up steadily rather than chasing the clock.',
   },
   {
     value: 'performance',
     label: 'Performance',
-    detail: 'Train for a time or placing, accepting the higher intensity that requires.',
+    detail: 'Going after a time or a placing. Expect harder sessions and sharper race-day work.',
   },
   {
     value: 'custom',
     label: 'Something else',
-    detail: 'You will describe the goal yourself. Programming stays conservative until you do.',
+    detail: 'Tell us your goal in your own words. Until you do, we keep training steady and safe.',
   },
 ];
 
@@ -42,7 +42,7 @@ export default function GoalScreen() {
     <OnboardingStep
       step={1}
       title="What are you training for?"
-      description="This sets how the plan balances building capacity against race-specific work."
+      description="Your answer decides how much of your training is general fitness versus race-day practice."
       onContinue={() => router.push('/race' as never)}
     >
       <ChipRow
@@ -54,8 +54,8 @@ export default function GoalScreen() {
       <Text style={[t.bodySm, {
         paddingHorizontal: space.gutter, color: color.muted, paddingBottom: 24, marginTop: -12,
       }]}>
-        Running, triathlon and hybrid programming come later. HYROX is the only library built out
-        today, and offering the others would be offering a plan we cannot yet write.
+        HYROX is what we do best right now. Running, triathlon and hybrid plans are on the way — we
+        would rather add them properly than hand you something half-built.
       </Text>
 
       <ChipRow

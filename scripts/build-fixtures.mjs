@@ -121,6 +121,9 @@ const templates = tables.workout_templates.map(t => ({
   name: t.name,
   workout_family: t.workout_family,
   primary_goal: t.primary_goal,
+  // The authored stimulus alongside the planner goal it rolls up to; see
+  // scripts/lib/stimulus-taxonomy.mjs.
+  stimulus: t.stimulus,
   secondary_goal: t.secondary_goal,
   estimated_minutes: t.estimated_minutes,
   intensity_target: t.intensity_target,

@@ -121,6 +121,10 @@ export function Chip({
   style?: ViewStyle;
 }) {
   const pad = { sm: 13, md: 16, lg: 16 }[size];
+  // Horizontal breathing room so the label never sits against its own border.
+  // Flexed chips already share the row's width, so they take a token inset
+  // rather than one wide enough to squeeze the text.
+  const padX = flex ? 10 : { sm: 14, md: 18, lg: 20 }[size];
   const textStyle: TextStyle = {
     sm: { fontFamily: type.rowTitle.fontFamily, fontSize: 12 },
     md: { fontFamily: type.statValue.fontFamily, fontSize: 15 },
@@ -136,6 +140,7 @@ export function Chip({
           borderColor: active ? color.ink : color.chipBorder,
           backgroundColor: active ? color.ink : 'transparent',
           paddingVertical: pad,
+          paddingHorizontal: padX,
           alignItems: 'center',
           justifyContent: 'center',
         },

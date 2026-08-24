@@ -10,6 +10,7 @@ import {
 } from '@expo-google-fonts/archivo';
 
 import { AppProvider } from '@/state/store';
+import { CoachProvider } from '@/state/coach';
 import { SessionProvider, useSession } from '@/state/session';
 import { OnboardingProvider, useOnboarding } from '@/state/onboarding';
 import { color } from '@/theme/tokens';
@@ -79,6 +80,7 @@ export default function RootLayout() {
       <SessionProvider>
         <OnboardingProvider>
         <AppProvider>
+          <CoachProvider>
           <StatusBar style="dark" />
           <AuthGate>
             <Stack
@@ -95,6 +97,7 @@ export default function RootLayout() {
               <Stack.Screen name="done" options={{ animation: 'fade', gestureEnabled: false }} />
             </Stack>
           </AuthGate>
+          </CoachProvider>
         </AppProvider>
         </OnboardingProvider>
       </SessionProvider>

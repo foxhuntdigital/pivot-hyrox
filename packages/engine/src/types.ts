@@ -64,6 +64,12 @@ export interface WorkoutTemplate {
   name: string;
   workout_family: string;
   primary_goal: string;
+  /**
+   * The authored training stimulus, which is finer-grained than the planner's
+   * five goals — `lactate_threshold` rather than `threshold`. `primary_goal` is
+   * the goal it rolls up to; both are matchable.
+   */
+  stimulus?: string | null;
   secondary_goal?: string | null;
   estimated_minutes: number;
   intensity_target?: string | null;

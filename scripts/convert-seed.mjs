@@ -92,7 +92,7 @@ for (const m of sql.matchAll(/INSERT INTO "(\w+)" VALUES\(([\s\S]*?)\);\n/g)) {
 const ORDER = [
   'equipment', 'exercises', 'exercise_equipment', 'tags',
   'workout_templates', 'workout_variants', 'workout_blocks', 'block_exercises',
-  'workout_tags', 'substitutions', 'progression_rules',
+  'workout_tags', 'substitutions', 'progression_rules', 'station_programming_rules',
 ];
 
 const missing = Object.keys(rows).filter(t => !ORDER.includes(t));

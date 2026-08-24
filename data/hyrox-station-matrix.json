@@ -1,0 +1,1000 @@
+{
+ "meta": {
+  "name": "Adaptive Athlete HYROX Station Matrix v1",
+  "workout_count": 96,
+  "matrix": "8 stations x 12 programming categories",
+  "categories": [
+   "Technique",
+   "Base",
+   "Strength-Power",
+   "Threshold",
+   "Race Specific",
+   "Compromised",
+   "Benchmark",
+   "Micro",
+   "Hybrid A",
+   "Hybrid B",
+   "Density",
+   "Durability"
+  ],
+  "race_model_note": "Race distances/loads should live in versioned division-specific race definitions. Training prescriptions use race-load percentages where appropriate.",
+  "_note": "express_rule / micro_rule / progression_rule / tracking_metrics / level_min / level_max / content_version were identical on all 96 rows in the supplied pack; hoisted here rather than repeated.",
+  "express_rule": "Preserve primary station stimulus; reduce rounds/accessory volume to ~60-70%; keep movement quality.",
+  "micro_rule": "10-20 minute minimum effective dose; ~25-40% volume; never raise intensity to compensate.",
+  "progression_rule": "Progress one variable at a time: volume OR load OR density OR pace. Typical cap 5-10% per exposure unless benchmark/retest.",
+  "tracking_metrics": [
+   "time",
+   "RPE",
+   "load",
+   "HR_if_relevant",
+   "breaks_or_no_reps",
+   "pace_or_split_if_relevant",
+   "transition_time_if_hybrid"
+  ],
+  "level_min": "beginner",
+  "level_max": "advanced",
+  "content_version": "v1"
+ },
+ "workouts": [
+  {
+   "workout_id": "mx_skierg_technique",
+   "station": "SkiErg",
+   "category": "Technique",
+   "primary_goal": "skill_economy",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "race_reference": "1000m",
+   "full_prescription": "6 x 2 min technique @ easy-moderate"
+  },
+  {
+   "workout_id": "mx_skierg_base",
+   "station": "SkiErg",
+   "category": "Base",
+   "primary_goal": "aerobic_local_durability",
+   "impact_level": "low",
+   "hyrox_specificity": 0.54,
+   "race_reference": "1000m",
+   "full_prescription": "30 min steady RPE 3-4"
+  },
+  {
+   "workout_id": "mx_skierg_strength_power",
+   "station": "SkiErg",
+   "category": "Strength-Power",
+   "primary_goal": "force_power_reserve",
+   "impact_level": "low",
+   "hyrox_specificity": 0.63,
+   "race_reference": "1000m",
+   "full_prescription": "10 x 20 hard strokes / 70s easy"
+  },
+  {
+   "workout_id": "mx_skierg_threshold",
+   "station": "SkiErg",
+   "category": "Threshold",
+   "primary_goal": "sustainable_high_output",
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "race_reference": "1000m",
+   "full_prescription": "6 x 500m RPE 7 / 90s easy"
+  },
+  {
+   "workout_id": "mx_skierg_race_specific",
+   "station": "SkiErg",
+   "category": "Race Specific",
+   "primary_goal": "race_pacing",
+   "impact_level": "low",
+   "hyrox_specificity": 0.81,
+   "race_reference": "1000m",
+   "full_prescription": "4 x 1000m controlled / 2m easy"
+  },
+  {
+   "workout_id": "mx_skierg_compromised",
+   "station": "SkiErg",
+   "category": "Compromised",
+   "primary_goal": "compromised_station_work",
+   "impact_level": "low",
+   "hyrox_specificity": 0.9,
+   "race_reference": "1000m",
+   "full_prescription": "4r: 800m run + 750m Ski"
+  },
+  {
+   "workout_id": "mx_skierg_benchmark",
+   "station": "SkiErg",
+   "category": "Benchmark",
+   "primary_goal": "repeatable_test",
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "race_reference": "1000m",
+   "full_prescription": "1000m time trial"
+  },
+  {
+   "workout_id": "mx_skierg_micro",
+   "station": "SkiErg",
+   "category": "Micro",
+   "primary_goal": "minimum_effective_dose",
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "race_reference": "1000m",
+   "full_prescription": "12m: 250m Ski + 10 air squats"
+  },
+  {
+   "workout_id": "mx_skierg_hybrid_a",
+   "station": "SkiErg",
+   "category": "Hybrid A",
+   "primary_goal": "complementary_hybrid",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "1000m",
+   "full_prescription": "5r: 500m Ski + 500m Row"
+  },
+  {
+   "workout_id": "mx_skierg_hybrid_b",
+   "station": "SkiErg",
+   "category": "Hybrid B",
+   "primary_goal": "run_station_hybrid",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "1000m",
+   "full_prescription": "4r: 600m run + 400m Ski + 12 wall balls"
+  },
+  {
+   "workout_id": "mx_skierg_density",
+   "station": "SkiErg",
+   "category": "Density",
+   "primary_goal": "work_density",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "1000m",
+   "full_prescription": "20m EMOM: 200m Ski / 10 WB / 40m carry / easy"
+  },
+  {
+   "workout_id": "mx_skierg_durability",
+   "station": "SkiErg",
+   "category": "Durability",
+   "primary_goal": "repeated_submax_durability",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "1000m",
+   "full_prescription": "5 x 1000m RPE 5-6 / 90s easy"
+  },
+  {
+   "workout_id": "mx_sled_push_technique",
+   "station": "Sled Push",
+   "category": "Technique",
+   "primary_goal": "skill_economy",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "race_reference": "50m",
+   "full_prescription": "8 x 20ft @ 50-60% race load, technique"
+  },
+  {
+   "workout_id": "mx_sled_push_base",
+   "station": "Sled Push",
+   "category": "Base",
+   "primary_goal": "aerobic_local_durability",
+   "impact_level": "low",
+   "hyrox_specificity": 0.54,
+   "race_reference": "50m",
+   "full_prescription": "10 x 20ft @ 60-70%"
+  },
+  {
+   "workout_id": "mx_sled_push_strength_power",
+   "station": "Sled Push",
+   "category": "Strength-Power",
+   "primary_goal": "force_power_reserve",
+   "impact_level": "low",
+   "hyrox_specificity": 0.63,
+   "race_reference": "50m",
+   "full_prescription": "8 x 20ft @ 90-110%, full recovery"
+  },
+  {
+   "workout_id": "mx_sled_push_threshold",
+   "station": "Sled Push",
+   "category": "Threshold",
+   "primary_goal": "sustainable_high_output",
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "race_reference": "50m",
+   "full_prescription": "6r: 40ft @ 75-85% + 60s easy bike"
+  },
+  {
+   "workout_id": "mx_sled_push_race_specific",
+   "station": "Sled Push",
+   "category": "Race Specific",
+   "primary_goal": "race_pacing",
+   "impact_level": "low",
+   "hyrox_specificity": 0.81,
+   "race_reference": "50m",
+   "full_prescription": "5 x 40ft @ race load"
+  },
+  {
+   "workout_id": "mx_sled_push_compromised",
+   "station": "Sled Push",
+   "category": "Compromised",
+   "primary_goal": "compromised_station_work",
+   "impact_level": "low",
+   "hyrox_specificity": 0.9,
+   "race_reference": "50m",
+   "full_prescription": "4r: 600m run + 40ft @ race load"
+  },
+  {
+   "workout_id": "mx_sled_push_benchmark",
+   "station": "Sled Push",
+   "category": "Benchmark",
+   "primary_goal": "repeatable_test",
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "race_reference": "50m",
+   "full_prescription": "50m @ race load time trial"
+  },
+  {
+   "workout_id": "mx_sled_push_micro",
+   "station": "Sled Push",
+   "category": "Micro",
+   "primary_goal": "minimum_effective_dose",
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "race_reference": "50m",
+   "full_prescription": "10m: 20ft @ 70% every minute"
+  },
+  {
+   "workout_id": "mx_sled_push_hybrid_a",
+   "station": "Sled Push",
+   "category": "Hybrid A",
+   "primary_goal": "complementary_hybrid",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "50m",
+   "full_prescription": "5r: 40ft push + 300m Row"
+  },
+  {
+   "workout_id": "mx_sled_push_hybrid_b",
+   "station": "Sled Push",
+   "category": "Hybrid B",
+   "primary_goal": "run_station_hybrid",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "50m",
+   "full_prescription": "4r: 400m run + 40ft push + 20 lunges"
+  },
+  {
+   "workout_id": "mx_sled_push_density",
+   "station": "Sled Push",
+   "category": "Density",
+   "primary_goal": "work_density",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "50m",
+   "full_prescription": "15m: 40ft push + 12 step-overs"
+  },
+  {
+   "workout_id": "mx_sled_push_durability",
+   "station": "Sled Push",
+   "category": "Durability",
+   "primary_goal": "repeated_submax_durability",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "50m",
+   "full_prescription": "10 x 40ft @ 65-75% / 45s"
+  },
+  {
+   "workout_id": "mx_sled_pull_technique",
+   "station": "Sled Pull",
+   "category": "Technique",
+   "primary_goal": "skill_economy",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "race_reference": "50m",
+   "full_prescription": "8 x 20ft @ 50-60%, rope/rhythm technique"
+  },
+  {
+   "workout_id": "mx_sled_pull_base",
+   "station": "Sled Pull",
+   "category": "Base",
+   "primary_goal": "aerobic_local_durability",
+   "impact_level": "low",
+   "hyrox_specificity": 0.54,
+   "race_reference": "50m",
+   "full_prescription": "10 x 20ft @ 60-70%"
+  },
+  {
+   "workout_id": "mx_sled_pull_strength_power",
+   "station": "Sled Pull",
+   "category": "Strength-Power",
+   "primary_goal": "force_power_reserve",
+   "impact_level": "low",
+   "hyrox_specificity": 0.63,
+   "race_reference": "50m",
+   "full_prescription": "8 x 20ft @ 90-110%, full recovery"
+  },
+  {
+   "workout_id": "mx_sled_pull_threshold",
+   "station": "Sled Pull",
+   "category": "Threshold",
+   "primary_goal": "sustainable_high_output",
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "race_reference": "50m",
+   "full_prescription": "6r: 40ft @ 75-85% + 60s easy bike"
+  },
+  {
+   "workout_id": "mx_sled_pull_race_specific",
+   "station": "Sled Pull",
+   "category": "Race Specific",
+   "primary_goal": "race_pacing",
+   "impact_level": "low",
+   "hyrox_specificity": 0.81,
+   "race_reference": "50m",
+   "full_prescription": "5 x 40ft @ race load"
+  },
+  {
+   "workout_id": "mx_sled_pull_compromised",
+   "station": "Sled Pull",
+   "category": "Compromised",
+   "primary_goal": "compromised_station_work",
+   "impact_level": "low",
+   "hyrox_specificity": 0.9,
+   "race_reference": "50m",
+   "full_prescription": "4r: 600m run + 40ft @ race load"
+  },
+  {
+   "workout_id": "mx_sled_pull_benchmark",
+   "station": "Sled Pull",
+   "category": "Benchmark",
+   "primary_goal": "repeatable_test",
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "race_reference": "50m",
+   "full_prescription": "50m @ race load time trial"
+  },
+  {
+   "workout_id": "mx_sled_pull_micro",
+   "station": "Sled Pull",
+   "category": "Micro",
+   "primary_goal": "minimum_effective_dose",
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "race_reference": "50m",
+   "full_prescription": "10m: 20ft @ 70% every minute"
+  },
+  {
+   "workout_id": "mx_sled_pull_hybrid_a",
+   "station": "Sled Pull",
+   "category": "Hybrid A",
+   "primary_goal": "complementary_hybrid",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "50m",
+   "full_prescription": "5r: 40ft pull + 300m Ski"
+  },
+  {
+   "workout_id": "mx_sled_pull_hybrid_b",
+   "station": "Sled Pull",
+   "category": "Hybrid B",
+   "primary_goal": "run_station_hybrid",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "50m",
+   "full_prescription": "4r: 400m run + 40ft pull + 80ft carry"
+  },
+  {
+   "workout_id": "mx_sled_pull_density",
+   "station": "Sled Pull",
+   "category": "Density",
+   "primary_goal": "work_density",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "50m",
+   "full_prescription": "15m: 40ft pull / 10 TRX rows / easy"
+  },
+  {
+   "workout_id": "mx_sled_pull_durability",
+   "station": "Sled Pull",
+   "category": "Durability",
+   "primary_goal": "repeated_submax_durability",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "50m",
+   "full_prescription": "10 x 40ft @ 65-75% / 45s"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_technique",
+   "station": "Burpee Broad Jump",
+   "category": "Technique",
+   "primary_goal": "skill_economy",
+   "impact_level": "high",
+   "hyrox_specificity": 0.45,
+   "race_reference": "80m",
+   "full_prescription": "8 x 5 easy technique reps"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_base",
+   "station": "Burpee Broad Jump",
+   "category": "Base",
+   "primary_goal": "aerobic_local_durability",
+   "impact_level": "high",
+   "hyrox_specificity": 0.54,
+   "race_reference": "80m",
+   "full_prescription": "10r: 6 reps + 45s walk"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_strength_power",
+   "station": "Burpee Broad Jump",
+   "category": "Strength-Power",
+   "primary_goal": "force_power_reserve",
+   "impact_level": "high",
+   "hyrox_specificity": 0.63,
+   "race_reference": "80m",
+   "full_prescription": "6r: 5 explosive broad jumps + 5 controlled burpees"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_threshold",
+   "station": "Burpee Broad Jump",
+   "category": "Threshold",
+   "primary_goal": "sustainable_high_output",
+   "impact_level": "high",
+   "hyrox_specificity": 0.72,
+   "race_reference": "80m",
+   "full_prescription": "6 x 10 reps RPE 7 / 60s"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_race_specific",
+   "station": "Burpee Broad Jump",
+   "category": "Race Specific",
+   "primary_goal": "race_pacing",
+   "impact_level": "high",
+   "hyrox_specificity": 0.81,
+   "race_reference": "80m",
+   "full_prescription": "4 x 20m race rhythm / 90s"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_compromised",
+   "station": "Burpee Broad Jump",
+   "category": "Compromised",
+   "primary_goal": "compromised_station_work",
+   "impact_level": "high",
+   "hyrox_specificity": 0.9,
+   "race_reference": "80m",
+   "full_prescription": "4r: 600m run + 15m BBJ"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_benchmark",
+   "station": "Burpee Broad Jump",
+   "category": "Benchmark",
+   "primary_goal": "repeatable_test",
+   "impact_level": "high",
+   "hyrox_specificity": 0.99,
+   "race_reference": "80m",
+   "full_prescription": "80m benchmark"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_micro",
+   "station": "Burpee Broad Jump",
+   "category": "Micro",
+   "primary_goal": "minimum_effective_dose",
+   "impact_level": "high",
+   "hyrox_specificity": 0.6,
+   "race_reference": "80m",
+   "full_prescription": "12m: 5 BBJ + 200m easy run/walk"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_hybrid_a",
+   "station": "Burpee Broad Jump",
+   "category": "Hybrid A",
+   "primary_goal": "complementary_hybrid",
+   "impact_level": "high",
+   "hyrox_specificity": 0.88,
+   "race_reference": "80m",
+   "full_prescription": "5r: 8 BBJ + 300m Row"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_hybrid_b",
+   "station": "Burpee Broad Jump",
+   "category": "Hybrid B",
+   "primary_goal": "run_station_hybrid",
+   "impact_level": "high",
+   "hyrox_specificity": 0.88,
+   "race_reference": "80m",
+   "full_prescription": "4r: 400m run + 8 BBJ + 10 WB"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_density",
+   "station": "Burpee Broad Jump",
+   "category": "Density",
+   "primary_goal": "work_density",
+   "impact_level": "high",
+   "hyrox_specificity": 0.88,
+   "race_reference": "80m",
+   "full_prescription": "15m EMOM: 6 BBJ / 200m Ski / easy"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_durability",
+   "station": "Burpee Broad Jump",
+   "category": "Durability",
+   "primary_goal": "repeated_submax_durability",
+   "impact_level": "high",
+   "hyrox_specificity": 0.88,
+   "race_reference": "80m",
+   "full_prescription": "5 x 20m RPE 5-6 / 60s"
+  },
+  {
+   "workout_id": "mx_rowerg_technique",
+   "station": "RowErg",
+   "category": "Technique",
+   "primary_goal": "skill_economy",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "race_reference": "1000m",
+   "full_prescription": "3m @ 20/22/24/22 spm + 10m steady"
+  },
+  {
+   "workout_id": "mx_rowerg_base",
+   "station": "RowErg",
+   "category": "Base",
+   "primary_goal": "aerobic_local_durability",
+   "impact_level": "low",
+   "hyrox_specificity": 0.54,
+   "race_reference": "1000m",
+   "full_prescription": "30-45m steady RPE 3-4"
+  },
+  {
+   "workout_id": "mx_rowerg_strength_power",
+   "station": "RowErg",
+   "category": "Strength-Power",
+   "primary_goal": "force_power_reserve",
+   "impact_level": "low",
+   "hyrox_specificity": 0.63,
+   "race_reference": "1000m",
+   "full_prescription": "10 x 250m RPE 7 / 45s"
+  },
+  {
+   "workout_id": "mx_rowerg_threshold",
+   "station": "RowErg",
+   "category": "Threshold",
+   "primary_goal": "sustainable_high_output",
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "race_reference": "1000m",
+   "full_prescription": "8 x 500m RPE 7 / 90s"
+  },
+  {
+   "workout_id": "mx_rowerg_race_specific",
+   "station": "RowErg",
+   "category": "Race Specific",
+   "primary_goal": "race_pacing",
+   "impact_level": "low",
+   "hyrox_specificity": 0.81,
+   "race_reference": "1000m",
+   "full_prescription": "5 x 1000m RPE 6-7 / 2m"
+  },
+  {
+   "workout_id": "mx_rowerg_compromised",
+   "station": "RowErg",
+   "category": "Compromised",
+   "primary_goal": "compromised_station_work",
+   "impact_level": "low",
+   "hyrox_specificity": 0.9,
+   "race_reference": "1000m",
+   "full_prescription": "4r: 800m run + 750m Row"
+  },
+  {
+   "workout_id": "mx_rowerg_benchmark",
+   "station": "RowErg",
+   "category": "Benchmark",
+   "primary_goal": "repeatable_test",
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "race_reference": "1000m",
+   "full_prescription": "1000m time trial"
+  },
+  {
+   "workout_id": "mx_rowerg_micro",
+   "station": "RowErg",
+   "category": "Micro",
+   "primary_goal": "minimum_effective_dose",
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "race_reference": "1000m",
+   "full_prescription": "12m: 250m Row + 10 air squats"
+  },
+  {
+   "workout_id": "mx_rowerg_hybrid_a",
+   "station": "RowErg",
+   "category": "Hybrid A",
+   "primary_goal": "complementary_hybrid",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "1000m",
+   "full_prescription": "5r: 500m Row + 100ft carry"
+  },
+  {
+   "workout_id": "mx_rowerg_hybrid_b",
+   "station": "RowErg",
+   "category": "Hybrid B",
+   "primary_goal": "run_station_hybrid",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "1000m",
+   "full_prescription": "4r: 600m run + 500m Row + 15 WB"
+  },
+  {
+   "workout_id": "mx_rowerg_density",
+   "station": "RowErg",
+   "category": "Density",
+   "primary_goal": "work_density",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "1000m",
+   "full_prescription": "20m EMOM: 200m Row / 10 WB / 80ft carry / 12 stepovers / easy"
+  },
+  {
+   "workout_id": "mx_rowerg_durability",
+   "station": "RowErg",
+   "category": "Durability",
+   "primary_goal": "repeated_submax_durability",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "1000m",
+   "full_prescription": "5 x 1000m RPE 5-6 / 90s"
+  },
+  {
+   "workout_id": "mx_farmer_carry_technique",
+   "station": "Farmer Carry",
+   "category": "Technique",
+   "primary_goal": "skill_economy",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "race_reference": "200m",
+   "full_prescription": "8 x 40m @ 50-60%, posture/turns"
+  },
+  {
+   "workout_id": "mx_farmer_carry_base",
+   "station": "Farmer Carry",
+   "category": "Base",
+   "primary_goal": "aerobic_local_durability",
+   "impact_level": "low",
+   "hyrox_specificity": 0.54,
+   "race_reference": "200m",
+   "full_prescription": "6 x 100m @ 60-70%"
+  },
+  {
+   "workout_id": "mx_farmer_carry_strength_power",
+   "station": "Farmer Carry",
+   "category": "Strength-Power",
+   "primary_goal": "force_power_reserve",
+   "impact_level": "low",
+   "hyrox_specificity": 0.63,
+   "race_reference": "200m",
+   "full_prescription": "8 x 40m @ 110-130% / 90s"
+  },
+  {
+   "workout_id": "mx_farmer_carry_threshold",
+   "station": "Farmer Carry",
+   "category": "Threshold",
+   "primary_goal": "sustainable_high_output",
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "race_reference": "200m",
+   "full_prescription": "5 x 100m @ 80-90% / 60s"
+  },
+  {
+   "workout_id": "mx_farmer_carry_race_specific",
+   "station": "Farmer Carry",
+   "category": "Race Specific",
+   "primary_goal": "race_pacing",
+   "impact_level": "low",
+   "hyrox_specificity": 0.81,
+   "race_reference": "200m",
+   "full_prescription": "3 x 200m @ race load / 2m"
+  },
+  {
+   "workout_id": "mx_farmer_carry_compromised",
+   "station": "Farmer Carry",
+   "category": "Compromised",
+   "primary_goal": "compromised_station_work",
+   "impact_level": "low",
+   "hyrox_specificity": 0.9,
+   "race_reference": "200m",
+   "full_prescription": "4r: 600m run + 100m race load"
+  },
+  {
+   "workout_id": "mx_farmer_carry_benchmark",
+   "station": "Farmer Carry",
+   "category": "Benchmark",
+   "primary_goal": "repeatable_test",
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "race_reference": "200m",
+   "full_prescription": "200m benchmark @ race load"
+  },
+  {
+   "workout_id": "mx_farmer_carry_micro",
+   "station": "Farmer Carry",
+   "category": "Micro",
+   "primary_goal": "minimum_effective_dose",
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "race_reference": "200m",
+   "full_prescription": "12m: 60m carry + 8 goblet squats"
+  },
+  {
+   "workout_id": "mx_farmer_carry_hybrid_a",
+   "station": "Farmer Carry",
+   "category": "Hybrid A",
+   "primary_goal": "complementary_hybrid",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "200m",
+   "full_prescription": "5r: 100m carry + 500m Row"
+  },
+  {
+   "workout_id": "mx_farmer_carry_hybrid_b",
+   "station": "Farmer Carry",
+   "category": "Hybrid B",
+   "primary_goal": "run_station_hybrid",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "200m",
+   "full_prescription": "4r: 400m run + 80m carry + 12 lunges"
+  },
+  {
+   "workout_id": "mx_farmer_carry_density",
+   "station": "Farmer Carry",
+   "category": "Density",
+   "primary_goal": "work_density",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "200m",
+   "full_prescription": "15m: 60m carry + 10 WB + 8 stepovers"
+  },
+  {
+   "workout_id": "mx_farmer_carry_durability",
+   "station": "Farmer Carry",
+   "category": "Durability",
+   "primary_goal": "repeated_submax_durability",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "race_reference": "200m",
+   "full_prescription": "4 x 250m @ 70-80% / 90s"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_technique",
+   "station": "Sandbag Lunge",
+   "category": "Technique",
+   "primary_goal": "skill_economy",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.45,
+   "race_reference": "100m",
+   "full_prescription": "6 x 20 steps light technique"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_base",
+   "station": "Sandbag Lunge",
+   "category": "Base",
+   "primary_goal": "aerobic_local_durability",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.54,
+   "race_reference": "100m",
+   "full_prescription": "5 x 40 steps @ 50-60%"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_strength_power",
+   "station": "Sandbag Lunge",
+   "category": "Strength-Power",
+   "primary_goal": "force_power_reserve",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.63,
+   "race_reference": "100m",
+   "full_prescription": "6 x 20 steps @ 100-120% / 90s"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_threshold",
+   "station": "Sandbag Lunge",
+   "category": "Threshold",
+   "primary_goal": "sustainable_high_output",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "race_reference": "100m",
+   "full_prescription": "5 x 30m @ 75-85% / 60s"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_race_specific",
+   "station": "Sandbag Lunge",
+   "category": "Race Specific",
+   "primary_goal": "race_pacing",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.81,
+   "race_reference": "100m",
+   "full_prescription": "3 x 100m @ race load / 2-3m"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_compromised",
+   "station": "Sandbag Lunge",
+   "category": "Compromised",
+   "primary_goal": "compromised_station_work",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.9,
+   "race_reference": "100m",
+   "full_prescription": "4r: 600m run + 25m race load"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_benchmark",
+   "station": "Sandbag Lunge",
+   "category": "Benchmark",
+   "primary_goal": "repeatable_test",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.99,
+   "race_reference": "100m",
+   "full_prescription": "100m benchmark @ race load"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_micro",
+   "station": "Sandbag Lunge",
+   "category": "Micro",
+   "primary_goal": "minimum_effective_dose",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.6,
+   "race_reference": "100m",
+   "full_prescription": "12m: 12 lunges + 250m easy Row"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_hybrid_a",
+   "station": "Sandbag Lunge",
+   "category": "Hybrid A",
+   "primary_goal": "complementary_hybrid",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "race_reference": "100m",
+   "full_prescription": "4r: 25m lunges + 500m Row"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_hybrid_b",
+   "station": "Sandbag Lunge",
+   "category": "Hybrid B",
+   "primary_goal": "run_station_hybrid",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "race_reference": "100m",
+   "full_prescription": "4r: 400m run + 20m lunges + 10 WB"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_density",
+   "station": "Sandbag Lunge",
+   "category": "Density",
+   "primary_goal": "work_density",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "race_reference": "100m",
+   "full_prescription": "15m: 16 steps + 200m Ski + 8 pushups"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_durability",
+   "station": "Sandbag Lunge",
+   "category": "Durability",
+   "primary_goal": "repeated_submax_durability",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "race_reference": "100m",
+   "full_prescription": "4 x 75m @ 65-75% / 90s"
+  },
+  {
+   "workout_id": "mx_wall_ball_technique",
+   "station": "Wall Ball",
+   "category": "Technique",
+   "primary_goal": "skill_economy",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.45,
+   "race_reference": "100 reps",
+   "full_prescription": "8 x 10 light technique reps"
+  },
+  {
+   "workout_id": "mx_wall_ball_base",
+   "station": "Wall Ball",
+   "category": "Base",
+   "primary_goal": "aerobic_local_durability",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.54,
+   "race_reference": "100 reps",
+   "full_prescription": "10 x 15 @ 50-75% race ball"
+  },
+  {
+   "workout_id": "mx_wall_ball_strength_power",
+   "station": "Wall Ball",
+   "category": "Strength-Power",
+   "primary_goal": "force_power_reserve",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.63,
+   "race_reference": "100 reps",
+   "full_prescription": "6 x 10 heavy WB/thrusters / 75-90s"
+  },
+  {
+   "workout_id": "mx_wall_ball_threshold",
+   "station": "Wall Ball",
+   "category": "Threshold",
+   "primary_goal": "sustainable_high_output",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "race_reference": "100 reps",
+   "full_prescription": "6 x 20 @ race ball / 60s"
+  },
+  {
+   "workout_id": "mx_wall_ball_race_specific",
+   "station": "Wall Ball",
+   "category": "Race Specific",
+   "primary_goal": "race_pacing",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.81,
+   "race_reference": "100 reps",
+   "full_prescription": "3 x 50 @ race ball / 2m"
+  },
+  {
+   "workout_id": "mx_wall_ball_compromised",
+   "station": "Wall Ball",
+   "category": "Compromised",
+   "primary_goal": "compromised_station_work",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.9,
+   "race_reference": "100 reps",
+   "full_prescription": "4r: 600m run + 25 WB"
+  },
+  {
+   "workout_id": "mx_wall_ball_benchmark",
+   "station": "Wall Ball",
+   "category": "Benchmark",
+   "primary_goal": "repeatable_test",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.99,
+   "race_reference": "100 reps",
+   "full_prescription": "100 WB benchmark"
+  },
+  {
+   "workout_id": "mx_wall_ball_micro",
+   "station": "Wall Ball",
+   "category": "Micro",
+   "primary_goal": "minimum_effective_dose",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.6,
+   "race_reference": "100 reps",
+   "full_prescription": "12m: 10 WB + 200m Row"
+  },
+  {
+   "workout_id": "mx_wall_ball_hybrid_a",
+   "station": "Wall Ball",
+   "category": "Hybrid A",
+   "primary_goal": "complementary_hybrid",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "race_reference": "100 reps",
+   "full_prescription": "5r: 15 WB + 400m Ski"
+  },
+  {
+   "workout_id": "mx_wall_ball_hybrid_b",
+   "station": "Wall Ball",
+   "category": "Hybrid B",
+   "primary_goal": "run_station_hybrid",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "race_reference": "100 reps",
+   "full_prescription": "4r: 400m run + 15 WB + 80ft carry"
+  },
+  {
+   "workout_id": "mx_wall_ball_density",
+   "station": "Wall Ball",
+   "category": "Density",
+   "primary_goal": "work_density",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "race_reference": "100 reps",
+   "full_prescription": "15m EMOM: 12 WB / 200m Row / 10 stepovers"
+  },
+  {
+   "workout_id": "mx_wall_ball_durability",
+   "station": "Wall Ball",
+   "category": "Durability",
+   "primary_goal": "repeated_submax_durability",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "race_reference": "100 reps",
+   "full_prescription": "5 x 30 @ race ball / 75s"
+  }
+ ]
+}

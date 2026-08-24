@@ -15,6 +15,7 @@ import { color, space, type as t } from '@/theme/tokens';
 import { useOnboarding } from '@/state/onboarding';
 import { fetchEquipment, type EquipmentOption } from '@/data/planRepo';
 import { DEFAULT_EQUIPMENT } from '@/data/athlete';
+import { EQUIPMENT } from '@/data/content';
 
 /** Readable headings for the category keys the library uses. */
 const CATEGORY_LABEL: Record<string, string> = {
@@ -29,22 +30,38 @@ export default function EquipmentScreen() {
   const router = useRouter();
   const { draft, update } = useOnboarding();
   const [options, setOptions] = useState<EquipmentOption[] | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  // Set when the library could not be reached and the bundled catalogue is
+  // standing in. Not surfaced as a blocking error: the shipped list is the same
+  // seed the server holds, so the athlete can answer and move on.
+  const [offline, setOffline] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
+    function apply(list: EquipmentOption[]) {
+      setOptions(list);
+      // Pre-select a sensible default the first time rather than starting
+      // empty, which reads as "you own nothing".
+      if (draft.equipment.length === 0 && list.length > 0) {
+        const ids = new Set(list.map(o => o.id));
+        update({ equipment: DEFAULT_EQUIPMENT.filter(id => ids.has(id)) });
+      }
+    }
     fetchEquipment()
       .then(list => {
         if (cancelled) return;
-        setOptions(list);
-        // Pre-select a sensible default the first time rather than starting
-        // empty, which reads as "you own nothing".
-        if (draft.equipment.length === 0 && list.length > 0) {
-          const ids = new Set(list.map(o => o.id));
-          update({ equipment: DEFAULT_EQUIPMENT.filter(id => ids.has(id)) });
-        }
+        // An unconfigured Supabase returns [] rather than throwing, and the
+        // seeded build should still get a list to answer with.
+        if (list.length === 0) { setOffline(true); apply(EQUIPMENT); return; }
+        apply(list);
       })
-      .catch(e => { if (!cancelled) setError(e instanceof Error ? e.message : 'Could not load equipment.'); });
+      .catch(e => {
+        if (cancelled) return;
+        // The library ships with the binary (PRD §15.1), so a failed fetch is a
+        // reason to fall back to it, not to strand the athlete mid-flow.
+        console.warn('[onboarding] equipment fetch failed, using bundled catalogue:', e);
+        setOffline(true);
+        apply(EQUIPMENT);
+      });
     return () => { cancelled = true; };
     // Runs once: re-running on draft changes would fight the athlete's edits.
   }, []);
@@ -68,9 +85,8 @@ export default function EquipmentScreen() {
       description="Sessions are only built from equipment you have. You can change this whenever your setup does."
       onBack={() => router.back()}
       onContinue={() => router.push('/availability' as never)}
-      error={error}
     >
-      {options === null && !error ? (
+      {options === null ? (
         <View style={{ paddingVertical: 40 }}>
           <ActivityIndicator color={color.red} />
         </View>
@@ -109,6 +125,19 @@ export default function EquipmentScreen() {
             />
           ))}
         </>
+      ) : null}
+
+      {offline ? (
+        <View style={{
+          marginHorizontal: space.gutter, marginBottom: 16,
+          borderWidth: 1, borderColor: color.rule,
+          paddingHorizontal: 13, paddingVertical: 12,
+        }}>
+          <Text style={[t.bodySm, { color: color.muted2 }]}>
+            We could not reach the equipment library, so this is the built-in list. Everything here
+            still works — you can fine-tune it later on Profile.
+          </Text>
+        </View>
       ) : null}
 
       {options !== null && draft.equipment.length === 0 ? (

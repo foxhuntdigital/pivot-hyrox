@@ -49,9 +49,16 @@ export function stimulusUrgency(
   }));
 }
 
-/** A template serves a stimulus if either of its goals names it. */
+/**
+ * A template serves a stimulus if any of its labels names it.
+ *
+ * Templates carry the taxonomy at two levels: `primary_goal` is the planner's
+ * coarse goal, `stimulus` the authored one it rolls up to. Both are matched, so
+ * widening what a phase asks for does not require re-labelling content.
+ */
 export function matchesStimulus(template: WorkoutTemplate, stimulusType: string): boolean {
   return template.primary_goal === stimulusType
+    || template.stimulus === stimulusType
     || template.secondary_goal === stimulusType
     || template.workout_family === stimulusType;
 }

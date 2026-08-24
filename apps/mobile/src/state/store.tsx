@@ -43,6 +43,13 @@ interface State {
   energy: Energy;
   flags: string[];
   equipment: string[];
+  /**
+   * Equipment for today only, narrowed by a Coach travel answer. Separate from
+   * `equipment` so a hotel week never overwrites the gym the athlete owns.
+   */
+  today_equipment: string[] | null;
+  /** A multi-day equipment change the athlete confirmed from Coach. */
+  travel: { equipment: string[]; days: string[] } | null;
   considerations: string[];
   typical_minutes: number;
   sleep_hours: number;
@@ -73,6 +80,8 @@ const initialState: State = {
   energy: 'normal',
   flags: ['Low sleep'],
   equipment: DEFAULT_EQUIPMENT,
+  today_equipment: null,
+  travel: null,
   considerations: DEFAULT_CONSIDERATIONS,
   typical_minutes: 45,
   sleep_hours: 4.17,
@@ -92,6 +101,36 @@ const initialState: State = {
   queue_reordered: false,
 };
 
+/**
+ * The slice a Coach commitment can change, and therefore the slice an undo has
+ * to put back.
+ */
+export interface Restorable {
+  available_minutes: number;
+  energy: Energy;
+  flags: string[];
+  today_equipment: string[] | null;
+  travel: State['travel'];
+  override_template_id: string | null;
+  override_variant: VariantCode | null;
+  adapted: boolean;
+  queue_reordered: boolean;
+}
+
+export function snapshot(s: State): Restorable {
+  return {
+    available_minutes: s.available_minutes,
+    energy: s.energy,
+    flags: [...s.flags],
+    today_equipment: s.today_equipment,
+    travel: s.travel,
+    override_template_id: s.override_template_id,
+    override_variant: s.override_variant,
+    adapted: s.adapted,
+    queue_reordered: s.queue_reordered,
+  };
+}
+
 type Action =
   | { type: 'set_name'; name: string }
   | { type: 'set_experience'; level: ExperienceLevel }
@@ -104,6 +143,10 @@ type Action =
   | { type: 'toggle_consideration'; name: string }
   | { type: 'set_typical'; minutes: number }
   | { type: 'accept_adaptation'; template_id: string; variant: VariantCode }
+  | { type: 'set_today_equipment'; equipment: string[] | null }
+  | { type: 'set_travel'; travel: State['travel'] }
+  | { type: 'set_queue_order'; reordered: boolean }
+  | { type: 'restore'; snapshot: Restorable }
   | { type: 'start_workout' }
   | { type: 'next_step'; total: number }
   | { type: 'tick' }
@@ -154,6 +197,17 @@ function reducer(s: State, a: Action): State {
 
     case 'accept_adaptation':
       return { ...s, override_template_id: a.template_id, override_variant: a.variant, adapted: true };
+    case 'set_today_equipment':
+      return { ...s, today_equipment: a.equipment };
+    case 'set_travel':
+      return { ...s, travel: a.travel };
+    case 'set_queue_order':
+      return { ...s, queue_reordered: a.reordered };
+    // Undo (PRD §2 — an adaptation the athlete accepted is theirs to take back).
+    // Restoring the whole adaptable slice is what makes a Coach commitment
+    // reversible without each action having to author its own inverse.
+    case 'restore':
+      return { ...s, ...a.snapshot };
 
     case 'start_workout':
       return { ...s, status: 'active_block', step_index: 0, elapsed_seconds: 0, ended_early: false };
@@ -269,6 +323,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const engineInput = useMemo<EngineInput>(() => {
     const noEquipment = state.flags.includes('No equipment');
+    const equipment = state.today_equipment ?? state.equipment;
     return {
       local_date: today?.date_local ?? new Date().toISOString().slice(0, 10),
       phase_type: (today?.phase?.type as EngineInput['phase_type']) ?? PHASE.type,
@@ -280,7 +335,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       energy: state.energy,
       sleep_hours: state.flags.includes('Low sleep') ? state.sleep_hours : 7.5,
       available_minutes: state.available_minutes,
-      available_equipment: noEquipment ? ['bodyweight'] : state.equipment,
+      available_equipment: noEquipment ? ['bodyweight'] : equipment,
       low_impact_required: state.flags.includes('Need low impact'),
       symptom_flags: state.flags.includes('Something hurts') ? ['Something hurts'] : [],
       considerations: state.considerations,
@@ -289,7 +344,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       variation_tolerance: 1,
     };
   }, [state.energy, state.flags, state.available_minutes, state.equipment,
-      state.considerations, state.sleep_hours, today]);
+      state.today_equipment, state.considerations, state.sleep_hours, today]);
 
   /**
    * The server's decision is authoritative when there is one — it is the one

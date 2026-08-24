@@ -38,6 +38,15 @@
       ]
     },
     {
+      "id": "ex_rowerg",
+      "name": "RowErg",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [
+        "row_erg"
+      ]
+    },
+    {
       "id": "ex_sled_push",
       "name": "Sled Push",
       "impact_level": "medium",
@@ -403,7 +412,8 @@
       "id": "wo_zone_2_run_30",
       "name": "Zone 2 Run 30",
       "workout_family": "run_base",
-      "primary_goal": "aerobic_base",
+      "primary_goal": "aerobic_durability",
+      "stimulus": "aerobic_base",
       "secondary_goal": "running_economy",
       "estimated_minutes": 30,
       "intensity_target": "RPE 3-4",
@@ -469,7 +479,8 @@
       "id": "wo_zone_2_run_45",
       "name": "Zone 2 Run 45",
       "workout_family": "run_base",
-      "primary_goal": "aerobic_base",
+      "primary_goal": "aerobic_durability",
+      "stimulus": "aerobic_base",
       "secondary_goal": "running_economy",
       "estimated_minutes": 45,
       "intensity_target": "RPE 3-4",
@@ -534,7 +545,8 @@
       "id": "wo_run_walk_rebuild",
       "name": "Run Walk Rebuild",
       "workout_family": "run_base",
-      "primary_goal": "aerobic_base",
+      "primary_goal": "aerobic_durability",
+      "stimulus": "aerobic_base",
       "secondary_goal": "return_to_run",
       "estimated_minutes": 30,
       "intensity_target": "RPE 3-4",
@@ -609,6 +621,7 @@
       "name": "Tempo 3x6",
       "workout_family": "run_quality",
       "primary_goal": "threshold",
+      "stimulus": "threshold",
       "secondary_goal": "running_economy",
       "estimated_minutes": 35,
       "intensity_target": "RPE 6-7",
@@ -673,7 +686,8 @@
       "id": "wo_1k_repeat_builder",
       "name": "1K Repeat Builder",
       "workout_family": "run_quality",
-      "primary_goal": "race_pace",
+      "primary_goal": "race_specific",
+      "stimulus": "race_pace",
       "secondary_goal": "threshold",
       "estimated_minutes": 42,
       "intensity_target": "RPE 6-7",
@@ -739,7 +753,8 @@
       "id": "wo_ski_zone_2_30",
       "name": "Ski Zone 2 30",
       "workout_family": "ski_base",
-      "primary_goal": "aerobic_base",
+      "primary_goal": "aerobic_durability",
+      "stimulus": "aerobic_base",
       "secondary_goal": "ski_efficiency",
       "estimated_minutes": 30,
       "intensity_target": "RPE 3-4",
@@ -805,7 +820,8 @@
       "id": "wo_ski_10x250",
       "name": "Ski 10x250",
       "workout_family": "ski_quality",
-      "primary_goal": "power_endurance",
+      "primary_goal": "threshold",
+      "stimulus": "power_endurance",
       "secondary_goal": "ski_efficiency",
       "estimated_minutes": 30,
       "intensity_target": "RPE 6-7",
@@ -872,6 +888,7 @@
       "name": "Ski 5x500",
       "workout_family": "ski_quality",
       "primary_goal": "threshold",
+      "stimulus": "threshold",
       "secondary_goal": "ski_efficiency",
       "estimated_minutes": 35,
       "intensity_target": "RPE 6-7",
@@ -938,6 +955,7 @@
       "name": "HYROX Legs A",
       "workout_family": "strength_legs",
       "primary_goal": "strength",
+      "stimulus": "strength",
       "secondary_goal": "sled_lunge",
       "estimated_minutes": 65,
       "intensity_target": "RPE 7",
@@ -1036,7 +1054,8 @@
       "id": "wo_hyrox_legs_b",
       "name": "HYROX Legs B",
       "workout_family": "strength_legs",
-      "primary_goal": "strength_endurance",
+      "primary_goal": "strength",
+      "stimulus": "strength_endurance",
       "secondary_goal": "sled_lunge",
       "estimated_minutes": 60,
       "intensity_target": "RPE 7",
@@ -1136,6 +1155,7 @@
       "name": "HYROX Push A",
       "workout_family": "strength_push",
       "primary_goal": "strength",
+      "stimulus": "strength",
       "secondary_goal": "wall_ball",
       "estimated_minutes": 55,
       "intensity_target": "RPE 7",
@@ -1235,6 +1255,7 @@
       "name": "HYROX Pull A",
       "workout_family": "strength_pull",
       "primary_goal": "strength",
+      "stimulus": "strength",
       "secondary_goal": "grip_posterior",
       "estimated_minutes": 60,
       "intensity_target": "RPE 7",
@@ -1333,7 +1354,8 @@
       "id": "wo_run_ski_carry_builder",
       "name": "Run Ski Carry Builder",
       "workout_family": "hybrid",
-      "primary_goal": "aerobic_capacity",
+      "primary_goal": "aerobic_durability",
+      "stimulus": "aerobic_capacity",
       "secondary_goal": "hyrox_capacity",
       "estimated_minutes": 55,
       "intensity_target": "RPE 5-6",
@@ -1424,6 +1446,7 @@
       "name": "Compromised Run Wall Ball",
       "workout_family": "hybrid",
       "primary_goal": "race_specific",
+      "stimulus": "race_specific",
       "secondary_goal": "hyrox_capacity",
       "estimated_minutes": 45,
       "intensity_target": "RPE 5-6",
@@ -1498,6 +1521,7 @@
       "name": "Sled Sandwich",
       "workout_family": "hybrid",
       "primary_goal": "race_specific",
+      "stimulus": "race_specific",
       "secondary_goal": "hyrox_capacity",
       "estimated_minutes": 50,
       "intensity_target": "RPE 5-6",
@@ -1580,6 +1604,7 @@
       "name": "Burpee Run Builder",
       "workout_family": "hybrid",
       "primary_goal": "race_specific",
+      "stimulus": "race_specific",
       "secondary_goal": "hyrox_capacity",
       "estimated_minutes": 40,
       "intensity_target": "RPE 5-6",
@@ -1653,7 +1678,8 @@
       "id": "wo_carry_lunge_chipper",
       "name": "Carry Lunge Chipper",
       "workout_family": "hybrid",
-      "primary_goal": "strength_endurance",
+      "primary_goal": "strength",
+      "stimulus": "strength_endurance",
       "secondary_goal": "hyrox_capacity",
       "estimated_minutes": 45,
       "intensity_target": "RPE 5-6",
@@ -1744,6 +1770,7 @@
       "name": "Long Hybrid 60",
       "workout_family": "hybrid",
       "primary_goal": "aerobic_durability",
+      "stimulus": "aerobic_durability",
       "secondary_goal": "hyrox_capacity",
       "estimated_minutes": 60,
       "intensity_target": "RPE 5-6",
@@ -1842,6 +1869,7 @@
       "name": "Long Hybrid 75",
       "workout_family": "hybrid",
       "primary_goal": "aerobic_durability",
+      "stimulus": "aerobic_durability",
       "secondary_goal": "hyrox_capacity",
       "estimated_minutes": 75,
       "intensity_target": "RPE 5-6",
@@ -1939,7 +1967,8 @@
       "id": "wo_ski_wall_ball_ladder",
       "name": "Ski Wall Ball Ladder",
       "workout_family": "hybrid",
-      "primary_goal": "station_durability",
+      "primary_goal": "race_specific",
+      "stimulus": "station_durability",
       "secondary_goal": "hyrox_capacity",
       "estimated_minutes": 35,
       "intensity_target": "RPE 5-6",
@@ -2013,7 +2042,8 @@
       "id": "wo_ski_sled_combo",
       "name": "Ski Sled Combo",
       "workout_family": "hybrid",
-      "primary_goal": "sled_efficiency",
+      "primary_goal": "race_specific",
+      "stimulus": "sled_efficiency",
       "secondary_goal": "hyrox_capacity",
       "estimated_minutes": 40,
       "intensity_target": "RPE 5-6",
@@ -2095,7 +2125,8 @@
       "id": "wo_run_farmer_lunge",
       "name": "Run Farmer Lunge",
       "workout_family": "hybrid",
-      "primary_goal": "compromised_running",
+      "primary_goal": "race_specific",
+      "stimulus": "compromised_running",
       "secondary_goal": "hyrox_capacity",
       "estimated_minutes": 45,
       "intensity_target": "RPE 5-6",
@@ -2178,6 +2209,7 @@
       "name": "Run Ski Wall Ball",
       "workout_family": "hybrid",
       "primary_goal": "race_specific",
+      "stimulus": "race_specific",
       "secondary_goal": "hyrox_capacity",
       "estimated_minutes": 50,
       "intensity_target": "RPE 5-6",
@@ -2260,6 +2292,7 @@
       "name": "Run Sled Wall Ball",
       "workout_family": "hybrid",
       "primary_goal": "race_specific",
+      "stimulus": "race_specific",
       "secondary_goal": "hyrox_capacity",
       "estimated_minutes": 50,
       "intensity_target": "RPE 5-6",
@@ -2341,7 +2374,8 @@
       "id": "wo_ski_carry_burpee",
       "name": "Ski Carry Burpee",
       "workout_family": "hybrid",
-      "primary_goal": "station_durability",
+      "primary_goal": "race_specific",
+      "stimulus": "station_durability",
       "secondary_goal": "hyrox_capacity",
       "estimated_minutes": 40,
       "intensity_target": "RPE 5-6",
@@ -2423,7 +2457,8 @@
       "id": "wo_treadmill_incline_hybrid",
       "name": "Treadmill Incline Hybrid",
       "workout_family": "hybrid",
-      "primary_goal": "aerobic_strength",
+      "primary_goal": "strength",
+      "stimulus": "aerobic_strength",
       "secondary_goal": "hyrox_capacity",
       "estimated_minutes": 40,
       "intensity_target": "RPE 5-6",
@@ -2505,7 +2540,8 @@
       "id": "wo_box_carry_engine",
       "name": "Box Carry Engine",
       "workout_family": "hybrid",
-      "primary_goal": "aerobic_strength",
+      "primary_goal": "strength",
+      "stimulus": "aerobic_strength",
       "secondary_goal": "hyrox_capacity",
       "estimated_minutes": 40,
       "intensity_target": "RPE 5-6",
@@ -2587,7 +2623,8 @@
       "id": "wo_hyrox_density_emom_20",
       "name": "HYROX Density EMOM 20",
       "workout_family": "density",
-      "primary_goal": "station_durability",
+      "primary_goal": "race_specific",
+      "stimulus": "station_durability",
       "secondary_goal": "transition_efficiency",
       "estimated_minutes": 20,
       "intensity_target": "RPE 6",
@@ -2685,7 +2722,8 @@
       "id": "wo_micro_engine_12",
       "name": "Micro Engine 12",
       "workout_family": "micro",
-      "primary_goal": "aerobic_maintenance",
+      "primary_goal": "aerobic_durability",
+      "stimulus": "aerobic_maintenance",
       "secondary_goal": "time_crunched",
       "estimated_minutes": 12,
       "intensity_target": "RPE 5",
@@ -2759,7 +2797,8 @@
       "id": "wo_micro_strength_legs_15",
       "name": "Micro Strength Legs 15",
       "workout_family": "micro",
-      "primary_goal": "strength_maintenance",
+      "primary_goal": "strength",
+      "stimulus": "strength_maintenance",
       "secondary_goal": "time_crunched",
       "estimated_minutes": 15,
       "intensity_target": "RPE 6",
@@ -2840,7 +2879,8 @@
       "id": "wo_micro_upper_15",
       "name": "Micro Upper 15",
       "workout_family": "micro",
-      "primary_goal": "strength_maintenance",
+      "primary_goal": "strength",
+      "stimulus": "strength_maintenance",
       "secondary_goal": "time_crunched",
       "estimated_minutes": 15,
       "intensity_target": "RPE 6",
@@ -2921,7 +2961,8 @@
       "id": "wo_micro_hyrox_18",
       "name": "Micro HYROX 18",
       "workout_family": "micro",
-      "primary_goal": "hyrox_maintenance",
+      "primary_goal": "race_specific",
+      "stimulus": "hyrox_maintenance",
       "secondary_goal": "time_crunched",
       "estimated_minutes": 18,
       "intensity_target": "RPE 6",
@@ -3004,6 +3045,7 @@
       "name": "Recovery Spin Mobility",
       "workout_family": "recovery",
       "primary_goal": "recovery",
+      "stimulus": "recovery",
       "secondary_goal": "aerobic_maintenance",
       "estimated_minutes": 30,
       "intensity_target": "RPE 2-3",
@@ -3078,6 +3120,7 @@
       "name": "Half HYROX Simulation",
       "workout_family": "simulation",
       "primary_goal": "race_specific",
+      "stimulus": "race_specific",
       "secondary_goal": "pacing",
       "estimated_minutes": 75,
       "intensity_target": "RPE 7",
@@ -3194,6 +3237,1813 @@
           ]
         }
       ]
+    },
+    {
+      "id": "wo_row_technique_plus_aerobic_base_30",
+      "name": "Row Technique + Aerobic Base 30",
+      "workout_family": "row_base",
+      "primary_goal": "aerobic_durability",
+      "stimulus": "aerobic_base",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 30,
+      "intensity_target": "RPE 3-4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 30,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 20,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 9,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_row_technique_plus_aerobic_base_30_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": null,
+          "duration_minutes": 30,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 30,
+              "quantity_unit": "min",
+              "intensity_note": "RPE 3-4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_row_zone_2_45",
+      "name": "Row Zone 2 45",
+      "workout_family": "row_base",
+      "primary_goal": "aerobic_durability",
+      "stimulus": "aerobic_base",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 45,
+      "intensity_target": "RPE 3-4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 29,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 14,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_row_zone_2_45_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": null,
+          "duration_minutes": 45,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "min",
+              "intensity_note": "RPE 3-4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_row_rate_ladder_20_24",
+      "name": "Row Rate Ladder 20-24",
+      "workout_family": "row_skill",
+      "primary_goal": "aerobic_durability",
+      "stimulus": "row_efficiency",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 30,
+      "intensity_target": "RPE 3-5",
+      "impact_level": "low",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 30,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 20,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 9,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_row_rate_ladder_20_24_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": null,
+          "duration_minutes": 30,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 3,
+              "quantity_unit": "min",
+              "intensity_note": "comfortable @ 20 spm"
+            },
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 3,
+              "quantity_unit": "min",
+              "intensity_note": "moderate @ 22 spm"
+            },
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 3,
+              "prescription_type": "duration",
+              "quantity": 3,
+              "quantity_unit": "min",
+              "intensity_note": "controlled @ 24 spm"
+            },
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 4,
+              "prescription_type": "duration",
+              "quantity": 10,
+              "quantity_unit": "min",
+              "intensity_note": "RPE 3-4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_row_10x250_speed",
+      "name": "Row 10x250 Speed",
+      "workout_family": "row_quality",
+      "primary_goal": "threshold",
+      "stimulus": "power_endurance",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 30,
+      "intensity_target": "RPE 7",
+      "impact_level": "low",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 30,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 20,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 9,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_row_10x250_speed_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": 10,
+          "duration_minutes": null,
+          "rest_seconds": 45,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 250,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_row_8x500_threshold",
+      "name": "Row 8x500 Threshold",
+      "workout_family": "row_quality",
+      "primary_goal": "threshold",
+      "stimulus": "threshold",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 40,
+      "intensity_target": "RPE 7",
+      "impact_level": "low",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 40,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 26,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 12,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_row_8x500_threshold_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": 8,
+          "duration_minutes": null,
+          "rest_seconds": 90,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_row_5x1000_race_builder",
+      "name": "Row 5x1000 Race Builder",
+      "workout_family": "row_quality",
+      "primary_goal": "race_specific",
+      "stimulus": "race_pace",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 45,
+      "intensity_target": "RPE 6-7",
+      "impact_level": "low",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 29,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 14,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_row_5x1000_race_builder_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": 5,
+          "duration_minutes": null,
+          "rest_seconds": 120,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 1000,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6-7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_row_descending_ladder_2k_500",
+      "name": "Row Descending Ladder 2K-500",
+      "workout_family": "row_quality",
+      "primary_goal": "threshold",
+      "stimulus": "threshold",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 40,
+      "intensity_target": "RPE 6-8",
+      "impact_level": "low",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 40,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 26,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 12,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_row_descending_ladder_2k_500_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": null,
+          "duration_minutes": 40,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 2000,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 1500,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6-7"
+            },
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 3,
+              "prescription_type": "distance",
+              "quantity": 1000,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 7"
+            },
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 4,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_hyrox_row_benchmark_1000",
+      "name": "HYROX Row Benchmark 1000",
+      "workout_family": "benchmark",
+      "primary_goal": "race_specific",
+      "stimulus": "race_specific",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 25,
+      "intensity_target": "RPE 8-9",
+      "impact_level": "low",
+      "hyrox_specificity": 1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 25,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 16,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_hyrox_row_benchmark_1000_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": null,
+          "duration_minutes": 25,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 1000,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 8-9 time trial"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_compromised_run_plus_row",
+      "name": "Compromised Run + Row",
+      "workout_family": "hybrid_specific",
+      "primary_goal": "race_specific",
+      "stimulus": "compromised_running",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 50,
+      "intensity_target": "RPE 6",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 50,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 33,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 15,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_compromised_run_plus_row_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 800,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 5-6"
+            },
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 750,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_run_row_wall_ball_builder",
+      "name": "Run-Row-Wall Ball Builder",
+      "workout_family": "hybrid_specific",
+      "primary_goal": "race_specific",
+      "stimulus": "race_specific",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 50,
+      "intensity_target": "RPE 6",
+      "impact_level": "medium",
+      "hyrox_specificity": 1,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 50,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 33,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 15,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_run_row_wall_ball_builder_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 600,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 5-6"
+            },
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_wall_ball",
+              "sequence_order": 3,
+              "prescription_type": "reps",
+              "quantity": 15,
+              "quantity_unit": "reps",
+              "intensity_note": "smooth"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_row_plus_farmer_carry_engine",
+      "name": "Row + Farmer Carry Engine",
+      "workout_family": "hybrid_engine",
+      "primary_goal": "strength",
+      "stimulus": "aerobic_strength",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 40,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 40,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 26,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 12,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_row_plus_farmer_carry_engine_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": 5,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 5-6"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 100,
+              "quantity_unit": "ft",
+              "intensity_note": "moderate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_row_plus_sandbag_lunge_engine",
+      "name": "Row + Sandbag Lunge Engine",
+      "workout_family": "hybrid_engine",
+      "primary_goal": "strength",
+      "stimulus": "strength_endurance",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 40,
+      "intensity_target": "RPE 6",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 40,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 26,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 12,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_row_plus_sandbag_lunge_engine_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 600,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_sandbag_walking_lunge",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 20,
+              "quantity_unit": "steps",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_ski_row_aerobic_brick",
+      "name": "Ski-Row Aerobic Brick",
+      "workout_family": "erg_engine",
+      "primary_goal": "aerobic_durability",
+      "stimulus": "aerobic_capacity",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 40,
+      "intensity_target": "RPE 4-5",
+      "impact_level": "low",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": true,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 40,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 26,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 12,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_ski_row_aerobic_brick_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": 5,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 4-5"
+            },
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 4-5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_ski_row_threshold_alternator",
+      "name": "Ski-Row Threshold Alternator",
+      "workout_family": "erg_quality",
+      "primary_goal": "threshold",
+      "stimulus": "threshold",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 36,
+      "intensity_target": "RPE 6-7",
+      "impact_level": "low",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": true,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 36,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 23,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 11,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_ski_row_threshold_alternator_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6-7"
+            },
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6-7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_row_sled_sandwich",
+      "name": "Row Sled Sandwich",
+      "workout_family": "hybrid_specific",
+      "primary_goal": "race_specific",
+      "stimulus": "race_specific",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 45,
+      "intensity_target": "RPE 6-7",
+      "impact_level": "medium",
+      "hyrox_specificity": 1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 45,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 29,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 14,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_row_sled_sandwich_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 500,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_sled_push",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 40,
+              "quantity_unit": "ft",
+              "intensity_note": "strong"
+            },
+            {
+              "exercise_id": "ex_sled_pull",
+              "sequence_order": 3,
+              "prescription_type": "distance",
+              "quantity": 40,
+              "quantity_unit": "ft",
+              "intensity_note": "strong"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_row_burpee_compromised_engine",
+      "name": "Row Burpee Compromised Engine",
+      "workout_family": "hybrid_specific",
+      "primary_goal": "race_specific",
+      "stimulus": "station_durability",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 35,
+      "intensity_target": "RPE 6-7",
+      "impact_level": "high",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 35,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 23,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 11,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_row_burpee_compromised_engine_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": 5,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 400,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_burpee_broad_jump",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 8,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_row_density_emom_20",
+      "name": "Row Density EMOM 20",
+      "workout_family": "density",
+      "primary_goal": "race_specific",
+      "stimulus": "station_durability",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 20,
+      "intensity_target": "RPE 6",
+      "impact_level": "medium",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 20,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 13,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_row_density_emom_20_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": null,
+          "duration_minutes": 20,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 200,
+              "quantity_unit": "m",
+              "intensity_note": "controlled"
+            },
+            {
+              "exercise_id": "ex_wall_ball",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 10,
+              "quantity_unit": "reps",
+              "intensity_note": "smooth"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 3,
+              "prescription_type": "distance",
+              "quantity": 80,
+              "quantity_unit": "ft",
+              "intensity_note": "moderate"
+            },
+            {
+              "exercise_id": "ex_box_step_over",
+              "sequence_order": 4,
+              "prescription_type": "reps",
+              "quantity": 12,
+              "quantity_unit": "reps",
+              "intensity_note": "steady"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_micro_row_engine_12",
+      "name": "Micro Row Engine 12",
+      "workout_family": "micro",
+      "primary_goal": "aerobic_durability",
+      "stimulus": "aerobic_maintenance",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 12,
+      "intensity_target": "RPE 5",
+      "impact_level": "low",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 12,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_micro_row_engine_12_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Repeat the circuit for the time available",
+          "rounds": null,
+          "duration_minutes": 12,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 250,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_air_squat",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 10,
+              "quantity_unit": "reps",
+              "intensity_note": "smooth"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_micro_hyrox_row_18",
+      "name": "Micro HYROX Row 18",
+      "workout_family": "micro",
+      "primary_goal": "race_specific",
+      "stimulus": "hyrox_maintenance",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 18,
+      "intensity_target": "RPE 6",
+      "impact_level": "low",
+      "hyrox_specificity": 1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 18,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 12,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_micro_hyrox_row_18_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Repeat the circuit for the time available",
+          "rounds": null,
+          "duration_minutes": 18,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 300,
+              "quantity_unit": "m",
+              "intensity_note": "steady"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 60,
+              "quantity_unit": "ft",
+              "intensity_note": "moderate"
+            },
+            {
+              "exercise_id": "ex_wall_ball",
+              "sequence_order": 3,
+              "prescription_type": "reps",
+              "quantity": 10,
+              "quantity_unit": "reps",
+              "intensity_note": "smooth"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_hyrox_row_under_fatigue_benchmark",
+      "name": "HYROX Row Under Fatigue Benchmark",
+      "workout_family": "benchmark",
+      "primary_goal": "race_specific",
+      "stimulus": "race_specific",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 35,
+      "intensity_target": "RPE 7-8",
+      "impact_level": "medium",
+      "hyrox_specificity": 1,
+      "postpartum_friendly": true,
+      "requires_running": true,
+      "requires_ski": false,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 35,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 23,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 11,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_hyrox_row_under_fatigue_benchmark_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": null,
+          "duration_minutes": 35,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_run",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 1000,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 1000,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 8 time trial"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_long_erg_engine_60",
+      "name": "Long Erg Engine 60",
+      "workout_family": "long_engine",
+      "primary_goal": "aerobic_durability",
+      "stimulus": "aerobic_durability",
+      "secondary_goal": "row_efficiency",
+      "estimated_minutes": 60,
+      "intensity_target": "RPE 4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.8,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": true,
+      "description": "RowErg expansion workout.",
+      "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 60,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 39,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 18,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_long_erg_engine_60_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "Complete listed prescription at repeatable effort.",
+          "rounds": 2,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_rowerg",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 10,
+              "quantity_unit": "min",
+              "intensity_note": "RPE 4"
+            },
+            {
+              "exercise_id": "ex_skierg",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 10,
+              "quantity_unit": "min",
+              "intensity_note": "RPE 4"
+            },
+            {
+              "exercise_id": "ex_spin_bike",
+              "sequence_order": 3,
+              "prescription_type": "duration",
+              "quantity": 10,
+              "quantity_unit": "min",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mx_sled_push_density",
+      "name": "Sled Push — Density",
+      "workout_family": "station_sled_push",
+      "primary_goal": "race_specific",
+      "stimulus": "work_density",
+      "secondary_goal": null,
+      "estimated_minutes": 15,
+      "intensity_target": null,
+      "impact_level": "low",
+      "hyrox_specificity": 0.88,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Adaptive Athlete HYROX Station Matrix v1 workout.",
+      "coaching_notes": null,
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 15,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "mx_sled_push_density_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Repeat the circuit for the time available",
+          "rounds": null,
+          "duration_minutes": 15,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_sled_push",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 40,
+              "quantity_unit": "ft",
+              "intensity_note": "push"
+            },
+            {
+              "exercise_id": "ex_box_step_over",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 12,
+              "quantity_unit": "steps",
+              "intensity_note": "overs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mx_farmer_carry_micro",
+      "name": "Farmer Carry — Micro",
+      "workout_family": "station_farmer_carry",
+      "primary_goal": "strength",
+      "stimulus": "minimum_effective_dose",
+      "secondary_goal": null,
+      "estimated_minutes": 12,
+      "intensity_target": null,
+      "impact_level": "low",
+      "hyrox_specificity": 0.6,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Adaptive Athlete HYROX Station Matrix v1 workout.",
+      "coaching_notes": null,
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 12,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "mx_farmer_carry_micro_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Repeat the circuit for the time available",
+          "rounds": null,
+          "duration_minutes": 12,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 60,
+              "quantity_unit": "m",
+              "intensity_note": "carry"
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 8,
+              "quantity_unit": "reps",
+              "intensity_note": "goblet squats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mx_farmer_carry_density",
+      "name": "Farmer Carry — Density",
+      "workout_family": "station_farmer_carry",
+      "primary_goal": "race_specific",
+      "stimulus": "work_density",
+      "secondary_goal": null,
+      "estimated_minutes": 15,
+      "intensity_target": null,
+      "impact_level": "low",
+      "hyrox_specificity": 0.88,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Adaptive Athlete HYROX Station Matrix v1 workout.",
+      "coaching_notes": null,
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 15,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "mx_farmer_carry_density_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Repeat the circuit for the time available",
+          "rounds": null,
+          "duration_minutes": 15,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 60,
+              "quantity_unit": "m",
+              "intensity_note": "carry"
+            },
+            {
+              "exercise_id": "ex_wall_ball",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 10,
+              "quantity_unit": "reps",
+              "intensity_note": "WB"
+            },
+            {
+              "exercise_id": "ex_box_step_over",
+              "sequence_order": 3,
+              "prescription_type": "reps",
+              "quantity": 8,
+              "quantity_unit": "reps",
+              "intensity_note": "overs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "run_micro_run_01",
+      "name": "Micro Easy 12",
+      "workout_family": "micro",
+      "primary_goal": "aerobic_durability",
+      "stimulus": "minimum_effective_dose",
+      "secondary_goal": null,
+      "estimated_minutes": 12,
+      "intensity_target": "RPE 3-4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.62,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Adaptive Athlete Running Expansion v1 workout.",
+      "coaching_notes": null,
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 12,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "minimum effective dose; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "run_micro_run_01_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Hold a repeatable effort",
+          "rounds": null,
+          "duration_minutes": 12,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_incline_walk",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 12,
+              "quantity_unit": "min",
+              "intensity_note": "easy continuous run or run-walk"
+            }
+          ]
+        }
+      ]
     }
   ],
   "substitutions": [
@@ -3205,9 +5055,15 @@
     },
     {
       "exercise_id": "ex_run",
+      "substitute_exercise_id": "ex_rowerg",
+      "reason": "low-impact engine substitute",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_run",
       "substitute_exercise_id": "ex_incline_walk",
       "reason": "return-to-run / symptoms",
-      "priority": 2
+      "priority": 3
     },
     {
       "exercise_id": "ex_burpee_broad_jump",
@@ -3265,6 +5121,11 @@
     {
       "id": "bike",
       "name": "Spin bike",
+      "category": "cardio"
+    },
+    {
+      "id": "row_erg",
+      "name": "Rower",
       "category": "cardio"
     },
     {

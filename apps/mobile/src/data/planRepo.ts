@@ -69,7 +69,10 @@ export async function fetchEquipment(): Promise<EquipmentOption[]> {
   if (!supabase) return [];
   const { data, error } = await supabase
     .schema('content').from('equipment').select('id, name, category').order('category');
-  if (error) throw error;
+  // PostgrestError is a plain object, not an Error, so rethrowing it as-is left
+  // every caller's `instanceof Error` check false and the real cause — schema
+  // not exposed, permission denied — replaced by a generic fallback message.
+  if (error) throw new Error(error.message + (error.hint ? ` (${error.hint})` : ''));
   return (data ?? []) as EquipmentOption[];
 }
 

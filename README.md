@@ -22,7 +22,7 @@ supabase/
   functions/          Edge Functions (today, adapt, complete-workout)
 tests/engine-fixtures Real curated library, engine-shaped
 data/                 Source PRD + seed database as supplied
-scripts/              Seed conversion, fixture build, schema verification
+scripts/              Seed conversion, pack import, fixture build, schema verification
 ```
 
 The engine is a **pure function** with explicit `.ts` import specifiers, so the
@@ -88,9 +88,66 @@ Ranking is stable regardless of input ordering, and every decision carries
 
 The supplied SQLite seed is converted to Postgres by `scripts/convert-seed.mjs`,
 which parses each row rather than hand-editing 534 INSERTs. Integer flags become
-booleans (198 conversions). Verified counts: 43 exercises, 34 templates, 102
-variants, 103 block exercises, 23 equipment, 8 substitutions, 7 progression
-rules — matching the source JSON's own `meta` block.
+booleans (263 conversions). Verified counts: 44 exercises, 59 templates, 177
+variants, 157 block exercises, 24 equipment, 9 substitutions, 7 progression
+rules, 32 station programming rules.
+
+Training goals are a **two-level taxonomy**. The planner only ever asks for five
+stimuli (`BASE_STIMULI` in `periodization.ts`), but the content packs speak a much
+richer vocabulary — `lactate_threshold`, `work_density`, `force_power_reserve` and
+forty-odd more. A template carries both: `stimulus` is the authored value,
+`primary_goal` the planner-facing goal it rolls up to, and ranking matches either.
+`primary_goal` is *derived* by `scripts/apply-taxonomy.mjs`, so the two cannot
+drift — edit the stimulus and re-run. A few stimuli resolve on the session rather
+than the name: `power_endurance` is threshold work on an erg and strength work on
+a heavy sled, so the roll-up reads the exercises' modalities.
+
+Some authored values describe the **dose** rather than the goal.
+`minimum_effective_dose` is what a Micro variant *is*, not what it trains — a
+Micro threshold session is still threshold, a Micro aerobic session is still
+aerobic durability — so mapping it globally would mislabel every session using
+it. Those resolve from the session's own evidence (intensity first, then whether
+the work is loaded, then whether it rehearses several race stations) and are
+reported as wanting a real stimulus declared in their pack.
+
+These run above the supplied dump's own `meta` figures because content packs
+are folded in on top of it: the rower as equipment, `ex_rowerg` and its
+substitution for running, 21 row-based workouts, and the parts of the HYROX
+station matrix and running expansion that are fit to publish.
+
+### Content packs
+
+A pack is JSON in `data/`, merged into the dump by `scripts/import-workouts.mjs`
+(`npm run seed:import`). Re-running an import replaces that pack's rows rather
+than duplicating them, and removes anything dropped from the pack — provenance
+is the pack label on `workout_variants.notes`.
+
+**Every prescribed quantity must carry an explicit `prescription_type` and
+`unit`.** This is enforced twice: the importer refuses a pack that omits either,
+and Postgres refuses the row (`prescription_type` is `NOT NULL` with a `CHECK`,
+`quantity_unit` is `NOT NULL`). The rule exists because prose prescriptions are
+underspecified — `m` is overloaded between metres and minutes, and for runs and
+ergs no semantic discriminator survives once magnitude is the deciding factor.
+Rather than let a parser's guess become production content, prose packs go
+through `scripts/prepare-pack.mjs` (`npm run seed:prepare`), which splits them:
+
+| bucket | meaning |
+| --- | --- |
+| `.ready.json` | every unit resolved by the movement or an explicit token — importable |
+| `.review.json` | parsed, but a metre/minute call rested on magnitude alone — needs sign-off |
+| `.authoring.json` | not parseable, or missing `estimated_minutes` — needs structured items |
+
+`scripts/export-authoring-sheet.mjs` (`npm run seed:sheets`) flattens the last
+two into CSVs for review. The parser refuses rather than guesses: it will not
+fall through an unknown movement to the station default, will not drop an
+unquantified phase that names real work, and will not read a per-round rest
+schedule as a set of reps.
+
+Imports **deduplicate semantically**, on what a session prescribes — movements,
+quantities, units, rounds — not on its id or name, because four packs now
+overlap by design. A match keeps the existing richer template. It catches an
+identical prescription, the same shape retuned within 10%, and the same main set
+differing only in a warm-up or cool-down.
 
 Content lives in the `content` schema (read-only to authenticated users);
 athlete data lives in `public` (owner-only). All 33 tables have RLS enabled.
@@ -101,13 +158,44 @@ The database stores `green` / `yellow` / `red`. The UI renders **Full /
 Express / Micro** and never presents them as failure states (§25, §8.1). The
 mapping is `VARIANT_LABEL` in the engine.
 
+## Coach
+
+The fifth tab (D21 / FR-020), built from the `COACH` screens in
+`Adaptive Athlete.dc.html` and the Coach UX brief in the same design project.
+
+Conversation is the interface; the structured payload underneath is the
+authority. Nothing in a Coach answer is written prose about training:
+
+| layer | file | what it may do |
+| --- | --- | --- |
+| classify | `src/data/coach.ts` | free text → intent + structured signals (time limit, energy, equipment ids, content terms, days). Symptom language routes to the safety boundary first and is never re-read as fatigue. An unmatched question returns `null` rather than a guess. |
+| answer | `src/state/coachAnswer.ts` | runs the **engine** against those signals and builds the cards. Every duration, variant, swap and reason code on screen came out of `recommend()`, the readiness model or the curated library. |
+| render | `src/components/coach/cards.tsx` | CC01–CC12 as typed components |
+| converse | `src/state/coach.tsx` | threads hold the question and its intent, never the rendered answer |
+
+Because answers are derived rather than stored, reopening a thread re-asks the
+engine: a conversation can never assert a plan the athlete no longer has.
+
+Two consequences worth knowing when reading the code:
+
+- **Adaptations prefer today's own session.** Coach asks the engine for a smaller
+  variant of the planned template before it will offer a different one, and when
+  the stimulus cannot survive the constraint the card says "Stimulus changed"
+  rather than dressing a swap up as a trim.
+- **Actions write through.** "Use this workout" applies the check-in it was
+  computed against (`set_time`, `set_energy`, equipment) and the override, so the
+  session Coach offered is the session Today shows. A weekly change is a
+  proposal: it goes through the full-screen review (`PlanChangeReview`) and only
+  `Apply changes` mutates the plan. Everything committed leaves an inline
+  confirmation with an undo, restored from a snapshot of the adaptable state.
+
 ## Known gaps
 
 Deliberate omissions, not oversights:
 
-- **Coach tab (D21 / FR-020) is not built.** It is P0 in the PRD but absent
-  from the design file, which has four tabs where §5 specifies five. The schema
-  (`coach_threads`, `coach_messages` with held `proposed_action`) is in place.
+- **Coach threads are not persisted.** The tab is built (see below) but a thread
+  lives for the session; `coach_threads` / `coach_messages` (with held
+  `proposed_action`) are in the schema and not yet written to.
 - **Onboarding (D02–D08) is not built.** Email/password auth is (D01): sign-in,
   sign-up, session persistence, route gating and log out, with `0004` provisioning
   `users` + `athlete_profiles` on signup. What is missing is the guided setup that

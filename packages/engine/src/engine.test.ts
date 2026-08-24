@@ -366,14 +366,14 @@ describe('Recovery derivation', () => {
 
 describe('Stimulus urgency', () => {
   test('a satisfied requirement contributes nothing', () => {
-    const t = TEMPLATES.find(x => x.primary_goal === 'aerobic_base')!;
+    const t = TEMPLATES.find(x => x.stimulus === 'aerobic_base')!;
     assert.equal(stimulusUrgency(t, [
       { stimulus_type: 'aerobic_base', target_exposures: 2, completed_exposures: 2, priority: 1 },
     ]), 0);
   });
 
   test('an untouched high-priority requirement outranks a partly-served one', () => {
-    const t = TEMPLATES.find(x => x.primary_goal === 'aerobic_base')!;
+    const t = TEMPLATES.find(x => x.stimulus === 'aerobic_base')!;
     const untouched = stimulusUrgency(t, [
       { stimulus_type: 'aerobic_base', target_exposures: 2, completed_exposures: 0, priority: 1 },
     ]);

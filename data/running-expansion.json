@@ -1,0 +1,1229 @@
+{
+ "meta": {
+  "name": "Adaptive Athlete Running Expansion v1",
+  "workout_count": 60,
+  "architecture": "20 running categories x 3 curated templates = 60 workouts; each supports Full/Express/Micro adaptation.",
+  "programming_note": "The engine should prescribe by RPE/effort before a reliable pace baseline exists, then layer athlete-specific pace/HR targets as confidence improves.",
+  "safety_note": "Return-to-run and impact progression require conservative symptom-aware rules; the app does not infer medical clearance.",
+  "_note": "express_rule / micro_rule / progression_rule / tracking_metrics / content_version were identical on all 60 rows in the supplied pack; hoisted here rather than repeated.",
+  "express_rule": "Preserve the session's primary running stimulus. Reduce repetitions or total duration to ~60-70%; do not make the remaining work harder.",
+  "micro_rule": "Preserve a 10-20 minute minimum useful dose when appropriate. Do not compensate for lost volume by increasing intensity.",
+  "progression_rule": "Progress one variable per exposure: continuous duration, total quality minutes, repetitions, pace, or recovery. Typical volume increase 5-10% when prior exposure is symptom-free and within target RPE.",
+  "tracking_metrics": [
+   "duration",
+   "distance",
+   "pace",
+   "avg_hr",
+   "max_hr",
+   "RPE",
+   "continuous_run_minutes",
+   "walk_breaks",
+   "treadmill_speed",
+   "incline",
+   "post_station_pace_if_hybrid"
+  ],
+  "content_version": "v1"
+ },
+ "workouts": [
+  {
+   "workout_id": "run_technique_mechanics_01",
+   "name": "Run Mechanics + Strides 30",
+   "category": "Technique / Mechanics",
+   "workout_family": "run_skill",
+   "primary_goal": "running_economy",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 3-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "10m easy + drills + 6x20s relaxed strides/60s walk-jog + easy finish",
+   "tags": [
+    "run_skill",
+    "running_economy",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_technique_mechanics_02",
+   "name": "Cadence Control 35",
+   "category": "Technique / Mechanics",
+   "workout_family": "run_skill",
+   "primary_goal": "running_economy",
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 4-5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "10m easy; 6x2m smooth cadence focus/1m easy; 7m easy",
+   "tags": [
+    "run_skill",
+    "running_economy",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_technique_mechanics_03",
+   "name": "Form Under Mild Fatigue",
+   "category": "Technique / Mechanics",
+   "workout_family": "run_skill",
+   "primary_goal": "running_economy",
+   "estimated_minutes": 32,
+   "intensity_target": "RPE 4-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "3r: 6m easy-moderate run + 4x20s relaxed strides; 90s walk between rounds",
+   "tags": [
+    "run_skill",
+    "running_economy",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_return_to_run_01",
+   "name": "Run-Walk 1:2 Builder",
+   "category": "Return-to-Run",
+   "workout_family": "return_run",
+   "primary_goal": "impact_tolerance",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.5,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "10 rounds: 1m easy run + 2m brisk walk; stop if mechanics/symptoms deteriorate",
+   "tags": [
+    "return_run",
+    "impact_tolerance",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_return_to_run_02",
+   "name": "Run-Walk 2:1 Builder",
+   "category": "Return-to-Run",
+   "workout_family": "return_run",
+   "primary_goal": "impact_tolerance",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.5,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "10 rounds: 2m easy run + 1m walk",
+   "tags": [
+    "return_run",
+    "impact_tolerance",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_return_to_run_03",
+   "name": "Continuous Run Bridge 30",
+   "category": "Return-to-Run",
+   "workout_family": "return_run",
+   "primary_goal": "impact_tolerance",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.5,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "5m walk; 3x7m easy run/2m walk; 4m easy walk",
+   "tags": [
+    "return_run",
+    "impact_tolerance",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_easy_base_01",
+   "name": "Easy Run 30",
+   "category": "Easy Base",
+   "workout_family": "easy_base",
+   "primary_goal": "aerobic_base",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.55,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "30m conversational running; treadmill or outdoor",
+   "tags": [
+    "easy_base",
+    "aerobic_base",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_easy_base_02",
+   "name": "Easy Run 45",
+   "category": "Easy Base",
+   "workout_family": "easy_base",
+   "primary_goal": "aerobic_base",
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.55,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "45m conversational running; resist pace creep",
+   "tags": [
+    "easy_base",
+    "aerobic_base",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_easy_base_03",
+   "name": "Easy Run + Strides 40",
+   "category": "Easy Base",
+   "workout_family": "easy_base",
+   "primary_goal": "aerobic_base",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 3-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.55,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "30m easy + 6x20s strides/60s easy + cooldown",
+   "tags": [
+    "easy_base",
+    "aerobic_base",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_long_aerobic_01",
+   "name": "Long Easy 60",
+   "category": "Long Aerobic",
+   "workout_family": "long_run",
+   "primary_goal": "aerobic_durability",
+   "estimated_minutes": 60,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.62,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "60m conversational run; walk breaks allowed if needed to preserve easy effort",
+   "tags": [
+    "long_run",
+    "aerobic_durability",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_long_aerobic_02",
+   "name": "Long Easy 75",
+   "category": "Long Aerobic",
+   "workout_family": "long_run",
+   "primary_goal": "aerobic_durability",
+   "estimated_minutes": 75,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.62,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "75m easy; fueling/hydration rehearsal when appropriate",
+   "tags": [
+    "long_run",
+    "aerobic_durability",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_long_aerobic_03",
+   "name": "Long Run with Fast Finish",
+   "category": "Long Aerobic",
+   "workout_family": "long_run",
+   "primary_goal": "aerobic_durability",
+   "estimated_minutes": 70,
+   "intensity_target": "RPE 3-5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.62,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "50m easy + 15m steady RPE 5 + 5m easy",
+   "tags": [
+    "long_run",
+    "aerobic_durability",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_progression_01",
+   "name": "Progression 40",
+   "category": "Progression",
+   "workout_family": "progression",
+   "primary_goal": "aerobic_strength",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 3\u21926",
+   "impact_level": "low",
+   "hyrox_specificity": 0.68,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "15m easy + 15m steady + 10m moderate; finish controlled",
+   "tags": [
+    "progression",
+    "aerobic_strength",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_progression_02",
+   "name": "Progression 50",
+   "category": "Progression",
+   "workout_family": "progression",
+   "primary_goal": "aerobic_strength",
+   "estimated_minutes": 50,
+   "intensity_target": "RPE 3\u21926",
+   "impact_level": "low",
+   "hyrox_specificity": 0.68,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "20m easy + 15m steady + 10m moderate + 5m easy",
+   "tags": [
+    "progression",
+    "aerobic_strength",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_progression_03",
+   "name": "Negative Split 6K",
+   "category": "Progression",
+   "workout_family": "progression",
+   "primary_goal": "aerobic_strength",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 4\u21926",
+   "impact_level": "low",
+   "hyrox_specificity": 0.68,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "First 3K easy; second 3K gradually faster without sprinting",
+   "tags": [
+    "progression",
+    "aerobic_strength",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_tempo_01",
+   "name": "Tempo 3x8",
+   "category": "Tempo",
+   "workout_family": "tempo",
+   "primary_goal": "tempo_endurance",
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.75,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "10m easy + 3x8m tempo/2m easy + cooldown",
+   "tags": [
+    "tempo",
+    "tempo_endurance",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_tempo_02",
+   "name": "Tempo 2x12",
+   "category": "Tempo",
+   "workout_family": "tempo",
+   "primary_goal": "tempo_endurance",
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.75,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "10m easy + 2x12m tempo/3m easy + cooldown",
+   "tags": [
+    "tempo",
+    "tempo_endurance",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_tempo_03",
+   "name": "Continuous Tempo 20",
+   "category": "Tempo",
+   "workout_family": "tempo",
+   "primary_goal": "tempo_endurance",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.75,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "12m easy + 20m controlled tempo + 8m easy",
+   "tags": [
+    "tempo",
+    "tempo_endurance",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_threshold_01",
+   "name": "Threshold 5x5",
+   "category": "Threshold",
+   "workout_family": "threshold",
+   "primary_goal": "lactate_threshold",
+   "estimated_minutes": 50,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.82,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "12m easy + 5x5m threshold/2m easy + cooldown",
+   "tags": [
+    "threshold",
+    "lactate_threshold",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_threshold_02",
+   "name": "Threshold 4x6",
+   "category": "Threshold",
+   "workout_family": "threshold",
+   "primary_goal": "lactate_threshold",
+   "estimated_minutes": 48,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.82,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "12m easy + 4x6m threshold/2m easy + cooldown",
+   "tags": [
+    "threshold",
+    "lactate_threshold",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_threshold_03",
+   "name": "Threshold 3x1 Mile",
+   "category": "Threshold",
+   "workout_family": "threshold",
+   "primary_goal": "lactate_threshold",
+   "estimated_minutes": 55,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.82,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "12m easy + 3x1 mile threshold/3m easy + cooldown",
+   "tags": [
+    "threshold",
+    "lactate_threshold",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_1k_repeats_01",
+   "name": "HYROX 4x1K",
+   "category": "1K Repeats",
+   "workout_family": "one_k",
+   "primary_goal": "hyrox_run_pacing",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.92,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "4x1K at controlled goal-HYROX run effort; 2m easy jog/walk",
+   "tags": [
+    "one_k",
+    "hyrox_run_pacing",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_1k_repeats_02",
+   "name": "HYROX 6x1K",
+   "category": "1K Repeats",
+   "workout_family": "one_k",
+   "primary_goal": "hyrox_run_pacing",
+   "estimated_minutes": 55,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.92,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "6x1K at repeatable HYROX effort; 90s-2m easy",
+   "tags": [
+    "one_k",
+    "hyrox_run_pacing",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_1k_repeats_03",
+   "name": "1K Descending Rest",
+   "category": "1K Repeats",
+   "workout_family": "one_k",
+   "primary_goal": "hyrox_run_pacing",
+   "estimated_minutes": 48,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.92,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "5x1K same target pace; recovery 2:00/1:45/1:30/1:15",
+   "tags": [
+    "one_k",
+    "hyrox_run_pacing",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_short_intervals_01",
+   "name": "12x400 Controlled",
+   "category": "Short Intervals",
+   "workout_family": "short_intervals",
+   "primary_goal": "speed_endurance",
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "12x400m at strong controlled effort; 60s easy",
+   "tags": [
+    "short_intervals",
+    "speed_endurance",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_short_intervals_02",
+   "name": "10x1 Minute Fast",
+   "category": "Short Intervals",
+   "workout_family": "short_intervals",
+   "primary_goal": "speed_endurance",
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "10x1m fast/1m easy inside 35m total",
+   "tags": [
+    "short_intervals",
+    "speed_endurance",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_short_intervals_03",
+   "name": "8x2 Minute Speed Endurance",
+   "category": "Short Intervals",
+   "workout_family": "short_intervals",
+   "primary_goal": "speed_endurance",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 7-8",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "8x2m fast/90s easy; equal-quality reps",
+   "tags": [
+    "short_intervals",
+    "speed_endurance",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_incline_hills_01",
+   "name": "Treadmill Incline Repeats",
+   "category": "Incline / Hills",
+   "workout_family": "hills",
+   "primary_goal": "strength_endurance",
+   "estimated_minutes": 42,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "requires_running": 1,
+   "environment": "treadmill_preferred",
+   "full_prescription": "10m easy + 8x2m @ 3-5% incline/90s easy flat + cooldown",
+   "tags": [
+    "hills",
+    "strength_endurance",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_incline_hills_02",
+   "name": "Hill Strength 10x60s",
+   "category": "Incline / Hills",
+   "workout_family": "hills",
+   "primary_goal": "strength_endurance",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "requires_running": 1,
+   "environment": "treadmill_preferred",
+   "full_prescription": "10x60s uphill strong/90s easy return; warm-up/cooldown",
+   "tags": [
+    "hills",
+    "strength_endurance",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_incline_hills_03",
+   "name": "Incline Aerobic Builder",
+   "category": "Incline / Hills",
+   "workout_family": "hills",
+   "primary_goal": "strength_endurance",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 4-5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "requires_running": 1,
+   "environment": "treadmill_preferred",
+   "full_prescription": "5r: 4m @ 2-4% incline RPE5 + 3m flat easy",
+   "tags": [
+    "hills",
+    "strength_endurance",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_compromised_run_01",
+   "name": "Ski-to-Run Repeats",
+   "category": "Compromised Run",
+   "workout_family": "compromised",
+   "primary_goal": "compromised_running",
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 1.0,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "4r: 500m SkiErg + 800m run; hold run form and pace",
+   "tags": [
+    "compromised",
+    "compromised_running",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_compromised_run_02",
+   "name": "Row-to-Run Repeats",
+   "category": "Compromised Run",
+   "workout_family": "compromised",
+   "primary_goal": "compromised_running",
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 1.0,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "4r: 500m RowErg + 800m run",
+   "tags": [
+    "compromised",
+    "compromised_running",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_compromised_run_03",
+   "name": "Carry-to-Run Repeats",
+   "category": "Compromised Run",
+   "workout_family": "compromised",
+   "primary_goal": "compromised_running",
+   "estimated_minutes": 42,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 1.0,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "5r: 100m farmer carry + 600m run",
+   "tags": [
+    "compromised",
+    "compromised_running",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_station_to_run_01",
+   "name": "Sled Push \u2192 Run",
+   "category": "Station-to-Run",
+   "workout_family": "station_to_run",
+   "primary_goal": "transition_running",
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 1.0,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "4r: 40ft sled push @ race-relative load + 800m run",
+   "tags": [
+    "station_to_run",
+    "transition_running",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_station_to_run_02",
+   "name": "Lunge \u2192 Run",
+   "category": "Station-to-Run",
+   "workout_family": "station_to_run",
+   "primary_goal": "transition_running",
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 1.0,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "4r: 25m sandbag lunge + 800m run",
+   "tags": [
+    "station_to_run",
+    "transition_running",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_station_to_run_03",
+   "name": "Wall Ball \u2192 Run",
+   "category": "Station-to-Run",
+   "workout_family": "station_to_run",
+   "primary_goal": "transition_running",
+   "estimated_minutes": 42,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 1.0,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "4r: 20 wall balls + 800m run",
+   "tags": [
+    "station_to_run",
+    "transition_running",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_run_to_station_01",
+   "name": "Run \u2192 Ski",
+   "category": "Run-to-Station",
+   "workout_family": "run_to_station",
+   "primary_goal": "race_specific",
+   "estimated_minutes": 50,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 1.0,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "4r: 1K run + 500m SkiErg",
+   "tags": [
+    "run_to_station",
+    "race_specific",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_run_to_station_02",
+   "name": "Run \u2192 Row",
+   "category": "Run-to-Station",
+   "workout_family": "run_to_station",
+   "primary_goal": "race_specific",
+   "estimated_minutes": 50,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 1.0,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "4r: 1K run + 500m RowErg",
+   "tags": [
+    "run_to_station",
+    "race_specific",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_run_to_station_03",
+   "name": "Run \u2192 Wall Balls",
+   "category": "Run-to-Station",
+   "workout_family": "run_to_station",
+   "primary_goal": "race_specific",
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 1.0,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "4r: 800m run + 20 wall balls",
+   "tags": [
+    "run_to_station",
+    "race_specific",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_mixed_race_pace_01",
+   "name": "HYROX Race-Pace 4K",
+   "category": "Mixed Race-Pace",
+   "workout_family": "race_pace",
+   "primary_goal": "hyrox_race_pacing",
+   "estimated_minutes": 55,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 1.0,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "4r: 1K run + alternating 500m Ski / 40ft push / 500m Row / 20 WB",
+   "tags": [
+    "race_pace",
+    "hyrox_race_pacing",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_mixed_race_pace_02",
+   "name": "HYROX Race-Pace 6K",
+   "category": "Mixed Race-Pace",
+   "workout_family": "race_pace",
+   "primary_goal": "hyrox_race_pacing",
+   "estimated_minutes": 75,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 1.0,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "6x1K runs with one moderate station dose between each; never race the workout",
+   "tags": [
+    "race_pace",
+    "hyrox_race_pacing",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_mixed_race_pace_03",
+   "name": "Broken 8K HYROX Run",
+   "category": "Mixed Race-Pace",
+   "workout_family": "race_pace",
+   "primary_goal": "hyrox_race_pacing",
+   "estimated_minutes": 75,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 1.0,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "8x1K at goal sustainable HYROX pace; 90s easy or short station technique between reps",
+   "tags": [
+    "race_pace",
+    "hyrox_race_pacing",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_treadmill_control_01",
+   "name": "Treadmill Pace Ladder",
+   "category": "Treadmill Control",
+   "workout_family": "treadmill",
+   "primary_goal": "pace_control",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 3-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.82,
+   "requires_running": 1,
+   "environment": "treadmill_preferred",
+   "full_prescription": "10m easy + 5m each at easy/steady/moderate/steady + cooldown",
+   "tags": [
+    "treadmill",
+    "pace_control",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_treadmill_control_02",
+   "name": "Treadmill 1K Pace Lock",
+   "category": "Treadmill Control",
+   "workout_family": "treadmill",
+   "primary_goal": "pace_control",
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.82,
+   "requires_running": 1,
+   "environment": "treadmill_preferred",
+   "full_prescription": "5x1K at same treadmill speed; 2m easy; target <3% rep-to-rep drift",
+   "tags": [
+    "treadmill",
+    "pace_control",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_treadmill_control_03",
+   "name": "Treadmill Rolling Incline",
+   "category": "Treadmill Control",
+   "workout_family": "treadmill",
+   "primary_goal": "pace_control",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.82,
+   "requires_running": 1,
+   "environment": "treadmill_preferred",
+   "full_prescription": "6r: 3m flat steady + 2m @ 2-3% incline; easy cooldown",
+   "tags": [
+    "treadmill",
+    "pace_control",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_low_impact_run_substitute_01",
+   "name": "Bike Run-Equivalent 40",
+   "category": "Low-Impact Run Substitute",
+   "workout_family": "low_impact",
+   "primary_goal": "aerobic_maintenance",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.55,
+   "requires_running": 0,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "40m spin bike: 10m easy + 5x4m steady-hard/2m easy",
+   "tags": [
+    "low_impact",
+    "aerobic_maintenance",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_low_impact_run_substitute_02",
+   "name": "Ski Run-Equivalent 30",
+   "category": "Low-Impact Run Substitute",
+   "workout_family": "low_impact",
+   "primary_goal": "aerobic_maintenance",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 4-5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.55,
+   "requires_running": 0,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "30m SkiErg steady aerobic with 6x1m moderate surges",
+   "tags": [
+    "low_impact",
+    "aerobic_maintenance",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_low_impact_run_substitute_03",
+   "name": "Mixed Erg Run-Equivalent 45",
+   "category": "Low-Impact Run Substitute",
+   "workout_family": "low_impact",
+   "primary_goal": "aerobic_maintenance",
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 4-5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.55,
+   "requires_running": 0,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "3r: 7m bike + 4m row + 4m Ski, all aerobic",
+   "tags": [
+    "low_impact",
+    "aerobic_maintenance",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_benchmark_01",
+   "name": "1K Run Benchmark",
+   "category": "Benchmark",
+   "workout_family": "benchmark",
+   "primary_goal": "run_benchmark",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 8-9",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "Progressive warm-up + 1K hard controlled time trial + cooldown",
+   "tags": [
+    "benchmark",
+    "run_benchmark",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_benchmark_02",
+   "name": "5K Run Benchmark",
+   "category": "Benchmark",
+   "workout_family": "benchmark",
+   "primary_goal": "run_benchmark",
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 8",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "10-15m warm-up + 5K best sustainable effort + cooldown",
+   "tags": [
+    "benchmark",
+    "run_benchmark",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_benchmark_03",
+   "name": "30-Min Aerobic Benchmark",
+   "category": "Benchmark",
+   "workout_family": "benchmark",
+   "primary_goal": "run_benchmark",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "30m steady; record distance, avg HR, pace and RPE under repeatable conditions",
+   "tags": [
+    "benchmark",
+    "run_benchmark",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_micro_run_01",
+   "name": "Micro Easy 12",
+   "category": "Micro Run",
+   "workout_family": "micro",
+   "primary_goal": "minimum_effective_dose",
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.62,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "12m easy continuous run or run-walk",
+   "tags": [
+    "micro",
+    "minimum_effective_dose",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_micro_run_02",
+   "name": "Micro 10x1",
+   "category": "Micro Run",
+   "workout_family": "micro",
+   "primary_goal": "minimum_effective_dose",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.62,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "3m easy + 5x1m moderate/1m easy + brief cooldown",
+   "tags": [
+    "micro",
+    "minimum_effective_dose",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_micro_run_03",
+   "name": "Micro HYROX Run 18",
+   "category": "Micro Run",
+   "workout_family": "micro",
+   "primary_goal": "minimum_effective_dose",
+   "estimated_minutes": 18,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.62,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "3r: 4m run RPE5 + 10 wall balls + 1m easy",
+   "tags": [
+    "micro",
+    "minimum_effective_dose",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_taper_sharpen_01",
+   "name": "Sharpen 4x400",
+   "category": "Taper / Sharpen",
+   "workout_family": "taper",
+   "primary_goal": "race_sharpening",
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.95,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "15m easy + 4x400m at crisp race feel/2m easy + cooldown",
+   "tags": [
+    "taper",
+    "race_sharpening",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_taper_sharpen_02",
+   "name": "Race Week 3x1K",
+   "category": "Taper / Sharpen",
+   "workout_family": "taper",
+   "primary_goal": "race_sharpening",
+   "estimated_minutes": 38,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.95,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "10m easy + 3x1K at planned HYROX pace/3m easy + cooldown",
+   "tags": [
+    "taper",
+    "race_sharpening",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_taper_sharpen_03",
+   "name": "Pre-Race Primer 20",
+   "category": "Taper / Sharpen",
+   "workout_family": "taper",
+   "primary_goal": "race_sharpening",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 3-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.95,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "10m easy + 4x20s strides + 2x1m race pace + easy finish",
+   "tags": [
+    "taper",
+    "race_sharpening",
+    "running",
+    "hyrox"
+   ]
+  },
+  {
+   "workout_id": "run_recovery_run_01",
+   "name": "Recovery Jog 20",
+   "category": "Recovery Run",
+   "workout_family": "recovery",
+   "primary_goal": "active_recovery",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 2-3",
+   "impact_level": "low",
+   "hyrox_specificity": 0.4,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "20m very easy; walk freely; finish fresher than started",
+   "tags": [
+    "recovery",
+    "active_recovery",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_recovery_run_02",
+   "name": "Recovery Jog 30",
+   "category": "Recovery Run",
+   "workout_family": "recovery",
+   "primary_goal": "active_recovery",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 2-3",
+   "impact_level": "low",
+   "hyrox_specificity": 0.4,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "30m very easy conversational effort",
+   "tags": [
+    "recovery",
+    "active_recovery",
+    "running",
+    "run_development"
+   ]
+  },
+  {
+   "workout_id": "run_recovery_run_03",
+   "name": "Recovery Run-Walk 30",
+   "category": "Recovery Run",
+   "workout_family": "recovery",
+   "primary_goal": "active_recovery",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 2-3",
+   "impact_level": "low",
+   "hyrox_specificity": 0.4,
+   "requires_running": 1,
+   "environment": "treadmill_or_outdoor",
+   "full_prescription": "5r: 4m very easy run + 2m walk",
+   "tags": [
+    "recovery",
+    "active_recovery",
+    "running",
+    "run_development"
+   ]
+  }
+ ]
+}

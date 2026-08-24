@@ -131,3 +131,84 @@ export const METRIC_DETAIL: Record<string, { label: string; detail: string; stat
     stats: [{ k: 'Sleep avg', v: '5:41' }, { k: 'HRV', v: '48' }, { k: 'RHR', v: '54' }],
   },
 };
+
+/**
+ * This week's queued sessions, in priority order. Coach's plan proposals name
+ * these rows, and the Plan screen renders the same list — a proposal that
+ * described sessions the Plan tab does not show would be describing a week the
+ * athlete does not have.
+ */
+export interface PlannedSession {
+  template_id: string;
+  /** Where the session currently sits. */
+  day: string;
+  note: string;
+  /** 1 = protected, 3 = first to go when the week compresses (PRD §2). */
+  priority: 1 | 2 | 3;
+  minutes: number;
+  stimulus: string;
+}
+
+export const WEEK_QUEUE: PlannedSession[] = [
+  {
+    template_id: 'wo_long_hybrid_60',
+    day: 'Thursday',
+    note: 'Run / station alternating',
+    priority: 1,
+    minutes: 60,
+    stimulus: 'aerobic_durability',
+  },
+  {
+    template_id: 'wo_hyrox_pull_a',
+    day: 'Friday',
+    note: 'Ski + sled pull + pulling volume',
+    priority: 2,
+    minutes: 55,
+    stimulus: 'strength',
+  },
+  {
+    template_id: 'wo_recovery_spin_mobility',
+    day: 'Saturday',
+    note: 'Z1 flush',
+    priority: 3,
+    minutes: 30,
+    stimulus: 'recovery',
+  },
+];
+
+/**
+ * Comparable 1 km repeat sessions inside the four-week window — same interval
+ * structure, same surface, within one RPE point. The comparable-session rule is
+ * what makes a trend claim honest, so the sessions that did *not* qualify are
+ * counted too rather than quietly dropped (Coach brief §5.3).
+ */
+export interface ComparableRun {
+  date: string;
+  /** Median 1 km repeat pace, in seconds. */
+  pace_seconds: number;
+  rpe: number;
+  /** Absent where the session was logged without a strap. */
+  hr?: number;
+}
+
+export const COMPARABLE_1K: ComparableRun[] = [
+  { date: 'Jul 23', pace_seconds: 271, rpe: 7 },
+  { date: 'Jul 30', pace_seconds: 266, rpe: 7, hr: 172 },
+  { date: 'Aug 6', pace_seconds: 262, rpe: 7 },
+  { date: 'Aug 13', pace_seconds: 258, rpe: 7, hr: 170 },
+];
+
+/** Sessions in the same window that failed the comparable-session rule. */
+export const NON_COMPARABLE_1K = 5;
+
+/**
+ * The shape of the current week. Coach's plan proposals are arithmetic over
+ * these numbers — how many days the athlete planned, how many they have already
+ * used, and which days are still open — rather than a calendar Coach invents.
+ */
+export const WEEK_SHAPE = {
+  planned_days: 6,
+  /** Monday, Tuesday and today. The four completed sessions include two doubles. */
+  days_trained: 3,
+  open_days: ['Thursday', 'Friday', 'Saturday'],
+} as const;

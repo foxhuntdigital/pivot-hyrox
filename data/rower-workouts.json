@@ -1,0 +1,790 @@
+{
+ "meta": {
+  "pack": "Adaptive Athlete RowErg Expansion v1",
+  "workout_count": 21,
+  "format": "canonical-v1",
+  "_format_note": "Every prescribed quantity carries an explicit prescription_type and unit. Nothing here is inferred from a unit string; see scripts/prepare-pack.mjs for how prose packs are converted into this shape.",
+  "equipment_to_add": {
+   "id": "row_erg",
+   "name": "RowErg",
+   "category": "cardio"
+  },
+  "exercise_to_add": {
+   "id": "ex_rowerg",
+   "name": "RowErg",
+   "category": "cardio",
+   "movement_pattern": "pull",
+   "modality": "row",
+   "default_unit": "m",
+   "impact_level": "low",
+   "hyrox_relevance": 1.0
+  },
+  "default_description": "RowErg expansion workout.",
+  "default_coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace."
+ },
+ "workouts": [
+  {
+   "id": "wo_row_technique_plus_aerobic_base_30",
+   "name": "Row Technique + Aerobic Base 30",
+   "workout_family": "row_base",
+   "stimulus": "aerobic_base",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": 30,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "duration",
+     "quantity": 30,
+     "unit": "min",
+     "intensity": "RPE 3-4"
+    }
+   ]
+  },
+  {
+   "id": "wo_row_zone_2_45",
+   "name": "Row Zone 2 45",
+   "workout_family": "row_base",
+   "stimulus": "aerobic_base",
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": 45,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "min",
+     "intensity": "RPE 3-4"
+    }
+   ]
+  },
+  {
+   "id": "wo_row_rate_ladder_20_24",
+   "name": "Row Rate Ladder 20-24",
+   "workout_family": "row_skill",
+   "stimulus": "row_efficiency",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 3-5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": 30,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "duration",
+     "quantity": 3,
+     "unit": "min",
+     "intensity": "comfortable @ 20 spm"
+    },
+    {
+     "exercise": "RowErg",
+     "prescription_type": "duration",
+     "quantity": 3,
+     "unit": "min",
+     "intensity": "moderate @ 22 spm"
+    },
+    {
+     "exercise": "RowErg",
+     "prescription_type": "duration",
+     "quantity": 3,
+     "unit": "min",
+     "intensity": "controlled @ 24 spm"
+    },
+    {
+     "exercise": "RowErg",
+     "prescription_type": "duration",
+     "quantity": 10,
+     "unit": "min",
+     "intensity": "RPE 3-4"
+    }
+   ]
+  },
+  {
+   "id": "wo_row_10x250_speed",
+   "name": "Row 10x250 Speed",
+   "workout_family": "row_quality",
+   "stimulus": "power_endurance",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 10,
+    "duration_minutes": null,
+    "rest_seconds": 45,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 250,
+     "unit": "m",
+     "intensity": "RPE 7"
+    }
+   ]
+  },
+  {
+   "id": "wo_row_8x500_threshold",
+   "name": "Row 8x500 Threshold",
+   "workout_family": "row_quality",
+   "stimulus": "threshold",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 8,
+    "duration_minutes": null,
+    "rest_seconds": 90,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 500,
+     "unit": "m",
+     "intensity": "RPE 7"
+    }
+   ]
+  },
+  {
+   "id": "wo_row_5x1000_race_builder",
+   "name": "Row 5x1000 Race Builder",
+   "workout_family": "row_quality",
+   "stimulus": "race_pace",
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 5,
+    "duration_minutes": null,
+    "rest_seconds": 120,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 1000,
+     "unit": "m",
+     "intensity": "RPE 6-7"
+    }
+   ]
+  },
+  {
+   "id": "wo_row_descending_ladder_2k_500",
+   "name": "Row Descending Ladder 2K-500",
+   "workout_family": "row_quality",
+   "stimulus": "threshold",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 6-8",
+   "impact_level": "low",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": 40,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 2000,
+     "unit": "m",
+     "intensity": "RPE 6"
+    },
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 1500,
+     "unit": "m",
+     "intensity": "RPE 6-7"
+    },
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 1000,
+     "unit": "m",
+     "intensity": "RPE 7"
+    },
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 500,
+     "unit": "m",
+     "intensity": "RPE 8"
+    }
+   ]
+  },
+  {
+   "id": "wo_hyrox_row_benchmark_1000",
+   "name": "HYROX Row Benchmark 1000",
+   "workout_family": "benchmark",
+   "stimulus": "race_specific",
+   "estimated_minutes": 25,
+   "intensity_target": "RPE 8-9",
+   "impact_level": "low",
+   "hyrox_specificity": 1,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": 25,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 1000,
+     "unit": "m",
+     "intensity": "RPE 8-9 time trial"
+    }
+   ]
+  },
+  {
+   "id": "wo_compromised_run_plus_row",
+   "name": "Compromised Run + Row",
+   "workout_family": "hybrid_specific",
+   "stimulus": "compromised_running",
+   "estimated_minutes": 50,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 4,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "Run",
+     "prescription_type": "distance",
+     "quantity": 800,
+     "unit": "m",
+     "intensity": "RPE 5-6"
+    },
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 750,
+     "unit": "m",
+     "intensity": "RPE 6"
+    }
+   ]
+  },
+  {
+   "id": "wo_run_row_wall_ball_builder",
+   "name": "Run-Row-Wall Ball Builder",
+   "workout_family": "hybrid_specific",
+   "stimulus": "race_specific",
+   "estimated_minutes": 50,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 1,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 4,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "Run",
+     "prescription_type": "distance",
+     "quantity": 600,
+     "unit": "m",
+     "intensity": "RPE 5-6"
+    },
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 500,
+     "unit": "m",
+     "intensity": "RPE 6"
+    },
+    {
+     "exercise": "Wall Ball",
+     "prescription_type": "reps",
+     "quantity": 15,
+     "unit": "reps",
+     "intensity": "smooth"
+    }
+   ]
+  },
+  {
+   "id": "wo_row_plus_farmer_carry_engine",
+   "name": "Row + Farmer Carry Engine",
+   "workout_family": "hybrid_engine",
+   "stimulus": "aerobic_strength",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 5,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 500,
+     "unit": "m",
+     "intensity": "RPE 5-6"
+    },
+    {
+     "exercise": "Farmer Carry",
+     "prescription_type": "distance",
+     "quantity": 100,
+     "unit": "ft",
+     "intensity": "moderate"
+    }
+   ]
+  },
+  {
+   "id": "wo_row_plus_sandbag_lunge_engine",
+   "name": "Row + Sandbag Lunge Engine",
+   "workout_family": "hybrid_engine",
+   "stimulus": "strength_endurance",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 4,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 600,
+     "unit": "m",
+     "intensity": "RPE 6"
+    },
+    {
+     "exercise": "Sandbag Walking Lunge",
+     "prescription_type": "reps",
+     "quantity": 20,
+     "unit": "steps",
+     "intensity": "steady"
+    }
+   ]
+  },
+  {
+   "id": "wo_ski_row_aerobic_brick",
+   "name": "Ski-Row Aerobic Brick",
+   "workout_family": "erg_engine",
+   "stimulus": "aerobic_capacity",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 4-5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 5,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "SkiErg",
+     "prescription_type": "distance",
+     "quantity": 500,
+     "unit": "m",
+     "intensity": "RPE 4-5"
+    },
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 500,
+     "unit": "m",
+     "intensity": "RPE 4-5"
+    }
+   ]
+  },
+  {
+   "id": "wo_ski_row_threshold_alternator",
+   "name": "Ski-Row Threshold Alternator",
+   "workout_family": "erg_quality",
+   "stimulus": "threshold",
+   "estimated_minutes": 36,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 4,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "SkiErg",
+     "prescription_type": "distance",
+     "quantity": 500,
+     "unit": "m",
+     "intensity": "RPE 6-7"
+    },
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 500,
+     "unit": "m",
+     "intensity": "RPE 6-7"
+    }
+   ]
+  },
+  {
+   "id": "wo_row_sled_sandwich",
+   "name": "Row Sled Sandwich",
+   "workout_family": "hybrid_specific",
+   "stimulus": "race_specific",
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 1,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 4,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 500,
+     "unit": "m",
+     "intensity": "RPE 6"
+    },
+    {
+     "exercise": "Sled Push",
+     "prescription_type": "distance",
+     "quantity": 40,
+     "unit": "ft",
+     "intensity": "strong"
+    },
+    {
+     "exercise": "Sled Pull",
+     "prescription_type": "distance",
+     "quantity": 40,
+     "unit": "ft",
+     "intensity": "strong"
+    }
+   ]
+  },
+  {
+   "id": "wo_row_burpee_compromised_engine",
+   "name": "Row Burpee Compromised Engine",
+   "workout_family": "hybrid_specific",
+   "stimulus": "station_durability",
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "high",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 5,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 400,
+     "unit": "m",
+     "intensity": "RPE 6"
+    },
+    {
+     "exercise": "Burpee Broad Jump",
+     "prescription_type": "reps",
+     "quantity": 8,
+     "unit": "reps",
+     "intensity": "steady"
+    }
+   ]
+  },
+  {
+   "id": "wo_row_density_emom_20",
+   "name": "Row Density EMOM 20",
+   "workout_family": "density",
+   "stimulus": "station_durability",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": 20,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 200,
+     "unit": "m",
+     "intensity": "controlled"
+    },
+    {
+     "exercise": "Wall Ball",
+     "prescription_type": "reps",
+     "quantity": 10,
+     "unit": "reps",
+     "intensity": "smooth"
+    },
+    {
+     "exercise": "Farmer Carry",
+     "prescription_type": "distance",
+     "quantity": 80,
+     "unit": "ft",
+     "intensity": "moderate"
+    },
+    {
+     "exercise": "Box Step-Over",
+     "prescription_type": "reps",
+     "quantity": 12,
+     "unit": "reps",
+     "intensity": "steady"
+    }
+   ]
+  },
+  {
+   "id": "wo_micro_row_engine_12",
+   "name": "Micro Row Engine 12",
+   "workout_family": "micro",
+   "stimulus": "aerobic_maintenance",
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": 12,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Repeat the circuit for the time available"
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 250,
+     "unit": "m",
+     "intensity": "steady"
+    },
+    {
+     "exercise": "Air Squat",
+     "prescription_type": "reps",
+     "quantity": 10,
+     "unit": "reps",
+     "intensity": "smooth"
+    }
+   ]
+  },
+  {
+   "id": "wo_micro_hyrox_row_18",
+   "name": "Micro HYROX Row 18",
+   "workout_family": "micro",
+   "stimulus": "hyrox_maintenance",
+   "estimated_minutes": 18,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 1,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": 18,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Repeat the circuit for the time available"
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 300,
+     "unit": "m",
+     "intensity": "steady"
+    },
+    {
+     "exercise": "Farmer Carry",
+     "prescription_type": "distance",
+     "quantity": 60,
+     "unit": "ft",
+     "intensity": "moderate"
+    },
+    {
+     "exercise": "Wall Ball",
+     "prescription_type": "reps",
+     "quantity": 10,
+     "unit": "reps",
+     "intensity": "smooth"
+    }
+   ]
+  },
+  {
+   "id": "wo_hyrox_row_under_fatigue_benchmark",
+   "name": "HYROX Row Under Fatigue Benchmark",
+   "workout_family": "benchmark",
+   "stimulus": "race_specific",
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 7-8",
+   "impact_level": "medium",
+   "hyrox_specificity": 1,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": 35,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "Run",
+     "prescription_type": "distance",
+     "quantity": 1000,
+     "unit": "m",
+     "intensity": "RPE 6"
+    },
+    {
+     "exercise": "RowErg",
+     "prescription_type": "distance",
+     "quantity": 1000,
+     "unit": "m",
+     "intensity": "RPE 8 time trial"
+    }
+   ]
+  },
+  {
+   "id": "wo_long_erg_engine_60",
+   "name": "Long Erg Engine 60",
+   "workout_family": "long_engine",
+   "stimulus": "aerobic_durability",
+   "estimated_minutes": 60,
+   "intensity_target": "RPE 4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.8,
+   "secondary_goal": "row_efficiency",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 2,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Complete listed prescription at repeatable effort."
+   },
+   "items": [
+    {
+     "exercise": "RowErg",
+     "prescription_type": "duration",
+     "quantity": 10,
+     "unit": "min",
+     "intensity": "RPE 4"
+    },
+    {
+     "exercise": "SkiErg",
+     "prescription_type": "duration",
+     "quantity": 10,
+     "unit": "min",
+     "intensity": "RPE 4"
+    },
+    {
+     "exercise": "Spin Bike",
+     "prescription_type": "duration",
+     "quantity": 10,
+     "unit": "min",
+     "intensity": "RPE 4"
+    }
+   ]
+  }
+ ]
+}

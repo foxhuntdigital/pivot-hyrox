@@ -1,0 +1,606 @@
+{
+ "meta": {
+  "pack": "Adaptive Athlete HYROX Station Matrix v1",
+  "source": "hyrox-station-matrix.json",
+  "bucket": "review",
+  "workout_count": 11,
+  "format": "canonical-v1",
+  "_note": "Parsed, but at least one metre/minute call rested on magnitude alone. Check inferred_units against source_prescription and timed_total_minutes vs estimated_minutes, then move approved rows into a .ready.json."
+ },
+ "workouts": [
+  {
+   "id": "mx_skierg_micro",
+   "name": "SkiErg — Micro",
+   "workout_family": "station_skierg",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "SkiErg",
+   "estimated_minutes": 12,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "12m: 250m Ski + 10 air squats",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 12,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 250,
+       "unit": "m",
+       "intensity": "Ski"
+      },
+      {
+       "exercise": "Air Squat",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "air squats"
+      }
+     ]
+    }
+   ],
+   "inferred_units": [
+    {
+     "token": "250m",
+     "inferred_unit": "m",
+     "movement": "ex_skierg",
+     "basis": "magnitude"
+    }
+   ],
+   "confidence": "magnitude-inferred",
+   "reason": "read \"250m\" as metres for ex_skierg on magnitude",
+   "timed_total_minutes": 12
+  },
+  {
+   "id": "mx_skierg_density",
+   "name": "SkiErg — Density",
+   "workout_family": "station_skierg",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "SkiErg",
+   "estimated_minutes": 20,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "20m EMOM: 200m Ski / 10 WB / 40m carry / easy",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 20,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "EMOM — one movement per minute",
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": "Ski"
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "WB"
+      },
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "m",
+       "intensity": "carry"
+      }
+     ]
+    }
+   ],
+   "inferred_units": [
+    {
+     "token": "200m",
+     "inferred_unit": "m",
+     "movement": "ex_skierg",
+     "basis": "magnitude"
+    }
+   ],
+   "confidence": "magnitude-inferred",
+   "reason": "read \"200m\" as metres for ex_skierg on magnitude",
+   "timed_total_minutes": 20
+  },
+  {
+   "id": "mx_burpee_broad_jump_density",
+   "name": "Burpee Broad Jump — Density",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": 15,
+   "intensity_target": null,
+   "impact_level": "high",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "15m EMOM: 6 BBJ / 200m Ski / easy",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 15,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "EMOM — one movement per minute",
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 6,
+       "unit": "reps",
+       "intensity": "BBJ"
+      },
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": "Ski"
+      }
+     ]
+    }
+   ],
+   "inferred_units": [
+    {
+     "token": "200m",
+     "inferred_unit": "m",
+     "movement": "ex_skierg",
+     "basis": "magnitude"
+    }
+   ],
+   "confidence": "magnitude-inferred",
+   "reason": "read \"200m\" as metres for ex_skierg on magnitude",
+   "timed_total_minutes": 15
+  },
+  {
+   "id": "mx_rowerg_technique",
+   "name": "RowErg — Technique",
+   "workout_family": "station_rowerg",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "RowErg",
+   "estimated_minutes": 13,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "3m @ 20/22/24/22 spm + 10m steady",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 3,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Hold a repeatable effort",
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "duration",
+       "quantity": 3,
+       "unit": "min",
+       "intensity": "@ / / / spm"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 10,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Hold a repeatable effort",
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "unit": "min",
+       "intensity": "steady"
+      }
+     ]
+    }
+   ],
+   "inferred_units": [
+    {
+     "token": "3m",
+     "inferred_unit": "min",
+     "movement": "ex_rowerg",
+     "basis": "magnitude"
+    },
+    {
+     "token": "10m",
+     "inferred_unit": "min",
+     "movement": "ex_rowerg",
+     "basis": "magnitude"
+    }
+   ],
+   "confidence": "magnitude-inferred",
+   "reason": "read \"3m\" as minutes for ex_rowerg on magnitude; read \"10m\" as minutes for ex_rowerg on magnitude",
+   "timed_total_minutes": 13
+  },
+  {
+   "id": "mx_rowerg_base",
+   "name": "RowErg — Base",
+   "workout_family": "station_rowerg",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "RowErg",
+   "estimated_minutes": 30,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "30-45m steady RPE 3-4",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 30,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Hold a repeatable effort",
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "duration",
+       "quantity": 30,
+       "unit": "min",
+       "intensity": "steady RPE"
+      }
+     ]
+    }
+   ],
+   "inferred_units": [
+    {
+     "token": "30m",
+     "inferred_unit": "min",
+     "movement": "ex_rowerg",
+     "basis": "magnitude"
+    }
+   ],
+   "confidence": "magnitude-inferred",
+   "reason": "read \"30m\" as minutes for ex_rowerg on magnitude",
+   "timed_total_minutes": 30
+  },
+  {
+   "id": "mx_rowerg_micro",
+   "name": "RowErg — Micro",
+   "workout_family": "station_rowerg",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "RowErg",
+   "estimated_minutes": 12,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "12m: 250m Row + 10 air squats",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 12,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 250,
+       "unit": "m",
+       "intensity": "Row"
+      },
+      {
+       "exercise": "Air Squat",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "air squats"
+      }
+     ]
+    }
+   ],
+   "inferred_units": [
+    {
+     "token": "250m",
+     "inferred_unit": "m",
+     "movement": "ex_rowerg",
+     "basis": "magnitude"
+    }
+   ],
+   "confidence": "magnitude-inferred",
+   "reason": "read \"250m\" as metres for ex_rowerg on magnitude",
+   "timed_total_minutes": 12
+  },
+  {
+   "id": "mx_rowerg_density",
+   "name": "RowErg — Density",
+   "workout_family": "station_rowerg",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "RowErg",
+   "estimated_minutes": 20,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "20m EMOM: 200m Row / 10 WB / 80ft carry / 12 stepovers / easy",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 20,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "EMOM — one movement per minute",
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": "Row"
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "WB"
+      },
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 80,
+       "unit": "ft",
+       "intensity": "carry"
+      },
+      {
+       "exercise": "Box Step-Over",
+       "prescription_type": "reps",
+       "quantity": 12,
+       "unit": "reps",
+       "intensity": "overs"
+      }
+     ]
+    }
+   ],
+   "inferred_units": [
+    {
+     "token": "200m",
+     "inferred_unit": "m",
+     "movement": "ex_rowerg",
+     "basis": "magnitude"
+    }
+   ],
+   "confidence": "magnitude-inferred",
+   "reason": "read \"200m\" as metres for ex_rowerg on magnitude",
+   "timed_total_minutes": 20
+  },
+  {
+   "id": "mx_sandbag_lunge_micro",
+   "name": "Sandbag Lunge — Micro",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": 12,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "12m: 12 lunges + 250m easy Row",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 12,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "reps",
+       "quantity": 12,
+       "unit": "reps",
+       "intensity": "lunges"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 250,
+       "unit": "m",
+       "intensity": "easy Row"
+      }
+     ]
+    }
+   ],
+   "inferred_units": [
+    {
+     "token": "250m",
+     "inferred_unit": "m",
+     "movement": "ex_rowerg",
+     "basis": "magnitude"
+    }
+   ],
+   "confidence": "magnitude-inferred",
+   "reason": "read \"250m\" as metres for ex_rowerg on magnitude",
+   "timed_total_minutes": 12
+  },
+  {
+   "id": "mx_sandbag_lunge_density",
+   "name": "Sandbag Lunge — Density",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": 15,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "15m: 16 steps + 200m Ski + 8 pushups",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 15,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "reps",
+       "quantity": 16,
+       "unit": "steps",
+       "intensity": null
+      },
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": "Ski"
+      },
+      {
+       "exercise": "Push-Up",
+       "prescription_type": "reps",
+       "quantity": 8,
+       "unit": "reps",
+       "intensity": "pushups"
+      }
+     ]
+    }
+   ],
+   "inferred_units": [
+    {
+     "token": "200m",
+     "inferred_unit": "m",
+     "movement": "ex_skierg",
+     "basis": "magnitude"
+    }
+   ],
+   "confidence": "magnitude-inferred",
+   "reason": "read \"200m\" as metres for ex_skierg on magnitude",
+   "timed_total_minutes": 15
+  },
+  {
+   "id": "mx_wall_ball_micro",
+   "name": "Wall Ball — Micro",
+   "workout_family": "station_wall_ball",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "Wall Ball",
+   "estimated_minutes": 12,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "12m: 10 WB + 200m Row",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 12,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "WB"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": "Row"
+      }
+     ]
+    }
+   ],
+   "inferred_units": [
+    {
+     "token": "200m",
+     "inferred_unit": "m",
+     "movement": "ex_rowerg",
+     "basis": "magnitude"
+    }
+   ],
+   "confidence": "magnitude-inferred",
+   "reason": "read \"200m\" as metres for ex_rowerg on magnitude",
+   "timed_total_minutes": 12
+  },
+  {
+   "id": "mx_wall_ball_density",
+   "name": "Wall Ball — Density",
+   "workout_family": "station_wall_ball",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "Wall Ball",
+   "estimated_minutes": 15,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "15m EMOM: 12 WB / 200m Row / 10 stepovers",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 15,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "EMOM — one movement per minute",
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 12,
+       "unit": "reps",
+       "intensity": "WB"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": "Row"
+      },
+      {
+       "exercise": "Box Step-Over",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "overs"
+      }
+     ]
+    }
+   ],
+   "inferred_units": [
+    {
+     "token": "200m",
+     "inferred_unit": "m",
+     "movement": "ex_rowerg",
+     "basis": "magnitude"
+    }
+   ],
+   "confidence": "magnitude-inferred",
+   "reason": "read \"200m\" as metres for ex_rowerg on magnitude",
+   "timed_total_minutes": 15
+  }
+ ]
+}

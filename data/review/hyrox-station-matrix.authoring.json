@@ -1,0 +1,2913 @@
+{
+ "meta": {
+  "pack": "Adaptive Athlete HYROX Station Matrix v1",
+  "source": "hyrox-station-matrix.json",
+  "bucket": "authoring",
+  "workout_count": 81,
+  "format": "canonical-v1",
+  "_note": "Not parseable — prose describes structure the schema needs spelled out. Fill block + items; every quantity needs an explicit prescription_type and unit."
+ },
+ "workouts": [
+  {
+   "id": "mx_skierg_technique",
+   "name": "SkiErg — Technique",
+   "workout_family": "station_skierg",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "SkiErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "6 x 2 min technique @ easy-moderate",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "duration",
+       "quantity": 2,
+       "unit": "min",
+       "intensity": "in technique @ easy-moderate"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_strength_power",
+   "name": "SkiErg — Strength-Power",
+   "workout_family": "station_skierg",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "SkiErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "10 x 20 hard strokes / 70s easy",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": 70,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "reps",
+       "quantity": 20,
+       "unit": "reps",
+       "intensity": "hard strokes"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_threshold",
+   "name": "SkiErg — Threshold",
+   "workout_family": "station_skierg",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "SkiErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "6 x 500m RPE 7 / 90s easy",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": "RPE"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_race_specific",
+   "name": "SkiErg — Race Specific",
+   "workout_family": "station_skierg",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "SkiErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "4 x 1000m controlled / 2m easy",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": 120,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "unit": "m",
+       "intensity": "controlled"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_compromised",
+   "name": "SkiErg — Compromised",
+   "workout_family": "station_skierg",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "SkiErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 800m run + 750m Ski",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 800,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 750,
+       "unit": "m",
+       "intensity": "Ski"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_benchmark",
+   "name": "SkiErg — Benchmark",
+   "workout_family": "station_skierg",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "SkiErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "1000m time trial",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeatable test — record the result under the same conditions",
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "unit": "m",
+       "intensity": "time trial"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_hybrid_a",
+   "name": "SkiErg — Hybrid A",
+   "workout_family": "station_skierg",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "SkiErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5r: 500m Ski + 500m Row",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": "Ski"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": "Row"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_hybrid_b",
+   "name": "SkiErg — Hybrid B",
+   "workout_family": "station_skierg",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "SkiErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 600m run + 400m Ski + 12 wall balls",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": "Ski"
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 12,
+       "unit": "reps",
+       "intensity": "wall balls"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_durability",
+   "name": "SkiErg — Durability",
+   "workout_family": "station_skierg",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "SkiErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5 x 1000m RPE 5-6 / 90s easy",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "unit": "m",
+       "intensity": "RPE"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_technique",
+   "name": "Sled Push — Technique",
+   "workout_family": "station_sled_push",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "Sled Push",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "8 x 20ft @ 50-60% race load, technique",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "ft",
+       "intensity": "@ - % race load, technique"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_base",
+   "name": "Sled Push — Base",
+   "workout_family": "station_sled_push",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "Sled Push",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "10 x 20ft @ 60-70%",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "ft",
+       "intensity": "@ - %"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_strength_power",
+   "name": "Sled Push — Strength-Power",
+   "workout_family": "station_sled_push",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "Sled Push",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "8 x 20ft @ 90-110%, full recovery",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "ft",
+       "intensity": "@ - %, full recovery"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_threshold",
+   "name": "Sled Push — Threshold",
+   "workout_family": "station_sled_push",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "Sled Push",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "6r: 40ft @ 75-85% + 60s easy bike",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": "@ - %"
+      },
+      {
+       "exercise": "Spin Bike",
+       "prescription_type": "duration",
+       "quantity": 60,
+       "unit": "s",
+       "intensity": "s easy bike"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_race_specific",
+   "name": "Sled Push — Race Specific",
+   "workout_family": "station_sled_push",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "Sled Push",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "5 x 40ft @ race load",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": "@ race load"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_compromised",
+   "name": "Sled Push — Compromised",
+   "workout_family": "station_sled_push",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "Sled Push",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 600m run + 40ft @ race load",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": "@ race load"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_benchmark",
+   "name": "Sled Push — Benchmark",
+   "workout_family": "station_sled_push",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "Sled Push",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "50m @ race load time trial",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeatable test — record the result under the same conditions",
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 50,
+       "unit": "m",
+       "intensity": "@ race load time trial"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_micro",
+   "name": "Sled Push — Micro",
+   "workout_family": "station_sled_push",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "Sled Push",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "10m: 20ft @ 70% every minute",
+   "reason": "unrecognised movement in \"20ft @ 70% every minute\"",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_hybrid_a",
+   "name": "Sled Push — Hybrid A",
+   "workout_family": "station_sled_push",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "Sled Push",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5r: 40ft push + 300m Row",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": "push"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 300,
+       "unit": "m",
+       "intensity": "Row"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_hybrid_b",
+   "name": "Sled Push — Hybrid B",
+   "workout_family": "station_sled_push",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "Sled Push",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 400m run + 40ft push + 20 lunges",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": "push"
+      },
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "reps",
+       "quantity": 20,
+       "unit": "reps",
+       "intensity": "lunges"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_durability",
+   "name": "Sled Push — Durability",
+   "workout_family": "station_sled_push",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "Sled Push",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "10 x 40ft @ 65-75% / 45s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": 45,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": "@ - %"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_technique",
+   "name": "Sled Pull — Technique",
+   "workout_family": "station_sled_pull",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "Sled Pull",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "8 x 20ft @ 50-60%, rope/rhythm technique",
+   "reason": "unrecognised movement in \"20ft @ 50-60%, rope\"",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_base",
+   "name": "Sled Pull — Base",
+   "workout_family": "station_sled_pull",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "Sled Pull",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "10 x 20ft @ 60-70%",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "ft",
+       "intensity": "@ - %"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_strength_power",
+   "name": "Sled Pull — Strength-Power",
+   "workout_family": "station_sled_pull",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "Sled Pull",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "8 x 20ft @ 90-110%, full recovery",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "ft",
+       "intensity": "@ - %, full recovery"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_threshold",
+   "name": "Sled Pull — Threshold",
+   "workout_family": "station_sled_pull",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "Sled Pull",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "6r: 40ft @ 75-85% + 60s easy bike",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": "@ - %"
+      },
+      {
+       "exercise": "Spin Bike",
+       "prescription_type": "duration",
+       "quantity": 60,
+       "unit": "s",
+       "intensity": "s easy bike"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_race_specific",
+   "name": "Sled Pull — Race Specific",
+   "workout_family": "station_sled_pull",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "Sled Pull",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "5 x 40ft @ race load",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": "@ race load"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_compromised",
+   "name": "Sled Pull — Compromised",
+   "workout_family": "station_sled_pull",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "Sled Pull",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 600m run + 40ft @ race load",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": "@ race load"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_benchmark",
+   "name": "Sled Pull — Benchmark",
+   "workout_family": "station_sled_pull",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "Sled Pull",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "50m @ race load time trial",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeatable test — record the result under the same conditions",
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 50,
+       "unit": "m",
+       "intensity": "@ race load time trial"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_micro",
+   "name": "Sled Pull — Micro",
+   "workout_family": "station_sled_pull",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "Sled Pull",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "10m: 20ft @ 70% every minute",
+   "reason": "unrecognised movement in \"20ft @ 70% every minute\"",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_hybrid_a",
+   "name": "Sled Pull — Hybrid A",
+   "workout_family": "station_sled_pull",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "Sled Pull",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5r: 40ft pull + 300m Ski",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": "pull"
+      },
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 300,
+       "unit": "m",
+       "intensity": "Ski"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_hybrid_b",
+   "name": "Sled Pull — Hybrid B",
+   "workout_family": "station_sled_pull",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "Sled Pull",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 400m run + 40ft pull + 80ft carry",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": "pull"
+      },
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 80,
+       "unit": "ft",
+       "intensity": "carry"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_density",
+   "name": "Sled Pull — Density",
+   "workout_family": "station_sled_pull",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "Sled Pull",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "15m: 40ft pull / 10 TRX rows / easy",
+   "reason": "unrecognised movement in \"10 TRX rows\"",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_durability",
+   "name": "Sled Pull — Durability",
+   "workout_family": "station_sled_pull",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "Sled Pull",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "10 x 40ft @ 65-75% / 45s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": 45,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": "@ - %"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_technique",
+   "name": "Burpee Broad Jump — Technique",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "high",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "8 x 5 easy technique reps",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 5,
+       "unit": "reps",
+       "intensity": "easy technique reps"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_base",
+   "name": "Burpee Broad Jump — Base",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "high",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "10r: 6 reps + 45s walk",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 6,
+       "unit": "reps",
+       "intensity": null
+      },
+      {
+       "exercise": "Incline Walk",
+       "prescription_type": "duration",
+       "quantity": 45,
+       "unit": "s",
+       "intensity": "s walk"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_strength_power",
+   "name": "Burpee Broad Jump — Strength-Power",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "high",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "6r: 5 explosive broad jumps + 5 controlled burpees",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 5,
+       "unit": "reps",
+       "intensity": "explosive broad jumps"
+      },
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 5,
+       "unit": "reps",
+       "intensity": "controlled burpees"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_threshold",
+   "name": "Burpee Broad Jump — Threshold",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "high",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "6 x 10 reps RPE 7 / 60s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "RPE"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_race_specific",
+   "name": "Burpee Broad Jump — Race Specific",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "high",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "4 x 20m race rhythm / 90s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "m",
+       "intensity": "race rhythm"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_compromised",
+   "name": "Burpee Broad Jump — Compromised",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "high",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 600m run + 15m BBJ",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "distance",
+       "quantity": 15,
+       "unit": "m",
+       "intensity": "BBJ"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_benchmark",
+   "name": "Burpee Broad Jump — Benchmark",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "high",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "80m benchmark",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeatable test — record the result under the same conditions",
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "distance",
+       "quantity": 80,
+       "unit": "m",
+       "intensity": "benchmark"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_micro",
+   "name": "Burpee Broad Jump — Micro",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "high",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "12m: 5 BBJ + 200m easy run/walk",
+   "reason": "no quantity in \"walk\"",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_hybrid_a",
+   "name": "Burpee Broad Jump — Hybrid A",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "high",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5r: 8 BBJ + 300m Row",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 8,
+       "unit": "reps",
+       "intensity": "BBJ"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 300,
+       "unit": "m",
+       "intensity": "Row"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_hybrid_b",
+   "name": "Burpee Broad Jump — Hybrid B",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "high",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 400m run + 8 BBJ + 10 WB",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 8,
+       "unit": "reps",
+       "intensity": "BBJ"
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "WB"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_durability",
+   "name": "Burpee Broad Jump — Durability",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "high",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5 x 20m RPE 5-6 / 60s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "m",
+       "intensity": "RPE"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_strength_power",
+   "name": "RowErg — Strength-Power",
+   "workout_family": "station_rowerg",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "RowErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "10 x 250m RPE 7 / 45s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": 45,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 250,
+       "unit": "m",
+       "intensity": "RPE"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_threshold",
+   "name": "RowErg — Threshold",
+   "workout_family": "station_rowerg",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "RowErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "8 x 500m RPE 7 / 90s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": "RPE"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_race_specific",
+   "name": "RowErg — Race Specific",
+   "workout_family": "station_rowerg",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "RowErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "5 x 1000m RPE 6-7 / 2m",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 120,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "unit": "m",
+       "intensity": "RPE"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_compromised",
+   "name": "RowErg — Compromised",
+   "workout_family": "station_rowerg",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "RowErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 800m run + 750m Row",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 800,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 750,
+       "unit": "m",
+       "intensity": "Row"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_benchmark",
+   "name": "RowErg — Benchmark",
+   "workout_family": "station_rowerg",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "RowErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "1000m time trial",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeatable test — record the result under the same conditions",
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "unit": "m",
+       "intensity": "time trial"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_hybrid_a",
+   "name": "RowErg — Hybrid A",
+   "workout_family": "station_rowerg",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "RowErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5r: 500m Row + 100ft carry",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": "Row"
+      },
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "unit": "ft",
+       "intensity": "carry"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_hybrid_b",
+   "name": "RowErg — Hybrid B",
+   "workout_family": "station_rowerg",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "RowErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 600m run + 500m Row + 15 WB",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": "Row"
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 15,
+       "unit": "reps",
+       "intensity": "WB"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_durability",
+   "name": "RowErg — Durability",
+   "workout_family": "station_rowerg",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "RowErg",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5 x 1000m RPE 5-6 / 90s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "unit": "m",
+       "intensity": "RPE"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_technique",
+   "name": "Farmer Carry — Technique",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "Farmer Carry",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "8 x 40m @ 50-60%, posture/turns",
+   "reason": "unrecognised movement in \"40m @ 50-60%, posture\"",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_base",
+   "name": "Farmer Carry — Base",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "Farmer Carry",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "6 x 100m @ 60-70%",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "unit": "m",
+       "intensity": "@ - %"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_strength_power",
+   "name": "Farmer Carry — Strength-Power",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "Farmer Carry",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "8 x 40m @ 110-130% / 90s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "m",
+       "intensity": "@ - %"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_threshold",
+   "name": "Farmer Carry — Threshold",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "Farmer Carry",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "5 x 100m @ 80-90% / 60s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "unit": "m",
+       "intensity": "@ - %"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_race_specific",
+   "name": "Farmer Carry — Race Specific",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "Farmer Carry",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "3 x 200m @ race load / 2m",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 3,
+     "duration_minutes": null,
+     "rest_seconds": 120,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": "@ race load"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_compromised",
+   "name": "Farmer Carry — Compromised",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "Farmer Carry",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 600m run + 100m race load",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "unit": "m",
+       "intensity": "race load"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_benchmark",
+   "name": "Farmer Carry — Benchmark",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "Farmer Carry",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "200m benchmark @ race load",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeatable test — record the result under the same conditions",
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": "benchmark @ race load"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_hybrid_a",
+   "name": "Farmer Carry — Hybrid A",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "Farmer Carry",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5r: 100m carry + 500m Row",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "unit": "m",
+       "intensity": "carry"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": "Row"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_hybrid_b",
+   "name": "Farmer Carry — Hybrid B",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "Farmer Carry",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 400m run + 80m carry + 12 lunges",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 80,
+       "unit": "m",
+       "intensity": "carry"
+      },
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "reps",
+       "quantity": 12,
+       "unit": "reps",
+       "intensity": "lunges"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_durability",
+   "name": "Farmer Carry — Durability",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "Farmer Carry",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4 x 250m @ 70-80% / 90s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 250,
+       "unit": "m",
+       "intensity": "@ - %"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_technique",
+   "name": "Sandbag Lunge — Technique",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "6 x 20 steps light technique",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "reps",
+       "quantity": 20,
+       "unit": "steps",
+       "intensity": "light technique"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_base",
+   "name": "Sandbag Lunge — Base",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "5 x 40 steps @ 50-60%",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "reps",
+       "quantity": 40,
+       "unit": "steps",
+       "intensity": "@ - %"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_strength_power",
+   "name": "Sandbag Lunge — Strength-Power",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "6 x 20 steps @ 100-120% / 90s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "reps",
+       "quantity": 20,
+       "unit": "steps",
+       "intensity": "@ - %"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_threshold",
+   "name": "Sandbag Lunge — Threshold",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "5 x 30m @ 75-85% / 60s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "distance",
+       "quantity": 30,
+       "unit": "m",
+       "intensity": "@ - %"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_race_specific",
+   "name": "Sandbag Lunge — Race Specific",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "3 x 100m @ race load / 2-3m",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 3,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "unit": "m",
+       "intensity": "@ race load"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_compromised",
+   "name": "Sandbag Lunge — Compromised",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 600m run + 25m race load",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "distance",
+       "quantity": 25,
+       "unit": "m",
+       "intensity": "race load"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_benchmark",
+   "name": "Sandbag Lunge — Benchmark",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "100m benchmark @ race load",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeatable test — record the result under the same conditions",
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "unit": "m",
+       "intensity": "benchmark @ race load"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_hybrid_a",
+   "name": "Sandbag Lunge — Hybrid A",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 25m lunges + 500m Row",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "distance",
+       "quantity": 25,
+       "unit": "m",
+       "intensity": "lunges"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": "Row"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_hybrid_b",
+   "name": "Sandbag Lunge — Hybrid B",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 400m run + 20m lunges + 10 WB",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "m",
+       "intensity": "lunges"
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "WB"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_durability",
+   "name": "Sandbag Lunge — Durability",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4 x 75m @ 65-75% / 90s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "distance",
+       "quantity": 75,
+       "unit": "m",
+       "intensity": "@ - %"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_technique",
+   "name": "Wall Ball — Technique",
+   "workout_family": "station_wall_ball",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "Wall Ball",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "8 x 10 light technique reps",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "light technique reps"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_base",
+   "name": "Wall Ball — Base",
+   "workout_family": "station_wall_ball",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "Wall Ball",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "10 x 15 @ 50-75% race ball",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 15,
+       "unit": "reps",
+       "intensity": "@ - % race ball"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_strength_power",
+   "name": "Wall Ball — Strength-Power",
+   "workout_family": "station_wall_ball",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "Wall Ball",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "6 x 10 heavy WB/thrusters / 75-90s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "heavy WB"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_threshold",
+   "name": "Wall Ball — Threshold",
+   "workout_family": "station_wall_ball",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "Wall Ball",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "6 x 20 @ race ball / 60s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 20,
+       "unit": "reps",
+       "intensity": "@ race ball"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_race_specific",
+   "name": "Wall Ball — Race Specific",
+   "workout_family": "station_wall_ball",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "Wall Ball",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "3 x 50 @ race ball / 2m",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 3,
+     "duration_minutes": null,
+     "rest_seconds": 120,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 50,
+       "unit": "reps",
+       "intensity": "@ race ball"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_compromised",
+   "name": "Wall Ball — Compromised",
+   "workout_family": "station_wall_ball",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "Wall Ball",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 600m run + 25 WB",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 25,
+       "unit": "reps",
+       "intensity": "WB"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_benchmark",
+   "name": "Wall Ball — Benchmark",
+   "workout_family": "station_wall_ball",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "Wall Ball",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "100 WB benchmark",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeatable test — record the result under the same conditions",
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 100,
+       "unit": "reps",
+       "intensity": "WB benchmark"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_hybrid_a",
+   "name": "Wall Ball — Hybrid A",
+   "workout_family": "station_wall_ball",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "Wall Ball",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5r: 15 WB + 400m Ski",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 15,
+       "unit": "reps",
+       "intensity": "WB"
+      },
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": "Ski"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_hybrid_b",
+   "name": "Wall Ball — Hybrid B",
+   "workout_family": "station_wall_ball",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "Wall Ball",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 400m run + 15 WB + 80ft carry",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Complete every movement, then repeat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": "run"
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 15,
+       "unit": "reps",
+       "intensity": "WB"
+      },
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 80,
+       "unit": "ft",
+       "intensity": "carry"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_durability",
+   "name": "Wall Ball — Durability",
+   "workout_family": "station_wall_ball",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "Wall Ball",
+   "estimated_minutes": null,
+   "intensity_target": null,
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5 x 30 @ race ball / 75s",
+   "reason": "estimated_minutes is absent and not derivable — the prescription states no duration",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 75,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 30,
+       "unit": "reps",
+       "intensity": "@ race ball"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

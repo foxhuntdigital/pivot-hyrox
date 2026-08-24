@@ -1,0 +1,168 @@
+{
+ "meta": {
+  "pack": "Adaptive Athlete HYROX Station Matrix v1",
+  "source": "hyrox-station-matrix.json",
+  "bucket": "ready",
+  "workout_count": 4,
+  "format": "canonical-v1",
+  "_note": "Every unit resolved by the movement or an explicit token. No magnitude inference. Safe to import."
+ },
+ "workouts": [
+  {
+   "id": "mx_skierg_base",
+   "name": "SkiErg — Base",
+   "workout_family": "station_skierg",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "SkiErg",
+   "estimated_minutes": 30,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "30 min steady RPE 3-4",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 30,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Hold a repeatable effort",
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "duration",
+       "quantity": 30,
+       "unit": "min",
+       "intensity": "in steady RPE"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_density",
+   "name": "Sled Push — Density",
+   "workout_family": "station_sled_push",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "Sled Push",
+   "estimated_minutes": 15,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "15m: 40ft push + 12 step-overs",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 15,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": "push"
+      },
+      {
+       "exercise": "Box Step-Over",
+       "prescription_type": "reps",
+       "quantity": 12,
+       "unit": "steps",
+       "intensity": "overs"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_micro",
+   "name": "Farmer Carry — Micro",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "Farmer Carry",
+   "estimated_minutes": 12,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "12m: 60m carry + 8 goblet squats",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 12,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 60,
+       "unit": "m",
+       "intensity": "carry"
+      },
+      {
+       "exercise": "Goblet Squat",
+       "prescription_type": "reps",
+       "quantity": 8,
+       "unit": "reps",
+       "intensity": "goblet squats"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_density",
+   "name": "Farmer Carry — Density",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "Farmer Carry",
+   "estimated_minutes": 15,
+   "intensity_target": null,
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "15m: 60m carry + 10 WB + 8 stepovers",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 15,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 60,
+       "unit": "m",
+       "intensity": "carry"
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "WB"
+      },
+      {
+       "exercise": "Box Step-Over",
+       "prescription_type": "reps",
+       "quantity": 8,
+       "unit": "reps",
+       "intensity": "overs"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -2,7 +2,7 @@
  * The app shell: a fixed wordmark header, the active tab's content, and the
  * custom bottom bar.
  *
- * The design's tab bar is a 2px ink rule with four columns, each marked by an
+ * The design's tab bar is a 2px ink rule with five columns, each marked by an
  * 18x3 red bar above its label — not a platform tab bar, so it is drawn rather
  * than configured.
  */
@@ -18,6 +18,7 @@ import { useApp } from '@/state/store';
 const TABS = [
   { key: 'today', label: 'Today' },
   { key: 'plan', label: 'Plan' },
+  { key: 'coach', label: 'Coach' },
   { key: 'progress', label: 'Progress' },
   { key: 'profile', label: 'Profile' },
 ] as const;
@@ -25,6 +26,7 @@ const TABS = [
 const HEADER_LABEL: Record<string, string> = {
   today: 'Wed 19 Aug',
   plan: 'Week 7 / 16',
+  coach: 'Knows your plan',
   progress: '30 day window',
   profile: 'Account',
 };
@@ -82,7 +84,7 @@ function TabBar() {
                 backgroundColor: isActive ? color.red : 'transparent',
               }} />
               <Text style={[t.label, {
-                fontSize: 10, letterSpacing: 1,
+                fontSize: 10, letterSpacing: 0.8,
                 color: isActive ? color.ink : color.muted3,
               }]}>
                 {tab.label}

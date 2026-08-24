@@ -1,0 +1,853 @@
+{
+ "meta": {
+  "pack": "Adaptive Athlete Running Expansion v1",
+  "source": "running-expansion.json",
+  "bucket": "authoring",
+  "workout_count": 29,
+  "format": "canonical-v1",
+  "_note": "Not parseable — prose describes structure the schema needs spelled out. Fill block + items; every quantity needs an explicit prescription_type and unit."
+ },
+ "workouts": [
+  {
+   "id": "run_technique_mechanics_01",
+   "name": "Run Mechanics + Strides 30",
+   "workout_family": "run_skill",
+   "stimulus": "running_economy",
+   "category": "Technique / Mechanics",
+   "station": null,
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 3-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "10m easy + drills + 6x20s relaxed strides/60s walk-jog + easy finish",
+   "reason": "unquantified phase \"drills\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_easy_base_01",
+   "name": "Easy Run 30",
+   "workout_family": "easy_base",
+   "stimulus": "aerobic_base",
+   "category": "Easy Base",
+   "station": null,
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.55,
+   "source_prescription": "30m conversational running; treadmill or outdoor",
+   "reason": "unquantified phase \"treadmill or outdoor\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_easy_base_02",
+   "name": "Easy Run 45",
+   "workout_family": "easy_base",
+   "stimulus": "aerobic_base",
+   "category": "Easy Base",
+   "station": null,
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.55,
+   "source_prescription": "45m conversational running; resist pace creep",
+   "reason": "unquantified phase \"resist pace creep\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_easy_base_03",
+   "name": "Easy Run + Strides 40",
+   "workout_family": "easy_base",
+   "stimulus": "aerobic_base",
+   "category": "Easy Base",
+   "station": null,
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 3-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.55,
+   "source_prescription": "30m easy + 6x20s strides/60s easy + cooldown",
+   "reason": "unquantified phase \"cooldown\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_long_aerobic_01",
+   "name": "Long Easy 60",
+   "workout_family": "long_run",
+   "stimulus": "aerobic_durability",
+   "category": "Long Aerobic",
+   "station": null,
+   "estimated_minutes": 60,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.62,
+   "source_prescription": "60m conversational run; walk breaks allowed if needed to preserve easy effort",
+   "reason": "unquantified phase \"walk breaks allowed if needed to preserve easy effort\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_long_aerobic_02",
+   "name": "Long Easy 75",
+   "workout_family": "long_run",
+   "stimulus": "aerobic_durability",
+   "category": "Long Aerobic",
+   "station": null,
+   "estimated_minutes": 75,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.62,
+   "source_prescription": "75m easy; fueling/hydration rehearsal when appropriate",
+   "reason": "unquantified phase \"fueling/hydration rehearsal when appropriate\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_progression_03",
+   "name": "Negative Split 6K",
+   "workout_family": "progression",
+   "stimulus": "aerobic_strength",
+   "category": "Progression",
+   "station": null,
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 4→6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.68,
+   "source_prescription": "First 3K easy; second 3K gradually faster without sprinting",
+   "reason": "unrecognised movement in \"First 3K easy\"",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_tempo_01",
+   "name": "Tempo 3x8",
+   "workout_family": "tempo",
+   "stimulus": "tempo_endurance",
+   "category": "Tempo",
+   "station": null,
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.75,
+   "source_prescription": "10m easy + 3x8m tempo/2m easy + cooldown",
+   "reason": "unquantified phase \"cooldown\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_tempo_02",
+   "name": "Tempo 2x12",
+   "workout_family": "tempo",
+   "stimulus": "tempo_endurance",
+   "category": "Tempo",
+   "station": null,
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.75,
+   "source_prescription": "10m easy + 2x12m tempo/3m easy + cooldown",
+   "reason": "unquantified phase \"cooldown\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_threshold_01",
+   "name": "Threshold 5x5",
+   "workout_family": "threshold",
+   "stimulus": "lactate_threshold",
+   "category": "Threshold",
+   "station": null,
+   "estimated_minutes": 50,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.82,
+   "source_prescription": "12m easy + 5x5m threshold/2m easy + cooldown",
+   "reason": "unquantified phase \"cooldown\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_threshold_02",
+   "name": "Threshold 4x6",
+   "workout_family": "threshold",
+   "stimulus": "lactate_threshold",
+   "category": "Threshold",
+   "station": null,
+   "estimated_minutes": 48,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.82,
+   "source_prescription": "12m easy + 4x6m threshold/2m easy + cooldown",
+   "reason": "unquantified phase \"cooldown\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_threshold_03",
+   "name": "Threshold 3x1 Mile",
+   "workout_family": "threshold",
+   "stimulus": "lactate_threshold",
+   "category": "Threshold",
+   "station": null,
+   "estimated_minutes": 55,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.82,
+   "source_prescription": "12m easy + 3x1 mile threshold/3m easy + cooldown",
+   "reason": "unquantified phase \"cooldown\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_1k_repeats_02",
+   "name": "HYROX 6x1K",
+   "workout_family": "one_k",
+   "stimulus": "hyrox_run_pacing",
+   "category": "1K Repeats",
+   "station": null,
+   "estimated_minutes": 55,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.92,
+   "source_prescription": "6x1K at repeatable HYROX effort; 90s-2m easy",
+   "reason": "unrecognised movement in \"1K at repeatable HYROX effort\"",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_1k_repeats_03",
+   "name": "1K Descending Rest",
+   "workout_family": "one_k",
+   "stimulus": "hyrox_run_pacing",
+   "category": "1K Repeats",
+   "station": null,
+   "estimated_minutes": 48,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.92,
+   "source_prescription": "5x1K same target pace; recovery 2:00/1:45/1:30/1:15",
+   "reason": "\"recovery 2:00/1:45/1:30/1:15\" is a rest schedule, which a single rest_seconds cannot express",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_incline_hills_01",
+   "name": "Treadmill Incline Repeats",
+   "workout_family": "hills",
+   "stimulus": "strength_endurance",
+   "category": "Incline / Hills",
+   "station": null,
+   "estimated_minutes": 42,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "10m easy + 8x2m @ 3-5% incline/90s easy flat + cooldown",
+   "reason": "unquantified phase \"cooldown\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_incline_hills_02",
+   "name": "Hill Strength 10x60s",
+   "workout_family": "hills",
+   "stimulus": "strength_endurance",
+   "category": "Incline / Hills",
+   "station": null,
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "10x60s uphill strong/90s easy return; warm-up/cooldown",
+   "reason": "unquantified phase \"warm-up/cooldown\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_mixed_race_pace_01",
+   "name": "HYROX Race-Pace 4K",
+   "workout_family": "race_pace",
+   "stimulus": "hyrox_race_pacing",
+   "category": "Mixed Race-Pace",
+   "station": null,
+   "estimated_minutes": 55,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 1,
+   "source_prescription": "4r: 1K run + alternating 500m Ski / 40ft push / 500m Row / 20 WB",
+   "reason": "prescription offers a choice of movement rather than naming one",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_mixed_race_pace_02",
+   "name": "HYROX Race-Pace 6K",
+   "workout_family": "race_pace",
+   "stimulus": "hyrox_race_pacing",
+   "category": "Mixed Race-Pace",
+   "station": null,
+   "estimated_minutes": 75,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 1,
+   "source_prescription": "6x1K runs with one moderate station dose between each; never race the workout",
+   "reason": "prescription offers a choice of movement rather than naming one",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_mixed_race_pace_03",
+   "name": "Broken 8K HYROX Run",
+   "workout_family": "race_pace",
+   "stimulus": "hyrox_race_pacing",
+   "category": "Mixed Race-Pace",
+   "station": null,
+   "estimated_minutes": 75,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 1,
+   "source_prescription": "8x1K at goal sustainable HYROX pace; 90s easy or short station technique between reps",
+   "reason": "prescription offers a choice of movement rather than naming one",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_treadmill_control_01",
+   "name": "Treadmill Pace Ladder",
+   "workout_family": "treadmill",
+   "stimulus": "pace_control",
+   "category": "Treadmill Control",
+   "station": null,
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 3-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.82,
+   "source_prescription": "10m easy + 5m each at easy/steady/moderate/steady + cooldown",
+   "reason": "prescription offers a choice of movement rather than naming one",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_treadmill_control_02",
+   "name": "Treadmill 1K Pace Lock",
+   "workout_family": "treadmill",
+   "stimulus": "pace_control",
+   "category": "Treadmill Control",
+   "station": null,
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.82,
+   "source_prescription": "5x1K at same treadmill speed; 2m easy; target <3% rep-to-rep drift",
+   "reason": "unrecognised movement in \"1K at same treadmill speed\"",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_treadmill_control_03",
+   "name": "Treadmill Rolling Incline",
+   "workout_family": "treadmill",
+   "stimulus": "pace_control",
+   "category": "Treadmill Control",
+   "station": null,
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.82,
+   "source_prescription": "6r: 3m flat steady + 2m @ 2-3% incline; easy cooldown",
+   "reason": "unrecognised movement in \"2m @ 2-3% incline; easy cooldown\"",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_benchmark_01",
+   "name": "1K Run Benchmark",
+   "workout_family": "benchmark",
+   "stimulus": "run_benchmark",
+   "category": "Benchmark",
+   "station": null,
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 8-9",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "Progressive warm-up + 1K hard controlled time trial + cooldown",
+   "reason": "unquantified phase \"Progressive warm-up\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_benchmark_02",
+   "name": "5K Run Benchmark",
+   "workout_family": "benchmark",
+   "stimulus": "run_benchmark",
+   "category": "Benchmark",
+   "station": null,
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 8",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "10-15m warm-up + 5K best sustainable effort + cooldown",
+   "reason": "unrecognised movement in \"10-15m warm-up\"",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_benchmark_03",
+   "name": "30-Min Aerobic Benchmark",
+   "workout_family": "benchmark",
+   "stimulus": "run_benchmark",
+   "category": "Benchmark",
+   "station": null,
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "30m steady; record distance, avg HR, pace and RPE under repeatable conditions",
+   "reason": "unquantified phase \"record distance, avg HR, pace and RPE under repeatable conditions\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_micro_run_02",
+   "name": "Micro 10x1",
+   "workout_family": "micro",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro Run",
+   "station": null,
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.62,
+   "source_prescription": "3m easy + 5x1m moderate/1m easy + brief cooldown",
+   "reason": "unquantified phase \"brief cooldown\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_taper_sharpen_01",
+   "name": "Sharpen 4x400",
+   "workout_family": "taper",
+   "stimulus": "race_sharpening",
+   "category": "Taper / Sharpen",
+   "station": null,
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.95,
+   "source_prescription": "15m easy + 4x400m at crisp race feel/2m easy + cooldown",
+   "reason": "unquantified phase \"cooldown\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_taper_sharpen_02",
+   "name": "Race Week 3x1K",
+   "workout_family": "taper",
+   "stimulus": "race_sharpening",
+   "category": "Taper / Sharpen",
+   "station": null,
+   "estimated_minutes": 38,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.95,
+   "source_prescription": "10m easy + 3x1K at planned HYROX pace/3m easy + cooldown",
+   "reason": "unrecognised movement in \"1K at planned HYROX pace\"",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  },
+  {
+   "id": "run_recovery_run_01",
+   "name": "Recovery Jog 20",
+   "workout_family": "recovery",
+   "stimulus": "active_recovery",
+   "category": "Recovery Run",
+   "station": null,
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 2-3",
+   "impact_level": "low",
+   "hyrox_specificity": 0.4,
+   "source_prescription": "20m very easy; walk freely; finish fresher than started",
+   "reason": "unquantified phase \"walk freely\" names work with no prescription",
+   "block": {
+    "block_type": null,
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null
+   },
+   "items": [
+    {
+     "exercise": null,
+     "prescription_type": null,
+     "quantity": null,
+     "unit": null,
+     "intensity": null
+    }
+   ]
+  }
+ ]
+}

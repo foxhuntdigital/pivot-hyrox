@@ -10,6 +10,11 @@
     "engine:test": "npm run test --workspace packages/engine",
     "functions:test": "node --experimental-strip-types --test supabase/functions/_shared/*.test.ts",
     "seed:build": "node scripts/convert-seed.mjs",
+    "seed:import": "node scripts/import-workouts.mjs",
+    "seed:rules": "node scripts/import-programming-rules.mjs",
+    "seed:taxonomy": "node scripts/apply-taxonomy.mjs",
+    "seed:prepare": "node scripts/prepare-pack.mjs",
+    "seed:sheets": "node scripts/export-authoring-sheet.mjs",
     "db:verify": "./scripts/verify-schema.sh",
     "test": "npm run engine:test && npm run functions:test"
   }

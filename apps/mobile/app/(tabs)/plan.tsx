@@ -11,7 +11,7 @@ import { View, Text, ScrollView } from 'react-native';
 import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, SquareCheck } from '@/components/primitives';
 import { useApp } from '@/state/store';
-import { PHASE, WEEK_STIMULI } from '@/data/athlete';
+import { PHASE, WEEK_QUEUE, WEEK_STIMULI } from '@/data/athlete';
 import { templateById } from '@/data/content';
 
 /** Completed work this week, plus what the queue still holds. */
@@ -22,17 +22,26 @@ const COMPLETED = [
   { name: 'Ski 5x500', note: 'Completed · threshold', mins: '35 min' },
 ];
 
-const QUEUE_DEFAULT = [
-  { id: 'wo_hyrox_pull_a', note: 'Ski + sled pull + pulling volume' },
-  { id: 'wo_long_hybrid_60', note: 'Run / station alternating' },
-  { id: 'wo_recovery_spin_mobility', note: 'Z1 flush' },
-];
+/**
+ * The queue is the shared week (`WEEK_QUEUE`), presented in the two orders the
+ * engine can hold it in. Coach's plan proposals name these same sessions, so a
+ * proposal can never describe a week the Plan tab does not show.
+ */
+const QUEUE_DEFAULT = WEEK_QUEUE.map(s => ({ id: s.template_id, note: s.note }));
 
-const QUEUE_REORDERED = [
-  { id: 'wo_recovery_spin_mobility', note: 'Moved up — yesterday’s load ran 18% high', flag: true },
-  { id: 'wo_long_hybrid_60', note: 'Now later this week' },
-  { id: 'wo_hyrox_pull_a', note: 'After the flush' },
-];
+const REORDER_NOTE: Record<string, string> = {
+  wo_recovery_spin_mobility: 'Moved up — yesterday’s load ran 18% high',
+  wo_long_hybrid_60: 'Now later this week',
+  wo_hyrox_pull_a: 'After the flush',
+};
+
+const QUEUE_REORDERED = [...WEEK_QUEUE]
+  .sort((a, b) => b.priority - a.priority)
+  .map(s => ({
+    id: s.template_id,
+    note: REORDER_NOTE[s.template_id] ?? s.note,
+    flag: s.priority === 3,
+  }));
 
 export default function PlanScreen() {
   const { state, dispatch, session } = useApp();
@@ -41,6 +50,7 @@ export default function PlanScreen() {
     + (state.completed_today ? 1 : 0);
   const weekTarget = WEEK_STIMULI.reduce((n, r) => n + r.target_exposures, 0);
   const queue = state.queue_reordered ? QUEUE_REORDERED : QUEUE_DEFAULT;
+  const travelDays = new Set(state.travel?.days ?? []);
 
   const todayRow = session.kind === 'session'
     ? {
@@ -129,6 +139,13 @@ export default function PlanScreen() {
                 <Text style={[t.meta, { color: 'flag' in q && q.flag ? color.redDark : color.muted }]}>
                   {q.note}
                 </Text>
+                {/* A travel change confirmed in Coach shows on the days it
+                    covers, so the athlete can see it was actually applied. */}
+                {travelDays.has(WEEK_QUEUE.find(w => w.template_id === q.id)?.day ?? '') ? (
+                  <Text style={[t.meta, { color: color.redDark }]}>
+                    Travel equipment · applied from Coach
+                  </Text>
+                ) : null}
               </View>
               <Text style={[t.meta, { fontFamily: t.rowTitle.fontFamily, color: color.muted }]}>
                 {tpl?.estimated_minutes} min

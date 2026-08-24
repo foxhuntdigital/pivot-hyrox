@@ -1,0 +1,93 @@
+{
+ "meta": {
+  "pack": "Adaptive Athlete Running Expansion v1",
+  "source": "running-expansion.json",
+  "bucket": "ready",
+  "workout_count": 2,
+  "format": "canonical-v1",
+  "_note": "Every unit resolved by the movement or an explicit token. No magnitude inference. Safe to import."
+ },
+ "workouts": [
+  {
+   "id": "run_1k_repeats_01",
+   "name": "HYROX 4x1K",
+   "workout_family": "one_k",
+   "stimulus": "hyrox_run_pacing",
+   "category": "1K Repeats",
+   "station": null,
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.92,
+   "source_prescription": "4x1K at controlled goal-HYROX run effort; 2m easy jog/walk",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Equal-quality repeats",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "unit": "m",
+       "intensity": "at controlled goal-HYROX run effort"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 2,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Hold a repeatable effort",
+     "items": [
+      {
+       "exercise": "Incline Walk",
+       "prescription_type": "duration",
+       "quantity": 2,
+       "unit": "min",
+       "intensity": "easy jog/walk"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_micro_run_01",
+   "name": "Micro Easy 12",
+   "workout_family": "micro",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro Run",
+   "station": null,
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.62,
+   "source_prescription": "12m easy continuous run or run-walk",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 12,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Hold a repeatable effort",
+     "items": [
+      {
+       "exercise": "Incline Walk",
+       "prescription_type": "duration",
+       "quantity": 12,
+       "unit": "min",
+       "intensity": "easy continuous run or run-walk"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
