@@ -22,7 +22,7 @@ const RPE_CHOICES = [5, 6, 7, 8, 9];
 export default function DoneScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { state, dispatch, session, steps } = useApp();
+  const { state, dispatch, session, steps, finishSession } = useApp();
 
   if (session.kind !== 'session') {
     router.replace('/today');
@@ -49,7 +49,10 @@ export default function DoneScreen() {
         + 'The week stays intact and your next exposure builds from here.';
 
   const finish = () => {
-    dispatch({ type: 'back_to_today' });
+    // RPE is captured on this screen, so the finish is written here rather
+    // than when the last block ended — the record carries what the athlete
+    // actually reported.
+    finishSession();
     router.replace('/today');
   };
 

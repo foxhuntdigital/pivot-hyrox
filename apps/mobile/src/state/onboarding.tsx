@@ -114,6 +114,7 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
       equipment: draft.equipment,
       profile: {
         typical_session_minutes: draft.typical_session_minutes,
+        schedule_predictability: draft.schedule_predictability,
         impact_tolerance: draft.impact_tolerance,
         considerations: draft.considerations,
       },

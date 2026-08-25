@@ -68,16 +68,52 @@ function StatCell({ label, children, last }: {
 
 export default function TodayScreen() {
   const router = useRouter();
-  const { state, dispatch, session, readiness, sleep } = useApp();
+  const { state, session, readiness, sleep, beginSession } = useApp();
   const [sheetOpen, setSheetOpen] = useState(false);
 
   const sleepClock = hoursToClock(sleep.hours);
   // The accent is tied to the engine's own threshold, so red means "this
   // changed today's session" rather than being decorative.
   const isLowSleep = sleep.hours !== null && sleep.hours < LOW_SLEEP_HOURS;
-  // Naming the source is how the athlete knows whether to trust or correct it.
-  const sleepSourceLabel = sleep.source === 'connected' ? 'Sleep'
-    : sleep.hours === null ? 'Sleep · log' : 'Sleep · reported';
+
+  /**
+   * What the daily panel says, and where its buttons go.
+   *
+   * No check-in yet → it is the way into one, named for what it collects.
+   * Checked in → it becomes the adapt offer, and quotes the night back only
+   * because the athlete reported it.
+   */
+  const openCheckin = () => router.push('/checkin');
+  const prompt = !state.checkin
+    ? {
+        label: 'Recovery',
+        body: "Tell me how you slept and how you're feeling. It takes about twenty "
+          + "seconds, and today's session is recalculated from it.",
+        primary: 'Check in',
+        onPrimary: openCheckin,
+        secondary: 'Adapt today',
+        onSecondary: () => setSheetOpen(true),
+      }
+    : isLowSleep
+      ? {
+          label: 'Adapt today',
+          body: `You logged ${sleepClock} and today's session is `
+            + `${session.kind === 'session' ? `${session.estimated_minutes} minutes` : 'long'}. `
+            + "Tell me what you actually have and I'll rebuild it.",
+          primary: 'Adapt',
+          onPrimary: () => setSheetOpen(true),
+          secondary: 'Check-in',
+          onSecondary: openCheckin,
+        }
+      : {
+          label: 'Adapt today',
+          body: `Logged ${sleepClock} sleep. If today looks different from the plan, `
+            + "tell me the time you have and I'll rebuild the session.",
+          primary: 'Adapt today',
+          onPrimary: () => setSheetOpen(true),
+          secondary: 'Check-in',
+          onSecondary: openCheckin,
+        };
 
   const weekDone = WEEK_STIMULI.reduce((n, r) => n + r.completed_exposures, 0)
     + (state.completed_today ? 1 : 0);
@@ -85,7 +121,7 @@ export default function TodayScreen() {
 
   const start = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    dispatch({ type: 'start_workout' });
+    beginSession();
     router.push('/active');
   };
 
@@ -148,7 +184,7 @@ export default function TodayScreen() {
               backgroundColor: pressed ? color.hover : 'transparent',
             })}
           >
-            <Label size="sm">{sleepSourceLabel}</Label>
+            <Label size="sm">Sleep</Label>
             <Text style={[t.h4, {
               fontSize: 15, marginTop: 4,
               color: sleepClock === null ? color.muted3
@@ -160,18 +196,38 @@ export default function TodayScreen() {
         </View>
         <Rule />
 
-        {/* The nudge only appears while the athlete has not yet adapted. */}
-        {!state.adapted && !state.completed_today && (
-          <InkPanel label="Check in" style={{ paddingHorizontal: space.gutter }}>
-            <Text style={[t.body, { color: color.onDarkSoft, maxWidth: 300 }]}>
-              Sleep was low last night and today's session is long. Tell me what you
-              actually have and I'll rebuild it.
+        {/* The daily prompt, and the way into the check-in.
+            
+            It used to be labelled "Check in" while opening the Adapt sheet, and
+            to open by asserting sleep was low whether or not it was. Both are
+            fixed here: the panel asks for the check-in when there isn't one,
+            offers to adapt when there is, and only mentions the night when the
+            athlete has actually reported it. */}
+        {/* Hidden once there is nothing left to offer: the athlete has both
+            checked in and adapted, or the session is done. */}
+        {!state.completed_today && (!state.checkin || !state.adapted) && (
+          <InkPanel label={prompt.label} style={{ paddingHorizontal: space.gutter }}>
+            <Text style={[t.body, { color: color.onDarkSoft, maxWidth: 320 }]}>
+              {prompt.body}
             </Text>
-            <ActionButton
-              label="Check in & adapt"
-              onPress={() => setSheetOpen(true)}
-              style={{ marginTop: 14 }}
-            />
+            {/* Side by side, the way Start/Adapt sits under the session card.
+                Equal halves rather than primary-plus-remainder: both labels are
+                verbs of similar weight, and an uneven split reads as one of
+                them being an afterthought. */}
+            <View style={{ flexDirection: 'row', gap: 8, marginTop: 14 }}>
+              <ActionButton
+                label={prompt.primary}
+                onPress={prompt.onPrimary}
+                style={{ flex: 1, paddingHorizontal: 12 }}
+              />
+              <ActionButton
+                label={prompt.secondary}
+                variant="outlineDark"
+                arrow={null}
+                onPress={prompt.onSecondary}
+                style={{ flex: 1, paddingHorizontal: 12 }}
+              />
+            </View>
           </InkPanel>
         )}
 

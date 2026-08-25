@@ -13,6 +13,9 @@ import { OnboardingStep, ChipRow } from '@/components/onboarding';
 import { Label } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
 import { useOnboarding } from '@/state/onboarding';
+// Shared with the Profile screen, which edits the same column: one list of
+// answers means the chip picked here is the chip shown there.
+import { PREDICTABILITY_CHOICES, preGeneratesVariants } from '@/data/profile';
 
 /** Mirrors the adapt sheet's time options (PRD §6.3) so the two agree. */
 const MINUTES = [
@@ -21,12 +24,6 @@ const MINUTES = [
   { value: 45, label: '45 min' },
   { value: 60, label: '60 min' },
   { value: 90, label: '90 min +' },
-];
-
-const PREDICTABILITY = [
-  { value: 0.1, label: 'Same time daily' },
-  { value: 0.5, label: 'Roughly regular' },
-  { value: 0.9, label: 'Never the same' },
 ];
 
 const IMPACT = [
@@ -55,7 +52,7 @@ export default function AvailabilityScreen() {
 
       <ChipRow
         label="How predictable is your week?"
-        options={PREDICTABILITY}
+        options={PREDICTABILITY_CHOICES.map(c => ({ value: c.value, label: c.label }))}
         value={draft.schedule_predictability}
         onChange={schedule_predictability => update({ schedule_predictability })}
       />
@@ -73,10 +70,11 @@ export default function AvailabilityScreen() {
         paddingHorizontal: 13, paddingVertical: 12,
       }}>
         <Label tone="ink" size="sm" style={{ paddingBottom: 6 }}>
-          {draft.schedule_predictability >= 0.7 ? 'Express and Micro ready' : 'Full sessions first'}
+          {preGeneratesVariants(draft.schedule_predictability)
+            ? 'Express and Micro ready' : 'Full sessions first'}
         </Label>
         <Text style={[t.bodySm, { color: color.muted2 }]}>
-          {draft.schedule_predictability >= 0.7
+          {preGeneratesVariants(draft.schedule_predictability)
             ? 'Shorter variants are prepared alongside every session, so a compressed day still gets the stimulus rather than being skipped.'
             : 'Full sessions lead, with shorter variants available on demand from the adapt sheet.'}
         </Text>

@@ -20,11 +20,11 @@ const ENERGY_CHOICES = ['low', 'normal', 'high'] as const;
 const FLAG_CHOICES = ['Low sleep', 'Something hurts', 'No equipment', 'Need low impact'];
 
 export function AdaptSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
-  const { state, dispatch, decision, engineInput } = useApp();
+  const { state, dispatch, decision, commitAdaptation } = useApp();
 
   const accept = (templateId: string, variant: VariantCode) => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    dispatch({ type: 'accept_adaptation', template_id: templateId, variant });
+    commitAdaptation(templateId, variant);
     onClose();
   };
 

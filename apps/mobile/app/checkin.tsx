@@ -34,6 +34,9 @@ import { hoursToClock, LOW_SLEEP_HOURS } from '@/lib/format';
 
 const ENERGY = ['low', 'normal', 'high'] as const;
 
+/** The wash the Adapt sheet lays over the screen behind it: ink at 55%. */
+const SCRIM = 'rgba(32,30,29,0.55)';
+
 /** Both burden scales read the same way, so they are labelled the same way. */
 const SCALES = [
   { key: 'stress', label: 'Stress', low: 'Calm', high: 'Frayed' },
@@ -240,7 +243,19 @@ export default function CheckinScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: color.paper, paddingTop: insets.top }}>
+    <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+      {/* Tapping away closes without saving, and the dim keeps Today visible
+          behind — the athlete is adding to that screen, not leaving it. */}
+      <Pressable
+        onPress={() => router.back()}
+        accessibilityRole="button"
+        accessibilityLabel="Dismiss"
+        style={{ flex: 1, backgroundColor: SCRIM }}
+      />
+      <View style={{
+        maxHeight: '88%', backgroundColor: color.paper,
+        borderTopWidth: 2, borderTopColor: color.ink,
+      }}>
       <View style={{
         flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
         paddingHorizontal: space.gutter, paddingVertical: 12,
@@ -400,6 +415,7 @@ export default function CheckinScreen() {
           />
         </View>
       </ScrollView>
+      </View>
     </View>
   );
 }

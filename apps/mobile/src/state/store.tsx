@@ -28,6 +28,10 @@ import { fetchProfile, saveProfile } from '../data/profileRepo';
 import { fetchToday, type TodayPayload } from '../data/todayRepo';
 import { saveCheckin, EMPTY_CHECKIN, type Checkin } from '../data/recoveryRepo';
 import { fetchProgressNarration } from '../data/coachRepo';
+import {
+  completeSession, eventId, startSession, type StartRequest,
+} from '../data/sessionRepo';
+import { recordAdaptation } from '../data/adaptRepo';
 import { FALLBACK_DETAIL, type ComponentKey } from '@pivot/coach';
 import { useSession } from './session';
 import { buildSteps, type Step } from './steps';
@@ -63,6 +67,14 @@ interface State {
   typical_minutes: number;
   sleep_hours: number;
 
+  /**
+   * The server's row for the session being performed, and the revision the
+   * next write must carry. Null until the server answers Start — and on an
+   * unconfigured build, for the whole session.
+   */
+  session_id: string | null;
+  session_revision: number;
+
   /** Set when the athlete accepts an adaptation, overriding the engine's pick. */
   override_template_id: string | null;
   override_variant: VariantCode | null;
@@ -95,6 +107,9 @@ const initialState: State = {
   considerations: DEFAULT_CONSIDERATIONS,
   typical_minutes: 45,
   sleep_hours: 4.17,
+
+  session_id: null,
+  session_revision: 0,
 
   override_template_id: null,
   override_variant: null,
@@ -147,6 +162,7 @@ type Action =
   | { type: 'set_name'; name: string }
   | { type: 'set_experience'; level: ExperienceLevel }
   | { type: 'set_postpartum_date'; date: string | null }
+  | { type: 'set_predictability'; value: number }
   | { type: 'hydrate_profile'; profile: AthleteProfile }
   | { type: 'set_time'; minutes: number }
   | { type: 'set_energy'; energy: Energy }
@@ -161,6 +177,7 @@ type Action =
   | { type: 'set_queue_order'; reordered: boolean }
   | { type: 'restore'; snapshot: Restorable }
   | { type: 'start_workout' }
+  | { type: 'session_opened'; session_id: string; revision: number }
   | { type: 'next_step'; total: number }
   | { type: 'tick' }
   | { type: 'toggle_pause' }
@@ -179,6 +196,8 @@ function reducer(s: State, a: Action): State {
       return { ...s, profile: { ...s.profile, experience_level: a.level } };
     case 'set_postpartum_date':
       return { ...s, profile: { ...s.profile, postpartum_birth_date: a.date } };
+    case 'set_predictability':
+      return { ...s, profile: { ...s.profile, schedule_predictability: a.value } };
     case 'hydrate_profile':
       return { ...s, profile: a.profile };
 
@@ -231,7 +250,14 @@ function reducer(s: State, a: Action): State {
       return { ...s, ...a.snapshot };
 
     case 'start_workout':
-      return { ...s, status: 'active_block', step_index: 0, elapsed_seconds: 0, ended_early: false };
+      return {
+        ...s, status: 'active_block', step_index: 0, elapsed_seconds: 0, ended_early: false,
+        // Cleared here rather than on finish: the id belongs to the session
+        // being performed, and a new one starts without the last one's row.
+        session_id: null, session_revision: 0,
+      };
+    case 'session_opened':
+      return { ...s, session_id: a.session_id, session_revision: a.revision };
     case 'tick':
       return s.status === 'active_block'
         ? { ...s, elapsed_seconds: s.elapsed_seconds + 1 } : s;
@@ -249,7 +275,10 @@ function reducer(s: State, a: Action): State {
     case 'set_rpe':
       return { ...s, session_rpe: a.rpe };
     case 'back_to_today':
-      return { ...s, status: 'ready', step_index: 0, elapsed_seconds: 0, session_rpe: null };
+      return {
+        ...s, status: 'ready', step_index: 0, elapsed_seconds: 0, session_rpe: null,
+        session_id: null, session_revision: 0,
+      };
 
     case 'toggle_metric':
       return { ...s, open_metric: s.open_metric === a.key ? null : a.key };
@@ -287,6 +316,21 @@ interface Store {
    * is theirs whether or not the network agrees.
    */
   commitCheckin(checkin: Checkin): void;
+  /**
+   * Opens the session on the server and starts it locally. Local state moves
+   * first — the athlete is training whether or not the row was written.
+   */
+  beginSession(): void;
+  /**
+   * Closes the session: writes the finish through, then refreshes Today so the
+   * week reflects the stimulus just credited.
+   */
+  finishSession(): void;
+  /**
+   * Applies an accepted adaptation and records it. The apply is local and
+   * immediate; the record is the audit row (PRD §24).
+   */
+  commitAdaptation(templateId: string, variant: VariantCode): void;
   profileError: string | null;
   /**
    * Server state backing the decision. Null on an unconfigured build, which
@@ -363,6 +407,91 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     });
   }, [refreshToday]);
 
+  /**
+   * Today's answers as the server's endpoints take them. Derived from the same
+   * state the local engine reads, so the row records the inputs the athlete
+   * actually saw a decision for.
+   */
+  const stateRef = useRef(state);
+  stateRef.current = state;
+
+  /**
+   * What the engine currently has the athlete doing, kept in a ref because the
+   * decision is derived further down the file than the callbacks that need it.
+   */
+  const sessionRef = useRef<{ template_id: string; variant_code: VariantCode } | null>(null);
+
+  const adaptInputs = useCallback((): Omit<StartRequest, 'template_id' | 'variant_code'> => {
+    const s = stateRef.current;
+    const noEquipment = s.flags.includes('No equipment');
+    const effective = noEquipment ? ['bodyweight'] : (s.today_equipment ?? s.equipment);
+    return {
+      available_minutes: s.available_minutes,
+      energy: s.energy,
+      sleep_hours: s.checkin?.sleep_hours ?? null,
+      low_impact: s.flags.includes('Need low impact'),
+      symptom_flags: s.flags.includes('Something hurts') ? ['Something hurts'] : [],
+      // The server subtracts these from the athlete's saved gym, so a narrowed
+      // day is expressed as what is missing rather than as a new equipment set.
+      unavailable_equipment: s.equipment.filter(e => !effective.includes(e)),
+    };
+  }, []);
+
+  const beginSession = useCallback(() => {
+    dispatch({ type: 'start_workout' });
+    if (authStatusRef.current !== 'signed_in') return;
+
+    // The engine's current answer, which already has any accepted override
+    // folded in — so the row records the session the athlete is looking at.
+    const chosen = sessionRef.current;
+    if (!chosen) return;
+
+    startSession({ ...adaptInputs(), ...chosen }).then(result => {
+      if (result && 'session_id' in result) {
+        dispatch({
+          type: 'session_opened',
+          session_id: result.session_id,
+          revision: result.revision,
+        });
+      }
+      // A refusal or a failure leaves the session unrecorded. The athlete is
+      // already in the player either way; nothing here interrupts them.
+    });
+  }, [adaptInputs]);
+
+  const finishSession = useCallback(() => {
+    const s = stateRef.current;
+    dispatch({ type: 'back_to_today' });
+    if (!s.session_id || authStatusRef.current !== 'signed_in') return;
+
+    completeSession({
+      session_id: s.session_id,
+      client_event_id: eventId(),
+      // The server treats a revision below the stored one as stale, so a
+      // finish always advances past the revision Start handed back.
+      revision: s.session_revision + 1,
+      session_rpe: s.session_rpe,
+      ended_early: s.ended_early,
+    }).then(done => {
+      // Refresh only on a recorded finish: the week's counters just moved.
+      if (done) refreshToday();
+    });
+  }, [refreshToday]);
+
+  const commitAdaptation = useCallback((templateId: string, variant: VariantCode) => {
+    const s = stateRef.current;
+    dispatch({ type: 'accept_adaptation', template_id: templateId, variant });
+    if (authStatusRef.current !== 'signed_in') return;
+
+    const original = s.override_template_id ?? today?.recommendation?.template.id ?? null;
+    recordAdaptation({
+      ...adaptInputs(),
+      original_template_id: original,
+      original_variant: s.override_variant,
+      force_template_id: templateId,
+    });
+  }, [adaptInputs, today]);
+
   const engineInput = useMemo<EngineInput>(() => {
     const noEquipment = state.flags.includes('No equipment');
     const equipment = state.today_equipment ?? state.equipment;
@@ -426,6 +555,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       { ...engineInput, candidates: [template] }, EXERCISES);
     return forced.kind === 'session' ? forced : decision;
   }, [decision, engineInput, state.override_template_id, state.override_variant]);
+
+  sessionRef.current = session.kind === 'session'
+    ? { template_id: session.template.id, variant_code: session.variant.variant_code }
+    : null;
 
   const steps = useMemo(
     () => (session.kind === 'session' ? buildSteps(session) : []), [session]);
@@ -493,10 +626,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const value = useMemo(
     () => ({
       state, dispatch, decision, session, steps, readiness, metricDetail, sleep, engineInput,
-      commitProfile, commitCheckin, profileError, today, todayLoading, todayError, refreshToday,
+      commitProfile, commitCheckin, beginSession, finishSession, commitAdaptation,
+      profileError, today, todayLoading, todayError, refreshToday,
     }),
     [state, decision, session, steps, readiness, metricDetail, sleep, engineInput, commitProfile,
-     commitCheckin,
+     commitCheckin, beginSession, finishSession, commitAdaptation,
      profileError, today, todayLoading, todayError, refreshToday]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

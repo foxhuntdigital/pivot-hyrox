@@ -37,7 +37,9 @@ import { PHASE, RACE, WEEK_QUEUE, WEEK_STIMULI } from '@/data/athlete';
 
 export default function CoachScreen() {
   const router = useRouter();
-  const { state, dispatch, session, readiness, engineInput } = useApp();
+  const {
+    state, dispatch, session, readiness, engineInput, beginSession, commitAdaptation,
+  } = useApp();
   const coach = useCoach();
   const scroller = useRef<ScrollView | null>(null);
 
@@ -93,12 +95,10 @@ export default function CoachScreen() {
     if (commit.equipment) {
       dispatch({ type: 'set_today_equipment', equipment: commit.equipment });
     }
-    dispatch({
-      type: 'accept_adaptation',
-      template_id: commit.template_id,
-      variant: commit.variant,
-    });
-  }, [dispatch, state.flags]);
+    // Recorded like any other adaptation: a session accepted in conversation is
+    // the same decision as one accepted in the sheet.
+    commitAdaptation(commit.template_id, commit.variant);
+  }, [commitAdaptation, dispatch, state.flags]);
 
   const onAction = useCallback((
     message: CoachMessage,
@@ -215,12 +215,12 @@ export default function CoachScreen() {
   const onCommittedPrimary = useCallback((target: 'today' | 'plan' | 'start') => {
     if (target === 'start') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-      dispatch({ type: 'start_workout' });
+      beginSession();
       router.push('/active');
       return;
     }
     goTo(target);
-  }, [dispatch, goTo, router]);
+  }, [beginSession, goTo, router]);
 
   const onUndo = useCallback((messageId: string) => {
     const undone = coach.undo(messageId);

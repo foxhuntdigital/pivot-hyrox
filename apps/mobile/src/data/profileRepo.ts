@@ -6,16 +6,19 @@
  */
 import { supabase } from '@/lib/supabase';
 import {
-  isExperienceLevel, type AthleteProfile, type ExperienceLevel,
+  clampPredictability, isExperienceLevel,
+  type AthleteProfile, type ExperienceLevel,
 } from './profile';
 
-const COLUMNS = 'user_id, display_name, experience_level, postpartum_birth_date';
+const COLUMNS =
+  'user_id, display_name, experience_level, postpartum_birth_date, schedule_predictability';
 
 interface Row {
   user_id: string;
   display_name: string | null;
   experience_level: string;
   postpartum_birth_date: string | null;
+  schedule_predictability: number | null;
 }
 
 function toProfile(row: Row, fallbackName: string): AthleteProfile {
@@ -25,6 +28,7 @@ function toProfile(row: Row, fallbackName: string): AthleteProfile {
       ? (row.experience_level as ExperienceLevel)
       : 'intermediate',
     postpartum_birth_date: row.postpartum_birth_date,
+    schedule_predictability: clampPredictability(row.schedule_predictability),
   };
 }
 

@@ -31,6 +31,7 @@ interface PlanRequest {
   equipment?: string[];
   profile?: {
     typical_session_minutes?: number;
+    schedule_predictability?: number;
     impact_tolerance?: 'low' | 'normal' | 'high';
     considerations?: string[];
   };
@@ -65,6 +66,15 @@ Deno.serve(async (req) => {
       const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
       if (body.profile.typical_session_minutes != null) {
         patch.typical_session_minutes = body.profile.typical_session_minutes;
+      }
+      if (body.profile.schedule_predictability != null) {
+        const p = body.profile.schedule_predictability;
+        // The column has a 0–1 check constraint; rejecting here names the field
+        // instead of surfacing a constraint violation as "could not save".
+        if (typeof p !== 'number' || !Number.isFinite(p) || p < 0 || p > 1) {
+          throw new HttpError(400, 'profile.schedule_predictability must be between 0 and 1');
+        }
+        patch.schedule_predictability = p;
       }
       if (body.profile.impact_tolerance) patch.impact_tolerance = body.profile.impact_tolerance;
       if (body.profile.considerations) patch.considerations = body.profile.considerations;

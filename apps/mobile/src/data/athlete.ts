@@ -33,6 +33,7 @@ export const DEFAULT_PROFILE: AthleteProfile = {
   display_name: 'Ashley Kerr',
   experience_level: 'intermediate',
   postpartum_birth_date: '2025-11-01',
+  schedule_predictability: 0.9,
 };
 
 export const RACE: Race = {

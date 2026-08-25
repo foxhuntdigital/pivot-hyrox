@@ -14,6 +14,54 @@ export interface AthleteProfile {
   experience_level: ExperienceLevel;
   /** ISO `YYYY-MM-DD`, or null when not recorded. Month precision in the UI. */
   postpartum_birth_date: string | null;
+  /**
+   * 0 = very predictable, 1 = fully unpredictable. Declared in onboarding (D06)
+   * and editable on Profile; both write the same column, so the answer given
+   * once is the answer the screen shows.
+   */
+  schedule_predictability: number;
+}
+
+/**
+ * The three answers the athlete can give. Stored as a real rather than an enum
+ * because the column is a 0–1 scale — these are the points on it that the UI
+ * offers, and `nearestPredictability` maps any stored value back onto one.
+ */
+export const PREDICTABILITY_CHOICES = [
+  { value: 0.1, label: 'Same time daily', phrase: 'very predictable' },
+  { value: 0.5, label: 'Roughly regular', phrase: 'roughly regular' },
+  { value: 0.9, label: 'Never the same', phrase: 'mostly unpredictable' },
+] as const;
+
+export type PredictabilityChoice = (typeof PREDICTABILITY_CHOICES)[number];
+
+/** At or above this, the engine pre-generates Express and Micro variants. */
+export const VARIANTS_AHEAD_AT = 0.7;
+
+/** Column default, and what an unreadable value falls back to. */
+export const DEFAULT_PREDICTABILITY = 0.5;
+
+export function clampPredictability(v: unknown): number {
+  return typeof v === 'number' && Number.isFinite(v)
+    ? Math.min(1, Math.max(0, v)) : DEFAULT_PREDICTABILITY;
+}
+
+/**
+ * The choice a stored value sits closest to. The column accepts any 0–1 real —
+ * a value set outside this app, or a scale we later re-point, still has to
+ * render as one of the options rather than as no selection at all.
+ */
+export function nearestPredictability(v: number): PredictabilityChoice {
+  return PREDICTABILITY_CHOICES.reduce((best, c) =>
+    Math.abs(c.value - v) < Math.abs(best.value - v) ? c : best);
+}
+
+export function predictabilityPhrase(v: number): string {
+  return nearestPredictability(v).phrase;
+}
+
+export function preGeneratesVariants(v: number): boolean {
+  return v >= VARIANTS_AHEAD_AT;
 }
 
 export function isExperienceLevel(v: unknown): v is ExperienceLevel {

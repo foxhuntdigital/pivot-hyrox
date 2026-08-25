@@ -20,8 +20,9 @@ import { useSession } from '@/state/session';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { CONSIDERATION_CHOICES } from '@/data/athlete';
 import {
-  EXPERIENCE_LEVELS, descriptorOf, initialsOf, levelLabel, monthsPostpartum,
-  parseISODate, postpartumPhrase, toISODate,
+  EXPERIENCE_LEVELS, PREDICTABILITY_CHOICES, descriptorOf, initialsOf, levelLabel,
+  monthsPostpartum, nearestPredictability, parseISODate, postpartumPhrase,
+  preGeneratesVariants, toISODate,
 } from '@/data/profile';
 import { EQUIPMENT_CHOICES } from '@/data/content';
 
@@ -172,6 +173,7 @@ export default function ProfileScreen() {
     ? parseISODate(profile.postpartum_birth_date) : null;
   const months = monthsPostpartum(profile.postpartum_birth_date, now);
   const minYear = now.getFullYear() - 10;
+  const predictability = nearestPredictability(profile.schedule_predictability);
 
   function setBirth(year: number, month0: number) {
     const date = toISODate(year, month0 + 1);
@@ -416,18 +418,22 @@ export default function ProfileScreen() {
 
       <Divider />
 
+      {/* ── Schedule predictability ──────────────────────
+          The same 0–1 column onboarding writes (D06). Editing here saves
+          straight through, so the answer given once is the answer shown — and
+          changing it changes whether shorter variants are built in advance. */}
       <Section
         title="Schedule predictability"
         open={open.schedule}
         onToggle={() => toggle('schedule')}
-        badge={
-          <Label size="sm">{state.typical_minutes > 45 ? 'Unpredictable' : 'Predictable'}</Label>
-        }
+        badge={<Label size="sm">{predictability.label}</Label>}
       >
       <View style={{ paddingHorizontal: space.gutter }}>
+        {/* The bar is the scale the column actually is; the chips are the
+            points on it the athlete can pick. */}
         <View style={{ height: 8, backgroundColor: color.rule, marginVertical: 8 }}>
           <View style={{
-            height: 8, width: `${state.typical_minutes > 45 ? 60 : 28}%`,
+            height: 8, width: `${Math.round(profile.schedule_predictability * 100)}%`,
             backgroundColor: color.ink,
           }} />
         </View>
@@ -435,9 +441,26 @@ export default function ProfileScreen() {
           <Label size="xs" style={{ letterSpacing: 0.6 }}>Very predictable</Label>
           <Label size="xs" style={{ letterSpacing: 0.6 }}>Unpredictable</Label>
         </View>
-        <Text style={[t.bodySm, { color: color.muted2, marginTop: 10 }]}>
-          Set to <Text style={{ fontFamily: t.rowTitle.fontFamily }}>mostly unpredictable</Text>.
-          Plans are generated with an Express and a Micro version of every session in advance.
+
+        <View style={{ flexDirection: 'row', gap: 6, marginTop: 14 }}>
+          {PREDICTABILITY_CHOICES.map(c => (
+            <Chip
+              key={c.value} flex size="sm" label={c.label}
+              active={predictability.value === c.value}
+              onPress={() => {
+                dispatch({ type: 'set_predictability', value: c.value });
+                commitProfile({ schedule_predictability: c.value });
+              }}
+              style={{ paddingVertical: 13 }}
+            />
+          ))}
+        </View>
+
+        <Text style={[t.bodySm, { color: color.muted2, marginTop: 12 }]}>
+          Set to <Text style={{ fontFamily: t.rowTitle.fontFamily }}>{predictability.phrase}</Text>.
+          {preGeneratesVariants(profile.schedule_predictability)
+            ? ' Plans are generated with an Express and a Micro version of every session in advance.'
+            : ' Full sessions lead, with shorter variants available on demand from the adapt sheet.'}
         </Text>
       </View>
       </Section>

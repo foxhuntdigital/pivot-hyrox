@@ -43,6 +43,8 @@ export interface PlanRequest {
   equipment?: string[];
   profile?: {
     typical_session_minutes?: number;
+    /** 0–1, where 1 is fully unpredictable. See `data/profile.ts`. */
+    schedule_predictability?: number;
     impact_tolerance?: 'low' | 'normal' | 'high';
     considerations?: string[];
   };
