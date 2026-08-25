@@ -60,9 +60,10 @@ function Caret({ open }: { open: boolean }) {
  * alone — a 15px glyph is well under the 44pt minimum, and the caret states
  * what the row does instead of being the only way to do it.
  *
- * Collapsing hides no information: name, level and postpartum all appear in the
- * summary at the top of the screen, which is why these three collapse and the
- * editing-only blocks below them do not.
+ * Every block on the screen is one of these and all of them start closed, so
+ * the screen opens as a short index rather than a wall of controls. Closing
+ * hides no state: what the athlete has set shows in the header badge, and the
+ * identity fields are already summarised at the top of the screen.
  */
 function Section({
   title, open, onToggle, badge, children,
@@ -143,6 +144,15 @@ function Stepper({
   );
 }
 
+/** Sub-heading inside a section, for the fields grouped under one header. */
+function FieldLabel({ children, first }: { children: React.ReactNode; first?: boolean }) {
+  return (
+    <Label size="sm" tone="ink" style={{ marginTop: first ? 0 : 22, marginBottom: 8 }}>
+      {children}
+    </Label>
+  );
+}
+
 export default function ProfileScreen() {
   const { state, dispatch, commitProfile, profileError } = useApp();
   const { email, signOut, status } = useSession();
@@ -151,7 +161,10 @@ export default function ProfileScreen() {
   const [signingOut, setSigningOut] = useState(false);
   // Screen-local presentation state. It is deliberately not in the reducer:
   // nothing outside this screen reads it and no engine input depends on it.
-  const [open, setOpen] = useState({ name: true, level: true, postpartum: true });
+  const [open, setOpen] = useState({
+    about: false, equipment: false, schedule: false,
+    length: false, considerations: false, account: false,
+  });
   const toggle = (k: keyof typeof open) => setOpen(o => ({ ...o, [k]: !o[k] }));
 
   const now = new Date();
@@ -232,9 +245,20 @@ export default function ProfileScreen() {
         </View>
       ) : null}
 
-      {/* ── Name ─────────────────────────────────────────── */}
-      <Section title="Name" open={open.name} onToggle={() => toggle('name')}>
+      {/* ── About you ────────────────────────────────────
+          Name, level and postpartum are one disclosure: they are the fields
+          that describe the athlete rather than the training, and all three are
+          already summarised in the header above. */}
+      <Section
+        title="About you"
+        open={open.about}
+        onToggle={() => toggle('about')}
+        // Kept visible whether or not the section is open: the privacy marker
+        // describes the stored postpartum field, not the disclosure state.
+        badge={<Label size="sm" style={{ letterSpacing: 0.9 }}>Private</Label>}
+      >
       <View style={{ paddingHorizontal: space.gutter, paddingBottom: 4 }}>
+        <FieldLabel first>Name</FieldLabel>
         <TextInput
           value={profile.display_name}
           onChangeText={name => dispatch({ type: 'set_name', name })}
@@ -251,124 +275,110 @@ export default function ProfileScreen() {
             fontFamily: t.rowTitle.fontFamily, fontSize: 14, color: color.ink,
           }}
         />
-      </View>
-      </Section>
 
-      <Divider />
-
-      {/* ── Experience level ─────────────────────────────── */}
-      <Section title="Fitness level" open={open.level} onToggle={() => toggle('level')}>
-      <View style={{ flexDirection: 'row', gap: 6, paddingHorizontal: space.gutter }}>
-        {EXPERIENCE_LEVELS.map(level => (
-          <Chip
-            key={level} flex size="sm" label={levelLabel(level)}
-            active={profile.experience_level === level}
-            onPress={() => {
-              dispatch({ type: 'set_experience', level });
-              commitProfile({ experience_level: level });
-            }}
-            style={{ paddingVertical: 13 }}
-          />
-        ))}
-      </View>
-      <Text style={[t.meta, { paddingHorizontal: space.gutter, paddingTop: 10, color: color.muted }]}>
-        Sets the starting point for progression. Session difficulty still follows
-        your readiness and the day's stimulus.
-      </Text>
-
-      </Section>
-
-      <Divider />
-
-      {/* ── Postpartum ───────────────────────────────────── */}
-      <Section
-        title="Postpartum"
-        open={open.postpartum}
-        onToggle={() => toggle('postpartum')}
-        // Kept visible whether or not the section is open: the privacy marker
-        // describes the stored field, not the disclosure state.
-        badge={<Label size="sm" style={{ letterSpacing: 0.9 }}>Private</Label>}
-      >
-      {birth ? (
-        <View style={{ paddingHorizontal: space.gutter }}>
-          <View style={{ flexDirection: 'row', gap: 8 }}>
-            <Stepper
-              label="month"
-              value={MONTHS[birth.getMonth()]}
-              onPrev={() => {
-                const m = birth.getMonth() - 1;
-                setBirth(m < 0 ? birth.getFullYear() - 1 : birth.getFullYear(), (m + 12) % 12);
+        <FieldLabel>Fitness level</FieldLabel>
+        <View style={{ flexDirection: 'row', gap: 6 }}>
+          {EXPERIENCE_LEVELS.map(level => (
+            <Chip
+              key={level} flex size="sm" label={levelLabel(level)}
+              active={profile.experience_level === level}
+              onPress={() => {
+                dispatch({ type: 'set_experience', level });
+                commitProfile({ experience_level: level });
               }}
-              onNext={() => {
-                const m = birth.getMonth() + 1;
-                setBirth(m > 11 ? birth.getFullYear() + 1 : birth.getFullYear(), m % 12);
-              }}
-              prevEnabled={
-                birth.getMonth() > 0 || birth.getFullYear() - 1 >= minYear}
-              nextEnabled={
-                birth.getFullYear() < now.getFullYear() ||
-                birth.getMonth() < now.getMonth()}
+              style={{ paddingVertical: 13 }}
             />
-            <Stepper
-              label="year"
-              value={String(birth.getFullYear())}
-              onPrev={() => setBirth(birth.getFullYear() - 1, birth.getMonth())}
-              onNext={() => setBirth(birth.getFullYear() + 1, birth.getMonth())}
-              prevEnabled={birth.getFullYear() > minYear}
-              nextEnabled={
-                birth.getFullYear() < now.getFullYear() &&
-                // Stepping a year must not land in the future.
-                new Date(birth.getFullYear() + 1, birth.getMonth(), 1) <= now}
+          ))}
+        </View>
+        <Text style={[t.meta, { paddingTop: 10, color: color.muted }]}>
+          Sets the starting point for progression. Session difficulty still follows
+          your readiness and the day's stimulus.
+        </Text>
+
+        <FieldLabel>Postpartum</FieldLabel>
+        {birth ? (
+          <View>
+            <View style={{ flexDirection: 'row', gap: 8 }}>
+              <Stepper
+                label="month"
+                value={MONTHS[birth.getMonth()]}
+                onPrev={() => {
+                  const m = birth.getMonth() - 1;
+                  setBirth(m < 0 ? birth.getFullYear() - 1 : birth.getFullYear(), (m + 12) % 12);
+                }}
+                onNext={() => {
+                  const m = birth.getMonth() + 1;
+                  setBirth(m > 11 ? birth.getFullYear() + 1 : birth.getFullYear(), m % 12);
+                }}
+                prevEnabled={
+                  birth.getMonth() > 0 || birth.getFullYear() - 1 >= minYear}
+                nextEnabled={
+                  birth.getFullYear() < now.getFullYear() ||
+                  birth.getMonth() < now.getMonth()}
+              />
+              <Stepper
+                label="year"
+                value={String(birth.getFullYear())}
+                onPrev={() => setBirth(birth.getFullYear() - 1, birth.getMonth())}
+                onNext={() => setBirth(birth.getFullYear() + 1, birth.getMonth())}
+                prevEnabled={birth.getFullYear() > minYear}
+                nextEnabled={
+                  birth.getFullYear() < now.getFullYear() &&
+                  // Stepping a year must not land in the future.
+                  new Date(birth.getFullYear() + 1, birth.getMonth(), 1) <= now}
+              />
+            </View>
+
+            {/* Recomputed on every render — the reason a date is stored rather
+                than a "9 months postpartum" string. */}
+            <View style={{
+              flexDirection: 'row', alignItems: 'baseline', gap: 8, marginTop: 12,
+            }}>
+              <Text style={[t.statValue, { color: color.ink }]}>{months ?? 0}</Text>
+              <Text style={[t.bodySm, { color: color.muted2 }]}>
+                {postpartumPhrase(profile.postpartum_birth_date, now)?.replace(/^\d+\s/, '') ??
+                  'months postpartum'}
+              </Text>
+            </View>
+
+            <Pressable onPress={clearBirth} style={{ paddingVertical: 12 }}>
+              <Text style={[t.bodySm, {
+                fontFamily: t.rowTitle.fontFamily, color: color.muted2,
+              }]}>
+                Remove date
+              </Text>
+            </Pressable>
+          </View>
+        ) : (
+          <View style={{ flexDirection: 'row' }}>
+            <Chip
+              label="Add birth date"
+              active={false}
+              size="sm"
+              onPress={() => setBirth(now.getFullYear(), now.getMonth())}
             />
           </View>
+        )}
 
-          {/* Recomputed on every render — the reason a date is stored rather
-              than a "9 months postpartum" string. */}
-          <View style={{
-            flexDirection: 'row', alignItems: 'baseline', gap: 8, marginTop: 12,
-          }}>
-            <Text style={[t.statValue, { color: color.ink }]}>{months ?? 0}</Text>
-            <Text style={[t.bodySm, { color: color.muted2 }]}>
-              {postpartumPhrase(profile.postpartum_birth_date, now)?.replace(/^\d+\s/, '') ??
-                'months postpartum'}
-            </Text>
-          </View>
-
-          <Pressable onPress={clearBirth} style={{ paddingVertical: 12 }}>
-            <Text style={[t.bodySm, {
-              fontFamily: t.rowTitle.fontFamily, color: color.muted2,
-            }]}>
-              Remove date
-            </Text>
-          </Pressable>
-        </View>
-      ) : (
-        <View style={{ paddingHorizontal: space.gutter }}>
-          <Chip
-            label="Add birth date"
-            active={false}
-            size="sm"
-            onPress={() => setBirth(now.getFullYear(), now.getMonth())}
-          />
-        </View>
-      )}
-
-      <Text style={[t.meta, {
-        paddingHorizontal: space.gutter, paddingTop: 10, fontSize: 11.5,
-        lineHeight: 17, color: color.muted,
-      }]}>
-        Used to track where you are in your return, not to decide what you are
-        cleared for. Programming limits stay with the considerations below, and
-        only you change those.
-      </Text>
+        <Text style={[t.meta, {
+          paddingTop: 10, fontSize: 11.5, lineHeight: 17, color: color.muted,
+        }]}>
+          Used to track where you are in your return, not to decide what you are
+          cleared for. Programming limits stay with the considerations below, and
+          only you change those.
+        </Text>
+      </View>
       </Section>
 
       <Divider />
 
       {/* ── Equipment ────────────────────────────────────── */}
-      <Label tone="ink" style={{ paddingHorizontal: space.gutter, paddingTop: 8, paddingBottom: 6 }}>
-        Equipment
-      </Label>
+      <Section
+        title="Equipment"
+        open={open.equipment}
+        onToggle={() => toggle('equipment')}
+        badge={<Label size="sm">{state.equipment.length} selected</Label>}
+      >
       <View style={{
         flexDirection: 'row', flexWrap: 'wrap', gap: 8,
         paddingHorizontal: space.gutter, paddingBottom: 4,
@@ -402,12 +412,18 @@ export default function ProfileScreen() {
       <Text style={[t.meta, { paddingHorizontal: space.gutter, paddingTop: 10, color: color.muted }]}>
         {state.equipment.length} selected · tap to toggle what you have this week
       </Text>
+      </Section>
 
       <Divider />
 
-      <Label tone="ink" style={{ paddingHorizontal: space.gutter, paddingTop: 8, paddingBottom: 6 }}>
-        Schedule predictability
-      </Label>
+      <Section
+        title="Schedule predictability"
+        open={open.schedule}
+        onToggle={() => toggle('schedule')}
+        badge={
+          <Label size="sm">{state.typical_minutes > 45 ? 'Unpredictable' : 'Predictable'}</Label>
+        }
+      >
       <View style={{ paddingHorizontal: space.gutter }}>
         <View style={{ height: 8, backgroundColor: color.rule, marginVertical: 8 }}>
           <View style={{
@@ -424,12 +440,20 @@ export default function ProfileScreen() {
           Plans are generated with an Express and a Micro version of every session in advance.
         </Text>
       </View>
+      </Section>
 
       <Divider />
 
-      <Label tone="ink" style={{ paddingHorizontal: space.gutter, paddingTop: 8, paddingBottom: 6 }}>
-        Typical session length
-      </Label>
+      <Section
+        title="Typical session length"
+        open={open.length}
+        onToggle={() => toggle('length')}
+        badge={
+          <Label size="sm">
+            {state.typical_minutes === 90 ? '90+ min' : `${state.typical_minutes} min`}
+          </Label>
+        }
+      >
       <View style={{ flexDirection: 'row', gap: 6, paddingHorizontal: space.gutter }}>
         {TIME_CHOICES.map(v => (
           <Chip
@@ -440,17 +464,17 @@ export default function ProfileScreen() {
           />
         ))}
       </View>
+      </Section>
 
       <Divider />
 
       {/* ── Considerations ───────────────────────────────── */}
-      <View style={{
-        flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between',
-        paddingHorizontal: space.gutter, paddingTop: 8, paddingBottom: 6,
-      }}>
-        <Label tone="ink">Considerations</Label>
-        <Label size="sm" style={{ letterSpacing: 0.9 }}>Private</Label>
-      </View>
+      <Section
+        title="Considerations"
+        open={open.considerations}
+        onToggle={() => toggle('considerations')}
+        badge={<Label size="sm" style={{ letterSpacing: 0.9 }}>Private</Label>}
+      >
       <View style={{ paddingHorizontal: space.gutter }}>
         {CONSIDERATION_CHOICES.map(name => {
           const on = state.considerations.includes(name);
@@ -481,13 +505,19 @@ export default function ProfileScreen() {
           recommendations outside your plan.
         </Text>
       </View>
+      </Section>
 
       <Divider />
 
       {/* ── Account ──────────────────────────────────────── */}
-      <Label tone="ink" style={{ paddingHorizontal: space.gutter, paddingTop: 8, paddingBottom: 6 }}>
-        Account
-      </Label>
+      <Section
+        title="Account"
+        open={open.account}
+        onToggle={() => toggle('account')}
+        badge={
+          <Label size="sm">{status === 'signed_in' ? 'Signed in' : 'This device'}</Label>
+        }
+      >
       {status === 'signed_in' ? (
         <>
           <Text style={[t.bodySm, {
@@ -512,6 +542,7 @@ export default function ProfileScreen() {
             : 'No account is connected to this build, so profile changes stay on this device and there is nothing to log out of.'}
         </Text>
       )}
+      </Section>
     </ScrollView>
   );
 }

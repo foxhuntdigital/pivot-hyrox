@@ -13,14 +13,23 @@ import { Rule, Label, InkPanel } from '@/components/primitives';
 import { useApp } from '@/state/store';
 
 
-/** Components the engine flags as limiters get the accent treatment. */
-const LIMITERS = new Set(['running', 'recovery']);
 
 export default function ProgressScreen() {
   const { state, dispatch, readiness, metricDetail } = useApp();
 
   const entries = Object.entries(readiness.components) as [keyof typeof readiness.components, number][];
-  const lowest = entries.reduce((a, b) => (b[1] < a[1] ? b : a));
+  // Only measured components are scored, so only they can be the limiter — an
+  // athlete who has never logged a strength set does not have strength as their
+  // weakness, they have it as an unknown.
+  const observed = new Set<string>(readiness.observed);
+  const measured = entries.filter(([k]) => observed.has(k));
+  const lowest = measured.length
+    ? measured.reduce((a, b) => (b[1] < a[1] ? b : a))
+    : null;
+  // The accent marks the athlete's actual limiter. It used to be a fixed pair
+  // of components, so it stayed red on a strong runner and never appeared on a
+  // weak one, contradicting the score beside it.
+  const isLimiter = (key: string) => key === lowest?.[0];
 
   return (
     <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
@@ -33,7 +42,7 @@ export default function ProgressScreen() {
         paddingHorizontal: space.gutter, paddingBottom: 16,
       }}>
         <Text style={[t.hero, numeralTrim.hero, { color: color.ink }]}>
-          {readiness.overall}
+          {readiness.overall ?? '—'}
         </Text>
         <View style={{ paddingBottom: 8 }}>
           {/* Confidence is shown next to the score, never hidden behind it. */}
@@ -41,7 +50,8 @@ export default function ProgressScreen() {
             {readiness.confidence} confidence
           </Text>
           <Text style={[t.meta, { color: color.muted }]}>
-            {readiness.confidence === 'low' ? 'building baseline' : 'last 30 days'}
+            {readiness.overall === null ? 'nothing logged yet'
+              : readiness.confidence === 'low' ? 'building baseline' : 'last 30 days'}
           </Text>
         </View>
       </View>
@@ -70,15 +80,21 @@ export default function ProgressScreen() {
                 <Text style={[t.rowTitle, { fontSize: 13, color: color.ink }]}>
                   {meta?.label ?? key}
                 </Text>
-                <Text style={[t.h4, { fontSize: 15, color: color.ink }]}>{value}</Text>
+                <Text style={[t.h4, {
+                  fontSize: 15, color: observed.has(key) ? color.ink : color.muted,
+                }]}>
+                  {observed.has(key) ? value : '—'}
+                </Text>
               </View>
               {/* The bar is labelled by the number above it, so the meaning does
                   not rest on the fill colour alone (PRD §18). */}
               <View style={{ height: 8, backgroundColor: color.rule }}>
-                <View style={{
+                {/* An unmeasured component gets no fill: an empty bar would
+                    read as a score of zero rather than as no data. */}
+                {observed.has(key) && <View style={{
                   height: 8, width: `${value}%`,
-                  backgroundColor: LIMITERS.has(key) ? color.red : color.ink,
-                }} />
+                  backgroundColor: isLimiter(key) ? color.red : color.ink,
+                }} />}
               </View>
 
               {open && meta && (
@@ -106,17 +122,19 @@ export default function ProgressScreen() {
         })}
       </View>
 
-      <InkPanel
-        label="Biggest opportunity"
-        style={{ margin: 20, marginHorizontal: space.gutter }}
-      >
-        <Text style={[t.h4, { fontSize: 18, color: color.onDark }]}>
-          {metricDetail[lowest[0]]?.label ?? lowest[0]}
-        </Text>
-        <Text style={[t.bodySm, { color: color.rule, marginTop: 6, fontSize: 12.5 }]}>
-          {metricDetail[lowest[0]]?.detail}
-        </Text>
-      </InkPanel>
+      {lowest && (
+        <InkPanel
+          label="Biggest opportunity"
+          style={{ margin: 20, marginHorizontal: space.gutter }}
+        >
+          <Text style={[t.h4, { fontSize: 18, color: color.onDark }]}>
+            {metricDetail[lowest[0]]?.label ?? lowest[0]}
+          </Text>
+          <Text style={[t.bodySm, { color: color.rule, marginTop: 6, fontSize: 12.5 }]}>
+            {metricDetail[lowest[0]]?.detail}
+          </Text>
+        </InkPanel>
+      )}
     </ScrollView>
   );
 }

@@ -19,6 +19,7 @@ import { useApp } from '@/state/store';
 import { PHASE, PHASE_SEQUENCE, RACE, WEEK_STIMULI } from '@/data/athlete';
 import { firstNameOf } from '@/data/profile';
 import { exerciseById } from '@/data/content';
+import { hoursToClock, LOW_SLEEP_HOURS } from '@/lib/format';
 
 function greeting(): string {
   const h = new Date().getHours();
@@ -67,8 +68,16 @@ function StatCell({ label, children, last }: {
 
 export default function TodayScreen() {
   const router = useRouter();
-  const { state, dispatch, session, readiness } = useApp();
+  const { state, dispatch, session, readiness, sleep } = useApp();
   const [sheetOpen, setSheetOpen] = useState(false);
+
+  const sleepClock = hoursToClock(sleep.hours);
+  // The accent is tied to the engine's own threshold, so red means "this
+  // changed today's session" rather than being decorative.
+  const isLowSleep = sleep.hours !== null && sleep.hours < LOW_SLEEP_HOURS;
+  // Naming the source is how the athlete knows whether to trust or correct it.
+  const sleepSourceLabel = sleep.source === 'connected' ? 'Sleep'
+    : sleep.hours === null ? 'Sleep · log' : 'Sleep · reported';
 
   const weekDone = WEEK_STIMULI.reduce((n, r) => n + r.completed_exposures, 0)
     + (state.completed_today ? 1 : 0);
@@ -121,13 +130,33 @@ export default function TodayScreen() {
           </StatCell>
           <StatCell label="Readiness">
             <Text style={[t.h4, { fontSize: 15, color: color.ink }]}>
-              {readiness.overall}
+              {readiness.overall ?? '—'}
               <Text style={[t.meta, { color: color.muted }]}>/100</Text>
             </Text>
           </StatCell>
-          <StatCell label="Sleep" last>
-            <Text style={[t.h4, { fontSize: 15, color: color.red }]}>4:10</Text>
-          </StatCell>
+          {/* Self-reported until a wearable is connected (PRD §6.3). With no
+              check-in there is nothing to show, and a neutral dash is the
+              honest state — not a number (§8.3). */}
+          <Pressable
+            onPress={() => router.push('/checkin')}
+            accessibilityRole="button"
+            accessibilityLabel={sleepClock
+              ? `Sleep ${sleepClock}, self-reported. Edit your check-in.`
+              : 'No check-in yet. Log your recovery.'}
+            style={({ pressed }) => ({
+              flex: 1, paddingTop: 12, paddingBottom: 14, paddingHorizontal: 14,
+              backgroundColor: pressed ? color.hover : 'transparent',
+            })}
+          >
+            <Label size="sm">{sleepSourceLabel}</Label>
+            <Text style={[t.h4, {
+              fontSize: 15, marginTop: 4,
+              color: sleepClock === null ? color.muted3
+                : isLowSleep ? color.red : color.ink,
+            }]}>
+              {sleepClock ?? '—'}
+            </Text>
+          </Pressable>
         </View>
         <Rule />
 

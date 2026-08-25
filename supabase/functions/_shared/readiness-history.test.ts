@@ -126,3 +126,39 @@ describe('Readiness history aggregation', () => {
     assert.equal(i.recovery_signal, 0.6);
   });
 });
+
+describe('Observed components', () => {
+  const facts = (over = {}) => inputs(over).observed!;
+
+  test('an athlete with no history has observed nothing', () => {
+    const o = facts();
+    assert.deepEqual(Object.values(o).filter(Boolean), []);
+  });
+
+  test('training but skipping a modality is a real zero, not missing data', () => {
+    // Two weeks of running only: aerobic and running are measured, and the
+    // absence of strength sets is still "not measured" rather than a failure.
+    const o = facts({
+      sessions: [{ id: 'a', template_id: 't_aero', started_at: at(2), ended_at: null }],
+    });
+    assert.equal(o.aerobic, true);
+    assert.equal(o.running, true);
+    assert.equal(o.stations, true, 'they trained inside the 21 day window');
+    assert.equal(o.strength, false, 'no prescribed sets were logged');
+  });
+
+  test('logged sets make strength measurable even when none were completed', () => {
+    const o = facts({
+      sessions: [{ id: 'a', template_id: 't_str', started_at: at(2), ended_at: null }],
+      setLogs: [{ session_id: 'a', exercise_id: 'ex_back_squat', prescribed_reps: 10, actual_reps: 0 }],
+    });
+    assert.equal(o.strength, true, 'prescribed and missed is a measurement');
+  });
+
+  test('recovery and consistency follow their own inputs, not training', () => {
+    assert.equal(facts({ hasCheckin: true }).recovery, true);
+    assert.equal(facts({ hasCheckin: false }).recovery, false);
+    assert.equal(facts({ hasStimulusTargets: true }).consistency, true);
+    assert.equal(facts({ hasStimulusTargets: false }).consistency, false);
+  });
+});

@@ -26,9 +26,69 @@ export interface ReadinessInputs {
   recovery_signal: number;
   /** How many of the above came from real data rather than defaults. */
   observed_days: number;
+  /**
+   * Which components the athlete has actually been measured on.
+   *
+   * A zero is ambiguous on its own: no strength sets logged and every set
+   * missed both arrive as `strength_completion_rate: 0`, and only one of those
+   * is a fact about the athlete. Anything omitted here is dropped from the
+   * score rather than counted as a zero, and the remaining weights are
+   * renormalised. Absent entirely means "all observed", which keeps a caller
+   * that supplies complete inputs behaving exactly as before.
+   */
+  observed?: Partial<Record<ComponentKey, boolean>>;
 }
 
+const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
+
 export const READINESS_MODEL_VERSION = '1.0.0';
+
+/** A manual recovery check-in (PRD §6.3, FR-015). Every field is optional. */
+export interface RecoveryCheckin {
+  /** Hours slept, as reported. */
+  sleep_hours?: number | null;
+  energy?: 'low' | 'normal' | 'high' | null;
+  /** 1–5, where 5 is the most stressed. */
+  stress?: number | null;
+  /** 1–5, where 5 is the most sore. */
+  soreness?: number | null;
+  /** 1–5, where 5 is the most motivated. */
+  motivation?: number | null;
+}
+
+/** Eight hours is a full score; the scale is linear below it. */
+const SLEEP_TARGET_HOURS = 8;
+
+/**
+ * The `recovery` component's 0..1 input, from what the athlete reported.
+ *
+ * Stress and soreness are inverted — 5 means "worst", so a 5 contributes 0.
+ * Only the fields actually reported count toward the average, so a check-in
+ * that answers two of five questions is scored on those two rather than being
+ * penalised for the silence. Null when nothing was reported at all: the caller
+ * then has no recovery signal, which is not the same as a bad one.
+ */
+export function recoverySignal(checkin: RecoveryCheckin | null | undefined): number | null {
+  if (!checkin) return null;
+  const parts: number[] = [];
+
+  if (typeof checkin.sleep_hours === 'number' && Number.isFinite(checkin.sleep_hours)) {
+    parts.push(clamp01(checkin.sleep_hours / SLEEP_TARGET_HOURS));
+  }
+  if (checkin.energy) {
+    parts.push({ low: 0, normal: 0.6, high: 1 }[checkin.energy]);
+  }
+  // 1..5 → 1..0 for the two that measure a burden.
+  for (const value of [checkin.stress, checkin.soreness]) {
+    if (typeof value === 'number') parts.push(clamp01((5 - value) / 4));
+  }
+  if (typeof checkin.motivation === 'number') {
+    parts.push(clamp01((checkin.motivation - 1) / 4));
+  }
+
+  if (!parts.length) return null;
+  return parts.reduce((sum, v) => sum + v, 0) / parts.length;
+}
 
 /**
  * The eight HYROX stations, as exercise ids. `stations_covered_21d` is scored
@@ -49,13 +109,20 @@ const COMPONENT_WEIGHTS = {
   recovery: 0.15,
 } as const;
 
+export type ComponentKey = keyof typeof COMPONENT_WEIGHTS;
+
 export interface ReadinessResult {
-  overall: number;
-  components: Record<keyof typeof COMPONENT_WEIGHTS, number>;
+  /**
+   * Weighted over observed components only. Null when nothing has been
+   * measured yet — an athlete with no history has no readiness score, which is
+   * a different statement from a readiness of zero.
+   */
+  overall: number | null;
+  components: Record<ComponentKey, number>;
+  /** Components with data behind them. The rest are not part of `overall`. */
+  observed: ComponentKey[];
   confidence: Confidence;
 }
-
-const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
 
 export function computeReadiness(i: ReadinessInputs): ReadinessResult {
   const components = {
@@ -70,15 +137,25 @@ export function computeReadiness(i: ReadinessInputs): ReadinessResult {
     recovery: clamp01(i.recovery_signal),
   };
 
-  const overall = (Object.keys(COMPONENT_WEIGHTS) as (keyof typeof COMPONENT_WEIGHTS)[])
-    .reduce((sum, k) => sum + components[k] * COMPONENT_WEIGHTS[k], 0);
+  const keys = Object.keys(COMPONENT_WEIGHTS) as ComponentKey[];
+  // Providing the record at all means it is the whole truth: a key left out of
+  // it is unobserved, not defaulted back in.
+  const observed = i.observed ? keys.filter(k => i.observed![k]) : keys;
+
+  // Renormalise over what was measured, so an unobserved component neither
+  // drags the score down nor quietly counts as a pass.
+  const totalWeight = observed.reduce((sum, k) => sum + COMPONENT_WEIGHTS[k], 0);
+  const overall = totalWeight
+    ? observed.reduce((sum, k) => sum + components[k] * COMPONENT_WEIGHTS[k], 0) / totalWeight
+    : null;
 
   return {
     // Whole numbers only — decimals would imply precision this does not have.
-    overall: Math.round(overall * 100),
+    overall: overall === null ? null : Math.round(overall * 100),
     components: Object.fromEntries(
       Object.entries(components).map(([k, v]) => [k, Math.round(v * 100)]),
     ) as ReadinessResult['components'],
+    observed,
     confidence: i.observed_days >= 21 ? 'high' : i.observed_days >= 10 ? 'medium' : 'low',
   };
 }

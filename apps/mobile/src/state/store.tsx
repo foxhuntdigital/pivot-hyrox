@@ -26,6 +26,9 @@ import {
 import type { AthleteProfile, ExperienceLevel } from '../data/profile';
 import { fetchProfile, saveProfile } from '../data/profileRepo';
 import { fetchToday, type TodayPayload } from '../data/todayRepo';
+import { saveCheckin, EMPTY_CHECKIN, type Checkin } from '../data/recoveryRepo';
+import { fetchProgressNarration } from '../data/coachRepo';
+import { FALLBACK_DETAIL, type ComponentKey } from '@pivot/coach';
 import { useSession } from './session';
 import { buildSteps, type Step } from './steps';
 
@@ -50,6 +53,12 @@ interface State {
   today_equipment: string[] | null;
   /** A multi-day equipment change the athlete confirmed from Coach. */
   travel: { equipment: string[]; days: string[] } | null;
+  /**
+   * Today's recovery check-in as the athlete entered it (D20 / FR-015). Held
+   * locally as well as sent to the server so an offline check-in still shapes
+   * today's session, and so the unconfigured build has somewhere to keep it.
+   */
+  checkin: Checkin | null;
   considerations: string[];
   typical_minutes: number;
   sleep_hours: number;
@@ -82,6 +91,7 @@ const initialState: State = {
   equipment: DEFAULT_EQUIPMENT,
   today_equipment: null,
   travel: null,
+  checkin: null,
   considerations: DEFAULT_CONSIDERATIONS,
   typical_minutes: 45,
   sleep_hours: 4.17,
@@ -111,6 +121,7 @@ export interface Restorable {
   flags: string[];
   today_equipment: string[] | null;
   travel: State['travel'];
+  checkin: Checkin | null;
   override_template_id: string | null;
   override_variant: VariantCode | null;
   adapted: boolean;
@@ -124,6 +135,7 @@ export function snapshot(s: State): Restorable {
     flags: [...s.flags],
     today_equipment: s.today_equipment,
     travel: s.travel,
+    checkin: s.checkin,
     override_template_id: s.override_template_id,
     override_variant: s.override_variant,
     adapted: s.adapted,
@@ -145,6 +157,7 @@ type Action =
   | { type: 'accept_adaptation'; template_id: string; variant: VariantCode }
   | { type: 'set_today_equipment'; equipment: string[] | null }
   | { type: 'set_travel'; travel: State['travel'] }
+  | { type: 'set_checkin'; checkin: Checkin }
   | { type: 'set_queue_order'; reordered: boolean }
   | { type: 'restore'; snapshot: Restorable }
   | { type: 'start_workout' }
@@ -201,6 +214,14 @@ function reducer(s: State, a: Action): State {
       return { ...s, today_equipment: a.equipment };
     case 'set_travel':
       return { ...s, travel: a.travel };
+    case 'set_checkin':
+      return {
+        ...s,
+        checkin: a.checkin,
+        // The check-in is the authoritative statement of how the athlete is;
+        // the Adapt sheet's energy chip follows it rather than competing.
+        energy: a.checkin.energy ?? s.energy,
+      };
     case 'set_queue_order':
       return { ...s, queue_reordered: a.reordered };
     // Undo (PRD §2 — an adaptation the athlete accepted is theirs to take back).
@@ -247,6 +268,12 @@ interface Store {
   steps: Step[];
   readiness: ReturnType<typeof computeReadiness>;
   metricDetail: typeof METRIC_DETAIL;
+  /**
+   * Sleep as the engine saw it, with where it came from. `null` hours mean the
+   * athlete has not checked in and no wearable is connected — screens show a
+   * neutral state rather than inventing a figure (PRD §8.3).
+   */
+  sleep: { hours: number | null; source: 'self_reported' | 'connected' | null };
   engineInput: EngineInput;
   /**
    * Writes a profile edit through to Supabase. Local state is already updated
@@ -254,6 +281,12 @@ interface Store {
    * `profileError` rather than silently reverting what the athlete typed.
    */
   commitProfile(patch: Partial<AthleteProfile>): void;
+  /**
+   * Records the check-in locally, writes it through, and refreshes Today so the
+   * recommendation reflects it. Local state updates first: the athlete's answer
+   * is theirs whether or not the network agrees.
+   */
+  commitCheckin(checkin: Checkin): void;
   profileError: string | null;
   /**
    * Server state backing the decision. Null on an unconfigured build, which
@@ -322,9 +355,30 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       setProfileError(e instanceof Error ? e.message : 'Could not save profile'));
   }, []);
 
+  const commitCheckin = useCallback((checkin: Checkin) => {
+    dispatch({ type: 'set_checkin', checkin });
+    if (authStatusRef.current !== 'signed_in') return;
+    saveCheckin(checkin).then(saved => {
+      if (saved) refreshToday();
+    });
+  }, [refreshToday]);
+
   const engineInput = useMemo<EngineInput>(() => {
     const noEquipment = state.flags.includes('No equipment');
     const equipment = state.today_equipment ?? state.equipment;
+    /**
+     * One sleep number, resolved once, for the engine and the screens alike.
+     *
+     * A logged check-in wins. Failing that the Adapt sheet's "Low sleep" flag
+     * stands in with the seeded athlete's value, which is what the unconfigured
+     * build runs on. Failing both it is null — unknown, not "slept well". The
+     * engine only branches below five hours, so null and the 7.5 that used to
+     * sit here produce the same recommendation; null is simply the truth, and
+     * it is what lets Today show a neutral state instead of a number.
+     */
+    const reportedSleep = state.checkin?.sleep_hours
+      ?? today?.recovery?.sleep_hours
+      ?? (state.flags.includes('Low sleep') ? state.sleep_hours : null);
     return {
       local_date: today?.date_local ?? new Date().toISOString().slice(0, 10),
       phase_type: (today?.phase?.type as EngineInput['phase_type']) ?? PHASE.type,
@@ -334,7 +388,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         ?? RECENT_SESSIONS,
       recovery_state: 'okay',
       energy: state.energy,
-      sleep_hours: state.flags.includes('Low sleep') ? state.sleep_hours : 7.5,
+      sleep_hours: reportedSleep,
       available_minutes: state.available_minutes,
       available_equipment: noEquipment ? ['bodyweight'] : equipment,
       low_impact_required: state.flags.includes('Need low impact'),
@@ -345,7 +399,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       variation_tolerance: 1,
     };
   }, [state.energy, state.flags, state.available_minutes, state.equipment,
-      state.today_equipment, state.considerations, state.sleep_hours, today]);
+      state.today_equipment, state.considerations, state.sleep_hours,
+      state.checkin, today]);
 
   /**
    * The server's decision is authoritative when there is one — it is the one
@@ -381,6 +436,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       overall: today.readiness.overall,
       confidence: today.readiness.confidence,
       components: today.readiness.components,
+      observed: today.readiness.observed ?? Object.keys(today.readiness.components),
     } as ReturnType<typeof computeReadiness>;
   }, [today]);
 
@@ -389,13 +445,32 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
    * the athlete's own history; the bundled fixture stands in only for the
    * seeded build, where there is no account to measure.
    */
+  /**
+   * Coach's one-liners, fetched once per session when there is an account to
+   * write about. Absent until it answers — and if it never does, the shipped
+   * sentences stand.
+   */
+  const [narration, setNarration] = useState<Record<string, string> | null>(null);
+  useEffect(() => {
+    if (!today) return;
+    let cancelled = false;
+    fetchProgressNarration().then(d => { if (!cancelled && d) setNarration(d); });
+    return () => { cancelled = true; };
+  }, [today?.date_local]);
+
   const metricDetail = useMemo(() => {
     const server = today?.readiness.metric_detail;
     if (!server) return METRIC_DETAIL;
     return Object.fromEntries(Object.entries(METRIC_DETAIL).map(([key, meta]) => [
-      key, { ...meta, stats: server[key]?.stats ?? [] },
+      key, {
+        ...meta,
+        // The shipped sentence is the floor; Coach's replaces it only once it
+        // has actually written one from this athlete's numbers.
+        detail: narration?.[key] ?? FALLBACK_DETAIL[key as ComponentKey] ?? meta.detail,
+        stats: server[key]?.stats ?? [],
+      },
     ]));
-  }, [today]);
+  }, [today, narration]);
 
   // Elapsed-time ticker. Runs only while a block is active, so pausing stops
   // the clock rather than merely hiding it.
@@ -408,12 +483,20 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     return () => clearInterval(id);
   }, []);
 
+  const sleep = useMemo(() => ({
+    hours: engineInput.sleep_hours,
+    source: engineInput.sleep_hours === null
+      ? null
+      : (today?.recovery?.source ?? 'self_reported'),
+  }), [engineInput.sleep_hours, today]);
+
   const value = useMemo(
     () => ({
-      state, dispatch, decision, session, steps, readiness, metricDetail, engineInput,
-      commitProfile, profileError, today, todayLoading, todayError, refreshToday,
+      state, dispatch, decision, session, steps, readiness, metricDetail, sleep, engineInput,
+      commitProfile, commitCheckin, profileError, today, todayLoading, todayError, refreshToday,
     }),
-    [state, decision, session, steps, readiness, metricDetail, engineInput, commitProfile,
+    [state, decision, session, steps, readiness, metricDetail, sleep, engineInput, commitProfile,
+     commitCheckin,
      profileError, today, todayLoading, todayError, refreshToday]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

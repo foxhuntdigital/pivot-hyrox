@@ -5,15 +5,14 @@
  * be reproduced later from stored inputs plus engine_version (PRD §24).
  */
 import {
-  recommend, computeReadiness, ENGINE_VERSION, READINESS_MODEL_VERSION,
+  recommend, ENGINE_VERSION, READINESS_MODEL_VERSION,
   VARIANT_LABEL, type EngineInput,
 } from '../../../packages/engine/src/index.ts';
 import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
   localDate, requireUser,
 } from '../_shared/context.ts';
-import { loadReadinessHistory, readinessInputsFrom } from '../_shared/readiness-history.ts';
-import { metricDetailFrom } from '../_shared/metric-detail.ts';
+import { loadProgressSnapshot } from '../_shared/progress.ts';
 
 Deno.serve(async (req) => {
   const origin = req.headers.get('Origin');
@@ -24,10 +23,9 @@ Deno.serve(async (req) => {
     const user = await requireUser(db);
     const today = localDate(user.timezone);
 
-    const [content, state, history] = await Promise.all([
+    const [content, state] = await Promise.all([
       loadContent(db),
       loadAthleteState(db, user.id, today),
-      loadReadinessHistory(db, user.id, today),
     ]);
 
     const templateIndex = new Map(content.templates.map(t => [t.id, t]));
@@ -66,40 +64,11 @@ Deno.serve(async (req) => {
 
     const decision = recommend(input, content.exercises);
 
-    // Readiness is computed from the same stored history, and reports its own
-    // confidence rather than implying precision (PRD §9.5). Adherence comes
-    // from the weekly cycle and recovery from the check-in; everything else is
-    // aggregated from logged sessions.
-    const templateFacts = new Map(content.templates.map(t => [t.id, {
-      primary_goal: t.primary_goal,
-      requires_running: t.requires_running,
-      estimated_minutes: t.estimated_minutes,
-    }]));
-
-    const readiness = computeReadiness(readinessInputsFrom({
-      today,
-      sessions: history.sessions,
-      setLogs: history.setLogs,
-      cardioLogs: history.cardioLogs,
-      templates: templateFacts,
-      stimulus_adherence_4w: state.stimulus_requirements.length
-        ? state.stimulus_requirements.reduce((n, r) =>
-            n + Math.min(1, r.completed_exposures / r.target_exposures), 0)
-          / state.stimulus_requirements.length
-        : 0,
-      recovery_signal: checkin ? 0.6 : 0,
-    }));
-
-    // Supporting detail behind each readiness bar, computed from the same
-    // history. A stat with nothing behind it is omitted rather than defaulted.
-    const metric_detail = metricDetailFrom({
-      today,
-      sessions: history.sessions,
-      setLogs: history.setLogs,
-      cardioLogs: history.cardioLogs,
-      templates: templateFacts,
-      checkins: state.checkins,
-      queue: state.queue,
+    // Readiness and the stats behind it, computed from stored history by the
+    // same helper Coach narrates from — so the sentence and the number cannot
+    // drift apart (PRD §9.5).
+    const { readiness, metric_detail } = await loadProgressSnapshot({
+      db, userId: user.id, today, content, state,
     });
 
     // Audit row. Written on every decision, not only on adaptations.
@@ -124,10 +93,20 @@ Deno.serve(async (req) => {
         type: state.currentPhase.phase_type,
         week: state.currentCycle?.week_index ?? 1,
       },
+      // Self-reported recovery, carried with its source and the day it was
+      // logged (PRD §11.1 — health-derived values never arrive anonymous).
+      // `source` is always self_reported until HealthKit ingestion lands.
+      recovery: checkin ? {
+        sleep_hours: checkin.sleep_hours ?? null,
+        energy: checkin.energy ?? null,
+        source: 'self_reported' as const,
+        observed_on: checkin.local_date,
+      } : null,
       readiness: {
         overall: readiness.overall,
         confidence: readiness.confidence,
         components: readiness.components,
+        observed: readiness.observed,
         model_version: READINESS_MODEL_VERSION,
         metric_detail,
       },

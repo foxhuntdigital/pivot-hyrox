@@ -30,6 +30,7 @@
             "npm:expo-keep-awake@~57.0.1",
             "npm:expo-linking@~57.0.6",
             "npm:expo-router@~57.0.14",
+            "npm:expo-splash-screen@~57.0.8",
             "npm:expo-status-bar@~57.0.1",
             "npm:expo@~57.0.14",
             "npm:react-native-gesture-handler@2.32",

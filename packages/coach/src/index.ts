@@ -14,3 +14,7 @@ export * from './generated.ts';
 export { route, trimDecision } from './tools.ts';
 export { runCoachTurn, classify, CLASSIFIER_MODEL, COMPOSER_MODEL } from './turn.ts';
 export { anthropicLlm, type CreateMessage, type AnthropicResponse } from './anthropic.ts';
+export {
+  narrateProgress, FALLBACK_DETAIL, COMPONENT_KEYS, NARRATOR_MODEL,
+  type ComponentKey, type ComponentFacts,
+} from './narrate.ts';

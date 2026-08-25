@@ -24,6 +24,7 @@ import {
   type Phase, type PlannedSession, type Race,
 } from '@/data/athlete';
 import { REASON_CODE_COPY, type CoachIntent, type CoachSignals } from '@/data/coach';
+import { hoursToClock } from '@/lib/format';
 
 /* ---------------------------------------------------------------- types --- */
 
@@ -167,14 +168,6 @@ const sentence = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 const exerciseName = (id: string) => exerciseById.get(id)?.name ?? id.replace(/^ex_/, '').replace(/_/g, ' ');
 
-/** 4.17 h → "4:10". Sleep is read as a clock time everywhere in the app. */
-function hoursToClock(hours: number | null): string | null {
-  if (hours === null) return null;
-  const h = Math.floor(hours);
-  const m = Math.round((hours - h) * 60);
-  return `${h}:${m.toString().padStart(2, '0')}`;
-}
-
 function paceClock(seconds: number): string {
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
@@ -280,7 +273,7 @@ function evidence(
   rows.push({
     k: 'Recovery input',
     v: `${sleep ? `${sleep} sleep, ` : ''}self-reported ${against.energy} energy. `
-      + `Readiness ${ctx.readiness.overall} at ${ctx.readiness.confidence} confidence — a product `
+      + `Readiness ${ctx.readiness.overall ?? 'not yet measured'} at ${ctx.readiness.confidence} confidence — a product `
       + 'score, not a medical assessment.',
   });
 
@@ -1060,7 +1053,7 @@ export function insightFor(ctx: CoachContext): CoachInsight | null {
       label: 'Coach noticed',
       text: `Today is ${VARIANT_LABEL[ctx.today.variant.variant_code]} rather than the full `
         + `session. ${ctx.today.rationale}`,
-      chips: ["Today's plan", `Readiness ${ctx.readiness.overall} · ${ctx.readiness.confidence}`],
+      chips: ["Today's plan", `Readiness ${ctx.readiness.overall ?? '—'} · ${ctx.readiness.confidence}`],
       intent: 'explain',
       cta: 'See why',
     };

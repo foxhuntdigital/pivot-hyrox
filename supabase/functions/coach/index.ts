@@ -20,16 +20,17 @@
 import Anthropic from 'npm:@anthropic-ai/sdk@0.120.0';
 
 import {
-  recommend, computeReadiness, type EngineInput,
+  recommend, type EngineInput,
 } from '../../../packages/engine/src/index.ts';
 import {
-  anthropicLlm, runCoachTurn,
+  anthropicLlm, narrateProgress, runCoachTurn,
   type AnthropicResponse, type CoachContext, type CoachServices,
 } from '../../../packages/coach/src/index.ts';
 import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
   localDate, requireUser,
 } from '../_shared/context.ts';
+import { loadProgressSnapshot } from '../_shared/progress.ts';
 
 /** Per-athlete monthly ceiling. Beyond it the app falls back to local Coach. */
 const MONTHLY_MESSAGE_LIMIT = Number(Deno.env.get('COACH_MONTHLY_MESSAGE_LIMIT') ?? '200');
@@ -44,15 +45,51 @@ Deno.serve(async (req) => {
     const apiKey = Deno.env.get('ANTHROPIC_API_KEY');
     if (!apiKey) throw new HttpError(503, 'Coach is not configured');
 
+    // The adapter is deliberately weakly typed so `@pivot/coach` holds no SDK
+    // dependency; this is where the two type worlds meet, so the cast lives
+    // here rather than being hidden inside it.
+    const anthropic = new Anthropic({ apiKey });
+    const llm = anthropicLlm(params =>
+      anthropic.messages.create(
+        params as unknown as Anthropic.MessageCreateParamsNonStreaming,
+      ) as unknown as Promise<AnthropicResponse>);
+
     const db = clientFor(req);
     const user = await requireUser(db);
     const today = localDate(user.timezone);
 
     const body = await req.json() as {
+      mode?: 'message' | 'progress_narration';
       message?: string;
       thread_id?: string | null;
       history?: { role: 'user' | 'assistant'; content: string }[];
     };
+
+    // Progress narration is not a conversation turn: it writes the six labels
+    // under the readiness bars from figures it is handed. It runs on a cheap
+    // model, writes no thread, and is not charged against the message quota —
+    // the athlete did not ask for it, the screen did.
+    if (body.mode === 'progress_narration') {
+      const [content, state] = await Promise.all([
+        loadContent(db),
+        loadAthleteState(db, user.id, today),
+      ]);
+      const snapshot = await loadProgressSnapshot({ db, userId: user.id, today, content, state });
+      const facts = Object.fromEntries(
+        Object.entries(snapshot.readiness.components).map(([k, score]) => [
+          k, { score, stats: snapshot.metric_detail[k]?.stats ?? [] },
+        ]),
+      );
+      const narration = await narrateProgress({
+        llm, facts, lowest: snapshot.lowest,
+      });
+      return json({
+        detail: narration.detail,
+        source: narration.source,
+        narration_version: narration.version,
+      }, 200, origin);
+    }
+
     const message = (body.message ?? '').trim();
     if (!message) throw new HttpError(400, 'message is required');
     if (message.length > 2000) throw new HttpError(400, 'message is too long');
@@ -109,16 +146,11 @@ Deno.serve(async (req) => {
     const decision = recommend(input, content.exercises);
     // The same computation /v1/today runs, so the number Coach explains is the
     // number Progress shows.
-    const readiness = computeReadiness({
-      aerobic_minutes_14d: 0, threshold_sessions_14d: 0, run_sessions_7d: 0,
-      longest_run_km: 0, strength_completion_rate: 0, stations_covered_21d: 0,
-      stimulus_adherence_4w: state.stimulus_requirements.length
-        ? state.stimulus_requirements.reduce((n, r) =>
-            n + Math.min(1, r.completed_exposures / r.target_exposures), 0)
-          / state.stimulus_requirements.length
-        : 0,
-      recovery_signal: checkin ? 0.6 : 0,
-      observed_days: recent_sessions.length,
+    // The same snapshot /v1/today and Progress compute, so the readiness Coach
+    // explains is the readiness the athlete is looking at. Computing it here a
+    // second time is how the two drift apart.
+    const { readiness } = await loadProgressSnapshot({
+      db, userId: user.id, today, content, state,
     });
 
     const services: CoachServices = {
@@ -217,15 +249,8 @@ Deno.serve(async (req) => {
       },
     };
 
-    const anthropic = new Anthropic({ apiKey });
     const turn = await runCoachTurn({
-      // The adapter is deliberately weakly typed so the package holds no SDK
-      // dependency; this is where the two type worlds meet, so the cast lives
-      // here rather than being hidden inside it.
-      llm: anthropicLlm(params =>
-        anthropic.messages.create(
-          params as unknown as Anthropic.MessageCreateParamsNonStreaming,
-        ) as unknown as Promise<AnthropicResponse>),
+      llm,
       services,
       context,
       message,

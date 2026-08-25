@@ -76,7 +76,8 @@ function CardFooter({ label, children }: { label?: string; children: React.React
 export function ContextStrip({ race, phase, readiness, confidence, onReadiness }: {
   race: string;
   phase: string;
-  readiness: number;
+  /** Null before anything has been measured — rendered as a dash, not a zero. */
+  readiness: number | null;
   confidence: string;
   onReadiness: () => void;
 }) {
@@ -100,12 +101,14 @@ export function ContextStrip({ race, phase, readiness, confidence, onReadiness }
       <Pressable
         onPress={onReadiness}
         accessibilityRole="button"
-        accessibilityLabel={`Readiness ${readiness}, ${confidence} confidence. Ask Coach about it.`}
+        accessibilityLabel={readiness === null
+          ? 'Readiness not yet measured. Ask Coach about it.'
+          : `Readiness ${readiness}, ${confidence} confidence. Ask Coach about it.`}
         style={({ pressed }) => [cell, { backgroundColor: pressed ? color.hover : 'transparent' }]}
       >
         <Label size="sm" style={{ letterSpacing: 1.08 }}>Readiness</Label>
         <Text style={[t.rowTitle, { fontFamily: t.eyebrow.fontFamily, fontSize: 13, marginTop: 4, color: color.ink }]}>
-          {readiness} · <Text style={{ color: color.redDark }}>{confidence} conf</Text>
+          {readiness ?? '—'} · <Text style={{ color: color.redDark }}>{confidence} conf</Text>
         </Text>
       </Pressable>
     </View>

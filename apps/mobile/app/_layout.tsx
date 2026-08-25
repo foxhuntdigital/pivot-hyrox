@@ -32,6 +32,16 @@ function Holding() {
  * sign-in screen that cannot succeed would make the app unusable rather than
  * honest about what is connected.
  */
+function DemoRoute() {
+  const router = useRouter();
+  useEffect(() => {
+    if (!process.env.EXPO_PUBLIC_CHECKIN_DEMO) return;
+    const t = setTimeout(() => router.push('/checkin'), 5000);
+    return () => clearTimeout(t);
+  }, [router]);
+  return null;
+}
+
 function AuthGate({ children }: { children: React.ReactNode }) {
   const { status } = useSession();
   const { status: onboarding } = useOnboarding();
@@ -94,6 +104,7 @@ export default function RootLayout() {
         <AppProvider>
           <CoachProvider>
           <StatusBar style="dark" />
+          <DemoRoute />
           <AuthGate>
             {/* The whole system is Archivo weights; rendering in a fallback face
                 first would reflow every screen, so hold until the family is ready. */}
@@ -107,6 +118,7 @@ export default function RootLayout() {
               <Stack.Screen name="(auth)" />
               <Stack.Screen name="(onboarding)" />
               <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="checkin" options={{ animation: 'slide_from_bottom', presentation: 'modal' }} />
               <Stack.Screen name="active" options={{ animation: 'slide_from_bottom', gestureEnabled: false }} />
               <Stack.Screen name="done" options={{ animation: 'fade', gestureEnabled: false }} />
             </Stack>}

@@ -135,3 +135,27 @@ export async function askCoach(args: {
     return null;   // offline, rate-limited, or unconfigured — fall back locally
   }
 }
+
+/**
+ * The one-line explanation under each readiness bar, written by Coach from the
+ * athlete's own figures.
+ *
+ * Returns null on anything other than a usable reply — no Supabase, an error, a
+ * rate limit, a missing key. The caller keeps the sentences that ship with the
+ * app, which state what each metric measures and so cannot be contradicted by
+ * the numbers beside them.
+ */
+export async function fetchProgressNarration(): Promise<Record<string, string> | null> {
+  if (!supabase) return null;
+  try {
+    const { data, error } = await supabase.functions.invoke('coach', {
+      method: 'POST',
+      body: { mode: 'progress_narration' },
+    });
+    if (error || !data) return null;
+    const detail = (data as { detail?: Record<string, string> }).detail;
+    return detail && Object.keys(detail).length ? detail : null;
+  } catch {
+    return null;
+  }
+}

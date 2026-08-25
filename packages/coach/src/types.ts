@@ -72,7 +72,11 @@ export interface CoachContext {
     reported_energy: string;
     equipment_count: number;
   };
-  readiness: { overall: number; confidence: string; components: Record<string, number> } | null;
+  /**
+   * `overall` is null when nothing has been measured yet — a different
+   * statement from a readiness of zero, and one Coach has to be able to make.
+   */
+  readiness: { overall: number | null; confidence: string; components: Record<string, number> } | null;
   recent_summary: { sessions_7d: number; last_session_days_ago: number | null; last_rpe: number | null } | null;
 }
 

@@ -17,10 +17,23 @@ export interface TodayPayload {
   date_local: string;
   active_race: { id: string; name: string; days_remaining: number } | null;
   phase: { type: string; week: number } | null;
+  /**
+   * The athlete's own check-in. Null when they have not logged one — which is
+   * not zero, and must not be rendered as a number.
+   */
+  recovery: {
+    sleep_hours: number | null;
+    energy: string | null;
+    source: 'self_reported' | 'connected';
+    observed_on: string;
+  } | null;
   readiness: {
-    overall: number;
+    /** Null when nothing has been measured yet — not the same as zero. */
+    overall: number | null;
     confidence: string;
     components: Record<string, number>;
+    /** Components with data behind them; the rest are not in `overall`. */
+    observed?: string[];
     model_version: string;
     /**
      * Supporting stats per component, computed from the athlete's own history.

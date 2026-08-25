@@ -424,3 +424,43 @@ describe('Readiness (PRD §9.5)', () => {
     assert.equal(r.confidence, 'low');
   });
 });
+
+describe('Readiness renormalisation', () => {
+  const base = {
+    aerobic_minutes_14d: 300, threshold_sessions_14d: 4, run_sessions_7d: 3,
+    longest_run_km: 12, strength_completion_rate: 0, stations_covered_21d: 0,
+    stimulus_adherence_4w: 0, recovery_signal: 0, observed_days: 14,
+  };
+
+  test('an unobserved component neither drags the score down nor passes it', () => {
+    const all = computeReadiness(base);
+    const some = computeReadiness({
+      ...base,
+      observed: { aerobic: true, running: true },
+    });
+    assert.equal(all.overall, 40, 'counting the four unmeasured as zero');
+    assert.equal(some.overall, 100, 'renormalised over what was measured');
+    assert.deepEqual(some.observed, ['aerobic', 'running']);
+  });
+
+  test('a measured zero still counts against the score', () => {
+    const r = computeReadiness({
+      ...base,
+      observed: { aerobic: true, running: true, strength: true },
+    });
+    // aerobic .2 + running .2 at full, strength .15 at zero -> .4/.55
+    assert.equal(r.overall, 73);
+  });
+
+  test('an athlete with nothing measured has no score rather than a zero', () => {
+    const r = computeReadiness({ ...base, observed: {} });
+    assert.equal(r.overall, null);
+    assert.deepEqual(r.observed, []);
+    assert.equal(r.confidence, 'medium', 'confidence still reflects days seen');
+  });
+
+  test('omitting `observed` keeps every component in, as before', () => {
+    assert.deepEqual(computeReadiness(base).observed,
+      ['aerobic', 'running', 'strength', 'stations', 'consistency', 'recovery']);
+  });
+});

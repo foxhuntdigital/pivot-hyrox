@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PIVOT Progress Narration",
+  "type": "object",
+  "required": ["components"],
+  "properties": {
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "sentence"],
+        "properties": {
+          "key": {
+            "enum": ["aerobic", "running", "strength", "stations", "consistency", "recovery"]
+          },
+          "sentence": { "type": "string", "maxLength": 160 }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

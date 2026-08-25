@@ -68,8 +68,13 @@ export function readinessInputsFrom(args: {
   templates: Map<string, TemplateFacts>;
   stimulus_adherence_4w: number;
   recovery_signal: number;
+  /** Whether the week actually set targets, and whether a check-in exists. */
+  hasStimulusTargets?: boolean;
+  hasCheckin?: boolean;
 }): ReadinessInputs {
   const { today, sessions, setLogs, cardioLogs, templates } = args;
+  const hasStimulusTargets = args.hasStimulusTargets ?? false;
+  const hasCheckin = args.hasCheckin ?? args.recovery_signal > 0;
 
   const within = (s: SessionRow, days: number) => daysAgo(today, s.started_at) < days;
   const factsFor = (s: SessionRow) => templates.get(s.template_id);
@@ -123,7 +128,25 @@ export function readinessInputsFrom(args: {
     if (s.started_at && within(s, WINDOWS.observed)) observedDays.add(dayFloor(s.started_at));
   }
 
+  /**
+   * A component counts as observed when there was an opportunity to measure it
+   * — the athlete trained in that window, or the input exists at all. Training
+   * for two weeks and doing no aerobic work is a real aerobic zero; logging
+   * nothing is not.
+   */
+  const trainedWithin = (days: number) =>
+    sessions.some(s => daysAgo(today, s.started_at) < days);
+  const observed = {
+    aerobic: trainedWithin(WINDOWS.aerobic),
+    running: trainedWithin(WINDOWS.run),
+    stations: trainedWithin(WINDOWS.stations),
+    strength: prescribedSets > 0,
+    consistency: args.stimulus_adherence_4w > 0 || hasStimulusTargets,
+    recovery: hasCheckin,
+  };
+
   return {
+    observed,
     aerobic_minutes_14d: Math.round(aerobic_minutes_14d),
     threshold_sessions_14d,
     run_sessions_7d,

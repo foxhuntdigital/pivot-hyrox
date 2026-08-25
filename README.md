@@ -317,6 +317,12 @@ Two consequences worth knowing when reading the code:
 
 Deliberate omissions, not oversights:
 
+- **Recovery check-in (D20 / FR-015) has no write path.** `recovery_checkins`
+  exists and is read by `today`, `adapt` and `coach`, but nothing in the app
+  writes a row, so self-reported sleep is null for a signed-in athlete and
+  Today shows its neutral state. The seeded build still shows the athlete's
+  value. Sleep is the only check-in field wired end to end; energy, stress,
+  soreness and motivation are read server-side and never collected.
 - **Comparable-session trends have no source.** `get_performance_trends` returns
   null server-side because split-level history is not captured yet, so Coach
   says it lacks the data rather than estimating from session RPE. The trend card
