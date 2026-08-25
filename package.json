@@ -12,6 +12,9 @@
     "coach:prompts": "node scripts/build-coach-prompts.mjs",
     "coach:evals": "node --experimental-strip-types --env-file-if-exists=.env scripts/coach-evals.mjs",
     "functions:test": "node --experimental-strip-types --test supabase/functions/_shared/*.test.ts",
+    "mobile:test": "node --experimental-strip-types --test apps/mobile/src/**/*.test.ts",
+    "functions:test:deno": "deno test --allow-env --no-check supabase/functions/_shared/*.deno-test.ts",
+    "smoke": "node scripts/smoke.mjs",
     "functions:check": "deno check supabase/functions/*/index.ts",
     "seed:build": "node scripts/convert-seed.mjs",
     "seed:import": "node scripts/import-workouts.mjs",
@@ -20,7 +23,7 @@
     "seed:prepare": "node scripts/prepare-pack.mjs",
     "seed:sheets": "node scripts/export-authoring-sheet.mjs",
     "db:verify": "./scripts/verify-schema.sh",
-    "test": "npm run engine:test && npm run coach:test && npm run functions:test",
+    "test": "npm run engine:test && npm run coach:test && npm run functions:test && npm run functions:test:deno && npm run mobile:test",
     "postinstall": "node scripts/patch-native-deps.mjs"
   },
   "devDependencies": {

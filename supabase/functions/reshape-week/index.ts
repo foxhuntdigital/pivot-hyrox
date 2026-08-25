@@ -22,6 +22,7 @@
 import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, localDate, requireUser,
 } from '../_shared/context.ts';
+import { validateReshape, type QueueItem } from '../_shared/queue.ts';
 
 interface ReshapeBody {
   /** Queue item ids that stay, in the order they should be performed. */
@@ -29,14 +30,6 @@ interface ReshapeBody {
   /** Queue item ids that come out of the week. */
   drop?: string[];
 }
-
-/**
- * States a reshape may move. `skipped` is included so a change can be taken
- * back: Coach's commitments carry an undo, and a session dropped from the week
- * has to be returnable to it. Anything else is already history — a session in
- * progress or completed is not the plan any more, it is what happened.
- */
-const MUTABLE = ['queued', 'recommended', 'skipped'];
 
 Deno.serve(async (req) => {
   const origin = req.headers.get('Origin');
@@ -52,30 +45,18 @@ Deno.serve(async (req) => {
 
     const keep = body?.keep ?? [];
     const drop = body?.drop ?? [];
-    if (!keep.length && !drop.length) {
-      throw new HttpError(400, 'Nothing to change: send keep, drop, or both');
-    }
-    const overlap = keep.filter(id => drop.includes(id));
-    if (overlap.length) {
-      throw new HttpError(400, 'A session cannot be both kept and dropped');
-    }
 
     const state = await loadAthleteState(db, user.id, today);
     const cycleId = state.currentCycle?.id;
     if (!cycleId) throw new HttpError(409, 'No active week to reshape');
 
-    // Every id must belong to this athlete's current week. RLS would refuse a
-    // foreign row anyway; this turns that into an answer rather than a silent
-    // no-op that reports success.
-    const items = new Map(
-      ((state.currentCycle?.session_queue_items ?? []) as any[]).map(q => [q.id, q]));
-    const unknown = [...keep, ...drop].filter(id => !items.has(id));
-    if (unknown.length) throw new HttpError(400, 'Some sessions are not in this week');
-
-    const immovable = [...keep, ...drop].filter(id => !MUTABLE.includes(items.get(id).state));
-    if (immovable.length) {
-      throw new HttpError(409, 'A session already started or finished cannot be moved');
-    }
+    // Every id must belong to this athlete's current week, and be something
+    // that may still be moved. RLS would refuse a foreign row anyway; checking
+    // here turns that into an answer rather than a silent no-op reporting
+    // success, and it happens before anything is written.
+    const items = new Map<string, QueueItem>(
+      ((state.currentCycle?.session_queue_items ?? []) as QueueItem[]).map(q => [q.id, q]));
+    validateReshape(items, keep, drop);
 
     // Ranks are rewritten below the untouched items, so a kept session never
     // jumps ahead of one already in progress.

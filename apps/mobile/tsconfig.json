@@ -11,5 +11,9 @@
       "@pivot/engine": ["../../packages/engine/src/index.ts"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"],
+  // Tests run under Node's type stripping, not the app bundler, and use
+  // `node:test` — types this project deliberately does not pull into an app
+  // that has no Node globals. Same convention the Edge Function tests follow.
+  "exclude": ["**/*.test.ts"]
 }

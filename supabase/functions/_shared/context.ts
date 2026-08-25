@@ -45,7 +45,15 @@ export async function requireUser(db: SupabaseClient) {
 }
 
 export class HttpError extends Error {
-  constructor(public status: number, message: string) { super(message); }
+  status: number;
+
+  // The field is declared rather than taken as a constructor parameter
+  // property: this module is imported by tests running under Node's strip-only
+  // type stripping, which does not support that syntax.
+  constructor(status: number, message: string) {
+    super(message);
+    this.status = status;
+  }
 }
 
 /** The athlete's local date, computed in their own timezone (PRD §11.1). */

@@ -20,6 +20,26 @@ interface CompleteBody {
   ended_early?: boolean;
   /** Per-block actuals captured during execution. */
   blocks?: { block_order: number; actual_json: unknown; completed_at?: string; skipped?: boolean }[];
+  /**
+   * What was performed, per set and per cardio effort. Written against the
+   * session's own block rows, which `start-workout` created.
+   *
+   * These are replaced rather than appended: a finish states the whole session,
+   * so a corrected or re-sent one must not double-count. `client_event_id` is
+   * assigned here rather than by the client — the tables require a uuid, and
+   * replacement is what makes the write idempotent, not the id.
+   */
+  set_logs?: {
+    block_order: number; exercise_id: string; set_index: number;
+    prescribed_reps?: number | null; actual_reps?: number | null;
+    prescribed_load?: number | null; actual_load?: number | null;
+    load_unit?: string | null; rpe?: number | null;
+  }[];
+  cardio_logs?: {
+    block_order: number; exercise_id: string;
+    duration_seconds?: number | null; distance_meters?: number | null;
+    avg_hr?: number | null; calories?: number | null; rpe?: number | null;
+  }[];
 }
 
 Deno.serve(async (req) => {
@@ -78,6 +98,8 @@ Deno.serve(async (req) => {
         .eq('block_order', b.block_order);
     }
 
+    await writeLogs(db, body);
+
     // Reconcile the week. A completed session credits its stimulus once,
     // whatever day it landed on (PRD §2, FR-012).
     const snapshot = session.snapshot_json as { primary_stimulus?: string } | null;
@@ -127,3 +149,75 @@ Deno.serve(async (req) => {
     return json({ error: (err as Error).message }, status, origin);
   }
 });
+
+
+/**
+ * Writes what was performed against this session's block rows.
+ *
+ * Logs are keyed by `block_order` on the wire because that is what the client
+ * knows: the prescription's shape, not the row ids the server minted. They are
+ * resolved to `session_blocks.id` here.
+ *
+ * Existing logs for the session are cleared first. A finish is a statement
+ * about the whole session, so re-sending one has to replace what it said before
+ * rather than add to it — the alternative is a corrected finish doubling every
+ * set the athlete performed.
+ */
+async function writeLogs(db: ReturnType<typeof clientFor>, body: CompleteBody) {
+  const sets = body.set_logs ?? [];
+  const cardio = body.cardio_logs ?? [];
+  if (!sets.length && !cardio.length) return;
+
+  const { data: blockRows } = await db
+    .from('session_blocks')
+    .select('id, block_order')
+    .eq('session_id', body.session_id);
+
+  const blockId = new Map<number, string>(
+    (blockRows ?? []).map((b: { id: string; block_order: number }) => [b.block_order, b.id]));
+  if (!blockId.size) return;
+
+  const ids = [...blockId.values()];
+  await db.from('set_logs').delete().in('session_block_id', ids);
+  await db.from('cardio_logs').delete().in('session_block_id', ids);
+
+  const setRows = sets
+    .filter(l => blockId.has(l.block_order))
+    .map(l => ({
+      session_block_id: blockId.get(l.block_order)!,
+      exercise_id: l.exercise_id,
+      set_index: l.set_index,
+      prescribed_reps: l.prescribed_reps ?? null,
+      actual_reps: l.actual_reps ?? null,
+      prescribed_load: l.prescribed_load ?? null,
+      actual_load: l.actual_load ?? null,
+      load_unit: l.load_unit ?? null,
+      rpe: l.rpe ?? null,
+      client_event_id: crypto.randomUUID(),
+    }));
+
+  const cardioRows = cardio
+    .filter(l => blockId.has(l.block_order))
+    .map(l => ({
+      session_block_id: blockId.get(l.block_order)!,
+      exercise_id: l.exercise_id,
+      duration_seconds: l.duration_seconds ?? null,
+      distance_meters: l.distance_meters ?? null,
+      avg_hr: l.avg_hr ?? null,
+      calories: l.calories ?? null,
+      rpe: l.rpe ?? null,
+      client_event_id: crypto.randomUUID(),
+    }));
+
+  // A failed log write must not fail the finish. The session is completed and
+  // the week is credited either way; losing the detail is the smaller harm,
+  // and it is recorded here rather than swallowed.
+  if (setRows.length) {
+    const { error } = await db.from('set_logs').insert(setRows);
+    if (error) console.error('set_logs insert failed', error.message);
+  }
+  if (cardioRows.length) {
+    const { error } = await db.from('cardio_logs').insert(cardioRows);
+    if (error) console.error('cardio_logs insert failed', error.message);
+  }
+}

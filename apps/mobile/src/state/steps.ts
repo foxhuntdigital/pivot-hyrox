@@ -25,6 +25,20 @@ export interface Step {
   exercise_id: string;
   /** Seconds, when the step is time-based. Drives the countdown. */
   duration_seconds: number | null;
+
+  /* --- provenance: where this step came from, so what happened to it can be
+     written back to the right row (`buildLogs`). ------------------------- */
+
+  /** The block this step belongs to, by position in the prescription. */
+  block_order: number;
+  /** 1-based round within that block. */
+  round: number;
+  /** How the work was prescribed: 'duration', 'distance', 'reps', … */
+  prescription_type: string;
+  quantity: number;
+  quantity_unit: string;
+  /** Rest steps are structure, not work: they are never logged. */
+  rest: boolean;
 }
 
 function titleCase(s: string): string {
@@ -65,7 +79,7 @@ export function buildSteps(rec: Recommendation): Step[] {
   const steps: Step[] = [];
   const intensity = rec.template.intensity_target ?? 'RPE 6';
 
-  for (const block of rec.blocks) {
+  for (const [blockOrder, block] of rec.blocks.entries()) {
     const rounds = block.rounds ?? 1;
     const kind = blockLabel(block);
 
@@ -87,6 +101,12 @@ export function buildSteps(rec: Recommendation): Step[] {
           phase: rounds > 1 ? `ROUND ${r} / ${rounds}` : kind.toUpperCase(),
           exercise_id: be.exercise_id,
           duration_seconds: seconds,
+          block_order: blockOrder,
+          round: r,
+          prescription_type: be.prescription_type,
+          quantity: be.quantity,
+          quantity_unit: be.quantity_unit,
+          rest: false,
         });
       }
       if (block.rest_seconds && r < rounds) {
@@ -100,6 +120,12 @@ export function buildSteps(rec: Recommendation): Step[] {
           phase: `ROUND ${r} / ${rounds}`,
           exercise_id: '',
           duration_seconds: block.rest_seconds,
+          block_order: blockOrder,
+          round: r,
+          prescription_type: 'duration',
+          quantity: block.rest_seconds,
+          quantity_unit: 'seconds',
+          rest: true,
         });
       }
     }

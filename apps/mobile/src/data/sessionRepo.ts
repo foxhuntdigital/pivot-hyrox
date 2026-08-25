@@ -14,6 +14,7 @@
  */
 import { supabase } from '@/lib/supabase';
 import type { VariantCode } from '@pivot/engine';
+import type { BlockActual, CardioActual, SetActual } from '@/state/actuals';
 
 export interface StartRequest {
   template_id: string;
@@ -51,6 +52,15 @@ export interface CompleteRequest {
   session_rpe?: number | null;
   ended_early?: boolean;
   notes?: string;
+  /**
+   * What was performed. Absent fields are absent measurements — the server
+   * replaces the session's logs with exactly what arrives here, so a finish
+   * that carries nothing records a session with no detail rather than a
+   * session of zeroes.
+   */
+  blocks?: BlockActual[];
+  set_logs?: SetActual[];
+  cardio_logs?: CardioActual[];
 }
 
 export interface CompletedSession {

@@ -34,6 +34,15 @@ interface SessionStore {
   signIn(email: string, password: string): Promise<void>;
   signUp(email: string, password: string, displayName: string): Promise<SignUpResult>;
   signOut(): Promise<void>;
+  /**
+   * Sends a recovery code. Resolves the same way whether or not the address has
+   * an account — see the implementation for why.
+   */
+  requestPasswordReset(email: string): Promise<void>;
+  /** Exchanges the emailed code for a session, then sets the new password. */
+  confirmPasswordReset(email: string, code: string, password: string): Promise<void>;
+  /** Sends the signup confirmation again, for the one that never arrived. */
+  resendConfirmation(email: string): Promise<void>;
 }
 
 const Ctx = createContext<SessionStore | null>(null);
@@ -85,6 +94,48 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     return { needsConfirmation: data.session === null };
   }, []);
 
+  /**
+   * Password recovery, by code rather than by link.
+   *
+   * Supabase's recovery email can carry either. A link has to come back into a
+   * native app through a registered scheme and an allowlisted redirect, and it
+   * fails silently and unhelpfully when either is missing. A six-digit code the
+   * athlete types has one failure mode and it says what it is.
+   *
+   * Requires the recovery email template to render `{{ .Token }}` — the default
+   * template sends only the link.
+   */
+  const requestPasswordReset = useCallback(async (email: string) => {
+    if (!supabase) throw new Error('Supabase is not configured.');
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim());
+    // A wrong address is not an error the caller should see differently from a
+    // right one: answering "no account here" to an unauthenticated request
+    // tells a stranger which addresses are registered.
+    if (error && error.status !== 400) throw error;
+  }, []);
+
+  const confirmPasswordReset = useCallback(
+    async (email: string, code: string, password: string) => {
+      if (!supabase) throw new Error('Supabase is not configured.');
+      // The code proves the athlete holds the inbox, which is what earns the
+      // session the password change is then made under.
+      const { error: verifyError } = await supabase.auth.verifyOtp({
+        email: email.trim(), token: code.trim(), type: 'recovery',
+      });
+      if (verifyError) throw verifyError;
+
+      const { error: updateError } = await supabase.auth.updateUser({ password });
+      if (updateError) throw updateError;
+      // They are signed in now; the auth listener flips status and the gate
+      // takes them into the app, so there is no second sign-in to perform.
+    }, []);
+
+  const resendConfirmation = useCallback(async (email: string) => {
+    if (!supabase) throw new Error('Supabase is not configured.');
+    const { error } = await supabase.auth.resend({ type: 'signup', email: email.trim() });
+    if (error) throw error;
+  }, []);
+
   const signOut = useCallback(async () => {
     if (!supabase) throw new Error('Supabase is not configured.');
     const { error } = await supabase.auth.signOut();
@@ -96,7 +147,9 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     session,
     email: session?.user.email ?? null,
     signIn, signUp, signOut,
-  }), [status, session, signIn, signUp, signOut]);
+    requestPasswordReset, confirmPasswordReset, resendConfirmation,
+  }), [status, session, signIn, signUp, signOut,
+       requestPasswordReset, confirmPasswordReset, resendConfirmation]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

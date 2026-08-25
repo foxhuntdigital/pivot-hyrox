@@ -44,6 +44,28 @@ const SCALES = [
   { key: 'motivation', label: 'Motivation', low: 'Flat', high: 'Keen' },
 ] as const;
 
+/**
+ * Symptoms the athlete can report, and the only place the app collects them.
+ *
+ * These are matched by the engine as lowercase substrings (`SEVERE_SYMPTOMS` in
+ * guardrails.ts), so the labels are worded to contain the terms it looks for —
+ * "chest", "dizz", "bleeding", "pelvic pressure", "shortness of breath",
+ * "severe pain". Every one of these stops the hard-training flow outright;
+ * "Something hurts" is the softer report, which lowers recovery rather than
+ * ending the day.
+ *
+ * The app does not assess any of them. What it does is refuse to program
+ * through them, and say so.
+ */
+const SYMPTOMS = [
+  'Something hurts',
+  'Chest pain or pressure',
+  'Dizziness or feeling faint',
+  'Shortness of breath',
+  'Bleeding',
+  'Pelvic pressure or leaking',
+] as const;
+
 /** Hours the ruler spans. Beyond ten is not a training problem. */
 const RULER_HOURS = 10;
 
@@ -217,6 +239,7 @@ export default function CheckinScreen() {
   const [scales, setScales] = useState<Record<string, number | null>>({
     stress: existing.stress, soreness: existing.soreness, motivation: existing.motivation,
   });
+  const [symptoms, setSymptoms] = useState<string[]>(existing.symptoms ?? []);
 
   const sleepDecimal = sleepAnswered ? toDecimalHours(hours, minutes) : null;
   const lowSleep = sleepDecimal !== null && sleepDecimal < LOW_SLEEP_HOURS;
@@ -227,8 +250,13 @@ export default function CheckinScreen() {
     stress: scales.stress ?? null,
     soreness: scales.soreness ?? null,
     motivation: scales.motivation ?? null,
+    symptoms,
   };
-  const answers = Object.values(draft).filter(v => v !== null).length;
+  // Symptoms are excluded from the count: the five squares track the recovery
+  // questions, and reporting nothing wrong is not a missing answer.
+  const answers = [draft.sleep_hours, draft.energy, draft.stress, draft.soreness,
+    draft.motivation].filter(v => v !== null).length;
+  const severe = symptoms.some(s => s !== 'Something hurts');
 
   // The same function the server scores with, run here so the athlete sees the
   // consequence while answering rather than after saving.
@@ -369,6 +397,54 @@ export default function CheckinScreen() {
             />
           </Section>
         ))}
+
+        {/* The safety question, last because it is the one that overrides the
+            rest: anything reported here decides the day regardless of how well
+            the athlete slept. */}
+        <Section
+          index="06"
+          label="Anything wrong"
+          hint="Only if it applies — most days this is empty"
+        >
+          <View style={{
+            flexDirection: 'row', flexWrap: 'wrap', gap: 6,
+            paddingHorizontal: space.gutter,
+          }}>
+            {SYMPTOMS.map(name => (
+              <Chip
+                key={name}
+                label={name}
+                size="sm"
+                active={symptoms.includes(name)}
+                onPress={() => setSymptoms(prev => prev.includes(name)
+                  ? prev.filter(s => s !== name)
+                  : [...prev, name])}
+                style={{ paddingVertical: 12 }}
+              />
+            ))}
+          </View>
+          {severe ? (
+            <View style={{
+              marginHorizontal: space.gutter, marginTop: 12,
+              backgroundColor: color.tint, borderWidth: 1, borderColor: color.tintBorder,
+              paddingHorizontal: 13, paddingVertical: 12,
+            }}>
+              <Label tone="redDark" size="sm" style={{ marginBottom: 4 }}>No session today</Label>
+              <Text style={[t.bodySm, { color: color.redDeep }]}>
+                Training through this is not something I can program around, so today
+                becomes rest and your week stays intact. If it persists or worsens,
+                please get it looked at — I am not able to assess symptoms.
+              </Text>
+            </View>
+          ) : (
+            <Text style={[t.meta, {
+              paddingHorizontal: space.gutter, paddingTop: 10, color: color.muted,
+            }]}>
+              Kept with today's check-in and read by tomorrow's session too. Private,
+              like the rest of your considerations.
+            </Text>
+          )}
+        </Section>
 
         {/* What the answers did — the same courtesy the completion screen pays
             an RPE ("shapes tomorrow's load"), computed from the real function. */}

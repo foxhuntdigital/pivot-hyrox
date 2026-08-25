@@ -14,8 +14,9 @@
  * would be stale by the second day.
  */
 import {
-  clientFor, corsHeaders, HttpError, json, requireUser, localDate,
+  clientFor, corsHeaders, HttpError, json, loadContent, requireUser, localDate,
 } from '../_shared/context.ts';
+import { ensureWeekQueue } from '../_shared/queue.ts';
 import {
   planPhases, stimuliFor, weeksUntil, type PhaseType,
 } from '../_shared/periodization.ts';
@@ -195,6 +196,11 @@ Deno.serve(async (req) => {
       throw new HttpError(500, `Could not create stimulus requirements: ${reqError.message}`);
     }
 
+    // The first week gets its sessions now, so the summary the athlete sees and
+    // the Plan tab they open next both have a week in them rather than a set of
+    // targets with nothing against them.
+    await planFirstWeek(db, cycles, phases[0], body, today);
+
     // The summary D08 renders: which phase the athlete starts in, how long the
     // runway is, and what the first week asks of them.
     const firstPhase = phases[0];
@@ -255,4 +261,57 @@ async function saveEquipment(
     equipment.map(equipment_id => ({ profile_id: profileId, equipment_id })),
   );
   if (error) throw new HttpError(500, `Could not save equipment: ${error.message}`);
+}
+
+
+/**
+ * Fills the first week's queue.
+ *
+ * Best-effort by design: a program with a plan but no queue is usable — the
+ * engine still picks a session each day — and failing plan creation over the
+ * list would cost the athlete their whole onboarding.
+ */
+async function planFirstWeek(
+  db: ReturnType<typeof clientFor>,
+  cycles: { id: string; week_index: number }[],
+  firstPhase: { phase_type: PhaseType },
+  body: PlanRequest | null,
+  today: string,
+) {
+  const first = cycles.find(c => c.week_index === 1);
+  if (!first) return;
+
+  try {
+    const content = await loadContent(db);
+    await ensureWeekQueue({
+      db,
+      cycleId: first.id,
+      requirements: stimuliFor(firstPhase.phase_type).map(s => ({
+        stimulus_type: s.stimulus_type,
+        target_exposures: s.target_exposures,
+        priority: s.priority,
+      })),
+      templates: content.templates,
+      exercises: content.exercises,
+      input: {
+        local_date: today,
+        phase_type: firstPhase.phase_type,
+        days_to_race: null,
+        stimulus_requirements: [],
+        recent_sessions: [],
+        recovery_state: 'okay',
+        energy: 'normal',
+        sleep_hours: null,
+        available_minutes: body?.profile?.typical_session_minutes ?? 45,
+        available_equipment: body?.equipment?.length ? body.equipment : ['bodyweight'],
+        low_impact_required: body?.profile?.impact_tolerance === 'low',
+        symptom_flags: [],
+        considerations: body?.profile?.considerations ?? [],
+        candidates: content.templates,
+        substitutions: content.substitutions,
+      },
+    });
+  } catch (e) {
+    console.error('first week queue not planned', (e as Error).message);
+  }
 }

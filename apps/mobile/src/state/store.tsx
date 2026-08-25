@@ -34,6 +34,7 @@ import { planView, type PlanView } from '../data/plan';
 import { COMPONENT_KEYS } from '@pivot/coach';
 import { useSession } from './session';
 import { buildSteps, type Step } from './steps';
+import { buildLogs } from './actuals';
 
 /** PRD §8.4. */
 export type WorkoutStatus =
@@ -80,6 +81,12 @@ interface State {
   status: WorkoutStatus;
   step_index: number;
   elapsed_seconds: number;
+  /**
+   * Seconds spent on each step, by index. The clock is the only thing the
+   * player measures, and it is what turns a prescribed distance into a real
+   * pace when the finish is written.
+   */
+  step_seconds: number[];
   session_rpe: number | null;
   ended_early: boolean;
   /** Completed sessions this week, appended on finish. */
@@ -118,6 +125,7 @@ const initialState: State = {
   status: 'ready',
   step_index: 0,
   elapsed_seconds: 0,
+  step_seconds: [],
   session_rpe: null,
   ended_early: false,
   completed_today: false,
@@ -253,16 +261,22 @@ function reducer(s: State, a: Action): State {
 
     case 'start_workout':
       return {
-        ...s, status: 'active_block', step_index: 0, elapsed_seconds: 0, ended_early: false,
+        ...s, status: 'active_block', step_index: 0, elapsed_seconds: 0,
+        step_seconds: [], ended_early: false,
         // Cleared here rather than on finish: the id belongs to the session
         // being performed, and a new one starts without the last one's row.
         session_id: null, session_revision: 0,
       };
     case 'session_opened':
       return { ...s, session_id: a.session_id, session_revision: a.revision };
-    case 'tick':
-      return s.status === 'active_block'
-        ? { ...s, elapsed_seconds: s.elapsed_seconds + 1 } : s;
+    case 'tick': {
+      if (s.status !== 'active_block') return s;
+      // The tick lands on whichever step is open, so a paused clock stops
+      // counting against it as well as against the session.
+      const step_seconds = [...s.step_seconds];
+      step_seconds[s.step_index] = (step_seconds[s.step_index] ?? 0) + 1;
+      return { ...s, elapsed_seconds: s.elapsed_seconds + 1, step_seconds };
+    }
     case 'next_step':
       return s.step_index >= a.total - 1
         ? { ...s, status: 'completed_pending_review', completed_today: true }
@@ -273,13 +287,13 @@ function reducer(s: State, a: Action): State {
       return { ...s, status: 'completed_pending_review', ended_early: true, completed_today: true };
     case 'end_and_discard':
       // Abandoned, not completed: nothing is logged and the stimulus stays open.
-      return { ...s, status: 'ready', step_index: 0, elapsed_seconds: 0 };
+      return { ...s, status: 'ready', step_index: 0, elapsed_seconds: 0, step_seconds: [] };
     case 'set_rpe':
       return { ...s, session_rpe: a.rpe };
     case 'back_to_today':
       return {
-        ...s, status: 'ready', step_index: 0, elapsed_seconds: 0, session_rpe: null,
-        session_id: null, session_revision: 0,
+        ...s, status: 'ready', step_index: 0, elapsed_seconds: 0, step_seconds: [],
+        session_rpe: null, session_id: null, session_revision: 0,
       };
 
     case 'toggle_metric':
@@ -327,6 +341,12 @@ interface Store {
    * dropped write recoverable by the next one.
    */
   commitEquipment(equipment: string[]): void;
+  /**
+   * Records a symptom on today's check-in. Separate from `commitCheckin` so a
+   * caller with only a symptom to report does not have to reconstruct — or
+   * overwrite — the answers the athlete already gave.
+   */
+  reportSymptom(name: string): void;
   /**
    * Opens the session on the server and starts it locally. Local state moves
    * first — the athlete is training whether or not the row was written.
@@ -468,6 +488,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
    */
   const sessionRef = useRef<{ template_id: string; variant_code: VariantCode } | null>(null);
 
+  /** The step list the athlete performed, for the same reason. */
+  const stepsRef = useRef<Step[]>([]);
+
   const adaptInputs = useCallback((): Omit<StartRequest, 'template_id' | 'variant_code'> => {
     const s = stateRef.current;
     const noEquipment = s.flags.includes('No equipment');
@@ -477,7 +500,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       energy: s.energy,
       sleep_hours: s.checkin?.sleep_hours ?? null,
       low_impact: s.flags.includes('Need low impact'),
-      symptom_flags: s.flags.includes('Something hurts') ? ['Something hurts'] : [],
+      symptom_flags: [...new Set([
+        ...(s.checkin?.symptoms ?? []),
+        ...(s.flags.includes('Something hurts') ? ['Something hurts'] : []),
+      ])],
       // The server subtracts these from the athlete's saved gym, so a narrowed
       // day is expressed as what is missing rather than as a new equipment set.
       unavailable_equipment: s.equipment.filter(e => !effective.includes(e)),
@@ -508,8 +534,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const finishSession = useCallback(() => {
     const s = stateRef.current;
+    const performed = stepsRef.current;
     dispatch({ type: 'back_to_today' });
     if (!s.session_id || authStatusRef.current !== 'signed_in') return;
+
+    /**
+     * Steps the athlete actually reached. Ending early stops the count where
+     * they stopped, so the rest of the session is absent from the record rather
+     * than written down as a failure.
+     */
+    const completedCount = s.ended_early ? s.step_index : performed.length;
+    const actuals = buildLogs(performed, s.step_seconds, completedCount);
 
     completeSession({
       session_id: s.session_id,
@@ -519,6 +554,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       revision: s.session_revision + 1,
       session_rpe: s.session_rpe,
       ended_early: s.ended_early,
+      ...actuals,
     }).then(done => {
       // Refresh only on a recorded finish: the week's counters just moved.
       if (done) refreshToday();
@@ -538,6 +574,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       force_template_id: templateId,
     });
   }, [adaptInputs, today]);
+
+  const reportSymptom = useCallback((name: string) => {
+    const current = stateRef.current.checkin ?? EMPTY_CHECKIN;
+    if (current.symptoms.includes(name)) return;
+    commitCheckin({ ...current, symptoms: [...current.symptoms, name] });
+  }, [commitCheckin]);
 
   const engineInput = useMemo<EngineInput>(() => {
     const noEquipment = state.flags.includes('No equipment');
@@ -569,7 +611,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       available_minutes: state.available_minutes,
       available_equipment: noEquipment ? ['bodyweight'] : equipment,
       low_impact_required: state.flags.includes('Need low impact'),
-      symptom_flags: state.flags.includes('Something hurts') ? ['Something hurts'] : [],
+      // Both sources: what the athlete reported at check-in, which persists, and
+      // the adapt sheet's flag, which does not. The check-in is why a symptom
+      // reported this morning still constrains this evening's session.
+      symptom_flags: [...new Set([
+        ...(state.checkin?.symptoms ?? []),
+        ...(state.flags.includes('Something hurts') ? ['Something hurts'] : []),
+      ])],
       considerations: state.profile.considerations,
       candidates: TEMPLATES,
       substitutions: SUBSTITUTIONS,
@@ -613,6 +661,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const steps = useMemo(
     () => (session.kind === 'session' ? buildSteps(session) : []), [session]);
+  stepsRef.current = steps;
 
   const readiness = useMemo(() => {
     // No payload means nothing has been measured. It used to mean the seeded
@@ -679,12 +728,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     () => ({
       state, dispatch, decision, session, steps, readiness,
       metricDetail: metricDetailView, plan, sleep, engineInput,
-      commitProfile, commitCheckin, commitEquipment,
+      commitProfile, commitCheckin, commitEquipment, reportSymptom,
       beginSession, finishSession, commitAdaptation,
       profileError, today, todayLoading, todayError, refreshToday,
     }),
     [state, decision, session, steps, readiness, metricDetailView, plan, sleep, engineInput, commitProfile,
-     commitCheckin, commitEquipment, beginSession, finishSession, commitAdaptation,
+     commitCheckin, commitEquipment, reportSymptom,
+     beginSession, finishSession, commitAdaptation,
      profileError, today, todayLoading, todayError, refreshToday]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

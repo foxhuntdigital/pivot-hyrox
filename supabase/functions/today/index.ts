@@ -14,6 +14,7 @@ import {
 } from '../_shared/context.ts';
 import { loadProgressSnapshot } from '../_shared/progress.ts';
 import { daysAgo, sessionMinutes } from '../_shared/readiness-history.ts';
+import { ensureWeekQueue } from '../_shared/queue.ts';
 
 Deno.serve(async (req) => {
   const origin = req.headers.get('Origin');
@@ -65,6 +66,34 @@ Deno.serve(async (req) => {
 
     const decision = recommend(input, content.exercises);
 
+    /**
+     * The week's queue, filled on first sight.
+     *
+     * Programs generated before there was a planner have phases, cycles and
+     * stimulus requirements but no sessions naming them — which left Plan empty
+     * and every finished session crediting nothing. Filling it here covers both
+     * those athletes and each new week as it becomes active, without the client
+     * having to ask for it.
+     */
+    let queueItems = (state.currentCycle?.session_queue_items ?? []) as any[];
+    if (state.currentCycle?.id && !queueItems.length) {
+      const planned = await ensureWeekQueue({
+        db,
+        cycleId: state.currentCycle.id,
+        requirements: state.stimulus_requirements,
+        templates: content.templates,
+        exercises: content.exercises,
+        input,
+      });
+      if (planned.length) {
+        // Re-read so the payload carries the rows' real ids: the client sends
+        // them back to `reshape-week`, which resolves them against the table.
+        const { data } = await db.from('session_queue_items')
+          .select('*').eq('weekly_cycle_id', state.currentCycle.id).order('rank');
+        queueItems = data ?? [];
+      }
+    }
+
     // Readiness and the stats behind it, computed from stored history by the
     // same helper Coach narrates from — so the sentence and the number cannot
     // drift apart (PRD §9.5).
@@ -77,7 +106,7 @@ Deno.serve(async (req) => {
      * come from the content index rather than the queue row, which stores only
      * the template id — one source for what a session is called.
      */
-    const queueRows = ((state.currentCycle?.session_queue_items ?? []) as any[])
+    const queueRows = (queueItems as any[])
       .slice()
       .sort((a, b) => a.rank - b.rank)
       .filter(q => q.state !== 'expired')

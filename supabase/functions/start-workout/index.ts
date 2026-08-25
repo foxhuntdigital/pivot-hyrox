@@ -22,6 +22,7 @@ import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
   localDate, requireUser,
 } from '../_shared/context.ts';
+import { claimableFor, type QueueItem } from '../_shared/queue.ts';
 
 interface StartBody {
   template_id: string;
@@ -146,7 +147,8 @@ Deno.serve(async (req) => {
     // The queued item this session performs, so completion credits the week's
     // stimulus. Absent when the athlete started something off-plan — the
     // session is still recorded, it just credits nothing.
-    const queueItemId = await claimQueueItem(db, state.currentCycle?.id, template.id);
+    const queueItemId = await claimQueueItem(
+      db, (state.currentCycle?.session_queue_items ?? []) as QueueItem[], template.id);
 
     const snapshot = {
       template_id: decision.template.id,
@@ -226,23 +228,16 @@ Deno.serve(async (req) => {
  * Marks the matching queued item in progress and returns its id.
  *
  * Matching on template rather than rank: the athlete may start any session in
- * the week, and the one they picked is the one being performed.
+ * the week, and the one they picked is the one being performed. The week's
+ * items are already loaded with the athlete's state, so the choice is made
+ * here rather than in a second query.
  */
 async function claimQueueItem(
   db: ReturnType<typeof clientFor>,
-  cycleId: string | undefined,
+  items: QueueItem[],
   templateId: string,
 ): Promise<string | null> {
-  if (!cycleId) return null;
-  const { data: item } = await db
-    .from('session_queue_items')
-    .select('id')
-    .eq('weekly_cycle_id', cycleId)
-    .eq('workout_template_id', templateId)
-    .in('state', ['queued', 'recommended'])
-    .order('rank')
-    .limit(1)
-    .maybeSingle();
+  const item = claimableFor(items, templateId);
   if (!item) return null;
 
   await db.from('session_queue_items').update({ state: 'in_progress' }).eq('id', item.id);

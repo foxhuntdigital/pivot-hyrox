@@ -21,10 +21,21 @@ export interface Checkin {
   soreness: number | null;
   /** 1–5, where 5 is the most motivated. */
   motivation: number | null;
+  /**
+   * What the athlete reported as wrong today.
+   *
+   * The one check-in field that is a safety input rather than a recovery one:
+   * the engine's first guardrail reads these and stops the hard-training flow
+   * before anything else is considered. It is stored so tomorrow's
+   * recommendation knows what today's did — an adaptation sheet flag lives only
+   * as long as the request that carried it.
+   */
+  symptoms: string[];
 }
 
 export const EMPTY_CHECKIN: Checkin = {
   sleep_hours: null, energy: null, stress: null, soreness: null, motivation: null,
+  symptoms: [],
 };
 
 /** 7h 30m → 7.5. The inverse of what the sleep stepper shows. */
@@ -44,10 +55,19 @@ export async function saveCheckin(checkin: Checkin): Promise<Checkin | null> {
   try {
     const { data, error } = await supabase.functions.invoke('recovery-checkin', {
       method: 'POST',
-      body: checkin,
+      body: {
+        ...checkin,
+        // The column is a jsonb object, so the list is sent as a set. Keys are
+        // matched as lowercase substrings by the engine's guardrail, which is
+        // why the labels themselves travel rather than codes.
+        symptoms: Object.fromEntries(checkin.symptoms.map(s => [s, true])),
+      },
     });
     if (error || !data) return null;
-    return (data as { recovery: Checkin }).recovery ?? null;
+    const saved = (data as { recovery: Partial<Checkin> | null }).recovery;
+    // The server echoes the stored row; symptoms come back as they were sent
+    // rather than re-read, since the endpoint's select does not return them.
+    return saved ? { ...checkin, ...saved, symptoms: checkin.symptoms } : null;
   } catch {
     return null;   // offline or unconfigured — local state still holds it
   }

@@ -40,7 +40,7 @@ export default function CoachScreen() {
   const router = useRouter();
   const {
     state, dispatch, session, readiness, engineInput, plan, today,
-    beginSession, commitAdaptation, refreshToday,
+    beginSession, commitAdaptation, refreshToday, reportSymptom,
   } = useApp();
   const coach = useCoach();
   const scroller = useRef<ScrollView | null>(null);
@@ -180,13 +180,15 @@ export default function CoachScreen() {
         return;
 
       case 'flag_symptom':
-        if (!state.flags.includes('Something hurts')) {
-          dispatch({ type: 'toggle_flag', flag: 'Something hurts' });
-        }
+        // The label on this action says it flags the symptom on today's
+        // check-in, so it writes one. It used to set a local flag that lived
+        // as long as the app did, which meant tomorrow's session — and the
+        // server's own recommendation — never knew.
+        reportSymptom('Something hurts');
         coach.commit(message.id, {
           text: "Today's check-in now carries a symptom flag, so the engine will not offer you "
-            + 'anything above controlled intensity while it is set. Clear it from Adapt when it '
-            + 'settles.',
+            + 'anything above controlled intensity while it is set. Clear it from your check-in '
+            + 'when it settles.',
           cta: 'See today',
           target: 'today',
           restore,
@@ -231,7 +233,7 @@ export default function CoachScreen() {
         );
         return;
     }
-  }, [applyCommit, coach, dispatch, goTo, limiterKeywords, session, state]);
+  }, [applyCommit, coach, dispatch, goTo, limiterKeywords, reportSymptom, session, state]);
 
   const onCommittedPrimary = useCallback((target: 'today' | 'plan' | 'start') => {
     if (target === 'start') {
