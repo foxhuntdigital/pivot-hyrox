@@ -15,14 +15,14 @@ import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, InkPanel, Chip } from '@/components/primitives';
 import { useApp } from '@/state/store';
 import { mmss } from '@/state/steps';
-import { RACE, WEEK_STIMULI } from '@/data/athlete';
+import { LOW_SLEEP_HOURS } from '@/lib/format';
 
 const RPE_CHOICES = [5, 6, 7, 8, 9];
 
 export default function DoneScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { state, dispatch, session, steps, finishSession } = useApp();
+  const { state, dispatch, session, steps, plan, sleep, finishSession } = useApp();
 
   if (session.kind !== 'session') {
     router.replace('/today');
@@ -30,21 +30,29 @@ export default function DoneScreen() {
   }
 
   const sectionsDone = state.ended_early ? state.step_index + 1 : steps.length;
-  const weekDone = WEEK_STIMULI.reduce((n, r) => n + r.completed_exposures, 0) + 1;
-  const weekTarget = WEEK_STIMULI.reduce((n, r) => n + r.target_exposures, 0);
+  // `plan.week` already counts the session just finished — the store adds it
+  // the moment the workout completes rather than waiting for a refetch.
+  const { done: weekDone, target: weekTarget } = plan.week;
 
   /**
    * The coach note reflects what actually happened. It reads from logged
    * outcomes only — it never claims a physiological result the app did not
    * measure.
    */
+  const hardSession = (state.session_rpe ?? 0) >= 8;
+  const shortSleep = sleep.hours !== null && sleep.hours < LOW_SLEEP_HOURS;
+
   const coachNote = state.ended_early
     ? 'Cut short and logged. You got the first sections in, which is enough to hold '
       + "the stimulus — the remainder rolls into the week's queue rather than being "
       + 'marked missed.'
-    : state.session_rpe && state.session_rpe >= 8
-      ? 'Logged as harder than intended on short sleep. Tomorrow drops to an easy '
-        + 'aerobic session and the heavier work moves back a day.'
+    : hardSession
+      // Short sleep is named only when it was actually reported, and the note
+      // no longer promises a change to tomorrow that nothing schedules. What it
+      // says is what the engine will do: read this session as an input.
+      ? `Logged at RPE ${state.session_rpe}, harder than this session intended`
+        + `${shortSleep ? ' on the sleep you reported' : ''}. `
+        + "Tomorrow's recommendation reads that back as recovery load."
       : `${session.template.name} completed as ${VARIANT_LABEL[session.variant.variant_code]}. `
         + 'The week stays intact and your next exposure builds from here.';
 
@@ -126,7 +134,13 @@ export default function DoneScreen() {
         {[
           { k: 'Stimulus logged', v: session.primary_stimulus.replace(/_/g, ' ') },
           { k: 'Week', v: `${weekDone} of ${weekTarget} stimuli` },
-          { k: RACE.name, v: `On track · ${RACE.days_remaining} days` },
+          // The race row states the countdown. It used to assert "On track"
+          // alongside it, which nothing measured.
+          ...(plan.race ? [{
+            k: plan.race.name,
+            v: plan.race.days_remaining === null
+              ? 'No date set' : `${plan.race.days_remaining} days`,
+          }] : []),
         ].map(row => (
           <View key={row.k} style={{
             flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline',

@@ -13,6 +13,7 @@ import {
   localDate, requireUser,
 } from '../_shared/context.ts';
 import { loadProgressSnapshot } from '../_shared/progress.ts';
+import { daysAgo, sessionMinutes } from '../_shared/readiness-history.ts';
 
 Deno.serve(async (req) => {
   const origin = req.headers.get('Origin');
@@ -67,9 +68,79 @@ Deno.serve(async (req) => {
     // Readiness and the stats behind it, computed from stored history by the
     // same helper Coach narrates from — so the sentence and the number cannot
     // drift apart (PRD §9.5).
-    const { readiness, metric_detail } = await loadProgressSnapshot({
+    const { readiness, metric_detail, comparable } = await loadProgressSnapshot({
       db, userId: user.id, today, content, state,
     });
+
+    /**
+     * The week's queue, in the order the engine holds it. Names and durations
+     * come from the content index rather than the queue row, which stores only
+     * the template id — one source for what a session is called.
+     */
+    const queueRows = ((state.currentCycle?.session_queue_items ?? []) as any[])
+      .slice()
+      .sort((a, b) => a.rank - b.rank)
+      .filter(q => q.state !== 'expired')
+      .map(q => {
+        const tpl = templateIndex.get(q.workout_template_id);
+        return {
+          id: q.id,
+          template_id: q.workout_template_id,
+          name: tpl?.name ?? q.workout_template_id,
+          stimulus_type: q.stimulus_type,
+          rank: q.rank,
+          state: q.state,
+          estimated_minutes: tpl?.estimated_minutes ?? null,
+        };
+      });
+
+    /**
+     * What the athlete completed this week. `snapshot_json` is the prescription
+     * as it stood when the session started, so the minutes and stimulus here
+     * are the ones actually performed rather than today's template values.
+     */
+    const completedRows = state.completed_this_week.map((s: any) => {
+      const snapshot = (s.snapshot_json ?? {}) as Record<string, unknown>;
+      const tpl = templateIndex.get(s.template_id);
+      return {
+        session_id: s.id,
+        template_id: s.template_id,
+        name: (snapshot.name as string) ?? tpl?.name ?? s.template_id,
+        stimulus: (snapshot.primary_stimulus as string) ?? null,
+        estimated_minutes: (snapshot.estimated_minutes as number)
+          ?? tpl?.estimated_minutes ?? null,
+        variant: s.variant_code,
+        session_rpe: s.session_rpe,
+        ended_early: s.ended_early,
+        completed_on: (s.ended_at ?? s.started_at ?? '').slice(0, 10),
+      };
+    });
+
+    /**
+     * The last seven days of training, as volume rather than as a load score.
+     *
+     * Deliberately not an intensity-weighted figure: the app has no defended
+     * load model, and a number an athlete would train against has to mean
+     * something. Sessions and minutes are both measured, so both are honest.
+     *
+     * Minutes come from `sessionMinutes`, the same helper readiness uses — one
+     * definition of how long a session took, including its guard against a
+     * timer left running overnight.
+     */
+    const sevenDay = (state.sessionRows as any[])
+      .filter(s => daysAgo(today, s.started_at) < 7);
+    const training_7d = {
+      sessions: sevenDay.length,
+      minutes: Math.round(sevenDay.reduce((total, s) => {
+        const snapshot = (s.snapshot_json ?? {}) as Record<string, unknown>;
+        return total + sessionMinutes(s, {
+          primary_goal: '',
+          requires_running: false,
+          estimated_minutes: (snapshot.estimated_minutes as number)
+            ?? templateIndex.get(s.template_id)?.estimated_minutes ?? 0,
+        });
+      }, 0)),
+    };
 
     // Audit row. Written on every decision, not only on adaptations.
     await db.from('adaptation_events').insert({
@@ -87,12 +158,46 @@ Deno.serve(async (req) => {
       active_race: state.race && {
         id: state.race.id,
         name: state.race.event_name,
+        // Date and division travel with the race. Today prints all three, and
+        // was reading the last two from a fixture.
+        event_date: state.race.event_date,
+        division: state.race.division ?? null,
+        goal_type: state.race.goal_type ?? null,
         days_remaining: state.daysToRace,
       },
       phase: state.currentPhase && {
         type: state.currentPhase.phase_type,
-        week: state.currentCycle?.week_index ?? 1,
+        order: state.currentPhase.phase_order,
+        /** Week within this phase. */
+        week: state.weekInPhase,
+        weeks: state.phaseSequence
+          .find(p => p.order === state.currentPhase.phase_order)?.weeks ?? 0,
+        /** Week within the whole program — the "7 of 16" the roadmap draws. */
+        program_week: state.programWeek,
+        program_total_weeks: state.programTotalWeeks,
+        /** Every phase in order, so the ribbon is the athlete's own plan. */
+        sequence: state.phaseSequence,
+        start_date: state.currentPhase.start_date,
+        end_date: state.currentPhase.end_date,
       },
+      /**
+       * The current week as the Plan tab renders it: what is queued, and what
+       * has already been done. Both were authored arrays in the client.
+       */
+      week: {
+        start_date: state.weekStart,
+        end_date: state.weekEnd,
+        queue: queueRows,
+        completed: completedRows,
+      },
+      /** Seven-day volume. See the note where it is computed. */
+      training_7d,
+      /**
+       * The comparable running sessions behind a pace claim, or null when the
+       * window holds nothing that qualifies. Coach says so rather than
+       * comparing sessions that were not alike.
+       */
+      comparable_runs: comparable,
       // Self-reported recovery, carried with its source and the day it was
       // logged (PRD §11.1 — health-derived values never arrive anonymous).
       // `source` is always self_reported until HealthKit ingestion lands.

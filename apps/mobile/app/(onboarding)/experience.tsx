@@ -13,7 +13,7 @@ import { useRouter } from 'expo-router';
 import { OnboardingStep, ChipRow, MultiChipRow } from '@/components/onboarding';
 import { color, space, type as t } from '@/theme/tokens';
 import { useOnboarding } from '@/state/onboarding';
-import { CONSIDERATION_CHOICES } from '@/data/athlete';
+import { CONSIDERATION_CHOICES } from '@/data/profile';
 
 const LEVELS = [
   { value: 'beginner' as const, label: 'New to this' },

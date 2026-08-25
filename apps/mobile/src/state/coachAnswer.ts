@@ -19,10 +19,10 @@ import {
 } from '@pivot/engine';
 
 import { EXERCISES, EQUIPMENT, TEMPLATES, exerciseById, templateById } from '@/data/content';
-import {
-  COMPARABLE_1K, METRIC_DETAIL, NON_COMPARABLE_1K, WEEK_SHAPE,
-  type Phase, type PlannedSession, type Race,
-} from '@/data/athlete';
+import { METRIC_LABEL, type ComponentKey } from '@/data/metrics';
+import { FALLBACK_DETAIL } from '@pivot/coach';
+import type { PlanView } from '@/data/plan';
+import type { ComparableSeries, QueuedSession } from '@/data/todayRepo';
 import { REASON_CODE_COPY, type CoachIntent, type CoachSignals } from '@/data/coach';
 import { hoursToClock } from '@/lib/format';
 
@@ -74,6 +74,12 @@ export interface PlanProposal {
   applied: string;
   /** Set on a travel proposal — the equipment and days an apply commits. */
   commit_travel?: { equipment: string[]; days: string[] };
+  /**
+   * Set on a week-shape proposal — the queue as the athlete agreed it, written
+   * back through `reshape-week`. Without this an apply changed nothing that
+   * survived the app being reopened.
+   */
+  commit_queue?: { keep: string[]; drop: string[] };
 }
 
 export type CoachCard =
@@ -152,10 +158,21 @@ export interface CoachContext {
   /** What the athlete will actually do today. */
   today: EngineDecision;
   readiness: ReadinessResult;
+  /**
+   * The race, phase and week as the rest of the app renders them. Coach reasons
+   * from the same view the screens draw, so a proposal can never describe a week
+   * the Plan tab does not show.
+   */
+  plan: PlanView;
+  /** Sessions alike enough to trend against each other, or null. */
+  comparable: ComparableSeries | null;
+  /** This week's stimulus requirements, as the engine holds them. */
   weekStimuli: StimulusRequirement[];
-  queue: PlannedSession[];
-  race: Race;
-  phase: Phase;
+}
+
+/** Race-relative copy has to survive an athlete with no race set. */
+function daysToRace(ctx: CoachContext): number | null {
+  return ctx.plan.race?.days_remaining ?? null;
 }
 
 /* -------------------------------------------------------------- helpers --- */
@@ -229,7 +246,7 @@ function chipsFor(ctx: CoachContext, extra: string[] = []): string[] {
   const sleep = hoursToClock(ctx.engineInput.sleep_hours);
   return [
     ...extra,
-    `${ctx.phase.type} · week ${ctx.phase.week}`,
+    ctx.plan.phase ? `${ctx.plan.phase.type} · week ${ctx.plan.phase.week}` : 'no plan yet',
     ...(sleep ? [`Sleep ${sleep}`] : []),
   ];
 }
@@ -252,7 +269,7 @@ function evidence(
     rows.push({
       k: 'Weekly stimulus due',
       v: `${stimulusLabel(due.stimulus_type)} is at ${due.completed_exposures} of `
-        + `${due.target_exposures} exposures for week ${ctx.phase.week}. It is the reason this `
+        + `${due.target_exposures} exposures this week. It is the reason this `
         + 'session exists.',
     });
   }
@@ -487,52 +504,81 @@ function explainAnswer(ctx: CoachContext): CoachAnswer {
  * so instead of the headline overselling it (brief §5.3).
  */
 function progressAnswer(ctx: CoachContext): CoachAnswer {
-  const series = COMPARABLE_1K;
+  const set = ctx.comparable;
+
+  // Nothing alike enough to compare. Saying so is the answer the brief asks
+  // for — the alternative is trending sessions that were not the same effort.
+  if (!set || set.runs.length < 2) {
+    return {
+      text: 'I do not have enough comparable sessions to call a trend yet. A pace claim needs '
+        + 'repeats at the same distance and a similar effort, and I compare only those — so '
+        + 'a few more of the same session type is what unlocks this.',
+      chips: chipsFor(ctx, ['Last 4 weeks', 'Not enough comparable sessions']),
+      why: [
+        {
+          k: 'Comparable-session rule',
+          v: 'Same repeat distance, same exercise, session RPE within one point. '
+            + `${set ? set.excluded : 0} session${set && set.excluded === 1 ? '' : 's'} in the `
+            + 'window ran but did not qualify.',
+        },
+      ],
+      actions: [
+        { id: 'see_progress', label: 'View in Progress', primary: true },
+        { id: 'ask_weakness', label: 'What should I work on?' },
+      ],
+    };
+  }
+
+  const series = set.runs;
   const first = series[0];
   const last = series[series.length - 1];
   const delta = first.pace_seconds - last.pace_seconds;
   const direction = delta >= 4 ? 'Improving' : delta <= -4 ? 'Slowing' : 'Holding';
   const n = series.length;
   const confidence: Confidence = n >= 6 ? 'high' : n >= 3 ? 'medium' : 'low';
-  const withHr = series.filter(s => s.hr !== undefined).length;
+  const withHr = series.filter(r => r.hr !== null).length;
+  const label = repeatLabel(set);
+  const weeks = Math.round(set.window_days / 7);
 
-  const fastest = Math.min(...series.map(s => s.pace_seconds));
-  const slowest = Math.max(...series.map(s => s.pace_seconds));
+  const fastest = Math.min(...series.map(r => r.pace_seconds));
+  const slowest = Math.max(...series.map(r => r.pace_seconds));
   const span = Math.max(1, slowest - fastest);
   const median = [...series].sort((a, b) => a.pace_seconds - b.pace_seconds)[Math.floor(n / 2)];
 
   return {
-    text: `Your comparable 1 km repeats are trending ${direction.toLowerCase()} over the last four `
-      + `weeks at a similar RPE — ${paceClock(first.pace_seconds)} to `
-      + `${paceClock(last.pace_seconds)} per km. I have ${n} comparable sessions, so confidence is `
-      + `${confidence}: a direction, not yet a stable trend.`,
-    chips: chipsFor(ctx, ['Last 4 weeks', '1 km repeats', 'RPE matched']),
+    text: `Your comparable ${label} are trending ${direction.toLowerCase()} over the last `
+      + `${weeks} weeks at a similar RPE — ${paceClock(first.pace_seconds)} to `
+      + `${paceClock(last.pace_seconds)} per km. I have ${n} comparable session${n === 1 ? '' : 's'}, `
+      + `so confidence is ${confidence}: a direction, not yet a stable trend.`,
+    chips: chipsFor(ctx, [`Last ${weeks} weeks`, label, 'RPE matched']),
     card: {
       kind: 'trend',
-      metric: '1 km repeat pace',
+      metric: `${label} pace`,
       direction,
-      from: `${paceClock(first.pace_seconds)} · ${first.date}`,
-      to: `${paceClock(last.pace_seconds)} · ${last.date}`,
-      window: '4 weeks',
+      from: `${paceClock(first.pace_seconds)} · ${dayLabel(first.date)}`,
+      to: `${paceClock(last.pace_seconds)} · ${dayLabel(last.date)}`,
+      window: `${weeks} weeks`,
       samples: `${n} comparable`,
       confidence,
-      bars: series.map(s => ({
+      bars: series.map(r => ({
         // Faster pace draws taller, so the chart reads the way the claim does.
-        height: 40 + Math.round(((slowest - s.pace_seconds) / span) * 60),
-        accent: s.pace_seconds <= median.pace_seconds,
+        height: 40 + Math.round(((slowest - r.pace_seconds) / span) * 60),
+        accent: r.pace_seconds <= median.pace_seconds,
       })),
-      caveat: `${withHr} of ${n} sessions carry heart rate, so I am weighting RPE instead. `
-        + `${NON_COMPARABLE_1K} other running sessions in the window did not match the interval `
-        + 'structure closely enough to compare.',
-      a11y: `1 km repeat pace, ${direction.toLowerCase()}. ${paceClock(first.pace_seconds)} per `
-        + `kilometre on ${first.date}, ${paceClock(last.pace_seconds)} on ${last.date}, across `
-        + `${n} comparable sessions. Confidence ${confidence}.`,
+      caveat: `${withHr} of ${n} sessions carry heart rate, so I am weighting RPE instead.`
+        + (set.excluded
+          ? ` ${set.excluded} other running session${set.excluded === 1 ? '' : 's'} in the window `
+            + 'did not match the interval structure closely enough to compare.'
+          : ''),
+      a11y: `${label} pace, ${direction.toLowerCase()}. ${paceClock(first.pace_seconds)} per `
+        + `kilometre on ${dayLabel(first.date)}, ${paceClock(last.pace_seconds)} on `
+        + `${dayLabel(last.date)}, across ${n} comparable sessions. Confidence ${confidence}.`,
     },
     why: [
       {
         k: 'Comparable-session rule',
-        v: 'Same interval structure, same surface, within one RPE point. '
-          + `${n} of ${n + NON_COMPARABLE_1K} sessions in the window qualified.`,
+        v: 'Same repeat distance, same exercise, session RPE within one point. '
+          + `${n} of ${n + set.excluded} sessions in the window qualified.`,
       },
       {
         k: 'Median pace',
@@ -553,26 +599,64 @@ function progressAnswer(ctx: CoachContext): CoachAnswer {
   };
 }
 
+/** "1 km repeats", "400 m repeats" — how the set describes itself. */
+function repeatLabel(set: ComparableSeries): string {
+  const m = set.distance_meters;
+  const distance = m >= 1000 ? `${(m / 1000).toFixed(m % 1000 === 0 ? 0 : 1)} km` : `${m} m`;
+  return `${distance} repeats`;
+}
+
+/** `2026-08-13` → "Aug 13". Dates arrive as plain dates; no timezone applies. */
+function dayLabel(iso: string): string {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  if (!m) return iso;
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${months[Number(m[2]) - 1]} ${Number(m[3])}`;
+}
+
 /** F03 variant — the limiter question, ranked from the readiness components. */
 function weaknessAnswer(ctx: CoachContext): CoachAnswer {
-  const entries = Object.entries(ctx.readiness.components) as [string, number][];
+  // Only measured components can be ranked. An athlete who has logged nothing
+  // does not have aerobic as their weakness — they have it as an unknown, and
+  // the fixture that used to sit behind this hid that distinction.
+  const observed = new Set<string>(ctx.readiness.observed ?? []);
+  const entries = (Object.entries(ctx.readiness.components) as [string, number][])
+    .filter(([k]) => observed.has(k));
+
+  if (entries.length < 2) {
+    return {
+      text: 'I cannot rank your limiters yet. Readiness is scored from what you have logged, and '
+        + `${entries.length ? 'only one component has' : 'no components have'} enough behind `
+        + 'them to compare. A couple of weeks of logged sessions is what makes this answerable.',
+      chips: chipsFor(ctx, ['Readiness components', 'Building baseline']),
+      actions: [
+        { id: 'see_progress', label: 'See Progress detail', primary: true },
+        { id: 'see_today', label: "Today's session" },
+      ],
+    };
+  }
+
   const ranked = [...entries].sort((a, b) => a[1] - b[1]);
   const [lowKey, lowValue] = ranked[0];
   const [highKey, highValue] = ranked[ranked.length - 1];
-  const low = METRIC_DETAIL[lowKey];
-  const high = METRIC_DETAIL[highKey];
+  // Name and definition only. The fixture this replaces also carried an
+  // authored verdict on how the athlete was doing, which was written before
+  // anyone had done anything.
+  const label = (k: string) => METRIC_LABEL[k as ComponentKey] ?? k;
+  const defines = (k: string) => FALLBACK_DETAIL[k as ComponentKey] ?? '';
 
   return {
-    text: `${low?.label ?? lowKey} at ${lowValue} out of 100 is your lowest readiness component. `
-      + `${low?.detail ?? ''} ${high?.label ?? highKey} at ${highValue} is your strongest — ahead of `
+    text: `${label(lowKey)} at ${lowValue} out of 100 is your lowest readiness component. `
+      + `${defines(lowKey)} ${label(highKey)} at ${highValue} is your strongest — ahead of `
       + 'what your goal requires, so it is being maintained rather than built.',
-    chips: chipsFor(ctx, ['Readiness components', ctx.race.name]),
+    chips: chipsFor(ctx, ['Readiness components', ctx.plan.race?.name ?? 'No race set']),
     why: [
-      { k: low?.label ?? lowKey, v: low?.detail ?? 'Lowest readiness component.' },
-      { k: high?.label ?? highKey, v: high?.detail ?? 'Highest readiness component.' },
+      { k: label(lowKey), v: defines(lowKey) || 'Lowest readiness component.' },
+      { k: label(highKey), v: defines(highKey) || 'Highest readiness component.' },
       {
         k: 'Ranking order',
-        v: ranked.map(([k, v]) => `${METRIC_DETAIL[k]?.label ?? k} ${v}`).join(' · ') + '.',
+        v: ranked.map(([k, v]) => `${label(k)} ${v}`).join(' · ') + '.',
       },
       {
         k: 'Confidence',
@@ -731,7 +815,7 @@ function travelAnswer(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
           { id: 'review_plan', label: 'Apply to my whole trip' },
         ],
         commit: { ...commitFor(salvaged, sig), equipment },
-        proposal: travelProposal(equipment, names, sig.days ?? WEEK_SHAPE.open_days.length, ctx),
+        proposal: travelProposal(equipment, names, sig.days ?? ctx.plan.shape.queue_remaining, ctx),
       };
     }
   }
@@ -769,7 +853,7 @@ function travelAnswer(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
     ],
     commit: { ...commitFor(alternative, sig), equipment },
     offered_template_id: alternative.template.id,
-    proposal: travelProposal(equipment, names, sig.days ?? WEEK_SHAPE.open_days.length, ctx),
+    proposal: travelProposal(equipment, names, sig.days ?? ctx.plan.shape.queue_remaining, ctx),
   };
 }
 
@@ -798,15 +882,23 @@ function planAnswer(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
  * by the queue's priority order rather than by what reads well.
  */
 export function weekDaysProposal(requestedDays: number, ctx: CoachContext): PlanProposal {
-  const trained = WEEK_SHAPE.days_trained;
-  const openBudget = Math.max(0, requestedDays - trained);
-  const days = WEEK_SHAPE.open_days.slice(-openBudget || WEEK_SHAPE.open_days.length);
-  const usableDays = openBudget === 0 ? [] : days;
-  const capacity = usableDays.length * 2;
+  const { days_trained: trained } = ctx.plan.shape;
+  const raceDays = daysToRace(ctx);
 
-  const byPriority = [...ctx.queue].sort((a, b) => a.priority - b.priority);
-  const kept = byPriority.slice(0, capacity);
-  const dropped = byPriority.slice(capacity);
+  // Days the athlete would still have after the ones already trained. A day
+  // takes at most two sessions when the week is being squeezed.
+  const daysLeft = Math.max(0, requestedDays - trained);
+  const capacity = daysLeft * 2;
+
+  // Rank is the queue's priority order — the engine already holds the week in
+  // the order it would protect. What drops is decided by that, not by what
+  // reads well.
+  const byRank = [...ctx.plan.week.queue].sort((a, b) => a.rank - b.rank);
+  const kept = byRank.slice(0, capacity);
+  const dropped = byRank.slice(capacity);
+
+  const minutesOf = (q: QueuedSession) =>
+    q.estimated_minutes ?? templateById.get(q.template_id)?.estimated_minutes ?? 0;
 
   const rows: PlanProposal['rows'] = [];
   if (ctx.today.kind === 'session') {
@@ -819,34 +911,32 @@ export function weekDaysProposal(requestedDays: number, ctx: CoachContext): Plan
     });
   }
   kept.forEach((session, i) => {
-    const target = usableDays[Math.min(i, usableDays.length - 1)];
-    const paired = i >= usableDays.length;
-    const name = templateById.get(session.template_id)?.name ?? session.template_id;
+    // Sessions beyond one per remaining day get doubled up. Said plainly,
+    // because two sessions in a day is a real cost the athlete is agreeing to.
+    const paired = daysLeft > 0 && i >= daysLeft;
     rows.push({
-      name,
-      verb: session.day === target && !paired ? 'Unchanged' : 'Moves',
-      detail: session.day === target && !paired
-        ? `${session.day} · ${session.minutes} min unchanged`
-        : `${session.day} → ${target} · ${session.minutes} min unchanged`
-          + (paired ? ' · second session that day' : ''),
-      emphasis: session.day !== target || paired,
+      name: session.name,
+      verb: paired ? 'Doubles up' : 'Stays',
+      detail: `${minutesOf(session)} min ${stimulusLabel(session.stimulus_type)}`
+        + (paired ? ' · second session that day' : ' · unchanged'),
+      emphasis: paired,
     });
   });
   dropped.forEach(session => {
-    const name = templateById.get(session.template_id)?.name ?? session.template_id;
     rows.push({
-      name,
+      name: session.name,
       verb: 'Drops',
-      detail: `${session.minutes} min ${stimulusLabel(session.stimulus)} · lowest priority this week`,
+      detail: `${minutesOf(session)} min ${stimulusLabel(session.stimulus_type)} `
+        + '· lowest priority this week',
       emphasis: true,
     });
   });
 
   const plannedExposures = ctx.weekStimuli.reduce((n, s) => n + s.target_exposures, 0);
   const droppedExposures = dropped.length;
-  const protectedStimuli = kept
-    .filter(s => s.priority === 1)
-    .map(s => stimulusLabel(s.stimulus));
+  // The queue's leading entries are the ones the engine ranked highest, and
+  // those are what a compressed week protects.
+  const protectedStimuli = kept.slice(0, 2).map(s => stimulusLabel(s.stimulus_type));
 
   const impact: PlanProposal['impact'] = [
     ...protectedStimuli.map(s => ({ text: `${sentence(s)} session`, tag: 'Protected', reduced: false })),
@@ -863,8 +953,8 @@ export function weekDaysProposal(requestedDays: number, ctx: CoachContext): Plan
       reduced: droppedExposures > 0,
     },
     ...dropped.map(s => ({
-      text: `${sentence(stimulusLabel(s.stimulus))} volume`,
-      tag: `Deferred to week ${ctx.phase.week + 1}`,
+      text: `${sentence(stimulusLabel(s.stimulus_type))} volume`,
+      tag: ctx.plan.phase ? `Deferred to week ${ctx.plan.phase.week + 1}` : 'Deferred',
       reduced: true,
     })),
   ];
@@ -875,23 +965,36 @@ export function weekDaysProposal(requestedDays: number, ctx: CoachContext): Plan
     title: `${requestedDays} training ${dayWord}\nthis week`,
     lede: dropped.length
       ? `${dropped.length} session${dropped.length === 1 ? '' : 's'} would drop and `
-        + `${rows.filter(r => r.verb === 'Moves').length} would move.`
-      : 'Nothing would need to drop — the remaining sessions just move.',
-    current: { label: 'Current', value: String(WEEK_SHAPE.planned_days), unit: 'DAYS' },
+        + `${rows.filter(r => r.verb === 'Doubles up').length} would double up.`
+      : 'Nothing would need to drop — the sessions you have left still fit.',
+    // "Current" is what the week actually holds: the days already trained plus
+    // the sessions still queued. The fixture asserted a planned-days figure the
+    // athlete never gave.
+    current: {
+      label: 'Current',
+      value: String(trained + ctx.plan.shape.queue_remaining),
+      unit: 'DAYS',
+    },
     proposed: { label: 'Proposed', value: String(requestedDays), unit: 'DAYS' },
     rows,
     impact,
-    consequence: ctx.race.days_remaining > 42
-      ? `Race-specific consequence: none the engine can support at ${ctx.race.days_remaining} days `
-        + 'out. A second reduced week in a row would change that.'
-      : `At ${ctx.race.days_remaining} days out, a reduced week costs race-specific exposure that `
-        + 'the remaining weeks cannot fully replace.',
+    consequence: raceDays === null
+      // With no race there is no race-specific cost to state, and inventing one
+      // would be the same failure as the fixture this replaced.
+      ? 'No race is set, so this costs you volume rather than race-specific exposure.'
+      : raceDays > 42
+        ? `Race-specific consequence: none the engine can support at ${raceDays} days `
+          + 'out. A second reduced week in a row would change that.'
+        : `At ${raceDays} days out, a reduced week costs race-specific exposure that `
+          + 'the remaining weeks cannot fully replace.',
     applied: dropped.length
       ? `Your week is now ${requestedDays} ${dayWord}. `
-        + `${kept.map(s => templateById.get(s.template_id)?.name ?? s.template_id).join(' and ')} `
-        + `moved, and ${dropped.map(s => templateById.get(s.template_id)?.name ?? s.template_id)
-          .join(' and ')} was dropped.`
+        + `${kept.map(s => s.name).join(' and ') || 'Nothing'} stayed, and `
+        + `${dropped.map(s => s.name).join(' and ')} came out of the week.`
       : `Your week is now ${requestedDays} ${dayWord} with the same sessions.`,
+    // What an apply writes back: the queue in the order agreed, and the
+    // sessions that come out of it.
+    commit_queue: { keep: kept.map(s => s.id), drop: dropped.map(s => s.id) },
   };
 }
 
@@ -902,20 +1005,24 @@ export function travelProposal(
   days: number,
   ctx: CoachContext,
 ): PlanProposal {
-  const affected = WEEK_SHAPE.open_days.slice(0, Math.max(1, Math.min(days, WEEK_SHAPE.open_days.length)));
+  // The trip covers the next `days` sessions in the queue. It used to name
+  // weekdays, which the queue does not hold — a session is affected because it
+  // is one of the next ones up, not because it falls on a Thursday.
+  const affected = ctx.plan.week.queue
+    .slice()
+    .sort((a, b) => a.rank - b.rank)
+    .slice(0, Math.max(1, days));
   const rows: PlanProposal['rows'] = [];
   // Replacements are chosen once each: three days of the same substitute
   // session would be a worse week than the one it replaced.
   const spent = new Set<string>();
   let intact = 0;
 
-  affected.forEach(day => {
-    const planned = ctx.queue.find(s => s.day === day);
-    if (!planned) return;
+  affected.forEach(planned => {
     const template = templateById.get(planned.template_id);
-    const name = template?.name ?? planned.template_id;
+    const name = planned.name;
     if (!template) {
-      rows.push({ name, verb: 'Unchanged', detail: `${day} · not in the offline library`, emphasis: false });
+      rows.push({ name, verb: 'Unchanged', detail: 'Not in the offline library', emphasis: false });
       return;
     }
     const result = recommend(
@@ -924,7 +1031,7 @@ export function travelProposal(
       const alternative = recommend({
         ...ctx.engineInput,
         available_equipment: equipment,
-        available_minutes: planned.minutes,
+        available_minutes: planned.estimated_minutes ?? template.estimated_minutes,
         candidates: TEMPLATES.filter(c => !spent.has(c.id) && c.id !== template.id),
       }, EXERCISES);
       if (alternative.kind === 'session') spent.add(alternative.template.id);
@@ -932,24 +1039,23 @@ export function travelProposal(
         name,
         verb: 'Replaced',
         detail: alternative.kind === 'session'
-          ? `${day} · ${alternative.template.name}, ${alternative.estimated_minutes} min instead · `
+          ? `${alternative.template.name}, ${alternative.estimated_minutes} min instead · `
             + 'substituting the original would lose its stimulus'
-          : `${day} · nothing in the library is eligible on this equipment`,
+          : 'Nothing in the library is eligible on this equipment',
         emphasis: true,
       });
       return;
     }
     if (!result.substitutions_applied.length) {
       intact += 1;
-      rows.push({ name, verb: 'Unchanged', detail: `${day} · works as written`, emphasis: false });
+      rows.push({ name, verb: 'Unchanged', detail: 'Works as written', emphasis: false });
       return;
     }
     rows.push({
       name,
       verb: 'Substituted',
-      detail: `${day} · `
-        + result.substitutions_applied
-            .map(s => `${exerciseName(s.from)} → ${exerciseName(s.to)}`).join(' · '),
+      detail: result.substitutions_applied
+        .map(s => `${exerciseName(s.from)} → ${exerciseName(s.to)}`).join(' · '),
       emphasis: true,
     });
   });
@@ -970,9 +1076,11 @@ export function travelProposal(
     ],
     consequence: 'Station-specific work is the part travel costs you. Sled and wall-ball loads '
       + 'cannot be reproduced with dumbbells, so those qualities hold rather than progress this week.',
-    applied: `${affected.join(', ')} now run on ${names.join(' and ') || 'bodyweight'}. `
-      + 'The rest of your week is unchanged.',
-    commit_travel: { equipment, days: affected },
+    applied: `${affected.map(a => a.name).join(', ')} now run on `
+      + `${names.join(' and ') || 'bodyweight'}. The rest of your week is unchanged.`,
+    // `days` carries the queue items the trip covers. It held weekday names
+    // before, which nothing in the schema could match them against.
+    commit_travel: { equipment, days: affected.map(a => a.id) },
   };
 }
 
@@ -1045,8 +1153,12 @@ export interface CoachInsight {
 }
 
 export function insightFor(ctx: CoachContext): CoachInsight | null {
-  const delta = COMPARABLE_1K[0].pace_seconds
-    - COMPARABLE_1K[COMPARABLE_1K.length - 1].pace_seconds;
+  const runs = ctx.comparable?.runs ?? [];
+  // No comparable set, no claim. An insight is offered "only when there is
+  // something evidence-based to say" (brief §3.3), and this is the evidence.
+  const delta = runs.length >= 2
+    ? runs[0].pace_seconds - runs[runs.length - 1].pace_seconds
+    : 0;
 
   if (ctx.today.kind === 'session' && ctx.today.variant.variant_code !== 'green') {
     return {
@@ -1059,13 +1171,14 @@ export function insightFor(ctx: CoachContext): CoachInsight | null {
     };
   }
 
-  if (delta >= 4) {
+  if (delta >= 4 && ctx.comparable) {
+    const weeks = Math.round(ctx.comparable.window_days / 7);
     return {
       label: 'Coach noticed',
-      text: `Your last ${COMPARABLE_1K.length} comparable 1 km repeats held pace at the same RPE, `
-        + `${delta} seconds per km faster end to end. Threshold work can progress at the next `
-        + 'exposure.',
-      chips: ['Last 4 weeks', `${COMPARABLE_1K.length} comparable sessions`],
+      text: `Your last ${runs.length} comparable ${repeatLabel(ctx.comparable)} held pace at the `
+        + `same RPE, ${Math.round(delta)} seconds per km faster end to end. Threshold work can `
+        + 'progress at the next exposure.',
+      chips: [`Last ${weeks} weeks`, `${runs.length} comparable sessions`],
       intent: 'progress',
       cta: 'See the evidence',
     };

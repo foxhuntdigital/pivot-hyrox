@@ -10,6 +10,7 @@ import { computeReadiness,
   recoverySignal, type RecoveryCheckin,
 } from '../../../packages/engine/src/index.ts';
 import { loadReadinessHistory, readinessInputsFrom } from './readiness-history.ts';
+import { comparableSeries, type ComparableSeries } from './comparable.ts';
 import { metricDetailFrom, type MetricDetail } from './metric-detail.ts';
 
 export interface ProgressSnapshot {
@@ -17,6 +18,12 @@ export interface ProgressSnapshot {
   metric_detail: Record<string, MetricDetail>;
   /** The lowest-scoring component — what Progress calls the biggest opportunity. */
   lowest: string;
+  /**
+   * The comparable-session set behind any pace claim, or null when nothing in
+   * the window qualifies. Computed here so Coach's sentence and the card under
+   * it are the same evidence.
+   */
+  comparable: ComparableSeries | null;
 }
 
 export async function loadProgressSnapshot(args: {
@@ -70,5 +77,11 @@ export async function loadProgressSnapshot(args: {
   const lowest = Object.entries(readiness.components)
     .reduce((a, b) => (b[1] < a[1] ? b : a))[0];
 
-  return { readiness, metric_detail, lowest };
+  const comparable = comparableSeries({
+    today,
+    sessions: history.sessions,
+    cardioLogs: history.cardioLogs,
+  });
+
+  return { readiness, metric_detail, lowest, comparable };
 }

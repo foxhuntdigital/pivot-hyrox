@@ -18,5 +18,15 @@ export const EQUIPMENT = raw.equipment as { id: string; name: string; category: 
 export const exerciseById = new Map(EXERCISES.map(e => [e.id, e]));
 export const templateById = new Map(TEMPLATES.map(t => [t.id, t]));
 
+/**
+ * A common gym, pre-selected on the onboarding equipment step.
+ *
+ * A starting suggestion the athlete edits before they submit — not a claim
+ * about what they own, and never used after onboarding. Starting empty reads
+ * as "you own nothing", which is a worse first question than this is an answer.
+ */
+export const COMMON_EQUIPMENT = ['treadmill', 'outdoor', 'ski', 'bike', 'db', 'kb',
+  'box', 'wall_ball', 'sled', 'rope', 'sandbag'];
+
 /** Equipment the Profile screen offers, in the design's presentation order. */
 export const EQUIPMENT_CHOICES = EQUIPMENT.filter(e => e.id !== 'bodyweight');

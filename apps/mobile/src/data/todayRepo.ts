@@ -13,10 +13,102 @@ import type {
 
 import { supabase } from '@/lib/supabase';
 
+/** One phase of the program. `weeks` is the weekly cycles it holds. */
+export interface PhaseSummary {
+  type: string;
+  order: number;
+  start_date: string;
+  end_date: string;
+  weeks: number;
+}
+
+/** A session the week still holds, in the order the engine ranks it. */
+export interface QueuedSession {
+  id: string;
+  template_id: string;
+  name: string;
+  stimulus_type: string;
+  rank: number;
+  state: 'queued' | 'recommended' | 'in_progress' | 'completed' | 'skipped';
+  estimated_minutes: number | null;
+}
+
+/** One session inside a comparable set. */
+export interface ComparableRun {
+  session_id: string;
+  date: string;
+  /** Median seconds per kilometre across the session's qualifying efforts. */
+  pace_seconds: number;
+  rpe: number | null;
+  hr: number | null;
+}
+
+/** Sessions alike enough to trend against each other (Coach brief §5.3). */
+export interface ComparableSeries {
+  exercise_id: string;
+  distance_meters: number;
+  /** Oldest first. */
+  runs: ComparableRun[];
+  /** Sessions in the window that ran this exercise but did not qualify. */
+  excluded: number;
+  window_days: number;
+}
+
+/** A session the athlete finished inside the current week. */
+export interface CompletedThisWeek {
+  session_id: string;
+  template_id: string;
+  /** The name as prescribed, taken from the session's own snapshot. */
+  name: string;
+  stimulus: string | null;
+  estimated_minutes: number | null;
+  variant: string;
+  session_rpe: number | null;
+  ended_early: boolean;
+  completed_on: string;
+}
+
 export interface TodayPayload {
   date_local: string;
-  active_race: { id: string; name: string; days_remaining: number } | null;
-  phase: { type: string; week: number } | null;
+  active_race: {
+    id: string;
+    name: string;
+    event_date: string;
+    division: string | null;
+    goal_type: string | null;
+    days_remaining: number;
+  } | null;
+  phase: {
+    type: string;
+    order: number;
+    /** Week within this phase. */
+    week: number;
+    weeks: number;
+    /** Week within the whole program — what "week 7 of 16" counts. */
+    program_week: number;
+    program_total_weeks: number;
+    sequence: PhaseSummary[];
+    start_date: string;
+    end_date: string;
+  } | null;
+  /** The current week: what is queued, and what has already been done. */
+  week: {
+    start_date: string | null;
+    end_date: string | null;
+    queue: QueuedSession[];
+    completed: CompletedThisWeek[];
+  } | null;
+  /**
+   * Seven-day volume — sessions and minutes actually trained. Deliberately not
+   * a load score: the app has no defended load model, and both of these are
+   * measured rather than inferred.
+   */
+  training_7d: { sessions: number; minutes: number };
+  /**
+   * The comparable running sessions behind a pace claim. Null when nothing in
+   * the window qualified — which is an answer, not an empty state to fill.
+   */
+  comparable_runs: ComparableSeries | null;
   /**
    * The athlete's own check-in. Null when they have not logged one — which is
    * not zero, and must not be rendered as a number.

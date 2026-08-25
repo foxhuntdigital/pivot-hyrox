@@ -18,15 +18,12 @@ import { Rule, Label, Chip, SquareCheck, ActionButton } from '@/components/primi
 import { useApp } from '@/state/store';
 import { useSession } from '@/state/session';
 import { isSupabaseConfigured } from '@/lib/supabase';
-import { CONSIDERATION_CHOICES } from '@/data/athlete';
 import {
-  EXPERIENCE_LEVELS, PREDICTABILITY_CHOICES, descriptorOf, initialsOf, levelLabel,
+  CONSIDERATION_CHOICES, EXPERIENCE_LEVELS, PREDICTABILITY_CHOICES, descriptorOf, initialsOf, levelLabel,
   monthsPostpartum, nearestPredictability, parseISODate, postpartumPhrase,
-  preGeneratesVariants, toISODate,
+  preGeneratesVariants, SESSION_MINUTES, toISODate,
 } from '@/data/profile';
 import { EQUIPMENT_CHOICES } from '@/data/content';
-
-const TIME_CHOICES = [15, 30, 45, 60, 90];
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -155,7 +152,7 @@ function FieldLabel({ children, first }: { children: React.ReactNode; first?: bo
 }
 
 export default function ProfileScreen() {
-  const { state, dispatch, commitProfile, profileError } = useApp();
+  const { state, dispatch, commitProfile, commitEquipment, profileError } = useApp();
   const { email, signOut, status } = useSession();
   const { profile } = state;
 
@@ -174,6 +171,16 @@ export default function ProfileScreen() {
   const months = monthsPostpartum(profile.postpartum_birth_date, now);
   const minYear = now.getFullYear() - 10;
   const predictability = nearestPredictability(profile.schedule_predictability);
+
+  /**
+   * The choices this app offers, plus anything already stored that is not one
+   * of them. A consideration set elsewhere still constrains programming, so it
+   * has to be visible and removable here rather than silently in force.
+   */
+  const considerationRows = [
+    ...CONSIDERATION_CHOICES,
+    ...profile.considerations.filter(c => !CONSIDERATION_CHOICES.includes(c)),
+  ];
 
   function setBirth(year: number, month0: number) {
     const date = toISODate(year, month0 + 1);
@@ -390,7 +397,14 @@ export default function ProfileScreen() {
           return (
             <Pressable
               key={e.id}
-              onPress={() => dispatch({ type: 'toggle_equipment', id: e.id })}
+              onPress={() => {
+                dispatch({ type: 'toggle_equipment', id: e.id });
+                // The next set, computed here: the reducer's copy is not
+                // readable until the next render and the write needs it now.
+                commitEquipment(on
+                  ? state.equipment.filter(id => id !== e.id)
+                  : [...state.equipment, e.id]);
+              }}
               accessibilityRole="checkbox"
               accessibilityState={{ checked: on }}
               accessibilityLabel={e.name}
@@ -473,16 +487,20 @@ export default function ProfileScreen() {
         onToggle={() => toggle('length')}
         badge={
           <Label size="sm">
-            {state.typical_minutes === 90 ? '90+ min' : `${state.typical_minutes} min`}
+            {profile.typical_session_minutes === 90
+              ? '90+ min' : `${profile.typical_session_minutes} min`}
           </Label>
         }
       >
       <View style={{ flexDirection: 'row', gap: 6, paddingHorizontal: space.gutter }}>
-        {TIME_CHOICES.map(v => (
+        {SESSION_MINUTES.map(v => (
           <Chip
             key={v} flex label={v === 90 ? '90+' : String(v)}
-            active={state.typical_minutes === v}
-            onPress={() => dispatch({ type: 'set_typical', minutes: v })}
+            active={profile.typical_session_minutes === v}
+            onPress={() => {
+              dispatch({ type: 'set_typical', minutes: v });
+              commitProfile({ typical_session_minutes: v });
+            }}
             style={{ paddingVertical: 12 }}
           />
         ))}
@@ -499,12 +517,19 @@ export default function ProfileScreen() {
         badge={<Label size="sm" style={{ letterSpacing: 0.9 }}>Private</Label>}
       >
       <View style={{ paddingHorizontal: space.gutter }}>
-        {CONSIDERATION_CHOICES.map(name => {
-          const on = state.considerations.includes(name);
+        {considerationRows.map(name => {
+          const on = profile.considerations.includes(name);
           return (
             <Pressable
               key={name}
-              onPress={() => dispatch({ type: 'toggle_consideration', name })}
+              onPress={() => {
+                dispatch({ type: 'toggle_consideration', name });
+                commitProfile({
+                  considerations: on
+                    ? profile.considerations.filter(c => c !== name)
+                    : [...profile.considerations, name],
+                });
+              }}
               accessibilityRole="checkbox"
               accessibilityState={{ checked: on }}
               accessibilityLabel={name}

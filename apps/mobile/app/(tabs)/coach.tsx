@@ -33,25 +33,38 @@ import {
   buildAnswer, insightFor, type CoachAction, type CoachAnswer, type CoachContext,
 } from '@/state/coachAnswer';
 import { LIMITER_KEYWORDS, SUGGESTED_PROMPTS, relativeAge } from '@/data/coach';
-import { PHASE, RACE, WEEK_QUEUE, WEEK_STIMULI } from '@/data/athlete';
+import { phaseTitle } from '@/data/plan';
+import { reshapeWeek, type ReshapeRequest } from '@/data/weekRepo';
 
 export default function CoachScreen() {
   const router = useRouter();
   const {
-    state, dispatch, session, readiness, engineInput, beginSession, commitAdaptation,
+    state, dispatch, session, readiness, engineInput, plan, today,
+    beginSession, commitAdaptation, refreshToday,
   } = useApp();
   const coach = useCoach();
   const scroller = useRef<ScrollView | null>(null);
+
+  /**
+   * How to put the week back, per applied proposal.
+   *
+   * A week change is the one commitment that outlives client state, so its undo
+   * has to reach the server as well. The inverse is the queue exactly as it
+   * stood before the change — same members, same order — which `reshape-week`
+   * restores, dropped sessions included.
+   */
+  const weekUndo = useRef(new Map<string, ReshapeRequest>());
 
   const ctx = useMemo<CoachContext>(() => ({
     engineInput,
     today: session,
     readiness,
-    weekStimuli: WEEK_STIMULI,
-    queue: WEEK_QUEUE,
-    race: RACE,
-    phase: PHASE,
-  }), [engineInput, session, readiness]);
+    // The same view Today and Plan draw from, so a proposal can never describe
+    // a week the Plan tab does not show.
+    plan,
+    comparable: today?.comparable_runs ?? null,
+    weekStimuli: today?.stimulus_requirements ?? [],
+  }), [engineInput, session, readiness, plan, today]);
 
   /**
    * Answers are derived, not stored. Rebuilding them from the current engine
@@ -70,8 +83,16 @@ export default function CoachScreen() {
 
   const insight = useMemo(() => insightFor(ctx), [ctx]);
 
+  /**
+   * Search terms for "build me a session for that". Ranked over measured
+   * components only — an unmeasured component scores zero, and building a week
+   * around a weakness nobody has demonstrated is worse than a general answer.
+   */
   const limiterKeywords = useCallback(() => {
-    const entries = Object.entries(readiness.components) as [string, number][];
+    const observed = new Set<string>(readiness.observed ?? []);
+    const entries = (Object.entries(readiness.components) as [string, number][])
+      .filter(([k]) => observed.has(k));
+    if (!entries.length) return ['engine'];
     const lowest = entries.reduce((a, b) => (b[1] < a[1] ? b : a))[0];
     return LIMITER_KEYWORDS[lowest] ?? ['engine'];
   }, [readiness]);
@@ -224,18 +245,44 @@ export default function CoachScreen() {
 
   const onUndo = useCallback((messageId: string) => {
     const undone = coach.undo(messageId);
-    if (undone) dispatch({ type: 'restore', snapshot: undone.restore });
-  }, [coach, dispatch]);
+    if (!undone) return;
+    dispatch({ type: 'restore', snapshot: undone.restore });
 
-  /** Applying a proposal is the only place a Coach answer changes the week. */
+    const inverse = weekUndo.current.get(messageId);
+    if (inverse) {
+      weekUndo.current.delete(messageId);
+      reshapeWeek(inverse).then(result => {
+        if (result) refreshToday();
+      });
+    }
+  }, [coach, dispatch, refreshToday]);
+
+  /**
+   * Applying a proposal is the only place a Coach answer changes the week.
+   *
+   * A week-shape change is written to the server before it is called applied:
+   * it reorders and drops queue rows, and a commitment that only moved client
+   * state would be undone by the next launch. The travel change stays local by
+   * design — it narrows equipment for the sessions it covers rather than
+   * altering the plan.
+   */
   const applyProposal = useCallback((messageId: string) => {
     const answer = answers.get(messageId);
     const proposal = answer?.proposal;
     if (!proposal) return;
     const restore = snapshot(state);
 
-    if (proposal.kind === 'week_days') {
-      dispatch({ type: 'set_queue_order', reordered: true });
+    if (proposal.commit_queue) {
+      // Captured before the write, so undo restores the order that was there.
+      weekUndo.current.set(messageId, {
+        keep: [...plan.week.queue].sort((a, b) => a.rank - b.rank).map(q => q.id),
+        drop: [],
+      });
+      reshapeWeek(proposal.commit_queue).then(result => {
+        // The week moved on the server; pull it back so Plan shows what was
+        // agreed rather than what it had cached.
+        if (result) refreshToday();
+      });
     } else if (proposal.commit_travel) {
       dispatch({ type: 'set_travel', travel: proposal.commit_travel });
     }
@@ -248,7 +295,7 @@ export default function CoachScreen() {
       answer,
     });
     coach.closeReview();
-  }, [answers, coach, dispatch, state]);
+  }, [answers, coach, dispatch, plan.week.queue, refreshToday, state]);
 
   const reviewAnswer = coach.reviewing ? answers.get(coach.reviewing) : undefined;
 
@@ -336,8 +383,15 @@ export default function CoachScreen() {
       ) : (
         <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 20 }}>
           <ContextStrip
-            race={`${RACE.name.replace(' HYROX', '')} · ${RACE.days_remaining}d`}
-            phase={`${PHASE.type[0].toUpperCase()}${PHASE.type.slice(1)} · W${PHASE.week}`}
+            // The race is named as the athlete named it. This used to strip a
+            // literal " HYROX" out of it, which only ever fit one event.
+            race={plan.race
+              ? `${plan.race.name}${plan.race.days_remaining !== null
+                  ? ` · ${plan.race.days_remaining}d` : ''}`
+              : 'No race set'}
+            phase={plan.phase
+              ? `${phaseTitle(plan.phase.type)} · W${plan.phase.week}`
+              : 'No plan yet'}
             readiness={readiness.overall}
             confidence={readiness.confidence}
             onReadiness={() => coach.ask(

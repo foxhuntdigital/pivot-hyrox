@@ -20,6 +20,51 @@ export interface AthleteProfile {
    * once is the answer the screen shows.
    */
   schedule_predictability: number;
+  /**
+   * Return-to-training considerations. SENSITIVE: these constrain what the
+   * engine may program, so they are read from the athlete's own row and never
+   * defaulted on their behalf — a consideration nobody set must not appear set.
+   */
+  considerations: string[];
+  /** The session length the plan is built around. */
+  typical_session_minutes: number;
+}
+
+/**
+ * The return-to-training considerations the app offers.
+ *
+ * A list of choices, not a set of defaults: what an athlete has selected comes
+ * from their own row, and anything stored outside this list is shown alongside
+ * it rather than dropped (see `readConsiderations`).
+ */
+export const CONSIDERATION_CHOICES = [
+  'Returning from injury',
+  'Postpartum',
+  'Breastfeeding',
+  'Pelvic-floor considerations',
+];
+
+/** The session lengths Profile offers for this field (PRD §6.1 step 6). */
+export const SESSION_MINUTES = [15, 30, 45, 60, 90] as const;
+
+export const DEFAULT_SESSION_MINUTES = 45;
+
+export function clampSessionMinutes(v: unknown): number {
+  return typeof v === 'number' && Number.isFinite(v) && v > 0
+    ? Math.round(v) : DEFAULT_SESSION_MINUTES;
+}
+
+/**
+ * Considerations as stored, coerced to a list of non-empty strings.
+ *
+ * Values outside the app's own choice list are kept rather than filtered out.
+ * The column is the athlete's, and silently dropping a constraint we did not
+ * recognise is the one failure mode this field cannot have.
+ */
+export function readConsiderations(v: unknown): string[] {
+  return Array.isArray(v)
+    ? v.filter((c): c is string => typeof c === 'string' && c.trim().length > 0)
+    : [];
 }
 
 /**
@@ -63,6 +108,19 @@ export function predictabilityPhrase(v: number): string {
 export function preGeneratesVariants(v: number): boolean {
   return v >= VARIANTS_AHEAD_AT;
 }
+
+/**
+ * The profile before an account answers. Empty, not seeded: a name nobody typed
+ * and a consideration nobody set would both render as the athlete's own.
+ */
+export const EMPTY_PROFILE: AthleteProfile = {
+  display_name: '',
+  experience_level: 'intermediate',
+  postpartum_birth_date: null,
+  schedule_predictability: DEFAULT_PREDICTABILITY,
+  considerations: [],
+  typical_session_minutes: DEFAULT_SESSION_MINUTES,
+};
 
 export function isExperienceLevel(v: unknown): v is ExperienceLevel {
   return typeof v === 'string' && (EXPERIENCE_LEVELS as readonly string[]).includes(v);

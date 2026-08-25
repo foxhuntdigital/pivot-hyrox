@@ -16,7 +16,7 @@ import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, InkPanel } from '@/components/primitives';
 import { AdaptSheet } from '@/components/AdaptSheet';
 import { useApp } from '@/state/store';
-import { PHASE, PHASE_SEQUENCE, RACE, WEEK_STIMULI } from '@/data/athlete';
+import { PHASE_LABEL, type PhaseView } from '@/data/plan';
 import { firstNameOf } from '@/data/profile';
 import { exerciseById } from '@/data/content';
 import { hoursToClock, LOW_SLEEP_HOURS } from '@/lib/format';
@@ -26,24 +26,32 @@ function greeting(): string {
   return h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
 }
 
-/** The phase ribbon: completed dark, current red, upcoming grey. */
-function PhaseBars() {
-  const currentIndex = PHASE_SEQUENCE.findIndex(p => p.key === PHASE.type);
+/**
+ * The phase ribbon: completed dark, current red, upcoming grey.
+ *
+ * One bar per phase of this athlete's program rather than a fixed six — a
+ * shorter build has fewer phases, and the ribbon should show the plan they
+ * actually have. Bars are weighted by the weeks each phase holds, so the
+ * ribbon reads as a timeline rather than as six equal steps.
+ */
+function PhaseBars({ phase }: { phase: PhaseView }) {
+  const currentIndex = phase.sequence.findIndex(p => p.type === phase.type);
+  if (!phase.sequence.length) return null;
   return (
     <View style={{ flexDirection: 'row', gap: 6, paddingHorizontal: space.gutter, paddingBottom: 16 }}>
-      {PHASE_SEQUENCE.map((p, i) => {
+      {phase.sequence.map((p, i) => {
         const isCurrent = i === currentIndex;
-        const isDone = i < currentIndex;
+        const isDone = currentIndex >= 0 && i < currentIndex;
         return (
-          <View key={p.key} style={{ flex: 1, gap: 5 }}>
+          <View key={`${p.type}-${p.order}`} style={{ flex: Math.max(1, p.weeks), gap: 5 }}>
             <View style={{
               height: 4,
               backgroundColor: isCurrent ? color.red : isDone ? color.ink : color.rule,
             }} />
-            <Text style={[t.labelXs, {
+            <Text numberOfLines={1} style={[t.labelXs, {
               color: isCurrent ? color.red : isDone ? color.ink : color.muted3,
             }]}>
-              {p.label}
+              {PHASE_LABEL[p.type] ?? p.type}
             </Text>
           </View>
         );
@@ -68,7 +76,7 @@ function StatCell({ label, children, last }: {
 
 export default function TodayScreen() {
   const router = useRouter();
-  const { state, session, readiness, sleep, beginSession } = useApp();
+  const { state, session, readiness, sleep, plan, beginSession } = useApp();
   const [sheetOpen, setSheetOpen] = useState(false);
 
   const sleepClock = hoursToClock(sleep.hours);
@@ -115,9 +123,15 @@ export default function TodayScreen() {
           onSecondary: openCheckin,
         };
 
-  const weekDone = WEEK_STIMULI.reduce((n, r) => n + r.completed_exposures, 0)
-    + (state.completed_today ? 1 : 0);
-  const weekTarget = WEEK_STIMULI.reduce((n, r) => n + r.target_exposures, 0);
+  /**
+   * The inputs today's options were actually built from, named individually so
+   * the sentence below can only claim what is there.
+   */
+  const lastSession = plan.week.completed[0];
+  const factoredIn = [
+    sleep.hours !== null ? "Last night's sleep" : null,
+    lastSession ? `your last session (${lastSession.name})` : null,
+  ].filter((s): s is string => s !== null);
 
   const start = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -142,27 +156,38 @@ export default function TodayScreen() {
         }}>
           <View style={{ flex: 1 }}>
             <Label style={{ marginBottom: 6 }}>Next goal</Label>
-            <Text style={[t.h4, { color: color.ink, lineHeight: 21 }]}>{RACE.name}</Text>
+            <Text style={[t.h4, { color: color.ink, lineHeight: 21 }]}>
+              {plan.race?.name ?? 'No race set'}
+            </Text>
             <Text style={[t.bodySm, { color: color.muted2, marginTop: 2 }]}>
-              {RACE.date} · {RACE.division}
+              {/* Division is optional on the race, so the separator is only
+                  drawn when there is something on both sides of it. */}
+              {[plan.race?.date_label, plan.race?.division].filter(Boolean).join(' · ')
+                || 'Add a race to see a countdown'}
             </Text>
           </View>
           <View style={{ alignItems: 'flex-end' }}>
             {/* paddingRight offsets the trailing negative letter-spacing, which
                 RN subtracts from the measured width and clips the last digit. */}
             <Text style={[t.countdown, numeralTrim.countdown, { color: color.ink, paddingRight: 3 }]}>
-              {RACE.days_remaining}
+              {plan.race?.days_remaining ?? '—'}
             </Text>
             <Label>Days</Label>
           </View>
         </View>
 
-        <PhaseBars />
+        {plan.phase ? <PhaseBars phase={plan.phase} /> : null}
         <Rule heavy />
 
         <View style={{ flexDirection: 'row' }}>
-          <StatCell label="Status">
-            <Text style={[t.h4, { fontSize: 15, color: color.ink }]}>ON TRACK</Text>
+          {/* This used to read "ON TRACK" as a literal, which it would have
+              said however far behind the athlete was. The ratio it was standing
+              in front of is the thing worth showing. */}
+          <StatCell label="This week">
+            <Text style={[t.h4, { fontSize: 15, color: color.ink }]}>
+              {plan.week.done}
+              <Text style={[t.meta, { color: color.muted }]}>/{plan.week.target} stimuli</Text>
+            </Text>
           </StatCell>
           <StatCell label="Readiness">
             <Text style={[t.h4, { fontSize: 15, color: color.ink }]}>
@@ -341,30 +366,39 @@ export default function TodayScreen() {
         <View style={{ paddingHorizontal: space.gutter, paddingTop: 22, paddingBottom: 8 }}>
           <Rule heavy />
         </View>
+        {/* Seven days of training as volume, not as a load score: the app has
+            no load model it could defend, and both of these are measured. */}
         <View style={{ flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: color.rule }}>
           <View style={{
             flex: 1, paddingTop: 12, paddingBottom: 14, paddingHorizontal: space.gutter,
             borderRightWidth: 1, borderRightColor: color.rule,
           }}>
-            <Label size="sm">This week</Label>
+            <Label size="sm">Trained 7d</Label>
             <Text style={[t.h4, { fontSize: 20, marginTop: 4, color: color.ink }]}>
-              {weekDone}
-              <Text style={[t.bodySm, { color: color.muted }]}> / {weekTarget} stimuli</Text>
+              {plan.training7d?.sessions ?? '—'}
+              <Text style={[t.bodySm, { color: color.muted }]}> sessions</Text>
             </Text>
           </View>
           <View style={{ flex: 1, paddingTop: 12, paddingBottom: 14, paddingHorizontal: space.gutter }}>
-            <Label size="sm">Load 7d</Label>
+            <Label size="sm">Time 7d</Label>
             <Text style={[t.h4, { fontSize: 20, marginTop: 4, color: color.ink }]}>
-              412<Text style={[t.bodySm, { color: color.muted }]}> au</Text>
+              {plan.training7d?.minutes ?? '—'}
+              <Text style={[t.bodySm, { color: color.muted }]}> min</Text>
             </Text>
           </View>
         </View>
 
+        {/* Names only what was actually read. The old copy cited "Tuesday's
+            session" whether or not one existed, and claimed sleep was factored
+            in with no check-in to factor. */}
         <Text style={[t.bodySm, {
           paddingHorizontal: space.gutter, paddingTop: 14, color: color.muted2,
         }]}>
-          Last night's sleep and Tuesday's session are both factored into today's
-          options. Nothing is marked missed.
+          {factoredIn.length
+            ? `${factoredIn.join(' and ')} ${factoredIn.length > 1 ? 'are' : 'is'} `
+              + 'factored into today\'s options. Nothing is marked missed.'
+            : 'Nothing is marked missed. Check in and today\'s options are '
+              + 'recalculated from how you actually slept.'}
         </Text>
       </ScrollView>
 

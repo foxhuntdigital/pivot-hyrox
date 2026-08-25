@@ -14,8 +14,7 @@ import { Label } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
 import { useOnboarding } from '@/state/onboarding';
 import { fetchEquipment, type EquipmentOption } from '@/data/planRepo';
-import { DEFAULT_EQUIPMENT } from '@/data/athlete';
-import { EQUIPMENT } from '@/data/content';
+import { COMMON_EQUIPMENT, EQUIPMENT } from '@/data/content';
 
 /** Readable headings for the category keys the library uses. */
 const CATEGORY_LABEL: Record<string, string> = {
@@ -43,7 +42,7 @@ export default function EquipmentScreen() {
       // empty, which reads as "you own nothing".
       if (draft.equipment.length === 0 && list.length > 0) {
         const ids = new Set(list.map(o => o.id));
-        update({ equipment: DEFAULT_EQUIPMENT.filter(id => ids.has(id)) });
+        update({ equipment: COMMON_EQUIPMENT.filter(id => ids.has(id)) });
       }
     }
     fetchEquipment()

@@ -6,12 +6,14 @@
  */
 import { supabase } from '@/lib/supabase';
 import {
-  clampPredictability, isExperienceLevel,
+  clampPredictability, clampSessionMinutes, isExperienceLevel, readConsiderations,
   type AthleteProfile, type ExperienceLevel,
 } from './profile';
 
-const COLUMNS =
-  'user_id, display_name, experience_level, postpartum_birth_date, schedule_predictability';
+// One string literal, not a concatenation: supabase-js infers the row type from
+// the literal, and a computed string degrades it to an error type.
+// eslint-disable-next-line max-len
+const COLUMNS = 'user_id, display_name, experience_level, postpartum_birth_date, schedule_predictability, considerations, typical_session_minutes';
 
 interface Row {
   user_id: string;
@@ -19,6 +21,8 @@ interface Row {
   experience_level: string;
   postpartum_birth_date: string | null;
   schedule_predictability: number | null;
+  considerations: string[] | null;
+  typical_session_minutes: number | null;
 }
 
 function toProfile(row: Row, fallbackName: string): AthleteProfile {
@@ -29,6 +33,8 @@ function toProfile(row: Row, fallbackName: string): AthleteProfile {
       : 'intermediate',
     postpartum_birth_date: row.postpartum_birth_date,
     schedule_predictability: clampPredictability(row.schedule_predictability),
+    considerations: readConsiderations(row.considerations),
+    typical_session_minutes: clampSessionMinutes(row.typical_session_minutes),
   };
 }
 
