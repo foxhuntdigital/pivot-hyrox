@@ -1,0 +1,565 @@
+{
+ "meta": {
+  "rejected": 93
+ },
+ "rejected": [
+  {
+   "id": "mx_skierg_base",
+   "reasons": [
+    "mx_skierg_base: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_push_density",
+   "reasons": [
+    "mx_sled_push_density: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_micro",
+   "reasons": [
+    "mx_farmer_carry_micro: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_density",
+   "reasons": [
+    "mx_farmer_carry_density: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_skierg_technique",
+   "reasons": [
+    "mx_skierg_technique: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_skierg_strength_power",
+   "reasons": [
+    "mx_skierg_strength_power: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_skierg_threshold",
+   "reasons": [
+    "mx_skierg_threshold: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_skierg_race_specific",
+   "reasons": [
+    "mx_skierg_race_specific: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_skierg_compromised",
+   "reasons": [
+    "mx_skierg_compromised: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_skierg_benchmark",
+   "reasons": [
+    "mx_skierg_benchmark: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_skierg_hybrid_a",
+   "reasons": [
+    "mx_skierg_hybrid_a: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_skierg_hybrid_b",
+   "reasons": [
+    "mx_skierg_hybrid_b: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_skierg_durability",
+   "reasons": [
+    "mx_skierg_durability: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_push_technique",
+   "reasons": [
+    "mx_sled_push_technique: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_push_base",
+   "reasons": [
+    "mx_sled_push_base: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_push_strength_power",
+   "reasons": [
+    "mx_sled_push_strength_power: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_push_threshold",
+   "reasons": [
+    "mx_sled_push_threshold: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_push_race_specific",
+   "reasons": [
+    "mx_sled_push_race_specific: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_push_compromised",
+   "reasons": [
+    "mx_sled_push_compromised: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_push_benchmark",
+   "reasons": [
+    "mx_sled_push_benchmark: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_push_micro",
+   "reasons": [
+    "mx_sled_push_micro: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_push_hybrid_a",
+   "reasons": [
+    "mx_sled_push_hybrid_a: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_push_hybrid_b",
+   "reasons": [
+    "mx_sled_push_hybrid_b: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_push_durability",
+   "reasons": [
+    "mx_sled_push_durability: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_pull_technique",
+   "reasons": [
+    "mx_sled_pull_technique: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_pull_base",
+   "reasons": [
+    "mx_sled_pull_base: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_pull_strength_power",
+   "reasons": [
+    "mx_sled_pull_strength_power: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_pull_threshold",
+   "reasons": [
+    "mx_sled_pull_threshold: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_pull_race_specific",
+   "reasons": [
+    "mx_sled_pull_race_specific: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_pull_compromised",
+   "reasons": [
+    "mx_sled_pull_compromised: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_pull_benchmark",
+   "reasons": [
+    "mx_sled_pull_benchmark: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_pull_micro",
+   "reasons": [
+    "mx_sled_pull_micro: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_pull_hybrid_a",
+   "reasons": [
+    "mx_sled_pull_hybrid_a: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_pull_hybrid_b",
+   "reasons": [
+    "mx_sled_pull_hybrid_b: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sled_pull_durability",
+   "reasons": [
+    "mx_sled_pull_durability: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_technique",
+   "reasons": [
+    "mx_burpee_broad_jump_technique: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_base",
+   "reasons": [
+    "mx_burpee_broad_jump_base: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_strength_power",
+   "reasons": [
+    "mx_burpee_broad_jump_strength_power: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_threshold",
+   "reasons": [
+    "mx_burpee_broad_jump_threshold: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_race_specific",
+   "reasons": [
+    "mx_burpee_broad_jump_race_specific: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_compromised",
+   "reasons": [
+    "mx_burpee_broad_jump_compromised: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_benchmark",
+   "reasons": [
+    "mx_burpee_broad_jump_benchmark: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_hybrid_a",
+   "reasons": [
+    "mx_burpee_broad_jump_hybrid_a: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_hybrid_b",
+   "reasons": [
+    "mx_burpee_broad_jump_hybrid_b: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_durability",
+   "reasons": [
+    "mx_burpee_broad_jump_durability: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_rowerg_strength_power",
+   "reasons": [
+    "mx_rowerg_strength_power: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_rowerg_threshold",
+   "reasons": [
+    "mx_rowerg_threshold: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_rowerg_race_specific",
+   "reasons": [
+    "mx_rowerg_race_specific: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_rowerg_compromised",
+   "reasons": [
+    "mx_rowerg_compromised: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_rowerg_benchmark",
+   "reasons": [
+    "mx_rowerg_benchmark: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_rowerg_hybrid_a",
+   "reasons": [
+    "mx_rowerg_hybrid_a: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_rowerg_hybrid_b",
+   "reasons": [
+    "mx_rowerg_hybrid_b: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_rowerg_durability",
+   "reasons": [
+    "mx_rowerg_durability: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_technique",
+   "reasons": [
+    "mx_farmer_carry_technique: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_base",
+   "reasons": [
+    "mx_farmer_carry_base: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_strength_power",
+   "reasons": [
+    "mx_farmer_carry_strength_power: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_threshold",
+   "reasons": [
+    "mx_farmer_carry_threshold: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_race_specific",
+   "reasons": [
+    "mx_farmer_carry_race_specific: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_compromised",
+   "reasons": [
+    "mx_farmer_carry_compromised: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_benchmark",
+   "reasons": [
+    "mx_farmer_carry_benchmark: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_hybrid_a",
+   "reasons": [
+    "mx_farmer_carry_hybrid_a: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_hybrid_b",
+   "reasons": [
+    "mx_farmer_carry_hybrid_b: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_durability",
+   "reasons": [
+    "mx_farmer_carry_durability: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_technique",
+   "reasons": [
+    "mx_sandbag_lunge_technique: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_base",
+   "reasons": [
+    "mx_sandbag_lunge_base: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_strength_power",
+   "reasons": [
+    "mx_sandbag_lunge_strength_power: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_threshold",
+   "reasons": [
+    "mx_sandbag_lunge_threshold: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_race_specific",
+   "reasons": [
+    "mx_sandbag_lunge_race_specific: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_compromised",
+   "reasons": [
+    "mx_sandbag_lunge_compromised: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_benchmark",
+   "reasons": [
+    "mx_sandbag_lunge_benchmark: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_hybrid_a",
+   "reasons": [
+    "mx_sandbag_lunge_hybrid_a: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_hybrid_b",
+   "reasons": [
+    "mx_sandbag_lunge_hybrid_b: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_durability",
+   "reasons": [
+    "mx_sandbag_lunge_durability: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_wall_ball_technique",
+   "reasons": [
+    "mx_wall_ball_technique: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_wall_ball_base",
+   "reasons": [
+    "mx_wall_ball_base: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_wall_ball_strength_power",
+   "reasons": [
+    "mx_wall_ball_strength_power: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_wall_ball_threshold",
+   "reasons": [
+    "mx_wall_ball_threshold: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_wall_ball_race_specific",
+   "reasons": [
+    "mx_wall_ball_race_specific: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_wall_ball_compromised",
+   "reasons": [
+    "mx_wall_ball_compromised: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_wall_ball_benchmark",
+   "reasons": [
+    "mx_wall_ball_benchmark: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_wall_ball_hybrid_a",
+   "reasons": [
+    "mx_wall_ball_hybrid_a: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_wall_ball_hybrid_b",
+   "reasons": [
+    "mx_wall_ball_hybrid_b: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_wall_ball_durability",
+   "reasons": [
+    "mx_wall_ball_durability: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_skierg_micro",
+   "reasons": [
+    "mx_skierg_micro: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_skierg_density",
+   "reasons": [
+    "mx_skierg_density: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_density",
+   "reasons": [
+    "mx_burpee_broad_jump_density: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_rowerg_base",
+   "reasons": [
+    "mx_rowerg_base: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_rowerg_micro",
+   "reasons": [
+    "mx_rowerg_micro: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_rowerg_density",
+   "reasons": [
+    "mx_rowerg_density: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_micro",
+   "reasons": [
+    "mx_sandbag_lunge_micro: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_density",
+   "reasons": [
+    "mx_sandbag_lunge_density: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_wall_ball_micro",
+   "reasons": [
+    "mx_wall_ball_micro: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  },
+  {
+   "id": "mx_wall_ball_density",
+   "reasons": [
+    "mx_wall_ball_density: missing intensity_target — intensityCost() would default it to moderate"
+   ]
+  }
+ ]
+}

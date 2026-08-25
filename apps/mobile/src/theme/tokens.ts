@@ -66,11 +66,19 @@ export const type = {
   /** 16/900, .12em, uppercase — the big "Complete Section" */
   buttonLg: { fontFamily: font.black, fontSize: 16, letterSpacing: 1.92, textTransform: 'uppercase' },
 
-  /** Display numerals — countdown, readiness score, step duration */
-  hero: { fontFamily: font.black, fontSize: 76, lineHeight: 62, letterSpacing: -3.8 },
-  stepQty: { fontFamily: font.black, fontSize: 58, lineHeight: 53, letterSpacing: -2.61 },
-  countdown: { fontFamily: font.black, fontSize: 52, lineHeight: 45, letterSpacing: -2.08 },
-  sessionMins: { fontFamily: font.black, fontSize: 34, lineHeight: 31, letterSpacing: -1.36 },
+  /**
+   * Display numerals — readiness score, step quantity, countdown, duration.
+   *
+   * The mockup sets line-height below font-size for tight stacking. CSS lets
+   * the glyph overflow the line box; RN does not, and clips the top of every
+   * digit. Archivo Black measures ascent 878 + descent 210 per 1000 upem, so
+   * its natural line box is 1.088em — the floor these have to clear, and each
+   * is set to 1.15em. Pair every one with `numeralTrim` at the call site.
+   */
+  hero: { fontFamily: font.black, fontSize: 76, lineHeight: 88, letterSpacing: -3.8 },
+  stepQty: { fontFamily: font.black, fontSize: 58, lineHeight: 67, letterSpacing: -2.61 },
+  countdown: { fontFamily: font.black, fontSize: 52, lineHeight: 60, letterSpacing: -2.08 },
+  sessionMins: { fontFamily: font.black, fontSize: 34, lineHeight: 39, letterSpacing: -1.36 },
 
   /** Headings */
   h1: { fontFamily: font.black, fontSize: 32, lineHeight: 33, letterSpacing: -1.12 },
@@ -85,6 +93,26 @@ export const type = {
   meta: { fontFamily: font.regular, fontSize: 11 },
   rowTitle: { fontFamily: font.bold, fontSize: 14 },
   statValue: { fontFamily: font.black, fontSize: 24, letterSpacing: -0.72 },
+} as const;
+
+/**
+ * Vertical trim for the display numerals above.
+ *
+ * Once `lineHeight` clears the font's own line height, RN re-centres the glyph
+ * with `baseLineOffset = (lineHeight - fontLineHeight) / 2` — see
+ * `RCTAttributedTextUtils.mm`, which returns early and leaves the glyph
+ * bottom-anchored below that threshold. CSS half-leading is the same term, so
+ * pulling half the difference between our line height and the mockup's off
+ * each edge puts the digits back exactly where the mockup drew them, in a box
+ * of the mockup's height. Spread onto the numeral itself:
+ *
+ *   <Text style={[t.hero, numeralTrim.hero]}>{score}</Text>
+ */
+export const numeralTrim = {
+  hero: { marginTop: -13, marginBottom: -13 },          // 88 vs 62
+  stepQty: { marginTop: -7, marginBottom: -7 },         // 67 vs 53
+  countdown: { marginTop: -7.5, marginBottom: -7.5 },   // 60 vs 45
+  sessionMins: { marginTop: -4, marginBottom: -4 },     // 39 vs 31
 } as const;
 
 /** 2px = structural break, 1px = list separator. Never a border-radius. */

@@ -14,6 +14,7 @@ import type { CoachAnswer } from './coachAnswer';
 import {
   INTENT_TITLE, INTENT_UTTERANCE, classify, type CoachIntent, type CoachSignals,
 } from '@/data/coach';
+import { askCoach, type RemoteAnswer } from '@/data/coachRepo';
 
 export interface CoachMessage {
   id: string;
@@ -22,6 +23,12 @@ export interface CoachMessage {
   text?: string;
   intent?: CoachIntent | null;
   signals?: CoachSignals;
+  /**
+   * The server's answer, once it lands. Until then the locally derived one is
+   * on screen — the card is deterministic either way, so what the athlete sees
+   * change is the prose around it.
+   */
+  remote?: RemoteAnswer;
 }
 
 export interface CoachThread {
@@ -79,13 +86,11 @@ interface CoachStore {
 const Ctx = createContext<CoachStore | null>(null);
 
 /**
- * Answers are computed locally and return immediately. The pending state is
- * still real: it stands in for the round trip to the adaptation service, and
- * the copy is neutral rather than a typing indicator, because what the athlete
- * is waiting on is a plan lookup and not a person composing a sentence
- * (brief §8).
+ * The floor on how long the pending state shows. The local answer is ready
+ * immediately; without a floor, a fast fallback would flash "Checking your
+ * plan…" for one frame.
  */
-const LOOKUP_MS = 420;
+const MIN_PENDING_MS = 300;
 
 export function CoachProvider({ children }: { children: React.ReactNode }) {
   const [threads, setThreads] = useState<CoachThread[]>([]);
@@ -98,6 +103,7 @@ export function CoachProvider({ children }: { children: React.ReactNode }) {
   const [whyOpen, setWhyOpen] = useState<Record<string, boolean>>({});
 
   const counter = useRef(0);
+  const remoteThreadId = useRef<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const nextId = useCallback((prefix: string) => `${prefix}_${++counter.current}`, []);
 
@@ -130,8 +136,44 @@ export function CoachProvider({ children }: { children: React.ReactNode }) {
 
     setDraft('');
     setPending(true);
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => setPending(false), LOOKUP_MS);
+
+    /**
+     * The card is already on screen, built from the engine. This asks the
+     * server for the narrative and, when it answers, swaps the prose in and
+     * adopts its reading of the sentence — a model classifier understands
+     * "I'm wrecked and the gym is shut" in ways the local regex does not.
+     * When it does not answer, the local one simply stays.
+     */
+    const started = Date.now();
+    const history = (current?.messages ?? [])
+      .filter(m => m.role === 'athlete' && m.text)
+      .slice(-2)
+      .map(m => ({ role: 'user' as const, content: m.text! }));
+
+    askCoach({ message: utterance, threadId: remoteThreadId.current, history })
+      .then(remote => {
+        if (remote) {
+          remoteThreadId.current = remote.thread_id ?? remoteThreadId.current;
+          setThreads(prev => prev.map(t => ({
+            ...t,
+            messages: t.messages.map(m => m.id === coach.id
+              ? {
+                  ...m,
+                  remote,
+                  intent: remote.intent ?? m.intent,
+                  signals: remote.intent ? { ...m.signals, ...remote.signals } : m.signals,
+                }
+              : m),
+          })));
+        }
+      })
+      .finally(() => {
+        const wait = Math.max(0, MIN_PENDING_MS - (Date.now() - started));
+        if (timer.current) clearTimeout(timer.current);
+        timer.current = setTimeout(() => setPending(false), wait);
+      });
+
+    return coach.id;
   }, [activeId, nextId, threads]);
 
   const ask = useCallback((
@@ -164,7 +206,7 @@ export function CoachProvider({ children }: { children: React.ReactNode }) {
       send,
       ask,
       openThread: id => { setActiveId(id); setPending(false); },
-      goHome: () => { setActiveId(null); setPending(false); },
+      goHome: () => { setActiveId(null); setPending(false); remoteThreadId.current = null; },
       setDraft,
       toggleWhy: id => setWhyOpen(prev => ({ ...prev, [id]: !prev[id] })),
       dismissInsight: () => setInsightDismissed(true),

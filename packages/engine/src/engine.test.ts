@@ -13,7 +13,7 @@ import { recommend, ENGINE_VERSION } from './index.ts';
 import { computeReadiness } from './readiness.ts';
 import {
   effectiveRecovery, hasSevereSymptom, variantMinutes, resolveEquipment,
-  INTENSITY_CEILING,
+  INTENSITY_CEILING, templateIntensity,
 } from './guardrails.ts';
 import { transformBlocks, preservesPrimaryStimulus, blockRole } from './transform.ts';
 import { intensityCost, stimulusUrgency, recoveryFit } from './rank.ts';
@@ -80,21 +80,28 @@ describe('E2E acceptance (PRD §23.3)', () => {
       'compression must preserve the primary stimulus');
   });
 
-  test('low recovery reduces load rather than prescribing threshold work', () => {
-    const full = recommend(baseInput(), EXERCISES);
-    const tired = recommend(baseInput({
+  test('low recovery caps intensity at the ceiling, however urgent the stimulus', () => {
+    const input = baseInput({
       recovery_state: 'poor', energy: 'low', sleep_hours: 4,
       stimulus_requirements: [
         { stimulus_type: 'threshold', target_exposures: 2, completed_exposures: 0, priority: 1 },
       ],
-    }), EXERCISES);
+    });
+    const tired = recommend(input, EXERCISES);
 
     assert.equal(tired.kind, 'session');
-    if (tired.kind !== 'session' || full.kind !== 'session') return;
+    if (tired.kind !== 'session') return;
 
     assert.ok(tired.reason_codes.includes('RECOVERY_LOW'));
-    assert.ok(intensityCost(tired.template) <= intensityCost(full.template) + 0.01,
-      'a depleted athlete must not be handed harder work than a fresh one');
+
+    // The invariant is the ceiling itself, and it is inclusive: `poor` allows
+    // RPE 6, so a session at exactly 0.6 is compliant. Comparing against
+    // whatever a fresh athlete happened to be given instead would make this
+    // depend on library composition rather than on the rule — it passed for a
+    // while only because no eligible RPE 6 template served threshold.
+    const ceiling = INTENSITY_CEILING[effectiveRecovery(input)];
+    assert.ok(templateIntensity(tired.template) <= ceiling,
+      `a depleted athlete must not be given work above the ${ceiling} intensity ceiling`);
   });
 
   test('no SkiErg still yields a session that serves the week', () => {

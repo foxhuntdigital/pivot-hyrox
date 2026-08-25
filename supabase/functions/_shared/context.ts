@@ -144,8 +144,10 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
     db.from('programs')
       .select('id, program_phases(id, phase_type, phase_order, start_date, end_date, weekly_cycles(id, week_index, status, stimulus_requirements(*), session_queue_items(*)))')
       .eq('user_id', userId).eq('status', 'active').maybeSingle(),
+    // Fourteen days of check-ins, not one: the latest drives today's decision,
+    // the run of them backs the recovery detail on Progress.
     db.from('recovery_checkins').select('*').eq('user_id', userId)
-      .order('local_date', { ascending: false }).limit(1).maybeSingle(),
+      .order('local_date', { ascending: false }).limit(14),
     db.from('workout_sessions')
       .select('template_id, started_at, session_rpe, status')
       .eq('user_id', userId).eq('status', 'completed')
@@ -157,7 +159,8 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
 
   const profile = profileRes.data;
   const race = raceRes.data;
-  const checkin = checkinRes.data;
+  const checkins = checkinRes.data ?? [];
+  const checkin = checkins[0] ?? null;
 
   const daysToRace = race
     ? Math.round((Date.parse(race.event_date) - Date.parse(today)) / 86_400_000)
@@ -192,8 +195,10 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
   const available_equipment: string[] =
     (defaultProfile?.equipment_profile_items ?? []).map((i: any) => i.equipment_id);
 
+  const queue = (currentCycle?.session_queue_items ?? []) as { state: string }[];
+
   return {
-    profile, race, daysToRace, currentPhase, currentCycle, checkin,
+    profile, race, daysToRace, currentPhase, currentCycle, checkin, checkins, queue,
     stimulus_requirements, recent_sessions, available_equipment,
   };
 }

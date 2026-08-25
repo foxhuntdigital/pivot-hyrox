@@ -1,0 +1,712 @@
+{
+ "meta": {
+  "source": "followup-sheet.AUTHORED.csv",
+  "intensity_rows": 116,
+  "per_block_rows": 21,
+  "new_exercise_rows": 3,
+  "parked_rows": 1
+ },
+ "intensity_target": {
+  "mx_burpee_broad_jump_base": "RPE 4-5",
+  "mx_burpee_broad_jump_benchmark": "RPE 8-9",
+  "mx_burpee_broad_jump_compromised": "RPE 6-7",
+  "mx_burpee_broad_jump_density": "RPE 6-7",
+  "mx_burpee_broad_jump_durability": "RPE 5-6",
+  "mx_burpee_broad_jump_hybrid_a": "RPE 6",
+  "mx_burpee_broad_jump_hybrid_b": "RPE 6-7",
+  "mx_burpee_broad_jump_micro": "RPE 4-6",
+  "mx_burpee_broad_jump_race_specific": "RPE 6-7",
+  "mx_burpee_broad_jump_strength_power": "RPE 7-8",
+  "mx_burpee_broad_jump_technique": "RPE 3-4",
+  "mx_burpee_broad_jump_threshold": "RPE 7",
+  "mx_farmer_carry_base": "RPE 4-5",
+  "mx_farmer_carry_benchmark": "RPE 8-9",
+  "mx_farmer_carry_compromised": "RPE 6-7",
+  "mx_farmer_carry_density": "RPE 5-6",
+  "mx_farmer_carry_durability": "RPE 5-6",
+  "mx_farmer_carry_hybrid_a": "RPE 6",
+  "mx_farmer_carry_hybrid_b": "RPE 6-7",
+  "mx_farmer_carry_micro": "RPE 5-6",
+  "mx_farmer_carry_race_specific": "RPE 6-7",
+  "mx_farmer_carry_strength_power": "RPE 7-8",
+  "mx_farmer_carry_technique": "RPE 3-4",
+  "mx_farmer_carry_threshold": "RPE 7",
+  "mx_rowerg_base": "RPE 3-4",
+  "mx_rowerg_benchmark": "RPE 8-9",
+  "mx_rowerg_compromised": "RPE 6-7",
+  "mx_rowerg_density": "RPE 6-7",
+  "mx_rowerg_durability": "RPE 5-6",
+  "mx_rowerg_hybrid_a": "RPE 6",
+  "mx_rowerg_hybrid_b": "RPE 6-7",
+  "mx_rowerg_micro": "RPE 4-6",
+  "mx_rowerg_race_specific": "RPE 6-7",
+  "mx_rowerg_strength_power": "RPE 7",
+  "mx_rowerg_technique": "RPE 3-4",
+  "mx_rowerg_threshold": "RPE 7",
+  "mx_sandbag_lunge_base": "RPE 4-5",
+  "mx_sandbag_lunge_benchmark": "RPE 8-9",
+  "mx_sandbag_lunge_compromised": "RPE 6-7",
+  "mx_sandbag_lunge_density": "RPE 6-7",
+  "mx_sandbag_lunge_durability": "RPE 5-6",
+  "mx_sandbag_lunge_hybrid_a": "RPE 6",
+  "mx_sandbag_lunge_hybrid_b": "RPE 6-7",
+  "mx_sandbag_lunge_micro": "RPE 4-6",
+  "mx_sandbag_lunge_race_specific": "RPE 6-7",
+  "mx_sandbag_lunge_strength_power": "RPE 7-8",
+  "mx_sandbag_lunge_technique": "RPE 3-4",
+  "mx_sandbag_lunge_threshold": "RPE 7",
+  "mx_skierg_base": "RPE 5-6",
+  "mx_skierg_benchmark": "RPE 8-9",
+  "mx_skierg_compromised": "RPE 6-7",
+  "mx_skierg_density": "RPE 6-7",
+  "mx_skierg_durability": "RPE 5-6",
+  "mx_skierg_hybrid_a": "RPE 6",
+  "mx_skierg_hybrid_b": "RPE 6-7",
+  "mx_skierg_micro": "RPE 4-6",
+  "mx_skierg_race_specific": "RPE 6-7",
+  "mx_skierg_strength_power": "RPE 7-8",
+  "mx_skierg_technique": "RPE 3-4",
+  "mx_skierg_threshold": "RPE 7",
+  "mx_sled_pull_base": "RPE 4-5",
+  "mx_sled_pull_benchmark": "RPE 8-9",
+  "mx_sled_pull_compromised": "RPE 6-7",
+  "mx_sled_pull_density": "RPE 6-7",
+  "mx_sled_pull_durability": "RPE 5-6",
+  "mx_sled_pull_hybrid_a": "RPE 6",
+  "mx_sled_pull_hybrid_b": "RPE 6-7",
+  "mx_sled_pull_micro": "RPE 4-6",
+  "mx_sled_pull_race_specific": "RPE 6-7",
+  "mx_sled_pull_strength_power": "RPE 7-8",
+  "mx_sled_pull_technique": "RPE 3-4",
+  "mx_sled_pull_threshold": "RPE 7",
+  "mx_sled_push_base": "RPE 4-5",
+  "mx_sled_push_benchmark": "RPE 8-9",
+  "mx_sled_push_compromised": "RPE 6-7",
+  "mx_sled_push_density": "RPE 5-6",
+  "mx_sled_push_durability": "RPE 5-6",
+  "mx_sled_push_hybrid_a": "RPE 6",
+  "mx_sled_push_hybrid_b": "RPE 6-7",
+  "mx_sled_push_micro": "RPE 4-6",
+  "mx_sled_push_race_specific": "RPE 6-7",
+  "mx_sled_push_strength_power": "RPE 7-8",
+  "mx_sled_push_technique": "RPE 3-4",
+  "mx_sled_push_threshold": "RPE 7",
+  "mx_wall_ball_base": "RPE 4-5",
+  "mx_wall_ball_benchmark": "RPE 8-9",
+  "mx_wall_ball_compromised": "RPE 6-7",
+  "mx_wall_ball_density": "RPE 6-7",
+  "mx_wall_ball_durability": "RPE 5-6",
+  "mx_wall_ball_hybrid_a": "RPE 6",
+  "mx_wall_ball_hybrid_b": "RPE 6-7",
+  "mx_wall_ball_micro": "RPE 4-6",
+  "mx_wall_ball_race_specific": "RPE 6-7",
+  "mx_wall_ball_strength_power": "RPE 7-8",
+  "mx_wall_ball_technique": "RPE 3-4",
+  "mx_wall_ball_threshold": "RPE 7",
+  "run_easy_base_03": "RPE 3-4",
+  "run_incline_hills_01": "RPE 5-7",
+  "run_incline_hills_02": "RPE 5-7",
+  "run_low_impact_run_substitute_01": "RPE 5-6",
+  "run_low_impact_run_substitute_02": "RPE 4-5",
+  "run_micro_run_02": "RPE 3-6",
+  "run_short_intervals_01": "RPE 7",
+  "run_short_intervals_02": "RPE 7",
+  "run_taper_sharpen_01": "RPE 3-7",
+  "run_taper_sharpen_02": "RPE 3-7",
+  "run_taper_sharpen_03": "RPE 3-6",
+  "run_technique_mechanics_01": "RPE 3-6",
+  "run_technique_mechanics_03": "RPE 4-6",
+  "run_tempo_01": "RPE 6",
+  "run_tempo_02": "RPE 6",
+  "run_threshold_01": "RPE 7",
+  "run_threshold_02": "RPE 7",
+  "run_threshold_03": "RPE 7",
+  "run_treadmill_control_03": "RPE 3-6"
+ },
+ "per_block": {
+  "mx_rowerg_technique": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 1,
+     "items": [
+      {
+       "exercise": "RowErg",
+       "quantity": 3,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "20 spm"
+      },
+      {
+       "exercise": "RowErg",
+       "quantity": 3,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "22 spm"
+      },
+      {
+       "exercise": "RowErg",
+       "quantity": 3,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "24 spm"
+      },
+      {
+       "exercise": "RowErg",
+       "quantity": 3,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "22 spm"
+      }
+     ]
+    },
+    {
+     "block": "b2",
+     "rounds": 1,
+     "items": [
+      {
+       "exercise": "RowErg",
+       "quantity": 10,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "steady"
+      }
+     ]
+    }
+   ],
+   "estimated_minutes": 22
+  },
+  "run_easy_base_03": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 1
+    },
+    {
+     "block": "b2",
+     "rounds": 6,
+     "rest_seconds": 60
+    },
+    {
+     "block": "b3",
+     "rounds": 1
+    }
+   ]
+  },
+  "run_incline_hills_01": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 1
+    },
+    {
+     "block": "b2",
+     "rounds": 8,
+     "rest_seconds": 90,
+     "recovery": "easy flat"
+    },
+    {
+     "block": "b3",
+     "rounds": 1
+    }
+   ]
+  },
+  "run_incline_hills_02": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 1
+    },
+    {
+     "block": "b2",
+     "rounds": 10,
+     "rest_seconds": 90,
+     "recovery": "easy return"
+    },
+    {
+     "block": "b3",
+     "rounds": 1
+    }
+   ]
+  },
+  "run_low_impact_run_substitute_01": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 1,
+     "items": [
+      {
+       "exercise": "Spin Bike",
+       "quantity": 10,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "easy"
+      }
+     ]
+    },
+    {
+     "block": "b2",
+     "rounds": 5,
+     "items": [
+      {
+       "exercise": "Spin Bike",
+       "quantity": 4,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "steady-hard"
+      },
+      {
+       "exercise": "Spin Bike",
+       "quantity": 2,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "easy"
+      }
+     ]
+    }
+   ]
+  },
+  "run_low_impact_run_substitute_02": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 6,
+     "note": "Surges evenly spaced within the 30 min total.",
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "quantity": 1,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "moderate surge"
+      },
+      {
+       "exercise": "SkiErg",
+       "quantity": 4,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "steady aerobic"
+      }
+     ]
+    }
+   ]
+  },
+  "run_micro_run_02": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 1
+    },
+    {
+     "block": "b2",
+     "rounds": 5,
+     "rest_seconds": 60,
+     "recovery": "easy run"
+    },
+    {
+     "block": "b3",
+     "rounds": 1
+    }
+   ]
+  },
+  "run_short_intervals_01": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 12,
+     "rest_seconds": 60,
+     "recovery": "easy",
+     "items": [
+      {
+       "exercise": "Run",
+       "quantity": 400,
+       "unit": "m",
+       "prescription_type": "distance",
+       "intensity": "strong controlled"
+      }
+     ]
+    }
+   ]
+  },
+  "run_short_intervals_02": {
+   "blocks": [
+    {
+     "block": "b1",
+     "items": [
+      {
+       "exercise": "Run",
+       "quantity": 10,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "easy warm-up"
+      }
+     ]
+    },
+    {
+     "block": "b2",
+     "rounds": 10,
+     "rest_seconds": 60,
+     "recovery": "1 min easy",
+     "items": [
+      {
+       "exercise": "Run",
+       "quantity": 1,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "fast"
+      }
+     ]
+    },
+    {
+     "block": "b3",
+     "items": [
+      {
+       "exercise": "Run",
+       "quantity": 5,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "easy cooldown"
+      }
+     ]
+    }
+   ]
+  },
+  "run_taper_sharpen_01": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 1
+    },
+    {
+     "block": "b2",
+     "rounds": 4,
+     "rest_seconds": 120,
+     "recovery": "easy"
+    },
+    {
+     "block": "b3",
+     "rounds": 1
+    }
+   ]
+  },
+  "run_taper_sharpen_02": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 1
+    },
+    {
+     "block": "b2",
+     "rounds": 3,
+     "rest_seconds": 180,
+     "recovery": "easy"
+    },
+    {
+     "block": "b3",
+     "rounds": 1
+    }
+   ]
+  },
+  "run_taper_sharpen_03": {
+   "blocks": [
+    {
+     "block": "b1",
+     "items": [
+      {
+       "exercise": "Run",
+       "quantity": 10,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "easy"
+      }
+     ]
+    },
+    {
+     "block": "b2",
+     "rounds": 4,
+     "items": [
+      {
+       "exercise": "Run",
+       "quantity": 20,
+       "unit": "sec",
+       "prescription_type": "duration",
+       "intensity": "relaxed stride"
+      }
+     ]
+    },
+    {
+     "block": "b3",
+     "rounds": 2,
+     "items": [
+      {
+       "exercise": "Run",
+       "quantity": 1,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "race pace"
+      }
+     ]
+    },
+    {
+     "block": "b4",
+     "items": [
+      {
+       "exercise": "Run",
+       "quantity": 7,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "easy finish"
+      }
+     ]
+    }
+   ]
+  },
+  "run_technique_mechanics_01": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 1
+    },
+    {
+     "block": "b2",
+     "rounds": 1
+    },
+    {
+     "block": "b3",
+     "rounds": 6,
+     "rest_seconds": 60,
+     "recovery": "walk-jog"
+    },
+    {
+     "block": "b4",
+     "rounds": 1
+    }
+   ]
+  },
+  "run_technique_mechanics_03": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 3,
+     "rest_seconds": 90,
+     "recovery": "walk between rounds",
+     "items": [
+      {
+       "exercise": "Run",
+       "quantity": 6,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "easy-moderate"
+      },
+      {
+       "exercise": "Run",
+       "quantity": 20,
+       "unit": "sec",
+       "prescription_type": "duration",
+       "intensity": "relaxed stride"
+      },
+      {
+       "exercise": "Run",
+       "quantity": 20,
+       "unit": "sec",
+       "prescription_type": "duration",
+       "intensity": "relaxed stride"
+      },
+      {
+       "exercise": "Run",
+       "quantity": 20,
+       "unit": "sec",
+       "prescription_type": "duration",
+       "intensity": "relaxed stride"
+      },
+      {
+       "exercise": "Run",
+       "quantity": 20,
+       "unit": "sec",
+       "prescription_type": "duration",
+       "intensity": "relaxed stride"
+      }
+     ]
+    }
+   ]
+  },
+  "run_tempo_01": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 1
+    },
+    {
+     "block": "b2",
+     "rounds": 3,
+     "rest_seconds": 120,
+     "recovery": "easy"
+    },
+    {
+     "block": "b3",
+     "rounds": 1
+    }
+   ]
+  },
+  "run_tempo_02": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 1
+    },
+    {
+     "block": "b2",
+     "rounds": 2,
+     "rest_seconds": 180,
+     "recovery": "easy"
+    },
+    {
+     "block": "b3",
+     "rounds": 1
+    }
+   ]
+  },
+  "run_threshold_01": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 1
+    },
+    {
+     "block": "b2",
+     "rounds": 5,
+     "rest_seconds": 120,
+     "recovery": "easy"
+    },
+    {
+     "block": "b3",
+     "rounds": 1
+    }
+   ]
+  },
+  "run_threshold_02": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 1
+    },
+    {
+     "block": "b2",
+     "rounds": 4,
+     "rest_seconds": 120,
+     "recovery": "easy"
+    },
+    {
+     "block": "b3",
+     "rounds": 1
+    }
+   ]
+  },
+  "run_threshold_03": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 1
+    },
+    {
+     "block": "b2",
+     "rounds": 3,
+     "rest_seconds": 180,
+     "recovery": "easy"
+    },
+    {
+     "block": "b3",
+     "rounds": 1
+    }
+   ]
+  },
+  "run_treadmill_control_03": {
+   "blocks": [
+    {
+     "block": "b1",
+     "rounds": 6,
+     "items": [
+      {
+       "exercise": "Run",
+       "quantity": 3,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "flat steady"
+      },
+      {
+       "exercise": "Run",
+       "quantity": 2,
+       "unit": "min",
+       "prescription_type": "duration",
+       "intensity": "2-3% incline"
+      }
+     ]
+    },
+    {
+     "block": "b2",
+     "rounds": 1
+    }
+   ]
+  }
+ },
+ "new_exercises": {
+  "mx_burpee_broad_jump_micro": {
+   "decision": "do_not_create",
+   "replacement": "Run",
+   "definition": "Use existing Run; intensity 'easy run/walk', walking permitted within the 200 m."
+  },
+  "mx_sled_pull_density": {
+   "decision": "create",
+   "exercise": {
+    "name": "TRX Row",
+    "canonical_name": "trx_row",
+    "modality": "strength",
+    "movement_pattern": "horizontal_pull",
+    "equipment": [
+     "TRX"
+    ],
+    "default_unit": "reps",
+    "impact_level": "low",
+    "notes": "Suspension-trainer body row. Rigid plank, pull chest toward handles."
+   }
+  },
+  "run_technique_mechanics_01": {
+   "decision": "create",
+   "exercise": {
+    "name": "Running Drills",
+    "canonical_name": "running_drills",
+    "modality": "run_skill",
+    "movement_pattern": "locomotion_skill",
+    "equipment": [
+     "none"
+    ],
+    "default_unit": "min",
+    "impact_level": "low",
+    "notes": "Dynamic running drills: marching, A-skips, ankling, controlled progressions."
+   }
+  }
+ },
+ "parked": {
+  "run_1k_repeats_03": {
+   "blocked_on": "per_rep_rest_schedule",
+   "authored": {
+    "blocks": [
+     {
+      "block": "b1",
+      "rounds": 5,
+      "rest_seconds_by_rep": [
+       120,
+       105,
+       90,
+       75
+      ],
+      "note": "5 x 1000 m same target pace; recoveries after reps 1-4."
+     }
+    ]
+   },
+   "source_prescription": "5x1K same target pace; recovery 2:00/1:45/1:30/1:15",
+   "note": "Flattening 120/105/90/75 to a single 105s preserves average workload but loses the progression stimulus, which is the point of the session. Revisit when several workouts need a rest schedule.",
+   "future_schema": "Keep rest_seconds?: number and add rest_schedule_seconds?: number[] alongside it, with an invariant that only one is populated \u2014 rather than making the existing simple field polymorphic. Compression logic would need to say how a schedule scales."
+  }
+ }
+}

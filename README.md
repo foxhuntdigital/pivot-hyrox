@@ -43,6 +43,13 @@ npm run mobile            # Expo dev server
 throwaway database, stubs the Supabase `auth` schema, applies every migration
 and the seed, then reports row counts and integrity checks.
 
+`npm install` runs `scripts/patch-native-deps.mjs`, which re-applies local
+fixes to native dependencies — currently one, dropping two redundant
+`SWIFT_RETURNS_RETAINED` annotations from `expo-modules-jsi` that Swift 6.3
+rejects and that stop `expo run:ios` compiling at all. The patch is matched on
+content: if upstream fixes the file the script says so and leaves it alone, so
+the entry can be deleted rather than quietly rotting.
+
 ### iOS simulator
 
 ```bash
@@ -58,6 +65,12 @@ machine's LAN address and leaves `simctl openurl` to time out behind a hotspot
 or a changing network.
 
 Open the project with `xcrun simctl openurl <device-udid> exp://127.0.0.1:8081`.
+
+If `expo run:ios` reports no matching destination, check
+`xcodebuild -showdestinations`: an Xcode update can leave the iOS simulator
+platform uninstalled, and none of the booted devices are then eligible even
+though `simctl` still lists them. `xcodebuild -downloadPlatform iOS` restores
+it (~8.5 GB).
 
 ## The engine
 
@@ -88,8 +101,8 @@ Ranking is stable regardless of input ordering, and every decision carries
 
 The supplied SQLite seed is converted to Postgres by `scripts/convert-seed.mjs`,
 which parses each row rather than hand-editing 534 INSERTs. Integer flags become
-booleans (263 conversions). Verified counts: 44 exercises, 59 templates, 177
-variants, 157 block exercises, 24 equipment, 9 substitutions, 7 progression
+booleans (263 conversions). Verified counts: 44 exercises, 90 templates, 270
+variants, 240 block exercises, 24 equipment, 9 substitutions, 7 progression
 rules, 32 station programming rules.
 
 Training goals are a **two-level taxonomy**. The planner only ever asks for five
@@ -117,15 +130,29 @@ station matrix and running expansion that are fit to publish.
 
 ### Content packs
 
+The generated seed **upserts** (`on conflict ... do update`), so applying it to a
+database that already holds an earlier version of the library brings it exactly
+into line rather than leaving stale rows behind — a template that gained a
+`stimulus`, or whose `primary_goal` was normalised, is corrected in place. Join
+tables, which are all key and have nothing to update, keep `do nothing`. Apply
+it to the linked project with:
+
+```bash
+supabase db query --linked -f supabase/seed/01_content.sql
+```
+
 A pack is JSON in `data/`, merged into the dump by `scripts/import-workouts.mjs`
 (`npm run seed:import`). Re-running an import replaces that pack's rows rather
 than duplicating them, and removes anything dropped from the pack — provenance
 is the pack label on `workout_variants.notes`.
 
 **Every prescribed quantity must carry an explicit `prescription_type` and
-`unit`.** This is enforced twice: the importer refuses a pack that omits either,
-and Postgres refuses the row (`prescription_type` is `NOT NULL` with a `CHECK`,
-`quantity_unit` is `NOT NULL`). The rule exists because prose prescriptions are
+`unit`, and every workout an explicit `intensity_target`.** The first is
+enforced twice: the importer refuses the row, and Postgres refuses it
+(`prescription_type` is `NOT NULL` with a `CHECK`, `quantity_unit` is `NOT
+NULL`). The second is an importer rule — `intensityCost()` falls back to 0.5
+when a target is missing, so an unstated RPE 7 session reads as moderate and the
+recovery guardrail hands it to a depleted athlete. The rule exists because prose prescriptions are
 underspecified — `m` is overloaded between metres and minutes, and for runs and
 ergs no semantic discriminator survives once magnitude is the deciding factor.
 Rather than let a parser's guess become production content, prose packs go
@@ -176,6 +203,103 @@ authority. Nothing in a Coach answer is written prose about training:
 Because answers are derived rather than stored, reopening a thread re-asks the
 engine: a conversation can never assert a plan the athlete no longer has.
 
+### The LLM layer
+
+`@pivot/coach` is the bounded orchestration layer from PRD §13 and the PIVOT LLM
+package. Two calls per message — a **Haiku 4.5** classifier that turns the
+sentence into structured signals, and an **Opus 5** composer that writes the
+reply from what the engine returned:
+
+```
+message → classify (structured output, ~350-token cached prefix)
+        → route to deterministic tools (packages/coach/src/tools.ts)
+        → compose (structured output, ~2,000-token cached prefix)
+        → proposed action, built by code from engine output
+```
+
+| Piece | Where |
+| --- | --- |
+| Prompts + schemas (source of truth) | `packages/coach/prompts/*` |
+| Generated prompt module | `npm run coach:prompts` → `src/generated.ts` |
+| Orchestration, runtime-agnostic | `packages/coach/src/turn.ts`, `tools.ts` |
+| Endpoint | `supabase/functions/coach/` |
+| Release gate | `npm run coach:evals` |
+
+The orchestration is deliberately runtime-agnostic — the Edge Function and the
+eval runner drive the identical code, so a case that passes in CI is the code
+path that serves athletes.
+
+Three things are enforced in code rather than asked for in the prompt, because a
+prompt is a request and these are guarantees:
+
+- **The model cannot mutate training.** A turn returns a *proposed* action built
+  by `tools.ts` from engine output. The model never emits one, so a model that
+  decides to rewrite the week cannot express it.
+- **`requires_confirmation` comes from the confirmation policy**, not from the
+  response. Weekly changes carry it whatever the prose says.
+- **Symptom reports are typed `safety` and stripped of any action**, whatever
+  the model returned. Covered by `coach.test.ts`, which runs without a key.
+
+Cost, **measured over a full eval pass** rather than estimated —
+`npm run coach:evals -- --full` prints this per run:
+
+| Model | Calls | Input | Cached read | Output | Cost |
+| --- | --- | --- | --- | --- | --- |
+| `claude-haiku-4-5` (classifier) | 10 | 13,698 | 0 | 575 | $0.0166 |
+| `claude-opus-5` (composer) | 10 | 9,713 | 33,270 | 5,291 | $0.1975 |
+
+**$0.0214 per message → $214/month per 1,000 monthly actives** at 10 messages
+each. Two things the measurement corrected against the estimate:
+
+- **Output length dominates.** The composer averages 529 output tokens, not the
+  320 modelled — 62% of the bill. `coach.communication.v1.md` asks for "2–5
+  short paragraphs"; tightening that is the single biggest lever, and it is a
+  voice decision rather than an engineering one.
+- **The classifier prefix never caches.** At ~349 tokens it is under the
+  ~1,024-token minimum, so `cached read` is 0 for Haiku and always will be.
+  It costs $0.0017 a message, so padding the prompt to reach the threshold would
+  be worse than leaving it.
+
+The composer prefix does cache — 33,270 cached reads against 9,713 fresh input
+in that run, and it stays warm across athletes because the prefix is identical
+for all of them. Trimming engine objects before the model sees them
+(`trimDecision`) keeps the fresh half small; both are tested for.
+
+Coach degrades rather than fails. With no key, no network, or past the monthly
+per-athlete cap, `coachRepo` returns null and the local deterministic answers
+stand — which is the fallback the orchestration spec asks for, and what the app
+did before the LLM existed.
+
+**Running it**
+
+```bash
+npm run coach:evals -- --dry             # routing + checks, no API calls
+npm run coach:evals                      # + the real classifier (~$0.02)
+npm run coach:evals -- --repeat 3        # classification stability — use this in CI
+npm run coach:evals -- --full            # + the composer (~$0.21)
+npm run functions:check                  # deno check — the edge runtime's own typecheck
+supabase secrets set ANTHROPIC_API_KEY=… # for the deployed function
+```
+
+The key lives in the repo-root `.env` (gitignored), which `coach:evals` loads
+itself. Not `apps/mobile/.env` — Metro compiles that one into the app bundle.
+
+**Classification is not deterministic.** A single pass showed one case failing
+that eighty subsequent calls did not reproduce. `--repeat N` runs each case N
+times and fails a case whose intent is unstable across them, which is the only
+honest way to read a green run: one pass proves a case *can* pass.
+
+`npm test` deliberately excludes `functions:check` so the suite runs without Deno
+installed. CI should run both — Node's tests cover `_shared` and the packages,
+but the edge functions run on Deno, and only `deno check` sees their import
+paths and runtime APIs.
+
+One deliberate deviation from `coach-context.schema.json`: `athlete.flags` does
+not carry return-to-training considerations. They are marked SENSITIVE in the
+schema and constrain the engine server-side; Coach sees their *effect* as an
+`IMPACT_REDUCTION` reason code instead of the labels. Revisit behind an explicit
+permission.
+
 Two consequences worth knowing when reading the code:
 
 - **Adaptations prefer today's own session.** Coach asks the engine for a smaller
@@ -193,9 +317,12 @@ Two consequences worth knowing when reading the code:
 
 Deliberate omissions, not oversights:
 
-- **Coach threads are not persisted.** The tab is built (see below) but a thread
-  lives for the session; `coach_threads` / `coach_messages` (with held
-  `proposed_action`) are in the schema and not yet written to.
+- **Comparable-session trends have no source.** `get_performance_trends` returns
+  null server-side because split-level history is not captured yet, so Coach
+  says it lacks the data rather than estimating from session RPE. The trend card
+  on the client still renders from the seeded set.
+- **Coach responses are not streamed.** The reply arrives whole (~2–4s). The
+  card renders immediately from the engine, so the wait is on prose only.
 - **Onboarding (D02–D08) is not built.** Email/password auth is (D01): sign-in,
   sign-up, session persistence, route gating and log out, with `0004` provisioning
   `users` + `athlete_profiles` on signup. What is missing is the guided setup that

@@ -14,7 +14,7 @@ import { useKeepAwake } from 'expo-keep-awake';
 import * as Haptics from 'expo-haptics';
 
 import { VARIANT_LABEL } from '@pivot/engine';
-import { color, type as t, space } from '@/theme/tokens';
+import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { ActionButton, Label } from '@/components/primitives';
 import { useApp } from '@/state/store';
 import { mmss } from '@/state/steps';
@@ -104,7 +104,9 @@ export default function ActiveScreen() {
 
       <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: space.gutter }}>
         <Text style={[t.eyebrow, { color: color.salmon }]}>{step.kind}</Text>
-        <Text style={[t.stepQty, { color: color.onDark, marginTop: 8 }]}>{step.qty}</Text>
+        <Text style={[t.stepQty, numeralTrim.stepQty, { color: color.onDark, marginTop: 1 }]}>
+          {step.qty}
+        </Text>
         <Text style={[t.h2, { fontSize: 26, color: color.onDarkSoft }]}>{step.label}</Text>
 
         <View style={{ height: 2, backgroundColor: color.ruleDark2, marginTop: 22 }} />

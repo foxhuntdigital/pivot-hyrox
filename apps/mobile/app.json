@@ -1,26 +1,42 @@
 {
   "expo": {
-    "name": "Adaptive Athlete",
+    "name": "PIVOT",
     "slug": "pivot",
     "scheme": "pivot",
     "version": "0.1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
+    "icon": "./assets/icon.png",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.adaptiveathlete.pivot",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
-      }
+      },
+      "icon": "./assets/icon.png"
     },
     "android": {
       "package": "com.adaptiveathlete.pivot",
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png",
+        "backgroundColor": "#1F2226"
+      }
     },
     "plugins": [
       "expo-router",
-      "expo-font"
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#f3f2f2",
+          "image": "./assets/splash-blank.png",
+          "imageWidth": 1
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
@@ -30,6 +46,9 @@
       "eas": {
         "projectId": "15177b35-c97f-4a05-9006-f34a83a0b0a8"
       }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
     }
   }
 }

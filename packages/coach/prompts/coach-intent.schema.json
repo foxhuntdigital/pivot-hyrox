@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PIVOT Coach Intent",
+  "type": "object",
+  "required": [
+    "intent",
+    "confidence"
+  ],
+  "properties": {
+    "intent": {
+      "enum": [
+        "explain_today",
+        "adapt_today",
+        "request_workout",
+        "ask_progress",
+        "ask_readiness",
+        "ask_plan",
+        "request_plan_change",
+        "equipment_change",
+        "report_recovery",
+        "report_pain_or_symptom",
+        "race_strategy",
+        "general_training_question",
+        "other"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "entities": {
+      "type": "object",
+      "properties": {
+        "available_time_minutes": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "reported_recovery": {
+          "enum": [
+            "poor",
+            "okay",
+            "good",
+            null
+          ]
+        },
+        "energy": {
+          "enum": [
+            "low",
+            "normal",
+            "high",
+            null
+          ]
+        },
+        "low_impact": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "equipment_unavailable": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "equipment_available": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "body_area": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "symptom_severity": {
+          "enum": [
+            "mild",
+            "moderate",
+            "severe",
+            null
+          ]
+        },
+        "requested_modality": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requested_station": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "needs_clarification": {
+      "type": "boolean"
+    },
+    "clarifying_question": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

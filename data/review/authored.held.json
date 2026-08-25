@@ -1,0 +1,140 @@
+{
+ "meta": {
+  "held": 22
+ },
+ "held": [
+  {
+   "id": "mx_burpee_broad_jump_micro",
+   "reasons": [
+    "no exercise named \"Run/Walk\" in the library"
+   ]
+  },
+  {
+   "id": "run_technique_mechanics_01",
+   "reasons": [
+    "no exercise named \"Run Drill\" in the library",
+    "b3 intensity \"relaxed stride x6 with 60sec walk-jog recovery\" still carries structure the sheet has no field for"
+   ]
+  },
+  {
+   "id": "run_easy_base_03",
+   "reasons": [
+    "b2 intensity \"stride x6 with 60sec easy recovery\" still carries structure the sheet has no field for"
+   ]
+  },
+  {
+   "id": "run_tempo_01",
+   "reasons": [
+    "b2 intensity \"tempo x3 with 120sec easy recovery\" still carries structure the sheet has no field for"
+   ]
+  },
+  {
+   "id": "run_tempo_02",
+   "reasons": [
+    "b2 intensity \"tempo x2 with 180sec easy recovery\" still carries structure the sheet has no field for"
+   ]
+  },
+  {
+   "id": "run_threshold_01",
+   "reasons": [
+    "b2 intensity \"threshold x5 with 120sec easy recovery\" still carries structure the sheet has no field for"
+   ]
+  },
+  {
+   "id": "run_threshold_02",
+   "reasons": [
+    "b2 intensity \"threshold x4 with 120sec easy recovery\" still carries structure the sheet has no field for"
+   ]
+  },
+  {
+   "id": "run_threshold_03",
+   "reasons": [
+    "b2 intensity \"threshold x3 with 180sec easy recovery\" still carries structure the sheet has no field for"
+   ]
+  },
+  {
+   "id": "run_1k_repeats_03",
+   "reasons": [
+    "b1 intensity \"same target pace x5 with recoveries 120/105/90/75 sec\" still carries structure the sheet has no field for"
+   ]
+  },
+  {
+   "id": "run_incline_hills_01",
+   "reasons": [
+    "b2 intensity \"3-5% incline x8 with 90sec flat easy recovery\" still carries structure the sheet has no field for"
+   ]
+  },
+  {
+   "id": "run_incline_hills_02",
+   "reasons": [
+    "b2 intensity \"uphill strong x10 with 90sec easy return\" still carries structure the sheet has no field for"
+   ]
+  },
+  {
+   "id": "run_treadmill_control_03",
+   "reasons": [
+    "b1 intensity \"2-3% incline repeat x6\" still carries structure the sheet has no field for"
+   ]
+  },
+  {
+   "id": "run_micro_run_02",
+   "reasons": [
+    "b2 intensity \"moderate x5 with 60sec easy recovery\" still carries structure the sheet has no field for"
+   ]
+  },
+  {
+   "id": "run_taper_sharpen_01",
+   "reasons": [
+    "b2 intensity \"crisp race feel x4 with 120sec easy recovery\" still carries structure the sheet has no field for"
+   ]
+  },
+  {
+   "id": "run_taper_sharpen_02",
+   "reasons": [
+    "b2 intensity \"planned HYROX pace x3 with 180sec easy recovery\" still carries structure the sheet has no field for"
+   ]
+  },
+  {
+   "id": "mx_rowerg_technique",
+   "reasons": [
+    "review rejected — correction is prose, needs authoring"
+   ]
+  },
+  {
+   "id": "run_technique_mechanics_03",
+   "reasons": [
+    "review rejected — correction is prose, needs authoring"
+   ]
+  },
+  {
+   "id": "run_short_intervals_01",
+   "reasons": [
+    "review rejected — correction is prose, needs authoring"
+   ]
+  },
+  {
+   "id": "run_short_intervals_02",
+   "reasons": [
+    "review rejected — correction is prose, needs authoring"
+   ]
+  },
+  {
+   "id": "run_low_impact_run_substitute_01",
+   "reasons": [
+    "review rejected — correction is prose, needs authoring"
+   ]
+  },
+  {
+   "id": "run_low_impact_run_substitute_02",
+   "reasons": [
+    "review rejected — correction is prose, needs authoring"
+   ]
+  },
+  {
+   "id": "run_taper_sharpen_03",
+   "reasons": [
+    "review rejected — correction is prose, needs authoring"
+   ]
+  }
+ ]
+}

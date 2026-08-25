@@ -12,7 +12,7 @@ import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 
 import { VARIANT_LABEL } from '@pivot/engine';
-import { color, type as t, space } from '@/theme/tokens';
+import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, InkPanel } from '@/components/primitives';
 import { AdaptSheet } from '@/components/AdaptSheet';
 import { useApp } from '@/state/store';
@@ -103,7 +103,11 @@ export default function TodayScreen() {
             </Text>
           </View>
           <View style={{ alignItems: 'flex-end' }}>
-            <Text style={[t.countdown, { color: color.ink }]}>{RACE.days_remaining}</Text>
+            {/* paddingRight offsets the trailing negative letter-spacing, which
+                RN subtracts from the measured width and clips the last digit. */}
+            <Text style={[t.countdown, numeralTrim.countdown, { color: color.ink, paddingRight: 3 }]}>
+              {RACE.days_remaining}
+            </Text>
             <Label>Days</Label>
           </View>
         </View>
@@ -177,7 +181,7 @@ export default function TodayScreen() {
                   width: 92, borderLeftWidth: 1, borderLeftColor: color.rule,
                   justifyContent: 'center', paddingLeft: 14,
                 }}>
-                  <Text style={[t.sessionMins, { color: color.ink }]}>
+                  <Text style={[t.sessionMins, numeralTrim.sessionMins, { color: color.ink }]}>
                     {session.estimated_minutes}
                   </Text>
                   <Label size="sm" style={{ letterSpacing: 1.26 }}>Min</Label>

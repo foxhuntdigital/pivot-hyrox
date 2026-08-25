@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PIVOT Coach Response",
+  "type": "object",
+  "required": [
+    "message",
+    "response_type"
+  ],
+  "properties": {
+    "response_type": {
+      "enum": [
+        "answer",
+        "explanation",
+        "adaptation",
+        "trend",
+        "plan_change_proposal",
+        "clarification",
+        "safety"
+      ]
+    },
+    "message": {
+      "type": "string"
+    },
+    "confidence": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "label",
+          "value"
+        ],
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "context": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "action": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false
+    },
+    "requires_confirmation": {
+      "type": "boolean"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -22,6 +22,13 @@ export interface TodayPayload {
     confidence: string;
     components: Record<string, number>;
     model_version: string;
+    /**
+     * Supporting stats per component, computed from the athlete's own history.
+     * A component is absent, or carries an empty list, when there is nothing
+     * measured behind it yet — the screen shows no chips rather than invented
+     * ones.
+     */
+    metric_detail?: Record<string, { stats: { k: string; v: string }[] }>;
   };
   recommendation: (Recommendation & { variant_label: string }) | null;
   no_session: Omit<NoSessionResult, 'kind'> | null;

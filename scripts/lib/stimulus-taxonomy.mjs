@@ -36,6 +36,10 @@ const DIRECT = {
   repeated_submax_durability: ['aerobic_durability', 'proposed'],
   return_to_run:              ['aerobic_durability', 'proposed'],
   skill_economy:              ['aerobic_durability', 'proposed'],
+  // Pace discipline and economy are aerobic development. A session that really
+  // rehearses race pace should carry hyrox_race_pacing as its stimulus rather
+  // than leaning on this one.
+  pace_control:               ['aerobic_durability', 'specified'],
 
   // → threshold
   tempo_endurance:            ['threshold', 'specified'],
@@ -60,13 +64,12 @@ const DIRECT = {
   sled_efficiency:            ['race_specific', 'specified'],
   race_specific:              ['race_specific', 'identity'],
   race_pace:                  ['race_specific', 'specified'],
-  hyrox_race_pacing:          ['race_specific', 'proposed'],
+  hyrox_race_pacing:          ['race_specific', 'specified'],
   hyrox_maintenance:          ['race_specific', 'specified'],
   hyrox_capacity:             ['race_specific', 'proposed'],
   race_sharpening:            ['race_specific', 'proposed'],
-  pace_control:               ['race_specific', 'proposed'],
   repeatable_test:            ['race_specific', 'proposed'],
-  run_benchmark:              ['race_specific', 'proposed'],
+  run_benchmark:              ['race_specific', 'specified'],
   work_density:               ['race_specific', 'specified'],
   complementary_hybrid:       ['race_specific', 'proposed'],
   run_station_hybrid:         ['race_specific', 'proposed'],

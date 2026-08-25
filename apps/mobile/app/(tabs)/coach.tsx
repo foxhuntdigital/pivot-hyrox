@@ -300,9 +300,13 @@ export default function CoachScreen() {
               // An open answer tracks the engine; an applied one shows what was
               // applied, which is the frozen copy on the commitment.
               const answer = committed?.answer ?? live;
+              // The card is the engine's; the prose is the model's once it
+              // lands. Until then — and whenever Coach is offline, unconfigured
+              // or over its cap — the locally derived narrative stands in.
+              const narrative = message.remote?.text ?? answer.text;
               return (
                 <Rise key={message.id}>
-                  <CoachNarrative text={answer.text} chips={answer.chips} />
+                  <CoachNarrative text={narrative} chips={answer.chips} />
                   {answer.card ? <StructuredCard card={answer.card} /> : null}
                   {answer.why && !committed ? (
                     <WhyDrawer

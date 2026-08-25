@@ -10,7 +10,7 @@ import { View, Text, ScrollView, Modal, Pressable } from 'react-native';
 import * as Haptics from 'expo-haptics';
 
 import { VARIANT_LABEL, variantMinutes, type VariantCode } from '@pivot/engine';
-import { color, type as t, space } from '@/theme/tokens';
+import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, Chip } from '@/components/primitives';
 import { useApp } from '@/state/store';
 import { exerciseById } from '@/data/content';
@@ -146,7 +146,7 @@ export function AdaptSheet({ visible, onClose }: { visible: boolean; onClose: ()
                     width: 88, borderLeftWidth: 1, borderLeftColor: color.tintBorder,
                     backgroundColor: color.tint, justifyContent: 'center', paddingLeft: 14,
                   }}>
-                    <Text style={[t.sessionMins, { fontSize: 32, color: color.redDark }]}>
+                    <Text style={[t.sessionMins, numeralTrim.sessionMins, { fontSize: 32, color: color.redDark }]}>
                       {decision.estimated_minutes}
                     </Text>
                     <Label tone="redDark" size="sm" style={{ letterSpacing: 1.26 }}>Min</Label>

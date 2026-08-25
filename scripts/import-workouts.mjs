@@ -23,6 +23,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { basename } from 'node:path';
+import { resolveGoal } from './lib/stimulus-taxonomy.mjs';
 
 const SRC = new URL('../data/adaptive_athlete_schema_and_seed.sql', import.meta.url);
 const packPaths = process.argv.slice(2).filter(a => !a.startsWith('-'));
@@ -77,15 +78,22 @@ for (const m of sql.matchAll(/INSERT INTO "block_exercises" VALUES\(([\s\S]*?)\)
 }
 
 /**
- * What a session actually prescribes, independent of its id, name or wording:
- * per block, the round/duration shape and the sorted movement prescriptions.
+ * What a session actually prescribes, independent of its id, name or wording.
+ *
+ * Intensity and rest are part of it, not decoration: "8 x 40m @ 110-130%" is a
+ * strength-power carry and "8 x 40m @ 50-60%" is a technique drill. They share
+ * a rep scheme and nothing else, and a signature that ignored the load called
+ * them the same workout.
  */
+const effort = note => String(note ?? '')
+  .toLowerCase().replace(/[^a-z0-9%.-]+/g, ' ').trim();
+
 function signature(blocks) {
   return blocks.map(b => {
     const items = b.items
-      .map(i => `${i.exercise_id}:${i.prescription_type}:${i.quantity}${i.unit}`)
+      .map(i => `${i.exercise_id}:${i.prescription_type}:${i.quantity}${i.unit}@${effort(i.intensity ?? i.intensity_note)}`)
       .sort().join('|');
-    return `${b.rounds ?? '-'}r/${b.duration_minutes ?? '-'}m[${items}]`;
+    return `${b.rounds ?? '-'}r/${b.duration_minutes ?? '-'}m/${b.rest_seconds ?? '-'}s[${items}]`;
   }).join(' >> ');
 }
 
@@ -112,6 +120,30 @@ function dominantSignature(blocks) {
 const within = (a, b, tol) =>
   a.length === b.length && a.every((v, i) => Math.abs(v - b[i]) <= Math.max(1, Math.abs(b[i]) * tol));
 
+/**
+ * The planner goal a template serves. Two sessions can only be duplicates if
+ * they train the same thing — which is what stops a Durability row from
+ * swallowing a Race-Pace one that happens to share 5 x 1000m. Comparing the
+ * rolled-up goal rather than the raw stimulus lets packs that say
+ * `aerobic_local_durability` and `aerobic_base` still recognise each other.
+ */
+const goalOf = (stimulus, exercises, ctx = {}) => resolveGoal(stimulus, {
+  modalities: exercises.map(e => modalityOf[e]).filter(Boolean),
+  exercises, ...ctx,
+})?.primary_goal ?? null;
+
+const modalityOf = {};
+for (const m of sql.matchAll(/INSERT INTO "exercises" VALUES\(([\s\S]*?)\);/g)) {
+  const v = splitValues(m[1]).map(unquote);
+  modalityOf[v[0]] = v[4];
+}
+const stimulusOf = {}, ctxOf = {};
+for (const m of sql.matchAll(/INSERT INTO "workout_templates" VALUES\(([\s\S]*?)\);/g)) {
+  const v = splitValues(m[1]).map(unquote);
+  stimulusOf[v[0]] = v[4];
+  ctxOf[v[0]] = { family: v[2], category: v[2], intensityTarget: v[7] };
+}
+
 const existingByBlocks = {};
 for (const [wid, items] of Object.entries(existingItems)) {
   const byBlock = {};
@@ -124,18 +156,19 @@ for (const [wid, items] of Object.entries(existingItems)) {
 
 // ── read packs, enforcing the explicit-unit rule ───────────────────────────
 const PRESCRIPTION_TYPES = new Set(['duration', 'distance', 'reps', 'sets_reps', 'calories', 'load']);
-const problems = [], skipped = [], toImport = [];
+const fatal = [], skipped = [], toImport = [], rejected = [], conflicts = [];
 const packIds = new Set();
 
 for (const path of packPaths) {
   const pack = JSON.parse(readFileSync(path, 'utf8'));
   if (pack.meta?.format && pack.meta.format !== 'canonical-v1') {
-    problems.push(`${basename(path)}: format ${pack.meta.format}, expected canonical-v1`);
+    fatal.push(`${basename(path)}: format ${pack.meta.format}, expected canonical-v1`);
     continue;
   }
   for (const w of pack.workouts) {
     const id = w.id ?? w.workout_id;
     packIds.add(id);
+    const problems = [];
     const blocks = (w.blocks ?? [{ ...w.block, items: w.items }]).map((b, bi) => {
       const items = (b.items ?? []).map((it, ii) => {
         const where = `${id} block ${bi + 1} item ${ii + 1}`;
@@ -150,17 +183,36 @@ for (const path of packPaths) {
       if (!items.length) problems.push(`${id} block ${bi + 1}: no items`);
       return { ...b, items };
     });
+    // Without a stated intensity the engine cannot tell hard work from easy:
+    // intensityCost() falls back to 0.5, so an RPE 7 session reads as moderate
+    // and the recovery guardrail hands it to a depleted athlete. A missing
+    // intensity is therefore a refusal, not a default.
+    if (!w.intensity_target) problems.push(`${id}: missing intensity_target — intensityCost() would default it to moderate`);
     if (!w.stimulus) problems.push(`${id}: missing stimulus`);
     if (!w.workout_family) problems.push(`${id}: missing workout_family`);
     if (!w.estimated_minutes) problems.push(`${id}: missing estimated_minutes`);
+    if (problems.length) { rejected.push({ id, reasons: [...new Set(problems)] }); continue; }
     toImport.push({ pack: basename(path), meta: pack.meta, w, id, blocks });
   }
 }
 
-if (problems.length) {
-  console.error('Refusing to import — these violate the pack rules:');
-  for (const p of problems.slice(0, 40)) console.error(`  ${p}`);
-  if (problems.length > 40) console.error(`  ... and ${problems.length - 40} more`);
+/**
+ * A later pack supersedes an earlier one for the same id, so a follow-up round
+ * that fills in a missing field replaces the row that was missing it rather
+ * than being weighed against it.
+ */
+{
+  const latest = new Map();
+  for (const e of toImport) latest.set(e.id, { kind: 'ok', e });
+  for (const r of rejected) if (!latest.has(r.id) || latest.get(r.id).kind === 'bad') latest.set(r.id, { kind: 'bad', r });
+  for (const e of toImport) latest.set(e.id, { kind: 'ok', e });   // ok always wins over an earlier rejection
+  toImport.length = 0; rejected.length = 0;
+  for (const v of latest.values()) (v.kind === 'ok' ? toImport : rejected).push(v.kind === 'ok' ? v.e : v.r);
+}
+
+if (fatal.length) {
+  console.error('Refusing to import — pack-level problems:');
+  for (const p of fatal) console.error(`  ${p}`);
   process.exit(1);
 }
 
@@ -172,9 +224,24 @@ for (const entry of toImport) {
   const loose = looseKey(entry.blocks);
   const qty = quantitiesOf(entry.blocks);
 
+  const entryCtx = { family: entry.w.workout_family, category: entry.w.category ?? entry.w.workout_family, intensityTarget: entry.w.intensity_target };
+  const entryGoal = goalOf(entry.w.stimulus, entry.blocks.flatMap(b => b.items.map(i => i.exercise_id)), entryCtx);
+
   let match = null, kind = null;
   for (const [wid, blocks] of Object.entries(existingByBlocks)) {
     if (packIds.has(wid)) continue;              // a prior import of this same pack
+    // Only sessions training the same thing can be the same session.
+    if (goalOf(stimulusOf[wid], blocks.flatMap(b => b.items.map(i => i.exercise_id)), ctxOf[wid]) !== entryGoal) {
+      // Same prescription, different goal, is a semantic conflict rather than
+      // two workouts: one of the two labels is wrong. Importing it as a
+      // separate template would be picking an answer silently, so hold it.
+      if (signature(blocks) === sig) {
+        conflicts.push({ id: entry.id, existing: wid, existingGoal: goalOf(stimulusOf[wid], blocks.flatMap(b => b.items.map(i => i.exercise_id)), ctxOf[wid]),
+          incomingGoal: entryGoal, incomingStimulus: entry.w.stimulus, existingStimulus: stimulusOf[wid] });
+        match = '__conflict__';
+      }
+      continue;
+    }
     if (signature(blocks) === sig) { match = wid; kind = 'identical prescription'; break; }
     if (looseKey(blocks) === loose && within(qty, quantitiesOf(blocks), 0.1)) {
       match = wid; kind = 'same shape, quantities within 10%';
@@ -183,13 +250,17 @@ for (const entry of toImport) {
       match = wid; kind = 'same main set, differing only in warm-up/cool-down';
     }
   }
-  if (!match && seenInThisRun.has(sig)) { match = seenInThisRun.get(sig); kind = 'duplicate within this import'; }
+  if (!match && seenInThisRun.has(sig)) {
+    const prior = seenInThisRun.get(sig);
+    if (prior.goal === entryGoal) { match = prior.id; kind = 'duplicate within this import'; }
+  }
 
+  if (match === '__conflict__') continue;   // held; reported below
   if (match) {
     skipped.push({ id: entry.id, matched: match, matchedName: templateName[match] ?? match, kind, stimulus: entry.w.stimulus, station: entry.w.station });
     continue;
   }
-  seenInThisRun.set(sig, entry.id);
+  seenInThisRun.set(sig, { id: entry.id, goal: entryGoal });
   accepted.push(entry);
 }
 
@@ -197,8 +268,13 @@ for (const entry of toImport) {
 const emitted = { workout_templates: [], workout_blocks: [], block_exercises: [], workout_variants: [] };
 for (const { meta, w, id, blocks } of accepted) {
   const allItems = blocks.flatMap(b => b.items);
+  // A new template derives its planner goal from its stimulus at import time.
+  // apply-taxonomy will not re-derive it afterwards — once set it is canonical.
+  const derivedGoal = goalOf(w.stimulus, allItems.map(i => i.exercise_id), {
+    family: w.workout_family, category: w.category ?? w.workout_family, intensityTarget: w.intensity_target,
+  }) ?? w.stimulus;
   emitted.workout_templates.push(row('workout_templates', [
-    id, w.name, w.workout_family, w.stimulus /* primary_goal; re-derived by apply-taxonomy */,
+    id, w.name, w.workout_family, derivedGoal,
     w.stimulus, w.secondary_goal ?? null, w.estimated_minutes, w.intensity_target,
     w.impact_level, w.hyrox_specificity, true,
     allItems.some(i => i.exercise_id === 'ex_run'),
@@ -271,7 +347,28 @@ for (const [table, rows] of Object.entries(emitted)) {
 }
 writeFileSync(SRC, sql);
 
-console.log(`\nimported ${accepted.length} of ${toImport.length} workouts`);
+console.log(`\nimported ${accepted.length} of ${toImport.length + rejected.length} workouts`);
+if (rejected.length) {
+  const byReason = {};
+  for (const r of rejected) for (const reason of r.reasons) {
+    (byReason[reason.replace(/^[^:]+: /, '').replace(/"[^"]*"/g, 'X')] ??= []).push(r.id);
+  }
+  console.log(`\nheld ${rejected.length} that break a pack rule:`);
+  for (const [reason, ids] of Object.entries(byReason).sort((a, b) => b[1].length - a[1].length)) {
+    console.log(`  ${String(ids.length).padStart(3)}  ${reason}`);
+  }
+  writeFileSync(new URL('../data/review/import-rejected.json', import.meta.url),
+    JSON.stringify({ meta: { rejected: rejected.length }, rejected }, null, 1));
+}
+if (conflicts.length) {
+  console.log(`\n${conflicts.length} SEMANTIC CONFLICT(S) held for review — same prescription, different goal:`);
+  for (const c of conflicts) {
+    console.log(`  ${c.id.padEnd(32)} ${c.incomingStimulus} (${c.incomingGoal})`);
+    console.log(`  ${''.padEnd(32)} vs ${c.existing} ${c.existingStimulus} (${c.existingGoal})`);
+  }
+  writeFileSync(new URL('../data/review/import-conflicts.json', import.meta.url),
+    JSON.stringify({ meta: { conflicts: conflicts.length }, conflicts }, null, 1));
+}
 if (skipped.length) {
   console.log(`\nskipped ${skipped.length} as semantically duplicate — kept the existing template:`);
   for (const s of skipped) {

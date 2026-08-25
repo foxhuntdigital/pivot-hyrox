@@ -3,8 +3,21 @@
  *
  * `stimulus` holds the authored training stimulus; `primary_goal` holds the
  * planner-facing goal it rolls up to (see scripts/lib/stimulus-taxonomy.mjs).
- * primary_goal is always *derived*, so the two can never drift: edit stimulus,
- * re-run this, and the goal follows.
+ *
+ * An EXISTING canonical primary_goal wins. Once a template carries one of the
+ * five planner goals it is frozen: this script will fill a missing goal and
+ * report a stimulus that now rolls up somewhere else, but it will not rewrite
+ * one. Deriving unconditionally would mean a taxonomy edit silently re-pointed
+ * live templates and changed what athletes are scheduled — enrichment must not
+ * destabilise planner behaviour.
+ *
+ * A genuine conflict — the stored goal says strength, the stimulus now says
+ * threshold — is reported for review rather than resolved either way.
+ *
+ * `--reconcile` is how a deliberate ruling lands: it re-derives exactly the
+ * conflicting templates and prints each change. Without it a corrected roll-up
+ * would have no way to reach content that was imported under the old one, and
+ * with it the correction is explicit rather than a side effect of a re-run.
  *
  * First run adds the column, seeding stimulus from whatever primary_goal each
  * template already carried — that authored value is the richer one and is what
@@ -13,10 +26,11 @@
  *   node scripts/apply-taxonomy.mjs [--quiet]
  */
 import { readFileSync, writeFileSync } from 'node:fs';
-import { resolveGoal } from './lib/stimulus-taxonomy.mjs';
+import { resolveGoal, PLANNER_GOALS } from './lib/stimulus-taxonomy.mjs';
 
 const SRC = new URL('../data/adaptive_athlete_schema_and_seed.sql', import.meta.url);
 const quiet = process.argv.includes('--quiet');
+const reconcile = process.argv.includes('--reconcile');
 
 let sql = readFileSync(SRC, 'utf8');
 
@@ -100,6 +114,7 @@ const iIntensity = cols.indexOf('intensity_target');
 // ── rewrite every template row ────────────────────────────────────────────
 const report = [];
 const unmapped = [];
+const conflicts = [];
 sql = sql.replace(/INSERT INTO "workout_templates" VALUES\(([\s\S]*?)\);/g, (whole, body) => {
   const v = splitValues(body);
   // On the first run the authored value still lives in primary_goal.
@@ -114,10 +129,18 @@ sql = sql.replace(/INSERT INTO "workout_templates" VALUES\(([\s\S]*?)\);/g, (who
     category: unquote(v[iFamily]),
   });
   if (!resolved) { unmapped.push(`${id} (${stimulus})`); return whole; }
+
   const before = unquote(v[iGoal]);
-  v[iGoal] = quote(resolved.primary_goal);
+  const canonical = PLANNER_GOALS.includes(before);
+  // Fill a missing goal; never overwrite one that is already canonical.
+  const conflicted = canonical && before !== resolved.primary_goal;
+  const goal = conflicted && !reconcile ? before : canonical && !conflicted ? before : resolved.primary_goal;
+  if (conflicted) {
+    conflicts.push({ id, stimulus, stored: before, derives: resolved.primary_goal, basis: resolved.basis, applied: reconcile });
+  }
+  v[iGoal] = quote(goal);
   v[iStim] = quote(stimulus);
-  report.push({ id, stimulus, goal: resolved.primary_goal, changed: before !== resolved.primary_goal, ...resolved });
+  report.push({ id, stimulus, goal, changed: before !== goal, frozen: canonical, ...resolved, primary_goal: goal });
   return `INSERT INTO "workout_templates" VALUES(${v.join(',')});`;
 });
 
@@ -147,7 +170,16 @@ if (!quiet) {
     console.log(`\n  ${dose.length} label the dose, not the goal — the pack should declare a real stimulus:`);
     for (const r of dose) console.log(`    ${r.id.padEnd(40)} ${r.stimulus} -> ${r.goal}  (${r.basis.replace(/^.*\((.*)\)$/, '$1')})`);
   }
+  if (conflicts.length) {
+    console.log(`\n  ${conflicts.length} SEMANTIC CONFLICT(S) — ${reconcile ? 'RECONCILED' : 'stored goal kept, needs review'}:`);
+    for (const c of conflicts) {
+      console.log(`    ${c.id.padEnd(40)} ${c.stimulus}: ${c.stored} ${reconcile ? '=>' : 'vs derived'} ${c.derives}`);
+    }
+    if (!reconcile) console.log('    (re-run with --reconcile to apply the derived goal to these)');
+  }
   const proposed = [...new Set(report.filter(r => r.confidence === 'proposed').map(r => r.stimulus))].sort();
   if (proposed.length) console.log(`\n  proposed roll-ups still needing review: ${proposed.join(', ')}`);
-  console.log(`\n  ${report.filter(r => r.changed).length} templates changed primary_goal`);
+  const frozen = report.filter(r => r.frozen).length;
+  console.log(`\n  ${report.filter(r => r.changed).length} templates changed primary_goal `
+    + `(${frozen} already canonical and left alone, ${report.length - frozen} derived)`);
 }

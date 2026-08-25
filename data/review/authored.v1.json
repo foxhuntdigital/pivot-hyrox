@@ -1,0 +1,1163 @@
+{
+ "meta": {
+  "source": "authoring-sheet.AUTHORED.csv + review-sheet.REVIEWED.csv",
+  "authoring_rows": 110,
+  "review_rows": 40,
+  "review_approved": 33,
+  "review_rejected": 7
+ },
+ "authoring": [
+  {
+   "workout_id": "mx_skierg_technique",
+   "block_type": "rounds",
+   "rounds": 6,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 20,
+   "authored_items": "b1:SkiErg 2min|duration"
+  },
+  {
+   "workout_id": "mx_skierg_strength_power",
+   "block_type": "rounds",
+   "rounds": 10,
+   "duration_minutes": null,
+   "rest_seconds": 70,
+   "estimated_minutes": 15,
+   "authored_items": "b1:SkiErg 20reps|reps"
+  },
+  {
+   "workout_id": "mx_skierg_threshold",
+   "block_type": "rounds",
+   "rounds": 6,
+   "duration_minutes": null,
+   "rest_seconds": 90,
+   "estimated_minutes": 25,
+   "authored_items": "b1:SkiErg 500m|distance"
+  },
+  {
+   "workout_id": "mx_skierg_race_specific",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": 120,
+   "estimated_minutes": 30,
+   "authored_items": "b1:SkiErg 1000m|distance"
+  },
+  {
+   "workout_id": "mx_skierg_compromised",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 40,
+   "authored_items": "b1:Run 800m|distance; b1:SkiErg 750m|distance"
+  },
+  {
+   "workout_id": "mx_skierg_benchmark",
+   "block_type": "continuous",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 15,
+   "authored_items": "b1:SkiErg 1000m|distance"
+  },
+  {
+   "workout_id": "mx_skierg_hybrid_a",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:SkiErg 500m|distance; b1:RowErg 500m|distance"
+  },
+  {
+   "workout_id": "mx_skierg_hybrid_b",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Run 600m|distance; b1:SkiErg 400m|distance; b1:Wall Ball 12reps|reps"
+  },
+  {
+   "workout_id": "mx_skierg_durability",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": 90,
+   "estimated_minutes": 35,
+   "authored_items": "b1:SkiErg 1000m|distance"
+  },
+  {
+   "workout_id": "mx_sled_push_technique",
+   "block_type": "rounds",
+   "rounds": 8,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 15,
+   "authored_items": "b1:Sled Push 20ft|distance"
+  },
+  {
+   "workout_id": "mx_sled_push_base",
+   "block_type": "rounds",
+   "rounds": 10,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 18,
+   "authored_items": "b1:Sled Push 20ft|distance"
+  },
+  {
+   "workout_id": "mx_sled_push_strength_power",
+   "block_type": "rounds",
+   "rounds": 8,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Sled Push 20ft|distance"
+  },
+  {
+   "workout_id": "mx_sled_push_threshold",
+   "block_type": "rounds",
+   "rounds": 6,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Sled Push 40ft|distance; b1:Spin Bike 60s|duration"
+  },
+  {
+   "workout_id": "mx_sled_push_race_specific",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Sled Push 40ft|distance"
+  },
+  {
+   "workout_id": "mx_sled_push_compromised",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 35,
+   "authored_items": "b1:Run 600m|distance; b1:Sled Push 40ft|distance"
+  },
+  {
+   "workout_id": "mx_sled_push_benchmark",
+   "block_type": "continuous",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 10,
+   "authored_items": "b1:Sled Push 50m|distance"
+  },
+  {
+   "workout_id": "mx_sled_push_micro",
+   "block_type": "emom",
+   "rounds": null,
+   "duration_minutes": 10,
+   "rest_seconds": null,
+   "estimated_minutes": 10,
+   "authored_items": "b1:Sled Push|20|ft|distance|70% race load"
+  },
+  {
+   "workout_id": "mx_sled_push_hybrid_a",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 22,
+   "authored_items": "b1:Sled Push 40ft|distance; b1:RowErg 300m|distance"
+  },
+  {
+   "workout_id": "mx_sled_push_hybrid_b",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Run 400m|distance; b1:Sled Push 40ft|distance; b1:Sandbag Walking Lunge 20reps|reps"
+  },
+  {
+   "workout_id": "mx_sled_push_durability",
+   "block_type": "rounds",
+   "rounds": 10,
+   "duration_minutes": null,
+   "rest_seconds": 45,
+   "estimated_minutes": 25,
+   "authored_items": "b1:Sled Push 40ft|distance"
+  },
+  {
+   "workout_id": "mx_sled_pull_technique",
+   "block_type": "rounds",
+   "rounds": 8,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 15,
+   "authored_items": "b1:Sled Pull|20|ft|distance|50-60% race load"
+  },
+  {
+   "workout_id": "mx_sled_pull_base",
+   "block_type": "rounds",
+   "rounds": 10,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 18,
+   "authored_items": "b1:Sled Pull 20ft|distance"
+  },
+  {
+   "workout_id": "mx_sled_pull_strength_power",
+   "block_type": "rounds",
+   "rounds": 8,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Sled Pull 20ft|distance"
+  },
+  {
+   "workout_id": "mx_sled_pull_threshold",
+   "block_type": "rounds",
+   "rounds": 6,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Sled Pull 40ft|distance; b1:Spin Bike 60s|duration"
+  },
+  {
+   "workout_id": "mx_sled_pull_race_specific",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Sled Pull 40ft|distance"
+  },
+  {
+   "workout_id": "mx_sled_pull_compromised",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 35,
+   "authored_items": "b1:Run 600m|distance; b1:Sled Pull 40ft|distance"
+  },
+  {
+   "workout_id": "mx_sled_pull_benchmark",
+   "block_type": "continuous",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 10,
+   "authored_items": "b1:Sled Pull 50m|distance"
+  },
+  {
+   "workout_id": "mx_sled_pull_micro",
+   "block_type": "emom",
+   "rounds": null,
+   "duration_minutes": 10,
+   "rest_seconds": null,
+   "estimated_minutes": 10,
+   "authored_items": "b1:Sled Pull|20|ft|distance|70% race load"
+  },
+  {
+   "workout_id": "mx_sled_pull_hybrid_a",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 22,
+   "authored_items": "b1:Sled Pull 40ft|distance; b1:SkiErg 300m|distance"
+  },
+  {
+   "workout_id": "mx_sled_pull_hybrid_b",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Run 400m|distance; b1:Sled Pull 40ft|distance; b1:Farmer Carry 80ft|distance"
+  },
+  {
+   "workout_id": "mx_sled_pull_density",
+   "block_type": "amrap",
+   "rounds": null,
+   "duration_minutes": 15,
+   "rest_seconds": null,
+   "estimated_minutes": 15,
+   "authored_items": "b1:Sled Pull|40|ft|distance; b1:TRX Row|10|reps|reps"
+  },
+  {
+   "workout_id": "mx_sled_pull_durability",
+   "block_type": "rounds",
+   "rounds": 10,
+   "duration_minutes": null,
+   "rest_seconds": 45,
+   "estimated_minutes": 25,
+   "authored_items": "b1:Sled Pull 40ft|distance"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_technique",
+   "block_type": "rounds",
+   "rounds": 8,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 15,
+   "authored_items": "b1:Burpee Broad Jump 5reps|reps"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_base",
+   "block_type": "rounds",
+   "rounds": 10,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 15,
+   "authored_items": "b1:Burpee Broad Jump 6reps|reps; b1:Incline Walk 45s|duration"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_strength_power",
+   "block_type": "rounds",
+   "rounds": 6,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Burpee Broad Jump 5reps|reps; b1:Burpee Broad Jump 5reps|reps"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_threshold",
+   "block_type": "rounds",
+   "rounds": 6,
+   "duration_minutes": null,
+   "rest_seconds": 60,
+   "estimated_minutes": 18,
+   "authored_items": "b1:Burpee Broad Jump 10reps|reps"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_race_specific",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": 90,
+   "estimated_minutes": 18,
+   "authored_items": "b1:Burpee Broad Jump 20m|distance"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_compromised",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Run 600m|distance; b1:Burpee Broad Jump 15m|distance"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_benchmark",
+   "block_type": "continuous",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 12,
+   "authored_items": "b1:Burpee Broad Jump 80m|distance"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_micro",
+   "block_type": "amrap",
+   "rounds": null,
+   "duration_minutes": 12,
+   "rest_seconds": null,
+   "estimated_minutes": 12,
+   "authored_items": "b1:Burpee Broad Jump|5|reps|reps; b1:Run/Walk|200|m|distance|easy"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_hybrid_a",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 22,
+   "authored_items": "b1:Burpee Broad Jump 8reps|reps; b1:RowErg 300m|distance"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_hybrid_b",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Run 400m|distance; b1:Burpee Broad Jump 8reps|reps; b1:Wall Ball 10reps|reps"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_durability",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": 60,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Burpee Broad Jump 20m|distance"
+  },
+  {
+   "workout_id": "mx_rowerg_strength_power",
+   "block_type": "rounds",
+   "rounds": 10,
+   "duration_minutes": null,
+   "rest_seconds": 45,
+   "estimated_minutes": 20,
+   "authored_items": "b1:RowErg 250m|distance"
+  },
+  {
+   "workout_id": "mx_rowerg_threshold",
+   "block_type": "rounds",
+   "rounds": 8,
+   "duration_minutes": null,
+   "rest_seconds": 90,
+   "estimated_minutes": 30,
+   "authored_items": "b1:RowErg 500m|distance"
+  },
+  {
+   "workout_id": "mx_rowerg_race_specific",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": 120,
+   "estimated_minutes": 35,
+   "authored_items": "b1:RowErg 1000m|distance"
+  },
+  {
+   "workout_id": "mx_rowerg_compromised",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 40,
+   "authored_items": "b1:Run 800m|distance; b1:RowErg 750m|distance"
+  },
+  {
+   "workout_id": "mx_rowerg_benchmark",
+   "block_type": "continuous",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 15,
+   "authored_items": "b1:RowErg 1000m|distance"
+  },
+  {
+   "workout_id": "mx_rowerg_hybrid_a",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:RowErg 500m|distance; b1:Farmer Carry 100ft|distance"
+  },
+  {
+   "workout_id": "mx_rowerg_hybrid_b",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Run 600m|distance; b1:RowErg 500m|distance; b1:Wall Ball 15reps|reps"
+  },
+  {
+   "workout_id": "mx_rowerg_durability",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": 90,
+   "estimated_minutes": 35,
+   "authored_items": "b1:RowErg 1000m|distance"
+  },
+  {
+   "workout_id": "mx_farmer_carry_technique",
+   "block_type": "rounds",
+   "rounds": 8,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 15,
+   "authored_items": "b1:Farmer Carry|40|m|distance|50-60% race load"
+  },
+  {
+   "workout_id": "mx_farmer_carry_base",
+   "block_type": "rounds",
+   "rounds": 6,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Farmer Carry 100m|distance"
+  },
+  {
+   "workout_id": "mx_farmer_carry_strength_power",
+   "block_type": "rounds",
+   "rounds": 8,
+   "duration_minutes": null,
+   "rest_seconds": 90,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Farmer Carry 40m|distance"
+  },
+  {
+   "workout_id": "mx_farmer_carry_threshold",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": 60,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Farmer Carry 100m|distance"
+  },
+  {
+   "workout_id": "mx_farmer_carry_race_specific",
+   "block_type": "rounds",
+   "rounds": 3,
+   "duration_minutes": null,
+   "rest_seconds": 120,
+   "estimated_minutes": 25,
+   "authored_items": "b1:Farmer Carry 200m|distance"
+  },
+  {
+   "workout_id": "mx_farmer_carry_compromised",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 35,
+   "authored_items": "b1:Run 600m|distance; b1:Farmer Carry 100m|distance"
+  },
+  {
+   "workout_id": "mx_farmer_carry_benchmark",
+   "block_type": "continuous",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 12,
+   "authored_items": "b1:Farmer Carry 200m|distance"
+  },
+  {
+   "workout_id": "mx_farmer_carry_hybrid_a",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Farmer Carry 100m|distance; b1:RowErg 500m|distance"
+  },
+  {
+   "workout_id": "mx_farmer_carry_hybrid_b",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Run 400m|distance; b1:Farmer Carry 80m|distance; b1:Sandbag Walking Lunge 12reps|reps"
+  },
+  {
+   "workout_id": "mx_farmer_carry_durability",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": 90,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Farmer Carry 250m|distance"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_technique",
+   "block_type": "rounds",
+   "rounds": 6,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 15,
+   "authored_items": "b1:Sandbag Walking Lunge 20steps|reps"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_base",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Sandbag Walking Lunge 40steps|reps"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_strength_power",
+   "block_type": "rounds",
+   "rounds": 6,
+   "duration_minutes": null,
+   "rest_seconds": 90,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Sandbag Walking Lunge 20steps|reps"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_threshold",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": 60,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Sandbag Walking Lunge 30m|distance"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_race_specific",
+   "block_type": "rounds",
+   "rounds": 3,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 25,
+   "authored_items": "b1:Sandbag Walking Lunge 100m|distance"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_compromised",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 35,
+   "authored_items": "b1:Run 600m|distance; b1:Sandbag Walking Lunge 25m|distance"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_benchmark",
+   "block_type": "continuous",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 12,
+   "authored_items": "b1:Sandbag Walking Lunge 100m|distance"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_hybrid_a",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Sandbag Walking Lunge 25m|distance; b1:RowErg 500m|distance"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_hybrid_b",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Run 400m|distance; b1:Sandbag Walking Lunge 20m|distance; b1:Wall Ball 10reps|reps"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_durability",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": 90,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Sandbag Walking Lunge 75m|distance"
+  },
+  {
+   "workout_id": "mx_wall_ball_technique",
+   "block_type": "rounds",
+   "rounds": 8,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 15,
+   "authored_items": "b1:Wall Ball 10reps|reps"
+  },
+  {
+   "workout_id": "mx_wall_ball_base",
+   "block_type": "rounds",
+   "rounds": 10,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Wall Ball 15reps|reps"
+  },
+  {
+   "workout_id": "mx_wall_ball_strength_power",
+   "block_type": "rounds",
+   "rounds": 6,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Wall Ball 10reps|reps"
+  },
+  {
+   "workout_id": "mx_wall_ball_threshold",
+   "block_type": "rounds",
+   "rounds": 6,
+   "duration_minutes": null,
+   "rest_seconds": 60,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Wall Ball 20reps|reps"
+  },
+  {
+   "workout_id": "mx_wall_ball_race_specific",
+   "block_type": "rounds",
+   "rounds": 3,
+   "duration_minutes": null,
+   "rest_seconds": 120,
+   "estimated_minutes": 25,
+   "authored_items": "b1:Wall Ball 50reps|reps"
+  },
+  {
+   "workout_id": "mx_wall_ball_compromised",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 35,
+   "authored_items": "b1:Run 600m|distance; b1:Wall Ball 25reps|reps"
+  },
+  {
+   "workout_id": "mx_wall_ball_benchmark",
+   "block_type": "continuous",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 12,
+   "authored_items": "b1:Wall Ball 100reps|reps"
+  },
+  {
+   "workout_id": "mx_wall_ball_hybrid_a",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 25,
+   "authored_items": "b1:Wall Ball 15reps|reps; b1:SkiErg 400m|distance"
+  },
+  {
+   "workout_id": "mx_wall_ball_hybrid_b",
+   "block_type": "rounds",
+   "rounds": 4,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Run 400m|distance; b1:Wall Ball 15reps|reps; b1:Farmer Carry 80ft|distance"
+  },
+  {
+   "workout_id": "mx_wall_ball_durability",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": 75,
+   "estimated_minutes": 25,
+   "authored_items": "b1:Wall Ball 30reps|reps"
+  },
+  {
+   "workout_id": "run_technique_mechanics_01",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Run|10|min|duration|easy; b2:Run Drill|5|min|duration|mechanics; b3:Run|20|sec|duration|relaxed stride x6 with 60sec walk-jog recovery; b4:Run|3|min|duration|easy finish"
+  },
+  {
+   "workout_id": "run_easy_base_01",
+   "block_type": "continuous",
+   "rounds": null,
+   "duration_minutes": 30,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Run|30|min|duration|conversational"
+  },
+  {
+   "workout_id": "run_easy_base_02",
+   "block_type": "continuous",
+   "rounds": null,
+   "duration_minutes": 45,
+   "rest_seconds": null,
+   "estimated_minutes": 45,
+   "authored_items": "b1:Run|45|min|duration|conversational"
+  },
+  {
+   "workout_id": "run_easy_base_03",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 40,
+   "authored_items": "b1:Run|30|min|duration|easy; b2:Run|20|sec|duration|stride x6 with 60sec easy recovery; b3:Run|2|min|duration|easy cooldown"
+  },
+  {
+   "workout_id": "run_long_aerobic_01",
+   "block_type": "continuous",
+   "rounds": null,
+   "duration_minutes": 60,
+   "rest_seconds": null,
+   "estimated_minutes": 60,
+   "authored_items": "b1:Run|60|min|duration|conversational"
+  },
+  {
+   "workout_id": "run_long_aerobic_02",
+   "block_type": "continuous",
+   "rounds": null,
+   "duration_minutes": 75,
+   "rest_seconds": null,
+   "estimated_minutes": 75,
+   "authored_items": "b1:Run|75|min|duration|easy"
+  },
+  {
+   "workout_id": "run_progression_03",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 40,
+   "authored_items": "b1:Run|3000|m|distance|easy; b2:Run|3000|m|distance|gradually faster no sprint"
+  },
+  {
+   "workout_id": "run_tempo_01",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 45,
+   "authored_items": "b1:Run|10|min|duration|easy; b2:Run|8|min|duration|tempo x3 with 120sec easy recovery; b3:Run|5|min|duration|easy cooldown"
+  },
+  {
+   "workout_id": "run_tempo_02",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 45,
+   "authored_items": "b1:Run|10|min|duration|easy; b2:Run|12|min|duration|tempo x2 with 180sec easy recovery; b3:Run|8|min|duration|easy cooldown"
+  },
+  {
+   "workout_id": "run_threshold_01",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 50,
+   "authored_items": "b1:Run|12|min|duration|easy; b2:Run|5|min|duration|threshold x5 with 120sec easy recovery; b3:Run|5|min|duration|easy cooldown"
+  },
+  {
+   "workout_id": "run_threshold_02",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 48,
+   "authored_items": "b1:Run|12|min|duration|easy; b2:Run|6|min|duration|threshold x4 with 120sec easy recovery; b3:Run|6|min|duration|easy cooldown"
+  },
+  {
+   "workout_id": "run_threshold_03",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 55,
+   "authored_items": "b1:Run|12|min|duration|easy; b2:Run|1|mile|distance|threshold x3 with 180sec easy recovery; b3:Run|6|min|duration|easy cooldown"
+  },
+  {
+   "workout_id": "run_1k_repeats_02",
+   "block_type": "rounds",
+   "rounds": 6,
+   "duration_minutes": null,
+   "rest_seconds": 105,
+   "estimated_minutes": 55,
+   "authored_items": "b1:Run|1000|m|distance|repeatable HYROX effort"
+  },
+  {
+   "workout_id": "run_1k_repeats_03",
+   "block_type": "sequence",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 48,
+   "authored_items": "b1:Run|1000|m|distance|same target pace x5 with recoveries 120/105/90/75 sec"
+  },
+  {
+   "workout_id": "run_incline_hills_01",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 42,
+   "authored_items": "b1:Run|10|min|duration|easy flat; b2:Run|2|min|duration|3-5% incline x8 with 90sec flat easy recovery; b3:Run|4|min|duration|easy cooldown"
+  },
+  {
+   "workout_id": "run_incline_hills_02",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 40,
+   "authored_items": "b1:Run|10|min|duration|easy warm-up; b2:Run|60|sec|duration|uphill strong x10 with 90sec easy return; b3:Run|5|min|duration|easy cooldown"
+  },
+  {
+   "workout_id": "run_mixed_race_pace_01",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 55,
+   "authored_items": "b1:Run|1000|m|distance|controlled HYROX pace; b1:SkiErg|500|m|distance|moderate; b1:Run|1000|m|distance; b1:Sled Push|40|ft|distance|moderate; b1:Run|1000|m|distance; b1:RowErg|500|m|distance|moderate; b1:Run|1000|m|distance; b1:Wall Ball|20|reps|reps|smooth"
+  },
+  {
+   "workout_id": "run_mixed_race_pace_02",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 75,
+   "authored_items": "b1:Run|1000|m|distance + SkiErg|500|m|distance; b2:Run|1000|m|distance + Sled Push|40|ft|distance; b3:Run|1000|m|distance + Sled Pull|40|ft|distance; b4:Run|1000|m|distance + RowErg|500|m|distance; b5:Run|1000|m|distance + Farmer Carry|100|m|distance; b6:Run|1000|m|distance + Wall Ball|20|reps|reps"
+  },
+  {
+   "workout_id": "run_mixed_race_pace_03",
+   "block_type": "rounds",
+   "rounds": 8,
+   "duration_minutes": null,
+   "rest_seconds": 90,
+   "estimated_minutes": 75,
+   "authored_items": "b1:Run|1000|m|distance|goal sustainable HYROX pace"
+  },
+  {
+   "workout_id": "run_treadmill_control_01",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 40,
+   "authored_items": "b1:Run|10|min|duration|easy; b2:Run|5|min|duration|easy; b3:Run|5|min|duration|steady; b4:Run|5|min|duration|moderate; b5:Run|5|min|duration|steady; b6:Run|10|min|duration|easy cooldown"
+  },
+  {
+   "workout_id": "run_treadmill_control_02",
+   "block_type": "rounds",
+   "rounds": 5,
+   "duration_minutes": null,
+   "rest_seconds": 120,
+   "estimated_minutes": 45,
+   "authored_items": "b1:Run|1000|m|distance|same treadmill speed target <3% drift"
+  },
+  {
+   "workout_id": "run_treadmill_control_03",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 40,
+   "authored_items": "b1:Run|3|min|duration|flat steady + Run|2|min|duration|2-3% incline repeat x6; b2:Run|10|min|duration|easy cooldown"
+  },
+  {
+   "workout_id": "run_benchmark_01",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Run|12|min|duration|progressive warm-up; b2:Run|1000|m|distance|hard controlled time trial; b3:Run|8|min|duration|easy cooldown"
+  },
+  {
+   "workout_id": "run_benchmark_02",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 45,
+   "authored_items": "b1:Run|12|min|duration|warm-up; b2:Run|5000|m|distance|best sustainable effort; b3:Run|5|min|duration|easy cooldown"
+  },
+  {
+   "workout_id": "run_benchmark_03",
+   "block_type": "benchmark",
+   "rounds": null,
+   "duration_minutes": 30,
+   "rest_seconds": null,
+   "estimated_minutes": 30,
+   "authored_items": "b1:Run|30|min|duration|steady"
+  },
+  {
+   "workout_id": "run_micro_run_02",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 15,
+   "authored_items": "b1:Run|3|min|duration|easy; b2:Run|1|min|duration|moderate x5 with 60sec easy recovery; b3:Run|2|min|duration|easy cooldown"
+  },
+  {
+   "workout_id": "run_taper_sharpen_01",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 35,
+   "authored_items": "b1:Run|15|min|duration|easy; b2:Run|400|m|distance|crisp race feel x4 with 120sec easy recovery; b3:Run|5|min|duration|easy cooldown"
+  },
+  {
+   "workout_id": "run_taper_sharpen_02",
+   "block_type": "sequence",
+   "rounds": null,
+   "duration_minutes": null,
+   "rest_seconds": null,
+   "estimated_minutes": 38,
+   "authored_items": "b1:Run|10|min|duration|easy; b2:Run|1000|m|distance|planned HYROX pace x3 with 180sec easy recovery; b3:Run|5|min|duration|easy cooldown"
+  },
+  {
+   "workout_id": "run_recovery_run_01",
+   "block_type": "continuous",
+   "rounds": null,
+   "duration_minutes": 20,
+   "rest_seconds": null,
+   "estimated_minutes": 20,
+   "authored_items": "b1:Run|20|min|duration|very easy"
+  }
+ ],
+ "review": [
+  {
+   "workout_id": "mx_skierg_micro",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "mx_skierg_density",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "mx_burpee_broad_jump_density",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "mx_rowerg_technique",
+   "approve": "N"
+  },
+  {
+   "workout_id": "mx_rowerg_base",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "mx_rowerg_micro",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "mx_rowerg_density",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_micro",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "mx_sandbag_lunge_density",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "mx_wall_ball_micro",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "mx_wall_ball_density",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_technique_mechanics_02",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_technique_mechanics_03",
+   "approve": "N"
+  },
+  {
+   "workout_id": "run_return_to_run_01",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_return_to_run_02",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_return_to_run_03",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_long_aerobic_03",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_progression_01",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_progression_02",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_tempo_03",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_short_intervals_01",
+   "approve": "N"
+  },
+  {
+   "workout_id": "run_short_intervals_02",
+   "approve": "N"
+  },
+  {
+   "workout_id": "run_short_intervals_03",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_incline_hills_03",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_compromised_run_01",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_compromised_run_02",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_compromised_run_03",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_station_to_run_01",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_station_to_run_02",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_station_to_run_03",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_run_to_station_01",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_run_to_station_02",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_run_to_station_03",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_low_impact_run_substitute_01",
+   "approve": "N"
+  },
+  {
+   "workout_id": "run_low_impact_run_substitute_02",
+   "approve": "N"
+  },
+  {
+   "workout_id": "run_low_impact_run_substitute_03",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_micro_run_03",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_taper_sharpen_03",
+   "approve": "N"
+  },
+  {
+   "workout_id": "run_recovery_run_02",
+   "approve": "Y"
+  },
+  {
+   "workout_id": "run_recovery_run_03",
+   "approve": "Y"
+  }
+ ]
+}

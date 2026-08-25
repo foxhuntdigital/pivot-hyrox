@@ -30,6 +30,16 @@ export interface ReadinessInputs {
 
 export const READINESS_MODEL_VERSION = '1.0.0';
 
+/**
+ * The eight HYROX stations, as exercise ids. `stations_covered_21d` is scored
+ * out of this set, so it lives beside the model that consumes it rather than
+ * being re-listed wherever history is aggregated.
+ */
+export const HYROX_STATION_EXERCISES = [
+  'ex_skierg', 'ex_sled_push', 'ex_sled_pull', 'ex_burpee_broad_jump',
+  'ex_rowerg', 'ex_farmer_carry', 'ex_sandbag_walking_lunge', 'ex_wall_ball',
+] as const;
+
 const COMPONENT_WEIGHTS = {
   aerobic: 0.2,
   running: 0.2,

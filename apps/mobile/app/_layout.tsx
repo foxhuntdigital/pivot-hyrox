@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -9,6 +9,7 @@ import {
   Archivo_700Bold, Archivo_800ExtraBold, Archivo_900Black,
 } from '@expo-google-fonts/archivo';
 
+import { Splash } from '@/components/Splash';
 import { AppProvider } from '@/state/store';
 import { CoachProvider } from '@/state/coach';
 import { SessionProvider, useSession } from '@/state/session';
@@ -65,15 +66,26 @@ function AuthGate({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+/**
+ * Holds the splash open until there is something worth opening onto: the font
+ * family, the session, and — for a signed-in athlete — the program lookup.
+ * Without this the lane could finish drawing and part onto the spinner.
+ */
+function SplashGate({ fontsLoaded, onDone }: { fontsLoaded: boolean; onDone: () => void }) {
+  const { status } = useSession();
+  const { status: onboarding } = useOnboarding();
+  const ready =
+    fontsLoaded && status !== 'loading' && !(status === 'signed_in' && onboarding === 'checking');
+
+  return <Splash ready={ready} onDone={onDone} />;
+}
+
 export default function RootLayout() {
   const [loaded] = useFonts({
     Archivo_400Regular, Archivo_500Medium, Archivo_600SemiBold,
     Archivo_700Bold, Archivo_800ExtraBold, Archivo_900Black,
   });
-
-  // The whole system is Archivo weights; rendering in a fallback face first
-  // would reflow every screen, so hold until the family is ready.
-  if (!loaded) return <Holding />;
+  const [splashDone, setSplashDone] = useState(false);
 
   return (
     <SafeAreaProvider>
@@ -83,7 +95,9 @@ export default function RootLayout() {
           <CoachProvider>
           <StatusBar style="dark" />
           <AuthGate>
-            <Stack
+            {/* The whole system is Archivo weights; rendering in a fallback face
+                first would reflow every screen, so hold until the family is ready. */}
+            {!loaded ? <Holding /> : <Stack
               screenOptions={{
                 headerShown: false,
                 contentStyle: { backgroundColor: color.paper },
@@ -95,8 +109,9 @@ export default function RootLayout() {
               <Stack.Screen name="(tabs)" />
               <Stack.Screen name="active" options={{ animation: 'slide_from_bottom', gestureEnabled: false }} />
               <Stack.Screen name="done" options={{ animation: 'fade', gestureEnabled: false }} />
-            </Stack>
+            </Stack>}
           </AuthGate>
+          {!splashDone && <SplashGate fontsLoaded={loaded} onDone={() => setSplashDone(true)} />}
           </CoachProvider>
         </AppProvider>
         </OnboardingProvider>

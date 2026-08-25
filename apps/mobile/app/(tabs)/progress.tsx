@@ -8,16 +8,16 @@
 import React from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
 
-import { color, type as t, space } from '@/theme/tokens';
+import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { Rule, Label, InkPanel } from '@/components/primitives';
 import { useApp } from '@/state/store';
-import { METRIC_DETAIL } from '@/data/athlete';
+
 
 /** Components the engine flags as limiters get the accent treatment. */
 const LIMITERS = new Set(['running', 'recovery']);
 
 export default function ProgressScreen() {
-  const { state, dispatch, readiness } = useApp();
+  const { state, dispatch, readiness, metricDetail } = useApp();
 
   const entries = Object.entries(readiness.components) as [keyof typeof readiness.components, number][];
   const lowest = entries.reduce((a, b) => (b[1] < a[1] ? b : a));
@@ -32,7 +32,9 @@ export default function ProgressScreen() {
         flexDirection: 'row', alignItems: 'flex-end', gap: 14,
         paddingHorizontal: space.gutter, paddingBottom: 16,
       }}>
-        <Text style={[t.hero, { color: color.ink }]}>{readiness.overall}</Text>
+        <Text style={[t.hero, numeralTrim.hero, { color: color.ink }]}>
+          {readiness.overall}
+        </Text>
         <View style={{ paddingBottom: 8 }}>
           {/* Confidence is shown next to the score, never hidden behind it. */}
           <Text style={[t.rowTitle, { fontSize: 13, color: color.red }]}>
@@ -47,7 +49,7 @@ export default function ProgressScreen() {
 
       <View style={{ paddingHorizontal: space.gutter, paddingTop: 6 }}>
         {entries.map(([key, value]) => {
-          const meta = METRIC_DETAIL[key];
+          const meta = metricDetail[key];
           const open = state.open_metric === key;
           return (
             <Pressable
@@ -82,7 +84,7 @@ export default function ProgressScreen() {
               {open && meta && (
                 <View style={{ paddingTop: 12 }}>
                   <Text style={[t.bodySm, { color: color.muted2 }]}>{meta.detail}</Text>
-                  <View style={{
+                  {meta.stats.length > 0 && <View style={{
                     flexDirection: 'row', marginTop: 10,
                     borderTopWidth: 1, borderTopColor: color.rule,
                   }}>
@@ -96,7 +98,7 @@ export default function ProgressScreen() {
                         <Text style={[t.rowTitle, { marginTop: 2, color: color.ink }]}>{st.v}</Text>
                       </View>
                     ))}
-                  </View>
+                  </View>}
                 </View>
               )}
             </Pressable>
@@ -109,10 +111,10 @@ export default function ProgressScreen() {
         style={{ margin: 20, marginHorizontal: space.gutter }}
       >
         <Text style={[t.h4, { fontSize: 18, color: color.onDark }]}>
-          {METRIC_DETAIL[lowest[0]]?.label ?? lowest[0]}
+          {metricDetail[lowest[0]]?.label ?? lowest[0]}
         </Text>
         <Text style={[t.bodySm, { color: color.rule, marginTop: 6, fontSize: 12.5 }]}>
-          {METRIC_DETAIL[lowest[0]]?.detail}
+          {metricDetail[lowest[0]]?.detail}
         </Text>
       </InkPanel>
     </ScrollView>

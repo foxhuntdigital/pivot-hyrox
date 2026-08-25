@@ -30,6 +30,9 @@ import { REASON_CODE_COPY, type CoachIntent, type CoachSignals } from '@/data/co
 export type CoachActionId =
   | 'use_adaptation'
   | 'keep_original'
+  // Navigates to Today, which shows whichever variant is recommended. Never
+  // label it "full" — FULL is a variant name (VARIANT_LABEL), so the athlete
+  // reads that as a promise of the green variant and gets EXPRESS instead.
   | 'see_today'
   | 'see_plan'
   | 'see_progress'
@@ -406,7 +409,7 @@ function adaptAnswer(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
       chips,
       why: evidence(ctx, current, input),
       actions: [
-        { id: 'see_today', label: 'See full workout', primary: true },
+        { id: 'see_today', label: "See today's session", primary: true },
         { id: 'ask_explain', label: 'Why this session?' },
       ],
     };
@@ -445,7 +448,7 @@ function adaptAnswer(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
     actions: [
       { id: 'use_adaptation', label: 'Use this workout', primary: true },
       { id: 'keep_original', label: 'Keep original' },
-      { id: 'see_today', label: 'See full workout' },
+      { id: 'see_today', label: "See today's session" },
     ],
     commit: commitFor(proposed, sig),
   };
@@ -479,7 +482,7 @@ function explainAnswer(ctx: CoachContext): CoachAnswer {
     chips: chipsFor(ctx, ["Today's plan", stimulusLabel(rec.primary_stimulus)]),
     why: evidence(ctx, rec),
     actions: [
-      { id: 'see_today', label: 'See full workout', primary: true },
+      { id: 'see_today', label: "See today's session", primary: true },
       { id: 'ask_adapt', label: 'Ask for something shorter' },
     ],
   };

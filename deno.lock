@@ -1,0 +1,49 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@supabase/supabase-js@2": "2.112.3"
+  },
+  "jsr": {
+    "@supabase/supabase-js@2.112.3": {
+      "integrity": "114dd7d327daa11fb5b876bc447c47a8c1b9bf3f0d0ed05b308a60639b134b7b"
+    }
+  },
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:@anthropic-ai/sdk@0.120"
+      ]
+    },
+    "members": {
+      "apps/mobile": {
+        "packageJson": {
+          "dependencies": [
+            "npm:@expo-google-fonts/archivo@~0.4.2",
+            "npm:@pivot/engine@*",
+            "npm:@react-native-async-storage/async-storage@^2.2.0",
+            "npm:@supabase/supabase-js@^2.112.3",
+            "npm:@types/react@~19.2.2",
+            "npm:expo-constants@~57.0.12",
+            "npm:expo-dev-client@~57.0.14",
+            "npm:expo-font@~57.0.1",
+            "npm:expo-haptics@~57.0.1",
+            "npm:expo-keep-awake@~57.0.1",
+            "npm:expo-linking@~57.0.6",
+            "npm:expo-router@~57.0.14",
+            "npm:expo-status-bar@~57.0.1",
+            "npm:expo@~57.0.14",
+            "npm:react-native-gesture-handler@2.32",
+            "npm:react-native-reanimated@4.5.1",
+            "npm:react-native-safe-area-context@5.7",
+            "npm:react-native-screens@4.26",
+            "npm:react-native-url-polyfill@4",
+            "npm:react-native-worklets@0.10.1",
+            "npm:react-native@0.86.2",
+            "npm:react@19.2.3",
+            "npm:typescript@~6.0.3"
+          ]
+        }
+      }
+    }
+  }
+}

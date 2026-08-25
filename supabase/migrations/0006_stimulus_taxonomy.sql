@@ -66,3 +66,24 @@ alter table content.station_programming_rules enable row level security;
 
 create policy station_programming_rules_read on content.station_programming_rules
   for select to authenticated using (true);
+
+-- ─────────────────────────────────────────────────────────────
+-- Deferred: rest schedules
+-- ─────────────────────────────────────────────────────────────
+-- `rest_seconds` holds one value for the whole block, which cannot express a
+-- session whose recovery changes rep to rep — "5 x 1K, recovery
+-- 2:00/1:45/1:30/1:15", where the shrinking rest is the stimulus. Flattening it
+-- to the mean preserves average workload and loses the point of the session, so
+-- that workout is parked (data/review/followup.v2.json -> parked) rather than
+-- published wrong.
+--
+-- When enough sessions need it, the shape to add is:
+--
+--   alter table content.workout_blocks
+--     add column rest_schedule_seconds integer[],
+--     add constraint one_rest_form check (
+--       rest_seconds is null or rest_schedule_seconds is null);
+--
+-- deliberately NOT widening rest_seconds to an array: that would make an
+-- existing simple field polymorphic and every reader would have to handle both.
+-- transformBlocks() would also need to say how a schedule compresses.

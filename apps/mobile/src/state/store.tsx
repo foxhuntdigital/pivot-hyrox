@@ -21,7 +21,7 @@ import {
 import { EXERCISES, TEMPLATES, SUBSTITUTIONS } from '../data/content';
 import {
   DEFAULT_CONSIDERATIONS, DEFAULT_EQUIPMENT, DEFAULT_PROFILE, PHASE, RACE,
-  READINESS_INPUTS, RECENT_SESSIONS, WEEK_STIMULI,
+  METRIC_DETAIL, READINESS_INPUTS, RECENT_SESSIONS, WEEK_STIMULI,
 } from '../data/athlete';
 import type { AthleteProfile, ExperienceLevel } from '../data/profile';
 import { fetchProfile, saveProfile } from '../data/profileRepo';
@@ -246,6 +246,7 @@ interface Store {
   session: EngineDecision;
   steps: Step[];
   readiness: ReturnType<typeof computeReadiness>;
+  metricDetail: typeof METRIC_DETAIL;
   engineInput: EngineInput;
   /**
    * Writes a profile edit through to Supabase. Local state is already updated
@@ -383,6 +384,19 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     } as ReturnType<typeof computeReadiness>;
   }, [today]);
 
+  /**
+   * Per-component supporting stats. On a live account these are measured from
+   * the athlete's own history; the bundled fixture stands in only for the
+   * seeded build, where there is no account to measure.
+   */
+  const metricDetail = useMemo(() => {
+    const server = today?.readiness.metric_detail;
+    if (!server) return METRIC_DETAIL;
+    return Object.fromEntries(Object.entries(METRIC_DETAIL).map(([key, meta]) => [
+      key, { ...meta, stats: server[key]?.stats ?? [] },
+    ]));
+  }, [today]);
+
   // Elapsed-time ticker. Runs only while a block is active, so pausing stops
   // the clock rather than merely hiding it.
   const statusRef = useRef(state.status);
@@ -396,10 +410,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo(
     () => ({
-      state, dispatch, decision, session, steps, readiness, engineInput,
+      state, dispatch, decision, session, steps, readiness, metricDetail, engineInput,
       commitProfile, profileError, today, todayLoading, todayError, refreshToday,
     }),
-    [state, decision, session, steps, readiness, engineInput, commitProfile,
+    [state, decision, session, steps, readiness, metricDetail, engineInput, commitProfile,
      profileError, today, todayLoading, todayError, refreshToday]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

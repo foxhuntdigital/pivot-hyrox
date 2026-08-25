@@ -105,8 +105,20 @@ for (const table of ORDER) {
   if (!rows[table]) continue;
   out += `insert into content.${table} (${schema[table].join(', ')}) values\n`;
   out += rows[table].join(',\n');
-  out += `\non conflict (${table === 'exercise_equipment' ? 'exercise_id, equipment_id'
-    : table === 'workout_tags' ? 'workout_id, tag_id' : 'id'}) do nothing;\n\n`;
+  const key = table === 'exercise_equipment' ? ['exercise_id', 'equipment_id']
+    : table === 'workout_tags' ? ['workout_id', 'tag_id'] : ['id'];
+  // Upsert rather than `do nothing`. A database that already holds an earlier
+  // version of the library must end up matching this file exactly — with
+  // `do nothing` a template that gained a `stimulus`, or whose `primary_goal`
+  // was normalised, would keep its stale row forever and the seed would be
+  // idempotent only against an empty schema.
+  const updatable = schema[table].filter(c => !key.includes(c));
+  // A pure join table is all key and has nothing to update, and `do update set`
+  // with an empty list is a syntax error.
+  out += updatable.length
+    ? `\non conflict (${key.join(', ')}) do update set\n`
+      + updatable.map(c => `  ${c} = excluded.${c}`).join(',\n') + `;\n\n`
+    : `\non conflict (${key.join(', ')}) do nothing;\n\n`;
 }
 out += `commit;\n`;
 

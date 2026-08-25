@@ -1,0 +1,4712 @@
+{
+ "meta": {
+  "pack": "Adaptive Athlete Follow-up v2",
+  "format": "canonical-v1",
+  "workout_count": 115
+ },
+ "workouts": [
+  {
+   "id": "mx_burpee_broad_jump_base",
+   "name": "Burpee Broad Jump — Base",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 4-5",
+   "impact_level": "high",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "10r: 6 reps + 45s walk",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 6,
+       "unit": "reps",
+       "intensity": null
+      },
+      {
+       "exercise": "Incline Walk",
+       "prescription_type": "duration",
+       "quantity": 45,
+       "unit": "s",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_benchmark",
+   "name": "Burpee Broad Jump — Benchmark",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 8-9",
+   "impact_level": "high",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "80m benchmark",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "distance",
+       "quantity": 80,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_compromised",
+   "name": "Burpee Broad Jump — Compromised",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "high",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 600m run + 15m BBJ",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "distance",
+       "quantity": 15,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_density",
+   "name": "Burpee Broad Jump — Density",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "high",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "15m EMOM: 6 BBJ / 200m Ski / easy",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 15,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "EMOM — one movement per minute",
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 6,
+       "unit": "reps",
+       "intensity": "BBJ"
+      },
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": "Ski"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_durability",
+   "name": "Burpee Broad Jump — Durability",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "high",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5 x 20m RPE 5-6 / 60s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_hybrid_a",
+   "name": "Burpee Broad Jump — Hybrid A",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": 22,
+   "intensity_target": "RPE 6",
+   "impact_level": "high",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5r: 8 BBJ + 300m Row",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 8,
+       "unit": "reps",
+       "intensity": null
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 300,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_hybrid_b",
+   "name": "Burpee Broad Jump — Hybrid B",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "high",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 400m run + 8 BBJ + 10 WB",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 8,
+       "unit": "reps",
+       "intensity": null
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_micro",
+   "name": "Burpee Broad Jump — Micro",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 4-6",
+   "impact_level": "high",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "12m: 5 BBJ + 200m easy run/walk",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 12,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 5,
+       "unit": "reps",
+       "intensity": null
+      },
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": "easy"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_race_specific",
+   "name": "Burpee Broad Jump — Race Specific",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": 18,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "high",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "4 x 20m race rhythm / 90s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_strength_power",
+   "name": "Burpee Broad Jump — Strength-Power",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 7-8",
+   "impact_level": "high",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "6r: 5 explosive broad jumps + 5 controlled burpees",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 5,
+       "unit": "reps",
+       "intensity": null
+      },
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 5,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_technique",
+   "name": "Burpee Broad Jump — Technique",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "high",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "8 x 5 easy technique reps",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 5,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_burpee_broad_jump_threshold",
+   "name": "Burpee Broad Jump — Threshold",
+   "workout_family": "station_burpee_broad_jump",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "Burpee Broad Jump",
+   "estimated_minutes": 18,
+   "intensity_target": "RPE 7",
+   "impact_level": "high",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "6 x 10 reps RPE 7 / 60s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Burpee Broad Jump",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_base",
+   "name": "Farmer Carry — Base",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "Farmer Carry",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 4-5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "6 x 100m @ 60-70%",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_benchmark",
+   "name": "Farmer Carry — Benchmark",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "Farmer Carry",
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 8-9",
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "200m benchmark @ race load",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_compromised",
+   "name": "Farmer Carry — Compromised",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "Farmer Carry",
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 600m run + 100m race load",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_density",
+   "name": "Farmer Carry — Density",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "Farmer Carry",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "15m: 60m carry + 10 WB + 8 stepovers",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 15,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 60,
+       "unit": "m",
+       "intensity": "carry"
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "WB"
+      },
+      {
+       "exercise": "Box Step-Over",
+       "prescription_type": "reps",
+       "quantity": 8,
+       "unit": "reps",
+       "intensity": "overs"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_durability",
+   "name": "Farmer Carry — Durability",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "Farmer Carry",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4 x 250m @ 70-80% / 90s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 250,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_hybrid_a",
+   "name": "Farmer Carry — Hybrid A",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "Farmer Carry",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5r: 100m carry + 500m Row",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_hybrid_b",
+   "name": "Farmer Carry — Hybrid B",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "Farmer Carry",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 400m run + 80m carry + 12 lunges",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 80,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "reps",
+       "quantity": 12,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_micro",
+   "name": "Farmer Carry — Micro",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "Farmer Carry",
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "12m: 60m carry + 8 goblet squats",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 12,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 60,
+       "unit": "m",
+       "intensity": "carry"
+      },
+      {
+       "exercise": "Goblet Squat",
+       "prescription_type": "reps",
+       "quantity": 8,
+       "unit": "reps",
+       "intensity": "goblet squats"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_race_specific",
+   "name": "Farmer Carry — Race Specific",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "Farmer Carry",
+   "estimated_minutes": 25,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "3 x 200m @ race load / 2m",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 3,
+     "duration_minutes": null,
+     "rest_seconds": 120,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_strength_power",
+   "name": "Farmer Carry — Strength-Power",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "Farmer Carry",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 7-8",
+   "impact_level": "low",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "8 x 40m @ 110-130% / 90s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_technique",
+   "name": "Farmer Carry — Technique",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "Farmer Carry",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "8 x 40m @ 50-60%, posture/turns",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "m",
+       "intensity": "50-60% race load"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_farmer_carry_threshold",
+   "name": "Farmer Carry — Threshold",
+   "workout_family": "station_farmer_carry",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "Farmer Carry",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "5 x 100m @ 80-90% / 60s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_base",
+   "name": "RowErg — Base",
+   "workout_family": "station_rowerg",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "RowErg",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "30-45m steady RPE 3-4",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 30,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Hold a repeatable effort",
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "duration",
+       "quantity": 30,
+       "unit": "min",
+       "intensity": "steady RPE"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_benchmark",
+   "name": "RowErg — Benchmark",
+   "workout_family": "station_rowerg",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "RowErg",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 8-9",
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "1000m time trial",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_compromised",
+   "name": "RowErg — Compromised",
+   "workout_family": "station_rowerg",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "RowErg",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 800m run + 750m Row",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 800,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 750,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_density",
+   "name": "RowErg — Density",
+   "workout_family": "station_rowerg",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "RowErg",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "20m EMOM: 200m Row / 10 WB / 80ft carry / 12 stepovers / easy",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 20,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "EMOM — one movement per minute",
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": "Row"
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "WB"
+      },
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 80,
+       "unit": "ft",
+       "intensity": "carry"
+      },
+      {
+       "exercise": "Box Step-Over",
+       "prescription_type": "reps",
+       "quantity": 12,
+       "unit": "reps",
+       "intensity": "overs"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_durability",
+   "name": "RowErg — Durability",
+   "workout_family": "station_rowerg",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "RowErg",
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5 x 1000m RPE 5-6 / 90s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_hybrid_a",
+   "name": "RowErg — Hybrid A",
+   "workout_family": "station_rowerg",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "RowErg",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5r: 500m Row + 100ft carry",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "unit": "ft",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_hybrid_b",
+   "name": "RowErg — Hybrid B",
+   "workout_family": "station_rowerg",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "RowErg",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 600m run + 500m Row + 15 WB",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 15,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_micro",
+   "name": "RowErg — Micro",
+   "workout_family": "station_rowerg",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "RowErg",
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 4-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "12m: 250m Row + 10 air squats",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 12,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 250,
+       "unit": "m",
+       "intensity": "Row"
+      },
+      {
+       "exercise": "Air Squat",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "air squats"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_race_specific",
+   "name": "RowErg — Race Specific",
+   "workout_family": "station_rowerg",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "RowErg",
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "5 x 1000m RPE 6-7 / 2m",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 120,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_strength_power",
+   "name": "RowErg — Strength-Power",
+   "workout_family": "station_rowerg",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "RowErg",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "10 x 250m RPE 7 / 45s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": 45,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 250,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_technique",
+   "name": "RowErg — Technique",
+   "workout_family": "station_rowerg",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "RowErg",
+   "estimated_minutes": 22,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "3m @ 20/22/24/22 spm + 10m steady",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "duration",
+       "quantity": 3,
+       "unit": "min",
+       "intensity": "20 spm"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "duration",
+       "quantity": 3,
+       "unit": "min",
+       "intensity": "22 spm"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "duration",
+       "quantity": 3,
+       "unit": "min",
+       "intensity": "24 spm"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "duration",
+       "quantity": 3,
+       "unit": "min",
+       "intensity": "22 spm"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "unit": "min",
+       "intensity": "steady"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_rowerg_threshold",
+   "name": "RowErg — Threshold",
+   "workout_family": "station_rowerg",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "RowErg",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "8 x 500m RPE 7 / 90s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_base",
+   "name": "Sandbag Lunge — Base",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 4-5",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "5 x 40 steps @ 50-60%",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "reps",
+       "quantity": 40,
+       "unit": "steps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_benchmark",
+   "name": "Sandbag Lunge — Benchmark",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 8-9",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "100m benchmark @ race load",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_compromised",
+   "name": "Sandbag Lunge — Compromised",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 600m run + 25m race load",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "distance",
+       "quantity": 25,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_density",
+   "name": "Sandbag Lunge — Density",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "15m: 16 steps + 200m Ski + 8 pushups",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 15,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "reps",
+       "quantity": 16,
+       "unit": "steps",
+       "intensity": null
+      },
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": "Ski"
+      },
+      {
+       "exercise": "Push-Up",
+       "prescription_type": "reps",
+       "quantity": 8,
+       "unit": "reps",
+       "intensity": "pushups"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_durability",
+   "name": "Sandbag Lunge — Durability",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4 x 75m @ 65-75% / 90s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "distance",
+       "quantity": 75,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_hybrid_a",
+   "name": "Sandbag Lunge — Hybrid A",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 25m lunges + 500m Row",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "distance",
+       "quantity": 25,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_hybrid_b",
+   "name": "Sandbag Lunge — Hybrid B",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 400m run + 20m lunges + 10 WB",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_micro",
+   "name": "Sandbag Lunge — Micro",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 4-6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "12m: 12 lunges + 250m easy Row",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 12,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "reps",
+       "quantity": 12,
+       "unit": "reps",
+       "intensity": "lunges"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 250,
+       "unit": "m",
+       "intensity": "easy Row"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_race_specific",
+   "name": "Sandbag Lunge — Race Specific",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": 25,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "3 x 100m @ race load / 2-3m",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 3,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_strength_power",
+   "name": "Sandbag Lunge — Strength-Power",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 7-8",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "6 x 20 steps @ 100-120% / 90s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "reps",
+       "quantity": 20,
+       "unit": "steps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_technique",
+   "name": "Sandbag Lunge — Technique",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "6 x 20 steps light technique",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "reps",
+       "quantity": 20,
+       "unit": "steps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sandbag_lunge_threshold",
+   "name": "Sandbag Lunge — Threshold",
+   "workout_family": "station_sandbag_lunge",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "Sandbag Lunge",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "5 x 30m @ 75-85% / 60s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "distance",
+       "quantity": 30,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_base",
+   "name": "SkiErg — Base",
+   "workout_family": "station_skierg",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "SkiErg",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "30 min steady RPE 3-4",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 30,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Hold a repeatable effort",
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "duration",
+       "quantity": 30,
+       "unit": "min",
+       "intensity": "in steady RPE"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_benchmark",
+   "name": "SkiErg — Benchmark",
+   "workout_family": "station_skierg",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "SkiErg",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 8-9",
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "1000m time trial",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_compromised",
+   "name": "SkiErg — Compromised",
+   "workout_family": "station_skierg",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "SkiErg",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 800m run + 750m Ski",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 800,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 750,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_density",
+   "name": "SkiErg — Density",
+   "workout_family": "station_skierg",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "SkiErg",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "20m EMOM: 200m Ski / 10 WB / 40m carry / easy",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 20,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "EMOM — one movement per minute",
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": "Ski"
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "WB"
+      },
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "m",
+       "intensity": "carry"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_durability",
+   "name": "SkiErg — Durability",
+   "workout_family": "station_skierg",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "SkiErg",
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5 x 1000m RPE 5-6 / 90s easy",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_hybrid_a",
+   "name": "SkiErg — Hybrid A",
+   "workout_family": "station_skierg",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "SkiErg",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5r: 500m Ski + 500m Row",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_hybrid_b",
+   "name": "SkiErg — Hybrid B",
+   "workout_family": "station_skierg",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "SkiErg",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 600m run + 400m Ski + 12 wall balls",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 12,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_micro",
+   "name": "SkiErg — Micro",
+   "workout_family": "station_skierg",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "SkiErg",
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 4-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "12m: 250m Ski + 10 air squats",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 12,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 250,
+       "unit": "m",
+       "intensity": "Ski"
+      },
+      {
+       "exercise": "Air Squat",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "air squats"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_race_specific",
+   "name": "SkiErg — Race Specific",
+   "workout_family": "station_skierg",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "SkiErg",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "4 x 1000m controlled / 2m easy",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": 120,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_strength_power",
+   "name": "SkiErg — Strength-Power",
+   "workout_family": "station_skierg",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "SkiErg",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 7-8",
+   "impact_level": "low",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "10 x 20 hard strokes / 70s easy",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": 70,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "reps",
+       "quantity": 20,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_technique",
+   "name": "SkiErg — Technique",
+   "workout_family": "station_skierg",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "SkiErg",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "6 x 2 min technique @ easy-moderate",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "duration",
+       "quantity": 2,
+       "unit": "min",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_skierg_threshold",
+   "name": "SkiErg — Threshold",
+   "workout_family": "station_skierg",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "SkiErg",
+   "estimated_minutes": 25,
+   "intensity_target": "RPE 7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "6 x 500m RPE 7 / 90s easy",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_base",
+   "name": "Sled Pull — Base",
+   "workout_family": "station_sled_pull",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "Sled Pull",
+   "estimated_minutes": 18,
+   "intensity_target": "RPE 4-5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "10 x 20ft @ 60-70%",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "ft",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_benchmark",
+   "name": "Sled Pull — Benchmark",
+   "workout_family": "station_sled_pull",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "Sled Pull",
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 8-9",
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "50m @ race load time trial",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 50,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_compromised",
+   "name": "Sled Pull — Compromised",
+   "workout_family": "station_sled_pull",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "Sled Pull",
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 600m run + 40ft @ race load",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_density",
+   "name": "Sled Pull — Density",
+   "workout_family": "station_sled_pull",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "Sled Pull",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "15m: 40ft pull / 10 TRX rows / easy",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 15,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": null
+      },
+      {
+       "exercise": "TRX Row",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_durability",
+   "name": "Sled Pull — Durability",
+   "workout_family": "station_sled_pull",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "Sled Pull",
+   "estimated_minutes": 25,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "10 x 40ft @ 65-75% / 45s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": 45,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_hybrid_a",
+   "name": "Sled Pull — Hybrid A",
+   "workout_family": "station_sled_pull",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "Sled Pull",
+   "estimated_minutes": 22,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5r: 40ft pull + 300m Ski",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": null
+      },
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 300,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_hybrid_b",
+   "name": "Sled Pull — Hybrid B",
+   "workout_family": "station_sled_pull",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "Sled Pull",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 400m run + 40ft pull + 80ft carry",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": null
+      },
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 80,
+       "unit": "ft",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_micro",
+   "name": "Sled Pull — Micro",
+   "workout_family": "station_sled_pull",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "Sled Pull",
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 4-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "10m: 20ft @ 70% every minute",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 10,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "ft",
+       "intensity": "70% race load"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_race_specific",
+   "name": "Sled Pull — Race Specific",
+   "workout_family": "station_sled_pull",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "Sled Pull",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "5 x 40ft @ race load",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_strength_power",
+   "name": "Sled Pull — Strength-Power",
+   "workout_family": "station_sled_pull",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "Sled Pull",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 7-8",
+   "impact_level": "low",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "8 x 20ft @ 90-110%, full recovery",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "ft",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_technique",
+   "name": "Sled Pull — Technique",
+   "workout_family": "station_sled_pull",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "Sled Pull",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "8 x 20ft @ 50-60%, rope/rhythm technique",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "ft",
+       "intensity": "50-60% race load"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_pull_threshold",
+   "name": "Sled Pull — Threshold",
+   "workout_family": "station_sled_pull",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "Sled Pull",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "6r: 40ft @ 75-85% + 60s easy bike",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Pull",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": null
+      },
+      {
+       "exercise": "Spin Bike",
+       "prescription_type": "duration",
+       "quantity": 60,
+       "unit": "s",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_base",
+   "name": "Sled Push — Base",
+   "workout_family": "station_sled_push",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "Sled Push",
+   "estimated_minutes": 18,
+   "intensity_target": "RPE 4-5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "10 x 20ft @ 60-70%",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "ft",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_benchmark",
+   "name": "Sled Push — Benchmark",
+   "workout_family": "station_sled_push",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "Sled Push",
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 8-9",
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "50m @ race load time trial",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 50,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_compromised",
+   "name": "Sled Push — Compromised",
+   "workout_family": "station_sled_push",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "Sled Push",
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 600m run + 40ft @ race load",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_density",
+   "name": "Sled Push — Density",
+   "workout_family": "station_sled_push",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "Sled Push",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "15m: 40ft push + 12 step-overs",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 15,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": "push"
+      },
+      {
+       "exercise": "Box Step-Over",
+       "prescription_type": "reps",
+       "quantity": 12,
+       "unit": "steps",
+       "intensity": "overs"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_durability",
+   "name": "Sled Push — Durability",
+   "workout_family": "station_sled_push",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "Sled Push",
+   "estimated_minutes": 25,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "10 x 40ft @ 65-75% / 45s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": 45,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_hybrid_a",
+   "name": "Sled Push — Hybrid A",
+   "workout_family": "station_sled_push",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "Sled Push",
+   "estimated_minutes": 22,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5r: 40ft push + 300m Row",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": null
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 300,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_hybrid_b",
+   "name": "Sled Push — Hybrid B",
+   "workout_family": "station_sled_push",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "Sled Push",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 400m run + 40ft push + 20 lunges",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": null
+      },
+      {
+       "exercise": "Sandbag Walking Lunge",
+       "prescription_type": "reps",
+       "quantity": 20,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_micro",
+   "name": "Sled Push — Micro",
+   "workout_family": "station_sled_push",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "Sled Push",
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 4-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "10m: 20ft @ 70% every minute",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 10,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "ft",
+       "intensity": "70% race load"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_race_specific",
+   "name": "Sled Push — Race Specific",
+   "workout_family": "station_sled_push",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "Sled Push",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "5 x 40ft @ race load",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_strength_power",
+   "name": "Sled Push — Strength-Power",
+   "workout_family": "station_sled_push",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "Sled Push",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 7-8",
+   "impact_level": "low",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "8 x 20ft @ 90-110%, full recovery",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "ft",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_technique",
+   "name": "Sled Push — Technique",
+   "workout_family": "station_sled_push",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "Sled Push",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "8 x 20ft @ 50-60% race load, technique",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "unit": "ft",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_sled_push_threshold",
+   "name": "Sled Push — Threshold",
+   "workout_family": "station_sled_push",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "Sled Push",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "6r: 40ft @ 75-85% + 60s easy bike",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Sled Push",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "unit": "ft",
+       "intensity": null
+      },
+      {
+       "exercise": "Spin Bike",
+       "prescription_type": "duration",
+       "quantity": 60,
+       "unit": "s",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_base",
+   "name": "Wall Ball — Base",
+   "workout_family": "station_wall_ball",
+   "stimulus": "aerobic_local_durability",
+   "category": "Base",
+   "station": "Wall Ball",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 4-5",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.54,
+   "source_prescription": "10 x 15 @ 50-75% race ball",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 15,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_benchmark",
+   "name": "Wall Ball — Benchmark",
+   "workout_family": "station_wall_ball",
+   "stimulus": "repeatable_test",
+   "category": "Benchmark",
+   "station": "Wall Ball",
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 8-9",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.99,
+   "source_prescription": "100 WB benchmark",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 100,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_compromised",
+   "name": "Wall Ball — Compromised",
+   "workout_family": "station_wall_ball",
+   "stimulus": "compromised_station_work",
+   "category": "Compromised",
+   "station": "Wall Ball",
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.9,
+   "source_prescription": "4r: 600m run + 25 WB",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 600,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 25,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_density",
+   "name": "Wall Ball — Density",
+   "workout_family": "station_wall_ball",
+   "stimulus": "work_density",
+   "category": "Density",
+   "station": "Wall Ball",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "15m EMOM: 12 WB / 200m Row / 10 stepovers",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 15,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "EMOM — one movement per minute",
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 12,
+       "unit": "reps",
+       "intensity": "WB"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": "Row"
+      },
+      {
+       "exercise": "Box Step-Over",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "overs"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_durability",
+   "name": "Wall Ball — Durability",
+   "workout_family": "station_wall_ball",
+   "stimulus": "repeated_submax_durability",
+   "category": "Durability",
+   "station": "Wall Ball",
+   "estimated_minutes": 25,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5 x 30 @ race ball / 75s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 75,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 30,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_hybrid_a",
+   "name": "Wall Ball — Hybrid A",
+   "workout_family": "station_wall_ball",
+   "stimulus": "complementary_hybrid",
+   "category": "Hybrid A",
+   "station": "Wall Ball",
+   "estimated_minutes": 25,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "5r: 15 WB + 400m Ski",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 15,
+       "unit": "reps",
+       "intensity": null
+      },
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_hybrid_b",
+   "name": "Wall Ball — Hybrid B",
+   "workout_family": "station_wall_ball",
+   "stimulus": "run_station_hybrid",
+   "category": "Hybrid B",
+   "station": "Wall Ball",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.88,
+   "source_prescription": "4r: 400m run + 15 WB + 80ft carry",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": null
+      },
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 15,
+       "unit": "reps",
+       "intensity": null
+      },
+      {
+       "exercise": "Farmer Carry",
+       "prescription_type": "distance",
+       "quantity": 80,
+       "unit": "ft",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_micro",
+   "name": "Wall Ball — Micro",
+   "workout_family": "station_wall_ball",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro",
+   "station": "Wall Ball",
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 4-6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.6,
+   "source_prescription": "12m: 10 WB + 200m Row",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": 12,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Repeat the circuit for the time available",
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": "WB"
+      },
+      {
+       "exercise": "RowErg",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "unit": "m",
+       "intensity": "Row"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_race_specific",
+   "name": "Wall Ball — Race Specific",
+   "workout_family": "station_wall_ball",
+   "stimulus": "race_pacing",
+   "category": "Race Specific",
+   "station": "Wall Ball",
+   "estimated_minutes": 25,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.81,
+   "source_prescription": "3 x 50 @ race ball / 2m",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 3,
+     "duration_minutes": null,
+     "rest_seconds": 120,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 50,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_strength_power",
+   "name": "Wall Ball — Strength-Power",
+   "workout_family": "station_wall_ball",
+   "stimulus": "force_power_reserve",
+   "category": "Strength-Power",
+   "station": "Wall Ball",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 7-8",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.63,
+   "source_prescription": "6 x 10 heavy WB/thrusters / 75-90s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_technique",
+   "name": "Wall Ball — Technique",
+   "workout_family": "station_wall_ball",
+   "stimulus": "skill_economy",
+   "category": "Technique",
+   "station": "Wall Ball",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "8 x 10 light technique reps",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mx_wall_ball_threshold",
+   "name": "Wall Ball — Threshold",
+   "workout_family": "station_wall_ball",
+   "stimulus": "sustainable_high_output",
+   "category": "Threshold",
+   "station": "Wall Ball",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "6 x 20 @ race ball / 60s",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Wall Ball",
+       "prescription_type": "reps",
+       "quantity": 20,
+       "unit": "reps",
+       "intensity": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_easy_base_03",
+   "name": "Easy Run + Strides 40",
+   "workout_family": "easy_base",
+   "stimulus": "aerobic_base",
+   "category": "Easy Base",
+   "station": null,
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.55,
+   "source_prescription": "30m easy + 6x20s strides/60s easy + cooldown",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 30,
+       "unit": "min",
+       "intensity": "easy"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 20,
+       "unit": "s",
+       "intensity": "stride x6 with 60sec easy recovery"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Cool-down",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 2,
+       "unit": "min",
+       "intensity": "easy cooldown"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_incline_hills_01",
+   "name": "Treadmill Incline Repeats",
+   "workout_family": "hills",
+   "stimulus": "strength_endurance",
+   "category": "Incline / Hills",
+   "station": null,
+   "estimated_minutes": 42,
+   "intensity_target": "RPE 5-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "10m easy + 8x2m @ 3-5% incline/90s easy flat + cooldown",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "unit": "min",
+       "intensity": "easy flat"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": "Recovery between rounds: easy flat",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 2,
+       "unit": "min",
+       "intensity": "3-5% incline x8 with 90sec flat easy recovery"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Cool-down",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 4,
+       "unit": "min",
+       "intensity": "easy cooldown"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_incline_hills_02",
+   "name": "Hill Strength 10x60s",
+   "workout_family": "hills",
+   "stimulus": "strength_endurance",
+   "category": "Incline / Hills",
+   "station": null,
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 5-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "10x60s uphill strong/90s easy return; warm-up/cooldown",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Warm-up",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "unit": "min",
+       "intensity": "easy warm-up"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": "Recovery between rounds: easy return",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 60,
+       "unit": "s",
+       "intensity": "uphill strong x10 with 90sec easy return"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Cool-down",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 5,
+       "unit": "min",
+       "intensity": "easy cooldown"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_low_impact_run_substitute_01",
+   "name": "Bike Run-Equivalent 40",
+   "workout_family": "low_impact",
+   "stimulus": "aerobic_maintenance",
+   "category": "Low-Impact Run Substitute",
+   "station": null,
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.55,
+   "source_prescription": "40m spin bike: 10m easy + 5x4m steady-hard/2m easy",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Spin Bike",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "unit": "min",
+       "intensity": "easy"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Spin Bike",
+       "prescription_type": "duration",
+       "quantity": 4,
+       "unit": "min",
+       "intensity": "steady-hard"
+      },
+      {
+       "exercise": "Spin Bike",
+       "prescription_type": "duration",
+       "quantity": 2,
+       "unit": "min",
+       "intensity": "easy"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_low_impact_run_substitute_02",
+   "name": "Ski Run-Equivalent 30",
+   "workout_family": "low_impact",
+   "stimulus": "aerobic_maintenance",
+   "category": "Low-Impact Run Substitute",
+   "station": null,
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 4-5",
+   "impact_level": "low",
+   "hyrox_specificity": 0.55,
+   "source_prescription": "30m SkiErg steady aerobic with 6x1m moderate surges",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": "Surges evenly spaced within the 30 min total.",
+     "items": [
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "duration",
+       "quantity": 1,
+       "unit": "min",
+       "intensity": "moderate surge"
+      },
+      {
+       "exercise": "SkiErg",
+       "prescription_type": "duration",
+       "quantity": 4,
+       "unit": "min",
+       "intensity": "steady aerobic"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_micro_run_02",
+   "name": "Micro 10x1",
+   "workout_family": "micro",
+   "stimulus": "minimum_effective_dose",
+   "category": "Micro Run",
+   "station": null,
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 3-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.62,
+   "source_prescription": "3m easy + 5x1m moderate/1m easy + brief cooldown",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 3,
+       "unit": "min",
+       "intensity": "easy"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "title": "Main",
+     "instructions": "Recovery between rounds: easy run",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 1,
+       "unit": "min",
+       "intensity": "moderate x5 with 60sec easy recovery"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Cool-down",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 2,
+       "unit": "min",
+       "intensity": "easy cooldown"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_short_intervals_01",
+   "name": "12x400 Controlled",
+   "workout_family": "short_intervals",
+   "stimulus": "speed_endurance",
+   "category": "Short Intervals",
+   "station": null,
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "12x400m at strong controlled effort; 60s easy",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 12,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "title": "Main",
+     "instructions": "Recovery between rounds: easy",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": "strong controlled"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_short_intervals_02",
+   "name": "10x1 Minute Fast",
+   "workout_family": "short_intervals",
+   "stimulus": "speed_endurance",
+   "category": "Short Intervals",
+   "station": null,
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.72,
+   "source_prescription": "10x1m fast/1m easy inside 35m total",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Warm-up",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "unit": "min",
+       "intensity": "easy warm-up"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 10,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "title": "Main",
+     "instructions": "Recovery between rounds: 1 min easy",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 1,
+       "unit": "min",
+       "intensity": "fast"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Cool-down",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 5,
+       "unit": "min",
+       "intensity": "easy cooldown"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_taper_sharpen_01",
+   "name": "Sharpen 4x400",
+   "workout_family": "taper",
+   "stimulus": "race_sharpening",
+   "category": "Taper / Sharpen",
+   "station": null,
+   "estimated_minutes": 35,
+   "intensity_target": "RPE 3-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.95,
+   "source_prescription": "15m easy + 4x400m at crisp race feel/2m easy + cooldown",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 15,
+       "unit": "min",
+       "intensity": "easy"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": 120,
+     "title": "Main",
+     "instructions": "Recovery between rounds: easy",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 400,
+       "unit": "m",
+       "intensity": "crisp race feel x4 with 120sec easy recovery"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Cool-down",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 5,
+       "unit": "min",
+       "intensity": "easy cooldown"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_taper_sharpen_02",
+   "name": "Race Week 3x1K",
+   "workout_family": "taper",
+   "stimulus": "race_sharpening",
+   "category": "Taper / Sharpen",
+   "station": null,
+   "estimated_minutes": 38,
+   "intensity_target": "RPE 3-7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.95,
+   "source_prescription": "10m easy + 3x1K at planned HYROX pace/3m easy + cooldown",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "unit": "min",
+       "intensity": "easy"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 3,
+     "duration_minutes": null,
+     "rest_seconds": 180,
+     "title": "Main",
+     "instructions": "Recovery between rounds: easy",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "unit": "m",
+       "intensity": "planned HYROX pace x3 with 180sec easy recovery"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Cool-down",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 5,
+       "unit": "min",
+       "intensity": "easy cooldown"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_taper_sharpen_03",
+   "name": "Pre-Race Primer 20",
+   "workout_family": "taper",
+   "stimulus": "race_sharpening",
+   "category": "Taper / Sharpen",
+   "station": null,
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 3-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.95,
+   "source_prescription": "10m easy + 4x20s strides + 2x1m race pace + easy finish",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "unit": "min",
+       "intensity": "easy"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 20,
+       "unit": "s",
+       "intensity": "relaxed stride"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 2,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 1,
+       "unit": "min",
+       "intensity": "race pace"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 7,
+       "unit": "min",
+       "intensity": "easy finish"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_technique_mechanics_01",
+   "name": "Run Mechanics + Strides 30",
+   "workout_family": "run_skill",
+   "stimulus": "running_economy",
+   "category": "Technique / Mechanics",
+   "station": null,
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 3-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "10m easy + drills + 6x20s relaxed strides/60s walk-jog + easy finish",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "unit": "min",
+       "intensity": "easy"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Running Drills",
+       "prescription_type": "duration",
+       "quantity": 5,
+       "unit": "min",
+       "intensity": "mechanics"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "title": "Main",
+     "instructions": "Recovery between rounds: walk-jog",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 20,
+       "unit": "s",
+       "intensity": "relaxed stride x6 with 60sec walk-jog recovery"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 3,
+       "unit": "min",
+       "intensity": "easy finish"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_technique_mechanics_03",
+   "name": "Form Under Mild Fatigue",
+   "workout_family": "run_skill",
+   "stimulus": "running_economy",
+   "category": "Technique / Mechanics",
+   "station": null,
+   "estimated_minutes": 32,
+   "intensity_target": "RPE 4-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.45,
+   "source_prescription": "3r: 6m easy-moderate run + 4x20s relaxed strides; 90s walk between rounds",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 3,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "title": "Main",
+     "instructions": "Recovery between rounds: walk between rounds",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 6,
+       "unit": "min",
+       "intensity": "easy-moderate"
+      },
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 20,
+       "unit": "s",
+       "intensity": "relaxed stride"
+      },
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 20,
+       "unit": "s",
+       "intensity": "relaxed stride"
+      },
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 20,
+       "unit": "s",
+       "intensity": "relaxed stride"
+      },
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 20,
+       "unit": "s",
+       "intensity": "relaxed stride"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_tempo_01",
+   "name": "Tempo 3x8",
+   "workout_family": "tempo",
+   "stimulus": "tempo_endurance",
+   "category": "Tempo",
+   "station": null,
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.75,
+   "source_prescription": "10m easy + 3x8m tempo/2m easy + cooldown",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "unit": "min",
+       "intensity": "easy"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 3,
+     "duration_minutes": null,
+     "rest_seconds": 120,
+     "title": "Main",
+     "instructions": "Recovery between rounds: easy",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 8,
+       "unit": "min",
+       "intensity": "tempo x3 with 120sec easy recovery"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Cool-down",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 5,
+       "unit": "min",
+       "intensity": "easy cooldown"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_tempo_02",
+   "name": "Tempo 2x12",
+   "workout_family": "tempo",
+   "stimulus": "tempo_endurance",
+   "category": "Tempo",
+   "station": null,
+   "estimated_minutes": 45,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.75,
+   "source_prescription": "10m easy + 2x12m tempo/3m easy + cooldown",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "unit": "min",
+       "intensity": "easy"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 2,
+     "duration_minutes": null,
+     "rest_seconds": 180,
+     "title": "Main",
+     "instructions": "Recovery between rounds: easy",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 12,
+       "unit": "min",
+       "intensity": "tempo x2 with 180sec easy recovery"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Cool-down",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 8,
+       "unit": "min",
+       "intensity": "easy cooldown"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_threshold_01",
+   "name": "Threshold 5x5",
+   "workout_family": "threshold",
+   "stimulus": "lactate_threshold",
+   "category": "Threshold",
+   "station": null,
+   "estimated_minutes": 50,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.82,
+   "source_prescription": "12m easy + 5x5m threshold/2m easy + cooldown",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 12,
+       "unit": "min",
+       "intensity": "easy"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 5,
+     "duration_minutes": null,
+     "rest_seconds": 120,
+     "title": "Main",
+     "instructions": "Recovery between rounds: easy",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 5,
+       "unit": "min",
+       "intensity": "threshold x5 with 120sec easy recovery"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Cool-down",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 5,
+       "unit": "min",
+       "intensity": "easy cooldown"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_threshold_02",
+   "name": "Threshold 4x6",
+   "workout_family": "threshold",
+   "stimulus": "lactate_threshold",
+   "category": "Threshold",
+   "station": null,
+   "estimated_minutes": 48,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.82,
+   "source_prescription": "12m easy + 4x6m threshold/2m easy + cooldown",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 12,
+       "unit": "min",
+       "intensity": "easy"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": 120,
+     "title": "Main",
+     "instructions": "Recovery between rounds: easy",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 6,
+       "unit": "min",
+       "intensity": "threshold x4 with 120sec easy recovery"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Cool-down",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 6,
+       "unit": "min",
+       "intensity": "easy cooldown"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_threshold_03",
+   "name": "Threshold 3x1 Mile",
+   "workout_family": "threshold",
+   "stimulus": "lactate_threshold",
+   "category": "Threshold",
+   "station": null,
+   "estimated_minutes": 55,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.82,
+   "source_prescription": "12m easy + 3x1 mile threshold/3m easy + cooldown",
+   "blocks": [
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 12,
+       "unit": "min",
+       "intensity": "easy"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 3,
+     "duration_minutes": null,
+     "rest_seconds": 180,
+     "title": "Main",
+     "instructions": "Recovery between rounds: easy",
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "distance",
+       "quantity": 1609,
+       "unit": "m",
+       "intensity": "threshold x3 with 180sec easy recovery"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Cool-down",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 6,
+       "unit": "min",
+       "intensity": "easy cooldown"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run_treadmill_control_03",
+   "name": "Treadmill Rolling Incline",
+   "workout_family": "treadmill",
+   "stimulus": "pace_control",
+   "category": "Treadmill Control",
+   "station": null,
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 3-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.82,
+   "source_prescription": "6r: 3m flat steady + 2m @ 2-3% incline; easy cooldown",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Main",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 3,
+       "unit": "min",
+       "intensity": "flat steady"
+      },
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 2,
+       "unit": "min",
+       "intensity": "2-3% incline"
+      }
+     ]
+    },
+    {
+     "block_type": "continuous",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "title": "Cool-down",
+     "instructions": null,
+     "items": [
+      {
+       "exercise": "Run",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "unit": "min",
+       "intensity": "easy cooldown"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
