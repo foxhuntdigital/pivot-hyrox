@@ -10,11 +10,19 @@ import {
 } from '@expo-google-fonts/archivo';
 
 import { Splash } from '@/components/Splash';
+import { initAnalytics } from '@/lib/analytics';
 import { AppProvider } from '@/state/store';
 import { CoachProvider } from '@/state/coach';
 import { SessionProvider, useSession } from '@/state/session';
 import { OnboardingProvider, useOnboarding } from '@/state/onboarding';
 import { color } from '@/theme/tokens';
+
+/**
+ * Started at module scope rather than in an effect: the SDK queues events until
+ * it is ready, so starting it before the first render means an event fired by a
+ * provider's mount effect is held rather than dropped.
+ */
+initAnalytics();
 
 function Holding() {
   return (

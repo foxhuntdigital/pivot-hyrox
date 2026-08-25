@@ -12,6 +12,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
 
+import { identifyAthlete, resetAthlete } from '@/lib/analytics';
 import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 
 export type AuthStatus = 'loading' | 'signed_in' | 'signed_out' | 'unconfigured';
@@ -45,6 +46,20 @@ interface SessionStore {
   resendConfirmation(email: string): Promise<void>;
 }
 
+/**
+ * Points analytics at whoever is signed in (PRD §16.1).
+ *
+ * Both the initial read and every later auth change route through here, so the
+ * identity cannot be set on one path and missed on the other — including the
+ * password-recovery flow, which signs the athlete in without ever calling
+ * `signIn`. Sign-out resets rather than merely clearing the ID, so the next
+ * athlete on a shared phone does not inherit the last one's device history.
+ */
+function applyAnalyticsIdentity(next: Session | null): void {
+  if (next?.user.id) identifyAthlete(next.user.id);
+  else resetAthlete();
+}
+
 const Ctx = createContext<SessionStore | null>(null);
 
 export function SessionProvider({ children }: { children: React.ReactNode }) {
@@ -62,11 +77,13 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       if (cancelled) return;
       setSession(data.session);
       setStatus(data.session ? 'signed_in' : 'signed_out');
+      applyAnalyticsIdentity(data.session);
     });
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, next) => {
       setSession(next);
       setStatus(next ? 'signed_in' : 'signed_out');
+      applyAnalyticsIdentity(next);
     });
 
     return () => { cancelled = true; sub.subscription.unsubscribe(); };

@@ -31,6 +31,9 @@ import {
 import { recordAdaptation } from '../data/adaptRepo';
 import { fetchEquipment, saveEquipment } from '../data/equipmentRepo';
 import { planView, type PlanView } from '../data/plan';
+import {
+  track, flushAnalytics, bucketSleep, bucketScale, elapsedMinutes,
+} from '../lib/analytics';
 import { COMPONENT_KEYS } from '@pivot/coach';
 import { useSession } from './session';
 import { buildSteps, type Step } from './steps';
@@ -468,6 +471,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const commitCheckin = useCallback((checkin: Checkin) => {
     dispatch({ type: 'set_checkin', checkin });
+    // Buckets only (PRD §16). The symptom names are health free text and stay
+    // out of analytics entirely; how many were reported is the analysable part.
+    track({
+      name: 'recovery_checkin_completed',
+      sleep_bucket: bucketSleep(checkin.sleep_hours),
+      soreness_bucket: bucketScale(checkin.soreness),
+      symptom_count: checkin.symptoms.length,
+    });
     if (authStatusRef.current !== 'signed_in') return;
     saveCheckin(checkin).then(saved => {
       if (saved) refreshToday();
@@ -491,6 +502,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   /** The step list the athlete performed, for the same reason. */
   const stepsRef = useRef<Step[]>([]);
 
+  /**
+   * The whole decision, not just the two fields the server needs. §16's workout
+   * events want the family and the estimated duration, which `sessionRef`
+   * deliberately does not carry — it is spread straight into the start request,
+   * so anything added to it would be sent to the server too.
+   */
+  const decisionRef = useRef<EngineDecision | null>(null);
+
   const adaptInputs = useCallback((): Omit<StartRequest, 'template_id' | 'variant_code'> => {
     const s = stateRef.current;
     const noEquipment = s.flags.includes('No equipment');
@@ -512,6 +531,35 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const beginSession = useCallback(() => {
     dispatch({ type: 'start_workout' });
+
+    /**
+     * Tracked before the sign-in check, not after: a started workout is a
+     * started workout whether or not the server accepted the row, and gating
+     * the event on the write would quietly under-count every session that began
+     * offline — which §15.1 explicitly expects to happen.
+     */
+    const started = decisionRef.current;
+    if (started?.kind === 'session') {
+      track({
+        name: 'workout_started',
+        template_id: started.template.id,
+        family: started.template.workout_family,
+        variant: started.variant.variant_code,
+        estimated_minutes: started.estimated_minutes,
+      });
+      // The engine substitutes silently when equipment is missing, so this is
+      // the moment a swap becomes real to the athlete — there is no separate
+      // tap to hang it off.
+      for (const swap of started.substitutions_applied) {
+        track({
+          name: 'exercise_substituted',
+          from_exercise: swap.from,
+          to_exercise: swap.to,
+          reason: swap.reason,
+        });
+      }
+    }
+
     if (authStatusRef.current !== 'signed_in') return;
 
     // The engine's current answer, which already has any accepted override
@@ -536,6 +584,22 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     const s = stateRef.current;
     const performed = stepsRef.current;
     dispatch({ type: 'back_to_today' });
+
+    const finished = decisionRef.current;
+    if (finished?.kind === 'session') {
+      track({
+        name: 'workout_completed',
+        family: finished.template.workout_family,
+        variant: finished.variant.variant_code,
+        actual_minutes: elapsedMinutes(s.elapsed_seconds),
+        session_rpe: s.session_rpe,
+        ended_early: s.ended_early,
+      });
+    }
+    // Finishing is the likeliest moment for the athlete to put the phone down,
+    // and a queued event in a killed process never happened.
+    flushAnalytics();
+
     if (!s.session_id || authStatusRef.current !== 'signed_in') return;
 
     /**
@@ -564,6 +628,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const commitAdaptation = useCallback((templateId: string, variant: VariantCode) => {
     const s = stateRef.current;
     dispatch({ type: 'accept_adaptation', template_id: templateId, variant });
+
+    const before = decisionRef.current;
+    track({
+      name: 'adaptation_applied',
+      from_variant: s.override_variant ?? (before?.kind === 'session'
+        ? before.variant.variant_code : null),
+      to_variant: variant,
+      reason_codes: before?.reason_codes ?? [],
+    });
+
     if (authStatusRef.current !== 'signed_in') return;
 
     const original = s.override_template_id ?? today?.recommendation?.template.id ?? null;
@@ -658,6 +732,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   sessionRef.current = session.kind === 'session'
     ? { template_id: session.template.id, variant_code: session.variant.variant_code }
     : null;
+  decisionRef.current = session;
 
   const steps = useMemo(
     () => (session.kind === 'session' ? buildSteps(session) : []), [session]);

@@ -18,6 +18,7 @@
       "apps/mobile": {
         "packageJson": {
           "dependencies": [
+            "npm:@amplitude/analytics-react-native@^1.7.0",
             "npm:@expo-google-fonts/archivo@~0.4.2",
             "npm:@pivot/engine@*",
             "npm:@react-native-async-storage/async-storage@^2.2.0",

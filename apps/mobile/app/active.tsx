@@ -18,6 +18,7 @@ import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { ActionButton, Label } from '@/components/primitives';
 import { useApp } from '@/state/store';
 import { mmss } from '@/state/steps';
+import { track, elapsedMinutes } from '@/lib/analytics';
 
 export default function ActiveScreen() {
   // A workout screen that sleeps mid-interval is useless.
@@ -40,6 +41,16 @@ export default function ActiveScreen() {
 
   const complete = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    // Per step rather than per tap (PRD §16): a HYROX session is single digits
+    // to low tens of these, and the index pair is what makes drop-off within a
+    // session readable without a second event.
+    track({
+      name: 'workout_step_completed',
+      block_type: step.kind,
+      exercise_id: step.exercise_id || null,
+      step_index: index,
+      total_steps: steps.length,
+    });
     if (isLast) {
       dispatch({ type: 'next_step', total: steps.length });
       router.replace('/done');
@@ -56,6 +67,11 @@ export default function ActiveScreen() {
   };
 
   const discard = () => {
+    track({
+      name: 'workout_abandoned',
+      elapsed_minutes: elapsedMinutes(state.elapsed_seconds),
+      block_index: index,
+    });
     dispatch({ type: 'end_and_discard' });
     setEndPrompt(false);
     router.replace('/today');

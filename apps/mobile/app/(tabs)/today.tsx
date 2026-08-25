@@ -6,9 +6,9 @@
  * scrolling; Start is the dominant CTA and Adapt is obviously available; a
  * neutral state instead of fabricated precision when data is thin.
  */
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 
 import { VARIANT_LABEL } from '@pivot/engine';
@@ -20,6 +20,7 @@ import { PHASE_LABEL, type PhaseView } from '@/data/plan';
 import { firstNameOf } from '@/data/profile';
 import { exerciseById } from '@/data/content';
 import { hoursToClock, LOW_SLEEP_HOURS } from '@/lib/format';
+import { track } from '@/lib/analytics';
 
 function greeting(): string {
   const h = new Date().getHours();
@@ -78,6 +79,26 @@ export default function TodayScreen() {
   const router = useRouter();
   const { state, session, readiness, sleep, plan, beginSession } = useApp();
   const [sheetOpen, setSheetOpen] = useState(false);
+
+  /**
+   * On focus rather than on mount: Today is a tab, so it stays mounted while
+   * the athlete is on Plan or Coach, and a mount effect would count the day's
+   * first open and nothing after it. §16.1's decision-latency KPI measures from
+   * Today opening, which means every return counts.
+   */
+  const phase = plan.phase?.type ?? 'unknown';
+  const family = session.kind === 'session' ? session.template.workout_family : null;
+  const variant = session.kind === 'session' ? session.variant.variant_code : null;
+  useFocusEffect(
+    useCallback(() => {
+      track({
+        name: 'today_viewed',
+        phase,
+        recommendation_family: family,
+        variant,
+      });
+    }, [phase, family, variant]),
+  );
 
   const sleepClock = hoursToClock(sleep.hours);
   // The accent is tied to the engine's own threshold, so red means "this

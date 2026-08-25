@@ -5,12 +5,14 @@
  * shows whole numbers, exposes its components, and surfaces its confidence
  * rather than implying precision it does not have.
  */
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
+import { useFocusEffect } from 'expo-router';
 
 import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { Rule, Label, InkPanel } from '@/components/primitives';
 import { useApp } from '@/state/store';
+import { track } from '@/lib/analytics';
 
 
 
@@ -30,6 +32,24 @@ export default function ProgressScreen() {
   // of components, so it stayed red on a strong runner and never appeared on a
   // weak one, contradicting the score beside it.
   const isLimiter = (key: string) => key === lowest?.[0];
+
+  /**
+   * §16 pairs the score's confidence with its weakest component, which is the
+   * combination that says whether the number is worth showing at all — a low
+   * confidence with no measured component is an athlete who has logged nothing,
+   * not an athlete who is unready. On focus, for the same reason as Today.
+   */
+  const confidence = readiness.confidence;
+  const componentLowest = lowest?.[0] ?? null;
+  useFocusEffect(
+    useCallback(() => {
+      track({
+        name: 'readiness_viewed',
+        confidence,
+        component_lowest: componentLowest,
+      });
+    }, [confidence, componentLowest]),
+  );
 
   return (
     <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>

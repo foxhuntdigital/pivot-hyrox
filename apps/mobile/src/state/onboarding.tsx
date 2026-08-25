@@ -14,6 +14,7 @@ import React, {
 } from 'react';
 
 import { createPlan, fetchActiveProgram, type PlanSummary } from '@/data/planRepo';
+import { track } from '@/lib/analytics';
 import { useSession } from './session';
 
 export type Goal = 'finish_healthy' | 'performance' | 'custom';
@@ -85,7 +86,12 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
     setStatus('checking');
     fetchActiveProgram()
       .then(program => {
-        if (!cancelled) setStatus(program ? 'complete' : 'needed');
+        if (cancelled) return;
+        setStatus(program ? 'complete' : 'needed');
+        // Fired where the flow is decided rather than on the first screen's
+        // mount, so a back-navigation through `/goal` cannot count as a second
+        // start. `source` is the route gate because that is what sent them.
+        if (!program) track({ name: 'onboarding_started', source: 'auth_gate' });
       })
       .catch(() => {
         // A failed lookup is not evidence of a missing plan. Falling through to
@@ -120,6 +126,12 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
       },
     });
     setSummary(plan);
+    track({
+      name: 'onboarding_completed',
+      sport: draft.sport,
+      race_added: Boolean(draft.event_date),
+      health_connected: draft.health_connected,
+    });
     // Status flips only after the server confirms, so a failed submit leaves
     // the athlete in onboarding with their answers intact.
     setStatus('complete');

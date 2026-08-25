@@ -11,6 +11,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 
 import type { Restorable } from './store';
 import type { CoachAnswer } from './coachAnswer';
+import { track } from '@/lib/analytics';
 import {
   INTENT_TITLE, INTENT_UTTERANCE, classify, type CoachIntent, type CoachSignals,
 } from '@/data/coach';
@@ -137,6 +138,11 @@ export function CoachProvider({ children }: { children: React.ReactNode }) {
     setDraft('');
     setPending(true);
 
+    // Intent classification only (PRD §16). The athlete's wording is the whole
+    // point of the Coach surface and is exactly what must not leave the device
+    // as analytics — `utterance` is deliberately not a property here.
+    track({ name: 'coach_message_sent', intent: intent ?? 'unclassified' });
+
     /**
      * The card is already on screen, built from the engine. This asks the
      * server for the narrative and, when it answers, swaps the prose in and
@@ -212,7 +218,16 @@ export function CoachProvider({ children }: { children: React.ReactNode }) {
       dismissInsight: () => setInsightDismissed(true),
       openReview: id => setReviewing(id),
       closeReview: () => setReviewing(null),
-      commit: (id, commitment) => setCommitments(prev => ({ ...prev, [id]: commitment })),
+      commit: (id, commitment) => {
+        // The card kind names what was applied — an adaptation, a substitution
+        // — which is more analysable than the screen it landed on. `target` is
+        // the fallback for an answer that committed without a card.
+        track({
+          name: 'coach_action_applied',
+          action_type: commitment.answer.card?.kind ?? commitment.target,
+        });
+        setCommitments(prev => ({ ...prev, [id]: commitment }));
+      },
       undo: id => {
         const found = commitments[id] ?? null;
         if (found) {

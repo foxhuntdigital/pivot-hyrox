@@ -5,7 +5,7 @@
  * recommendation change as they answer rather than after a submit. The engine
  * runs on every keystroke-equivalent because it is a pure function over state.
  */
-import React from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { View, Text, ScrollView, Modal, Pressable } from 'react-native';
 import * as Haptics from 'expo-haptics';
 
@@ -14,6 +14,7 @@ import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, Chip } from '@/components/primitives';
 import { useApp } from '@/state/store';
 import { exerciseById } from '@/data/content';
+import { track, bucketMinutes } from '@/lib/analytics';
 
 const TIME_CHOICES = [15, 30, 45, 60, 90];
 const ENERGY_CHOICES = ['low', 'normal', 'high'] as const;
@@ -21,6 +22,70 @@ const FLAG_CHOICES = ['Low sleep', 'Something hurts', 'No equipment', 'Need low 
 
 export function AdaptSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const { state, dispatch, decision, commitAdaptation } = useApp();
+
+  // What the athlete arrived with, captured on open so `adaptation_applied`
+  // and `adapt_opened` agree on what "original" meant (PRD §16).
+  const openedVariant = decision.kind === 'session' ? decision.variant.variant_code : null;
+  const openedVariantRef = useRef(openedVariant);
+  openedVariantRef.current = openedVariant;
+
+  useEffect(() => {
+    if (!visible) return;
+    track({ name: 'adapt_opened', original_variant: openedVariantRef.current });
+  }, [visible]);
+
+  /**
+   * One event per settled change rather than one per chip.
+   *
+   * The sheet recalculates live, so an athlete answering three questions taps
+   * five or six times in a couple of seconds. §16 wants the resulting input
+   * set, not the keystrokes, so this debounces the way `commitEquipment` does
+   * and reports the state the taps landed on.
+   */
+  const timeBucket = bucketMinutes(state.available_minutes);
+  const lowImpact = state.flags.includes('Need low impact');
+  const equipmentChange = state.flags.includes('No equipment') || state.today_equipment !== null;
+
+  const latest = useRef({ timeBucket, energy: state.energy, lowImpact, equipmentChange });
+  latest.current = { timeBucket, energy: state.energy, lowImpact, equipmentChange };
+  const unreported = useRef(false);
+  const firstRender = useRef(true);
+
+  const emitInputChange = useCallback(() => {
+    if (!unreported.current) return;
+    unreported.current = false;
+    const v = latest.current;
+    track({
+      name: 'adapt_input_changed',
+      time_bucket: v.timeBucket,
+      energy_bucket: v.energy,
+      low_impact: v.lowImpact,
+      equipment_change: v.equipmentChange,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!visible) return;
+    // Opening the sheet is not an input change; `adapt_opened` covers that.
+    if (firstRender.current) { firstRender.current = false; return; }
+    unreported.current = true;
+    const id = setTimeout(emitInputChange, 600);
+    return () => clearTimeout(id);
+  }, [visible, timeBucket, state.energy, lowImpact, equipmentChange, emitInputChange]);
+
+  /**
+   * Flush on close rather than let the debounce be cancelled by it.
+   *
+   * The common path is answering the questions and immediately accepting a
+   * variant, which closes the sheet inside the debounce window. Dropping the
+   * pending event there would lose the inputs for exactly the flow that matters
+   * most — the one that ends in an adaptation.
+   */
+  useEffect(() => {
+    if (visible) return;
+    emitInputChange();
+    firstRender.current = true;
+  }, [visible, emitInputChange]);
 
   const accept = (templateId: string, variant: VariantCode) => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
