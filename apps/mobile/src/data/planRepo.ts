@@ -7,6 +7,7 @@
  * renders the summary it gets back — it does not periodize.
  */
 import { supabase } from '@/lib/supabase';
+import { postgrestError } from './postgrest';
 
 export interface EquipmentOption {
   id: string;
@@ -59,7 +60,7 @@ export async function fetchActiveProgram(): Promise<{ id: string } | null> {
   if (!supabase) return null;
   const { data, error } = await supabase
     .from('programs').select('id').eq('status', 'active').limit(1).maybeSingle();
-  if (error) throw error;
+  if (error) throw postgrestError(error);
   return data ?? null;
 }
 
@@ -74,7 +75,7 @@ export async function fetchEquipment(): Promise<EquipmentOption[]> {
   // PostgrestError is a plain object, not an Error, so rethrowing it as-is left
   // every caller's `instanceof Error` check false and the real cause — schema
   // not exposed, permission denied — replaced by a generic fallback message.
-  if (error) throw new Error(error.message + (error.hint ? ` (${error.hint})` : ''));
+  if (error) throw postgrestError(error);
   return (data ?? []) as EquipmentOption[];
 }
 

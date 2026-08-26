@@ -5,6 +5,7 @@
  * adding a client-side predicate would imply the client is what enforces it.
  */
 import { supabase } from '@/lib/supabase';
+import { postgrestError } from './postgrest';
 import {
   clampPredictability, clampSessionMinutes, isExperienceLevel, readConsiderations,
   type AthleteProfile, type ExperienceLevel,
@@ -42,7 +43,10 @@ export async function fetchProfile(fallbackName: string): Promise<AthleteProfile
   if (!supabase) return null;
   const { data, error } = await supabase
     .from('athlete_profiles').select(COLUMNS).maybeSingle();
-  if (error) throw error;
+  // Wrapped, not rethrown: a PostgrestError is a plain object, and throwing it
+  // as-is is what turned every real failure here into the store's generic
+  // "Could not load profile" with the cause discarded.
+  if (error) throw postgrestError(error);
   return data ? toProfile(data as Row, fallbackName) : null;
 }
 
@@ -52,5 +56,5 @@ export async function saveProfile(patch: Partial<AthleteProfile>): Promise<void>
     .from('athlete_profiles')
     .update({ ...patch, updated_at: new Date().toISOString() })
     .not('user_id', 'is', null);
-  if (error) throw error;
+  if (error) throw postgrestError(error);
 }

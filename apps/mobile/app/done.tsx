@@ -99,7 +99,19 @@ export default function DoneScreen() {
             borderRightWidth: i === 2 ? 0 : 1, borderRightColor: color.rule,
           }}>
             <Label size="sm">{s.k}</Label>
-            <Text style={[t.statValue, { marginTop: 3, color: color.ink }]}>{s.v}</Text>
+            {/* One line, always. "EXPRESS" is seven characters in a cell sized
+                for "1:15" and broke across two lines as "EXPRE / SS". Shrinking
+                to fit keeps the three cells on a common baseline and leaves the
+                two short numerals at their full weight, which a fixed smaller
+                size for the whole row would not. */}
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.6}
+              style={[t.statValue, { marginTop: 3, color: color.ink }]}
+            >
+              {s.v}
+            </Text>
           </View>
         ))}
       </View>

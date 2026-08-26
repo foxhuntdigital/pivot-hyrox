@@ -10,6 +10,7 @@
  * at one row, so the equipment chosen at signup is the equipment Profile shows.
  */
 import { supabase } from '@/lib/supabase';
+import { postgrestError } from './postgrest';
 
 /** The name onboarding gives the default profile. */
 const DEFAULT_NAME = 'Default';
@@ -27,7 +28,7 @@ export async function fetchEquipment(): Promise<string[] | null> {
     .order('is_default', { ascending: false })
     .limit(1)
     .maybeSingle();
-  if (error) throw new Error(error.message);
+  if (error) throw postgrestError(error);
   if (!data) return null;
 
   const items = (data.equipment_profile_items ?? []) as { equipment_id: string }[];
@@ -49,14 +50,14 @@ export async function saveEquipment(equipment: string[]): Promise<void> {
 
   const { error: clearError } = await supabase
     .from('equipment_profile_items').delete().eq('profile_id', profileId);
-  if (clearError) throw new Error(clearError.message);
+  if (clearError) throw postgrestError(clearError);
 
   if (!equipment.length) return;
 
   const { error: insertError } = await supabase
     .from('equipment_profile_items')
     .insert(equipment.map(equipment_id => ({ profile_id: profileId, equipment_id })));
-  if (insertError) throw new Error(insertError.message);
+  if (insertError) throw postgrestError(insertError);
 }
 
 async function defaultProfileId(): Promise<string | null> {
@@ -67,7 +68,7 @@ async function defaultProfileId(): Promise<string | null> {
     .order('is_default', { ascending: false })
     .limit(1)
     .maybeSingle();
-  if (error) throw new Error(error.message);
+  if (error) throw postgrestError(error);
   if (data) return data.id;
 
   // `user_id` has no default and RLS checks it, so the row needs the app user's

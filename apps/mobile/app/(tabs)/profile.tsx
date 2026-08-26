@@ -152,7 +152,9 @@ function FieldLabel({ children, first }: { children: React.ReactNode; first?: bo
 }
 
 export default function ProfileScreen() {
-  const { state, dispatch, commitProfile, commitEquipment, profileError } = useApp();
+  const {
+    state, dispatch, commitProfile, commitEquipment, profileError, refreshProfile,
+  } = useApp();
   const { email, signOut, status } = useSession();
   const { profile } = state;
 
@@ -243,14 +245,44 @@ export default function ProfileScreen() {
       </View>
       <Rule heavy />
 
+      {/* A failed read and a failed write are different news. This said "Not
+          saved" over both, so an athlete whose profile merely failed to load
+          was told their answers had been dropped — while the fields below
+          showed those same answers, correctly, from the last good read. The
+          heading now names which happened, and a read offers the retry. */}
       {profileError ? (
         <View style={{
           marginHorizontal: space.gutter, marginTop: 14,
           backgroundColor: color.tint, borderWidth: 1, borderColor: color.tintBorder,
           paddingHorizontal: 13, paddingVertical: 12,
         }}>
-          <Label tone="redDark" size="sm" style={{ marginBottom: 4 }}>Not saved</Label>
-          <Text style={[t.bodySm, { color: color.redDeep }]}>{profileError}</Text>
+          <Label tone="redDark" size="sm" style={{ marginBottom: 4 }}>
+            {profileError.kind === 'save' ? 'Not saved' : "Couldn't refresh"}
+          </Label>
+          <Text style={[t.bodySm, { color: color.redDeep }]}>{profileError.message}</Text>
+          {profileError.kind === 'load' ? (
+            <>
+              <Text style={[t.bodySm, { color: color.redDeep, marginTop: 6 }]}>
+                What is shown below is the last version this device read. Nothing
+                you have saved has been lost.
+              </Text>
+              <Pressable
+                onPress={refreshProfile}
+                accessibilityRole="button"
+                accessibilityLabel="Try loading your profile again"
+                style={({ pressed }) => ({
+                  alignSelf: 'flex-start', marginTop: 8, paddingVertical: 6,
+                  opacity: pressed ? 0.6 : 1,
+                })}
+              >
+                <Text style={[t.bodySm, {
+                  fontFamily: t.rowTitle.fontFamily, color: color.redDeep,
+                }]}>
+                  Try again
+                </Text>
+              </Pressable>
+            </>
+          ) : null}
         </View>
       ) : null}
 

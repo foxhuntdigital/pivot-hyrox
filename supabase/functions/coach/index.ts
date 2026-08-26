@@ -75,13 +75,21 @@ Deno.serve(async (req) => {
         loadAthleteState(db, user.id, today),
       ]);
       const snapshot = await loadProgressSnapshot({ db, userId: user.id, today, content, state });
+      // `observed` travels with each component so the narrator can tell a
+      // measured zero from an absence. Without it every component looked like a
+      // fact and Coach wrote six sentences for an athlete who had logged none.
+      const observed = new Set<string>(snapshot.readiness.observed);
       const facts = Object.fromEntries(
         Object.entries(snapshot.readiness.components).map(([k, score]) => [
-          k, { score, stats: snapshot.metric_detail[k]?.stats ?? [] },
+          k, {
+            score,
+            stats: snapshot.metric_detail[k]?.stats ?? [],
+            observed: observed.has(k),
+          },
         ]),
       );
       const narration = await narrateProgress({
-        llm, facts, lowest: snapshot.lowest,
+        llm, facts, lowest: snapshot.lowest ?? '',
       });
       return json({
         detail: narration.detail,

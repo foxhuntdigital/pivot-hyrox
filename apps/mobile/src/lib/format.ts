@@ -23,3 +23,21 @@ export function hoursToClock(hours: number | null | undefined): string | null {
  * session", rather than being decorative.
  */
 export const LOW_SLEEP_HOURS = 5;
+
+const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+/**
+ * The app header's date — "Wed 19 Aug".
+ *
+ * Formatted here rather than with `toLocaleDateString`: Hermes ships without
+ * full ICU on some builds and silently falls back to a different shape, which
+ * is how a release build ends up disagreeing with the simulator about what
+ * today looks like. This is also the device's own day, not the plan's — the
+ * header answers "what is the date", and an athlete travelling should not see
+ * yesterday because their stored timezone says so.
+ */
+export function headerDateLabel(now: Date = new Date()): string {
+  return `${WEEKDAYS[now.getDay()]} ${now.getDate()} ${MONTHS_SHORT[now.getMonth()]}`;
+}

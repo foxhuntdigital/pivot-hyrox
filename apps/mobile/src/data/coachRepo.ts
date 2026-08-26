@@ -99,6 +99,17 @@ function signalsFrom(entities: RemoteEntities | undefined): CoachSignals {
   };
 }
 
+/**
+ * How long Coach is given to answer before the local one stands.
+ *
+ * There was no bound at all: `fetch` in a native app waits on the OS timeout,
+ * which is measured in minutes. The screen shows a pending state for as long as
+ * this is outstanding, so an unanswered request left the athlete watching a
+ * spinner with no way to tell it had already failed. Thirty seconds is well
+ * past a normal answer and well short of giving up on the app.
+ */
+const COACH_TIMEOUT_MS = 30_000;
+
 export async function askCoach(args: {
   message: string;
   threadId?: string | null;
@@ -106,9 +117,12 @@ export async function askCoach(args: {
 }): Promise<RemoteAnswer | null> {
   if (!supabase) return null;
 
+  const abort = new AbortController();
+  const timeout = setTimeout(() => abort.abort(), COACH_TIMEOUT_MS);
   try {
     const { data, error } = await supabase.functions.invoke('coach', {
       method: 'POST',
+      signal: abort.signal,
       body: {
         message: args.message,
         thread_id: args.threadId ?? null,
@@ -132,7 +146,9 @@ export async function askCoach(args: {
       versions: turn.versions ?? {},
     };
   } catch {
-    return null;   // offline, rate-limited, or unconfigured — fall back locally
+    return null;   // offline, rate-limited, timed out, or unconfigured — fall back locally
+  } finally {
+    clearTimeout(timeout);
   }
 }
 

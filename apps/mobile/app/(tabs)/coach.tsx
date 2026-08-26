@@ -345,6 +345,21 @@ export default function CoachScreen() {
               }
               const live = answers.get(message.id);
               if (!live) return null;
+              /**
+               * A local "I found nothing" is withheld while the model is still
+               * looking.
+               *
+               * The local answer comes from a regex classifier and renders
+               * instantly; the model's reading of the same sentence lands
+               * seconds later and frequently finds what the regex missed. A
+               * positive local answer is the engine's own and worth showing at
+               * once, but a negative one shown with actions under it reads as a
+               * settled refusal — and then gets replaced by the session it just
+               * said did not exist. The pending indicator below stands in until
+               * the model answers or fails, at which point this renders
+               * whichever answer is actually true.
+               */
+              if (live.unresolved && !message.remote && coach.pending) return null;
               const committed = coach.commitments[message.id];
               // An open answer tracks the engine; an applied one shows what was
               // applied, which is the frozen copy on the commitment.

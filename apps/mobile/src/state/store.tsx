@@ -15,7 +15,7 @@ import React, {
   createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef, useState,
 } from 'react';
 import {
-  recommend, computeReadiness, ENGINE_VERSION,
+  recommend, computeReadiness, variantMinutes, ENGINE_VERSION,
   type EngineDecision, type EngineInput, type Energy, type VariantCode,
 } from '@pivot/engine';
 import { EXERCISES, TEMPLATES, SUBSTITUTIONS } from '../data/content';
@@ -36,8 +36,35 @@ import {
 } from '../lib/analytics';
 import { COMPONENT_KEYS } from '@pivot/coach';
 import { useSession } from './session';
+import { useOnboarding } from './onboarding';
 import { buildSteps, type Step } from './steps';
 import { buildLogs } from './actuals';
+
+/**
+ * A profile/equipment failure, and whether it was a read or a write. The two
+ * read very differently to an athlete: a failed write means what they just
+ * typed is not stored, a failed read means the screen is showing less than
+ * their account holds.
+ */
+export interface ProfileError {
+  kind: 'load' | 'save';
+  message: string;
+}
+
+/**
+ * PostgREST hands its failures back as plain objects rather than Errors, so
+ * `instanceof Error` is false for a real database failure and the caller's
+ * fallback string replaces the actual cause. Repos wrap their own now; this
+ * catches whatever else arrives.
+ */
+function messageOf(e: unknown, fallback: string): string {
+  if (e instanceof Error && e.message) return e.message;
+  if (typeof e === 'object' && e !== null && 'message' in e) {
+    const m = (e as { message?: unknown }).message;
+    if (typeof m === 'string' && m) return m;
+  }
+  return fallback;
+}
 
 /** PRD §8.4. */
 export type WorkoutStatus =
@@ -94,6 +121,17 @@ interface State {
   ended_early: boolean;
   /** Completed sessions this week, appended on finish. */
   completed_today: boolean;
+  /**
+   * The server row for the session just finished, held so the optimistic
+   * "completed today" can retire the moment the server's week contains it.
+   *
+   * Without it `completed_today` was a bare flag that outlived its own refetch:
+   * the week's counter added one on top of a server count that had already
+   * been incremented, and Plan labelled whatever the engine recommended *next*
+   * as "Completed today" — an athlete who finished Long Hybrid 60 was shown a
+   * Threshold session, ticked, that they had never seen.
+   */
+  completed_session_id: string | null;
 
   // UI
   open_metric: string | null;
@@ -132,6 +170,7 @@ const initialState: State = {
   session_rpe: null,
   ended_early: false,
   completed_today: false,
+  completed_session_id: null,
 
   open_metric: 'running',
 };
@@ -282,12 +321,18 @@ function reducer(s: State, a: Action): State {
     }
     case 'next_step':
       return s.step_index >= a.total - 1
-        ? { ...s, status: 'completed_pending_review', completed_today: true }
+        ? {
+            ...s, status: 'completed_pending_review',
+            completed_today: true, completed_session_id: s.session_id,
+          }
         : { ...s, step_index: s.step_index + 1 };
     case 'toggle_pause':
       return { ...s, status: s.status === 'paused' ? 'active_block' : 'paused' };
     case 'end_and_save':
-      return { ...s, status: 'completed_pending_review', ended_early: true, completed_today: true };
+      return {
+        ...s, status: 'completed_pending_review', ended_early: true,
+        completed_today: true, completed_session_id: s.session_id,
+      };
     case 'end_and_discard':
       // Abandoned, not completed: nothing is logged and the stimulus stays open.
       return { ...s, status: 'ready', step_index: 0, elapsed_seconds: 0, step_seconds: [] };
@@ -297,6 +342,14 @@ function reducer(s: State, a: Action): State {
       return {
         ...s, status: 'ready', step_index: 0, elapsed_seconds: 0, step_seconds: [],
         session_rpe: null, session_id: null, session_revision: 0,
+        /**
+         * The override is spent. It meant "this is what I am doing today", and
+         * today's session is now finished — left standing it kept forcing the
+         * same template after its queue item had been credited and dropped out
+         * of the week, so Today offered a completed session back with a Start
+         * button on it.
+         */
+        override_template_id: null, override_variant: null, adapted: false,
       };
 
     case 'toggle_metric':
@@ -365,7 +418,27 @@ interface Store {
    * immediate; the record is the audit row (PRD §24).
    */
   commitAdaptation(templateId: string, variant: VariantCode): void;
-  profileError: string | null;
+  /**
+   * Makes a queued session today's, chosen by the athlete from Plan. Returns
+   * false when the engine will not build that template under today's inputs —
+   * the caller says why rather than leaving the tap looking ignored.
+   */
+  switchToQueued(templateId: string): boolean;
+  /**
+   * Applies a specific variant of a workout — the Adapt sheet's Full/Micro
+   * choices. Returns false when the athlete's recovery will not support it,
+   * which is the one part of the decision that is not theirs to overrule.
+   */
+  chooseVariant(templateId: string, variant: VariantCode): boolean;
+  /**
+   * The last profile/equipment read or write that failed, with which of the two
+   * it was. `kind` exists because the banner used to say "Not saved" over a
+   * message about a failed *load*, which reads as the athlete's answers having
+   * been thrown away when nothing of theirs was ever at risk.
+   */
+  profileError: ProfileError | null;
+  /** Re-reads the profile and the equipment set — what the error banner retries. */
+  refreshProfile(): void;
   /**
    * Server state backing the decision. Null on an unconfigured build, which
    * runs on the seeded athlete instead (see `athlete.ts`).
@@ -382,62 +455,93 @@ const Ctx = createContext<Store | null>(null);
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { status: authStatus } = useSession();
-  const [profileError, setProfileError] = useState<string | null>(null);
+  const { status: onboardingStatus } = useOnboarding();
+  const [profileError, setProfileError] = useState<ProfileError | null>(null);
   const [today, setToday] = useState<TodayPayload | null>(null);
   const [todayLoading, setTodayLoading] = useState(false);
   const [todayError, setTodayError] = useState<string | null>(null);
   const [todayNonce, setTodayNonce] = useState(0);
+  const [profileNonce, setProfileNonce] = useState(0);
+
+  /**
+   * Whether the athlete's server rows are worth reading yet.
+   *
+   * Being signed in is not enough. A brand-new account is signed in for the
+   * whole of onboarding, and everything these effects read — the race, the
+   * program, the profile answers, the gym — is written by `onboarding-plan` at
+   * the end of it. Fetching on sign-in alone therefore read an athlete who had
+   * no plan yet and then never looked again, which is why Today opened on "No
+   * race set" over the race the athlete had just entered. Keying the fetches on
+   * this makes the flip to `complete` the refetch.
+   */
+  const serverReady = authStatus === 'signed_in'
+    && (onboardingStatus === 'complete' || onboardingStatus === 'not_applicable');
 
   // Today's decision comes from the server so it is recorded against the engine
   // version that produced it (PRD §24). A failure leaves `today` null and the
   // seed showing, with the error surfaced rather than swallowed.
   useEffect(() => {
-    if (authStatus !== 'signed_in') return;
+    if (!serverReady) return;
     let cancelled = false;
     setTodayLoading(true);
     setTodayError(null);
     fetchToday()
       .then(payload => { if (!cancelled) setToday(payload); })
       .catch(e => {
-        if (!cancelled) setTodayError(e instanceof Error ? e.message : 'Could not load today');
+        if (!cancelled) setTodayError(messageOf(e, 'Could not load today'));
       })
       .finally(() => { if (!cancelled) setTodayLoading(false); });
     return () => { cancelled = true; };
-  }, [authStatus, todayNonce]);
+  }, [serverReady, todayNonce]);
 
   const refreshToday = useCallback(() => setTodayNonce(n => n + 1), []);
+  const refreshProfile = useCallback(() => {
+    setProfileError(null);
+    setProfileNonce(n => n + 1);
+  }, []);
 
   // Hydrate the profile once a session exists. Unconfigured builds keep the
   // seeded athlete, which is why this is gated on the status rather than run
   // unconditionally and allowed to fail.
   useEffect(() => {
-    if (authStatus !== 'signed_in') return;
+    if (!serverReady) return;
     let cancelled = false;
     fetchProfile('')
       .then(profile => {
+        // Deliberately not clearing the banner here: the equipment read runs
+        // alongside this one and writes to the same slot, so a profile that
+        // succeeds must not erase an equipment failure. `refreshProfile` clears
+        // before both re-run, which is the only point where nothing is pending.
         if (!cancelled && profile) dispatch({ type: 'hydrate_profile', profile });
       })
       .catch(e => {
-        if (!cancelled) setProfileError(e instanceof Error ? e.message : 'Could not load profile');
+        if (!cancelled) {
+          setProfileError({ kind: 'load', message: messageOf(e, 'Could not load your profile.') });
+        }
       });
     return () => { cancelled = true; };
-  }, [authStatus]);
+  }, [serverReady, profileNonce]);
 
   // The athlete's saved gym. Separate from the profile fetch because it is a
   // separate table, and because a failed equipment read must not cost the
   // profile — the two are useful independently.
   useEffect(() => {
-    if (authStatus !== 'signed_in') return;
+    if (!serverReady) return;
     let cancelled = false;
     fetchEquipment()
       .then(equipment => {
         if (!cancelled && equipment) dispatch({ type: 'hydrate_equipment', equipment });
       })
       .catch(e => {
-        if (!cancelled) setProfileError(e instanceof Error ? e.message : 'Could not load equipment');
+        // Named as equipment, not as the profile. Both land in the same banner,
+        // and reporting one as the other sent an athlete looking for answers
+        // that were never in question.
+        if (!cancelled) {
+          setProfileError({ kind: 'load', message: messageOf(e, 'Could not load your equipment.') });
+        }
       });
     return () => { cancelled = true; };
-  }, [authStatus]);
+  }, [serverReady, profileNonce]);
 
   const authStatusRef = useRef(authStatus);
   authStatusRef.current = authStatus;
@@ -446,7 +550,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (authStatusRef.current !== 'signed_in') return;
     setProfileError(null);
     saveProfile(patch).catch(e =>
-      setProfileError(e instanceof Error ? e.message : 'Could not save profile'));
+      setProfileError({ kind: 'save', message: messageOf(e, 'Could not save your profile.') }));
   }, []);
 
   /**
@@ -461,7 +565,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     equipmentTimer.current = setTimeout(() => {
       setProfileError(null);
       saveEquipment(equipment).catch(e =>
-        setProfileError(e instanceof Error ? e.message : 'Could not save equipment'));
+        setProfileError({ kind: 'save', message: messageOf(e, 'Could not save your equipment.') }));
     }, 600);
   }, []);
 
@@ -708,15 +812,42 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
    * the same code fed the same inputs, the two agree.
    */
   const plan = useMemo(
-    () => planView(today, state.completed_today), [today, state.completed_today]);
+    () => planView(today, state.completed_today, state.completed_session_id),
+    [today, state.completed_today, state.completed_session_id]);
 
   const localDecision = useMemo(() => recommend(engineInput, EXERCISES), [engineInput]);
 
   const decision = useMemo<EngineDecision>(() => {
     if (today?.recommendation) return { kind: 'session', ...today.recommendation };
     if (today?.no_session) return { kind: 'no_session', ...today.no_session };
+    /**
+     * No server answer, and an account that should have had one.
+     *
+     * This fell through to `localDecision` — the engine run here against the
+     * bundled content library — which invented a workout for an athlete with no
+     * program at all. Plan listed it under "This week" beside "0 / 0 completed",
+     * and Today offered a Start button for a session belonging to no plan. The
+     * local run is a stand-in for having no account, not for having no plan.
+     */
+    if (authStatus === 'signed_in') {
+      return today
+        ? {
+            kind: 'no_session',
+            reason_codes: [],
+            rationale: 'The plan has nothing queued for today.',
+            guidance: 'Nothing is scheduled for today. Adjust what you have and '
+              + "I'll build a session from it.",
+          }
+        : {
+            kind: 'no_session',
+            reason_codes: [],
+            rationale: "Today's plan has not been read yet.",
+            guidance: "Your plan hasn't loaded, so there is nothing to recommend "
+              + 'from yet. Pull to retry once you are back online.',
+          };
+    }
     return localDecision;
-  }, [today, localDecision]);
+  }, [today, localDecision, authStatus]);
 
   // An accepted override still runs through the engine, so the same guardrails
   // apply to a session the athlete picked as to one the engine chose.
@@ -724,8 +855,25 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (!state.override_template_id || !state.override_variant) return decision;
     const template = TEMPLATES.find(t => t.id === state.override_template_id);
     if (!template) return decision;
+    /**
+     * The chosen version, not just the chosen workout.
+     *
+     * `override_variant` was recorded and then dropped here: the forced run was
+     * handed the whole template and re-picked the variant by score, which is
+     * the same calculation that produced the recommendation in the first place
+     * — so it returned the same one. That is why tapping Full or Micro under
+     * "Other versions of this stimulus" closed the sheet and changed nothing.
+     * Narrowing the candidate to the athlete's variant is what makes the tap
+     * mean something; the guardrails in `eligibleVariants` still get the final
+     * say, and refusing everything falls back to the engine's own pick.
+     */
+    const chosen = template.variants.filter(v => v.variant_code === state.override_variant);
     const forced = recommend(
-      { ...engineInput, candidates: [template] }, EXERCISES);
+      {
+        ...engineInput,
+        candidates: [{ ...template, variants: chosen.length ? chosen : template.variants }],
+      },
+      EXERCISES);
     return forced.kind === 'session' ? forced : decision;
   }, [decision, engineInput, state.override_template_id, state.override_variant]);
 
@@ -733,6 +881,64 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     ? { template_id: session.template.id, variant_code: session.variant.variant_code }
     : null;
   decisionRef.current = session;
+
+  /**
+   * Swaps a queued session in as today's, if the engine will have it.
+   *
+   * The week is a set of stimuli in rank order, not a calendar (PRD §2), so
+   * which of them an athlete does today is genuinely theirs to choose. It runs
+   * through the same forced `recommend` the Adapt sheet uses rather than being
+   * assigned directly: the athlete picks the session, the engine still picks
+   * the variant and still applies the guardrails. A template it will not build
+   * today returns false so the caller can say so, instead of an override that
+   * silently resolves back to the original.
+   */
+  /**
+   * Applies a specific version of a workout the athlete picked themselves.
+   *
+   * Choosing the full version is the athlete saying they have that long, so the
+   * time input moves with it rather than silently contradicting the choice —
+   * otherwise `eligibleVariants` filters a 60-minute session straight back out
+   * against a 45-minute answer given before they changed their mind. Recovery
+   * is not treated the same way: the time is theirs to revise, the guardrail is
+   * not, so a variant their recovery will not support returns false.
+   */
+  const chooseVariant = useCallback((
+    templateId: string,
+    variantCode: VariantCode,
+  ): boolean => {
+    const template = TEMPLATES.find(t => t.id === templateId);
+    const variant = template?.variants.find(v => v.variant_code === variantCode);
+    if (!template || !variant) return false;
+
+    const needed = variantMinutes(template, variant);
+    const available = Math.max(stateRef.current.available_minutes, needed);
+    const forced = recommend(
+      {
+        ...engineInput,
+        available_minutes: available,
+        candidates: [{ ...template, variants: [variant] }],
+      },
+      EXERCISES);
+    if (forced.kind !== 'session') return false;
+
+    if (available !== stateRef.current.available_minutes) {
+      dispatch({ type: 'set_time', minutes: available });
+    }
+    commitAdaptation(templateId, variantCode);
+    return true;
+  }, [engineInput, commitAdaptation]);
+
+  const switchToQueued = useCallback((templateId: string): boolean => {
+    const template = TEMPLATES.find(t => t.id === templateId);
+    if (!template) return false;
+    const forced = recommend({ ...engineInput, candidates: [template] }, EXERCISES);
+    if (forced.kind !== 'session') return false;
+    // The engine picked the variant here, so committing that same code is what
+    // keeps the override and the decision describing one session.
+    commitAdaptation(templateId, forced.variant.variant_code);
+    return true;
+  }, [engineInput, commitAdaptation]);
 
   const steps = useMemo(
     () => (session.kind === 'session' ? buildSteps(session) : []), [session]);
@@ -804,13 +1010,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       state, dispatch, decision, session, steps, readiness,
       metricDetail: metricDetailView, plan, sleep, engineInput,
       commitProfile, commitCheckin, commitEquipment, reportSymptom,
-      beginSession, finishSession, commitAdaptation,
-      profileError, today, todayLoading, todayError, refreshToday,
+      beginSession, finishSession, commitAdaptation, switchToQueued, chooseVariant,
+      profileError, refreshProfile, today, todayLoading, todayError, refreshToday,
     }),
     [state, decision, session, steps, readiness, metricDetailView, plan, sleep, engineInput, commitProfile,
      commitCheckin, commitEquipment, reportSymptom,
-     beginSession, finishSession, commitAdaptation,
-     profileError, today, todayLoading, todayError, refreshToday]);
+     beginSession, finishSession, commitAdaptation, switchToQueued, chooseVariant,
+     profileError, refreshProfile, today, todayLoading, todayError, refreshToday]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

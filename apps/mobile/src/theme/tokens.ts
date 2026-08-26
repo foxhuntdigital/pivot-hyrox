@@ -63,7 +63,7 @@ export const type = {
   eyebrow: { fontFamily: font.extrabold, fontSize: 11, letterSpacing: 1.76, textTransform: 'uppercase' },
   /** 13/800, .12em, uppercase — button text */
   button: { fontFamily: font.extrabold, fontSize: 13, letterSpacing: 1.56, textTransform: 'uppercase' },
-  /** 16/900, .12em, uppercase — the big "Complete Section" */
+  /** 16/900, .12em, uppercase — the big "Next" / "Finish" player control */
   buttonLg: { fontFamily: font.black, fontSize: 16, letterSpacing: 1.92, textTransform: 'uppercase' },
 
   /**

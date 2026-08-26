@@ -16,8 +16,12 @@ import { metricDetailFrom, type MetricDetail } from './metric-detail.ts';
 export interface ProgressSnapshot {
   readiness: ReturnType<typeof computeReadiness>;
   metric_detail: Record<string, MetricDetail>;
-  /** The lowest-scoring component — what Progress calls the biggest opportunity. */
-  lowest: string;
+  /**
+   * The lowest-scoring *measured* component — what Progress calls the biggest
+   * opportunity. Null when nothing has been measured, which is an athlete with
+   * no limiter yet rather than an athlete whose limiter is everything.
+   */
+  lowest: string | null;
   /**
    * The comparable-session set behind any pace claim, or null when nothing in
    * the window qualifies. Computed here so Coach's sentence and the card under
@@ -74,8 +78,20 @@ export async function loadProgressSnapshot(args: {
     queue: state.queue,
   });
 
-  const lowest = Object.entries(readiness.components)
-    .reduce((a, b) => (b[1] < a[1] ? b : a))[0];
+  /**
+   * The limiter, over measured components only.
+   *
+   * This ranked all six, so a component the athlete has no data for — scored 0
+   * because nothing was observed, not because they are weak at it — came out
+   * "lowest" and was handed to Coach as the thing to work on. Progress computes
+   * its own limiter the same way; the two have to name the same component or
+   * the panel and the sentence under it disagree.
+   */
+  const observed = new Set<string>(readiness.observed);
+  const measured = Object.entries(readiness.components).filter(([k]) => observed.has(k));
+  const lowest = measured.length
+    ? measured.reduce((a, b) => (b[1] < a[1] ? b : a))[0]
+    : null;
 
   const comparable = comparableSeries({
     today,

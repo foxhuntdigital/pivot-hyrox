@@ -29,6 +29,16 @@ export interface ComponentFacts {
   /** 0..100, as shown on the bar. */
   score: number;
   stats: { k: string; v: string }[];
+  /**
+   * Whether anything was actually measured for this component.
+   *
+   * A score of 0 has two entirely different meanings — "trained for a month
+   * and did no aerobic work" and "has logged nothing at all" — and only this
+   * separates them. Unobserved components are withheld from the model
+   * altogether: a sentence about an athlete's strength, written from no
+   * strength data, is invention however carefully it is hedged.
+   */
+  observed: boolean;
 }
 
 /**
@@ -55,9 +65,14 @@ const isReply = (v: unknown): v is NarrationReply =>
   && (v as NarrationReply).components.every(c =>
     c && typeof c.key === 'string' && typeof c.sentence === 'string');
 
+/** The components there is anything to write about. */
+function measured(facts: Record<string, ComponentFacts>): ComponentKey[] {
+  return COMPONENT_KEYS.filter(k => facts[k]?.observed);
+}
+
 /** The facts the model is allowed to write from, and nothing else. */
 function narratorContent(facts: Record<string, ComponentFacts>, lowest: string): string {
-  const lines = COMPONENT_KEYS.filter(k => facts[k]).map(k => {
+  const lines = measured(facts).map(k => {
     const f = facts[k];
     const stats = f.stats.length
       ? f.stats.map(s => `${s.k} = ${s.v}`).join(', ')
@@ -70,6 +85,7 @@ function narratorContent(facts: Record<string, ComponentFacts>, lowest: string):
     ...lines,
     '',
     'No comparison figures are supplied, so no trend or goal claims are possible.',
+    'Components the athlete has no data for are not listed and must not be written about.',
   ].join('\n');
 }
 
@@ -89,6 +105,13 @@ export async function narrateProgress(args: {
   usage?: { input_tokens: number; output_tokens: number };
 }> {
   const detail = { ...FALLBACK_DETAIL };
+  const writable = new Set<string>(measured(args.facts));
+  // Nothing measured means nothing to say. Calling the model here would spend a
+  // request to have it write six sentences out of no facts, which is the state
+  // a brand-new athlete's Progress screen is in — and the fallback sentences,
+  // which describe what each component *will* be measured from, are the honest
+  // answer for exactly that athlete.
+  if (!writable.size) return { detail, source: 'fallback', version: NARRATION_VERSION };
   try {
     const res = await args.llm.structured({
       model: NARRATOR_MODEL,
@@ -103,6 +126,9 @@ export async function narrateProgress(args: {
     for (const c of res.parsed.components) {
       const key = c.key as ComponentKey;
       if (!COMPONENT_KEYS.includes(key)) continue;
+      // The model was not given this component's facts, so whatever it wrote
+      // about it came from somewhere else. Dropped rather than trusted.
+      if (!writable.has(key)) continue;
       const sentence = c.sentence.trim();
       // A sentence long enough to be a paragraph is not the label this asks
       // for, and the row has no room for it.

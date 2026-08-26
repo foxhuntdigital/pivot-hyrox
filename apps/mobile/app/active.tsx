@@ -6,7 +6,7 @@
  * visually so nothing is conveyed by feel alone.
  */
 import React, { useState } from 'react';
-import { View, Text, Pressable, Modal } from 'react-native';
+import { View, Text, Pressable, Modal, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -28,6 +28,7 @@ export default function ActiveScreen() {
   const insets = useSafeAreaInsets();
   const { state, dispatch, session, steps } = useApp();
   const [endPrompt, setEndPrompt] = useState(false);
+  const [showList, setShowList] = useState(false);
 
   if (session.kind !== 'session' || !steps.length) {
     router.replace('/today');
@@ -95,18 +96,42 @@ export default function ActiveScreen() {
         </Text>
       </View>
 
-      {/* Segment bars: done, current, upcoming. */}
-      <View
-        style={{ flexDirection: 'row', gap: 2, paddingHorizontal: space.gutter }}
-        accessibilityLabel={`Step ${index + 1} of ${steps.length}`}
+      {/* Segment bars: done, current, upcoming.
+          
+          Also the way into the whole session. The bars already say how far
+          through the athlete is but not what is coming, and mid-workout is
+          exactly when "how many rounds left, and what is after this" is worth
+          knowing — the player otherwise reveals the session one step at a time
+          with no way to look ahead. Tapping them is the affordance because they
+          are already the progress object and already a large target. */}
+      <Pressable
+        onPress={() => setShowList(true)}
+        accessibilityRole="button"
+        accessibilityLabel={`Step ${index + 1} of ${steps.length}. See the whole session.`}
+        style={({ pressed }) => ({
+          paddingHorizontal: space.gutter, paddingTop: 2, paddingBottom: 8,
+          opacity: pressed ? 0.6 : 1,
+        })}
       >
-        {steps.map((_, i) => (
-          <View key={i} style={{
-            flex: 1, height: 4,
-            backgroundColor: i < index ? color.red : i === index ? color.onDark : color.ruleDark,
-          }} />
-        ))}
-      </View>
+        <View style={{ flexDirection: 'row', gap: 2 }}>
+          {steps.map((_, i) => (
+            <View key={i} style={{
+              flex: 1, height: 4,
+              backgroundColor: i < index ? color.red : i === index ? color.onDark : color.ruleDark,
+            }} />
+          ))}
+        </View>
+        <View style={{
+          flexDirection: 'row', justifyContent: 'space-between', paddingTop: 7,
+        }}>
+          <Text style={[t.meta, { color: color.muted3 }]}>
+            Step {index + 1} of {steps.length}
+          </Text>
+          <Text style={[t.meta, { fontFamily: t.rowTitle.fontFamily, color: color.salmon }]}>
+            See all ›
+          </Text>
+        </View>
+      </Pressable>
 
       {isPaused && (
         <View style={{ alignItems: 'center', paddingTop: 14 }}>
@@ -167,7 +192,7 @@ export default function ActiveScreen() {
       <View style={{ paddingHorizontal: space.gutter, paddingBottom: Math.max(insets.bottom, 24) }}>
         <ActionButton
           size="lg"
-          label={isLast ? 'Finish' : 'Complete Section'}
+          label={isLast ? 'Finish' : 'Next'}
           onPress={complete}
         />
         <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
@@ -186,6 +211,112 @@ export default function ActiveScreen() {
           />
         </View>
       </View>
+
+      {/* The whole session, with the athlete's place in it.
+          
+          Read-only: tapping a row does not jump to it. Skipping ahead would
+          write a log claiming work that was never performed, and the steps in
+          between would be recorded as done rather than as missed. This answers
+          "what is left" without becoming a way to change it. */}
+      <Modal
+        visible={showList}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setShowList(false)}
+      >
+        <Pressable
+          onPress={() => setShowList(false)}
+          accessibilityLabel="Dismiss"
+          style={{ flex: 1, backgroundColor: 'rgba(16,15,14,0.7)' }}
+        />
+        <View style={{
+          maxHeight: '82%', backgroundColor: color.ink,
+          borderTopWidth: 2, borderTopColor: color.red,
+        }}>
+          <View style={{
+            flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+            paddingHorizontal: space.gutter, paddingTop: 16, paddingBottom: 12,
+          }}>
+            <View style={{ flex: 1 }}>
+              <Text style={[t.h4, { color: color.onDark }]}>{session.template.name}</Text>
+              <Text style={[t.meta, { color: color.muted3, marginTop: 2 }]}>
+                {steps.length} steps · {session.estimated_minutes} min planned
+              </Text>
+            </View>
+            <Pressable
+              onPress={() => setShowList(false)}
+              accessibilityRole="button"
+              accessibilityLabel="Close"
+              hitSlop={12}
+              style={{
+                width: 32, height: 32, borderWidth: 1, borderColor: color.ruleDark2,
+                alignItems: 'center', justifyContent: 'center',
+              }}
+            >
+              <Text style={{ fontSize: 14, fontFamily: t.rowTitle.fontFamily, color: color.onDark }}>
+                ✕
+              </Text>
+            </Pressable>
+          </View>
+          <View style={{ height: 1, backgroundColor: color.ruleDark }} />
+
+          <ScrollView contentContainerStyle={{
+            paddingHorizontal: space.gutter,
+            paddingBottom: Math.max(insets.bottom, 24),
+          }}>
+            {steps.map((s, i) => {
+              const isDone = i < index;
+              const isCurrent = i === index;
+              return (
+                <View
+                  key={`${s.exercise_id}-${i}`}
+                  accessibilityLabel={`${isDone ? 'Done' : isCurrent ? 'Current' : 'Upcoming'}: `
+                    + `${s.qty} ${s.label}`}
+                  style={{
+                    flexDirection: 'row', alignItems: 'center', gap: 12,
+                    paddingVertical: 12,
+                    borderBottomWidth: 1, borderBottomColor: color.ruleDark,
+                  }}
+                >
+                  {/* Where the athlete is, marked by a bar rather than by
+                      colour alone (PRD §18). */}
+                  <View style={{
+                    width: 3, alignSelf: 'stretch',
+                    backgroundColor: isCurrent ? color.red : 'transparent',
+                  }} />
+                  <Text style={[t.meta, {
+                    width: 20, color: isDone ? color.red : color.muted3,
+                  }]}>
+                    {isDone ? '✓' : i + 1}
+                  </Text>
+                  <Text style={[t.rowTitle, {
+                    width: 62, fontSize: 13,
+                    color: isCurrent ? color.onDark : isDone ? color.muted3 : color.onDarkSoft,
+                  }]}>
+                    {s.qty}
+                  </Text>
+                  <View style={{ flex: 1 }}>
+                    <Text style={{
+                      fontFamily: t.greeting.fontFamily, fontSize: 13,
+                      color: isCurrent ? color.onDark : isDone ? color.muted3 : color.onDarkSoft,
+                    }}>
+                      {s.label}
+                    </Text>
+                    <Text style={[t.meta, { color: color.muted3, marginTop: 1 }]}>
+                      {s.rest ? 'Rest' : s.phase.toLowerCase()}
+                    </Text>
+                  </View>
+                  {isCurrent ? (
+                    <Text style={[t.labelXs, { color: color.salmon, letterSpacing: 1.2 }]}>
+                      Now
+                    </Text>
+                  ) : null}
+                </View>
+              );
+            })}
+          </ScrollView>
+        </View>
+      </Modal>
 
       {/* Ending early is a first-class outcome, not a failure. */}
       <Modal visible={endPrompt} transparent animationType="slide" onRequestClose={() => setEndPrompt(false)}>

@@ -122,6 +122,12 @@ export type CoachCard =
       goal: string;
       intensity: string;
       blocks: { qty: string; label: string; note: string }[];
+      /**
+       * The prescription behind the summary rows above, so a workout Coach
+       * offers can be read in full before it is applied — the same disclosure
+       * Today's card and the Adapt sheet carry.
+       */
+      prescription: WorkoutBlock[];
       equipment: string;
       fits: string;
     }
@@ -151,6 +157,21 @@ export interface CoachAnswer {
   proposal?: PlanProposal;
   /** Template offered by a workout card, so "Show another" can move past it. */
   offered_template_id?: string;
+  /**
+   * This answer reports *not* finding something, rather than reporting a
+   * finding.
+   *
+   * It matters because the local answer is built from a regex classifier and
+   * shown instantly, while the model's reading of the same sentence is still in
+   * flight. A positive local answer is worth showing straight away — it is the
+   * engine's own output and the model will not contradict it. A negative one is
+   * only ever "my keyword match found nothing", which the model routinely
+   * overturns: "Build me a 30-minute sled + run workout" produced "I could not
+   * find a validated session matching that", complete with actions, and was
+   * replaced fifteen seconds later by a Sled Push → Run. The screen should not
+   * assert the absence of something while a better search is still running.
+   */
+  unresolved?: boolean;
 }
 
 export interface CoachContext {
@@ -689,6 +710,7 @@ function buildAnswer_(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
 
   if (!scored.length) {
     return {
+      unresolved: true,
       text: excluded.size
         ? 'That is everything in your library that matches. I only offer validated sessions, so '
           + 'rather than write a new one I would rather adjust one of these.'
@@ -713,6 +735,9 @@ function buildAnswer_(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
 
   if (found.kind !== 'session') {
     return {
+      // The template was found but ruled out. Still provisional: the model may
+      // read the same sentence as asking for a different session entirely.
+      unresolved: true,
       text: `${candidates[0].name} is the closest match in your library, but it is not eligible `
         + `right now: ${found.rationale.toLowerCase()}`,
       chips,
@@ -763,6 +788,7 @@ function workoutCard(rec: Recommendation, source: string): CoachCard {
     goal: `${stimulusLabel(rec.primary_stimulus)} · ${rec.template.description}`,
     intensity: rec.template.intensity_target ?? `RPE guided`,
     blocks: blockRows(rec),
+    prescription: rec.blocks,
     equipment: equipmentFor(rec),
     fits: rec.rationale,
   };

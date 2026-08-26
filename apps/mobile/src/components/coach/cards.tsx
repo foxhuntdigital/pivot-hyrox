@@ -15,6 +15,7 @@ import {
 
 import { color, type as t, space } from '@/theme/tokens';
 import { Label } from '@/components/primitives';
+import { FullWorkout } from '@/components/FullWorkout';
 import type { CoachCard, CoachAction } from '@/state/coachAnswer';
 import type { CoachCommitment } from '@/state/coach';
 
@@ -559,6 +560,15 @@ function WorkoutCard({ card }: { card: Extract<CoachCard, { kind: 'workout' }> }
           </View>
         ))}
       </View>
+
+      {/* Coach's rows name the shape of the session; this is what it asks for.
+          A workout offered in conversation should be readable in full before
+          it is applied, not only once it is running. */}
+      <FullWorkout
+        blocks={card.prescription}
+        intensity={card.intensity}
+        totalMinutes={card.minutes}
+      />
 
       <CardFooter label="Why it fits">{card.fits}</CardFooter>
     </View>

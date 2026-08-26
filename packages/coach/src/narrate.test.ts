@@ -10,13 +10,18 @@ import { narrateProgress, FALLBACK_DETAIL, COMPONENT_KEYS } from './narrate.ts';
 import type { LlmClient } from './types.ts';
 
 const FACTS = {
-  aerobic: { score: 93, stats: [{ k: 'Z2 pace', v: '5:32/km' }] },
-  running: { score: 41, stats: [] },
-  strength: { score: 94, stats: [{ k: 'Squat', v: '140 kg' }] },
-  stations: { score: 38, stats: [] },
-  consistency: { score: 83, stats: [] },
-  recovery: { score: 60, stats: [] },
+  aerobic: { score: 93, stats: [{ k: 'Z2 pace', v: '5:32/km' }], observed: true },
+  running: { score: 41, stats: [], observed: true },
+  strength: { score: 94, stats: [{ k: 'Squat', v: '140 kg' }], observed: true },
+  stations: { score: 38, stats: [], observed: true },
+  consistency: { score: 83, stats: [], observed: true },
+  recovery: { score: 60, stats: [], observed: true },
 };
+
+/** A brand-new athlete: the week has targets, and nothing else exists. */
+const NOTHING_MEASURED = Object.fromEntries(
+  COMPONENT_KEYS.map(k => [k, { score: 0, stats: [], observed: false }]),
+);
 
 const llmReturning = (parsed: unknown, capture?: { system?: string; content?: string }): LlmClient => ({
   async structured(a: any) {
@@ -77,6 +82,41 @@ describe('Progress narration', () => {
     // The grounding rule has to be in the system prompt, not just the content.
     assert.match(cap.system!, /Every claim must be supported by a figure you were given/);
     assert.match(cap.system!, /no trend claims at all/);
+  });
+
+  test('an athlete who has logged nothing is never narrated at all', async () => {
+    let called = false;
+    const llm = { async structured() { called = true; return { parsed: {} }; } } as any as LlmClient;
+    const r = await narrateProgress({ llm, facts: NOTHING_MEASURED, lowest: '' });
+    assert.equal(called, false, 'the model must not be asked to write from no facts');
+    assert.equal(r.source, 'fallback');
+    assert.deepEqual(r.detail, FALLBACK_DETAIL);
+  });
+
+  test('an unmeasured component is withheld from the model', async () => {
+    const cap: { content?: string } = {};
+    await narrateProgress({
+      llm: llmReturning({ components: [] }, cap),
+      facts: { ...FACTS, strength: { score: 0, stats: [], observed: false } },
+      lowest: 'stations',
+    });
+    assert.doesNotMatch(cap.content!, /- strength:/,
+      'a component with no data must not be listed as a fact');
+    assert.match(cap.content!, /- aerobic:/);
+    assert.match(cap.content!, /must not be written about/);
+  });
+
+  test('a sentence about an unmeasured component is discarded', async () => {
+    const r = await narrateProgress({
+      llm: llmReturning({
+        components: [{ key: 'strength', sentence: 'Your squat is progressing well.' }],
+      }),
+      facts: { ...FACTS, strength: { score: 0, stats: [], observed: false } },
+      lowest: 'stations',
+    });
+    assert.equal(r.detail.strength, FALLBACK_DETAIL.strength,
+      'the model was given no strength facts, so it had none to write from');
+    assert.equal(r.source, 'fallback');
   });
 
   test('the shipped sentences state what a metric is, never how it is going', () => {

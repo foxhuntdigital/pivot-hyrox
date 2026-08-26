@@ -57,6 +57,16 @@ export interface WeekView {
   target: number;
   queue: QueuedSession[];
   completed: CompletedThisWeek[];
+  /**
+   * The sessions finished on today's local date.
+   *
+   * Filtered by the server's own date rather than by a client flag: an app left
+   * open overnight still holds `completed_today`, and a screen that reads
+   * "you're done for today" from a workout finished yesterday is worse than one
+   * that never said it. The server's `completed_on` is the local day the
+   * session was actually credited to.
+   */
+  completedToday: CompletedThisWeek[];
 }
 
 /**
@@ -76,6 +86,12 @@ export interface WeekShape {
 }
 
 export interface PlanView {
+  /**
+   * True while a session finished on this device is not yet in the server's
+   * week — the window the optimistic counters cover. False again the moment the
+   * refetch lands, which is what stops them counting the same session twice.
+   */
+  pendingCompletion: boolean;
   race: RaceView | null;
   phase: PhaseView | null;
   week: WeekView;
@@ -115,21 +131,33 @@ function countStimuli(requirements: StimulusRequirement[]) {
 /**
  * Resolves the plan views from the payload.
  *
- * `completed_today` is added to the week's count rather than waiting for the
- * server: the athlete just finished a session, and a counter that does not move
- * until a refetch lands reads as the app not having noticed.
+ * A session finished on this device is added to the week's count rather than
+ * waiting for the server: the athlete just finished one, and a counter that
+ * does not move until a refetch lands reads as the app not having noticed.
+ *
+ * The optimism has to expire, though, and it did not. `completed_today` stayed
+ * true for the life of the app, so once the refetch landed — with the server's
+ * own count already incremented — the same session was counted twice and the
+ * week read "2 / 7" for one workout. Matching the finished session against the
+ * server's completed list is what retires it: the bump covers the gap and
+ * nothing more.
  */
 export function planView(
   today: TodayPayload | null,
   completedToday: boolean,
+  completedSessionId: string | null = null,
 ): PlanView {
-  const bump = completedToday ? 1 : 0;
+  const serverHasIt = completedSessionId !== null
+    && (today?.week?.completed ?? []).some(c => c.session_id === completedSessionId);
+  const pendingCompletion = completedToday && !serverHasIt;
+  const bump = pendingCompletion ? 1 : 0;
 
   if (!today) {
     return {
+      pendingCompletion,
       race: null,
       phase: null,
-      week: { done: bump, target: 0, queue: [], completed: [] },
+      week: { done: bump, target: 0, queue: [], completed: [], completedToday: [] },
       training7d: null,
       shape: { days_trained: 0, days_remaining: 0, queue_remaining: 0 },
     };
@@ -141,6 +169,7 @@ export function planView(
     q => q.state !== 'completed' && q.state !== 'skipped');
 
   return {
+    pendingCompletion,
     race: today.active_race && {
       name: today.active_race.name,
       date_label: eventDateLabel(today.active_race.event_date),
@@ -158,6 +187,8 @@ export function planView(
       target,
       queue,
       completed: today.week?.completed ?? [],
+      completedToday: (today.week?.completed ?? [])
+        .filter(c => c.completed_on === today.date_local),
     },
     training7d: today.training_7d ?? null,
     shape: {

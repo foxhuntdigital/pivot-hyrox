@@ -13,6 +13,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { color, type as t, space } from '@/theme/tokens';
 import { Rule } from '@/components/primitives';
+import { headerDateLabel } from '@/lib/format';
+import type { PlanView } from '@/data/plan';
 import { useApp } from '@/state/store';
 
 const TABS = [
@@ -23,16 +25,44 @@ const TABS = [
   { key: 'profile', label: 'Profile' },
 ] as const;
 
-const HEADER_LABEL: Record<string, string> = {
-  today: 'Wed 19 Aug',
-  plan: 'Week 7 / 16',
-  coach: 'Knows your plan',
-  progress: '30 day window',
-  profile: 'Account',
-};
+/**
+ * The right-hand side of the header, per tab.
+ *
+ * Today's date and Plan's week were authored constants — "Wed 19 Aug" and
+ * "Week 7 / 16" — so the header asserted a date that was only ever right on the
+ * day it was typed, and a program week belonging to nobody. Both are now read
+ * from the clock and from the plan, and the week is omitted rather than guessed
+ * when there is no program to count.
+ */
+function headerLabel(
+  active: string,
+  plan: PlanView,
+  readinessMeasured: boolean,
+): string {
+  switch (active) {
+    case 'today':
+      return headerDateLabel();
+    case 'plan':
+      return plan.phase
+        ? `Week ${plan.phase.week} / ${plan.phase.total_weeks}`
+        : 'No plan yet';
+    case 'coach':
+      return 'Knows your plan';
+    case 'progress':
+      // "30 day window" asserted a month of training behind a screen that may
+      // have nothing behind it at all.
+      return readinessMeasured ? '30 day window' : 'Nothing logged yet';
+    case 'profile':
+      return 'Account';
+    default:
+      return '';
+  }
+}
 
 function Header({ active }: { active: string }) {
   const insets = useSafeAreaInsets();
+  const { plan, readiness } = useApp();
+  const readinessMeasured = (readiness.observed?.length ?? 0) > 0;
   return (
     <View style={{ paddingTop: insets.top, backgroundColor: color.paper }}>
       <View style={{
@@ -44,7 +74,7 @@ function Header({ active }: { active: string }) {
           <Text style={[t.eyebrow, { color: color.ink }]}>PIVOT</Text>
         </View>
         <Text style={[t.labelSm, { color: color.muted, letterSpacing: 1.26 }]}>
-          {HEADER_LABEL[active] ?? ''}
+          {headerLabel(active, plan, readinessMeasured)}
         </Text>
       </View>
       <Rule heavy />
@@ -100,7 +130,6 @@ function TabBar() {
 export default function TabsLayout() {
   const pathname = usePathname();
   const active = pathname.replace('/', '') || 'today';
-  const { state } = useApp();
 
   // The player and completion screens are their own routes; the shell hides
   // while one is on screen.

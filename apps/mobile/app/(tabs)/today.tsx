@@ -15,6 +15,7 @@ import { VARIANT_LABEL } from '@pivot/engine';
 import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, InkPanel } from '@/components/primitives';
 import { AdaptSheet } from '@/components/AdaptSheet';
+import { FullWorkout } from '@/components/FullWorkout';
 import { useApp } from '@/state/store';
 import { PHASE_LABEL, type PhaseView } from '@/data/plan';
 import { firstNameOf } from '@/data/profile';
@@ -77,7 +78,9 @@ function StatCell({ label, children, last }: {
 
 export default function TodayScreen() {
   const router = useRouter();
-  const { state, session, readiness, sleep, plan, beginSession } = useApp();
+  const {
+    state, session, readiness, sleep, plan, beginSession, todayError, refreshToday,
+  } = useApp();
   const [sheetOpen, setSheetOpen] = useState(false);
 
   /**
@@ -154,6 +157,22 @@ export default function TodayScreen() {
     lastSession ? `your last session (${lastSession.name})` : null,
   ].filter((s): s is string => s !== null);
 
+  /**
+   * Whether today's training is already done.
+   *
+   * Two sources, because they cover different moments. `pendingCompletion` is
+   * the gap between finishing and the refetch landing, when the server has not
+   * heard yet; `completedToday` is the server's own record, filtered to today's
+   * local date so an app left open overnight does not keep saying "done".
+   */
+  const finishedToday = plan.pendingCompletion || plan.week.completedToday.length > 0;
+  const doneNames = plan.week.completedToday.length
+    ? plan.week.completedToday.map(c => c.name)
+    : session.kind === 'session' ? [session.template.name] : [];
+  const doneMinutes = plan.week.completedToday.reduce(
+    (n, c) => n + (c.estimated_minutes ?? 0), 0)
+    || (session.kind === 'session' ? session.estimated_minutes : 0);
+
   const start = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     beginSession();
@@ -169,6 +188,40 @@ export default function TodayScreen() {
           </Text>
         </View>
         <Rule />
+
+        {/* Why the plan is missing, when it is.
+            
+            `todayError` was set and never rendered, so a failed fetch looked
+            exactly like an athlete with no plan: "No race set", a dash for the
+            countdown, no session. Two very different states cannot share one
+            silent screen — this one says which it is and offers the retry. */}
+        {todayError ? (
+          <View style={{
+            marginHorizontal: space.gutter, marginTop: 14,
+            backgroundColor: color.tint, borderWidth: 1, borderColor: color.tintBorder,
+            paddingHorizontal: 13, paddingVertical: 12,
+          }}>
+            <Label tone="redDark" size="sm" style={{ marginBottom: 4 }}>
+              Couldn't load today
+            </Label>
+            <Text style={[t.bodySm, { color: color.redDeep }]}>{todayError}</Text>
+            <Pressable
+              onPress={refreshToday}
+              accessibilityRole="button"
+              accessibilityLabel="Try loading today again"
+              style={({ pressed }) => ({
+                alignSelf: 'flex-start', marginTop: 8, paddingVertical: 6,
+                opacity: pressed ? 0.6 : 1,
+              })}
+            >
+              <Text style={[t.bodySm, {
+                fontFamily: t.rowTitle.fontFamily, color: color.redDeep,
+              }]}>
+                Try again
+              </Text>
+            </Pressable>
+          </View>
+        ) : null}
 
         {/* Race + countdown, above the fold by construction. */}
         <View style={{
@@ -281,7 +334,57 @@ export default function TodayScreen() {
           <Label>Today's training</Label>
         </View>
 
-        {session.kind === 'session' ? (
+        {finishedToday ? (
+          /* Done for today. The Start button is withheld rather than offering a
+             second session under a heading the athlete has already satisfied —
+             and the card states what was logged instead of restating a plan. */
+          <View style={{ marginHorizontal: space.gutter, marginTop: 10 }}>
+            <View style={{ borderWidth: 2, borderColor: color.ink }}>
+              <View style={{
+                flexDirection: 'row', alignItems: 'center', gap: 10,
+                padding: 14, paddingHorizontal: 16,
+              }}>
+                <View style={{
+                  width: 26, height: 26, backgroundColor: color.red,
+                  alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <Text style={{ color: color.onDark, fontSize: 14 }}>✓</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Label tone="redDark" size="sm" style={{ letterSpacing: 1.26 }}>
+                    Completed today
+                  </Label>
+                  <Text style={[t.h3, { color: color.ink, marginTop: 2 }]}>
+                    {doneNames.join(' · ') || 'Session logged'}
+                  </Text>
+                </View>
+                {doneMinutes ? (
+                  <View style={{ alignItems: 'flex-end' }}>
+                    <Text style={[t.sessionMins, numeralTrim.sessionMins, { color: color.ink }]}>
+                      {doneMinutes}
+                    </Text>
+                    <Label size="sm" style={{ letterSpacing: 1.26 }}>Min</Label>
+                  </View>
+                ) : null}
+              </View>
+              <View style={{
+                borderTopWidth: 1, borderTopColor: color.rule,
+                paddingHorizontal: 16, paddingVertical: 12,
+              }}>
+                <Text style={[t.bodySm, { color: color.muted2 }]}>
+                  Today's stimulus is logged and the week keeps the rest of its
+                  sessions. Nothing else is asked of you today.
+                </Text>
+              </View>
+            </View>
+            <ActionButton
+              label="See the week"
+              variant="outline"
+              onPress={() => router.replace('/plan' as never)}
+              style={{ marginTop: 10 }}
+            />
+          </View>
+        ) : session.kind === 'session' ? (
           <>
             <View style={{
               margin: 10, marginHorizontal: space.gutter, marginBottom: 0,
@@ -358,6 +461,17 @@ export default function TodayScreen() {
                   Total {session.estimated_minutes} min · {session.template.coaching_notes}
                 </Label>
               </View>
+
+              {/* The rows above name what the session touches; this is what it
+                  actually asks for. Collapsed by default so the card stays a
+                  decision surface, but the athlete can read every set before
+                  committing rather than meeting the numbers one at a time
+                  inside the player. */}
+              <FullWorkout
+                blocks={session.blocks}
+                intensity={session.template.intensity_target ?? null}
+                totalMinutes={session.estimated_minutes}
+              />
             </View>
 
             <View style={{

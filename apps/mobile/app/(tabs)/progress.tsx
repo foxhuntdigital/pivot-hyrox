@@ -34,6 +34,17 @@ export default function ProgressScreen() {
   const isLimiter = (key: string) => key === lowest?.[0];
 
   /**
+   * Whether the screen has enough behind it to rank anything.
+   *
+   * "Biggest opportunity" is a comparison, and a comparison needs something to
+   * compare. It used to appear as soon as a single component was measured —
+   * which for a brand-new athlete is `consistency`, scored 0 against a week
+   * they have not had yet — and named that the thing to work on. Half the
+   * components is the floor for calling one of them the limiter.
+   */
+  const canRank = measured.length >= Math.ceil(entries.length / 2);
+
+  /**
    * §16 pairs the score's confidence with its weakest component, which is the
    * combination that says whether the number is worth showing at all — a low
    * confidence with no measured component is an athlete who has logged nothing,
@@ -69,9 +80,13 @@ export default function ProgressScreen() {
           <Text style={[t.rowTitle, { fontSize: 13, color: color.red }]}>
             {readiness.confidence} confidence
           </Text>
+          {/* What the number actually rests on. "last 30 days" claimed a
+              window of training behind a score that may be resting on one
+              measured component; the count cannot overstate itself. */}
           <Text style={[t.meta, { color: color.muted }]}>
-            {readiness.overall === null ? 'nothing logged yet'
-              : readiness.confidence === 'low' ? 'building baseline' : 'last 30 days'}
+            {readiness.overall === null
+              ? 'nothing logged yet'
+              : `from ${measured.length} of ${entries.length} measures`}
           </Text>
         </View>
       </View>
@@ -117,9 +132,31 @@ export default function ProgressScreen() {
                 }} />}
               </View>
 
+              {/* What this row will be read from, said without waiting for a tap.
+                  
+                  An empty bar and a dash are honest but say nothing, and a new
+                  athlete had to open each row to find out what any of them
+                  meant. The description is the only true thing there is to show
+                  before the athlete has trained, so it is shown. */}
+              {!observed.has(key) && meta && (
+                <Text style={[t.meta, { color: color.muted3, marginTop: 7 }]}>
+                  {meta.detail}
+                </Text>
+              )}
+
               {open && meta && (
                 <View style={{ paddingTop: 12 }}>
-                  <Text style={[t.bodySm, { color: color.muted2 }]}>{meta.detail}</Text>
+                  {/* The sentence is already under the bar when nothing has been
+                      measured, so expanding repeats it. What the disclosure adds
+                      there is why there is no number, not the description again. */}
+                  {observed.has(key) ? (
+                    <Text style={[t.bodySm, { color: color.muted2 }]}>{meta.detail}</Text>
+                  ) : (
+                    <Text style={[t.bodySm, { color: color.muted2 }]}>
+                      Nothing logged against this yet, so it is not counted in the
+                      score above rather than counted as a zero.
+                    </Text>
+                  )}
                   {meta.stats.length > 0 && <View style={{
                     flexDirection: 'row', marginTop: 10,
                     borderTopWidth: 1, borderTopColor: color.rule,
@@ -142,7 +179,26 @@ export default function ProgressScreen() {
         })}
       </View>
 
-      {lowest && (
+      {/* The two states that cannot carry a "biggest opportunity", said plainly
+          rather than left as six dashes with no explanation. */}
+      {!canRank && (
+        <InkPanel
+          label={measured.length ? 'Still building' : 'No readiness yet'}
+          style={{ margin: 20, marginHorizontal: space.gutter }}
+        >
+          <Text style={[t.bodySm, { color: color.onDarkSoft }]}>
+            {measured.length
+              ? `${measured.length} of ${entries.length} measures have data behind them. `
+                + 'The rest fill in as you train, and there is no weakest link to '
+                + 'name until enough of them do.'
+              : 'Nothing has been logged yet, so there is no score to show and '
+                + 'nothing to say about where you stand. Finish a session or a '
+                + 'check-in and these start filling in.'}
+          </Text>
+        </InkPanel>
+      )}
+
+      {lowest && canRank && (
         <InkPanel
           label="Biggest opportunity"
           style={{ margin: 20, marginHorizontal: space.gutter }}

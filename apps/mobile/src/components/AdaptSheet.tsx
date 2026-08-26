@@ -6,13 +6,14 @@
  * runs on every keystroke-equivalent because it is a pure function over state.
  */
 import React, { useCallback, useEffect, useRef } from 'react';
-import { View, Text, ScrollView, Modal, Pressable } from 'react-native';
+import { View, Text, ScrollView, Modal, Pressable, Alert } from 'react-native';
 import * as Haptics from 'expo-haptics';
 
 import { VARIANT_LABEL, variantMinutes, type VariantCode } from '@pivot/engine';
 import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, Chip } from '@/components/primitives';
 import { useApp } from '@/state/store';
+import { FullWorkout } from '@/components/FullWorkout';
 import { exerciseById } from '@/data/content';
 import { track, bucketMinutes } from '@/lib/analytics';
 
@@ -21,7 +22,7 @@ const ENERGY_CHOICES = ['low', 'normal', 'high'] as const;
 const FLAG_CHOICES = ['Low sleep', 'Something hurts', 'No equipment', 'Need low impact'];
 
 export function AdaptSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
-  const { state, dispatch, decision, commitAdaptation } = useApp();
+  const { state, dispatch, decision, chooseVariant } = useApp();
 
   // What the athlete arrived with, captured on open so `adaptation_applied`
   // and `adapt_opened` agree on what "original" meant (PRD §16).
@@ -87,9 +88,26 @@ export function AdaptSheet({ visible, onClose }: { visible: boolean; onClose: ()
     firstRender.current = true;
   }, [visible, emitInputChange]);
 
+  /**
+   * Applies the version the athlete tapped.
+   *
+   * This used to call `commitAdaptation` directly, which recorded the variant
+   * and then had it ignored downstream — the sheet closed and Today kept the
+   * session it already had, so choosing Full or Micro did nothing visible.
+   * `chooseVariant` is the path that actually applies it, and says so when the
+   * athlete's recovery is what stands in the way.
+   */
   const accept = (templateId: string, variant: VariantCode) => {
+    if (!chooseVariant(templateId, variant)) {
+      Alert.alert(
+        `${VARIANT_LABEL[variant]} isn't available today`,
+        "That version asks for more than today's recovery supports. The one "
+        + 'recommended above is the longest this can build from what you have '
+        + 'reported.',
+      );
+      return;
+    }
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    commitAdaptation(templateId, variant);
     onClose();
   };
 
@@ -248,6 +266,15 @@ export function AdaptSheet({ visible, onClose }: { visible: boolean; onClose: ()
                     </View>
                   ))}
                 </View>
+
+                {/* The same disclosure Today's card carries. Adapting is where
+                    the prescription changes, so it is the place the athlete is
+                    most likely to want to read what changed. */}
+                <FullWorkout
+                  blocks={decision.blocks}
+                  intensity={decision.template.intensity_target ?? null}
+                  totalMinutes={decision.estimated_minutes}
+                />
               </View>
 
               {alternates.length > 0 && (
@@ -255,6 +282,11 @@ export function AdaptSheet({ visible, onClose }: { visible: boolean; onClose: ()
                   <Label style={{ paddingHorizontal: space.gutter, paddingTop: 16 }}>
                     Other versions of this stimulus
                   </Label>
+                  <Text style={[t.meta, {
+                    paddingHorizontal: space.gutter, paddingTop: 4, color: color.muted,
+                  }]}>
+                    Tap one to use it instead.
+                  </Text>
                   <View style={{ paddingHorizontal: space.gutter, paddingTop: 8, gap: 6 }}>
                     {alternates.map(v => (
                       <Pressable

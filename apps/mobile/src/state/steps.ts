@@ -41,12 +41,18 @@ export interface Step {
   rest: boolean;
 }
 
-function titleCase(s: string): string {
+export function titleCase(s: string): string {
   return s.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
 
-/** Renders a prescription the way a coach would write it on a whiteboard. */
-function formatQuantity(
+/**
+ * Renders a prescription the way a coach would write it on a whiteboard.
+ *
+ * Exported because the workout card shows the same prescription before the
+ * athlete starts as the player shows during it. Two formatters would let the
+ * card promise "500 m" and the player ask for something written differently.
+ */
+export function formatQuantity(
   type: string, quantity: number, unit: string,
 ): { text: string; seconds: number | null } {
   switch (type) {
@@ -68,7 +74,8 @@ function formatQuantity(
   }
 }
 
-function blockLabel(block: WorkoutBlock): string {
+/** 'Warm-up', 'Cooldown', 'Work' or 'Main', from the block's own wording. */
+export function blockLabel(block: WorkoutBlock): string {
   const t = `${block.title ?? ''} ${block.instructions ?? ''}`.toLowerCase();
   if (/warm/.test(t)) return 'Warm-up';
   if (/cool|flush/.test(t)) return 'Cooldown';
