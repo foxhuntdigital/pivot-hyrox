@@ -161,7 +161,7 @@ const file = `/**
  */
 
 /** Logged on every Coach request, with the engine and content versions. */
-export const PROMPT_VERSION = '1.0.0';
+export const PROMPT_VERSION = '1.1.0';
 export const SAFETY_VERSION = '1.0.0';
 export const SCHEMA_VERSION = '1.0.1';
 export const NARRATION_VERSION = '1.0.0';

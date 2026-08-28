@@ -154,6 +154,25 @@ export interface PhaseSummary {
   weeks: number;
 }
 
+/**
+ * Refuses the request unless the athlete's subscription is currently paid for.
+ *
+ * Gating in the app only hides UI — these functions are the product, and a JWT
+ * is enough to call them directly. So the check lives here, next to the work.
+ *
+ * `has_active_entitlement` counts trials and grace periods as entitled, and
+ * counts a cancelled-but-unexpired subscription as entitled too: turning off
+ * auto-renew does not surrender the days already paid for.
+ *
+ * 402 rather than 403: this is not "you may not", it is "this needs payment",
+ * which is what the client keys the paywall off.
+ */
+export async function requireEntitlement(db: SupabaseClient, userId: string): Promise<void> {
+  const { data, error } = await db.rpc('has_active_entitlement', { uid: userId });
+  if (error) throw new HttpError(500, `entitlement check failed: ${error.message}`);
+  if (!data) throw new HttpError(402, 'subscription_required');
+}
+
 /** Everything about the athlete the engine needs, in one round of queries. */
 export async function loadAthleteState(db: SupabaseClient, userId: string, today: string) {
   const [profileRes, raceRes, programRes, checkinRes, sessionsRes, equipRes] = await Promise.all([
@@ -194,7 +213,29 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
   const cycles = (currentPhase?.weekly_cycles ?? [])
     .slice()
     .sort((a: any, b: any) => a.week_index - b.week_index);
-  const currentCycle = cycles.find((c: any) => c.status === 'active') ?? cycles[0];
+
+  /**
+   * Which week of the current phase today falls in, counted from the phase's
+   * own start date.
+   *
+   * Derived from the calendar rather than from `weekly_cycles.status`, because
+   * nothing advances that status as time passes: onboarding marks the first
+   * week `active` and no job ever moves it, so a program left to run reported
+   * the first week of its phase forever — and with it a week window that never
+   * caught up to the athlete.
+   *
+   * Reading the cycle by position rather than by `week_index` also makes this
+   * agnostic to how the writer numbered them. The cycles are already filtered
+   * to this phase and sorted, so the nth entry is the nth week of the phase
+   * whether the stored indices restart per phase or run across the program.
+   */
+  const weekInPhaseRaw = currentPhase?.start_date
+    ? Math.floor(daysBetween(currentPhase.start_date, today) / 7) + 1
+    : 1;
+  const weekInPhase: number = Math.max(1, Math.min(cycles.length || 1, weekInPhaseRaw));
+  const currentCycle = cycles[weekInPhase - 1]
+    ?? cycles.find((c: any) => c.status === 'active')
+    ?? cycles[0];
 
   /**
    * The shape of the whole program: one entry per phase, in order, with the
@@ -216,7 +257,6 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
   const weeksBefore = phaseSequence
     .filter(p => p.order < (currentPhase?.phase_order ?? 0))
     .reduce((n, p) => n + p.weeks, 0);
-  const weekInPhase: number = currentCycle?.week_index ?? 1;
   const programWeek = weeksBefore + weekInPhase;
 
   /**
@@ -273,6 +313,12 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
     phaseSequence, programTotalWeeks, programWeek, weekInPhase, weekStart, weekEnd,
     completed_this_week, sessionRows,
   };
+}
+
+/** Whole days from `from` to `to`, negative when `to` is earlier. */
+function daysBetween(from: string, to: string): number {
+  return Math.round(
+    (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86_400_000);
 }
 
 /** `2026-03-02` + 7 → `2026-03-09`. Dates only; no timezone enters here. */

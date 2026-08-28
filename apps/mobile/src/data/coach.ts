@@ -107,6 +107,7 @@ export const REASON_CODE_COPY: Record<ReasonCode, string> = {
   RECENT_LOWER_LOAD: 'recent load left room for this',
   TAPER_OVERRIDE: 'taper rules override the usual stimulus order',
   REENTRY_AFTER_GAP: 'you are coming back after a gap, so this rebuilds rather than tests',
+  ATHLETE_OVERRIDE: 'you chose this one yourself, against the reduced version suggested',
   NO_VALID_HARD_SESSION: 'no hard session is valid today',
 };
 
@@ -126,6 +127,11 @@ const EQUIPMENT_TERMS: [RegExp, string[]][] = [
   [/\bbench\b/, ['bench']],
   [/pull-?up bar|\brig\b/, ['rig']],
   [/jump ?rope|skipping rope/, ['jump_rope']],
+  // Somewhere to run. Since running became an equipment constraint rather than
+  // a free resource, an athlete listing what they have needs a way to say this
+  // — "only dumbbells" is a different week from "only dumbbells, but there's a
+  // park" and the engine can now tell them apart.
+  [/outside|outdoors|\bpark\b|\btrail|\btrack\b|streets?\b/, ['outdoor']],
   [/nothing|no equipment|body ?weight|hotel room|bare room/, ['bodyweight']],
 ];
 

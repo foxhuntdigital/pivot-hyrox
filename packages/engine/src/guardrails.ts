@@ -67,8 +67,18 @@ export function effectiveRecovery(input: EngineInput): RecoveryState {
   return (['poor', 'okay', 'good'] as const)[rank];
 }
 
-/** Equipment ids that stand in for "no equipment needed". */
-const BODYWEIGHT = new Set(['bodyweight', 'outdoor']);
+/**
+ * Equipment ids that stand in for "no equipment needed".
+ *
+ * `outdoor` is deliberately NOT here. It reads like a free resource, but it is
+ * the only thing that makes running possible for an athlete with no treadmill,
+ * and treating it as always-available made `requires_running` unfilterable: an
+ * athlete who cannot run — a hotel room, a treadmill-less home gym, a city
+ * they don't want to run in — was still handed run sessions, and no equipment
+ * profile could say otherwise. Running now costs `treadmill` or `outdoor` like
+ * every other modality costs its kit, and the substitution graph does the rest.
+ */
+const BODYWEIGHT = new Set(['bodyweight']);
 
 /**
  * Whether every exercise in the template can be performed, either directly or
@@ -197,12 +207,20 @@ export function checkEligibility(
 
   // Intensity ceiling. Compression can shorten a session but must never be a
   // route to prescribing harder work than the athlete's state supports.
-  if (templateIntensity(template) > INTENSITY_CEILING[recovery]) {
+  //
+  // The three checks below are the ones an explicit override lifts: each is a
+  // judgement about how hard today should be, rather than a statement about
+  // what can be performed. They stay hard constraints for every recommendation
+  // the engine makes on its own — the override is never inferred, only set by
+  // an athlete who was asked and said yes.
+  if (!input.athlete_override
+      && templateIntensity(template) > INTENSITY_CEILING[recovery]) {
     return { eligible: false, swaps: [], codes };
   }
 
   // No maximal testing on poor recovery.
-  if (recovery === 'poor' && MAXIMAL_FAMILIES.includes(template.workout_family as any)) {
+  if (!input.athlete_override
+      && recovery === 'poor' && MAXIMAL_FAMILIES.includes(template.workout_family as any)) {
     return { eligible: false, swaps: [], codes };
   }
 
@@ -213,7 +231,7 @@ export function checkEligibility(
     return { eligible: false, swaps: [], codes };
   }
 
-  if (violatesSpacing(template, input)) {
+  if (!input.athlete_override && violatesSpacing(template, input)) {
     return { eligible: false, swaps: [], codes };
   }
 
@@ -241,7 +259,13 @@ export function eligibleVariants(
   recovery: RecoveryState,
 ): Variant[] {
   return template.variants.filter(v => {
-    if (recoveryRank(recovery) < recoveryRank(v.recovery_state)) return false;
+    // The recovery requirement is advice about which version to do, and an
+    // override is the athlete answering it. Time is not advice: a 60-minute
+    // session still does not fit in 20 minutes, so it is checked either way —
+    // the caller raises `available_minutes` when the athlete says they have
+    // longer, which is a different statement and made separately.
+    if (!input.athlete_override
+        && recoveryRank(recovery) < recoveryRank(v.recovery_state)) return false;
     return variantMinutes(template, v) <= input.available_minutes;
   });
 }

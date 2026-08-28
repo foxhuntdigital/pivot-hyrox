@@ -20,7 +20,7 @@ import {
 } from '../../../packages/engine/src/index.ts';
 import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
-  localDate, requireUser,
+  localDate, requireEntitlement, requireUser,
 } from '../_shared/context.ts';
 import { claimableFor, type QueueItem } from '../_shared/queue.ts';
 
@@ -49,6 +49,7 @@ Deno.serve(async (req) => {
 
     const db = clientFor(req);
     const user = await requireUser(db);
+    await requireEntitlement(db, user.id);
     const today = localDate(user.timezone);
     const body = await req.json().catch(() => null) as StartBody | null;
 

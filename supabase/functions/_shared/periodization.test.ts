@@ -10,8 +10,9 @@ import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-  addDays, daysBetween, planPhases, REFERENCE_WEEKS, stimuliFor, weeksUntil,
-  type PhaseType,
+  addDays, blockEndDate, clampBlockWeeks, daysBetween, MAX_BLOCK_WEEKS,
+  MIN_BLOCK_WEEKS, planBlockPhases, planPhases, REFERENCE_WEEKS, stimuliFor,
+  weeksUntil, type PhaseType,
 } from './periodization.ts';
 
 const START = '2026-01-01';
@@ -182,5 +183,69 @@ describe('date helpers', () => {
 
   test('addDays handles a leap day', () => {
     assert.equal(addDays('2028-02-28', 1), '2028-02-29');
+  });
+});
+
+describe('planBlockPhases', () => {
+  test('a block has no taper and no race week', () => {
+    // The whole point of the split: a taper is a taper for something, and a
+    // race week with no race is a week of training the athlete did not lose.
+    for (let weeks = MIN_BLOCK_WEEKS; weeks <= MAX_BLOCK_WEEKS; weeks++) {
+      const types = planBlockPhases(START, weeks).map(p => p.phase_type);
+      assert.ok(!types.includes('taper'), `taper appeared in a ${weeks}-week block`);
+      assert.ok(!types.includes('race'), `race week appeared in a ${weeks}-week block`);
+    }
+  });
+
+  test('a ten-week block scales the reference proportions', () => {
+    assert.deepEqual(
+      planBlockPhases(START, 10).map(p => [p.phase_type, p.weeks]),
+      [['foundation', 3], ['build', 4], ['specific', 2], ['peak', 1]],
+    );
+  });
+
+  test('the weeks add up to the length asked for', () => {
+    for (let weeks = MIN_BLOCK_WEEKS; weeks <= MAX_BLOCK_WEEKS; weeks++) {
+      const phases = planBlockPhases(START, weeks);
+      assert.equal(phases.reduce((n, p) => n + p.weeks, 0), weeks, `${weeks}-week block`);
+    }
+  });
+
+  test('every phase keeps at least one week at every length', () => {
+    for (let weeks = MIN_BLOCK_WEEKS; weeks <= MAX_BLOCK_WEEKS; weeks++) {
+      for (const phase of planBlockPhases(START, weeks)) {
+        assert.ok(phase.weeks >= 1, `${phase.phase_type} got ${phase.weeks} at ${weeks}`);
+      }
+    }
+  });
+
+  test('phases are contiguous and the block ends on its last day', () => {
+    const weeks = 12;
+    const phases = planBlockPhases(START, weeks);
+    assert.equal(phases[0].start_date, START);
+    for (let i = 1; i < phases.length; i++) {
+      assert.equal(phases[i].start_date, addDays(phases[i - 1].end_date, 1),
+        `gap before ${phases[i].phase_type}`);
+    }
+    assert.equal(phases[phases.length - 1].end_date, blockEndDate(START, weeks));
+    // Unlike a race plan, the last date is a week boundary — there is no event
+    // to cut the final week short.
+    assert.equal(blockEndDate(START, weeks), addDays(START, weeks * 7 - 1));
+  });
+
+  test('a length outside the allowed range is clamped, not rejected', () => {
+    assert.equal(clampBlockWeeks(1), MIN_BLOCK_WEEKS);
+    assert.equal(clampBlockWeeks(0), MIN_BLOCK_WEEKS);
+    assert.equal(clampBlockWeeks(-4), MIN_BLOCK_WEEKS);
+    assert.equal(clampBlockWeeks(52), MAX_BLOCK_WEEKS);
+    assert.equal(clampBlockWeeks(10.4), 10);
+    assert.equal(clampBlockWeeks(Number.NaN), MIN_BLOCK_WEEKS);
+  });
+
+  test('the shortest block still gives every phase a week', () => {
+    assert.deepEqual(
+      planBlockPhases(START, MIN_BLOCK_WEEKS).map(p => [p.phase_type, p.weeks]),
+      [['foundation', 1], ['build', 1], ['specific', 1], ['peak', 1]],
+    );
   });
 });

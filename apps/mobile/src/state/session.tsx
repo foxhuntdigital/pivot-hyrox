@@ -12,6 +12,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
 
+import { configurePurchases } from '@/lib/purchases';
 import { identifyAthlete, resetAthlete } from '@/lib/analytics';
 import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 
@@ -35,6 +36,12 @@ interface SessionStore {
   signIn(email: string, password: string): Promise<void>;
   signUp(email: string, password: string, displayName: string): Promise<SignUpResult>;
   signOut(): Promise<void>;
+  /**
+   * Permanently deletes the account and everything belonging to it. There is no
+   * undo and no grace period: App Store Guideline 5.1.1(v) asks for deletion
+   * rather than deactivation, so this is not `users.deleted_at`.
+   */
+  deleteAccount(): Promise<void>;
   /**
    * Sends a recovery code. Resolves the same way whether or not the address has
    * an account — see the implementation for why.
@@ -60,6 +67,18 @@ function applyAnalyticsIdentity(next: Session | null): void {
   else resetAthlete();
 }
 
+/**
+ * Tells RevenueCat who is buying, on the same paths as the analytics identity.
+ *
+ * The id used here is what `revenuecat-webhook` resolves the athlete by, so it
+ * has to be set before any purchase can happen and cleared on sign-out — a
+ * shared phone must not attribute the next athlete's subscription to the last
+ * one. Failures are swallowed: a build without an SDK key still has to sign in.
+ */
+function applyPurchasesIdentity(next: Session | null): void {
+  configurePurchases(next?.user.id ?? null).catch(() => {});
+}
+
 const Ctx = createContext<SessionStore | null>(null);
 
 export function SessionProvider({ children }: { children: React.ReactNode }) {
@@ -78,12 +97,14 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       setSession(data.session);
       setStatus(data.session ? 'signed_in' : 'signed_out');
       applyAnalyticsIdentity(data.session);
+      applyPurchasesIdentity(data.session);
     });
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, next) => {
       setSession(next);
       setStatus(next ? 'signed_in' : 'signed_out');
       applyAnalyticsIdentity(next);
+      applyPurchasesIdentity(next);
     });
 
     return () => { cancelled = true; sub.subscription.unsubscribe(); };
@@ -159,13 +180,31 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     if (error) throw error;
   }, []);
 
+  /**
+   * Deletes the account through `delete_own_account()`, which removes the auth
+   * user and lets the cascade take the athlete's rows with it. The client sends
+   * no id — the function reads auth.uid() itself, so this cannot be aimed at
+   * anybody else.
+   *
+   * The sign-out afterwards is scoped `local` deliberately. A global sign-out
+   * asks the server to revoke a session that no longer exists and fails, which
+   * would leave a deleted athlete looking at an error on a screen whose account
+   * is already gone. Clearing the local token is all that is left to do.
+   */
+  const deleteAccount = useCallback(async () => {
+    if (!supabase) throw new Error('Supabase is not configured.');
+    const { error } = await supabase.rpc('delete_own_account');
+    if (error) throw error;
+    await supabase.auth.signOut({ scope: 'local' });
+  }, []);
+
   const value = useMemo<SessionStore>(() => ({
     status,
     session,
     email: session?.user.email ?? null,
-    signIn, signUp, signOut,
+    signIn, signUp, signOut, deleteAccount,
     requestPasswordReset, confirmPasswordReset, resendConfirmation,
-  }), [status, session, signIn, signUp, signOut,
+  }), [status, session, signIn, signUp, signOut, deleteAccount,
        requestPasswordReset, confirmPasswordReset, resendConfirmation]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

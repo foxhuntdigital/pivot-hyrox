@@ -38,6 +38,14 @@ secret = ""
 [functions.onboarding-plan]
 verify_jwt = true
 
+# RevenueCat has no user JWT to present, so this one authenticates on a shared
+# secret in the Authorization header instead (see the function).
+[functions.revenuecat-webhook]
+verify_jwt = false
+
+[functions.history]
+verify_jwt = true
+
 [functions.today]
 verify_jwt = true
 

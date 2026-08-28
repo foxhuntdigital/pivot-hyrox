@@ -10,7 +10,7 @@ import {
 } from '../../../packages/engine/src/index.ts';
 import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
-  localDate, requireUser,
+  localDate, requireEntitlement, requireUser,
 } from '../_shared/context.ts';
 import { loadProgressSnapshot } from '../_shared/progress.ts';
 import { daysAgo, sessionMinutes } from '../_shared/readiness-history.ts';
@@ -23,6 +23,7 @@ Deno.serve(async (req) => {
   try {
     const db = clientFor(req);
     const user = await requireUser(db);
+    await requireEntitlement(db, user.id);
     const today = localDate(user.timezone);
 
     const [content, state] = await Promise.all([

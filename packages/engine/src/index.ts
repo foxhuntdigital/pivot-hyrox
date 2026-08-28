@@ -125,6 +125,11 @@ function buildReasonCodes(
   if (input.days_to_race !== null && input.days_to_race <= 60) codes.add('RACE_SPECIFICITY');
   if (input.phase_type === 'taper') codes.add('TAPER_OVERRIDE');
 
+  // Recorded so a session done against the engine's advice is replayable as
+  // exactly that. Without it, an overridden decision would read back as one the
+  // engine had made on its own.
+  if (input.athlete_override) codes.add('ATHLETE_OVERRIDE');
+
   const gap = input.recent_sessions.length
     ? Math.min(...input.recent_sessions.map(s => s.days_ago))
     : Infinity;

@@ -1,0 +1,46 @@
+/**
+ * Completed training history.
+ *
+ * Paginated by cursor rather than offset: sessions are appended over time, and
+ * an offset would skip or repeat rows as new ones land at the top.
+ */
+import { supabase } from '@/lib/supabase';
+
+export interface HistoryMovement {
+  exercise_id: string;
+  exercise: string;
+  prescribed: string | null;
+  actual: string | null;
+}
+
+export interface HistorySession {
+  id: string;
+  date: string;
+  name: string;
+  variant_label: string | null;
+  stimulus: string | null;
+  minutes: number | null;
+  session_rpe: number | null;
+  ended_early: boolean;
+  movements: HistoryMovement[];
+}
+
+export interface HistoryPage {
+  sessions: HistorySession[];
+  has_more: boolean;
+  next_before: string | null;
+}
+
+/** Null when there is no server to ask — the caller shows the seeded state. */
+export async function fetchHistory(before?: string | null): Promise<HistoryPage | null> {
+  if (!supabase) return null;
+  try {
+    const params = new URLSearchParams({ limit: '20' });
+    if (before) params.set('before', before);
+    const { data, error } = await supabase.functions.invoke(`history?${params}`, { method: 'GET' });
+    if (error || !data) return null;
+    return data as HistoryPage;
+  } catch {
+    return null;
+  }
+}

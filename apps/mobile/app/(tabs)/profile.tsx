@@ -11,12 +11,16 @@
  * field back to its old value under the athlete's cursor.
  */
 import React, { useState } from 'react';
-import { View, Text, ScrollView, Pressable, TextInput, Alert } from 'react-native';
+import { View, Text, ScrollView, Pressable, TextInput } from 'react-native';
+import { useRouter } from 'expo-router';
 
 import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label, Chip, SquareCheck, ActionButton } from '@/components/primitives';
 import { useApp } from '@/state/store';
 import { useSession } from '@/state/session';
+import { useTour } from '@/state/tour';
+import { GoalSettings } from '@/components/GoalSettings';
+import { useDialog } from '@/components/Dialog';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import {
   CONSIDERATION_CHOICES, EXPERIENCE_LEVELS, PREDICTABILITY_CHOICES, descriptorOf, initialsOf, levelLabel,
@@ -154,15 +158,20 @@ function FieldLabel({ children, first }: { children: React.ReactNode; first?: bo
 export default function ProfileScreen() {
   const {
     state, dispatch, commitProfile, commitEquipment, profileError, refreshProfile,
+    plan, refreshToday,
   } = useApp();
-  const { email, signOut, status } = useSession();
+  const { email, signOut, deleteAccount, status } = useSession();
+  const dialog = useDialog();
+  const tour = useTour();
+  const router = useRouter();
   const { profile } = state;
 
   const [signingOut, setSigningOut] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   // Screen-local presentation state. It is deliberately not in the reducer:
   // nothing outside this screen reads it and no engine input depends on it.
   const [open, setOpen] = useState({
-    about: false, equipment: false, schedule: false,
+    about: false, goal: false, equipment: false, schedule: false,
     length: false, considerations: false, account: false,
   });
   const toggle = (k: keyof typeof open) => setOpen(o => ({ ...o, [k]: !o[k] }));
@@ -195,31 +204,75 @@ export default function ProfileScreen() {
     commitProfile({ postpartum_birth_date: null });
   }
 
-  function confirmSignOut() {
-    Alert.alert(
-      'Log out?',
-      'Your training data stays on your account. You can sign back in any time.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Log out',
-          style: 'destructive',
-          onPress: async () => {
-            setSigningOut(true);
-            try {
-              await signOut();
-              // No navigation: the session listener clears status and the auth
-              // gate routes to sign-in, so there is one way out of the app.
-            } catch (e) {
-              Alert.alert('Could not log out',
-                e instanceof Error ? e.message : 'Please try again.');
-            } finally {
-              setSigningOut(false);
-            }
-          },
-        },
-      ],
-    );
+  async function confirmSignOut() {
+    const ok = await dialog.confirm({
+      eyebrow: 'Account',
+      title: 'Log out?',
+      body: 'Your training data stays on your account. You can sign back in any time.',
+      confirmLabel: 'Log out',
+    });
+    if (!ok) return;
+
+    setSigningOut(true);
+    try {
+      await signOut();
+      // No navigation: the session listener clears status and the auth gate
+      // routes to sign-in, so there is one way out of the app.
+    } catch (e) {
+      await dialog.alert({
+        title: 'Could not log out',
+        body: e instanceof Error ? e.message : 'Please try again.',
+      });
+    } finally {
+      setSigningOut(false);
+    }
+  }
+
+  /**
+   * Account deletion, in two prompts.
+   *
+   * The first says what goes; the second is the point of no return, and is
+   * separate because the two questions are different. "Do you want to delete
+   * your account" is answered by reading; "there is no undo" is answered by
+   * deciding, and a single dialog collapses them into one tap that is easy to
+   * make by accident from a list of settings rows.
+   *
+   * Nothing navigates on success: the account is gone, so the session listener
+   * sees the cleared token and the auth gate routes to sign-in — the same exit
+   * logging out uses.
+   */
+  async function confirmDeleteAccount() {
+    const understood = await dialog.confirm({
+      eyebrow: 'Delete account',
+      title: 'Delete your account?',
+      body: 'This removes your account and everything in it — your plan, your '
+        + 'completed sessions, your check-ins and your profile. It cannot be undone.',
+      confirmLabel: 'Continue',
+    });
+    if (!understood) return;
+
+    const sure = await dialog.confirm({
+      eyebrow: 'Delete account',
+      title: 'This cannot be undone',
+      body: 'Your training history will be permanently deleted.',
+      confirmLabel: 'Delete permanently',
+      cancelLabel: 'Keep my account',
+    });
+    if (!sure) return;
+
+    setDeleting(true);
+    try {
+      await deleteAccount();
+      // No `finally`: on success this component is about to be unmounted by the
+      // auth gate, and clearing the flag there would set state on a screen that
+      // is going away.
+    } catch (e) {
+      await dialog.alert({
+        title: 'Could not delete your account',
+        body: e instanceof Error ? e.message : 'Please try again.',
+      });
+      setDeleting(false);
+    }
   }
 
   return (
@@ -589,6 +642,33 @@ export default function ProfileScreen() {
 
       <Divider />
 
+      {/* ── Goal ─────────────────────────────────────────── */}
+      <Section
+        title="Goal"
+        open={open.goal}
+        onToggle={() => toggle('goal')}
+        badge={
+          <Label size="sm">
+            {plan.race
+              ? plan.race.name
+              : plan.phase ? `${plan.phase.total_weeks}-week block` : 'Not set'}
+          </Label>
+        }
+      >
+        {isSupabaseConfigured ? (
+          <GoalSettings plan={plan} onSaved={refreshToday} />
+        ) : (
+          <Text style={[t.bodySm, {
+            paddingHorizontal: space.gutter, color: color.muted2,
+          }]}>
+            No account is connected to this build, so the plan is the bundled sample
+            one and cannot be rebuilt here.
+          </Text>
+        )}
+      </Section>
+
+      <Divider />
+
       {/* ── Account ──────────────────────────────────────── */}
       <Section
         title="Account"
@@ -598,6 +678,22 @@ export default function ProfileScreen() {
           <Label size="sm">{status === 'signed_in' ? 'Signed in' : 'This device'}</Label>
         }
       >
+      {/* The tour runs once and then never again, which leaves an athlete who
+          skipped it — or who comes back to the app a month later — with no way
+          to see it. It replays from here, on the screen where "how does this
+          work" is already the question being asked. */}
+      <ActionButton
+        label="Replay the app tour"
+        variant="outline"
+        arrow={null}
+        onPress={() => {
+          // Today hosts every highlighted element, so the tour runs there.
+          tour.restart();
+          router.replace('/today' as never);
+        }}
+        style={{ marginHorizontal: space.gutter, marginBottom: 14 }}
+      />
+
       {status === 'signed_in' ? (
         <>
           <Text style={[t.bodySm, {
@@ -612,6 +708,36 @@ export default function ProfileScreen() {
             onPress={signingOut ? undefined : confirmSignOut}
             style={{ marginHorizontal: space.gutter, opacity: signingOut ? 0.5 : 1 }}
           />
+
+          <View style={{ paddingHorizontal: space.gutter, paddingTop: 18 }}>
+            <Rule faint />
+          </View>
+
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Delete your account"
+            accessibilityHint="Permanently deletes your account and all of your training data"
+            disabled={deleting}
+            onPress={confirmDeleteAccount}
+            style={{
+              marginHorizontal: space.gutter, marginTop: 14,
+              paddingVertical: 14, alignItems: 'center',
+              borderWidth: 1, borderColor: color.redDeep,
+              opacity: deleting ? 0.5 : 1,
+            }}
+          >
+            <Text style={[t.rowTitle, { fontSize: 14, color: color.redDeep }]}>
+              {deleting ? 'Deleting…' : 'Delete account'}
+            </Text>
+          </Pressable>
+
+          <Text style={[t.meta, {
+            fontSize: 11.5, lineHeight: 17, color: color.muted,
+            paddingHorizontal: space.gutter, paddingTop: 10,
+          }]}>
+            Deletes your account and all of your training data for good. There is no
+            undo and no recovery period.
+          </Text>
         </>
       ) : (
         <Text style={[t.bodySm, {

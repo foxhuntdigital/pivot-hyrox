@@ -35,6 +35,8 @@
             "npm:expo-status-bar@~57.0.1",
             "npm:expo@~57.0.14",
             "npm:react-native-gesture-handler@2.32",
+            "npm:react-native-purchases-ui@^10.8.1",
+            "npm:react-native-purchases@^10.8.1",
             "npm:react-native-reanimated@4.5.1",
             "npm:react-native-safe-area-context@5.7",
             "npm:react-native-screens@4.26",

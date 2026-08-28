@@ -6,7 +6,7 @@
  * scrolling; Start is the dominant CTA and Adapt is obviously available; a
  * neutral state instead of fabricated precision when data is thin.
  */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
@@ -16,6 +16,8 @@ import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, InkPanel } from '@/components/primitives';
 import { AdaptSheet } from '@/components/AdaptSheet';
 import { FullWorkout } from '@/components/FullWorkout';
+import { TourSpot } from '@/components/Tour';
+import { useTour } from '@/state/tour';
 import { useApp } from '@/state/store';
 import { PHASE_LABEL, type PhaseView } from '@/data/plan';
 import { firstNameOf } from '@/data/profile';
@@ -82,6 +84,30 @@ export default function TodayScreen() {
     state, session, readiness, sleep, plan, beginSession, todayError, refreshToday,
   } = useApp();
   const [sheetOpen, setSheetOpen] = useState(false);
+  const scroller = useRef<ScrollView | null>(null);
+
+  /**
+   * The first-run tour points at this screen's own controls, so this screen
+   * both hosts it and lends it a way to scroll a target into view. It runs at
+   * most once per athlete; `maybeStart` is safe to call on every render.
+   */
+  const tour = useTour();
+  const { registerScroller, maybeStart } = tour;
+  useEffect(() => {
+    registerScroller(y => scroller.current?.scrollTo({
+      // Leave the header and a little context above the highlighted element
+      // rather than pinning it to the very top of the viewport.
+      y: Math.max(0, y - 160), animated: true,
+    }));
+    return () => registerScroller(null);
+  }, [registerScroller]);
+
+  // Only once there is a plan to explain: a tour of an empty Today would point
+  // at "No race set" and a session that is not there.
+  const hasPlan = plan.phase !== null;
+  useEffect(() => {
+    if (hasPlan) maybeStart();
+  }, [hasPlan, maybeStart]);
 
   /**
    * On focus rather than on mount: Today is a tab, so it stays mounted while
@@ -102,6 +128,41 @@ export default function TodayScreen() {
       });
     }, [phase, family, variant]),
   );
+
+  /**
+   * What the goal line and the big numeral say.
+   *
+   * Three states, not two. A race counts down in days. A block has no date to
+   * count to, so it counts the weeks it has left — the honest equivalent, and
+   * the reason this is not a dash: an athlete on a 12-week block has a plan
+   * with a horizon, and printing "—" would tell them they have nothing. Only an
+   * athlete with no program at all gets the dash, because that is the only one
+   * for whom it is true.
+   */
+  const goal = plan.race
+    ? {
+        label: 'Next goal',
+        title: plan.race.name,
+        detail: [plan.race.date_label, plan.race.division].filter(Boolean).join(' · ')
+          || 'Add a race to see a countdown',
+        value: plan.race.days_remaining ?? '—',
+        unit: 'Days',
+      }
+    : plan.phase
+      ? {
+          label: 'Current block',
+          title: `${plan.phase.total_weeks}-week block`,
+          detail: `Week ${plan.phase.week} of ${plan.phase.total_weeks} · no race entered`,
+          value: Math.max(0, plan.phase.total_weeks - plan.phase.week + 1),
+          unit: 'Weeks left',
+        }
+      : {
+          label: 'Next goal',
+          title: 'No race set',
+          detail: 'Add a race to see a countdown',
+          value: '—' as const,
+          unit: 'Days',
+        };
 
   const sleepClock = hoursToClock(sleep.hours);
   // The accent is tied to the engine's own threshold, so red means "this
@@ -181,7 +242,7 @@ export default function TodayScreen() {
 
   return (
     <>
-      <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
+      <ScrollView ref={scroller} contentContainerStyle={{ paddingBottom: 30 }}>
         <View style={{ paddingHorizontal: space.gutter, paddingTop: 20, paddingBottom: 16 }}>
           <Text style={[t.greeting, { color: color.ink }]}>
             {greeting()}, {firstNameOf(state.profile.display_name)}
@@ -224,35 +285,37 @@ export default function TodayScreen() {
         ) : null}
 
         {/* Race + countdown, above the fold by construction. */}
+        <TourSpot id="race">
         <View style={{
           flexDirection: 'row', alignItems: 'flex-end', gap: 12,
           paddingHorizontal: space.gutter, paddingTop: 16, paddingBottom: 14,
         }}>
           <View style={{ flex: 1 }}>
-            <Label style={{ marginBottom: 6 }}>Next goal</Label>
+            <Label style={{ marginBottom: 6 }}>{goal.label}</Label>
             <Text style={[t.h4, { color: color.ink, lineHeight: 21 }]}>
-              {plan.race?.name ?? 'No race set'}
+              {goal.title}
             </Text>
+            {/* Division is optional on the race, so the separator between the
+                date and it is only drawn when both are there. */}
             <Text style={[t.bodySm, { color: color.muted2, marginTop: 2 }]}>
-              {/* Division is optional on the race, so the separator is only
-                  drawn when there is something on both sides of it. */}
-              {[plan.race?.date_label, plan.race?.division].filter(Boolean).join(' · ')
-                || 'Add a race to see a countdown'}
+              {goal.detail}
             </Text>
           </View>
           <View style={{ alignItems: 'flex-end' }}>
             {/* paddingRight offsets the trailing negative letter-spacing, which
                 RN subtracts from the measured width and clips the last digit. */}
             <Text style={[t.countdown, numeralTrim.countdown, { color: color.ink, paddingRight: 3 }]}>
-              {plan.race?.days_remaining ?? '—'}
+              {goal.value}
             </Text>
-            <Label>Days</Label>
+            <Label>{goal.unit}</Label>
           </View>
         </View>
 
         {plan.phase ? <PhaseBars phase={plan.phase} /> : null}
+        </TourSpot>
         <Rule heavy />
 
+        <TourSpot id="stats">
         <View style={{ flexDirection: 'row' }}>
           {/* This used to read "ON TRACK" as a literal, which it would have
               said however far behind the athlete was. The ratio it was standing
@@ -293,6 +356,7 @@ export default function TodayScreen() {
             </Text>
           </Pressable>
         </View>
+        </TourSpot>
         <Rule />
 
         {/* The daily prompt, and the way into the check-in.
@@ -386,10 +450,10 @@ export default function TodayScreen() {
           </View>
         ) : session.kind === 'session' ? (
           <>
-            <View style={{
+            <TourSpot id="session" style={{
               margin: 10, marginHorizontal: space.gutter, marginBottom: 0,
-              borderWidth: 2, borderColor: color.ink,
             }}>
+            <View style={{ borderWidth: 2, borderColor: color.ink }}>
               <View style={{
                 flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: color.rule,
               }}>
@@ -473,8 +537,9 @@ export default function TodayScreen() {
                 totalMinutes={session.estimated_minutes}
               />
             </View>
+            </TourSpot>
 
-            <View style={{
+            <TourSpot id="actions" style={{
               flexDirection: 'row', gap: 10,
               paddingHorizontal: space.gutter, paddingTop: 14,
             }}>
@@ -483,7 +548,7 @@ export default function TodayScreen() {
                 label="Adapt" variant="outline" arrow={null}
                 onPress={() => setSheetOpen(true)}
               />
-            </View>
+            </TourSpot>
           </>
         ) : (
           /* No valid session. Recovery guidance, not a forced recommendation. */

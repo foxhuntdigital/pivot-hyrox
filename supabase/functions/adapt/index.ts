@@ -12,7 +12,7 @@ import {
 } from '../../../packages/engine/src/index.ts';
 import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
-  localDate, requireUser,
+  localDate, requireEntitlement, requireUser,
 } from '../_shared/context.ts';
 
 Deno.serve(async (req) => {
@@ -22,6 +22,7 @@ Deno.serve(async (req) => {
   try {
     const db = clientFor(req);
     const user = await requireUser(db);
+    await requireEntitlement(db, user.id);
     const today = localDate(user.timezone);
     const body = await req.json().catch(() => ({}));
 

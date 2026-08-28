@@ -16,6 +16,7 @@ import { Rule } from '@/components/primitives';
 import { headerDateLabel } from '@/lib/format';
 import type { PlanView } from '@/data/plan';
 import { useApp } from '@/state/store';
+import { TourSpot, TourOverlay } from '@/components/Tour';
 
 const TABS = [
   { key: 'today', label: 'Today' },
@@ -89,7 +90,7 @@ function TabBar() {
   const active = pathname.replace('/', '') || 'today';
 
   return (
-    <View style={{ backgroundColor: color.paper }}>
+    <TourSpot id="tabs" style={{ backgroundColor: color.paper }}>
       <Rule heavy />
       <View style={{ flexDirection: 'row', paddingBottom: Math.max(insets.bottom, 12) }}>
         {TABS.map(tab => {
@@ -123,7 +124,7 @@ function TabBar() {
           );
         })}
       </View>
-    </View>
+    </TourSpot>
   );
 }
 
@@ -145,6 +146,9 @@ export default function TabsLayout() {
         ))}
       </Tabs>
       <TabBar />
+      {/* Above the shell so the spotlight can dim the tab bar and the header
+          as well as the scrolling content. */}
+      <TourOverlay />
     </View>
   );
 }

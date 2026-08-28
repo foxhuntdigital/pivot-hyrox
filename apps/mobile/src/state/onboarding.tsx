@@ -13,18 +13,31 @@ import React, {
   createContext, useCallback, useContext, useEffect, useMemo, useState,
 } from 'react';
 
-import { createPlan, fetchActiveProgram, type PlanSummary } from '@/data/planRepo';
+import {
+  createPlan, fetchActiveProgram, type PlanSummary, type PlanTarget,
+} from '@/data/planRepo';
 import { track } from '@/lib/analytics';
 import { useSession } from './session';
 
 export type Goal = 'finish_healthy' | 'performance' | 'custom';
 
+/**
+ * What the plan is built from. An athlete with an entry counts back from it; an
+ * athlete without one picks how many weeks to train for. There is no third
+ * option — an open-ended plan has no phases, because every phase length here is
+ * a proportion of the runway.
+ */
+export type PlanMode = 'race' | 'block';
+
 export interface OnboardingDraft {
   sport: string;
   goal_type: Goal;
+  plan_mode: PlanMode;
   event_name: string;
   event_date: string | null;
   division: string | null;
+  /** Length of the program when `plan_mode` is 'block'. */
+  block_weeks: number;
   experience_level: 'beginner' | 'intermediate' | 'advanced';
   training_age_years: number | null;
   equipment: string[];
@@ -54,9 +67,11 @@ interface OnboardingStore {
 const EMPTY_DRAFT: OnboardingDraft = {
   sport: 'hyrox',
   goal_type: 'performance',
+  plan_mode: 'race',
   event_name: '',
   event_date: null,
   division: null,
+  block_weeks: 12,
   experience_level: 'intermediate',
   training_age_years: null,
   equipment: [],
@@ -84,6 +99,20 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
 
     let cancelled = false;
     setStatus('checking');
+
+    /**
+     * A floor under the lookup, independent of the request.
+     *
+     * `fetchActiveProgram` carries its own timeout, but the splash is held open
+     * by this status and nothing else — so if the call ever fails to settle for
+     * a reason its own timeout does not cover, the app must still open. Falling
+     * through to `complete` is the same policy the catch below uses, and for the
+     * same reason: an athlete stuck behind a splash can do nothing at all.
+     */
+    const escape = setTimeout(() => {
+      if (!cancelled) setStatus(s => (s === 'checking' ? 'complete' : s));
+    }, 12_000);
+
     fetchActiveProgram()
       .then(program => {
         if (cancelled) return;
@@ -99,7 +128,7 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
         // in an onboarding flow they may not need.
         if (!cancelled) setStatus('complete');
       });
-    return () => { cancelled = true; };
+    return () => { cancelled = true; clearTimeout(escape); };
   }, [authStatus, nonce]);
 
   const update = useCallback((patch: Partial<OnboardingDraft>) => {
@@ -109,14 +138,23 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
   const recheck = useCallback(() => setNonce(n => n + 1), []);
 
   const submit = useCallback(async () => {
-    if (!draft.event_date) throw new Error('A race date is required.');
+    let target: PlanTarget;
+    if (draft.plan_mode === 'race') {
+      if (!draft.event_date) throw new Error('A race date is required.');
+      target = {
+        race: {
+          event_name: draft.event_name.trim() || 'My race',
+          event_date: draft.event_date,
+          division: draft.division,
+          goal_type: draft.goal_type,
+        },
+      };
+    } else {
+      target = { block: { weeks: draft.block_weeks } };
+    }
+
     const plan = await createPlan({
-      race: {
-        event_name: draft.event_name.trim() || 'My race',
-        event_date: draft.event_date,
-        division: draft.division,
-        goal_type: draft.goal_type,
-      },
+      ...target,
       equipment: draft.equipment,
       profile: {
         typical_session_minutes: draft.typical_session_minutes,
@@ -129,7 +167,7 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
     track({
       name: 'onboarding_completed',
       sport: draft.sport,
-      race_added: Boolean(draft.event_date),
+      race_added: draft.plan_mode === 'race',
       health_connected: draft.health_connected,
     });
     // Status flips only after the server confirms, so a failed submit leaves

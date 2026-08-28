@@ -6,13 +6,14 @@
  * runs on every keystroke-equivalent because it is a pure function over state.
  */
 import React, { useCallback, useEffect, useRef } from 'react';
-import { View, Text, ScrollView, Modal, Pressable, Alert } from 'react-native';
+import { View, Text, ScrollView, Modal, Pressable } from 'react-native';
 import * as Haptics from 'expo-haptics';
 
 import { VARIANT_LABEL, variantMinutes, type VariantCode } from '@pivot/engine';
 import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, Chip } from '@/components/primitives';
 import { useApp } from '@/state/store';
+import { useDialog } from '@/components/Dialog';
 import { FullWorkout } from '@/components/FullWorkout';
 import { exerciseById } from '@/data/content';
 import { track, bucketMinutes } from '@/lib/analytics';
@@ -23,6 +24,7 @@ const FLAG_CHOICES = ['Low sleep', 'Something hurts', 'No equipment', 'Need low 
 
 export function AdaptSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const { state, dispatch, decision, chooseVariant } = useApp();
+  const dialog = useDialog();
 
   // What the athlete arrived with, captured on open so `adaptation_applied`
   // and `adapt_opened` agree on what "original" meant (PRD §16).
@@ -94,19 +96,65 @@ export function AdaptSheet({ visible, onClose }: { visible: boolean; onClose: ()
    * This used to call `commitAdaptation` directly, which recorded the variant
    * and then had it ignored downstream — the sheet closed and Today kept the
    * session it already had, so choosing Full or Micro did nothing visible.
-   * `chooseVariant` is the path that actually applies it, and says so when the
-   * athlete's recovery is what stands in the way.
+   * `chooseVariant` is the path that actually applies it.
+   *
+   * It also used to end the conversation on a refusal: an athlete who had been
+   * given an Express and wanted the Full one was told the version "isn't
+   * available today" and left with no way forward. But a recovery refusal is
+   * the engine's advice about how hard today should be, not a fact about the
+   * world, and advice about your own body is yours to overrule. So a refusal
+   * the athlete can answer is now put to them as a question, and answering yes
+   * applies the session they asked for.
+   *
+   * The two refusals that are not advice keep their dead end, deliberately. A
+   * severe symptom is a boundary the app has said it will not cross, and
+   * offering to press on would make that promise false. Equipment, impact and
+   * postpartum constraints describe what can actually be performed, so
+   * confirming would change nothing and pretending otherwise would be a button
+   * that does not work.
    */
-  const accept = (templateId: string, variant: VariantCode) => {
-    if (!chooseVariant(templateId, variant)) {
-      Alert.alert(
-        `${VARIANT_LABEL[variant]} isn't available today`,
-        "That version asks for more than today's recovery supports. The one "
-        + 'recommended above is the longest this can build from what you have '
-        + 'reported.',
-      );
+  const accept = async (templateId: string, variant: VariantCode) => {
+    const result = chooseVariant(templateId, variant);
+
+    if (!result.ok && result.reason === 'recovery') {
+      const proceed = await dialog.confirm({
+        eyebrow: 'Are you sure?',
+        title: `${VARIANT_LABEL[variant]} is more than today supports`,
+        body: 'Based on your check-in, this asks for more than the version '
+          + 'recommended above. You can still do it — you know how you feel '
+          + 'better than the check-in does. Ease off if it stops feeling right.',
+        confirmLabel: `Do the ${VARIANT_LABEL[variant]}`,
+        cancelLabel: 'Keep the suggestion',
+      });
+      if (!proceed) return;
+
+      const overridden = chooseVariant(templateId, variant, { override: true });
+      if (!overridden.ok) {
+        // The classification said this would build. Reaching here means the
+        // inputs moved between the two calls, so it is reported rather than
+        // silently swallowed into a closed sheet.
+        await dialog.alert({
+          eyebrow: 'Not available',
+          title: `${VARIANT_LABEL[variant]} could not be applied`,
+          body: 'Something about today changed while you were deciding. Try again.',
+        });
+        return;
+      }
+    } else if (!result.ok) {
+      await dialog.alert({
+        eyebrow: 'Not available',
+        title: `${VARIANT_LABEL[variant]} isn't available today`,
+        body: result.reason === 'symptom'
+          ? 'You reported a symptom that training hard through would not be '
+            + 'reasonable. This one is not something to push past — rest today, '
+            + 'and get it looked at if it persists.'
+          : 'That version cannot be built from the equipment and constraints you '
+            + 'have reported today. The one recommended above is the longest this '
+            + 'can build from what you have.',
+      });
       return;
     }
+
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     onClose();
   };

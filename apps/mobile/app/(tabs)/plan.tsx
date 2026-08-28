@@ -10,19 +10,26 @@
  * and the engine has no concept of; they were authored alongside the fixture.
  * Rank is what the week actually is.
  */
-import React from 'react';
-import { View, Text, ScrollView, Pressable, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 
 import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label, SquareCheck, InkPanel } from '@/components/primitives';
+import { useDialog } from '@/components/Dialog';
+import { WorkoutDetailSheet } from '@/components/WorkoutDetailSheet';
 import { useApp } from '@/state/store';
 import { phaseTitle } from '@/data/plan';
+import type { QueuedSession } from '@/data/todayRepo';
 
 export default function PlanScreen() {
   const router = useRouter();
+  const dialog = useDialog();
   const { state, session, plan, switchToQueued } = useApp();
+
+  /** The queued row being read. Null when the detail sheet is closed. */
+  const [detail, setDetail] = useState<QueuedSession | null>(null);
 
   const travelDays = state.travel?.days.length ?? 0;
 
@@ -37,6 +44,10 @@ export default function PlanScreen() {
    * absence of one.
    */
   const hasPlan = plan.phase !== null;
+  // A race plan ends at the event, which announces itself. A block just runs
+  // out, so its last week has to say so.
+  const isFinalBlockWeek = plan.race === null && plan.phase !== null
+    && plan.phase.total_weeks > 0 && plan.phase.week >= plan.phase.total_weeks;
 
   /**
    * Today's session, shown in the completed list once it is done and as the
@@ -82,42 +93,64 @@ export default function PlanScreen() {
    * Makes a queued session today's.
    *
    * The week is stimuli in rank order, not a calendar, so the queue is a set of
-   * things owed rather than a schedule — which makes "do this one instead"
-   * a legitimate answer and not a deviation. Confirmed rather than applied on
-   * the tap: it changes what Today offers, and Plan is not where the athlete is
-   * looking when it does.
+   * things owed rather than a schedule — which makes "do this one instead" a
+   * legitimate answer and not a deviation.
+   *
+   * Called from the detail sheet rather than from the row. The confirmation
+   * that used to sit here has been removed rather than relocated: the sheet
+   * states what this does directly above its own button, and a dialog asking
+   * the same question after the athlete has read the whole prescription would
+   * be a step that tells them nothing they have not just read.
    */
-  const chooseQueued = (templateId: string, name: string) => {
-    Alert.alert(
-      `Do ${name} today?`,
-      'It becomes today\'s session. Nothing is marked missed — the rest of the '
-      + 'week keeps the same stimuli, in the same order.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Do it today',
-          onPress: () => {
-            if (!switchToQueued(templateId)) {
-              // The engine declined it under today's inputs — low sleep, an
-              // impact flag, equipment it cannot substitute around. Saying so
-              // beats an override that resolves back to the original session
-              // and looks like the tap did nothing.
-              Alert.alert(
-                'Not today',
-                `${name} isn't something this can build from today's check-in and `
-                + 'equipment. Adapt today from the Today tab and it will offer what fits.',
-              );
-              return;
-            }
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-            router.replace('/today' as never);
-          },
-        },
-      ],
-    );
+  const chooseQueued = async (templateId: string, name: string) => {
+    setDetail(null);
+
+    const result = switchToQueued(templateId);
+
+    if (!result.ok && result.reason === 'recovery') {
+      // Advice, not a limit — so it is put to the athlete rather than enforced.
+      // Same rule as the Adapt sheet's variant choice, because it is the same
+      // question: they are asking for more than today's check-in suggests.
+      const proceed = await dialog.confirm({
+        eyebrow: 'Are you sure?',
+        title: `${name} is more than today supports`,
+        body: "Based on your check-in, this asks for more than today's "
+          + 'recommendation. You can still do it — you know how you feel better '
+          + 'than the check-in does. Ease off if it stops feeling right.',
+        confirmLabel: 'Do it anyway',
+        cancelLabel: 'Not today',
+      });
+      if (!proceed) return;
+
+      if (!switchToQueued(templateId, { override: true }).ok) {
+        await dialog.alert({
+          eyebrow: 'Not today',
+          title: `${name} could not be applied`,
+          body: 'Something about today changed while you were deciding. Try again.',
+        });
+        return;
+      }
+    } else if (!result.ok) {
+      await dialog.alert({
+        eyebrow: 'Not today',
+        title: `${name} doesn't fit today`,
+        body: result.reason === 'symptom'
+          ? 'You reported a symptom that training hard through would not be '
+            + 'reasonable. This one is not something to push past — rest today, '
+            + 'and get it looked at if it persists.'
+          : `${name} isn't something this can build from the equipment and `
+            + 'constraints you have reported today. Adapt from the Today tab and '
+            + 'it will offer what fits.',
+      });
+      return;
+    }
+
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    router.replace('/today' as never);
   };
 
   return (
+    <>
     <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
       <View style={{ paddingHorizontal: space.gutter, paddingTop: 18, paddingBottom: 14 }}>
         <Label>Current block</Label>
@@ -127,10 +160,45 @@ export default function PlanScreen() {
         <Text style={[t.bodySm, { color: color.muted2 }]}>
           {plan.phase
             ? `Week ${plan.phase.week} of ${plan.phase.total_weeks}`
-              + (plan.race ? ` · ${plan.race.name}` : '')
-            : 'Set a race to generate a program.'}
+              + (plan.race ? ` · ${plan.race.name}` : ' · no race entered')
+            : 'Set a race, or pick a block length, to generate a program.'}
         </Text>
       </View>
+
+      {/* The last week of a block.
+          
+          A block ends on a date rather than at an event, so nothing else marks
+          the end for the athlete — and a plan that simply stops is the failure
+          mode this prompt exists to avoid. It appears only in the final week,
+          only without a race, and it decides nothing: both ways out are on
+          Profile, where the same controls built the plan in the first place. */}
+      {isFinalBlockWeek ? (
+        <View style={{
+          marginHorizontal: space.gutter, marginBottom: 16,
+          backgroundColor: color.tint, borderWidth: 1, borderColor: color.tintBorder,
+          paddingHorizontal: 13, paddingVertical: 12,
+        }}>
+          <Label tone="redDark" size="sm" style={{ paddingBottom: 6 }}>Last week of this block</Label>
+          <Text style={[t.bodySm, { color: color.redDeep, paddingBottom: 10 }]}>
+            Your block ends this week. Enter a race and the next weeks are built
+            around the date, or start another block to keep training.
+          </Text>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Choose what comes next, on Profile"
+            onPress={() => router.push('/profile' as never)}
+            style={({ pressed }) => ({
+              alignSelf: 'flex-start', paddingVertical: 6, opacity: pressed ? 0.6 : 1,
+            })}
+          >
+            <Text style={[t.bodySm, {
+              fontFamily: t.rowTitle.fontFamily, color: color.redDeep,
+            }]}>
+              Choose what's next ›
+            </Text>
+          </Pressable>
+        </View>
+      ) : null}
 
       {/* Race roadmap: one bar per week of the program. */}
       {plan.phase && plan.phase.total_weeks > 0 ? (
@@ -152,9 +220,9 @@ export default function PlanScreen() {
       {!hasPlan ? (
         <InkPanel label="Nothing to plan yet" style={{ margin: 20, marginHorizontal: space.gutter }}>
           <Text style={[t.body, { color: color.onDarkSoft }]}>
-            A program is built from a race date — the weeks, the phases and what
-            each week asks for all come from how long there is until it. Add one
-            and this fills in.
+            A program is built from a runway — the weeks, the phases and what each
+            week asks for all come from how long it is. Set a race date, or pick a
+            block length if you have nothing entered, and this fills in.
           </Text>
         </InkPanel>
       ) : (
@@ -217,12 +285,11 @@ export default function PlanScreen() {
           return (
             <Pressable
               key={q.id}
-              onPress={isToday ? undefined : () => chooseQueued(q.template_id, q.name)}
-              disabled={isToday}
-              accessibilityRole={isToday ? 'text' : 'button'}
+              onPress={() => setDetail(q)}
+              accessibilityRole="button"
               accessibilityLabel={isToday
-                ? `${q.name}, already today's session`
-                : `${q.name}, ${q.stimulus_type.replace(/_/g, ' ')}. Do this one today instead.`}
+                ? `${q.name}, already today's session. View the workout.`
+                : `${q.name}, ${q.stimulus_type.replace(/_/g, ' ')}. View the workout and choose whether to do it today.`}
               style={({ pressed }) => ({
                 flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 13,
                 borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
@@ -259,7 +326,7 @@ export default function PlanScreen() {
         <Text style={[t.meta, {
           paddingHorizontal: space.gutter, paddingTop: 10, color: color.muted,
         }]}>
-          Tap any of these to do it today instead.
+          Tap any of these to read the workout and choose whether to do it today.
         </Text>
       ) : null}
 
@@ -271,5 +338,15 @@ export default function PlanScreen() {
       </>
       )}
     </ScrollView>
+
+    {/* Outside the scroller, the way Today mounts the adapt sheet: a Modal
+        nested in scrolling content measures against it rather than the screen. */}
+    <WorkoutDetailSheet
+      queued={detail}
+      isToday={detail?.template_id === todayTemplateId}
+      onClose={() => setDetail(null)}
+      onDoToday={chooseQueued}
+    />
+    </>
   );
 }

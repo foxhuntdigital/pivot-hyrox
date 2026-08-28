@@ -90,6 +90,24 @@ not a low-ranked candidate, it is not a candidate:
 - No maximal testing on poor recovery; taper overrides generic progression;
   48-hour spacing between repeat high-intensity or heavy lower-body exposures;
   postpartum considerations exclude non-friendly content.
+- **Running costs equipment.** `outdoor` used to be treated as always available,
+  alongside `bodyweight`, which read as generosity and was a hole: nothing could
+  filter `requires_running`, so an athlete in a hotel room or a treadmill-less
+  home gym was handed run sessions and no equipment profile could say otherwise.
+  Running now needs `treadmill` or `outdoor` like every other modality needs its
+  kit. Migration `0009` reinterprets existing profiles rather than changing what
+  they meant: one that ticked neither was answered under the old rule, where
+  that still meant "I can run", so it gains `outdoor`. One that ticked only
+  `treadmill` was a deliberate answer and is left alone. The adapt sheet's "No
+  equipment" keeps `outdoor` for the same reason — it is a place, not kit.
+
+`packages/engine/src/coverage.test.ts` is the standing gate on what that leaves
+an athlete with. It measures the two dumbbell profiles — with and without
+somewhere to run — across goal × time budget × recovery state × training phase,
+and fails a cell that falls below a floor derived from how often the planner
+asks for that stimulus. It is red until the dumbbell expansion lands, and it
+names the gaps: threshold and recovery without running, and taper, where the
+family filter currently leaves a dumbbell athlete one session.
 
 Then candidates are scored on the §9.2 weights (stimulus urgency 30%, recovery
 fit 20%, race specificity 15%, progression continuity 15%, time fit 10%,

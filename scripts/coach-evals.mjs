@@ -129,12 +129,22 @@ const context = {
 
 /* ------------------------------------------------------------- checks --- */
 
-/** From coach.communication.v1.md's Avoid list and the safety policy. */
+/**
+ * From coach.communication.v1.md's Avoid list and the safety policy.
+ *
+ * The second group is the v1.1 voice: warmth is a requirement now, and the two
+ * ways it fails are opposite. Going stiff ("I cannot determine") reads as a
+ * system rather than a coach; going loud (exclamation marks, emoji) reads as
+ * the hype the pack has always banned. Both are cheap to detect, which is the
+ * only reason they are tested here rather than left to review.
+ */
 const FORBIDDEN = [
   /crush it/i, /no excuses/i, /you failed/i, /make up (yesterday|the missed)/i,
   /fully recovered/i, /\d+% recovered/i, /guarantee/i,
   /you (have|might have|likely have) (a|an) \w+ (tear|strain|sprain|injury)/i,
   /safe (for you )?to train/i, /cleared to train/i,
+  /you've got this/i, /!/, /\p{Extended_Pictographic}/u,
+  /\bI cannot\b/, /\bI am not able\b/, /\bdo not have enough\b/,
 ];
 
 /** Case-specific assertions over the turn. Prose contract → executable gate. */
@@ -307,8 +317,17 @@ for (const testCase of cases) {
   }
 
   if (FULL) {
-    const hit = FORBIDDEN.find(re => re.test(turn.response.message));
+    const message = turn.response.message;
+    const hit = FORBIDDEN.find(re => re.test(message));
     hit ? fail('voice/safety scan', `matched ${hit}`) : pass('voice/safety scan');
+
+    // A proxy for register, not for wit: contractions are the cheapest signal
+    // that the reply was written to a person. Anything over a sentence or two
+    // without one has drifted back into report voice.
+    const contractions = /\b\w+'(s|t|re|ve|ll|d|m)\b/i.test(message);
+    contractions || message.length < 120
+      ? pass('reads as spoken, not filed')
+      : fail('reads as spoken, not filed', 'no contractions in a long reply');
   }
 
   if (failed) failures++;

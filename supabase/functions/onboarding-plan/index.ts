@@ -14,21 +14,30 @@
  * would be stale by the second day.
  */
 import {
-  clientFor, corsHeaders, HttpError, json, loadContent, requireUser, localDate,
+  clientFor, corsHeaders, HttpError, json, loadContent, requireEntitlement, requireUser, localDate,
 } from '../_shared/context.ts';
 import { ensureWeekQueue } from '../_shared/queue.ts';
 import {
+  blockEndDate, clampBlockWeeks, MAX_BLOCK_WEEKS, MIN_BLOCK_WEEKS, planBlockPhases,
   planPhases, stimuliFor, weeksUntil, type PhaseType,
 } from '../_shared/periodization.ts';
 
 interface PlanRequest {
-  race: {
+  /** A plan counted back from an event. Mutually exclusive with `block`. */
+  race?: {
     event_name: string;
     event_date: string;
     division?: string | null;
     goal_type?: 'finish_healthy' | 'performance' | 'custom';
     goal_value?: string | null;
-  };
+  } | null;
+  /**
+   * A plan for an athlete with nothing entered: a fixed number of weeks instead
+   * of a date to count back from. Deliberately not open-ended — every phase
+   * length in this program is a proportion of the runway, so a plan with no end
+   * has no phases to speak of.
+   */
+  block?: { weeks: number } | null;
   equipment?: string[];
   profile?: {
     typical_session_minutes?: number;
@@ -49,16 +58,39 @@ Deno.serve(async (req) => {
 
     const db = clientFor(req);
     const user = await requireUser(db);
+    await requireEntitlement(db, user.id);
     const today = localDate(user.timezone);
 
     const body = await req.json().catch(() => null) as PlanRequest | null;
-    const race = body?.race;
-    if (!race?.event_name?.trim()) throw new HttpError(400, 'race.event_name is required');
-    if (!race.event_date || !ISO_DATE.test(race.event_date)) {
-      throw new HttpError(400, 'race.event_date must be an ISO date (YYYY-MM-DD)');
+    const race = body?.race ?? null;
+    const block = body?.block ?? null;
+
+    // Exactly one. Both would leave the program's end date ambiguous, and the
+    // caller has certainly not decided which it meant.
+    if (!race && !block) throw new HttpError(400, 'Either race or block is required');
+    if (race && block) throw new HttpError(400, 'Send race or block, not both');
+
+    if (race) {
+      if (!race.event_name?.trim()) throw new HttpError(400, 'race.event_name is required');
+      if (!race.event_date || !ISO_DATE.test(race.event_date)) {
+        throw new HttpError(400, 'race.event_date must be an ISO date (YYYY-MM-DD)');
+      }
+      if (race.event_date < today) {
+        throw new HttpError(400, 'race.event_date is in the past');
+      }
     }
-    if (race.event_date < today) {
-      throw new HttpError(400, 'race.event_date is in the past');
+
+    // Rejected rather than clamped: the client offers a fixed set of lengths,
+    // so a value outside the range is a bug worth surfacing, not a preference
+    // worth quietly rewriting.
+    if (block) {
+      if (typeof block.weeks !== 'number' || !Number.isFinite(block.weeks)) {
+        throw new HttpError(400, 'block.weeks must be a number');
+      }
+      if (block.weeks < MIN_BLOCK_WEEKS || block.weeks > MAX_BLOCK_WEEKS) {
+        throw new HttpError(400,
+          `block.weeks must be between ${MIN_BLOCK_WEEKS} and ${MAX_BLOCK_WEEKS}`);
+      }
     }
 
     // Profile fields that shape the plan are saved before generating from them,
@@ -90,8 +122,18 @@ Deno.serve(async (req) => {
     const { data: existingRace } = await db.from('races')
       .select('id').eq('user_id', user.id).eq('status', 'active').maybeSingle();
 
-    let raceId: string;
-    if (existingRace) {
+    let raceId: string | null = null;
+    if (!race) {
+      // Switching to a block retires the race rather than leaving it active.
+      // Today reads the active race for its countdown independently of the
+      // program, so a race left behind here would head a plan that was not
+      // built for it — a date counting down to nothing.
+      if (existingRace) {
+        const { error } = await db.from('races')
+          .update({ status: 'archived' }).eq('id', existingRace.id);
+        if (error) throw new HttpError(500, `Could not archive race: ${error.message}`);
+      }
+    } else if (existingRace) {
       const { error } = await db.from('races').update({
         event_name: race.event_name.trim(),
         event_date: race.event_date,
@@ -101,7 +143,7 @@ Deno.serve(async (req) => {
       }).eq('id', existingRace.id);
       if (error) throw new HttpError(500, `Could not update race: ${error.message}`);
       raceId = existingRace.id;
-    } else {
+    } else if (race) {
       const { data, error } = await db.from('races').insert({
         user_id: user.id,
         event_name: race.event_name.trim(),
@@ -117,27 +159,39 @@ Deno.serve(async (req) => {
 
     if (body?.equipment) await saveEquipment(db, user.id, body.equipment);
 
-    // Supersede any active program for this race and take the next version, so
-    // the new plan is additive and the old one stays readable.
+    // Supersede whatever the athlete was on and take the next version, so the
+    // new plan is additive and the old one stays readable.
+    //
+    // Both the version sequence and the supersede are scoped to the athlete
+    // rather than to the race. Scoped to the race, a block (race_id null) would
+    // start its own sequence at version 1 and leave the race program active
+    // beside it — two active plans, and no rule for which one Today follows.
     const { data: priorPrograms } = await db.from('programs')
-      .select('id, version').eq('user_id', user.id).eq('race_id', raceId)
+      .select('id, version').eq('user_id', user.id)
       .order('version', { ascending: false });
 
     const nextVersion = (priorPrograms?.[0]?.version ?? 0) + 1;
     if (priorPrograms?.length) {
       const { error } = await db.from('programs')
         .update({ status: 'superseded' })
-        .eq('user_id', user.id).eq('race_id', raceId).eq('status', 'active');
+        .eq('user_id', user.id).eq('status', 'active');
       if (error) throw new HttpError(500, `Could not supersede program: ${error.message}`);
     }
 
-    const phases = planPhases(today, race.event_date);
+    const totalWeeks = race
+      ? weeksUntil(today, race.event_date)
+      : clampBlockWeeks(block!.weeks);
+    const endDate = race ? race.event_date : blockEndDate(today, block!.weeks);
+    const phases = race
+      ? planPhases(today, race.event_date)
+      : planBlockPhases(today, block!.weeks);
+
     const { data: program, error: programError } = await db.from('programs').insert({
       user_id: user.id,
       race_id: raceId,
       version: nextVersion,
       start_date: today,
-      end_date: race.event_date,
+      end_date: endDate,
       status: 'active',
     }).select('id').single();
     if (programError || !program) {
@@ -159,19 +213,27 @@ Deno.serve(async (req) => {
       throw new HttpError(500, `Could not create phases: ${phaseError?.message}`);
     }
 
+    // `week_index` is the week's position **within its phase**, restarting at 1
+    // for each one. That is what `_shared/context.ts` reads it as — it offsets
+    // the phase's own start date by it to find the current week's window — and
+    // a program-wide counter here put that window weeks into the future and
+    // double-counted the program week on top of it.
     const byOrder = new Map(phaseRows.map(r => [r.phase_order, r]));
     const cycleRows: { phase_id: string; week_index: number; status: string }[] = [];
-    let weekIndex = 1;
+    let programWeek = 1;
     for (const phase of phases) {
       const row = byOrder.get(phase.phase_order)!;
       for (let w = 0; w < phase.weeks; w++) {
         cycleRows.push({
           phase_id: row.id,
-          week_index: weekIndex,
-          // The first week is live immediately; the rest wait their turn.
-          status: weekIndex === 1 ? 'active' : 'pending',
+          week_index: w + 1,
+          // The first week of the program is live immediately; the rest wait
+          // their turn. Nothing advances this later — the current week is
+          // derived from the calendar — so it is a starting state, not a
+          // cursor.
+          status: programWeek === 1 ? 'active' : 'pending',
         });
-        weekIndex++;
+        programWeek++;
       }
     }
 
@@ -196,20 +258,27 @@ Deno.serve(async (req) => {
       throw new HttpError(500, `Could not create stimulus requirements: ${reqError.message}`);
     }
 
+    // Week 1 of the *first phase*. Now that week_index restarts per phase, a
+    // bare `week_index === 1` matches once per phase, and which of those a
+    // `.find` returns is an accident of insertion order.
+    const firstPhase = phases[0];
+    const firstPhaseId = byOrder.get(firstPhase.phase_order)?.id;
+    const firstWeek = cycles.find(c => c.phase_id === firstPhaseId && c.week_index === 1);
+
     // The first week gets its sessions now, so the summary the athlete sees and
     // the Plan tab they open next both have a week in them rather than a set of
     // targets with nothing against them.
-    await planFirstWeek(db, cycles, phases[0], body, today);
-
-    // The summary D08 renders: which phase the athlete starts in, how long the
-    // runway is, and what the first week asks of them.
-    const firstPhase = phases[0];
-    const firstWeek = cycles.find(c => c.week_index === 1);
+    await planFirstWeek(db, firstWeek, firstPhase, body, today);
     return json({
       program_id: program.id,
       version: nextVersion,
-      race: { id: raceId, event_name: race.event_name.trim(), event_date: race.event_date },
-      total_weeks: weeksUntil(today, race.event_date),
+      race: race && raceId
+        ? { id: raceId, event_name: race.event_name.trim(), event_date: race.event_date }
+        : null,
+      // Present for both kinds of plan, so a caller that only wants to say how
+      // long the program is does not have to know which kind it got.
+      block: race ? null : { weeks: totalWeeks, end_date: endDate },
+      total_weeks: totalWeeks,
       phases: phases.map(p => ({
         phase_type: p.phase_type,
         phase_order: p.phase_order,
@@ -273,12 +342,11 @@ async function saveEquipment(
  */
 async function planFirstWeek(
   db: ReturnType<typeof clientFor>,
-  cycles: { id: string; week_index: number }[],
+  first: { id: string } | undefined,
   firstPhase: { phase_type: PhaseType },
   body: PlanRequest | null,
   today: string,
 ) {
-  const first = cycles.find(c => c.week_index === 1);
   if (!first) return;
 
   try {

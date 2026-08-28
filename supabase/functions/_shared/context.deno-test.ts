@@ -91,6 +91,29 @@ describe('Athlete state derivations', () => {
     assert.equal(state.weekEnd, '2026-04-14');
   });
 
+  test('the current week follows the calendar, not the `active` flag', async () => {
+    // Nothing advances weekly_cycles.status after onboarding sets it, so week 1
+    // of the phase stays flagged `active` forever. Reading that flag reported
+    // the same week for the life of the program; the date says otherwise.
+    const state = await load('2026-04-22');
+    assert.equal(state.weekInPhase, 4);
+    assert.equal(state.programWeek, 8);
+    assert.equal(state.weekStart, '2026-04-22');
+  });
+
+  test('the week is clamped to the phase it is in', async () => {
+    // Past the end of the last phase — a block that has run out — the program
+    // reports its final week rather than counting off the end of the plan.
+    const state = await load('2026-06-30');
+    assert.equal(state.programWeek, state.programTotalWeeks);
+  });
+
+  test('a date before the phase starts does not produce a week zero', async () => {
+    const state = await load('2026-03-04');
+    assert.equal(state.weekInPhase, 1);
+    assert.equal(state.programWeek, 1);
+  });
+
   test('the window does not drift across a month boundary', async () => {
     const state = await load('2026-04-29', {
       programs: [program({

@@ -135,6 +135,23 @@ export interface EngineInput {
   low_impact_required: boolean;
   /** Free-text-free flags from the adapt sheet. */
   symptom_flags: string[];
+  /**
+   * The athlete has explicitly asked for a session their recovery state would
+   * otherwise have filtered out, and confirmed it.
+   *
+   * Set only by a deliberate confirmation, never inferred. It relaxes the rules
+   * that encode a judgement about how hard today should be — the intensity
+   * ceiling, no-maximal-testing-on-poor-recovery, high-intensity spacing, and
+   * the variant's own recovery requirement — because those are coaching advice,
+   * and an adult athlete is allowed to overrule advice about their own body.
+   *
+   * It does NOT relax anything that is not advice. Severe symptoms stop the
+   * flow in `recommend` before any of this is read; equipment, impact and
+   * postpartum constraints describe what can physically or safely be performed
+   * and are unaffected. Overriding is recorded as `ATHLETE_OVERRIDE` on the
+   * decision, so a session done this way is replayable as what it was.
+   */
+  athlete_override?: boolean;
   /** Return-to-training considerations from the athlete profile. */
   considerations: string[];
 
@@ -198,5 +215,6 @@ export type ReasonCode =
   | 'RACE_SPECIFICITY'
   | 'RECENT_LOWER_LOAD'
   | 'TAPER_OVERRIDE'
+  | 'ATHLETE_OVERRIDE'
   | 'REENTRY_AFTER_GAP'
   | 'NO_VALID_HARD_SESSION';

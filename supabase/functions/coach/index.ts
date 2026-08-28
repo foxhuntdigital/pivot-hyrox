@@ -28,7 +28,7 @@ import {
 } from '../../../packages/coach/src/index.ts';
 import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
-  localDate, requireUser,
+  localDate, requireEntitlement, requireUser,
 } from '../_shared/context.ts';
 import { loadProgressSnapshot } from '../_shared/progress.ts';
 
@@ -56,6 +56,7 @@ Deno.serve(async (req) => {
 
     const db = clientFor(req);
     const user = await requireUser(db);
+    await requireEntitlement(db, user.id);
     const today = localDate(user.timezone);
 
     const body = await req.json() as {

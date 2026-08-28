@@ -464,3 +464,79 @@ describe('Readiness renormalisation', () => {
       ['aerobic', 'running', 'strength', 'stations', 'consistency', 'recovery']);
   });
 });
+
+describe('Athlete override', () => {
+  /** Depleted enough that the recovery guardrails bite. */
+  const depleted = (over: Partial<EngineInput> = {}) => baseInput({
+    recovery_state: 'poor',
+    energy: 'low',
+    sleep_hours: 4.5,
+    ...over,
+  });
+
+  test('a severe symptom is not overridable', () => {
+    // The one boundary the override must never cross. It is checked in
+    // `recommend` before any guardrail reads the flag, so the flag cannot
+    // reach it — this pins that ordering.
+    const d = recommend(
+      depleted({ symptom_flags: ['chest pain'], athlete_override: true }), EXERCISES);
+    assert.equal(d.kind, 'no_session');
+    assert.ok(d.kind === 'no_session' && d.guidance.length > 0,
+      'the safety guidance still stands');
+  });
+
+  test('an override does not invent equipment', () => {
+    // Equipment is not advice about how hard today should be, it is a
+    // statement about what exists in the room.
+    const d = recommend(
+      depleted({ available_equipment: [], athlete_override: true }), EXERCISES);
+    if (d.kind === 'session') {
+      const ids = d.blocks.flatMap(b => b.exercises.map(e => e.exercise_id));
+      const index = new Map(EXERCISES.map(e => [e.id, e]));
+      for (const id of ids) {
+        const equipment = index.get(id)?.equipment ?? [];
+        assert.ok(
+          equipment.length === 0 || equipment.includes('bodyweight'),
+          `${id} needs equipment the athlete does not have`);
+      }
+    }
+  });
+
+  test('the intensity ceiling holds without an override', () => {
+    const d = recommend(depleted(), EXERCISES);
+    if (d.kind === 'session') {
+      const peak = Math.max(
+        ...(d.template.intensity_target ?? '').match(/\d+/g)?.map(Number) ?? [0]);
+      assert.ok(peak <= 6, `poor recovery was handed RPE ${peak}`);
+    }
+  });
+
+  test('an override lifts the ceiling it was asked about', () => {
+    // The reported bug: an athlete assigned a reduced session who wants the
+    // full one is told they are not allowed to. With the override they are.
+    const hard = TEMPLATES.filter(t => {
+      const nums = (t.intensity_target ?? '').match(/\d+/g)?.map(Number) ?? [];
+      return nums.length > 0 && Math.max(...nums) > 6;
+    });
+    assert.ok(hard.length > 0, 'fixture has no session above the poor-recovery ceiling');
+
+    const blocked = recommend(depleted({ candidates: hard }), EXERCISES);
+    assert.equal(blocked.kind, 'no_session', 'precondition: this is refused normally');
+
+    const allowed = recommend(
+      depleted({ candidates: hard, athlete_override: true }), EXERCISES);
+    assert.equal(allowed.kind, 'session', 'the override was not honoured');
+  });
+
+  test('an overridden decision says so in its reason codes', () => {
+    const d = recommend(baseInput({ athlete_override: true }), EXERCISES);
+    assert.equal(d.kind, 'session');
+    assert.ok(d.kind === 'session' && d.reason_codes.includes('ATHLETE_OVERRIDE'),
+      'an overridden session must be replayable as one');
+  });
+
+  test('no override, no code', () => {
+    const d = recommend(baseInput(), EXERCISES);
+    assert.ok(d.kind === 'session' && !d.reason_codes.includes('ATHLETE_OVERRIDE'));
+  });
+});

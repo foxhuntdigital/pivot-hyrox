@@ -1,0 +1,198 @@
+/**
+ * A queued workout, read in full before it is chosen.
+ *
+ * Plan's queue used to apply on the tap — one confirmation dialog naming the
+ * workout, then it became today's session. That asks the athlete to decide
+ * from a row that carries a name, a stimulus word and a duration, which is
+ * enough to recognise a session but not enough to choose one. "Long Hybrid 75"
+ * is a label; what it asks for is five blocks of work.
+ *
+ * So the tap opens this instead, and the decision moves to the bottom of a
+ * screen that has already answered "what is it". The confirmation dialog is
+ * gone rather than moved: the sentence it carried is above the button here, and
+ * a second modal asking the same question after the athlete has read the whole
+ * prescription would be a step that informs nobody.
+ */
+import React from 'react';
+import { View, Text, ScrollView, Modal, Pressable } from 'react-native';
+
+import { color, type as t, space } from '@/theme/tokens';
+import { Rule, Label, ActionButton } from '@/components/primitives';
+import { FullWorkout } from '@/components/FullWorkout';
+import { templateById } from '@/data/content';
+import type { QueuedSession } from '@/data/todayRepo';
+
+/** One key/value in the header strip. */
+function Fact({ label, value }: { label: string; value: string }) {
+  return (
+    <View style={{ flex: 1 }}>
+      <Label size="sm" style={{ marginBottom: 3 }}>{label}</Label>
+      <Text style={[t.rowTitle, { fontSize: 13, color: color.ink }]}>{value}</Text>
+    </View>
+  );
+}
+
+export function WorkoutDetailSheet({
+  queued, onClose, onDoToday, isToday,
+}: {
+  /** The row that was tapped. Null closes the sheet. */
+  queued: QueuedSession | null;
+  onClose: () => void;
+  onDoToday: (templateId: string, name: string) => void;
+  /** True when this is already today's session, which has nothing to switch to. */
+  isToday: boolean;
+}) {
+  const template = queued ? templateById.get(queued.template_id) ?? null : null;
+
+  // The queue carries the duration; the bundled library carries everything
+  // else. A template the client does not hold still renders — name, stimulus
+  // and length are enough to choose from, and an empty sheet would be worse
+  // than a thin one.
+  const blocks = template?.blocks ?? [];
+  const minutes = queued?.estimated_minutes ?? template?.estimated_minutes ?? null;
+
+  return (
+    <Modal
+      visible={queued !== null}
+      transparent
+      animationType="slide"
+      onRequestClose={onClose}
+    >
+      <Pressable
+        onPress={onClose}
+        accessibilityLabel="Dismiss"
+        style={{ flex: 1, backgroundColor: 'rgba(32,30,29,0.55)' }}
+      />
+
+      <View style={{
+        maxHeight: '88%', backgroundColor: color.paper,
+        borderTopWidth: 2, borderTopColor: color.ink,
+      }}>
+        <View style={{
+          flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between',
+          gap: 12, padding: 16, paddingHorizontal: space.gutter, paddingBottom: 12,
+        }}>
+          <View style={{ flex: 1 }}>
+            <Label style={{ marginBottom: 4 }}>In your week</Label>
+            <Text style={[t.h4, { color: color.ink }]}>{queued?.name}</Text>
+          </View>
+          <Pressable
+            onPress={onClose}
+            accessibilityRole="button"
+            accessibilityLabel="Close"
+            hitSlop={12}
+            style={{
+              width: 32, height: 32, borderWidth: 1, borderColor: color.ink,
+              alignItems: 'center', justifyContent: 'center',
+            }}
+          >
+            <Text style={{ fontSize: 14, fontFamily: t.rowTitle.fontFamily, color: color.ink }}>✕</Text>
+          </Pressable>
+        </View>
+        <Rule />
+
+        <ScrollView contentContainerStyle={{ paddingBottom: 16 }}>
+          <View style={{
+            flexDirection: 'row', gap: 12,
+            paddingHorizontal: space.gutter, paddingVertical: 14,
+          }}>
+            <Fact
+              label="Trains"
+              value={(queued?.stimulus_type ?? '').replace(/_/g, ' ') || '—'}
+            />
+            <Fact label="Full length" value={minutes ? `${minutes} min` : '—'} />
+            <Fact label="Intensity" value={template?.intensity_target ?? '—'} />
+          </View>
+
+          {template?.description ? (
+            <Text style={[t.bodySm, {
+              paddingHorizontal: space.gutter, paddingBottom: 14, color: color.muted2,
+            }]}>
+              {template.description}
+            </Text>
+          ) : null}
+
+          {template?.coaching_notes ? (
+            <View style={{
+              marginHorizontal: space.gutter, marginBottom: 14,
+              backgroundColor: color.tint, borderWidth: 1, borderColor: color.tintBorder,
+              paddingHorizontal: 13, paddingVertical: 12,
+            }}>
+              <Label tone="redDark" size="sm" style={{ paddingBottom: 6 }}>Coaching notes</Label>
+              <Text style={[t.bodySm, { color: color.redDeep }]}>
+                {template.coaching_notes}
+              </Text>
+            </View>
+          ) : null}
+
+          {blocks.length ? (
+            <FullWorkout
+              blocks={blocks}
+              intensity={template?.intensity_target ?? null}
+              totalMinutes={minutes ?? 0}
+              defaultOpen
+            />
+          ) : (
+            <Text style={[t.bodySm, {
+              paddingHorizontal: space.gutter, color: color.muted2,
+            }]}>
+              The full prescription for this one isn't available offline. It will be
+              there once it becomes today's session.
+            </Text>
+          )}
+
+        </ScrollView>
+
+        {/* Pinned, not scrolled.
+
+            The prescription is six blocks long for a race-pace session, which
+            put "Do it today" below the fold of the one screen whose entire job
+            is that decision — the athlete had to scroll past every set to reach
+            the button that acts on them. The reading scrolls; the decision
+            stays put. */}
+        <View style={{
+          borderTopWidth: 1, borderTopColor: color.rule,
+          paddingBottom: 28, backgroundColor: color.paper,
+        }}>
+          {isToday ? (
+            <Text style={[t.bodySm, {
+              paddingHorizontal: space.gutter, paddingTop: 14, color: color.muted2,
+            }]}>
+              This is already today's session. Start it from the Today tab.
+            </Text>
+          ) : (
+            <>
+              {/* The reassurance the old confirmation dialog carried. It belongs
+                  here, where it is read before the decision rather than after
+                  it. */}
+              <Text style={[t.bodySm, {
+                paddingHorizontal: space.gutter, paddingTop: 12, paddingBottom: 12,
+                color: color.muted2,
+              }]}>
+                Makes this today's session. Nothing is marked missed — the rest of
+                the week keeps the same stimuli, in the same order.
+              </Text>
+
+              <ActionButton
+                label="Do it today"
+                onPress={() => queued && onDoToday(queued.template_id, queued.name)}
+                style={{ marginHorizontal: space.gutter }}
+              />
+
+              {/* Said before the tap: the engine still gets the last word on how
+                  long it is, and an athlete who read "75 min" here and started a
+                  40-minute Express would think something had gone wrong. */}
+              <Text style={[t.meta, {
+                fontSize: 11.5, lineHeight: 17, color: color.muted,
+                paddingHorizontal: space.gutter, paddingTop: 10,
+              }]}>
+                Shown at full length. Today's check-in may scale it to an Express or
+                Micro version that keeps the same training purpose.
+              </Text>
+            </>
+          )}
+        </View>
+      </View>
+    </Modal>
+  );
+}

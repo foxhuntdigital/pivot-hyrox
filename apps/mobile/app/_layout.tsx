@@ -15,6 +15,8 @@ import { AppProvider } from '@/state/store';
 import { CoachProvider } from '@/state/coach';
 import { SessionProvider, useSession } from '@/state/session';
 import { OnboardingProvider, useOnboarding } from '@/state/onboarding';
+import { TourProvider } from '@/state/tour';
+import { DialogProvider } from '@/components/Dialog';
 import { color } from '@/theme/tokens';
 
 /**
@@ -58,9 +60,11 @@ function AuthGate({ children }: { children: React.ReactNode }) {
     if (status !== 'signed_in') return;
 
     // A signed-in athlete with no program has nothing for Today to show, so the
-    // flow that creates one comes before the app rather than after it.
+    // flow that creates one comes before the app rather than after it. It opens
+    // on the explainer rather than the first question: the seven steps ask what
+    // the athlete's constraints are without ever saying what is done with them.
     if (onboarding === 'needed' && !inOnboarding) {
-      router.replace('/goal' as never);
+      router.replace('/intro' as never);
     } else if (onboarding === 'complete' && (inAuthGroup || inOnboarding)) {
       router.replace('/today' as never);
     }
@@ -97,10 +101,12 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
+      <DialogProvider>
       <SessionProvider>
         <OnboardingProvider>
         <AppProvider>
           <CoachProvider>
+          <TourProvider>
           <StatusBar style="dark" />
           <AuthGate>
             {/* The whole system is Archivo weights; rendering in a fallback face
@@ -121,15 +127,18 @@ export default function RootLayout() {
                 name="checkin"
                 options={{ presentation: 'transparentModal', animation: 'slide_from_bottom' }}
               />
+              <Stack.Screen name="history" options={{ animation: 'slide_from_right' }} />
               <Stack.Screen name="active" options={{ animation: 'slide_from_bottom', gestureEnabled: false }} />
               <Stack.Screen name="done" options={{ animation: 'fade', gestureEnabled: false }} />
             </Stack>}
           </AuthGate>
           {!splashDone && <SplashGate fontsLoaded={loaded} onDone={() => setSplashDone(true)} />}
+          </TourProvider>
           </CoachProvider>
         </AppProvider>
         </OnboardingProvider>
       </SessionProvider>
+      </DialogProvider>
     </SafeAreaProvider>
   );
 }

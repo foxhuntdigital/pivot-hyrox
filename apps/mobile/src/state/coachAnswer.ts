@@ -290,7 +290,7 @@ function evidence(
     rows.push({
       k: 'Weekly stimulus due',
       v: `${stimulusLabel(due.stimulus_type)} is at ${due.completed_exposures} of `
-        + `${due.target_exposures} exposures this week. It is the reason this `
+        + `${due.target_exposures} exposures this week. It's why this `
         + 'session exists.',
     });
   }
@@ -427,7 +427,7 @@ function adaptAnswer(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
 
   if (unchanged) {
     const already: string[] = [];
-    if (sig.low_impact) already.push('It is already low impact.');
+    if (sig.low_impact) already.push("It's already low impact.");
     if (sig.low_energy && current.variant.variant_code !== 'green') {
       already.push(`Your recovery inputs are already in it — that is why today is `
         + `${VARIANT_LABEL[current.variant.variant_code]} rather than the full session.`);
@@ -531,7 +531,7 @@ function progressAnswer(ctx: CoachContext): CoachAnswer {
   // for — the alternative is trending sessions that were not the same effort.
   if (!set || set.runs.length < 2) {
     return {
-      text: 'I do not have enough comparable sessions to call a trend yet. A pace claim needs '
+      text: "I can't call a trend yet — not enough comparable sessions. A pace claim needs "
         + 'repeats at the same distance and a similar effort, and I compare only those — so '
         + 'a few more of the same session type is what unlocks this.',
       chips: chipsFor(ctx, ['Last 4 weeks', 'Not enough comparable sessions']),
@@ -609,7 +609,7 @@ function progressAnswer(ctx: CoachContext): CoachAnswer {
       {
         k: 'Heart-rate context',
         v: withHr < n
-          ? `Present on ${withHr} of ${n} sessions, so it informs but does not carry the claim.`
+          ? `Present on ${withHr} of ${n} sessions, so it informs but doesn't carry the claim.`
           : 'Present on every comparable session.',
       },
     ],
@@ -647,7 +647,7 @@ function weaknessAnswer(ctx: CoachContext): CoachAnswer {
 
   if (entries.length < 2) {
     return {
-      text: 'I cannot rank your limiters yet. Readiness is scored from what you have logged, and '
+      text: "I can't rank your limiters yet. Readiness is scored from what you've logged, and "
         + `${entries.length ? 'only one component has' : 'no components have'} enough behind `
         + 'them to compare. A couple of weeks of logged sessions is what makes this answerable.',
       chips: chipsFor(ctx, ['Readiness components', 'Building baseline']),
@@ -758,7 +758,7 @@ function buildAnswer_(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
   return {
     text: `${found.template.name} fits — ${found.estimated_minutes} minutes at `
       + `${VARIANT_LABEL[found.variant.variant_code]}, targeting `
-      + `${stimulusLabel(found.primary_stimulus)}.${short} It will not touch today's plan unless `
+      + `${stimulusLabel(found.primary_stimulus)}.${short} It won't touch today's plan unless `
       + 'you tell me to use it.',
     chips,
     card: workoutCard(found, 'From your library'),
@@ -816,7 +816,7 @@ function travelAnswer(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
       }));
       if (!subs.length) {
         return {
-          text: `${ctx.today.template.name} needs nothing you will not have, so no substitutions `
+          text: `${ctx.today.template.name} needs nothing you won't have, so no substitutions `
             + 'are required — it runs as written.',
           chips,
           actions: [{ id: 'see_today', label: 'See today', primary: true }],
@@ -825,7 +825,7 @@ function travelAnswer(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
       return {
         text: `I can keep ${ctx.today.template.name} with `
           + `${subs.length} substitution${subs.length === 1 ? '' : 's'}. The stimulus holds; the `
-          + 'load on the substituted movements does not always match.',
+          + "load on the substituted movements doesn't always match.",
         chips,
         card: {
           kind: 'substitution',
@@ -866,7 +866,7 @@ function travelAnswer(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
     text: (blocked.length
       ? `Today's session needs ${blocked.join(' and ')}, and there is no validated substitute for `
         + `${blocked.length === 1 ? 'it' : 'those'} on what you will have. `
-      : 'Today\'s session needs equipment you will not have, and substituting it would lose the '
+      : "Today's session needs kit you won't have, and substituting it would lose the "
         + 'stimulus. ')
       + `${alternative.template.name} is the closest validated session on `
       + `${names.join(' and ') || 'bodyweight'}.`,
@@ -1121,7 +1121,7 @@ function safetyAnswer(ctx: CoachContext): CoachAnswer {
     chips: chipsFor(ctx, ["Today's plan"]),
     card: {
       kind: 'safety',
-      boundary: 'Sharp pain is not fatigue, so I will not treat it as low readiness and programme '
+      boundary: "Sharp pain isn't fatigue, so I won't treat it as low readiness and programme "
         + 'around it. I also cannot assess symptoms or give medical clearance, and your readiness '
         + 'score is not a medical assessment.',
       unchanged: "I've left today's session untouched. Nothing in your week has changed.",

@@ -54,7 +54,7 @@ export default function ReadyScreen() {
       <OnboardingStep
         step={7}
         title="Ready to build your plan"
-        description="Everything below can be changed later on Profile. Changing the race date rebuilds the weeks ahead and leaves completed training untouched."
+        description="Everything below can be changed later on Profile. Changing the race date, or adding one, rebuilds the weeks ahead and leaves completed training untouched."
         onBack={() => router.back()}
         onContinue={generate}
         continueLabel="Build my plan"
@@ -63,9 +63,19 @@ export default function ReadyScreen() {
       >
         <Summary
           rows={[
-            ['Race', draft.event_name.trim() || 'My race'],
-            ['Date', draft.event_date ?? '—'],
-            ['Division', draft.division ?? 'Not set'],
+            // A block has no name, date or division to show, and printing three
+            // dashes for them would read as unanswered questions rather than
+            // questions that were never asked.
+            ...(draft.plan_mode === 'race'
+              ? [
+                  ['Race', draft.event_name.trim() || 'My race'],
+                  ['Date', draft.event_date ?? '—'],
+                  ['Division', draft.division ?? 'Not set'],
+                ] as [string, string][]
+              : [
+                  ['Training for', 'No race yet'],
+                  ['Program length', `${draft.block_weeks} weeks`],
+                ] as [string, string][]),
             ['Goal', draft.goal_type.replace(/_/g, ' ')],
             ['Experience', draft.experience_level],
             ['Session length', `${draft.typical_session_minutes} min`],
@@ -82,7 +92,9 @@ export default function ReadyScreen() {
     <OnboardingStep
       step={7}
       title="Your plan is ready"
-      description={`${plan.total_weeks} week${plan.total_weeks === 1 ? '' : 's'} to ${plan.race.event_name}.`}
+      description={plan.race
+        ? `${plan.total_weeks} week${plan.total_weeks === 1 ? '' : 's'} to ${plan.race.event_name}.`
+        : `A ${plan.total_weeks}-week block, starting today.`}
       onContinue={() => router.replace('/today' as never)}
       continueLabel="Go to today"
     >

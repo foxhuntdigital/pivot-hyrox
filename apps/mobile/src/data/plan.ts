@@ -35,9 +35,16 @@ export function phaseTitle(type: string): string {
 }
 
 export interface RaceView {
+  id: string;
   name: string;
   /** "October 10", or null when the date is not known. */
   date_label: string | null;
+  /**
+   * The raw ISO date behind `date_label`. Kept alongside it because the Profile
+   * editor has to seed a date picker from the current race, and a formatted
+   * label cannot be parsed back into one reliably.
+   */
+  event_date: string;
   division: string | null;
   days_remaining: number | null;
 }
@@ -171,8 +178,10 @@ export function planView(
   return {
     pendingCompletion,
     race: today.active_race && {
+      id: today.active_race.id,
       name: today.active_race.name,
       date_label: eventDateLabel(today.active_race.event_date),
+      event_date: today.active_race.event_date,
       division: today.active_race.division,
       days_remaining: today.active_race.days_remaining,
     },

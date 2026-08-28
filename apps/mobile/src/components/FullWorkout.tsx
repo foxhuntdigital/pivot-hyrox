@@ -54,14 +54,21 @@ function ExerciseRow({
 }
 
 export function FullWorkout({
-  blocks, intensity, totalMinutes,
+  blocks, intensity, totalMinutes, defaultOpen = false,
 }: {
   blocks: WorkoutBlock[];
   /** The template's authored intensity target, e.g. "RPE 6". */
   intensity: string | null;
   totalMinutes: number;
+  /**
+   * Start expanded. On a card the prescription is a disclosure, because the
+   * card is a decision surface and the numbers are the detail behind it. In a
+   * view whose whole purpose is the workout, the numbers are the point and
+   * hiding them behind a tap would be a disclosure over a disclosure.
+   */
+  defaultOpen?: boolean;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
   if (!blocks.length) return null;
 
   return (

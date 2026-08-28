@@ -15,7 +15,7 @@ import React, {
   createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef, useState,
 } from 'react';
 import {
-  recommend, computeReadiness, variantMinutes, ENGINE_VERSION,
+  recommend, computeReadiness, variantMinutes, hasSevereSymptom, ENGINE_VERSION,
   type EngineDecision, type EngineInput, type Energy, type VariantCode,
 } from '@pivot/engine';
 import { EXERCISES, TEMPLATES, SUBSTITUTIONS } from '../data/content';
@@ -105,6 +105,15 @@ interface State {
   /** Set when the athlete accepts an adaptation, overriding the engine's pick. */
   override_template_id: string | null;
   override_variant: VariantCode | null;
+  /**
+   * The athlete confirmed this session against the engine's recovery advice.
+   *
+   * Held in state rather than passed once, because the forced session is
+   * recomputed on every render: without it the next recompute would refuse the
+   * variant again and quietly fall back to the engine's pick, which is the tap
+   * appearing to do nothing.
+   */
+  override_forced: boolean;
   adapted: boolean;
 
   // Active workout
@@ -161,6 +170,7 @@ const initialState: State = {
 
   override_template_id: null,
   override_variant: null,
+  override_forced: false,
   adapted: false,
 
   status: 'ready',
@@ -218,7 +228,7 @@ type Action =
   | { type: 'toggle_equipment'; id: string }
   | { type: 'toggle_consideration'; name: string }
   | { type: 'set_typical'; minutes: number }
-  | { type: 'accept_adaptation'; template_id: string; variant: VariantCode }
+  | { type: 'accept_adaptation'; template_id: string; variant: VariantCode; forced?: boolean }
   | { type: 'set_today_equipment'; equipment: string[] | null }
   | { type: 'set_travel'; travel: State['travel'] }
   | { type: 'set_checkin'; checkin: Checkin }
@@ -282,7 +292,13 @@ function reducer(s: State, a: Action): State {
       return { ...s, profile: { ...s.profile, typical_session_minutes: a.minutes } };
 
     case 'accept_adaptation':
-      return { ...s, override_template_id: a.template_id, override_variant: a.variant, adapted: true };
+      return {
+        ...s,
+        override_template_id: a.template_id,
+        override_variant: a.variant,
+        override_forced: a.forced ?? false,
+        adapted: true,
+      };
     case 'set_today_equipment':
       return { ...s, today_equipment: a.equipment };
     case 'set_travel':
@@ -349,7 +365,8 @@ function reducer(s: State, a: Action): State {
          * of the week, so Today offered a completed session back with a Start
          * button on it.
          */
-        override_template_id: null, override_variant: null, adapted: false,
+        override_template_id: null, override_variant: null, override_forced: false,
+        adapted: false,
       };
 
     case 'toggle_metric':
@@ -419,17 +436,25 @@ interface Store {
    */
   commitAdaptation(templateId: string, variant: VariantCode): void;
   /**
-   * Makes a queued session today's, chosen by the athlete from Plan. Returns
-   * false when the engine will not build that template under today's inputs —
-   * the caller says why rather than leaving the tap looking ignored.
+   * Makes a queued session today's, chosen by the athlete from Plan. Refusals
+   * are classified exactly as `chooseVariant`'s are, and for the same reason:
+   * an athlete asking for a harder session than today's check-in supports is
+   * owed a question, not a closed door.
    */
-  switchToQueued(templateId: string): boolean;
+  switchToQueued(templateId: string, opts?: { override?: boolean }): VariantChoice;
   /**
    * Applies a specific variant of a workout — the Adapt sheet's Full/Micro
-   * choices. Returns false when the athlete's recovery will not support it,
-   * which is the one part of the decision that is not theirs to overrule.
+   * choices.
+   *
+   * A refusal says which kind it is, because the three are not the same
+   * conversation: `recovery` is advice the athlete may overrule by calling
+   * again with `override`, `symptom` is a safety boundary that no confirmation
+   * lifts, and `unavailable` means the session cannot be built from what they
+   * have at all.
    */
-  chooseVariant(templateId: string, variant: VariantCode): boolean;
+  chooseVariant(
+    templateId: string, variant: VariantCode, opts?: { override?: boolean },
+  ): VariantChoice;
   /**
    * The last profile/equipment read or write that failed, with which of the two
    * it was. `kind` exists because the banner used to say "Not saved" over a
@@ -450,7 +475,31 @@ interface Store {
   refreshToday(): void;
 }
 
+/**
+ * The outcome of asking for a particular version of a workout.
+ *
+ * `recovery` is the only refusal that carries a question: it means the engine's
+ * advice, not a limit of the world, and the caller may put it to the athlete
+ * and call again with `override`.
+ */
+export type VariantChoice =
+  | { ok: true }
+  | { ok: false; reason: 'recovery' | 'symptom' | 'unavailable' };
+
 const Ctx = createContext<Store | null>(null);
+
+/**
+ * What the athlete still has on a "No equipment" day.
+ *
+ * `outdoor` is a place, not kit. Since running became an equipment constraint
+ * (migration 0009) rather than something the engine handed out for free,
+ * collapsing this day to bodyweight alone would quietly remove the one session
+ * a no-equipment day is most likely to want. Someone who says they have no
+ * equipment has not said they are indoors. A treadmill is kit, so it goes.
+ */
+function bodyweightDay(equipment: string[]): string[] {
+  return equipment.includes('outdoor') ? ['bodyweight', 'outdoor'] : ['bodyweight'];
+}
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -617,7 +666,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const adaptInputs = useCallback((): Omit<StartRequest, 'template_id' | 'variant_code'> => {
     const s = stateRef.current;
     const noEquipment = s.flags.includes('No equipment');
-    const effective = noEquipment ? ['bodyweight'] : (s.today_equipment ?? s.equipment);
+    const equipment = s.today_equipment ?? s.equipment;
+    const effective = noEquipment ? bodyweightDay(equipment) : equipment;
     return {
       available_minutes: s.available_minutes,
       energy: s.energy,
@@ -729,9 +779,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     });
   }, [refreshToday]);
 
-  const commitAdaptation = useCallback((templateId: string, variant: VariantCode) => {
+  const commitAdaptation = useCallback((
+    templateId: string, variant: VariantCode, forced = false,
+  ) => {
     const s = stateRef.current;
-    dispatch({ type: 'accept_adaptation', template_id: templateId, variant });
+    dispatch({ type: 'accept_adaptation', template_id: templateId, variant, forced });
 
     const before = decisionRef.current;
     track({
@@ -787,7 +839,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       energy: state.energy,
       sleep_hours: reportedSleep,
       available_minutes: state.available_minutes,
-      available_equipment: noEquipment ? ['bodyweight'] : equipment,
+      available_equipment: noEquipment ? bodyweightDay(equipment) : equipment,
       low_impact_required: state.flags.includes('Need low impact'),
       // Both sources: what the athlete reported at check-in, which persists, and
       // the adapt sheet's flag, which does not. The check-in is why a symptom
@@ -871,11 +923,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     const forced = recommend(
       {
         ...engineInput,
+        // Scoped to this forced run alone. `engineInput` itself is never given
+        // the flag, so the engine's own recommendation — `decision`, and the
+        // fallback on the line below — is always computed under the full
+        // guardrails.
+        athlete_override: state.override_forced,
         candidates: [{ ...template, variants: chosen.length ? chosen : template.variants }],
       },
       EXERCISES);
     return forced.kind === 'session' ? forced : decision;
-  }, [decision, engineInput, state.override_template_id, state.override_variant]);
+  }, [decision, engineInput, state.override_template_id, state.override_variant,
+      state.override_forced]);
 
   sessionRef.current = session.kind === 'session'
     ? { template_id: session.template.id, variant_code: session.variant.variant_code }
@@ -906,38 +964,73 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const chooseVariant = useCallback((
     templateId: string,
     variantCode: VariantCode,
-  ): boolean => {
+    opts?: { override?: boolean },
+  ): VariantChoice => {
     const template = TEMPLATES.find(t => t.id === templateId);
     const variant = template?.variants.find(v => v.variant_code === variantCode);
-    if (!template || !variant) return false;
+    if (!template || !variant) return { ok: false, reason: 'unavailable' };
 
     const needed = variantMinutes(template, variant);
     const available = Math.max(stateRef.current.available_minutes, needed);
-    const forced = recommend(
-      {
-        ...engineInput,
-        available_minutes: available,
-        candidates: [{ ...template, variants: [variant] }],
-      },
-      EXERCISES);
-    if (forced.kind !== 'session') return false;
+    const base = {
+      ...engineInput,
+      available_minutes: available,
+      candidates: [{ ...template, variants: [variant] }],
+    };
+
+    const override = opts?.override ?? false;
+    const forced = recommend({ ...base, athlete_override: override }, EXERCISES);
+
+    if (forced.kind !== 'session') {
+      // Why it was refused, so the caller knows whether there is anything to
+      // ask the athlete. A severe symptom is checked first because it is the
+      // one answer that is not a negotiation — the engine stops on it before
+      // any guardrail reads the override, and the UI must not offer to press on.
+      if (hasSevereSymptom(engineInput.symptom_flags)) {
+        return { ok: false, reason: 'symptom' };
+      }
+      // Would it build if the athlete overruled the recovery advice? If yes the
+      // refusal was a judgement and can be put to them; if no it is equipment,
+      // impact or a postpartum constraint, and confirming would change nothing.
+      const ifOverridden = recommend({ ...base, athlete_override: true }, EXERCISES);
+      return {
+        ok: false,
+        reason: ifOverridden.kind === 'session' ? 'recovery' : 'unavailable',
+      };
+    }
 
     if (available !== stateRef.current.available_minutes) {
       dispatch({ type: 'set_time', minutes: available });
     }
-    commitAdaptation(templateId, variantCode);
-    return true;
+    commitAdaptation(templateId, variantCode, override);
+    return { ok: true };
   }, [engineInput, commitAdaptation]);
 
-  const switchToQueued = useCallback((templateId: string): boolean => {
+  const switchToQueued = useCallback((
+    templateId: string, opts?: { override?: boolean },
+  ): VariantChoice => {
     const template = TEMPLATES.find(t => t.id === templateId);
-    if (!template) return false;
-    const forced = recommend({ ...engineInput, candidates: [template] }, EXERCISES);
-    if (forced.kind !== 'session') return false;
+    if (!template) return { ok: false, reason: 'unavailable' };
+
+    const base = { ...engineInput, candidates: [template] };
+    const override = opts?.override ?? false;
+    const forced = recommend({ ...base, athlete_override: override }, EXERCISES);
+
+    if (forced.kind !== 'session') {
+      if (hasSevereSymptom(engineInput.symptom_flags)) {
+        return { ok: false, reason: 'symptom' };
+      }
+      const ifOverridden = recommend({ ...base, athlete_override: true }, EXERCISES);
+      return {
+        ok: false,
+        reason: ifOverridden.kind === 'session' ? 'recovery' : 'unavailable',
+      };
+    }
+
     // The engine picked the variant here, so committing that same code is what
     // keeps the override and the decision describing one session.
-    commitAdaptation(templateId, forced.variant.variant_code);
-    return true;
+    commitAdaptation(templateId, forced.variant.variant_code, override);
+    return { ok: true };
   }, [engineInput, commitAdaptation]);
 
   const steps = useMemo(

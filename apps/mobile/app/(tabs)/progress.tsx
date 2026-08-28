@@ -7,7 +7,7 @@
  */
 import React, { useCallback } from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 
 import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { Rule, Label, InkPanel } from '@/components/primitives';
@@ -18,6 +18,7 @@ import { track } from '@/lib/analytics';
 
 export default function ProgressScreen() {
   const { state, dispatch, readiness, metricDetail } = useApp();
+  const router = useRouter();
 
   const entries = Object.entries(readiness.components) as [keyof typeof readiness.components, number][];
   // Only measured components are scored, so only they can be the limiter — an
@@ -178,6 +179,30 @@ export default function ProgressScreen() {
           );
         })}
       </View>
+
+      {/* The numbers above are derived from these sessions, so the record they
+          came from is one tap away rather than somewhere else entirely. */}
+      <Pressable
+        onPress={() => router.push('/history' as never)}
+        accessibilityRole="button"
+        accessibilityLabel="Training history. Every completed session."
+        style={({ pressed }) => ({
+          marginTop: 18,
+          paddingHorizontal: space.gutter, paddingVertical: 15,
+          borderTopWidth: 1, borderTopColor: color.rule,
+          borderBottomWidth: 1, borderBottomColor: color.rule,
+          flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+          backgroundColor: pressed ? color.hover : 'transparent',
+        })}
+      >
+        <View>
+          <Text style={[t.rowTitle, { fontSize: 14, color: color.ink }]}>Training history</Text>
+          <Text style={[t.meta, { color: color.muted, marginTop: 3 }]}>
+            Every completed session
+          </Text>
+        </View>
+        <Text style={{ fontSize: 15, color: color.ink }}>→</Text>
+      </Pressable>
 
       {/* The two states that cannot carry a "biggest opportunity", said plainly
           rather than left as six dashes with no explanation. */}
