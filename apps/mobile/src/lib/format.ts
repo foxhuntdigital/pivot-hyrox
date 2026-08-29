@@ -7,6 +7,20 @@
  * its own numbers.
  */
 
+/**
+ * Seconds → "4:12". The workout clock, everywhere it appears.
+ *
+ * Here rather than in `steps.ts` because the split lists on the summary and in
+ * history need it, and `steps.ts` reaches for the content library to name
+ * exercises. History in particular must not depend on the engine or the plan —
+ * it is the surface that survives a lapsed subscription — and a time formatter
+ * is no reason to give it one.
+ */
+export function mmss(totalSeconds: number): string {
+  const s = Math.max(0, Math.floor(totalSeconds));
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+}
+
 /** 4.17 → "4:10". Null hours mean unknown, which is not the same as zero. */
 export function hoursToClock(hours: number | null | undefined): string | null {
   if (hours === null || hours === undefined || !Number.isFinite(hours)) return null;

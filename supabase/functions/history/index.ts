@@ -43,6 +43,7 @@ Deno.serve(async (req) => {
       sessions: page.sessions,
       setLogs: page.setLogs,
       cardioLogs: page.cardioLogs,
+      splits: page.splits,
       exerciseNames: new Map((exercises ?? []).map((e: any) => [e.id, e.name])),
     });
 

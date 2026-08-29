@@ -8,7 +8,8 @@
  */
 import { ENGINE_VERSION } from '../../../packages/engine/src/index.ts';
 import {
-  clientFor, corsHeaders, HttpError, json, localDate, requireEntitlement, requireUser,
+  clientFor, corsHeaders, HttpError, json, loadAthleteState, localDate,
+  requireEntitlement, requireUser,
 } from '../_shared/context.ts';
 
 interface CompleteBody {
@@ -39,6 +40,21 @@ interface CompleteBody {
     block_order: number; exercise_id: string;
     duration_seconds?: number | null; distance_meters?: number | null;
     avg_hr?: number | null; calories?: number | null; rpe?: number | null;
+  }[];
+  /**
+   * The laps the player's clock recorded, in order — one per completed step,
+   * rest included. Keyed by `split_index` rather than by block, because a split
+   * is a position in the session rather than a position in the prescription.
+   *
+   * Replaced on every finish for the same reason the logs are: a finish states
+   * the whole session, and a re-sent one must not leave the previous ordering
+   * interleaved with the new.
+   */
+  splits?: {
+    index: number; block_order: number; round: number;
+    exercise_id?: string | null; label: string; prescribed?: string | null;
+    kind?: string | null; seconds: number; cumulative_seconds: number;
+    rest?: boolean;
   }[];
 }
 
@@ -75,6 +91,19 @@ Deno.serve(async (req) => {
       throw new HttpError(409, 'Stale revision');
     }
 
+    /**
+     * Whether this session had already been counted.
+     *
+     * The replay guard above catches a resend at the same revision, which is
+     * what a retrying outbox produces. It does not catch a *later* finish for a
+     * session already completed — a correction — and that used to be harmless
+     * because crediting required a queue item, which was marked `completed` on
+     * the first pass and could not be claimed twice. Crediting by stimulus has
+     * no such marker, so the guard has to be explicit or a corrected finish
+     * would increment the week a second time.
+     */
+    const alreadyCounted = session.status === 'completed';
+
     const { error: updateError } = await db
       .from('workout_sessions')
       .update({
@@ -100,25 +129,49 @@ Deno.serve(async (req) => {
     }
 
     await writeLogs(db, body);
+    await writeSplits(db, body);
 
     // Reconcile the week. A completed session credits its stimulus once,
     // whatever day it landed on (PRD §2, FR-012).
+    //
+    // Crediting used to require `queue_item_id`, which made the week's counter
+    // a measure of *queue adherence* rather than of training done: a session
+    // started off plan, or one whose queue item could not be claimed, was
+    // completed and credited nothing. The athlete saw "0 / 7 stimuli" after
+    // finishing a workout, which is the counter calling them a liar.
+    //
+    // The queue item is still preferred — it names the exact requirement the
+    // session was queued against. Without one, the session's own stimulus is
+    // matched against the current week's requirements, which is the same
+    // question asked from the other end.
     const snapshot = session.snapshot_json as { primary_stimulus?: string } | null;
     const stimulus = snapshot?.primary_stimulus;
     let creditedStimulus: string | null = null;
 
-    if (stimulus && session.queue_item_id) {
-      const { data: queueItem } = await db
-        .from('session_queue_items')
-        .select('weekly_cycle_id')
-        .eq('id', session.queue_item_id)
-        .maybeSingle();
+    if (stimulus && !alreadyCounted) {
+      let cycleId: string | null = null;
 
-      if (queueItem) {
+      if (session.queue_item_id) {
+        const { data: queueItem } = await db
+          .from('session_queue_items')
+          .select('weekly_cycle_id')
+          .eq('id', session.queue_item_id)
+          .maybeSingle();
+        cycleId = queueItem?.weekly_cycle_id ?? null;
+      }
+
+      if (!cycleId) {
+        // The week the athlete is actually in, resolved the same way `today`
+        // resolves it, so the counter this credits is the counter they saw.
+        const state = await loadAthleteState(db, user.id, today);
+        cycleId = state.currentCycle?.id ?? null;
+      }
+
+      if (cycleId) {
         const { data: requirement } = await db
           .from('stimulus_requirements')
           .select('id, completed_exposures, target_exposures')
-          .eq('weekly_cycle_id', queueItem.weekly_cycle_id)
+          .eq('weekly_cycle_id', cycleId)
           .eq('stimulus_type', stimulus)
           .maybeSingle();
 
@@ -131,7 +184,9 @@ Deno.serve(async (req) => {
             .eq('id', requirement.id);
           creditedStimulus = stimulus;
         }
+      }
 
+      if (session.queue_item_id) {
         await db.from('session_queue_items')
           .update({ state: 'completed' })
           .eq('id', session.queue_item_id);
@@ -221,4 +276,41 @@ async function writeLogs(db: ReturnType<typeof clientFor>, body: CompleteBody) {
     const { error } = await db.from('cardio_logs').insert(cardioRows);
     if (error) console.error('cardio_logs insert failed', error.message);
   }
+}
+
+/**
+ * Writes the session's splits, replacing whatever a previous finish recorded.
+ *
+ * Deleted before inserting rather than upserted: a session re-sent after ending
+ * early is *shorter* than the one before it, and an upsert would leave the
+ * earlier laps past its end in place — a session that ended at lap 6 still
+ * claiming laps 7 through 12.
+ *
+ * Splits hang off the session, not off `session_blocks`, so unlike the logs
+ * they can be written even when the block rows are missing.
+ */
+async function writeSplits(db: ReturnType<typeof clientFor>, body: CompleteBody) {
+  if (!body.splits) return;
+
+  await db.from('session_splits').delete().eq('session_id', body.session_id);
+  if (!body.splits.length) return;
+
+  const rows = body.splits.map(s => ({
+    session_id: body.session_id,
+    split_index: s.index,
+    block_order: s.block_order,
+    round: s.round ?? 1,
+    exercise_id: s.exercise_id || null,
+    label: s.label,
+    prescribed: s.prescribed ?? null,
+    kind: s.kind ?? null,
+    seconds: Math.max(0, Math.round(s.seconds)),
+    cumulative_seconds: Math.max(0, Math.round(s.cumulative_seconds)),
+    rest: s.rest ?? false,
+  }));
+
+  // As with the logs: losing the detail must not fail a finish that has already
+  // completed the session and credited the week.
+  const { error } = await db.from('session_splits').insert(rows);
+  if (error) console.error('session_splits insert failed', error.message);
 }

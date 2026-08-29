@@ -15,6 +15,7 @@
 import { supabase } from '@/lib/supabase';
 import type { VariantCode } from '@pivot/engine';
 import type { BlockActual, CardioActual, SetActual } from '@/state/actuals';
+import type { Split } from '@/state/splits';
 
 export interface StartRequest {
   template_id: string;
@@ -61,6 +62,12 @@ export interface CompleteRequest {
   blocks?: BlockActual[];
   set_logs?: SetActual[];
   cardio_logs?: CardioActual[];
+  /**
+   * The laps the clock recorded, in order. Sent alongside the logs rather than
+   * folded into them: the logs say what was performed, splits say what the
+   * stopwatch saw, and rest has a split but no log.
+   */
+  splits?: Split[];
 }
 
 export interface CompletedSession {

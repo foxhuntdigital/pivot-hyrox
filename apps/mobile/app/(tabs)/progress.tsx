@@ -124,7 +124,15 @@ export default function ProgressScreen() {
               </View>
               {/* The bar is labelled by the number above it, so the meaning does
                   not rest on the fill colour alone (PRD §18). */}
-              <View style={{ height: 8, backgroundColor: color.rule }}>
+              {/* The track carries the secondary accent when the component has
+                  data behind it, and stays neutral grey when it does not. It is
+                  the same distinction the dash and the empty bar already make,
+                  said in colour so the measured rows separate from the unknown
+                  ones down the whole list rather than row by row. */}
+              <View style={{
+                height: 8,
+                backgroundColor: observed.has(key) ? color.mist : color.rule,
+              }}>
                 {/* An unmeasured component gets no fill: an empty bar would
                     read as a score of zero rather than as no data. */}
                 {observed.has(key) && <View style={{

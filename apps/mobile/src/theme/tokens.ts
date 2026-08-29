@@ -27,7 +27,24 @@ export const color = {
   ruleDark2: '#605d5d',   // heavier divider on ink
   chipBorder: '#bab6b6',  // inactive chip outline
 
-  // Red — the single accent
+  /**
+   * Mist — the secondary accent, and the only cool value in the system.
+   *
+   * It means "measured": data the athlete has actually produced, as against
+   * red's "attention, act on this". Giving it a job is what stops a second
+   * colour diluting the first — red stays the thing that means something
+   * changed, and this stays the thing that means something is known.
+   *
+   * Two values because one cannot do both jobs. `mist` is a fill: at 1.04:1
+   * against paper it carries an area and is invisible as a line — the same
+   * reason `tint` (1.02:1) is only ever a block wash with `tintBorder` around
+   * it. `mistEdge` is the structural weight, at 1.28:1 — a hair under `rule`
+   * (1.33:1) — for the offset slabs and any edge that has to be seen.
+   */
+  mist: '#e0f2f2',
+  mistEdge: '#b8dfdf',
+
+  // Red — the primary accent
   red: '#ec3013',
   redPressed: '#dd2b0f',
   redBright: '#ff563c',   // pressed on dark

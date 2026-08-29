@@ -82,4 +82,53 @@ describe('Training history', () => {
     assert.equal(e.variant_label, 'Full');
     assert.equal(e.stimulus, 'threshold');
   });
+
+  test('splits come back in the order performed, whatever order they arrive in', () => {
+    const split = (i: number, over = {}) => ({
+      session_id: 's1', split_index: i, label: 'RowErg', prescribed: '1000 m',
+      kind: 'Work', seconds: 200 + i, cumulative_seconds: (200 + i) * (i + 1),
+      rest: false, ...over,
+    });
+    // Deliberately shuffled: PostgREST makes no promise about row order, and
+    // the order is the whole point of a split list.
+    const e = historyEntriesFrom({
+      sessions: [session()], setLogs: [], cardioLogs: [], exerciseNames: NAMES,
+      splits: [split(2), split(0), split(1)],
+    })[0];
+
+    assert.deepEqual(e.splits.map(s => s.index), [0, 1, 2]);
+    assert.deepEqual(e.splits.map(s => s.seconds), [200, 201, 202]);
+  });
+
+  test('rest laps survive as rest', () => {
+    const e = historyEntriesFrom({
+      sessions: [session()], setLogs: [], cardioLogs: [], exerciseNames: NAMES,
+      splits: [
+        { session_id: 's1', split_index: 0, label: 'RowErg', prescribed: '1000 m', kind: 'Work', seconds: 200, cumulative_seconds: 200, rest: false },
+        { session_id: 's1', split_index: 1, label: 'Recover', prescribed: '0:90', kind: 'Rest', seconds: 90, cumulative_seconds: 290, rest: true },
+      ],
+    })[0];
+
+    assert.equal(e.splits[1].rest, true);
+    assert.equal(e.splits[1].label, 'Recover');
+  });
+
+  test('a session finished before splits existed has none, not an empty-looking one', () => {
+    // The screen branches on this: no laps means "not recorded", which is a
+    // different statement from a session whose laps were all zero.
+    assert.deepEqual(one().splits, []);
+  });
+
+  test("one session's laps never leak into another's", () => {
+    const entries = historyEntriesFrom({
+      sessions: [session(), session({ id: 's2' })],
+      setLogs: [], cardioLogs: [], exerciseNames: NAMES,
+      splits: [
+        { session_id: 's2', split_index: 0, label: 'RowErg', prescribed: '1000 m', kind: 'Work', seconds: 210, cumulative_seconds: 210, rest: false },
+      ],
+    });
+
+    assert.deepEqual(entries[0].splits, []);
+    assert.equal(entries[1].splits.length, 1);
+  });
 });

@@ -26,6 +26,29 @@ export interface HistoryMovement {
   actual: string | null;
 }
 
+/** One lap, as `session_splits` stored it. */
+export interface SplitRow {
+  session_id: string;
+  split_index: number;
+  label: string;
+  prescribed: string | null;
+  kind: string | null;
+  seconds: number;
+  cumulative_seconds: number;
+  rest: boolean | null;
+}
+
+/** A lap as history renders it. */
+export interface HistorySplit {
+  index: number;
+  label: string;
+  prescribed: string | null;
+  kind: string | null;
+  seconds: number;
+  cumulative_seconds: number;
+  rest: boolean;
+}
+
 export interface HistoryEntry {
   id: string;
   /** The athlete's own local date, taken from the snapshot, not the server. */
@@ -37,6 +60,12 @@ export interface HistoryEntry {
   session_rpe: number | null;
   ended_early: boolean;
   movements: HistoryMovement[];
+  /**
+   * The session's laps, in the order performed. Empty for sessions finished
+   * before splits were recorded — an absence of laps, which the screen says
+   * plainly rather than drawing an empty table.
+   */
+  splits: HistorySplit[];
 }
 
 const round = (n: number) => Math.round(n * 10) / 10;
@@ -77,9 +106,11 @@ export function historyEntriesFrom(args: {
   sessions: HistorySessionRow[];
   setLogs: SetLogRow[];
   cardioLogs: CardioLogRow[];
+  splits?: SplitRow[];
   exerciseNames: Map<string, string>;
 }): HistoryEntry[] {
   const { sessions, setLogs, cardioLogs, exerciseNames } = args;
+  const splits = args.splits ?? [];
 
   const setsBySession = new Map<string, SetLogRow[]>();
   for (const l of setLogs) {
@@ -90,6 +121,11 @@ export function historyEntriesFrom(args: {
   for (const l of cardioLogs) {
     if (!cardioBySession.has(l.session_id)) cardioBySession.set(l.session_id, []);
     cardioBySession.get(l.session_id)!.push(l);
+  }
+  const splitsBySession = new Map<string, SplitRow[]>();
+  for (const l of splits) {
+    if (!splitsBySession.has(l.session_id)) splitsBySession.set(l.session_id, []);
+    splitsBySession.get(l.session_id)!.push(l);
   }
 
   return sessions.map(s => {
@@ -140,6 +176,19 @@ export function historyEntriesFrom(args: {
       session_rpe: s.session_rpe ?? null,
       ended_early: !!s.ended_early,
       movements,
+      // Sorted here rather than trusted from the query: the order *is* the
+      // record, and a split list out of order is worse than none.
+      splits: (splitsBySession.get(s.id) ?? [])
+        .sort((a, b) => a.split_index - b.split_index)
+        .map(l => ({
+          index: l.split_index,
+          label: l.label,
+          prescribed: l.prescribed ?? null,
+          kind: l.kind ?? null,
+          seconds: l.seconds,
+          cumulative_seconds: l.cumulative_seconds,
+          rest: !!l.rest,
+        })),
     };
   });
 }
@@ -157,13 +206,20 @@ export async function loadHistory(db: any, userId: string, opts: { limit: number
   const rows: HistorySessionRow[] = data ?? [];
   const has_more = rows.length > opts.limit;
   const page = has_more ? rows.slice(0, opts.limit) : rows;
-  if (!page.length) return { sessions: page, setLogs: [], cardioLogs: [], has_more };
+  if (!page.length) return { sessions: page, setLogs: [], cardioLogs: [], splits: [], has_more };
+
+  const sessionIds = page.map(s => s.id);
+  const { data: splitRows } = await db.from('session_splits')
+    .select('session_id, split_index, label, prescribed, kind, seconds, cumulative_seconds, rest')
+    .in('session_id', sessionIds);
+  const splits: SplitRow[] = splitRows ?? [];
 
   const { data: blocks } = await db.from('session_blocks')
-    .select('id, session_id').in('session_id', page.map(s => s.id));
+    .select('id, session_id').in('session_id', sessionIds);
   const blockToSession = new Map((blocks ?? []).map((b: any) => [b.id, b.session_id]));
   const blockIds = [...blockToSession.keys()];
-  if (!blockIds.length) return { sessions: page, setLogs: [], cardioLogs: [], has_more };
+  // Splits hang off the session, so they survive a session with no block rows.
+  if (!blockIds.length) return { sessions: page, setLogs: [], cardioLogs: [], splits, has_more };
 
   const [setRes, cardioRes] = await Promise.all([
     db.from('set_logs').select('session_block_id, exercise_id, prescribed_reps, actual_reps').in('session_block_id', blockIds),
@@ -174,6 +230,7 @@ export async function loadHistory(db: any, userId: string, opts: { limit: number
     sessions: page,
     setLogs: (setRes.data ?? []).map(attach) as SetLogRow[],
     cardioLogs: (cardioRes.data ?? []).map(attach) as CardioLogRow[],
+    splits,
     has_more,
   };
 }

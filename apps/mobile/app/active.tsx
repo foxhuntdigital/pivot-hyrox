@@ -18,6 +18,7 @@ import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { ActionButton, Label } from '@/components/primitives';
 import { useApp } from '@/state/store';
 import { mmss } from '@/state/steps';
+import { buildSplits } from '@/state/splits';
 import { track, elapsedMinutes } from '@/lib/analytics';
 
 export default function ActiveScreen() {
@@ -39,6 +40,18 @@ export default function ActiveScreen() {
   const step = steps[index];
   const isPaused = state.status === 'paused';
   const isLast = index >= steps.length - 1;
+
+  /**
+   * Every Next is a lap. The laps already banked, and the one still running.
+   *
+   * The current step is deliberately not in `splits` — it has no final time yet
+   * — so it is shown on its own clock beside the session's. That is the pair a
+   * stopwatch shows and the pair an athlete mid-station actually wants: how
+   * long this station has taken, and how long they have been going.
+   */
+  const splits = buildSplits(steps, state.step_seconds, index);
+  const splitSeconds = state.step_seconds[index] ?? 0;
+  const lastSplit = splits.length ? splits[splits.length - 1] : null;
 
   const complete = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -174,15 +187,46 @@ export default function ActiveScreen() {
         </View>
         <View style={{ height: 1, backgroundColor: color.ruleDark }} />
 
-        <View style={{
-          flexDirection: 'row', alignItems: 'baseline',
-          justifyContent: 'space-between', paddingTop: 14,
-        }}>
-          <Label tone="onDarkMuted" size="sm" style={{ letterSpacing: 1.26 }}>Elapsed</Label>
-          <Text style={[t.h2, { fontSize: 22, color: color.onDark }]}>
-            {mmss(state.elapsed_seconds)}
-          </Text>
+        {/* Split beside elapsed, the split first: it is the number that
+            changes what the athlete does next, and the one they are pacing
+            against. Both are moving time — a pause stops them together. */}
+        <View style={{ flexDirection: 'row', paddingTop: 14 }}>
+          <View style={{
+            flex: 1, borderRightWidth: 1, borderRightColor: color.ruleDark, paddingRight: 12,
+          }}>
+            <Label tone="onDarkMuted" size="sm" style={{ letterSpacing: 1.26 }}>
+              {step.rest ? 'Rest split' : 'Split'}
+            </Label>
+            <Text
+              accessibilityLabel={`This section: ${mmss(splitSeconds)}`}
+              style={[t.h2, { fontSize: 22, color: color.onDark, marginTop: 2 }]}
+            >
+              {mmss(splitSeconds)}
+            </Text>
+          </View>
+          <View style={{ flex: 1, paddingLeft: 16 }}>
+            <Label tone="onDarkMuted" size="sm" style={{ letterSpacing: 1.26 }}>Elapsed</Label>
+            <Text style={[t.h2, { fontSize: 22, color: color.muted3, marginTop: 2 }]}>
+              {mmss(state.elapsed_seconds)}
+            </Text>
+          </View>
         </View>
+
+        {/* The lap just banked. One line, because the whole list is a tap away
+            and mid-workout is not the moment to read a table. */}
+        {lastSplit ? (
+          <View style={{
+            flexDirection: 'row', justifyContent: 'space-between',
+            alignItems: 'baseline', paddingTop: 10,
+          }}>
+            <Text style={[t.meta, { color: color.muted3 }]} numberOfLines={1}>
+              Last · {lastSplit.rest ? 'rest' : lastSplit.label}
+            </Text>
+            <Text style={[t.meta, { fontFamily: t.rowTitle.fontFamily, color: color.salmon }]}>
+              {mmss(lastSplit.seconds)}
+            </Text>
+          </View>
+        ) : null}
 
         <Text style={[t.bodySm, { fontSize: 12.5, color: color.muted3, marginTop: 18 }]}>
           {step.note}
@@ -241,6 +285,7 @@ export default function ActiveScreen() {
               <Text style={[t.h4, { color: color.onDark }]}>{session.template.name}</Text>
               <Text style={[t.meta, { color: color.muted3, marginTop: 2 }]}>
                 {steps.length} steps · {session.estimated_minutes} min planned
+                {splits.length ? ' · split / elapsed' : ''}
               </Text>
             </View>
             <Pressable
@@ -306,10 +351,27 @@ export default function ActiveScreen() {
                       {s.rest ? 'Rest' : s.phase.toLowerCase()}
                     </Text>
                   </View>
+                  {/* The list doubles as the lap table: a completed step
+                      carries the time it took, the current one carries the
+                      clock still running on it. */}
                   {isCurrent ? (
-                    <Text style={[t.labelXs, { color: color.salmon, letterSpacing: 1.2 }]}>
-                      Now
-                    </Text>
+                    <View style={{ alignItems: 'flex-end' }}>
+                      <Text style={[t.rowTitle, { fontSize: 13, color: color.onDark }]}>
+                        {mmss(splitSeconds)}
+                      </Text>
+                      <Text style={[t.labelXs, { color: color.salmon, letterSpacing: 1.2 }]}>
+                        Now
+                      </Text>
+                    </View>
+                  ) : isDone ? (
+                    <View style={{ alignItems: 'flex-end' }}>
+                      <Text style={[t.rowTitle, { fontSize: 13, color: color.onDarkSoft }]}>
+                        {mmss(splits[i]?.seconds ?? 0)}
+                      </Text>
+                      <Text style={[t.meta, { color: color.muted3 }]}>
+                        {mmss(splits[i]?.cumulative_seconds ?? 0)}
+                      </Text>
+                    </View>
                   ) : null}
                 </View>
               );

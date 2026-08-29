@@ -13,6 +13,17 @@ export interface HistoryMovement {
   actual: string | null;
 }
 
+/** One lap of a session, as it was recorded. */
+export interface HistorySplit {
+  index: number;
+  label: string;
+  prescribed: string | null;
+  kind: string | null;
+  seconds: number;
+  cumulative_seconds: number;
+  rest: boolean;
+}
+
 export interface HistorySession {
   id: string;
   date: string;
@@ -23,6 +34,8 @@ export interface HistorySession {
   session_rpe: number | null;
   ended_early: boolean;
   movements: HistoryMovement[];
+  /** Empty for sessions finished before splits were recorded. */
+  splits: HistorySplit[];
 }
 
 export interface HistoryPage {

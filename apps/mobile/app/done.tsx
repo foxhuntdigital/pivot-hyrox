@@ -15,6 +15,7 @@ import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, InkPanel, Chip } from '@/components/primitives';
 import { useApp } from '@/state/store';
 import { mmss } from '@/state/steps';
+import { buildSplits, splitTotals, fastestAndSlowest } from '@/state/splits';
 import { LOW_SLEEP_HOURS } from '@/lib/format';
 
 const RPE_CHOICES = [5, 6, 7, 8, 9];
@@ -29,7 +30,16 @@ export default function DoneScreen() {
     return null;
   }
 
-  const sectionsDone = state.ended_early ? state.step_index + 1 : steps.length;
+  /**
+   * Sections the athlete completed — the same count the logs and the splits
+   * use. Ending early stops at the step they were on rather than counting it:
+   * a station abandoned halfway is not a section done, and the number here has
+   * to agree with the number of laps listed below it.
+   */
+  const sectionsDone = state.ended_early ? state.step_index : steps.length;
+  const splits = buildSplits(steps, state.step_seconds, sectionsDone);
+  const totals = splitTotals(splits);
+  const { fastest, slowest } = fastestAndSlowest(splits);
   // `plan.week` already counts the session just finished — the store adds it
   // the moment the workout completes rather than waiting for a refetch.
   const { done: weekDone, target: weekTarget } = plan.week;
@@ -88,7 +98,12 @@ export default function DoneScreen() {
 
       {/* Duration and sections are measured. HR and training load would need a
           connected source and a validated model, so they are not shown. */}
-      <View style={{ flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: color.rule }}>
+      {/* Everything in this row was measured — the clock ran, the sections were
+          counted — so the row carries the accent that means exactly that. */}
+      <View style={{
+        flexDirection: 'row', backgroundColor: color.mist,
+        borderBottomWidth: 1, borderBottomColor: color.mistEdge,
+      }}>
         {[
           { k: 'Duration', v: mmss(state.elapsed_seconds) },
           { k: 'Sections', v: `${sectionsDone}/${steps.length}` },
@@ -96,7 +111,7 @@ export default function DoneScreen() {
         ].map((s, i) => (
           <View key={s.k} style={{
             flex: 1, paddingVertical: 14, paddingHorizontal: 14,
-            borderRightWidth: i === 2 ? 0 : 1, borderRightColor: color.rule,
+            borderRightWidth: i === 2 ? 0 : 1, borderRightColor: color.mistEdge,
           }}>
             <Label size="sm">{s.k}</Label>
             {/* One line, always. "EXPRESS" is seven characters in a cell sized
@@ -115,6 +130,70 @@ export default function DoneScreen() {
           </View>
         ))}
       </View>
+
+      {/* Splits.
+          
+          The session as the stopwatch saw it, in the order it happened. Rest is
+          listed rather than folded into the work around it — it is time the
+          athlete spent and time they chose, and a round that took 4:10 with 90
+          seconds of rest after it is a different round from one with 30.
+          
+          Fastest and slowest are marked only where laps are comparable (same
+          movement, same prescription), so a warm-up is never "slowest". */}
+      {splits.length ? (
+        <>
+          <View style={{
+            flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between',
+            paddingHorizontal: space.gutter, paddingTop: 18, paddingBottom: 6,
+          }}>
+            <Label>Splits</Label>
+            <Text style={[t.meta, { color: color.muted }]}>
+              {mmss(totals.work)} work{totals.rest ? ` · ${mmss(totals.rest)} rest` : ''}
+            </Text>
+          </View>
+
+          <View style={{ paddingHorizontal: space.gutter }}>
+            {splits.map(sp => {
+              const isFastest = sp.index === fastest;
+              const isSlowest = sp.index === slowest;
+              return (
+                <View
+                  key={sp.index}
+                  accessibilityLabel={`${sp.rest ? 'Rest' : sp.label}, ${mmss(sp.seconds)}`
+                    + `${isFastest ? ', fastest' : isSlowest ? ', slowest' : ''}`
+                    + `, ${mmss(sp.cumulative_seconds)} elapsed`}
+                  style={{
+                    flexDirection: 'row', alignItems: 'baseline', gap: 10,
+                    paddingVertical: 9,
+                    borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
+                  }}
+                >
+                  <Text style={[t.meta, { width: 18, color: color.muted }]}>{sp.index + 1}</Text>
+                  <View style={{ flex: 1 }}>
+                    <Text style={[t.rowTitle, {
+                      fontSize: 13, color: sp.rest ? color.muted2 : color.ink,
+                    }]}>
+                      {sp.rest ? 'Rest' : sp.label}
+                    </Text>
+                    <Text style={[t.meta, { color: color.muted, marginTop: 1 }]}>
+                      {sp.prescribed}
+                      {isFastest ? ' · fastest' : isSlowest ? ' · slowest' : ''}
+                    </Text>
+                  </View>
+                  <Text style={[t.rowTitle, {
+                    fontSize: 15, color: sp.rest ? color.muted2 : color.ink,
+                  }]}>
+                    {mmss(sp.seconds)}
+                  </Text>
+                  <Text style={[t.meta, { width: 46, textAlign: 'right', color: color.muted }]}>
+                    {mmss(sp.cumulative_seconds)}
+                  </Text>
+                </View>
+              );
+            })}
+          </View>
+        </>
+      ) : null}
 
       <Label style={{ paddingHorizontal: space.gutter, paddingTop: 18, paddingBottom: 6 }}>
         How hard was that?

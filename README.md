@@ -203,6 +203,35 @@ The database stores `green` / `yellow` / `red`. The UI renders **Full /
 Express / Micro** and never presents them as failure states (§25, §8.1). The
 mapping is `VARIANT_LABEL` in the engine.
 
+### Splits
+
+Every **Next** in the player is a lap. The clock already measured each step, but
+the time only survived where a table happened to have room for it: a cardio step
+kept its duration in `cardio_logs`, a strength step's time was measured and
+thrown away, and rest was recorded nowhere — so the app could say a session took
+47 minutes and never what the third station cost.
+
+`session_splits` (migration `0010`) is one row per completed step, in order,
+rest included. It is a separate table rather than a column on `set_logs` because
+a split exists for rest, because it is **ordered** — `cardio_logs` has no order
+at all, and a split list read out of order is not a split list — and because the
+log tables record what was *performed* while a split records what the *clock*
+saw.
+
+Two properties are decisions rather than accidents, and both are tested in
+`apps/mobile/src/state/splits.test.ts`:
+
+- **Splits are moving time.** The tick only advances while the session is
+  running, so a pause counts against neither the lap nor the cumulative, and the
+  totals match the clock the athlete watched.
+- **A step never reached has no split**, rather than a zero — the same rule the
+  logs follow. An abandoned station is absent, not a 0:00.
+
+They appear live beside the session clock, as the lap table in the summary, and
+under a session in history. Fastest and slowest are marked only across laps that
+prescribe the same movement *and* the same quantity, so a warm-up is never
+labelled "slowest" against a work interval.
+
 ## Coach
 
 The fifth tab (D21 / FR-020), built from the `COACH` screens in
@@ -341,10 +370,13 @@ Deliberate omissions, not oversights:
   Today shows its neutral state. The seeded build still shows the athlete's
   value. Sleep is the only check-in field wired end to end; energy, stress,
   soreness and motivation are read server-side and never collected.
-- **Comparable-session trends have no source.** `get_performance_trends` returns
-  null server-side because split-level history is not captured yet, so Coach
-  says it lacks the data rather than estimating from session RPE. The trend card
-  on the client still renders from the seeded set.
+- **Comparable-session trends have no source yet.** `get_performance_trends`
+  still returns null server-side, so Coach says it lacks the data rather than
+  estimating from session RPE, and the trend card on the client renders from the
+  seeded set. Splits (`0010`) are the missing input arriving: sessions completed
+  from now on record every lap. What is still absent is the comparison — reading
+  the same station across sessions and deciding two exposures are comparable —
+  and the back history, which no amount of code recovers.
 - **Coach responses are not streamed.** The reply arrives whole (~2–4s). The
   card renders immediately from the engine, so the wait is on prose only.
 - **Onboarding (D02–D08) is not built.** Email/password auth is (D01): sign-in,

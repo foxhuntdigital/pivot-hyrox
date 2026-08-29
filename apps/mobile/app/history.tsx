@@ -18,6 +18,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label } from '@/components/primitives';
 import { fetchHistory, type HistorySession } from '@/data/historyRepo';
+import { mmss } from '@/lib/format';
 
 /** "Thu 20 Feb" — the day an athlete recognises, not an ISO string. */
 function formatDate(iso: string): string {
@@ -137,6 +138,48 @@ export default function HistoryScreen() {
                         <Text style={[t.meta, { color: color.redDark }]}>ended early</Text>
                       ) : null}
                     </View>
+
+                    {/* Splits, when the session recorded them.
+                        
+                        Above the movement totals on purpose: totals say what
+                        was covered, splits say how it went, and how it went is
+                        what an athlete opens an old session to remember. A
+                        session finished before splits existed simply has none —
+                        no empty table, no zeroes. */}
+                    {expanded && (s.splits?.length ?? 0) > 0 && (
+                      <View style={{
+                        marginTop: 11, paddingTop: 10,
+                        borderTopWidth: 1, borderTopColor: color.rule,
+                      }}>
+                        <Label style={{ paddingBottom: 4 }}>Splits</Label>
+                        {s.splits.map(sp => (
+                          <View key={sp.index} style={{
+                            flexDirection: 'row', alignItems: 'baseline', gap: 10,
+                            paddingVertical: 3,
+                          }}>
+                            <Text style={[t.meta, { width: 16, color: color.muted }]}>
+                              {sp.index + 1}
+                            </Text>
+                            <Text style={[t.bodySm, {
+                              flex: 1, color: sp.rest ? color.muted : color.muted2,
+                            }]}>
+                              {sp.rest ? 'Rest' : sp.label}
+                              {sp.prescribed && !sp.rest ? ` · ${sp.prescribed}` : ''}
+                            </Text>
+                            <Text style={[t.bodySm, {
+                              color: sp.rest ? color.muted : color.ink,
+                            }]}>
+                              {mmss(sp.seconds)}
+                            </Text>
+                            <Text style={[t.meta, {
+                              width: 44, textAlign: 'right', color: color.muted,
+                            }]}>
+                              {mmss(sp.cumulative_seconds)}
+                            </Text>
+                          </View>
+                        ))}
+                      </View>
+                    )}
 
                     {expanded && s.movements.length > 0 && (
                       <View style={{

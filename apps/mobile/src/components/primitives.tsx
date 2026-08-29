@@ -168,6 +168,46 @@ export function SquareCheck({ on, size = 16 }: { on: boolean; size?: number }) {
 }
 
 /** Inverted callout block — ink panel, salmon label. Used for nudges and coach notes. */
+/**
+ * A hard offset slab behind a bordered box.
+ *
+ * The system has no radius, no gradient and no blur, so depth cannot come from
+ * a soft shadow without contradicting everything around it. An offset block of
+ * flat colour is the same vocabulary the rest of the app is drawn in — and
+ * because it reads as an area rather than an edge, it survives being pale in a
+ * way a hairline of the same colour would not.
+ *
+ * The content sits on `paper` rather than inheriting a transparent background:
+ * without that the slab shows straight through the box it is meant to sit
+ * behind.
+ */
+export function Slab({
+  children,
+  offset = 4,
+  tone = color.mistEdge,
+  style,
+}: {
+  children: React.ReactNode;
+  /** How far down and right the slab sits. */
+  offset?: number;
+  tone?: string;
+  style?: ViewStyle;
+}) {
+  return (
+    <View style={style}>
+      <View
+        pointerEvents="none"
+        style={{
+          position: 'absolute',
+          left: offset, top: offset, right: -offset, bottom: -offset,
+          backgroundColor: tone,
+        }}
+      />
+      <View style={{ backgroundColor: color.paper }}>{children}</View>
+    </View>
+  );
+}
+
 export function InkPanel({
   label,
   children,

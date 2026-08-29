@@ -13,7 +13,7 @@ import * as Haptics from 'expo-haptics';
 
 import { VARIANT_LABEL } from '@pivot/engine';
 import { color, numeralTrim, type as t, space } from '@/theme/tokens';
-import { Rule, Label, ActionButton, InkPanel } from '@/components/primitives';
+import { Rule, Label, ActionButton, InkPanel, Slab } from '@/components/primitives';
 import { AdaptSheet } from '@/components/AdaptSheet';
 import { FullWorkout } from '@/components/FullWorkout';
 import { TourSpot } from '@/components/Tour';
@@ -403,6 +403,7 @@ export default function TodayScreen() {
              second session under a heading the athlete has already satisfied —
              and the card states what was logged instead of restating a plan. */
           <View style={{ marginHorizontal: space.gutter, marginTop: 10 }}>
+            <Slab>
             <View style={{ borderWidth: 2, borderColor: color.ink }}>
               <View style={{
                 flexDirection: 'row', alignItems: 'center', gap: 10,
@@ -441,6 +442,7 @@ export default function TodayScreen() {
                 </Text>
               </View>
             </View>
+            </Slab>
             <ActionButton
               label="See the week"
               variant="outline"
@@ -453,6 +455,10 @@ export default function TodayScreen() {
             <TourSpot id="session" style={{
               margin: 10, marginHorizontal: space.gutter, marginBottom: 0,
             }}>
+            {/* The one card the screen is built around, lifted off the page.
+                The slab is offset down-right in flat colour rather than blurred:
+                a soft shadow would be the only soft edge in the app. */}
+            <Slab>
             <View style={{ borderWidth: 2, borderColor: color.ink }}>
               <View style={{
                 flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: color.rule,
@@ -537,6 +543,7 @@ export default function TodayScreen() {
                 totalMinutes={session.estimated_minutes}
               />
             </View>
+            </Slab>
             </TourSpot>
 
             <TourSpot id="actions" style={{

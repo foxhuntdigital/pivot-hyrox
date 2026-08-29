@@ -14,6 +14,7 @@
 import React, {
   createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef, useState,
 } from 'react';
+import { AppState } from 'react-native';
 import {
   recommend, computeReadiness, variantMinutes, hasSevereSymptom, ENGINE_VERSION,
   type EngineDecision, type EngineInput, type Energy, type VariantCode,
@@ -26,8 +27,12 @@ import { fetchToday, type TodayPayload } from '../data/todayRepo';
 import { saveCheckin, EMPTY_CHECKIN, type Checkin } from '../data/recoveryRepo';
 import { fetchProgressNarration } from '../data/coachRepo';
 import {
-  completeSession, eventId, startSession, type StartRequest,
+  eventId, startSession, type StartRequest,
 } from '../data/sessionRepo';
+import {
+  enqueueFinish, flushOutbox, hasPendingFinishOn, loadOutbox, subscribeOutbox,
+  type PendingFinish,
+} from '../data/outbox';
 import { recordAdaptation } from '../data/adaptRepo';
 import { fetchEquipment, saveEquipment } from '../data/equipmentRepo';
 import { planView, type PlanView } from '../data/plan';
@@ -39,6 +44,7 @@ import { useSession } from './session';
 import { useOnboarding } from './onboarding';
 import { buildSteps, type Step } from './steps';
 import { buildLogs } from './actuals';
+import { buildSplits } from './splits';
 
 /**
  * A profile/equipment failure, and whether it was a read or a write. The two
@@ -510,6 +516,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [todayLoading, setTodayLoading] = useState(false);
   const [todayError, setTodayError] = useState<string | null>(null);
   const [todayNonce, setTodayNonce] = useState(0);
+  /** Finishes written to disk but not yet accepted by the server. */
+  const [pendingFinishes, setPendingFinishes] = useState<PendingFinish[]>([]);
   const [profileNonce, setProfileNonce] = useState(0);
 
   /**
@@ -544,6 +552,37 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [serverReady, todayNonce]);
 
   const refreshToday = useCallback(() => setTodayNonce(n => n + 1), []);
+
+  /**
+   * Replays anything the last run could not send.
+   *
+   * On launch and on every return to the foreground, because the two failures
+   * this exists for — no connection, and a server that was briefly unwell —
+   * both tend to have resolved by the time the athlete opens the app again.
+   * A successful send moves the week's counters, so the payload is refetched.
+   */
+  useEffect(() => {
+    const unsubscribe = subscribeOutbox(setPendingFinishes);
+    loadOutbox();
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    if (authStatus !== 'signed_in') return;
+
+    let cancelled = false;
+    const run = () => {
+      flushOutbox().then(result => {
+        if (!cancelled && result.sent > 0) refreshToday();
+      });
+    };
+
+    run();
+    const sub = AppState.addEventListener('change', next => {
+      if (next === 'active') run();
+    });
+    return () => { cancelled = true; sub.remove(); };
+  }, [authStatus, refreshToday]);
   const refreshProfile = useCallback(() => {
     setProfileError(null);
     setProfileNonce(n => n + 1);
@@ -594,6 +633,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const authStatusRef = useRef(authStatus);
   authStatusRef.current = authStatus;
+
+  // Read by `finishSession` for the athlete's local day. A ref rather than a
+  // dependency: the callback must not be rebuilt on every payload refetch.
+  const todayRef = useRef(today);
+  todayRef.current = today;
 
   const commitProfile = useCallback((patch: Partial<AthleteProfile>) => {
     if (authStatusRef.current !== 'signed_in') return;
@@ -754,7 +798,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     // and a queued event in a killed process never happened.
     flushAnalytics();
 
-    if (!s.session_id || authStatusRef.current !== 'signed_in') return;
+    if (authStatusRef.current !== 'signed_in') return;
 
     /**
      * Steps the athlete actually reached. Ending early stops the count where
@@ -763,21 +807,45 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
      */
     const completedCount = s.ended_early ? s.step_index : performed.length;
     const actuals = buildLogs(performed, s.step_seconds, completedCount);
+    // The laps, in order. Same completion rule as the logs: the step the
+    // athlete was in the middle of when they ended has no finished time, so it
+    // is not a split.
+    const splits = buildSplits(performed, s.step_seconds, completedCount);
 
-    completeSession({
-      session_id: s.session_id,
+    /**
+     * Queued before it is sent, and queued even when there is no `session_id`.
+     *
+     * The old guard returned here on a missing id, which is how a workout whose
+     * Start never reached the server was lost in full: the athlete had trained,
+     * the app said so, and nothing was ever written down. The outbox opens the
+     * session on the retry instead, so the finish has somewhere to attach.
+     */
+    const chosen = finished?.kind === 'session' ? finished : null;
+    enqueueFinish({
       client_event_id: eventId(),
-      // The server treats a revision below the stored one as stale, so a
-      // finish always advances past the revision Start handed back.
-      revision: s.session_revision + 1,
-      session_rpe: s.session_rpe,
-      ended_early: s.ended_early,
-      ...actuals,
-    }).then(done => {
-      // Refresh only on a recorded finish: the week's counters just moved.
-      if (done) refreshToday();
+      local_date: todayRef.current?.date_local ?? new Date().toISOString().slice(0, 10),
+      template_id: chosen?.template.id ?? '',
+      name: chosen?.template.name ?? '',
+      session_id: s.session_id,
+      revision: s.session_revision,
+      start: {
+        ...adaptInputs(),
+        template_id: chosen?.template.id ?? '',
+        variant_code: chosen?.variant.variant_code,
+      },
+      finish: {
+        session_rpe: s.session_rpe,
+        ended_early: s.ended_early,
+        ...actuals,
+        splits,
+      },
+    }).then(() => flushOutbox()).then(result => {
+      // Refreshed on any successful send, not only on this one: a flush may
+      // have cleared an older finish too, and the week's counters moved for
+      // whichever of them landed.
+      if (result.sent > 0) refreshToday();
     });
-  }, [refreshToday]);
+  }, [refreshToday, adaptInputs]);
 
   const commitAdaptation = useCallback((
     templateId: string, variant: VariantCode, forced = false,
@@ -864,8 +932,23 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
    * the same code fed the same inputs, the two agree.
    */
   const plan = useMemo(
-    () => planView(today, state.completed_today, state.completed_session_id),
-    [today, state.completed_today, state.completed_session_id]);
+    /**
+     * A finish still sitting in the outbox counts as completed.
+     *
+     * `completed_today` is a reducer flag and dies with the process, which is
+     * precisely how a finished session came back as un-finished after a
+     * restart. The queue is on disk, so it can answer the same question across
+     * launches — and it stops answering it the moment the server confirms,
+     * because the entry is then gone.
+     */
+    () => planView(
+      today,
+      state.completed_today
+        || hasPendingFinishOn(pendingFinishes, today?.date_local
+          ?? new Date().toISOString().slice(0, 10)),
+      state.completed_session_id,
+    ),
+    [today, state.completed_today, state.completed_session_id, pendingFinishes]);
 
   const localDecision = useMemo(() => recommend(engineInput, EXERCISES), [engineInput]);
 
