@@ -16,7 +16,8 @@ import React, {
 } from 'react';
 import { AppState } from 'react-native';
 import {
-  recommend, computeReadiness, variantMinutes, hasSevereSymptom, ENGINE_VERSION,
+  recommend, computeReadiness, variantMinutes, hasSevereSymptom,
+  recoveryFromEnergy, ENGINE_VERSION,
   type EngineDecision, type EngineInput, type Energy, type VariantCode,
 } from '@pivot/engine';
 import { EXERCISES, TEMPLATES, SUBSTITUTIONS } from '../data/content';
@@ -903,7 +904,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       days_to_race: today?.active_race?.days_remaining ?? null,
       stimulus_requirements: today?.stimulus_requirements ?? [],
       recent_sessions: (today?.recent_sessions as EngineInput['recent_sessions']) ?? [],
-      recovery_state: 'okay',
+      // Derived by the engine, not here — see `recoveryFromEnergy`. This was a
+      // hard-coded `'okay'`, which is why the Full version of every session was
+      // unreachable on the client while the server recommended it happily.
+      recovery_state: recoveryFromEnergy(state.energy),
       energy: state.energy,
       sleep_hours: reportedSleep,
       available_minutes: state.available_minutes,

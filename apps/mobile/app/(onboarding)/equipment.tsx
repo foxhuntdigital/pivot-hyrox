@@ -133,7 +133,7 @@ export default function EquipmentScreen() {
           paddingHorizontal: 13, paddingVertical: 12,
         }}>
           <Text style={[t.bodySm, { color: color.muted2 }]}>
-            We could not reach the equipment library, so this is the built-in list. Everything here
+            We couldn't refresh this just now, so this is the built-in list. Everything here
             still works — you can fine-tune it later on Profile.
           </Text>
         </View>

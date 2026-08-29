@@ -6,7 +6,7 @@
  * conservative handling and safety messaging, never a diagnosis.
  */
 import type {
-  EngineInput, RecoveryState, WorkoutTemplate, Variant, ReasonCode,
+  Energy, EngineInput, RecoveryState, WorkoutTemplate, Variant, ReasonCode,
 } from './types.ts';
 
 /**
@@ -65,6 +65,29 @@ export function effectiveRecovery(input: EngineInput): RecoveryState {
   if (input.symptom_flags.some(f => /hurt|pain|sore/i.test(f))) rank = Math.min(rank, 1);
 
   return (['poor', 'okay', 'good'] as const)[rank];
+}
+
+/**
+ * The recovery state an athlete's reported energy implies.
+ *
+ * The one place this mapping lives. It had been written out five times — the
+ * client's engine input, `today`, `adapt`, `coach`, `start-workout` — and the
+ * client's copy had drifted to a bare `'okay'`, which made the Full version of
+ * every session unreachable there while the server was happily recommending it.
+ * A rule that decides what an athlete is prescribed cannot be something each
+ * caller remembers to write out.
+ *
+ * **Nothing reported is `good`.** An athlete who has told us nothing is not
+ * telling us they are compromised, and the plan they were given is the plan
+ * they should be offered — a 55-minute session that only ever appears as a
+ * 36-minute Express is the app quietly disagreeing with its own plan.
+ *
+ * `okay` is therefore never produced here. It is what `effectiveRecovery`
+ * lowers to when there is an actual reason — short sleep, a reported symptom —
+ * which is what a middle state should mean.
+ */
+export function recoveryFromEnergy(energy: Energy | null | undefined): RecoveryState {
+  return energy === 'low' ? 'poor' : 'good';
 }
 
 /**

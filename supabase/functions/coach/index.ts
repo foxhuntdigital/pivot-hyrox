@@ -20,7 +20,7 @@
 import Anthropic from 'npm:@anthropic-ai/sdk@0.120.0';
 
 import {
-  recommend, type EngineInput,
+  recommend, recoveryFromEnergy, type EngineInput,
 } from '../../../packages/engine/src/index.ts';
 import {
   anthropicLlm, narrateProgress, runCoachTurn,
@@ -138,8 +138,7 @@ Deno.serve(async (req) => {
       days_to_race: state.daysToRace,
       stimulus_requirements: state.stimulus_requirements,
       recent_sessions,
-      recovery_state: checkin?.energy === 'low' ? 'poor'
-        : checkin?.energy === 'high' ? 'good' : 'okay',
+      recovery_state: recoveryFromEnergy(checkin?.energy),
       energy: checkin?.energy ?? 'normal',
       sleep_hours: checkin?.sleep_hours ?? null,
       available_minutes: state.profile?.typical_session_minutes ?? 45,

@@ -8,7 +8,7 @@
  * directly, so the guardrails apply equally to a session the athlete picked.
  */
 import {
-  recommend, ENGINE_VERSION, VARIANT_LABEL, type EngineInput,
+  recommend, recoveryFromEnergy, ENGINE_VERSION, VARIANT_LABEL, type EngineInput,
 } from '../../../packages/engine/src/index.ts';
 import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
@@ -54,7 +54,7 @@ Deno.serve(async (req) => {
       days_to_race: state.daysToRace,
       stimulus_requirements: state.stimulus_requirements,
       recent_sessions,
-      recovery_state: body.energy === 'low' ? 'poor' : body.energy === 'high' ? 'good' : 'okay',
+      recovery_state: recoveryFromEnergy(body.energy),
       energy: body.energy ?? 'normal',
       sleep_hours: body.sleep_hours ?? state.checkin?.sleep_hours ?? null,
       available_minutes: body.available_minutes ?? 45,

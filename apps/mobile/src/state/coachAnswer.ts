@@ -167,7 +167,7 @@ export interface CoachAnswer {
    * engine's own output and the model will not contradict it. A negative one is
    * only ever "my keyword match found nothing", which the model routinely
    * overturns: "Build me a 30-minute sled + run workout" produced "I could not
-   * find a validated session matching that", complete with actions, and was
+   * put that one together yet", complete with actions, and was
    * replaced fifteen seconds later by a Sled Push → Run. The screen should not
    * assert the absence of something while a better search is still running.
    */
@@ -232,9 +232,14 @@ function blockRows(rec: Recommendation) {
   }));
 }
 
-function equipmentFor(rec: Recommendation): string {
+/**
+ * The kit a session needs, named. Takes anything with blocks — a recommendation
+ * after transformation, or a template as authored, which is what lets Coach say
+ * what an *ineligible* session would have required.
+ */
+function equipmentFor(session: { blocks: WorkoutBlock[] }): string {
   const ids = new Set<string>();
-  for (const block of rec.blocks) {
+  for (const block of session.blocks) {
     for (const e of block.exercises) {
       for (const id of exerciseById.get(e.exercise_id)?.equipment ?? []) ids.add(id);
     }
@@ -341,8 +346,8 @@ function describeChanges(cur: Recommendation, next: Recommendation): string[] {
 
   if (next.template.id !== cur.template.id) {
     out.push(next.primary_stimulus === cur.primary_stimulus
-      ? `${cur.template.name} becomes ${next.template.name} — the shorter validated session for `
-        + `the same ${stimulusLabel(next.primary_stimulus)} stimulus`
+      ? `${cur.template.name} becomes ${next.template.name} — a shorter way to hold the same `
+        + `${stimulusLabel(next.primary_stimulus)} stimulus`
       : `${cur.template.name} becomes ${next.template.name} — a different session: it carries `
         + `${stimulusLabel(next.primary_stimulus)} rather than `
         + `${stimulusLabel(cur.primary_stimulus)} work`);
@@ -409,7 +414,7 @@ function adaptAnswer(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
       text: `There is no session on today for me to shorten, but ${proposed.template.name} at `
         + `${proposed.estimated_minutes} minutes is valid for what you have.`,
       chips,
-      card: workoutCard(proposed, 'From your library'),
+      card: workoutCard(proposed, 'Built for today'),
       actions: [
         { id: 'use_workout', label: 'Use this workout', primary: true },
         { id: 'show_another', label: 'Show another' },
@@ -455,7 +460,7 @@ function adaptAnswer(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
         + `${proposed.estimated_minutes} minutes, and it removes volume rather than making the `
         + 'remaining work harder.'
       : `Today's ${stimulusLabel(current.primary_stimulus)} session can't be shortened into `
-        + `${minutes} minutes without losing what it is for. The best validated alternative is `
+        + `${minutes} minutes without losing what it is for. The best I can do instead is `
         + `${proposed.template.name} at ${proposed.estimated_minutes} minutes, which is `
         + `${stimulusLabel(proposed.primary_stimulus)} work — so this is a swap, not a trim.`,
     chips,
@@ -700,23 +705,42 @@ function weaknessAnswer(ctx: CoachContext): CoachAnswer {
 function buildAnswer_(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
   const terms = sig.keywords ?? [];
   const excluded = new Set(sig.exclude_template_ids ?? []);
+
+  /**
+   * Equipment named in the question narrows the search rather than describing
+   * it. "Strength workouts with dumbbells and barbells" is two constraints, and
+   * answering with a session that satisfies one of them is not an answer.
+   */
+  const equipment = sig.equipment;
+  const kit = equipment
+    ? equipment.filter(id => id !== 'bodyweight').map(id => equipmentName.get(id) ?? id)
+    : [];
+  const input: EngineInput = equipment
+    ? { ...ctx.engineInput, available_equipment: equipment }
+    : ctx.engineInput;
+
   const scored = TEMPLATES
     .filter(t => !excluded.has(t.id))
     .map(t => ({ t, hits: matchScore(t, terms) }))
-    .filter(x => x.hits > 0)
+    // With no search terms — "what can I do with dumbbells?" — the equipment is
+    // the whole question, so everything is a candidate and the engine's own
+    // eligibility does the filtering.
+    .filter(x => (terms.length ? x.hits > 0 : true))
     .sort((a, b) => b.hits - a.hits);
 
-  const chips = chipsFor(ctx, ['Equipment profile', ...(terms.length ? [terms.join(' + ')] : [])]);
+  const chips = chipsFor(ctx, [
+    kit.length ? kit.join(' · ') : 'Equipment profile',
+    ...(terms.length ? [terms.join(' + ')] : []),
+  ]);
 
   if (!scored.length) {
     return {
       unresolved: true,
       text: excluded.size
-        ? 'That is everything in your library that matches. I only offer validated sessions, so '
-          + 'rather than write a new one I would rather adjust one of these.'
-        : 'I could not find a validated session matching that. I build from the curated library '
-          + 'rather than inventing work, so tell me the equipment and the quality you want and I '
-          + 'will search again.',
+        ? "That's everything I'd put in front of you along those lines. Rather than keep "
+          + "reaching, tell me what you want changed about one of them and I'll adjust it."
+        : "I can't put that one together yet. Tell me the equipment you'll have and the quality "
+          + "you're after — a hard effort, an easy one, legs, upper — and I'll work it out.",
       chips,
       actions: [
         { id: 'see_today', label: "See today's session", primary: true },
@@ -730,16 +754,31 @@ function buildAnswer_(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
   // stimulus urgency pick it — an answer to a question the athlete didn't ask.
   const best = scored[0].hits;
   const candidates = scored.filter(x => x.hits === best).slice(0, 6).map(x => x.t);
-  const minutes = sig.time_limit ?? ctx.engineInput.available_minutes;
-  const found = recommend({ ...ctx.engineInput, candidates, available_minutes: minutes }, EXERCISES);
+  const minutes = sig.time_limit ?? input.available_minutes;
+  const found = recommend({ ...input, candidates, available_minutes: minutes }, EXERCISES);
 
   if (found.kind !== 'session') {
+    /**
+     * Nothing matching is a real answer, and it is the honest one.
+     *
+     * The temptation here is to widen the search until something comes back,
+     * which is how a question about strength sessions on dumbbells and a
+     * barbell gets answered with a threshold run: every constraint the athlete
+     * stated quietly dropped until an answer existed. Coach says what is
+     * missing and why instead. The content is the thing that needs fixing, not
+     * the question — and the athlete is told what they can't have today, never
+     * where the sessions come from.
+     */
+    const wanted = terms.length ? `${terms.join(' + ')} ` : '';
     return {
-      // The template was found but ruled out. Still provisional: the model may
-      // read the same sentence as asking for a different session entirely.
       unresolved: true,
-      text: `${candidates[0].name} is the closest match in your library, but it is not eligible `
-        + `right now: ${found.rationale.toLowerCase()}`,
+      text: kit.length
+        ? `I can't give you ${wanted}work on ${kit.join(' and ')} alone — the closest I have `
+          + `wants ${equipmentFor(candidates[0])} as well. I'd rather say that than hand you a `
+          + 'different kind of session and call it the one you asked for. Tell me what else you '
+          + 'can get to and I\u2019ll take another run at it.'
+        : `${candidates[0].name} is the closest fit, but it isn't on for today: `
+          + `${found.rationale.toLowerCase()}`,
       chips,
       actions: [
         { id: 'ask_adapt', label: 'Adapt today instead', primary: true },
@@ -761,7 +800,7 @@ function buildAnswer_(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
       + `${stimulusLabel(found.primary_stimulus)}.${short} It won't touch today's plan unless `
       + 'you tell me to use it.',
     chips,
-    card: workoutCard(found, 'From your library'),
+    card: workoutCard(found, 'Built for today'),
     why: evidence(ctx, found),
     actions: [
       { id: 'use_workout', label: 'Use today instead', primary: true },
@@ -864,14 +903,14 @@ function travelAnswer(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
   }
   return {
     text: (blocked.length
-      ? `Today's session needs ${blocked.join(' and ')}, and there is no validated substitute for `
-        + `${blocked.length === 1 ? 'it' : 'those'} on what you will have. `
+      ? `Today's session needs ${blocked.join(' and ')}, and there's no swap for `
+        + `${blocked.length === 1 ? 'it' : 'those'} that holds up on what you'll have. `
       : "Today's session needs kit you won't have, and substituting it would lose the "
         + 'stimulus. ')
-      + `${alternative.template.name} is the closest validated session on `
+      + `${alternative.template.name} is the closest I can build on `
       + `${names.join(' and ') || 'bodyweight'}.`,
     chips,
-    card: workoutCard(alternative, 'Eligible on your travel equipment'),
+    card: workoutCard(alternative, 'Built for what you\u2019ll have'),
     why: evidence(ctx, alternative),
     actions: [
       { id: 'use_equipment_today', label: 'Use for today', primary: true },
@@ -1048,7 +1087,7 @@ export function travelProposal(
     const template = templateById.get(planned.template_id);
     const name = planned.name;
     if (!template) {
-      rows.push({ name, verb: 'Unchanged', detail: 'Not in the offline library', emphasis: false });
+      rows.push({ name, verb: 'Unchanged', detail: 'Not available offline', emphasis: false });
       return;
     }
     const result = recommend(
@@ -1067,7 +1106,7 @@ export function travelProposal(
         detail: alternative.kind === 'session'
           ? `${alternative.template.name}, ${alternative.estimated_minutes} min instead · `
             + 'substituting the original would lose its stimulus'
-          : 'Nothing in the library is eligible on this equipment',
+          : "Nothing I can build on this equipment",
         emphasis: true,
       });
       return;

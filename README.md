@@ -87,6 +87,16 @@ not a low-ranked candidate, it is not a candidate:
   constraint rather than a scoring input: `stimulus_urgency` carries 30% weight
   and `recovery_fit` only 20%, so scoring alone once handed a depleted athlete
   RPE 6–7 threshold work. There is a regression test for exactly that.
+- **Nothing reported is `good`, not a middle state.** `recoveryFromEnergy` is
+  the single derivation of recovery from what the athlete said, shared by the
+  client and by `today`, `adapt`, `coach`, `start-workout` and `onboarding-plan`
+  — it had been written out five times, and the client's copy had drifted to a
+  bare `'okay'`. Since green variants require `good`, that made the Full version
+  of every session unreachable on the client: every athlete was offered Express,
+  a 55-minute plan appeared as 36 minutes, and Full could only be had by
+  overruling advice that was never actually given. `okay` is now only ever
+  reached through `effectiveRecovery`, from short sleep or a reported symptom,
+  which is what a middle state should mean.
 - No maximal testing on poor recovery; taper overrides generic progression;
   48-hour spacing between repeat high-intensity or heavy lower-body exposures;
   postpartum considerations exclude non-friendly content.

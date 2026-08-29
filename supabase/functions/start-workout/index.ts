@@ -16,7 +16,8 @@
  * returns it (PRD §15.1).
  */
 import {
-  recommend, ENGINE_VERSION, VARIANT_LABEL, type EngineInput, type VariantCode,
+  recommend, recoveryFromEnergy, ENGINE_VERSION, VARIANT_LABEL,
+  type EngineInput, type VariantCode,
 } from '../../../packages/engine/src/index.ts';
 import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
@@ -117,7 +118,7 @@ Deno.serve(async (req) => {
           impact_level: tpl?.impact_level ?? 'medium',
         };
       }),
-      recovery_state: body.energy === 'low' ? 'poor' : body.energy === 'high' ? 'good' : 'okay',
+      recovery_state: recoveryFromEnergy(body.energy),
       energy: body.energy ?? state.checkin?.energy ?? 'normal',
       sleep_hours: body.sleep_hours ?? state.checkin?.sleep_hours ?? null,
       available_minutes: body.available_minutes

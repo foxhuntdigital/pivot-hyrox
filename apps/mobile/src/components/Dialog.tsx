@@ -17,6 +17,15 @@
  * awaits an answer:
  *
  *     if (await dialog.confirm({ title: 'Do this today?', ... })) apply();
+ *
+ * **Asking from inside another modal needs a provider inside that modal.** A
+ * React Native modal presents from the view controller of the React view it is
+ * rendered into, so the app-wide provider in `_layout` presents from the root
+ * controller — which is already presenting any open sheet. iOS refuses the
+ * second presentation, nothing appears, and the promise never settles, so the
+ * tap that asked the question looks broken. `AdaptSheet` shows the shape of the
+ * fix: wrap the modal's contents in their own `DialogProvider`, and `useDialog`
+ * resolves to that one.
  */
 import React, {
   createContext, useCallback, useContext, useMemo, useRef, useState,

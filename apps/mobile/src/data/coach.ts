@@ -165,7 +165,23 @@ const TRAVEL_RE =
   /travel\w*|hotel|away|trip|on the road|conference|airbnb|visiting|out of town/;
 
 const BUILD_RE =
-  /build|give me|make me|write me|create|design|show me a (workout|session)|(workout|session) (for|with|using|that)|i want a (workout|session)|something with/;
+  // `workouts?` throughout: "any strength workouts with dumbbells" failed to
+  // match `(workout|session) with` on the plural alone, and fell through to
+  // being read as a travel plan.
+  /build|give me|make me|write me|create|design|show me (a )?(workout|session)s?|(workout|session)s? (for|with|using|that)|i want a (workout|session)|something with/;
+
+/**
+ * A question about what the library holds, rather than a statement about what
+ * the athlete will have.
+ *
+ * "Are there any strength workouts with dumbbells and barbells?" names
+ * equipment, so it used to fall through to travel — which answers "here is a
+ * session you could do on that kit" and quietly drops the word that mattered.
+ * The athlete asked what exists; being handed a different quality of session
+ * is not an answer to that, it is a change of subject.
+ */
+const DISCOVERY_RE =
+  /\b(are there|is there|do you have|have you got|what|which|any)\b[^?]*\b(workouts?|sessions?)\b/;
 
 const PROGRESS_RE =
   /faster|slower|improv\w*|progress\w*|trend\w*|getting better|any better|pace (going|trending)|am i (fitter|fit)/;
@@ -242,6 +258,14 @@ export function classify(raw: string): Classified {
     return { intent: 'plan', signals: { days: days ?? 4 } };
   }
 
+  // Asking what the library contains is a search, even when the question names
+  // kit — and especially then, because the kit narrows the search rather than
+  // replacing it. Tested before travel so "any strength workouts with
+  // dumbbells" is answered with strength sessions instead of a travel plan.
+  if (DISCOVERY_RE.test(text)) {
+    return { intent: 'build', signals: { keywords, equipment, time_limit } };
+  }
+
   if (TRAVEL_RE.test(text) || (equipment && /only|just|all i have|all i've got/.test(text))) {
     return { intent: 'travel', signals: { equipment: equipment ?? ['bodyweight'], days } };
   }
@@ -253,8 +277,10 @@ export function classify(raw: string): Classified {
     return { intent: 'explain', signals: {} };
   }
 
+  // Equipment travels with the request: "build me a 30-minute dumbbell session"
+  // is a search inside that kit, not a search that happens to mention it.
   if (BUILD_RE.test(text) && keywords) {
-    return { intent: 'build', signals: { keywords, time_limit } };
+    return { intent: 'build', signals: { keywords, equipment, time_limit } };
   }
 
   if (PROGRESS_RE.test(text)) return { intent: 'progress', signals: {} };

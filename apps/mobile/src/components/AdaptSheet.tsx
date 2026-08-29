@@ -13,7 +13,7 @@ import { VARIANT_LABEL, variantMinutes, type VariantCode } from '@pivot/engine';
 import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, Chip } from '@/components/primitives';
 import { useApp } from '@/state/store';
-import { useDialog } from '@/components/Dialog';
+import { DialogProvider, useDialog } from '@/components/Dialog';
 import { FullWorkout } from '@/components/FullWorkout';
 import { exerciseById } from '@/data/content';
 import { track, bucketMinutes } from '@/lib/analytics';
@@ -22,7 +22,7 @@ const TIME_CHOICES = [15, 30, 45, 60, 90];
 const ENERGY_CHOICES = ['low', 'normal', 'high'] as const;
 const FLAG_CHOICES = ['Low sleep', 'Something hurts', 'No equipment', 'Need low impact'];
 
-export function AdaptSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
+function AdaptSheetBody({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const { state, dispatch, decision, chooseVariant } = useApp();
   const dialog = useDialog();
 
@@ -117,12 +117,18 @@ export function AdaptSheet({ visible, onClose }: { visible: boolean; onClose: ()
     const result = chooseVariant(templateId, variant);
 
     if (!result.ok && result.reason === 'recovery') {
+      // Named from what the athlete actually told us. The copy used to cite
+      // "your check-in" unconditionally, which is a claim about evidence — and
+      // for someone who has not checked in, evidence that does not exist.
+      const source = state.checkin
+        ? 'your check-in'
+        : state.energy === 'low' ? 'the energy you reported' : 'what you have told me about today';
       const proceed = await dialog.confirm({
         eyebrow: 'Are you sure?',
         title: `${VARIANT_LABEL[variant]} is more than today supports`,
-        body: 'Based on your check-in, this asks for more than the version '
+        body: `Based on ${source}, this asks for more than the version `
           + 'recommended above. You can still do it — you know how you feel '
-          + 'better than the check-in does. Ease off if it stops feeling right.',
+          + 'better than I do. Ease off if it stops feeling right.',
         confirmLabel: `Do the ${VARIANT_LABEL[variant]}`,
         cancelLabel: 'Keep the suggestion',
       });
@@ -167,7 +173,7 @@ export function AdaptSheet({ visible, onClose }: { visible: boolean; onClose: ()
     : [];
 
   return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
+    <>
       <Pressable
         onPress={onClose}
         accessibilityLabel="Dismiss"
@@ -382,6 +388,32 @@ export function AdaptSheet({ visible, onClose }: { visible: boolean; onClose: ()
           )}
         </ScrollView>
       </View>
+    </>
+  );
+}
+
+/**
+ * The sheet, with its own dialog host inside it.
+ *
+ * That nesting is load-bearing, not tidiness. A React Native modal presents
+ * from the view controller of the React view it is rendered into
+ * (`RCTModalHostViewComponentView`: `[[self reactViewController]
+ * presentViewController:…]`). The app-wide `DialogProvider` in `_layout` renders
+ * its modal as a sibling of the screens, so its controller is the root one —
+ * and the root controller is already presenting *this* sheet. iOS will not
+ * present twice from the same controller, so the confirmation never appeared,
+ * the promise it returns never settled, and choosing Full simply did nothing.
+ *
+ * A provider inside this modal gives the dialog this sheet's controller to
+ * present from instead. The outer provider still serves every screen that asks
+ * from outside a modal; `useDialog` resolves to the nearest one.
+ */
+export function AdaptSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
+  return (
+    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
+      <DialogProvider>
+        <AdaptSheetBody visible={visible} onClose={onClose} />
+      </DialogProvider>
     </Modal>
   );
 }

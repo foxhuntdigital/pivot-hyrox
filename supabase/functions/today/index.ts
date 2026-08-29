@@ -5,7 +5,7 @@
  * be reproduced later from stored inputs plus engine_version (PRD §24).
  */
 import {
-  recommend, ENGINE_VERSION, READINESS_MODEL_VERSION,
+  recommend, recoveryFromEnergy, ENGINE_VERSION, READINESS_MODEL_VERSION,
   VARIANT_LABEL, type EngineInput,
 } from '../../../packages/engine/src/index.ts';
 import {
@@ -52,8 +52,7 @@ Deno.serve(async (req) => {
       days_to_race: state.daysToRace,
       stimulus_requirements: state.stimulus_requirements,
       recent_sessions,
-      recovery_state: checkin?.energy === 'low' ? 'poor'
-        : checkin?.energy === 'high' ? 'good' : 'okay',
+      recovery_state: recoveryFromEnergy(checkin?.energy),
       energy: checkin?.energy ?? 'normal',
       sleep_hours: checkin?.sleep_hours ?? null,
       available_minutes: state.profile?.typical_session_minutes ?? 45,

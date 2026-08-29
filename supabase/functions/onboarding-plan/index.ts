@@ -13,6 +13,7 @@
  * what to do each day from the stimulus requirements, and a pre-baked queue
  * would be stale by the second day.
  */
+import { recoveryFromEnergy } from '../../../packages/engine/src/index.ts';
 import {
   clientFor, corsHeaders, HttpError, json, loadContent, requireEntitlement, requireUser, localDate,
 } from '../_shared/context.ts';
@@ -367,7 +368,10 @@ async function planFirstWeek(
         days_to_race: null,
         stimulus_requirements: [],
         recent_sessions: [],
-        recovery_state: 'okay',
+        // A first plan is built for an athlete who has reported nothing yet,
+        // which is the case `recoveryFromEnergy` answers `good` to: build the
+        // week they were sold, and let the daily check-in reduce it.
+        recovery_state: recoveryFromEnergy(undefined),
         energy: 'normal',
         sleep_hours: null,
         available_minutes: body?.profile?.typical_session_minutes ?? 45,

@@ -15,7 +15,7 @@
  * Edge Functions gate on the server's answer regardless of what the device
  * believes.
  */
-import { Platform } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 import Purchases, {
   LOG_LEVEL,
   type CustomerInfo,
@@ -42,7 +42,31 @@ const ANDROID_KEY = process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY ?? '';
 const API_KEY = Platform.select({ ios: IOS_KEY, android: ANDROID_KEY, default: '' }) ?? '';
 
 export const isTestStore = API_KEY.startsWith('test_');
-export const isPurchasesConfigured = () => API_KEY.length > 0;
+
+/**
+ * Whether this binary actually contains the RevenueCat native module.
+ *
+ * The JS bundle and the native shell move independently: a dev client built
+ * before the subscription work happily loads today's bundle, and Expo Go never
+ * has custom native code at all. The SDK only half-defends against that:
+ * `isConfigured()` returns false with a warning, while `setLogLevel()` calls
+ * straight through and dies with "Cannot read property 'setLogLevel' of null".
+ *
+ * Checking here puts a stale build on the same path as a build with no API key:
+ * purchases unavailable, the trial screen's fallback, no crash. Wrong only in
+ * the sense that the athlete cannot buy anything — which is true, and is what
+ * they should be shown.
+ */
+const hasNativeModule = !!NativeModules.RNPurchases;
+
+if (__DEV__ && API_KEY.length > 0 && !hasNativeModule) {
+  console.warn(
+    '[purchases] RevenueCat key is set but the native module is missing from '
+    + 'this build — rebuild the dev client (npm run ios) to exercise purchases. '
+    + 'Running without them.');
+}
+
+export const isPurchasesConfigured = () => API_KEY.length > 0 && hasNativeModule;
 
 let configuredFor: string | null = null;
 
@@ -57,7 +81,11 @@ export async function configurePurchases(userId: string | null): Promise<void> {
   if (!isPurchasesConfigured()) return;
 
   if (!(await Purchases.isConfigured())) {
-    if (__DEV__) Purchases.setLogLevel(LOG_LEVEL.WARN);
+    // Awaited, not fired and forgotten: every one of these SDK calls returns a
+    // promise, and an unawaited one that rejects surfaces as an unhandled
+    // rejection in a red box rather than through this function's own caller,
+    // which already handles failure.
+    if (__DEV__) await Purchases.setLogLevel(LOG_LEVEL.WARN);
     // Configuring with the athlete's id up front avoids creating an anonymous
     // RevenueCat user that then has to be merged.
     Purchases.configure({ apiKey: API_KEY, appUserID: userId ?? undefined });

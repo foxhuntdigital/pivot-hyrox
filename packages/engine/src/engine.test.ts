@@ -13,7 +13,7 @@ import { recommend, ENGINE_VERSION } from './index.ts';
 import { computeReadiness } from './readiness.ts';
 import {
   effectiveRecovery, hasSevereSymptom, variantMinutes, resolveEquipment,
-  INTENSITY_CEILING, templateIntensity,
+  recoveryFromEnergy, INTENSITY_CEILING, templateIntensity,
 } from './guardrails.ts';
 import { transformBlocks, preservesPrimaryStimulus, blockRole } from './transform.ts';
 import { intensityCost, stimulusUrgency, recoveryFit } from './rank.ts';
@@ -356,6 +356,28 @@ describe('Recovery derivation', () => {
 
   test('low energy caps recovery at okay', () => {
     assert.equal(effectiveRecovery(baseInput({ recovery_state: 'good', energy: 'low' })), 'okay');
+  });
+
+  test('nothing reported is good, not a middle state', () => {
+    // The rule that decides which version of a session an athlete is offered.
+    // `okay` is deliberately unreachable from here: green variants require
+    // `good`, so answering `okay` to silence meant the Full version of every
+    // session was withheld from every athlete who had simply not checked in —
+    // the app disagreeing with the plan it had just sold them.
+    assert.equal(recoveryFromEnergy(undefined), 'good');
+    assert.equal(recoveryFromEnergy(null), 'good');
+    assert.equal(recoveryFromEnergy('normal'), 'good');
+    assert.equal(recoveryFromEnergy('high'), 'good');
+    assert.equal(recoveryFromEnergy('low'), 'poor');
+  });
+
+  test('a middle state comes from a reason, not from silence', () => {
+    // `okay` is what effectiveRecovery lowers to when something was actually
+    // reported — which is what makes it mean anything.
+    const quiet = baseInput({ recovery_state: recoveryFromEnergy('normal'), sleep_hours: null });
+    assert.equal(effectiveRecovery(quiet), 'good');
+    assert.equal(effectiveRecovery({ ...quiet, sleep_hours: 4.5 }), 'okay');
+    assert.equal(effectiveRecovery({ ...quiet, symptom_flags: ['Something hurts'] }), 'okay');
   });
 
   test('recovery is never revised upward', () => {
