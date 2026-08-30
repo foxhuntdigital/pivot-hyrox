@@ -279,22 +279,26 @@ function AdaptSheetBody({ visible, onClose }: { visible: boolean; onClose: () =>
                       {decision.primary_stimulus.replace(/_/g, ' ')}
                     </Text>
                   </View>
+                  {/* Mist rather than tint: the recommendation is the calm
+                      state, and red is kept for the card's own edge and the
+                      variant label. Ink on mist is 14.4:1, so the number does
+                      not lose weight by losing the red. */}
                   <View style={{
-                    width: 88, borderLeftWidth: 1, borderLeftColor: color.tintBorder,
-                    backgroundColor: color.tint, justifyContent: 'center', paddingLeft: 14,
+                    width: 88, borderLeftWidth: 1, borderLeftColor: color.mistEdge,
+                    backgroundColor: color.mist, justifyContent: 'center', paddingLeft: 14,
                   }}>
-                    <Text style={[t.sessionMins, numeralTrim.sessionMins, { fontSize: 32, color: color.redDark }]}>
+                    <Text style={[t.sessionMins, numeralTrim.sessionMins, { fontSize: 32, color: color.ink }]}>
                       {decision.estimated_minutes}
                     </Text>
-                    <Label tone="redDark" size="sm" style={{ letterSpacing: 1.26 }}>Min</Label>
+                    <Label tone="ink" size="sm" style={{ letterSpacing: 1.26 }}>Min</Label>
                   </View>
                 </View>
 
                 <View style={{
-                  borderTopWidth: 1, borderTopColor: color.tintBorder,
-                  backgroundColor: color.tint, padding: 12, paddingHorizontal: 16,
+                  borderTopWidth: 1, borderTopColor: color.mistEdge,
+                  backgroundColor: color.mist, padding: 12, paddingHorizontal: 16,
                 }}>
-                  <Text style={[t.bodySm, { fontSize: 12.5, color: color.redDeep }]}>
+                  <Text style={[t.bodySm, { fontSize: 12.5, color: color.muted2 }]}>
                     {decision.rationale}
                   </Text>
                 </View>

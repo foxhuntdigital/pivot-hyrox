@@ -63,7 +63,7 @@ const SYMPTOMS = [
   'Dizziness or feeling faint',
   'Shortness of breath',
   'Bleeding',
-  'Pelvic pressure or leaking',
+  'Muscle strain',
 ] as const;
 
 /** Hours the ruler spans. Beyond ten is not a training problem. */

@@ -41,7 +41,17 @@ export const CONSIDERATION_CHOICES = [
   'Returning from injury',
   'Postpartum',
   'Breastfeeding',
-  'Pelvic-floor considerations',
+  // Temporarily withdrawn from onboarding and Profile.
+  //
+  // Removing it from this list hides it in both places at once, and does so
+  // without touching anyone who has already chosen it: Profile renders the
+  // choices plus anything stored outside them, so an athlete who set it keeps
+  // seeing it, keeps its programming constraints, and can still remove it. The
+  // engine reads the stored string (`POSTPARTUM_CONSIDERATIONS` in
+  // guardrails.ts), not this list, so their content stays correctly limited.
+  //
+  // Restore by uncommenting — nothing else has to change.
+  // 'Pelvic-floor considerations',
 ];
 
 /** The session lengths Profile offers for this field (PRD §6.1 step 6). */

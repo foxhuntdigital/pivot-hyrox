@@ -6,8 +6,11 @@
  * 18x3 red bar above its label — not a platform tab bar, so it is drawn rather
  * than configured.
  */
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, Text, Pressable } from 'react-native';
+import Animated, {
+  Easing, useAnimatedStyle, useSharedValue, withTiming,
+} from 'react-native-reanimated';
 import { Tabs, usePathname, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -17,6 +20,7 @@ import { headerDateLabel } from '@/lib/format';
 import type { PlanView } from '@/data/plan';
 import { useApp } from '@/state/store';
 import { TourSpot, TourOverlay } from '@/components/Tour';
+import { useReduceMotion } from '@/lib/motion';
 
 const TABS = [
   { key: 'today', label: 'Today' },
@@ -60,6 +64,44 @@ function headerLabel(
   }
 }
 
+/**
+ * The wordmark's red square, which turns a quarter when the tab changes.
+ *
+ * A quarter rather than a full spin: the square is 12px and unmarked, so a
+ * 360 turn is indistinguishable from no turn at all, while 90 lands it on a
+ * visibly different corner. It accumulates rather than resetting to zero, so
+ * consecutive tab changes keep turning the same way instead of snapping back.
+ *
+ * It does not run on first mount — arriving in the app is not a tab change —
+ * and it does not run at all under Reduce Motion, where the square simply sits
+ * still. Decorative movement is the first thing that setting is asking for.
+ */
+function Mark({ active }: { active: string }) {
+  const reduced = useReduceMotion();
+  const turn = useSharedValue(0);
+  const previous = useRef<string | null>(null);
+
+  useEffect(() => {
+    const first = previous.current === null;
+    const changed = !first && previous.current !== active;
+    previous.current = active;
+    // `reduced` is null until the platform answers; holding avoids starting a
+    // turn and then having to take it back.
+    if (!changed || reduced !== false) return;
+    turn.value = withTiming(turn.value + 90, {
+      duration: 340, easing: Easing.out(Easing.cubic),
+    });
+  }, [active, reduced, turn]);
+
+  const style = useAnimatedStyle(() => ({ transform: [{ rotate: `${turn.value}deg` }] }));
+
+  return (
+    <Animated.View
+      style={[{ width: 12, height: 12, backgroundColor: color.red }, style]}
+    />
+  );
+}
+
 function Header({ active }: { active: string }) {
   const insets = useSafeAreaInsets();
   const { plan, readiness } = useApp();
@@ -71,8 +113,8 @@ function Header({ active }: { active: string }) {
         paddingHorizontal: space.gutter, paddingTop: 10, paddingBottom: 12,
       }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-          <View style={{ width: 12, height: 12, backgroundColor: color.red }} />
-          <Text style={[t.eyebrow, { color: color.ink }]}>PIVOT</Text>
+          <Mark active={active} />
+          <Text style={[t.eyebrow, { color: color.ink }]}>PIVOT ENGINE</Text>
         </View>
         <Text style={[t.labelSm, { color: color.muted, letterSpacing: 1.26 }]}>
           {headerLabel(active, plan, readinessMeasured)}

@@ -83,6 +83,15 @@ interface State {
   profile: AthleteProfile;
 
   // Adaptation inputs
+  /**
+   * Whether the athlete has adjusted today's inputs since the plan was read.
+   *
+   * Until they do, the server's decision is what shows — it is the one written
+   * to `adaptation_events`, and the default view should match the audited
+   * answer. Once they change something, the local run takes over so the
+   * recommendation responds to what they just said.
+   */
+  adapt_touched: boolean;
   available_minutes: number;
   energy: Energy;
   flags: string[];
@@ -164,6 +173,7 @@ interface State {
 const initialState: State = {
   profile: EMPTY_PROFILE,
 
+  adapt_touched: false,
   available_minutes: 45,
   energy: 'normal',
   flags: [],
@@ -237,6 +247,7 @@ type Action =
   | { type: 'set_typical'; minutes: number }
   | { type: 'accept_adaptation'; template_id: string; variant: VariantCode; forced?: boolean }
   | { type: 'set_today_equipment'; equipment: string[] | null }
+  | { type: 'new_day' }
   | { type: 'set_travel'; travel: State['travel'] }
   | { type: 'set_checkin'; checkin: Checkin }
   | { type: 'restore'; snapshot: Restorable }
@@ -266,16 +277,29 @@ function reducer(s: State, a: Action): State {
     case 'hydrate_equipment':
       return { ...s, equipment: a.equipment };
 
+    /**
+     * A new local day clears the adjustment, not the adjustments themselves.
+     *
+     * Time, energy and flags are today-only inputs; once the date rolls over,
+     * whatever the athlete told the sheet yesterday should stop overriding a
+     * freshly computed plan. Only the flag is reset here — a refetch on the
+     * same day must not discard an adjustment they just made.
+     */
+    case 'new_day':
+      return { ...s, adapt_touched: false };
+
+    // The three adapt inputs mark the day as adjusted, which is what switches
+    // the recommendation from the server's answer to the live local one.
     case 'set_time':
-      return { ...s, available_minutes: a.minutes };
+      return { ...s, available_minutes: a.minutes, adapt_touched: true };
     case 'set_energy':
-      return { ...s, energy: a.energy };
+      return { ...s, energy: a.energy, adapt_touched: true };
     case 'toggle_flag': {
       const flags = s.flags.includes(a.flag)
         ? s.flags.filter(f => f !== a.flag) : [...s.flags, a.flag];
       // "No equipment" is an adaptation input, not a profile edit — it narrows
       // the engine's equipment set for today without touching the saved gym.
-      return { ...s, flags };
+      return { ...s, flags, adapt_touched: true };
     }
     case 'toggle_equipment':
       return {
@@ -307,7 +331,7 @@ function reducer(s: State, a: Action): State {
         adapted: true,
       };
     case 'set_today_equipment':
-      return { ...s, today_equipment: a.equipment };
+      return { ...s, adapt_touched: true, today_equipment: a.equipment };
     case 'set_travel':
       return { ...s, travel: a.travel };
     case 'set_checkin':
@@ -880,6 +904,25 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     commitCheckin({ ...current, symptoms: [...current.symptoms, name] });
   }, [commitCheckin]);
 
+  /**
+   * Templates the local engine may choose from.
+   *
+   * `week.queue` is the server's own list for this week, so anything in it
+   * belongs to the plan. With no plan — signed out, or the seeded build — the
+   * bundled library is the right candidate set, because there is no queue to
+   * contradict.
+   */
+  const planCandidates = useMemo(() => {
+    const queued = today?.week?.queue ?? [];
+    if (!queued.length) return TEMPLATES;
+    const ids = new Set<string>(queued.map(q => q.template_id));
+    if (today?.recommendation?.template?.id) ids.add(today.recommendation.template.id);
+    const inPlan = TEMPLATES.filter(t => ids.has(t.id));
+    // A queue naming templates this build does not carry would otherwise leave
+    // nothing to choose from; the library is a safer fallback than an empty set.
+    return inPlan.length ? inPlan : TEMPLATES;
+  }, [today]);
+
   const engineInput = useMemo<EngineInput>(() => {
     const noEquipment = state.flags.includes('No equipment');
     const equipment = state.today_equipment ?? state.equipment;
@@ -921,13 +964,23 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         ...(state.flags.includes('Something hurts') ? ['Something hurts'] : []),
       ])],
       considerations: state.profile.considerations,
-      candidates: TEMPLATES,
+      /**
+       * The plan's own queue, not the whole library.
+       *
+       * Running the local engine over every bundled template is what let it
+       * invent a session belonging to no plan. Constrained to what the week
+       * actually holds, a local re-run can only re-rank or re-size sessions the
+       * server already queued — so the sheet can answer live without being able
+       * to conjure anything. The recommended template is always included, since
+       * the athlete is being offered variants of it.
+       */
+      candidates: planCandidates,
       substitutions: SUBSTITUTIONS,
       variation_tolerance: 1,
     };
   }, [state.energy, state.flags, state.available_minutes, state.equipment,
       state.today_equipment, state.profile.considerations,
-      state.checkin, today]);
+      state.checkin, today, planCandidates]);
 
   /**
    * The server's decision is authoritative when there is one — it is the one
@@ -957,6 +1010,22 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const localDecision = useMemo(() => recommend(engineInput, EXERCISES), [engineInput]);
 
   const decision = useMemo<EngineDecision>(() => {
+    /**
+     * Once the athlete has adjusted today's inputs, the live run answers.
+     *
+     * The Adapt sheet exists to change the recommendation as its questions are
+     * answered; before this it dispatched to state that reached nothing, because
+     * the server payload was returned unconditionally and the local run was
+     * computed and discarded. The local engine is the same pure function the
+     * server ran, now over the same plan's queue, with inputs that are current
+     * rather than however the athlete felt when `today` was fetched.
+     *
+     * Until they adjust anything, the server's answer stands: it is what
+     * `adaptation_events` recorded, and the default view should match it.
+     */
+    if (state.adapt_touched && today?.recommendation && localDecision.kind === 'session') {
+      return localDecision;
+    }
     if (today?.recommendation) return { kind: 'session', ...today.recommendation };
     if (today?.no_session) return { kind: 'no_session', ...today.no_session };
     /**
@@ -986,7 +1055,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           };
     }
     return localDecision;
-  }, [today, localDecision, authStatus]);
+  }, [today, localDecision, authStatus, state.adapt_touched]);
 
   // An accepted override still runs through the engine, so the same guardrails
   // apply to a session the athlete picked as to one the engine chose.
@@ -1155,6 +1224,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
    * write about. Absent until it answers — and if it never does, the shipped
    * sentences stand.
    */
+  // A rolled-over date returns the athlete to the server's answer for the new
+  // day. Same-day refetches leave their adjustment standing.
+  const lastDay = useRef<string | null>(null);
+  useEffect(() => {
+    const day = today?.date_local ?? null;
+    if (!day) return;
+    if (lastDay.current && lastDay.current !== day) dispatch({ type: 'new_day' });
+    lastDay.current = day;
+  }, [today?.date_local]);
+
   const [narration, setNarration] = useState<Record<string, string> | null>(null);
   useEffect(() => {
     if (!today) return;

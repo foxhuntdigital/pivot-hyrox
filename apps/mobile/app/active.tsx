@@ -97,14 +97,26 @@ export default function ActiveScreen() {
     <View style={{ flex: 1, backgroundColor: color.ink, paddingTop: insets.top }}>
       <StatusBar style="light" />
 
+      {/* Read at arm's length, mid-effort, on a phone propped against a water
+          bottle — so this row is sized for glancing rather than for reading.
+          The session name yields first: which round you are on survives
+          truncation, the name is the part you already know. */}
       <View style={{
-        flexDirection: 'row', justifyContent: 'space-between',
-        paddingHorizontal: space.gutter, paddingVertical: 12,
+        flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline',
+        gap: 12, paddingHorizontal: space.gutter, paddingVertical: 12,
       }}>
-        <Text style={[t.labelSm, { fontSize: 11, letterSpacing: 1.32, color: color.muted3 }]}>
+        <Text
+          numberOfLines={1}
+          style={[t.labelSm, {
+            flexShrink: 1, fontSize: 13, letterSpacing: 1.2, color: color.muted3,
+          }]}
+        >
           {session.template.name} · {VARIANT_LABEL[session.variant.variant_code]}
         </Text>
-        <Text style={[t.labelSm, { fontSize: 11, letterSpacing: 1.32, color: color.muted3 }]}>
+        <Text
+          numberOfLines={1}
+          style={[t.labelSm, { fontSize: 13, letterSpacing: 1.2, color: color.onDarkSoft }]}
+        >
           {step.phase}
         </Text>
       </View>
@@ -122,25 +134,32 @@ export default function ActiveScreen() {
         accessibilityRole="button"
         accessibilityLabel={`Step ${index + 1} of ${steps.length}. See the whole session.`}
         style={({ pressed }) => ({
-          paddingHorizontal: space.gutter, paddingTop: 2, paddingBottom: 8,
+          paddingHorizontal: space.gutter, paddingTop: 2, paddingBottom: 14,
           opacity: pressed ? 0.6 : 1,
         })}
       >
         <View style={{ flexDirection: 'row', gap: 2 }}>
           {steps.map((_, i) => (
             <View key={i} style={{
-              flex: 1, height: 4,
+              // Taller alongside the larger type — a 4pt bar under 14pt text
+              // reads as a hairline rather than as the progress it is.
+              flex: 1, height: 6,
               backgroundColor: i < index ? color.red : i === index ? color.onDark : color.ruleDark,
             }} />
           ))}
         </View>
         <View style={{
-          flexDirection: 'row', justifyContent: 'space-between', paddingTop: 7,
+          flexDirection: 'row', alignItems: 'baseline',
+          justifyContent: 'space-between', paddingTop: 9,
         }}>
-          <Text style={[t.meta, { color: color.muted3 }]}>
+          <Text style={[t.meta, { fontSize: 14, color: color.muted3 }]}>
             Step {index + 1} of {steps.length}
           </Text>
-          <Text style={[t.meta, { fontFamily: t.rowTitle.fontFamily, color: color.salmon }]}>
+          {/* The only way into the session list, so it is sized as the control
+              it is rather than as a caption next to it. */}
+          <Text style={[t.meta, {
+            fontFamily: t.rowTitle.fontFamily, fontSize: 15, color: color.salmon,
+          }]}>
             See all ›
           </Text>
         </View>

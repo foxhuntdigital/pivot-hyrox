@@ -41,8 +41,8 @@ export const color = {
    * it. `mistEdge` is the structural weight, at 1.28:1 — a hair under `rule`
    * (1.33:1) — for the offset slabs and any edge that has to be seen.
    */
-  mist: '#e0f2f2',
-  mistEdge: '#b8dfdf',
+  mist: '#e0f2f2',      // calm callout background — the recommended state
+  mistEdge: '#b8dfdf',  // its 1px edge; mist is 1.04:1 on paper alone
 
   // Red — the primary accent
   red: '#ec3013',

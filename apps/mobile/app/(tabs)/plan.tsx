@@ -90,6 +90,30 @@ export default function PlanScreen() {
   const todayTemplateId = session.kind === 'session' ? session.template.id : null;
 
   /**
+   * What is left after today — which is what "Up next" means.
+   *
+   * Today's session sits in the queue like any other, at whatever rank the week
+   * gave it, so it was being listed twice: once above as today's, and again
+   * partway down the queue under a "Today's session" label. Position 3 of 7 is
+   * not where the athlete is, and a list they read as "what's coming" was
+   * quietly counting the thing they are doing now.
+   *
+   * Labelling it was the earlier attempt at this and it fixed the wrong half:
+   * the duplication is the problem, not the ambiguity about which row is which.
+   *
+   * Only one queue item is removed, and it is the one the server would claim —
+   * the lowest-ranked open item for that template (`queue.ts`). A week that
+   * genuinely holds the same session twice keeps the second one, because the
+   * athlete does still have it to do.
+   */
+  const claimedToday = todayTemplateId
+    ? [...plan.week.queue]
+        .sort((a, b) => a.rank - b.rank)
+        .find(q => q.template_id === todayTemplateId)
+    : undefined;
+  const upNext = plan.week.queue.filter(q => q.id !== claimedToday?.id);
+
+  /**
    * Makes a queued session today's.
    *
    * The week is stimuli in rank order, not a calendar, so the queue is a set of
@@ -280,16 +304,14 @@ export default function PlanScreen() {
       ) : null}
 
       <View style={{ paddingHorizontal: space.gutter }}>
-        {plan.week.queue.length ? plan.week.queue.map((q, i) => {
-          const isToday = q.template_id === todayTemplateId;
+        {upNext.length ? upNext.map((q, i) => {
           return (
             <Pressable
               key={q.id}
               onPress={() => setDetail(q)}
               accessibilityRole="button"
-              accessibilityLabel={isToday
-                ? `${q.name}, already today's session. View the workout.`
-                : `${q.name}, ${q.stimulus_type.replace(/_/g, ' ')}. View the workout and choose whether to do it today.`}
+              accessibilityLabel={`${q.name}, ${q.stimulus_type.replace(/_/g, ' ')}. `
+                + 'View the workout and choose whether to do it today.'}
               style={({ pressed }) => ({
                 flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 13,
                 borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
@@ -301,13 +323,8 @@ export default function PlanScreen() {
               </Text>
               <View style={{ flex: 1 }}>
                 <Text style={[t.rowTitle, { color: color.ink }]}>{q.name}</Text>
-                <Text style={[t.meta, { color: isToday ? color.red : color.muted }]}>
-                  {/* The queue used to list today's session again, at its full
-                      duration, directly under the scaled version of itself in
-                      "This week" — the same workout twice with two lengths. */}
-                  {isToday
-                    ? "Today's session"
-                    : q.stimulus_type.replace(/_/g, ' ')}
+                <Text style={[t.meta, { color: color.muted }]}>
+                  {q.stimulus_type.replace(/_/g, ' ')}
                 </Text>
               </View>
               <Text style={[t.meta, { fontFamily: t.rowTitle.fontFamily, color: color.muted }]}>
@@ -317,12 +334,17 @@ export default function PlanScreen() {
           );
         }) : (
           <Text style={[t.bodySm, { color: color.muted2, paddingVertical: 10 }]}>
-            Nothing queued. The week's remaining stimuli are chosen as you train.
+            {claimedToday
+              // The queue is not empty — today's session is the last of it, and
+              // saying "nothing queued" under a week that still has a session in
+              // it would read as the plan having run out.
+              ? "Today's session is the last one this week."
+              : "Nothing queued. The week's remaining stimuli are chosen as you train."}
           </Text>
         )}
       </View>
 
-      {plan.week.queue.length > 1 ? (
+      {upNext.length > 1 ? (
         <Text style={[t.meta, {
           paddingHorizontal: space.gutter, paddingTop: 10, color: color.muted,
         }]}>

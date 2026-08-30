@@ -153,7 +153,7 @@ export default function SignInScreen() {
           paddingHorizontal: space.gutter, paddingBottom: 22,
         }}>
           <View style={{ width: 12, height: 12, backgroundColor: color.red }} />
-          <Text style={[t.eyebrow, { color: color.ink }]}>PIVOT</Text>
+          <Text style={[t.eyebrow, { color: color.ink }]}>PIVOT ENGINE</Text>
         </View>
 
         <View style={{ paddingHorizontal: space.gutter, paddingBottom: 18 }}>

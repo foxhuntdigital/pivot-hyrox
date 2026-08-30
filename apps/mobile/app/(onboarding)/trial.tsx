@@ -132,7 +132,7 @@ export default function TrialScreen() {
       }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
           <View style={{ width: 10, height: 10, backgroundColor: color.red }} />
-          <Text style={[t.eyebrow, { color: color.ink }]}>PIVOT</Text>
+          <Text style={[t.eyebrow, { color: color.ink }]}>PIVOT ENGINE</Text>
         </View>
         <Pressable onPress={busy ? undefined : restore} hitSlop={12} accessibilityRole="button"
           accessibilityLabel="Restore a previous purchase">

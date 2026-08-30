@@ -20,14 +20,42 @@ import type {
   CompletedThisWeek, PhaseSummary, QueuedSession, TodayPayload,
 } from './todayRepo';
 
-/** Phase names as the ribbon abbreviates them. Presentation, not data. */
+/**
+ * Phase names, in full. Presentation, not data.
+ *
+ * They used to be abbreviated — `Found.`, `Spec.` — because six labels were
+ * competing for one row, and on a narrow screen even those became `TA…` and
+ * `RA…`. Abbreviating was the wrong end to solve it from: "Spec." is not a
+ * shorter way of saying something the athlete already understands, it is a
+ * shorter way of saying something only a coach does. Nothing renders six of
+ * these side by side any more, so nothing needs to shorten them.
+ */
 export const PHASE_LABEL: Record<string, string> = {
-  foundation: 'Found.',
+  foundation: 'Foundation',
   build: 'Build',
-  specific: 'Spec.',
+  specific: 'Specific',
   peak: 'Peak',
   taper: 'Taper',
   race: 'Race',
+};
+
+/**
+ * What each phase is actually doing for the athlete.
+ *
+ * The name is a label the sport uses; this is the part they can act on. Shown
+ * wherever a phase is named, so "Foundation" is never left to mean whatever
+ * they guess it means.
+ *
+ * Written as what the training is for, not what it will achieve — a phase makes
+ * no promises about a result.
+ */
+export const PHASE_MEANING: Record<string, string> = {
+  foundation: 'Building the aerobic base the rest of the block sits on.',
+  build: 'Adding the work rate you will need to hold on race day.',
+  specific: 'Rehearsing the race itself — stations, and running on tired legs.',
+  peak: 'Sharpening. Less volume, and the quality work close to race effort.',
+  taper: 'Volume comes down so you arrive fresh. The sharpness is already there.',
+  race: 'Race week. Enough to stay sharp, and nothing that costs you on the day.',
 };
 
 export function phaseTitle(type: string): string {

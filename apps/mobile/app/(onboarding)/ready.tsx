@@ -14,16 +14,11 @@ import { OnboardingStep } from '@/components/onboarding';
 import { Label, Rule } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
 import { useOnboarding } from '@/state/onboarding';
+// Shared with Today's ribbon: a phase is named and explained the same way
+// wherever it appears, so the first screen that says "Foundation" is the same
+// screen that says what Foundation is for.
+import { PHASE_LABEL, PHASE_MEANING } from '@/data/plan';
 import type { PlanSummary } from '@/data/planRepo';
-
-const PHASE_LABEL: Record<string, string> = {
-  foundation: 'Foundation',
-  build: 'Build',
-  specific: 'Specific',
-  peak: 'Peak',
-  taper: 'Taper',
-  race: 'Race',
-};
 
 /** `aerobic_durability` reads as a column heading, not as something to do. */
 function stimulusLabel(key: string): string {
@@ -109,6 +104,10 @@ export default function ReadyScreen() {
             {PHASE_LABEL[plan.current_phase.phase_type] ?? plan.current_phase.phase_type}
           </Text>
           <Text style={[t.bodySm, { color: color.redDeep }]}>
+            {PHASE_MEANING[plan.current_phase.phase_type]
+              ?? `Week ${plan.current_phase.week} of ${plan.current_phase.total_weeks} in this phase.`}
+          </Text>
+          <Text style={[t.meta, { color: color.redDeep, paddingTop: 4 }]}>
             {`Week ${plan.current_phase.week} of ${plan.current_phase.total_weeks} in this phase.`}
           </Text>
         </View>

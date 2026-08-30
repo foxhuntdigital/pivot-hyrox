@@ -19,7 +19,7 @@ import { FullWorkout } from '@/components/FullWorkout';
 import { TourSpot } from '@/components/Tour';
 import { useTour } from '@/state/tour';
 import { useApp } from '@/state/store';
-import { PHASE_LABEL, type PhaseView } from '@/data/plan';
+import { PHASE_LABEL, PHASE_MEANING, type PhaseView } from '@/data/plan';
 import { firstNameOf } from '@/data/profile';
 import { exerciseById } from '@/data/content';
 import { hoursToClock, LOW_SLEEP_HOURS } from '@/lib/format';
@@ -37,29 +37,64 @@ function greeting(): string {
  * shorter build has fewer phases, and the ribbon should show the plan they
  * actually have. Bars are weighted by the weeks each phase holds, so the
  * ribbon reads as a timeline rather than as six equal steps.
+ *
+ * **Only the current phase is named**, on its own full-width line beneath.
+ *
+ * Every bar used to carry its own label, which put six words in one row and
+ * made the narrow ones unreadable — a one-week taper is a sliver, and its label
+ * arrived as `TA…`. Widening the bars is not available: their widths *are* the
+ * timeline. Abbreviating harder only makes coach vocabulary shorter, not
+ * clearer, and "Spec." tells an athlete nothing that "Specific" did not.
+ *
+ * So the bars keep the shape of the block and the sentence underneath says
+ * where the athlete is and what that stretch of training is for. It cannot
+ * truncate at any width, and it answers the question the labels were failing to
+ * ask: not what this phase is called, but what it is doing for them.
  */
 function PhaseBars({ phase }: { phase: PhaseView }) {
   const currentIndex = phase.sequence.findIndex(p => p.type === phase.type);
   if (!phase.sequence.length) return null;
+
+  const current = currentIndex >= 0 ? phase.sequence[currentIndex] : null;
+  const name = current ? PHASE_LABEL[current.type] ?? current.type : null;
+  const meaning = current ? PHASE_MEANING[current.type] : null;
+
   return (
-    <View style={{ flexDirection: 'row', gap: 6, paddingHorizontal: space.gutter, paddingBottom: 16 }}>
-      {phase.sequence.map((p, i) => {
-        const isCurrent = i === currentIndex;
-        const isDone = currentIndex >= 0 && i < currentIndex;
-        return (
-          <View key={`${p.type}-${p.order}`} style={{ flex: Math.max(1, p.weeks), gap: 5 }}>
-            <View style={{
-              height: 4,
-              backgroundColor: isCurrent ? color.red : isDone ? color.ink : color.rule,
-            }} />
-            <Text numberOfLines={1} style={[t.labelXs, {
-              color: isCurrent ? color.red : isDone ? color.ink : color.muted3,
-            }]}>
-              {PHASE_LABEL[p.type] ?? p.type}
-            </Text>
-          </View>
-        );
-      })}
+    <View style={{ paddingHorizontal: space.gutter, paddingBottom: 16 }}>
+      <View style={{ flexDirection: 'row', gap: 6 }}>
+        {phase.sequence.map((p, i) => {
+          const isCurrent = i === currentIndex;
+          const isDone = currentIndex >= 0 && i < currentIndex;
+          return (
+            <View
+              key={`${p.type}-${p.order}`}
+              // The ribbon is one object to a screen reader, so each bar is
+              // hidden from it and the sentence below carries the meaning.
+              accessibilityElementsHidden
+              importantForAccessibility="no-hide-descendants"
+              style={{
+                flex: Math.max(1, p.weeks),
+                height: 4,
+                backgroundColor: isCurrent ? color.red : isDone ? color.ink : color.rule,
+              }}
+            />
+          );
+        })}
+      </View>
+
+      {name ? (
+        <View style={{ paddingTop: 8 }}>
+          <Text style={[t.labelSm, { fontSize: 11, letterSpacing: 1.2, color: color.red }]}>
+            {name}
+            {phase.sequence.length > 1
+              ? ` · Phase ${currentIndex + 1} of ${phase.sequence.length}`
+              : ''}
+          </Text>
+          {meaning ? (
+            <Text style={[t.bodySm, { color: color.muted2, marginTop: 3 }]}>{meaning}</Text>
+          ) : null}
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -304,7 +339,23 @@ export default function TodayScreen() {
           <View style={{ alignItems: 'flex-end' }}>
             {/* paddingRight offsets the trailing negative letter-spacing, which
                 RN subtracts from the measured width and clips the last digit. */}
-            <Text style={[t.countdown, numeralTrim.countdown, { color: color.ink, paddingRight: 3 }]}>
+            {/* A hard mist offset behind the numeral — the `Slab` primitive's
+                language (an offset block in `mistEdge`, zero radius) applied to
+                type rather than to a box. It breaks up a screen that is
+                otherwise red and ink alone, and it does it on the one element
+                that is pure measurement, which is what mist is for.
+
+                `mistEdge` rather than `mist`: an offset of 3 shows a 3px sliver,
+                and a sliver is a line. Mist is a fill at 1.04:1 and would not
+                survive being one. Radius stays 0 — a blur would be the only
+                soft edge in the system. */}
+            <Text style={[t.countdown, numeralTrim.countdown, {
+              color: color.ink,
+              paddingRight: 3,
+              textShadowColor: color.mistEdge,
+              textShadowOffset: { width: 3, height: 3 },
+              textShadowRadius: 0,
+            }]}>
               {goal.value}
             </Text>
             <Label>{goal.unit}</Label>
