@@ -167,7 +167,7 @@ Deno.serve(async (req) => {
       low_impact_required: state.profile?.impact_tolerance === 'low',
       symptom_flags: Object.keys(checkin?.symptom_json ?? {}),
       considerations: state.profile?.considerations ?? [],
-      candidates: content.templates,
+      candidates: content.candidates,
       substitutions: content.substitutions,
       variation_tolerance: 1,
     };
@@ -190,7 +190,7 @@ Deno.serve(async (req) => {
         const score = (t: typeof content.templates[number]) => terms.reduce((n, term) =>
           n + ([t.name, t.workout_family, t.primary_goal, t.description ?? '', ...(t.tags ?? [])]
             .join(' ').toLowerCase().includes(term) ? 1 : 0), 0);
-        const scored = content.templates.map(t => ({ t, hits: score(t) }))
+        const scored = content.candidates.map(t => ({ t, hits: score(t) }))
           .filter(x => x.hits > 0).sort((a, b) => b.hits - a.hits);
         if (!scored.length) {
           return {

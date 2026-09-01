@@ -1,0 +1,25 @@
+{
+  "note": "Templates that must no longer be generated as candidates, and what took over the job. Applied to the seed dump by scripts/retire-templates.mjs; enforced by migration 0016. Retirement never deletes a row and never migrates history onto the successor — an athlete who trained a session did that session, and workout_sessions.snapshot_json holds what they were actually prescribed.",
+  "retirements": [
+    {
+      "id": "wo_strength_total_a",
+      "superseded_by": "str_total_01",
+      "reason": "Written to close the true-strength coverage gate before the authored strength library existed. str_total_01 is the same session in the authored pack — four of five movements identical, a DB row where this used a chest-supported row."
+    },
+    {
+      "id": "wo_strength_total_b",
+      "superseded_by": "str_total_02",
+      "reason": "Gate stopgap. str_total_02 shares four of five movements, taking a pull-up where this used a lat pulldown."
+    },
+    {
+      "id": "wo_strength_recovery_a",
+      "superseded_by": "str_recovery_01",
+      "reason": "Gate stopgap. str_recovery_01 prescribes the identical four movements at the same duration; the two are the same session."
+    },
+    {
+      "id": "wo_strength_recovery_b",
+      "superseded_by": "str_recovery_02",
+      "reason": "Gate stopgap. str_recovery_02 shares three of four movements and covers the same upper-body maintenance dose."
+    }
+  ]
+}

@@ -63,7 +63,7 @@ Deno.serve(async (req) => {
       low_impact_required: Boolean(body.low_impact),
       symptom_flags: body.symptom_flags ?? [],
       considerations: state.profile?.considerations ?? [],
-      candidates: forced ? [forced] : content.templates,
+      candidates: forced ? [forced] : content.candidates,
       substitutions: content.substitutions,
     };
 

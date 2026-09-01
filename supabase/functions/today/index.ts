@@ -61,7 +61,7 @@ Deno.serve(async (req) => {
       low_impact_required: state.profile?.impact_tolerance === 'low',
       symptom_flags: Object.keys(checkin?.symptom_json ?? {}),
       considerations: state.profile?.considerations ?? [],
-      candidates: content.templates,
+      candidates: content.candidates,
       substitutions: content.substitutions,
     };
 

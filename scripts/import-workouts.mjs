@@ -23,7 +23,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { basename } from 'node:path';
-import { resolveGoal } from './lib/stimulus-taxonomy.mjs';
+import { resolveGoal, PLANNER_GOALS } from './lib/stimulus-taxonomy.mjs';
 
 const SRC = new URL('../data/adaptive_athlete_schema_and_seed.sql', import.meta.url);
 const packPaths = process.argv.slice(2).filter(a => !a.startsWith('-'));
@@ -205,6 +205,29 @@ const PRESCRIPTION_TYPES = new Set(['duration', 'distance', 'reps', 'sets_reps',
  * transcription slip that would sit in the library unnoticed.
  */
 const REST_BOUNDS = [30, 600];
+
+/**
+ * Numbers that arrived as strings.
+ *
+ * A pack that writes `"rest_seconds": "120"` means 120, and rejecting the
+ * template over a pair of quote marks helps nobody. But a parser that quietly
+ * accepts anything numeric-looking is how "2 min" becomes 2 seconds, so the
+ * canonicalisation is narrow — a string that is exactly a number, nothing else —
+ * and every one is REPORTED, so the pack can be corrected rather than depending
+ * on permissive parsing for ever.
+ */
+const coercions = [];
+function canonicalNumber(value, field, where, problems) {
+  if (value === null || value === undefined) return null;
+  if (typeof value === 'number') return value;
+  if (typeof value === 'string' && /^-?\d+(\.\d+)?$/.test(value.trim())) {
+    const n = Number(value.trim());
+    coercions.push(`${where}: ${field} ${JSON.stringify(value)} -> ${n}`);
+    return n;
+  }
+  problems.push(`${where}: ${field} ${JSON.stringify(value)} is not a number`);
+  return null;
+}
 const LOAD_BASES = new Set(['absolute', 'percent_1rm', 'rpe', 'bodyweight']);
 
 /**
@@ -224,17 +247,18 @@ const LOAD_BASES = new Set(['absolute', 'percent_1rm', 'rpe', 'bodyweight']);
  * how long to rest.
  */
 function structuredPrescription(it, where, problems) {
-  if (it.prescription_type === 'sets_reps' && (it.sets == null || it.reps_min == null)) {
+  if (it.prescription_type === 'sets_reps'
+      && (it.sets === null || it.sets === undefined || it.reps_min === null || it.reps_min === undefined)) {
     problems.push(`${where}: a sets_reps item must carry sets and reps_min — `
       + 'encoding the reps in the unit string (4, "x6") is the pre-0011 shape');
     return null;
   }
 
-  const sets = it.sets ?? null;
-  const reps_min = it.reps_min ?? null;
-  const reps_max = it.reps_max ?? reps_min;
-  const rest = it.rest_seconds ?? null;
-  const rpe = it.target_rpe ?? null;
+  const sets = canonicalNumber(it.sets, 'sets', where, problems);
+  const reps_min = canonicalNumber(it.reps_min, 'reps_min', where, problems);
+  const reps_max = canonicalNumber(it.reps_max, 'reps_max', where, problems) ?? reps_min;
+  const rest = canonicalNumber(it.rest_seconds, 'rest_seconds', where, problems);
+  const rpe = canonicalNumber(it.target_rpe, 'target_rpe', where, problems);
   const basis = it.load_basis ?? null;
 
   if (sets != null && !(Number.isInteger(sets) && sets > 0)) {
@@ -262,7 +286,8 @@ function structuredPrescription(it, where, problems) {
   }
 
   return { sets, reps_min, reps_max, rest_seconds: rest, target_rpe: rpe,
-    load_basis: basis, load_value: it.load_value ?? null };
+    load_basis: basis,
+    load_value: canonicalNumber(it.load_value, 'load_value', where, problems) };
 }
 
 /**
@@ -317,6 +342,7 @@ for (const path of packPaths) {
         // asking for the encoding this release exists to remove.
         if (!shown.unit) problems.push(`${where}: missing unit (explicit-unit rule)`);
         if (shown.quantity == null) problems.push(`${where}: missing quantity`);
+        shown.quantity = canonicalNumber(shown.quantity, 'quantity', where, problems);
         const exId = exerciseIdByName[String(it.exercise ?? '').toLowerCase()] ?? it.exercise_id;
         if (!exId) problems.push(`${where}: no exercise named ${JSON.stringify(it.exercise)}`);
         return { exercise_id: exId, prescription_type: it.prescription_type,
@@ -330,6 +356,36 @@ for (const path of packPaths) {
     // intensityCost() falls back to 0.5, so an RPE 7 session reads as moderate
     // and the recovery guardrail hands it to a depleted athlete. A missing
     // intensity is therefore a refusal, not a default.
+    /**
+     * The planner goal has to be one of the five, or the template is content
+     * nothing will ever schedule.
+     *
+     * `matchesStimulus` compares a template's `primary_goal` against the goal
+     * the week is asking for, and the week only ever asks for the five in
+     * PLANNER_GOALS. This used to fall back to the raw stimulus when the
+     * taxonomy had no roll-up for it, so a pack naming its stimulus
+     * `bilateral_squat_strength` imported cleanly, classified correctly, passed
+     * the coverage gate, and was then invisible to the planner for ever. Thirty
+     * templates arrived that way in one pack.
+     *
+     * There is no fallback now. The detailed stimulus stays exactly where it
+     * was — `stimulus` is orthogonal metadata and keeps every distinction the
+     * author drew — and the roll-up is a ruling in
+     * scripts/lib/stimulus-taxonomy.mjs that a human makes once.
+     */
+    const plannerGoal = resolveGoal(w.stimulus, {
+      modalities: blocks.flatMap(b => b.items.map(i => modalityOf[i.exercise_id])).filter(Boolean),
+      exercises: blocks.flatMap(b => b.items.map(i => i.exercise_id)),
+      family: w.workout_family,
+      category: w.category ?? w.workout_family,
+      intensityTarget: w.intensity_target,
+    })?.primary_goal ?? null;
+    if (!PLANNER_GOALS.includes(plannerGoal)) {
+      problems.push(`${id}: stimulus "${w.stimulus}" does not roll up to a planner goal `
+        + `(${PLANNER_GOALS.join('/')}). Add the roll-up to scripts/lib/stimulus-taxonomy.mjs — `
+        + 'without one the stimulus would become the template\'s primary_goal, which no '
+        + 'planner goal matches, and the session would never be scheduled.');
+    }
     if (!w.intensity_target) problems.push(`${id}: missing intensity_target — intensityCost() would default it to moderate`);
     if (!w.stimulus) problems.push(`${id}: missing stimulus`);
     if (!w.workout_family) problems.push(`${id}: missing workout_family`);
@@ -413,9 +469,15 @@ for (const { meta, w, id, blocks } of accepted) {
   const allItems = blocks.flatMap(b => b.items);
   // A new template derives its planner goal from its stimulus at import time.
   // apply-taxonomy will not re-derive it afterwards — once set it is canonical.
+  // Already validated as one of the five on the way in; recomputed rather than
+  // threaded through so the two can never say different things.
   const derivedGoal = goalOf(w.stimulus, allItems.map(i => i.exercise_id), {
     family: w.workout_family, category: w.category ?? w.workout_family, intensityTarget: w.intensity_target,
-  }) ?? w.stimulus;
+  });
+  if (!PLANNER_GOALS.includes(derivedGoal)) {
+    throw new Error(`${id}: planner goal resolved to ${JSON.stringify(derivedGoal)} at emit time `
+      + 'but passed validation — the two resolutions disagree');
+  }
   emitted.workout_templates.push(row('workout_templates', [
     id, w.name, w.workout_family, derivedGoal,
     w.stimulus, w.secondary_goal ?? null, w.estimated_minutes, w.intensity_target,
@@ -429,6 +491,11 @@ for (const { meta, w, id, blocks } of accepted) {
     // importer that set them here would let a pack assert the strength domain
     // by writing the word, which is what deciding it structurally prevents.
     null, null,
+    // Newly imported content is schedulable and supersedes nothing. Retirement
+    // is a separate, explicit ruling (scripts/retire-templates.mjs) — a pack
+    // must not be able to retire a template by omitting it, or re-importing an
+    // edited pack would silently retire whatever the edit dropped.
+    'content_eligible', null,
   ]));
 
   blocks.forEach((b, bi) => {
@@ -499,6 +566,10 @@ for (const [table, rows] of Object.entries(emitted)) {
 writeFileSync(SRC, sql);
 
 console.log(`\nimported ${accepted.length} of ${toImport.length + rejected.length} workouts`);
+if (coercions.length) {
+  console.log(`\n${coercions.length} value(s) canonicalised from strings — correct them at source:`);
+  for (const c of coercions) console.log(`  ${c}`);
+}
 if (rejected.length) {
   const byReason = {};
   for (const r of rejected) for (const reason of r.reasons) {

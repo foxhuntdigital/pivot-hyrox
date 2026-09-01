@@ -154,7 +154,18 @@ for (const wt of tables.workout_tags) {
   (tagsByWorkout[wt.workout_id] ??= []).push(tagName[wt.tag_id]);
 }
 
-const templates = tables.workout_templates.map(t => ({
+/**
+ * Retired templates do not reach the fixture.
+ *
+ * This file is what the planner plans from — the engine's candidate set and the
+ * app's bundled library — so a template that must never be scheduled again has
+ * no business in it. The row itself survives in the dump and in Postgres, which
+ * is where the history that references it looks things up (migration 0016).
+ */
+const retired = tables.workout_templates.filter(t => t.status === 'retired');
+const schedulable = tables.workout_templates.filter(t => t.status !== 'retired');
+
+const templates = schedulable.map(t => ({
   id: t.id,
   name: t.name,
   workout_family: t.workout_family,
@@ -210,6 +221,12 @@ for (const dest of [
 
 console.log(`exercises     ${exercises.length}`);
 console.log(`templates     ${templates.length}`);
+if (retired.length) {
+  console.log(`  retired, not in the fixture: ${retired.length}`);
+  for (const t of retired) {
+    console.log(`    ${t.id.padEnd(24)} superseded by ${t.superseded_by ?? '(unrecorded)'}`);
+  }
+}
 console.log(`substitutions ${substitutions.length}`);
 console.log(`equipment     ${tables.equipment.length}`);
 const noBlocks = templates.filter(t => !t.blocks.length);

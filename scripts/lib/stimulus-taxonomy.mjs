@@ -59,6 +59,30 @@ const DIRECT = {
   // goal as `strength` — the distinction it draws is about which muscles the
   // session covers, and the planner has never asked that question.
   total_body_strength:        ['strength', 'specified'],
+  // The strength library expansion names its stimulus by the movement pattern
+  // the session is built around. Every one is resistance work organised around
+  // force production, so every one rolls up to the same planner goal — the
+  // distinction they draw is which pattern leads, and the planner has never
+  // asked that question. Left unmapped they would each become their own
+  // `primary_goal`, which is not one of the five and which no planner goal
+  // matches: thirty templates the week could never schedule.
+  bilateral_squat_strength:     ['strength', 'specified'],
+  squat_vertical_strength:      ['strength', 'specified'],
+  hinge_strength:               ['strength', 'specified'],
+  hinge_horizontal_strength:    ['strength', 'specified'],
+  horizontal_push_pull_strength:['strength', 'specified'],
+  vertical_push_strength:       ['strength', 'specified'],
+  upper_body_strength:          ['strength', 'specified'],
+  upper_body_strength_power:    ['strength', 'specified'],
+  upper_body_power_strength:    ['strength', 'specified'],
+  lower_body_strength:          ['strength', 'specified'],
+  lower_body_strength_power:    ['strength', 'specified'],
+  lower_body_power_strength:    ['strength', 'specified'],
+  total_body_power_strength:    ['strength', 'specified'],
+  unilateral_lower_strength:    ['strength', 'specified'],
+  unilateral_total_strength:    ['strength', 'specified'],
+  unilateral_power_strength:    ['strength', 'specified'],
+  loaded_carry_strength:        ['strength', 'specified'],
 
   // → race_specific
   race_pacing:                ['race_specific', 'specified'],

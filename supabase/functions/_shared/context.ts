@@ -69,7 +69,24 @@ export function localDate(timezone: string): string {
  */
 export async function loadContent(db: SupabaseClient): Promise<{
   exercises: Exercise[];
+  /**
+   * Every template, including retired ones.
+   *
+   * Look things up here. A completed session on a retired template must still
+   * resolve its name, family and goal — the athlete did that training, and a
+   * history entry that lost its name because the library moved on would be the
+   * library rewriting the record.
+   */
   templates: WorkoutTemplate[];
+  /**
+   * Templates that may be scheduled. Build `EngineInput.candidates` from this.
+   *
+   * Retirement (migration 0016) removes a template from candidate generation
+   * and from nothing else, so the split is between these two arrays rather
+   * than inside a filter at each call site — one of which would eventually be
+   * forgotten, and would quietly go on scheduling a retired session.
+   */
+  candidates: WorkoutTemplate[];
   substitutions: Substitution[];
 }> {
   const [exRes, eqRes, tplRes, varRes, blkRes, bxRes, tagRes, subRes] = await Promise.all([
@@ -148,7 +165,12 @@ export async function loadContent(db: SupabaseClient): Promise<{
     blocks: (blocksByWorkout.get(t.id) ?? []).sort((a, b) => a.block_order - b.block_order),
   }));
 
-  return { exercises, templates, substitutions: subRes.data! as Substitution[] };
+  return {
+    exercises,
+    templates,
+    candidates: templates.filter((t: any) => t.status !== 'retired'),
+    substitutions: subRes.data! as Substitution[],
+  };
 }
 
 /** One phase of the program, as the ribbon and the roadmap draw it. */

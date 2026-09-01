@@ -379,7 +379,7 @@ async function planFirstWeek(
         low_impact_required: body?.profile?.impact_tolerance === 'low',
         symptom_flags: [],
         considerations: body?.profile?.considerations ?? [],
-        candidates: content.templates,
+        candidates: content.candidates,
         substitutions: content.substitutions,
       },
     });
