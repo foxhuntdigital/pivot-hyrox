@@ -109,6 +109,8 @@ const services = {
   // Deliberately null: the fixture athlete has no comparable 1 km set, so
   // TC-004 tests the insufficient-data path rather than a happy one.
   trends: () => null,
+  progression: () => [],
+  records: () => [],
   week: () => [
     { day: 'Thursday', template: 'Long Hybrid 60', minutes: 60, priority: 1, stimulus: 'aerobic_durability' },
     { day: 'Friday', template: 'HYROX Pull A', minutes: 55, priority: 2, stimulus: 'strength' },

@@ -380,13 +380,16 @@ Deliberate omissions, not oversights:
   Today shows its neutral state. The seeded build still shows the athlete's
   value. Sleep is the only check-in field wired end to end; energy, stress,
   soreness and motivation are read server-side and never collected.
-- **Comparable-session trends have no source yet.** `get_performance_trends`
-  still returns null server-side, so Coach says it lacks the data rather than
-  estimating from session RPE, and the trend card on the client renders from the
-  seeded set. Splits (`0010`) are the missing input arriving: sessions completed
-  from now on record every lap. What is still absent is the comparison — reading
-  the same station across sessions and deciding two exposures are comparable —
-  and the back history, which no amount of code recovers.
+- **Comparable-session trends have no back history.** `get_performance_trends`
+  is wired: `_shared/trends.ts` answers from logged loads and paces, and the
+  comparability rules it depends on exist — `comparable.ts` for repeat pace,
+  `exercise-history.ts` for load at a rep range. It still returns null whenever
+  nothing qualifies, which is what makes Coach say it lacks the data rather than
+  estimating from session RPE. What no amount of code recovers is the history
+  itself: an athlete's first weeks have nothing to compare against, and every
+  set logged before this release is a Complete tap whose `actual_reps` is the
+  prescription copied onto itself, deliberately excluded as evidence. The trend
+  card on the client still renders from the seeded set.
 - **Coach responses are not streamed.** The reply arrives whole (~2–4s). The
   card renders immediately from the engine, so the wait is on prose only.
 - **Onboarding (D02–D08) is not built.** Email/password auth is (D01): sign-in,

@@ -2446,7 +2446,10 @@ insert into content.progression_rules (id, workout_family, metric, trigger_condi
   ('pr_4','strength_legs','load','all work sets completed at RPE <=7','increase 2.5-5%',5.0,'Autoregulated'),
   ('pr_5','strength_push','load','all work sets completed at RPE <=7','increase 2.5-5%',5.0,'Autoregulated'),
   ('pr_6','strength_pull','load','all work sets completed at RPE <=7','increase 2.5-5%',5.0,'Autoregulated'),
-  ('pr_7','hybrid','density','repeatable splits at RPE <=7','add 1 round OR 5-10% station volume',10.0,'One variable at a time')
+  ('pr_7','hybrid','density','repeatable splits at RPE <=7','add 1 round OR 5-10% station volume',10.0,'One variable at a time'),
+  ('pr_8','strength_total','load','all work sets completed at RPE <=7','increase 2.5-5%',5.0,'Autoregulated. Same rule as the regional strength families; a total-body session is not a different kind of lifting.'),
+  ('pr_9','strength_maintenance_lower','load','never - reduced dose by design','hold',0.0,'A reduced dose by design. Completing it earns no heavier prescription, and is not evidence of decline either - the load was lower because the session asked for less, not because the athlete could do less.'),
+  ('pr_10','strength_maintenance_upper','load','never - reduced dose by design','hold',0.0,'A reduced dose by design. Completing it earns no heavier prescription, and is not evidence of decline either - the load was lower because the session asked for less, not because the athlete could do less.')
 on conflict (id) do update set
   workout_family = excluded.workout_family,
   metric = excluded.metric,

@@ -124,16 +124,23 @@ export function route(
   const overrides = overridesFrom(entities, services.input);
 
   switch (intent) {
-    case 'explain_today':
+    case 'explain_today': {
+      const progression = services.progression();
       return {
         tools: {
           today: trimDecision(services.today),
           weekly_stimuli: services.input.stimulus_requirements,
+          ...(progression.length ? {
+            progression,
+            note: 'Loads are computed from logged history. Restate them and the reason; '
+              + 'never adjust one, and never supply a number for a movement not listed.',
+          } : {}),
         },
         action: services.today.kind === 'session'
           ? propose('open_workout', { template_id: services.today.template.id })
           : null,
       };
+    }
 
     case 'adapt_today':
     case 'report_recovery': {
@@ -186,10 +193,16 @@ export function route(
 
     case 'ask_progress': {
       const trends = services.trends();
+      const records = services.records();
       return {
-        tools: trends
-          ? { trend: trends }
-          : { trend: null, note: 'Not enough comparable sessions. Say so; do not estimate.' },
+        tools: {
+          ...(trends
+            ? { trend: trends }
+            : { trend: null, note: 'Not enough comparable sessions. Say so; do not estimate.' }),
+          // A record is only a record against a prior comparable exposure, so an
+          // empty list means there were none — not that the session went badly.
+          ...(records.length ? { records } : {}),
+        },
         action: trends ? propose('open_metric_detail', { metric: trends.metric }) : null,
       };
     }

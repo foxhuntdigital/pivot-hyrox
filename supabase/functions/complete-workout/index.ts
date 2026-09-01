@@ -7,6 +7,8 @@
  * rather than double-counting a stimulus (PRD §15.1).
  */
 import { ENGINE_VERSION } from '../../../packages/engine/src/index.ts';
+import { exerciseHistory, loadPerformanceLogs } from '../_shared/exercise-history.ts';
+import { evidenceFromSession } from '../_shared/evidence.ts';
 import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, localDate,
   requireEntitlement, requireUser,
@@ -148,6 +150,7 @@ Deno.serve(async (req) => {
 
     await writeLogs(db, body);
     await writeSplits(db, body);
+    await writeCapabilityEvidence(db, user.id, body.session_id, today);
 
     // Reconcile the week. A completed session credits its stimulus once,
     // whatever day it landed on (PRD §2, FR-012).
@@ -339,4 +342,66 @@ async function writeSplits(db: ReturnType<typeof clientFor>, body: CompleteBody)
   // completed the session and credited the week.
   const { error } = await db.from('session_splits').insert(rows);
   if (error) console.error('session_splits insert failed', error.message);
+}
+
+
+/**
+ * What this session showed about the athlete's capabilities.
+ *
+ * Runs after the logs are written, because it reads them back: the evidence is
+ * derived from what landed, not from what the client claimed, so a set that was
+ * rejected on the way in cannot become a capability reading on the way out.
+ *
+ * Deleted before inserting, for the same reason the logs are (see `writeLogs`).
+ * A finish is a statement about the whole session, and a corrected finish that
+ * left the first reading in place would let one session write evidence twice —
+ * which is exactly the arithmetic `capabilityState` counts.
+ *
+ * Failures are logged and swallowed. An athlete who has finished their session
+ * has finished it; a capability row that could not be derived is a gap in an
+ * append-only log that the next session repairs, and is not a reason to fail
+ * the request that credits their week.
+ */
+async function writeCapabilityEvidence(
+  db: any, userId: string, sessionId: string, today: string,
+): Promise<void> {
+  try {
+    const { data: sessions } = await db
+      .from('workout_sessions')
+      .select('id, template_id, variant_code, started_at, ended_at, session_rpe')
+      .eq('user_id', userId).eq('status', 'completed')
+      .order('started_at', { ascending: false }).limit(40);
+    if (!sessions?.length) return;
+
+    const { setLogs } = await loadPerformanceLogs(db, sessions.map((s: any) => s.id));
+    if (!setLogs.length) return;
+
+    const histories = exerciseHistory({ today, sessions, setLogs });
+    const exposures = [...histories.values()].flatMap(history =>
+      history.exposures.map(exposure => ({ exposure, history })));
+
+    const { data: exercises } = await db.schema('content')
+      .from('exercises').select('id, movement_families');
+    const ontology = new Map<string, { movement_families?: string[] | null }>(
+      (exercises ?? []).map((e: any) => [e.id, { movement_families: e.movement_families }]));
+
+    const rows = evidenceFromSession({ sessionId, exposures, ontology });
+
+    await db.from('athlete_capability_evidence').delete().eq('source_session_id', sessionId);
+    if (!rows.length) return;
+
+    const { error } = await db.from('athlete_capability_evidence').insert(
+      rows.map(r => ({
+        user_id: userId,
+        capability_key: r.capability_key,
+        direction: r.direction,
+        magnitude_band: r.magnitude_band,
+        confidence_band: r.confidence_band,
+        source_session_id: r.source_session_id,
+        rules_version: r.rules_version,
+      })));
+    if (error) console.error('capability evidence insert failed', error.message);
+  } catch (err) {
+    console.error('capability evidence failed', (err as Error).message);
+  }
 }

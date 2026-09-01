@@ -89,6 +89,8 @@ const services: CoachServices = {
     stimulus_adherence_4w: 0.5, recovery_signal: 0.5, observed_days: 20,
   }),
   trends: () => null,
+  progression: () => [],
+  records: () => [],
   week: () => [{ day: 'Thursday', template: 'aerobic_60', minutes: 60, priority: 1, stimulus: 'aerobic_durability' }],
   raceDefinition: () => null,
 };

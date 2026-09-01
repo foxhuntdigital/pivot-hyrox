@@ -30,6 +30,11 @@ import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
   localDate, requireEntitlement, requireUser,
 } from '../_shared/context.ts';
+import { comparableSeries } from '../_shared/comparable.ts';
+import { exerciseHistory, loadPerformanceLogs } from '../_shared/exercise-history.ts';
+import { performanceTrend } from '../_shared/trends.ts';
+import { progressionFor, type ProgressionRuleRow } from '../_shared/progression.ts';
+import { personalRecordsIn } from '../_shared/prs.ts';
 import { loadProgressSnapshot } from '../_shared/progress.ts';
 
 /** Per-athlete monthly ceiling. Beyond it the app falls back to local Coach. */
@@ -120,7 +125,23 @@ Deno.serve(async (req) => {
       loadAthleteState(db, user.id, today),
     ]);
 
+    // One extra round trip per turn, taken up front because `trends()` is a
+    // synchronous contract: the tool layer calls it inside a decision, not
+    // inside an await. The block join is the same one loadHistory makes.
+    const logs = await loadPerformanceLogs(db, state.sessionRows.map((s: any) => s.id));
+
     const templateIndex = new Map(content.templates.map(t => [t.id, t]));
+    const exerciseNames = new Map(content.exercises.map((e: any) => [e.id, e.name]));
+    const exerciseIndex = new Map(content.exercises.map((e: any) => [e.id, e]));
+
+    // Computed once. Three services read it, and recomputing per call would
+    // rescan every set the athlete has logged for each question they ask.
+    const strengthHistories = exerciseHistory({
+      today, sessions: state.sessionRows, setLogs: logs.setLogs,
+    });
+    const { data: progressionRules } = await db.schema('content')
+      .from('progression_rules').select('*');
+    const rules: ProgressionRuleRow[] = progressionRules ?? [];
     const recent_sessions = state.recent_sessions.map(s => {
       const tpl = templateIndex.get(s.template_id);
       return {
@@ -187,10 +208,77 @@ Deno.serve(async (req) => {
         }, content.exercises);
       },
       readiness,
-      // Comparable-session trends need split-level history, which is not
-      // captured yet (README "Known gaps"). Returning null is what makes Coach
-      // say it lacks the data rather than estimating from session RPE.
-      trends: () => null,
+      /**
+       * Comparable-session trends, from logged loads and paces.
+       *
+       * Still returns null whenever the comparability rules find nothing to
+       * compare, which is the behaviour the tool contract depends on: Coach is
+       * told to say it lacks the data rather than estimating from session RPE.
+       * What changed is that the answer is now sometimes yes.
+       */
+      trends: () => performanceTrend({
+        runs: comparableSeries({
+          today, sessions: state.sessionRows, cardioLogs: logs.cardioLogs,
+        }),
+        strength: strengthHistories,
+        nameFor: (id: string) => exerciseNames.get(id) ?? id,
+      }),
+
+      /**
+       * What to put on the bar today, per movement.
+       *
+       * Only movements that prescribe working sets are asked about: a distance
+       * carry and an erg interval have no load to progress, and offering the
+       * model an empty suggestion for them invites it to fill one in.
+       */
+      progression: () => {
+        if (decision.kind !== 'session') return [];
+        const template = decision.template;
+        return template.blocks
+          .flatMap((b: any) => b.exercises ?? [])
+          .filter((be: any) => be.sets != null && be.sets > 0)
+          .map((be: any) => {
+            const s = progressionFor({
+              prescription: {
+                exercise_id: be.exercise_id,
+                workout_family: template.workout_family,
+                sets: be.sets ?? null,
+                reps_min: be.reps_min ?? null,
+                reps_max: be.reps_max ?? null,
+                target_rpe: be.target_rpe ?? null,
+              },
+              history: strengthHistories.get(be.exercise_id),
+              ontology: exerciseIndex.get(be.exercise_id),
+              rules,
+            });
+            return {
+              exercise: exerciseNames.get(be.exercise_id) ?? be.exercise_id,
+              reason_code: s.reason_code,
+              dimension: s.dimension,
+              suggested_load: s.suggested_load,
+              load_unit: s.load_unit,
+              suggested_reps: s.suggested_reps,
+              last_time: s.basis
+                ? {
+                  date: s.basis.date, load: s.basis.top_load,
+                  reps: s.basis.top_reps, rpe: s.basis.rpe,
+                }
+                : null,
+              caveat: s.caveat,
+            };
+          });
+      },
+
+      records: () => {
+        const last = state.sessionRows[0]?.id;
+        if (!last) return [];
+        return personalRecordsIn({ sessionId: last, histories: strengthHistories })
+          .map(r => ({
+            exercise: exerciseNames.get(r.exercise_id) ?? r.exercise_id,
+            kind: r.kind, value: r.value, unit: r.unit,
+            previous: r.previous, date: r.date,
+          }));
+      },
       week: () => ((state.currentCycle as { session_queue_items?: unknown[] } | null)
         ?.session_queue_items ?? [])
         .map((q) => {

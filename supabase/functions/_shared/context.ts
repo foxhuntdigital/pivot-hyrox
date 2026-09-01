@@ -100,6 +100,13 @@ export async function loadContent(db: SupabaseClient): Promise<{
     impact_level: e.impact_level,
     postpartum_friendly: e.postpartum_friendly,
     equipment: equipByExercise.get(e.id) ?? [],
+    // The ontology migration 0014 added. Carried because the strength services
+    // branch on it — `progression_class` decides whether a movement advances by
+    // load at all — and because dropping it here left the server reading a
+    // narrower exercise than the engine's own gate does.
+    movement_families: e.movement_families ?? [],
+    progression_class: e.progression_class ?? null,
+    progression_tracks: e.progression_tracks ?? [],
   }));
 
   const bxByBlock = new Map<string, any[]>();

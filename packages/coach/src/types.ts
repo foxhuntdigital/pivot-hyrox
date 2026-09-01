@@ -161,10 +161,46 @@ export interface CoachServices {
     confidence: 'low' | 'medium' | 'high';
     caveat: string;
   } | null;
+  /**
+   * Deterministic load suggestions for the movements in today's session.
+   *
+   * Every value is produced by `_shared/progression.ts` from what the athlete
+   * has already lifted. The model may restate these and may explain the reason
+   * code; it may not compute one, adjust one, or supply a number where the list
+   * is empty. Structural types rather than imports, so the coach package keeps
+   * no dependency on the functions that call it.
+   */
+  progression(): CoachProgression[];
+  /** Comparable records set in the most recent completed session. */
+  records(): CoachRecord[];
   /** The week as the Plan tab shows it. */
   week(): { day: string; template: string; minutes: number; priority: number; stimulus: string }[];
   /** A versioned race definition, or null when none is published for the race. */
   raceDefinition(): { version: string; division: string; stations: string[] } | null;
+}
+
+/** One movement's suggestion, named rather than keyed — Coach speaks names. */
+export interface CoachProgression {
+  exercise: string;
+  /** Why, in the vocabulary the services decided in. Never invented here. */
+  reason_code: string;
+  dimension: 'load' | 'reps' | 'density' | 'none';
+  suggested_load: number | null;
+  load_unit: string | null;
+  suggested_reps: number | null;
+  /** The exposure the suggestion was read from, for "last time you did this". */
+  last_time: { date: string; load: number | null; reps: number | null; rpe: number | null } | null;
+  caveat: string | null;
+}
+
+/** A record, which is only a record against a prior comparable exposure. */
+export interface CoachRecord {
+  exercise: string;
+  kind: 'load' | 'reps';
+  value: number;
+  unit: string | null;
+  previous: number;
+  date: string;
 }
 
 /** Minimal LLM surface the turn needs, so the package holds no SDK dependency. */
