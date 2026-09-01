@@ -20,7 +20,8 @@
  * would corrupt the stimulus credit `complete-workout` already applied.
  */
 import {
-  clientFor, corsHeaders, HttpError, json, loadAthleteState, localDate, requireUser,
+  clientFor, corsHeaders, HttpError, json, loadAthleteState, localDate,
+  requireEntitlement, requireUser,
 } from '../_shared/context.ts';
 import { validateReshape, type QueueItem } from '../_shared/queue.ts';
 
@@ -40,6 +41,10 @@ Deno.serve(async (req) => {
 
     const db = clientFor(req);
     const user = await requireUser(db);
+    // The only mutating function that skipped this. `history` omits it on
+    // purpose — the athlete's own record survives a lapsed subscription — but
+    // reshaping the week is a change to the plan, and the plan is the product.
+    await requireEntitlement(db, user.id);
     const today = localDate(user.timezone);
     const body = await req.json().catch(() => null) as ReshapeBody | null;
 

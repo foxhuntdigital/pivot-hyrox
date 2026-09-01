@@ -13,6 +13,7 @@
     "coach:evals": "node --experimental-strip-types --env-file-if-exists=.env scripts/coach-evals.mjs",
     "functions:test": "node --experimental-strip-types --test supabase/functions/_shared/*.test.ts",
     "mobile:test": "node --experimental-strip-types --test apps/mobile/src/**/*.test.ts",
+    "scripts:test": "node --test scripts/lib/*.test.mjs",
     "functions:test:deno": "deno test --allow-env --no-check supabase/functions/_shared/*.deno-test.ts",
     "smoke": "node scripts/smoke.mjs",
     "functions:check": "deno check supabase/functions/*/index.ts",
@@ -20,10 +21,13 @@
     "seed:import": "node scripts/import-workouts.mjs",
     "seed:rules": "node scripts/import-programming-rules.mjs",
     "seed:taxonomy": "node scripts/apply-taxonomy.mjs",
+    "seed:prescriptions": "node scripts/apply-prescriptions.mjs",
+    "seed:fixtures": "node scripts/build-fixtures.mjs",
     "seed:prepare": "node scripts/prepare-pack.mjs",
     "seed:sheets": "node scripts/export-authoring-sheet.mjs",
+    "vocab:reconcile": "node scripts/reconcile-vocabulary.mjs",
     "db:verify": "./scripts/verify-schema.sh",
-    "test": "npm run engine:test && npm run coach:test && npm run functions:test && npm run functions:test:deno && npm run mobile:test",
+    "test": "npm run engine:test && npm run coach:test && npm run functions:test && npm run functions:test:deno && npm run mobile:test && npm run scripts:test",
     "postinstall": "node scripts/patch-native-deps.mjs"
   },
   "devDependencies": {

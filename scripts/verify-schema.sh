@@ -164,3 +164,98 @@ select 're-running the backfill adds nothing: ' || (
   from public.equipment_profile_items
   where profile_id = 'aaaaaaaa-0000-0000-0000-000000000004' and equipment_id = 'outdoor');
 SQL
+
+echo
+echo "=== prescription model (0011) ==="
+# The columns are only worth having if they refuse the shapes that made the old
+# encoding wrong. Each case below is a prescription that must not be storable:
+# a backwards rep range, a load with no basis to read it against, and a basis
+# that needs a number and did not get one.
+psql -X -A -t -v ON_ERROR_STOP=0 -d "$DB" <<'SQL'
+\set QUIET on
+create temp table probe(what text, rejected boolean);
+
+do $$
+declare
+  blk text;
+begin
+  select id into blk from content.workout_blocks limit 1;
+
+  begin
+    insert into content.block_exercises
+      (id, block_id, sequence_order, exercise_id, prescription_type,
+       quantity, quantity_unit, sets, reps_min, reps_max)
+      values ('probe_range', blk, 900, 'ex_back_squat', 'sets_reps', 4, 'reps', 4, 10, 6);
+    insert into probe values ('backwards rep range', false);
+  exception when check_violation then
+    insert into probe values ('backwards rep range', true);
+  end;
+
+  begin
+    insert into content.block_exercises
+      (id, block_id, sequence_order, exercise_id, prescription_type,
+       quantity, quantity_unit, sets, reps_min, load_value)
+      values ('probe_basis', blk, 901, 'ex_back_squat', 'sets_reps', 4, 'reps', 4, 6, 135);
+    insert into probe values ('load without a basis', false);
+  exception when check_violation then
+    insert into probe values ('load without a basis', true);
+  end;
+
+  begin
+    insert into content.block_exercises
+      (id, block_id, sequence_order, exercise_id, prescription_type,
+       quantity, quantity_unit, sets, reps_min, load_basis)
+      values ('probe_value', blk, 902, 'ex_back_squat', 'sets_reps', 4, 'reps', 4, 6, 'absolute');
+    insert into probe values ('absolute basis with no number', false);
+  exception when check_violation then
+    insert into probe values ('absolute basis with no number', true);
+  end;
+
+  -- And the shape that must be storable, or none of the above matters.
+  begin
+    insert into content.block_exercises
+      (id, block_id, sequence_order, exercise_id, prescription_type,
+       quantity, quantity_unit, sets, reps_min, reps_max,
+       rest_seconds, target_rpe, load_basis, load_value)
+      values ('probe_good', blk, 903, 'ex_back_squat', 'sets_reps', 4, 'reps', 4, 6, 8,
+              150, 8, 'absolute', 135);
+    insert into probe values ('a real 4x6-8 @135 accepted', true);
+  exception when others then
+    insert into probe values ('a real 4x6-8 @135 accepted', false);
+  end;
+end $$;
+\set QUIET off
+
+select what || ': ' || case when rejected then 'ok' else 'FAILED' end from probe order by what;
+SQL
+
+echo
+echo "=== supplemental role (0013) ==="
+psql -X -A -t -d "$DB" <<'SQL'
+\set QUIET on
+create temp table probe2(what text, ok boolean);
+do $$ begin
+  begin
+    update content.workout_templates set workout_role = 'supplemental'
+      where id = (select id from content.workout_templates limit 1);
+    insert into probe2 values ('supplemental with no type rejected', false);
+  exception when check_violation then
+    insert into probe2 values ('supplemental with no type rejected', true);
+  end;
+  begin
+    update content.workout_templates
+      set supplemental_load = 'high'
+      where id = (select id from content.workout_templates limit 1);
+    insert into probe2 values ('high supplemental load rejected', false);
+  exception when check_violation then
+    insert into probe2 values ('high supplemental load rejected', true);
+  end;
+end $$;
+\set QUIET off
+select what || ': ' || case when ok then 'ok' else 'FAILED' end from probe2 order by what;
+
+select 'every template still classifiable as primary: ' || count(*)
+  from content.workout_templates where workout_role = 'primary';
+select 'templates carrying a training_domain: ' || count(*)
+  from content.workout_templates where training_domain is not null;
+SQL

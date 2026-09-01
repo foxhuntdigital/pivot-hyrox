@@ -6,7 +6,7 @@
  * the summary reports what was done without framing it as a shortfall.
  */
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -14,11 +14,55 @@ import { VARIANT_LABEL } from '@pivot/engine';
 import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, InkPanel, Chip } from '@/components/primitives';
 import { useApp } from '@/state/store';
-import { mmss } from '@/state/steps';
+import { mmss } from '@/lib/format';
 import { buildSplits, splitTotals, fastestAndSlowest } from '@/state/splits';
 import { LOW_SLEEP_HOURS } from '@/lib/format';
 
 const RPE_CHOICES = [5, 6, 7, 8, 9];
+
+/**
+ * One correction. Empty means "the clock was right", never zero — a blank
+ * field must leave the measured value standing rather than overwrite it with
+ * nothing, which is why the value is null rather than 0 when cleared.
+ */
+function CorrectionField({
+  label, value, suffix, placeholder, accessibilityLabel, onChange,
+}: {
+  label: string;
+  value: number | null | undefined;
+  suffix: string;
+  placeholder?: string;
+  accessibilityLabel: string;
+  onChange: (v: number | null) => void;
+}) {
+  return (
+    <View style={{ flex: 1 }}>
+      <Label size="sm">{label}</Label>
+      <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+        <TextInput
+          accessibilityLabel={accessibilityLabel}
+          value={value == null ? '' : String(value)}
+          placeholder={placeholder ?? '—'}
+          placeholderTextColor={color.muted2}
+          keyboardType="numeric"
+          returnKeyType="done"
+          selectTextOnFocus
+          onChangeText={text => {
+            const cleaned = text.replace(/[^0-9.]/g, '');
+            if (cleaned === '') return onChange(null);
+            const n = Number(cleaned);
+            onChange(Number.isFinite(n) ? n : null);
+          }}
+          style={[t.rowTitle, {
+            fontSize: 15, color: color.ink, paddingVertical: 5, minWidth: 56,
+            borderBottomWidth: 1, borderBottomColor: color.rule,
+          }]}
+        />
+        <Text style={[t.meta, { color: color.muted, marginLeft: 5 }]}>{suffix}</Text>
+      </View>
+    </View>
+  );
+}
 
 export default function DoneScreen() {
   const router = useRouter();
@@ -40,6 +84,27 @@ export default function DoneScreen() {
   const splits = buildSplits(steps, state.step_seconds, sectionsDone);
   const totals = splitTotals(splits);
   const { fastest, slowest } = fastestAndSlowest(splits);
+  /**
+   * The efforts worth offering a correction on.
+   *
+   * A distance step is timed by the player and its distance is asserted by the
+   * Complete tap, which is right most of the time and wrong in the cases that
+   * matter: a treadmill the phone never saw, a timer left running through a
+   * water stop, a rep cut short. The split timer is one source of a run, not
+   * the only one (PRD §11 — "manual entry works without timer"), and this is
+   * the other one.
+   *
+   * Only completed, non-rest, measurable steps: there is nothing to correct
+   * about work that was never performed, and rest belongs to no movement.
+   */
+  const correctable = steps
+    .map((step, i) => ({ step, i }))
+    .filter(({ step, i }) =>
+      i < sectionsDone
+      && !step.rest
+      && step.exercise_id
+      && (step.prescription_type === 'distance' || step.prescription_type === 'duration'));
+
   // `plan.week` already counts the session just finished — the store adds it
   // the moment the workout completes rather than waiting for a refetch.
   const { done: weekDone, target: weekTarget } = plan.week;
@@ -188,6 +253,65 @@ export default function DoneScreen() {
                   <Text style={[t.meta, { width: 46, textAlign: 'right', color: color.muted }]}>
                     {mmss(sp.cumulative_seconds)}
                   </Text>
+                </View>
+              );
+            })}
+          </View>
+        </>
+      ) : null}
+
+      {correctable.length ? (
+        <>
+          <View style={{
+            flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between',
+            paddingHorizontal: space.gutter, paddingTop: 18, paddingBottom: 2,
+          }}>
+            <Label>Correct what was measured</Label>
+            <Text style={[t.meta, { color: color.muted }]}>optional</Text>
+          </View>
+          <Text style={[t.meta, {
+            paddingHorizontal: space.gutter, color: color.muted, paddingBottom: 6,
+          }]}>
+            Leave these alone if the clock had it right.
+          </Text>
+
+          <View style={{ paddingHorizontal: space.gutter }}>
+            {correctable.map(({ step, i }) => {
+              const entry = state.entries[i] ?? {};
+              const measured = state.step_seconds[i] ?? 0;
+              const patch = (p: { distance_meters?: number | null; seconds?: number | null }) =>
+                dispatch({ type: 'set_entry', step: i, entry: p });
+              return (
+                <View
+                  key={i}
+                  style={{
+                    paddingVertical: 10,
+                    borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
+                  }}
+                >
+                  <Text style={[t.rowTitle, { fontSize: 13, color: color.ink }]}>
+                    {step.label}
+                  </Text>
+                  <Text style={[t.meta, { color: color.muted, marginTop: 1 }]}>
+                    {step.qty} prescribed · {mmss(measured)} on the clock
+                  </Text>
+                  <View style={{ flexDirection: 'row', gap: 18, marginTop: 6 }}>
+                    <CorrectionField
+                      label="Distance"
+                      suffix="m"
+                      accessibilityLabel={`Actual distance for ${step.label}, in metres`}
+                      value={entry.distance_meters}
+                      onChange={v => patch({ distance_meters: v })}
+                    />
+                    <CorrectionField
+                      label="Time"
+                      suffix="sec"
+                      accessibilityLabel={`Actual time for ${step.label}, in seconds`}
+                      value={entry.seconds}
+                      placeholder={String(measured || '')}
+                      onChange={v => patch({ seconds: v })}
+                    />
+                  </View>
                 </View>
               );
             })}

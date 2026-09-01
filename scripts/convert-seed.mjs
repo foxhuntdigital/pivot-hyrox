@@ -18,6 +18,38 @@ const BOOL_COLUMNS = {
   exercise_equipment: ['required'],
 };
 
+/**
+ * Columns that are JSON text in SQLite and text[] in Postgres.
+ *
+ * SQLite has no array type, so the ontology's multi-valued fields (addendum §3)
+ * are authored as JSON and widened here — the same shape of mechanical
+ * transform as the boolean columns above, and for the same reason: one
+ * authoring source, and a conversion that is countable rather than hand-edited.
+ */
+const ARRAY_COLUMNS = {
+  exercises: [
+    'movement_families', 'training_qualities', 'movement_characters',
+    'exercise_role_eligibility', 'progression_tracks',
+  ],
+  workout_templates: ['modality'],
+};
+
+/** A JSON array in the dump becomes a Postgres array literal. */
+function toArrayLiteral(raw) {
+  if (raw === 'NULL' || raw === undefined) return `'{}'`;
+  const text = raw.startsWith("'") ? raw.slice(1, -1).replace(/''/g, "'") : raw;
+  let parsed;
+  try { parsed = JSON.parse(text); } catch { parsed = null; }
+  if (!Array.isArray(parsed)) {
+    throw new Error(`expected a JSON array, got ${raw.slice(0, 60)}`);
+  }
+  // Postgres array literal: {"a","b"}. Members are known vocabulary words, but
+  // quoting them anyway keeps a value with a comma or brace from splitting the
+  // literal, which is the failure this format invites.
+  const members = parsed.map(v => `"${String(v).replace(/(["\\])/g, '\\$1')}"`);
+  return `'{${members.join(',')}}'`;
+}
+
 /** Column order per table, read from the dump's own CREATE TABLE statements. */
 function parseSchema(sql) {
   const schema = {};
@@ -76,11 +108,16 @@ for (const m of sql.matchAll(/INSERT INTO "(\w+)" VALUES\(([\s\S]*?)\);\n/g)) {
     throw new Error(`${table}: ${cols.length} columns but ${values.length} values`);
   }
   const boolCols = BOOL_COLUMNS[table] ?? [];
+  const arrayCols = ARRAY_COLUMNS[table] ?? [];
   const mapped = values.map((v, i) => {
     if (boolCols.includes(cols[i])) {
       converted++;
       if (v === 'NULL') return 'NULL';
       return v.trim() === '1' ? 'true' : 'false';
+    }
+    if (arrayCols.includes(cols[i])) {
+      converted++;
+      return toArrayLiteral(v);
     }
     return v;
   });

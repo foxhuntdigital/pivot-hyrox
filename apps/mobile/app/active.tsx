@@ -16,8 +16,9 @@ import * as Haptics from 'expo-haptics';
 import { VARIANT_LABEL } from '@pivot/engine';
 import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { ActionButton, Label } from '@/components/primitives';
+import { SetEntryRow } from '@/components/SetEntry';
 import { useApp } from '@/state/store';
-import { mmss } from '@/state/steps';
+import { mmss } from '@/lib/format';
 import { buildSplits } from '@/state/splits';
 import { track, elapsedMinutes } from '@/lib/analytics';
 
@@ -52,6 +53,28 @@ export default function ActiveScreen() {
   const splits = buildSplits(steps, state.step_seconds, index);
   const splitSeconds = state.step_seconds[index] ?? 0;
   const lastSplit = splits.length ? splits[splits.length - 1] : null;
+
+  /**
+   * The weight from the previous set of this same movement, this session.
+   *
+   * Walks backwards from the current step rather than reading a stored "last
+   * value", because that is the only prior this screen can honestly offer: a
+   * cross-session comparable needs history the server does not serve yet, and
+   * showing a number from a different day as if it were today's would be the
+   * fabricated prior the performance rules exist to prevent.
+   */
+  const carryWeight = (() => {
+    if (step.set_number == null) return null;
+    for (let i = index - 1; i >= 0; i--) {
+      const prev = steps[i];
+      if (prev.exercise_id !== step.exercise_id) continue;
+      const w = state.entries[i]?.weight;
+      if (typeof w === 'number') return w;
+    }
+    return null;
+  })();
+
+  const entry = state.entries[index] ?? {};
 
   const complete = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -181,6 +204,21 @@ export default function ActiveScreen() {
           {step.qty}
         </Text>
         <Text style={[t.h2, { fontSize: 26, color: color.onDarkSoft }]}>{step.label}</Text>
+
+        {/* Only on a working set, and never on rest. Placed directly under the
+            movement because during a set it is the thing the athlete came here
+            to do; the clocks below matter more between sets than during one. */}
+        {step.set_number != null && !step.rest ? (
+          <SetEntryRow
+            entry={entry}
+            prescribedReps={step.prescribed_reps_min ?? null}
+            targetRpe={step.target_rpe ?? null}
+            carryWeight={carryWeight}
+            unit="lb"
+            logsLoad={step.logs_load !== false}
+            onChange={patch => dispatch({ type: 'set_entry', step: index, entry: patch })}
+          />
+        ) : null}
 
         <View style={{ height: 2, backgroundColor: color.ruleDark2, marginTop: 22 }} />
         <View style={{ flexDirection: 'row' }}>

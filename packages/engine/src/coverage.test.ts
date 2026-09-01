@@ -61,6 +61,9 @@ const SUBSTITUTIONS: Substitution[] = fixture.substitutions;
 const EXERCISE_INDEX = new Map(EXERCISES.map(e =>
   [e.id, { equipment: e.equipment, impact_level: e.impact_level }]));
 
+/** The full exercise record, for the ontology the eligibility index drops. */
+const EXERCISE_BY_ID = new Map(EXERCISES.map(e => [e.id, e]));
+
 /** The five goals the planner ever asks for (BASE_STIMULI). */
 const GOALS = ['aerobic_durability', 'threshold', 'strength', 'race_specific', 'recovery'] as const;
 type Goal = typeof GOALS[number];
@@ -261,5 +264,345 @@ describe('dumbbell-only coverage (expansion spec, QA acceptance test)', () => {
         `${profile}: 7 days produced ${distinct.size} distinct session(s) `
         + `(${[...distinct].join(', ')}) — the athlete is repeating`);
     }
+  });
+});
+
+/**
+ * True-strength coverage gate.
+ *
+ * The gate above already demands six distinct `strength` sessions for a
+ * dumbbell athlete, and it passes. It passes because `matchesStimulus` reads
+ * `primary_goal`, and twenty-one of the twenty-five templates carrying
+ * `primary_goal = 'strength'` are sled pushes, erg intervals, hill repeats and
+ * carries. The library says the week's two strength exposures are covered. What
+ * the athlete is handed is *Burpee Broad Jump — Strength-Power*.
+ *
+ * So this is the same floor asked honestly. Nothing here is a new standard: it
+ * reuses FLOORS.strength, because the argument for six has not changed — the
+ * planner asks for strength twice a week (BASE_STIMULI) and a twice-weekly
+ * stimulus needs six distinct sessions behind it not to repeat across a block.
+ *
+ * ── Why the test is structural and not a label ────────────────────────────────
+ *
+ * `isTrueStrength` does not ask what a template is *called*. It asks whether it
+ * prescribes working sets with deliberate rest between them — `sets` and
+ * `rest_seconds` on a block exercise (migration 0011). That is the PRD's own
+ * definition of true strength, and making the gate structural is what stops the
+ * cheapest possible fix from working: relabelling a metcon `training_domain =
+ * 'strength'` moves it no closer to passing, because it still has no sets and
+ * no rest. To satisfy this gate a session has to actually be one.
+ *
+ * ── This gate ships red, and that is the point ────────────────────────────────
+ *
+ * Today it reports zero for every profile. Four templates in the library are
+ * true strength (HYROX Legs A/B, Push A, Pull A), none of them reachable
+ * without a barbell, and none yet carrying a structured prescription. Red here
+ * is the honest reading of the library, and it is the release gate for the one
+ * line in rank.ts that switches `matchesStimulus` from `primary_goal` to
+ * `training_domain`. Flipping that while this is red would take the week's two
+ * strength exposures from a library of four — zero for a dumbbell athlete — and
+ * `today` would start returning no_session for strength.
+ *
+ * Green means the flip is safe. Nothing else does.
+ */
+describe('true strength coverage (the gate on reclassification)', () => {
+  /**
+   * Equipment an athlete plausibly has, from least to most. `db` is the binding
+   * case, as above. The barbell profile is a real strength gym and deliberately
+   * carries no HYROX kit — a squat rack is not a sandbag, and a library that
+   * only reaches its strength content through station equipment has not solved
+   * strength.
+   */
+  const STRENGTH_PROFILES = {
+    'db': ['db'],
+    'db + bench': ['db', 'bench', 'outdoor'],
+    'barbell gym': ['barbell', 'rack', 'db', 'bench', 'rig', 'cable', 'bands', 'kb', 'box'],
+  } as const;
+
+  /**
+   * Resistance work organised around working sets with deliberate recovery
+   * between them.
+   *
+   * The domain check reads `training_domain` and falls back to `primary_goal`,
+   * so the gate measures the same thing before and after the taxonomy pass and
+   * cannot quietly change meaning underneath the flip it guards.
+   */
+  function isTrueStrength(t: WorkoutTemplate): boolean {
+    const domain = t.training_domain ?? t.primary_goal;
+    if (domain !== 'strength') return false;
+    return prescribesWorkingSets(t) && containsAnchor(t);
+  }
+
+  /** Working sets with deliberate recovery between them. */
+  function prescribesWorkingSets(t: WorkoutTemplate): boolean {
+    return t.blocks.some(b => b.exercises.some(e =>
+      e.sets != null && e.sets > 0 && e.rest_seconds != null));
+  }
+
+  /**
+   * At least one stable, repeatable movement (addendum §15).
+   *
+   * Working sets alone are not enough. A thruster circuit written as 4 x 8 with
+   * two minutes rest satisfies the structural test and is still not a session
+   * anyone can progressively overload and measure across a block — thrusters
+   * are `variable_complex`, and their progression is density and output, not a
+   * heavier bar. Without this clause the gate could be passed by exactly the
+   * kind of content the addendum exists to keep out of the strength count.
+   */
+  function containsAnchor(t: WorkoutTemplate): boolean {
+    return t.blocks.some(b => b.exercises.some(e => {
+      const cls = EXERCISE_BY_ID.get(e.exercise_id)?.progression_class;
+      return cls === 'anchor' || cls === 'accessory_anchor';
+    }));
+  }
+
+  /** What the library holds, printed on failure so a shortfall says where it is. */
+  function inventory(): string {
+    const domainStrength = TEMPLATES.filter(t =>
+      (t.training_domain ?? t.primary_goal) === 'strength');
+    const structured = domainStrength.filter(isTrueStrength);
+    const lines = [
+      `  library: ${TEMPLATES.length} templates`,
+      `    claim the strength domain : ${domainStrength.length}`,
+      `    prescribe sets + rest     : ${structured.length}`,
+    ];
+    if (structured.length) {
+      lines.push(`    families: ${[...familiesOf(structured)].sort().join(', ')}`);
+    }
+    const unstructured = domainStrength.filter(t => !isTrueStrength(t));
+    if (unstructured.length) {
+      lines.push(`    claiming strength without working sets (${unstructured.length}):`);
+      for (const t of unstructured.slice(0, 8)) {
+        lines.push(`      ${t.workout_family.padEnd(28)} ${t.name}`);
+      }
+      if (unstructured.length > 8) lines.push(`      … and ${unstructured.length - 8} more`);
+    }
+    return lines.join('\n');
+  }
+
+  function trueStrengthFor(equipment: string[], minutes: number, recovery: RecoveryState) {
+    return candidatesFor(athlete({
+      available_equipment: [...equipment],
+      available_minutes: minutes,
+      recovery_state: recovery,
+    })).filter(isTrueStrength);
+  }
+
+  for (const [profile, equipment] of Object.entries(STRENGTH_PROFILES)) {
+    for (const recovery of RECOVERY_STATES) {
+      const floor = FLOORS.strength[recovery];
+      if (floor === null) continue;
+
+      test(`${profile} · ${recovery} recovery · ${floor}+ true-strength sessions at every time budget`, () => {
+        for (const minutes of TIME_BUDGETS) {
+          const found = trueStrengthFor([...equipment], minutes, recovery);
+
+          assert.ok(found.length >= floor,
+            `${profile}, ${recovery} recovery, ${minutes} min: ${found.length} true-strength `
+            + `session(s), need ${floor}\n${inventory()}`);
+
+          assert.ok(familiesOf(found).size >= FAMILY_FLOOR,
+            `${profile}, ${recovery} recovery, ${minutes} min: true strength comes from `
+            + `${familiesOf(found).size} family/families (${[...familiesOf(found)].join(', ')}), `
+            + `need ${FAMILY_FLOOR} — one session retuned is not a strength programme`);
+        }
+      });
+    }
+  }
+
+  /**
+   * The claim the reclassification actually makes.
+   *
+   * Every template asserting the strength domain must prescribe working sets.
+   * This is the test that fails loudly if a future authoring pass takes the
+   * shortcut of relabelling conditioning rather than writing strength.
+   */
+  test('nothing claims the strength domain without prescribing working sets', () => {
+    const liars = TEMPLATES
+      .filter(t => (t.training_domain ?? t.primary_goal) === 'strength')
+      .filter(t => !isTrueStrength(t));
+
+    assert.equal(liars.length, 0,
+      `${liars.length} template(s) claim strength but prescribe no working sets `
+      + `with rest — holding weights is not strength\n${inventory()}`);
+  });
+
+  /**
+   * A dumbbell athlete must be able to train strength at all.
+   *
+   * Separated from the floors because it fails differently: a floor shortfall
+   * says the library is thin, this says the athlete has no way in. Today it is
+   * zero — every true-strength template opens with a barbell lift, and
+   * checkEligibility drops the whole template when one exercise cannot be
+   * satisfied, so `ex_back_squat` alone rules out HYROX Legs A. Authoring more
+   * barbell sessions does not move this number; dumbbell-native templates or
+   * substitution edges do.
+   */
+  test('a dumbbell athlete has some way into strength', () => {
+    const found = trueStrengthFor(['db'], 60, 'good');
+    assert.ok(found.length > 0,
+      'a dumbbell-only athlete can reach no true-strength session at all — '
+      + 'checkEligibility drops a template when a single exercise is unsatisfiable, '
+      + `so a barbell opener rules out the whole session\n${inventory()}`);
+  });
+});
+
+/**
+ * Library QA reports (Strength & Athletic Development addendum §18).
+ *
+ * These are not floors on a single stimulus — they describe the shape of the
+ * library as a whole, and each one names a way a strength library can look
+ * complete while being unusable.
+ *
+ * They are reports first and assertions second, because most of what they
+ * measure is authoring judgement rather than a number the engine can defend.
+ * Where a real failure mode has a clear line, it is asserted; where it does
+ * not, the numbers are printed so an authoring pass can see them.
+ */
+describe('strength library QA (addendum §18)', () => {
+  const ANCHOR_CLASSES = new Set(['anchor', 'accessory_anchor']);
+
+  const anchors = EXERCISES.filter(e => ANCHOR_CLASSES.has(e.progression_class ?? ''));
+
+  /** Every equipment profile QA has to answer for. */
+  const QA_PROFILES = {
+    'db only': ['db'],
+    'db + bench + outdoor': ['db', 'bench', 'outdoor'],
+    'strength gym': ['barbell', 'rack', 'db', 'bench', 'rig', 'cable', 'bands', 'kb', 'box'],
+    'minimal / bodyweight': [],
+  } as const;
+
+  const satisfiedBy = (e: WorkoutTemplate['blocks'][number]['exercises'][number] | { equipment: string[] }, have: Set<string>) =>
+    !('equipment' in e) || e.equipment.length === 0 || e.equipment.some(q => have.has(q));
+
+  test('report: primary-anchor eligibility by equipment profile', () => {
+    const lines: string[] = [];
+    for (const [profile, equipment] of Object.entries(QA_PROFILES)) {
+      const have = new Set<string>([...equipment, 'bodyweight']);
+      const reachable = anchors.filter(a => satisfiedBy(a, have));
+      const families = new Set(reachable.flatMap(a => a.movement_families ?? []));
+      lines.push(`  ${profile.padEnd(22)} ${String(reachable.length).padStart(3)} anchors`
+        + `  across ${families.size} movement families`);
+    }
+    console.log(`\nanchor eligibility (${anchors.length} anchors in the library):\n${lines.join('\n')}`);
+
+    // The one hard line: an athlete with dumbbells must be able to reach an
+    // anchor in each of the primary patterns, or "progressive overload" is a
+    // claim the library cannot honour for them.
+    const have = new Set(['db', 'bodyweight']);
+    const reachable = anchors.filter(a => satisfiedBy(a, have));
+    const families = new Set(reachable.flatMap(a => a.movement_families ?? []));
+    for (const required of ['squat', 'hinge', 'horizontal_push', 'horizontal_pull']) {
+      assert.ok(families.has(required),
+        `a dumbbell athlete can reach no anchor in the ${required} pattern — `
+        + `reachable families: ${[...families].sort().join(', ') || 'none'}`);
+    }
+  });
+
+  test('report: movement-family coverage, and overconcentration', () => {
+    const byFamily: Record<string, number> = {};
+    for (const e of anchors) {
+      for (const f of e.movement_families ?? []) byFamily[f] = (byFamily[f] ?? 0) + 1;
+    }
+    const rows = Object.entries(byFamily).sort((a, b) => b[1] - a[1]);
+    console.log(`\nanchor coverage by movement family:\n`
+      + rows.map(([f, n]) => `  ${String(n).padStart(3)}  ${f}`).join('\n'));
+
+    // Overconcentration: a library that is mostly squats and hinges reads as
+    // broad on a count and trains one half of the body.
+    const total = rows.reduce((n, [, c]) => n + c, 0);
+    const top = rows[0];
+    if (total >= 8 && top) {
+      assert.ok(top[1] / total <= 0.5,
+        `${top[1]} of ${total} anchors are ${top[0]} — one pattern is over half the library`);
+    }
+
+    // The addendum's own required patterns (§4). Reported rather than asserted
+    // while the catalogue is still being authored; the assertion above is the
+    // one that has to hold today.
+    const REQUIRED = ['squat', 'hinge', 'lunge', 'horizontal_push', 'vertical_push',
+      'horizontal_pull', 'vertical_pull', 'carry'];
+    const missing = REQUIRED.filter(f => !byFamily[f]);
+    if (missing.length) {
+      console.log(`  → no anchor yet for: ${missing.join(', ')}`);
+    }
+  });
+
+  test('report: progression-class distribution', () => {
+    const byClass: Record<string, number> = {};
+    for (const e of EXERCISES) {
+      byClass[e.progression_class ?? 'not governed'] =
+        (byClass[e.progression_class ?? 'not governed'] ?? 0) + 1;
+    }
+    console.log(`\nprogression class (${EXERCISES.length} exercises):\n`
+      + Object.entries(byClass).sort((a, b) => b[1] - a[1])
+        .map(([c, n]) => `  ${String(n).padStart(3)}  ${c}`).join('\n'));
+
+    // Complexity must not be standing in for progressive overload. A library
+    // whose strength movements are mostly variable_complex has plenty to do
+    // and nothing to measure.
+    const anchorCount = byClass.anchor ?? 0;
+    const complexCount = byClass.variable_complex ?? 0;
+    assert.ok(anchorCount >= complexCount,
+      `${complexCount} variable/complex movements against ${anchorCount} anchors — `
+      + 'complexity is substituting for progressive overload');
+  });
+
+  /**
+   * Every ontology field an exercise needs to be programmable.
+   *
+   * A movement with no progression class either gets no progression or gets
+   * load-and-reps by default, and load-and-reps on a box jump is how a
+   * plyometric ladder becomes an injury. Cardio and mobility are exempt: they
+   * progress through the running and readiness paths, and null there means
+   * "not governed by strength progression" rather than "unclassified".
+   */
+  test('every strength-relevant exercise carries a progression class', () => {
+    // A movement that can only ever be a primer is exempt. Breathing and
+    // activation work is trunk work — it earns its movement family — but it is
+    // prescribed to prepare for the session, not to be overloaded across a
+    // block, and inventing a progression track for it would put a number
+    // behind something nobody intends to progress.
+    const primerOnly = (e: Exercise) => {
+      const roles = e.exercise_role_eligibility ?? [];
+      return roles.length > 0 && roles.every(r => r === 'primer');
+    };
+
+    const unclassified = EXERCISES.filter(e =>
+      (e.movement_families?.length ?? 0) > 0 && !e.progression_class && !primerOnly(e));
+
+    assert.deepEqual(unclassified.map(e => e.id), [],
+      'these movements have a movement family but no progression class, so the '
+      + 'progression service has no rule to apply to them');
+  });
+
+  test('an anchor always has something to progress on', () => {
+    const broken = anchors.filter(a =>
+      (a.progression_tracks?.length ?? 0) === 0 || a.progression_tracks?.includes('none'));
+    assert.deepEqual(broken.map(a => a.id), [],
+      'an anchor exists to be progressed and measured; one with no track is a contradiction');
+  });
+
+  /**
+   * Prescription roles must be roles the movement can actually hold (§6).
+   *
+   * The eligibility list is the guard against a library that quietly promotes a
+   * finisher into a primary lift to fill a gap in the week.
+   */
+  test('no session gives a movement a role it is not eligible for', () => {
+    const violations: string[] = [];
+    for (const t of TEMPLATES) {
+      for (const b of t.blocks) {
+        for (const e of b.exercises) {
+          if (!e.exercise_role) continue;
+          const eligible = EXERCISE_BY_ID.get(e.exercise_id)?.exercise_role_eligibility ?? [];
+          if (!eligible.includes(e.exercise_role)) {
+            violations.push(`${t.id}: ${e.exercise_id} as ${e.exercise_role} `
+              + `(eligible: ${eligible.join(', ') || 'none'})`);
+          }
+        }
+      }
+    }
+    assert.deepEqual(violations, []);
   });
 });

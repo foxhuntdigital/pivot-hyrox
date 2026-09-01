@@ -1,0 +1,64 @@
+{
+  "note": "Ontology for the existing catalogue (addendum §3). Classification of what is already there, authored before the library expands so new movements land in a shape that holds them.",
+  "progression_class_note": "NULL progression_class means the strength progression service does not govern this movement — runs, ergs and mobility progress through the running/readiness paths, not through load-and-reps. Leaving it null is how the service knows to keep its hands off, and is different from a movement that has no valid progression.",
+  "columns": ["movement_families","training_qualities","movement_characters","complexity_level","exercise_role_eligibility","progression_class","progression_tracks","exercise_family_id","history_comparability_group"],
+  "exercises": {
+    "ex_back_squat":            [["squat"],["absolute_strength","functional_strength"],["foundational","bilateral"],"intermediate",["primary_strength","secondary_strength"],"anchor",["load","reps"],"back_squat","back_squat"],
+    "ex_front_squat":           [["squat"],["absolute_strength","functional_strength"],["foundational","bilateral","technical"],"advanced",["primary_strength","secondary_strength"],"anchor",["load","reps"],"front_squat","front_squat"],
+    "ex_goblet_squat":          [["squat"],["functional_strength","hypertrophy"],["foundational","bilateral"],"basic",["primary_strength","secondary_strength","primer"],"anchor",["load","reps"],"goblet_squat","goblet_squat"],
+    "ex_air_squat":             [["squat"],["functional_strength","strength_endurance"],["foundational","simple","bilateral"],"basic",["primer","accessory","finisher"],"accessory_anchor",["reps","tempo"],"bodyweight_squat","air_squat"],
+
+    "ex_deadlift":              [["hinge"],["absolute_strength"],["foundational","bilateral","technical"],"advanced",["primary_strength"],"anchor",["load","reps"],"deadlift","conventional_deadlift"],
+    "ex_romanian_deadlift":     [["hinge"],["absolute_strength","hypertrophy"],["foundational","bilateral"],"intermediate",["primary_strength","secondary_strength"],"anchor",["load","reps"],"romanian_deadlift","romanian_deadlift"],
+    "ex_kettlebell_swing":      [["hinge"],["power","strength_endurance"],["ballistic","explosive","bilateral"],"intermediate",["power","finisher","secondary_strength"],"developmental",["load","reps","velocity"],"kettlebell_swing","kettlebell_swing"],
+    "ex_glute_bridge":          [["hinge","accessory_isolation"],["structural_resilience","hypertrophy"],["foundational","simple","bilateral"],"basic",["accessory","primer"],"accessory_anchor",["load","reps","tempo"],"glute_bridge","glute_bridge"],
+
+    "ex_bulgarian_split_squat": [["lunge"],["functional_strength","hypertrophy"],["foundational","unilateral","stability_demanding"],"intermediate",["primary_strength","secondary_strength","accessory"],"anchor",["load","reps"],"split_squat","bulgarian_split_squat"],
+    "ex_reverse_lunge":         [["lunge"],["functional_strength","hypertrophy"],["foundational","unilateral"],"basic",["secondary_strength","accessory"],"anchor",["load","reps"],"reverse_lunge","reverse_lunge"],
+    "ex_step_up":               [["lunge"],["functional_strength","hypertrophy"],["foundational","unilateral"],"basic",["secondary_strength","accessory"],"anchor",["load","reps"],"step_up","step_up"],
+    "ex_box_step_over":         [["lunge"],["strength_endurance","functional_strength"],["simple","unilateral"],"basic",["accessory","finisher"],"developmental",["reps","distance","density"],"step_up","box_step_over"],
+    "ex_walking_lunge":         [["lunge"],["strength_endurance","functional_strength"],["unilateral","loaded_locomotion"],"basic",["secondary_strength","finisher"],"developmental",["load","distance","reps"],"walking_lunge","walking_lunge"],
+    "ex_sandbag_walking_lunge": [["lunge","carry"],["strength_endurance","functional_strength"],["unilateral","loaded_locomotion","hybrid_specific"],"intermediate",["finisher","secondary_strength"],"developmental",["load","distance","reps"],"walking_lunge","sandbag_walking_lunge"],
+
+    "ex_push_up":               [["horizontal_push"],["functional_strength","hypertrophy","strength_endurance"],["foundational","bilateral"],"basic",["secondary_strength","accessory","finisher"],"anchor",["reps","load","tempo"],"push_up","push_up"],
+    "ex_incline_db_press":      [["horizontal_push"],["functional_strength","hypertrophy"],["foundational","bilateral"],"basic",["secondary_strength","accessory"],"anchor",["load","reps"],"db_bench_press","incline_db_press"],
+    "ex_trx_push_up":           [["horizontal_push"],["functional_strength","strength_endurance"],["bilateral","stability_demanding"],"basic",["accessory","finisher"],"developmental",["reps","range_of_motion","tempo"],"push_up","trx_push_up"],
+
+    "ex_landmine_press":        [["vertical_push"],["functional_strength","hypertrophy"],["unilateral","stability_demanding"],"intermediate",["secondary_strength","accessory"],"anchor",["load","reps"],"landmine_press","landmine_press"],
+    "ex_push_press":            [["vertical_push","olympic_explosive"],["power","absolute_strength"],["explosive","bilateral","technical"],"intermediate",["power","primary_strength"],"developmental",["load","velocity","technical"],"push_press","push_press"],
+
+    "ex_db_row":                [["horizontal_pull"],["functional_strength","hypertrophy"],["foundational","unilateral"],"basic",["secondary_strength","accessory"],"anchor",["load","reps"],"db_row","db_row"],
+    "ex_cable_row":             [["horizontal_pull"],["functional_strength","hypertrophy"],["foundational","bilateral"],"basic",["secondary_strength","accessory"],"anchor",["load","reps"],"seated_row","cable_row"],
+    "ex_trx_row":               [["horizontal_pull"],["functional_strength","strength_endurance"],["bilateral","stability_demanding"],"basic",["accessory","secondary_strength"],"developmental",["reps","range_of_motion","tempo"],"inverted_row","trx_row"],
+    "ex_pull_up":               [["vertical_pull"],["absolute_strength","functional_strength"],["foundational","bilateral"],"intermediate",["primary_strength","secondary_strength"],"anchor",["reps","load"],"vertical_pull","pull_up"],
+
+    "ex_farmer_carry":          [["carry"],["functional_strength","strength_endurance","structural_resilience"],["loaded_locomotion","bilateral"],"basic",["trunk_carry","finisher","secondary_strength"],"anchor",["load","distance"],"bilateral_carry","farmer_carry"],
+    "ex_sandbag_carry":         [["carry"],["functional_strength","strength_endurance"],["loaded_locomotion","bilateral"],"basic",["trunk_carry","finisher"],"developmental",["load","distance"],"bilateral_carry","sandbag_carry"],
+    "ex_sandbag_front_rack_march":[["carry","trunk"],["functional_strength","structural_resilience"],["loaded_locomotion","stability_demanding"],"intermediate",["trunk_carry","accessory"],"developmental",["load","distance"],"front_rack_carry","sandbag_front_rack_march"],
+
+    "ex_pallof_press":          [["trunk","rotation"],["structural_resilience","functional_strength"],["stability_demanding","rotational"],"basic",["trunk_carry","accessory"],"accessory_anchor",["load","reps","tempo"],"anti_rotation","pallof_press"],
+    "ex_side_plank":            [["trunk"],["structural_resilience"],["stability_demanding","unilateral"],"basic",["trunk_carry","accessory"],"accessory_anchor",["volume","tempo"],"lateral_trunk","side_plank"],
+    "ex_breathing_core_reset":  [["trunk"],["structural_resilience"],["foundational","simple"],"basic",["primer"],null,[],"trunk_primer","breathing_core_reset"],
+    "ex_landmine_rotation":     [["rotation"],["athletic_multiplanar"],["rotational","multiplanar","unilateral"],"intermediate",["accessory","trunk_carry"],"developmental",["load","reps","technical"],"rotational_press","landmine_rotation"],
+
+    "ex_box_jump":              [["jump_plyometric"],["power","plyometric_reactive"],["explosive","ballistic","bilateral"],"intermediate",["power","primer"],"developmental",["plyometric","technical","volume"],"vertical_jump","box_jump"],
+    "ex_burpee_broad_jump":     [["jump_plyometric","ground_get_up","complex_total_body"],["plyometric_reactive","integrated_complex","strength_endurance"],["explosive","ballistic","complex","hybrid_specific"],"intermediate",["finisher","power"],"variable_complex",["reps","density","distance","work_rest"],"burpee_broad_jump","burpee_broad_jump"],
+    "ex_jump_rope":             [["jump_plyometric"],["plyometric_reactive"],["reactive","bilateral"],"basic",["primer","finisher"],"developmental",["plyometric","density","work_rest"],"pogo","jump_rope"],
+
+    "ex_wall_ball":             [["complex_total_body"],["strength_endurance","power"],["explosive","hybrid_specific"],"basic",["finisher"],"variable_complex",["reps","work_rest","density"],"wall_ball","wall_ball"],
+    "ex_bear_crawl":            [["complex_total_body","trunk"],["athletic_multiplanar","structural_resilience"],["complex","contralateral","multiplanar","stability_demanding"],"basic",["primer","finisher"],"variable_complex",["distance","density","work_rest"],"quadrupedal","bear_crawl"],
+
+    "ex_sled_push":             [["sled_resisted_locomotion"],["strength_endurance","power"],["loaded_locomotion","hybrid_specific"],"basic",["finisher","power"],"variable_complex",["load","distance","work_rest"],"sled","sled_push"],
+    "ex_sled_pull":             [["sled_resisted_locomotion"],["strength_endurance","power"],["loaded_locomotion","hybrid_specific"],"basic",["finisher","power"],"variable_complex",["load","distance","work_rest"],"sled","sled_pull"],
+
+    "ex_run":                   [[],[],[],null,[],null,[],null,null],
+    "ex_rowerg":                [[],[],[],null,[],null,[],null,null],
+    "ex_skierg":                [[],[],[],null,[],null,[],null,null],
+    "ex_spin_bike":             [[],[],[],null,[],null,[],null,null],
+    "ex_incline_walk":          [[],[],[],null,[],null,[],null,null],
+    "ex_running_drills":        [[],[],[],"basic",["primer"],null,[],null,null],
+    "ex_mobility_flow":         [[],["structural_resilience"],["foundational"],"basic",["primer"],null,[],null,null],
+    "ex_boxing_bag":            [[],["strength_endurance"],["hybrid_specific"],"basic",["finisher"],null,[],null,null],
+    "ex_pilates_reformer":      [[],[],[],null,[],null,[],null,null]
+  }
+}

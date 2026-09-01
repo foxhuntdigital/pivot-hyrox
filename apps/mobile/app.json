@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png",
-        "backgroundColor": "#1F2226"
+        "backgroundColor": "#1F252C"
       }
     },
     "plugins": [

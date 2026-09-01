@@ -9,7 +9,7 @@
  * athlete saw the actual numbers was one step at a time inside the player, by
  * which point they had already begun.
  *
- * Quantities are formatted by `formatQuantity` from `state/steps`, the same
+ * Quantities are formatted by `formatPrescription` from `state/steps`, the same
  * function the player uses, so what is promised here and what is asked for
  * there cannot drift apart.
  */
@@ -20,7 +20,8 @@ import type { WorkoutBlock } from '@pivot/engine';
 import { color, type as t } from '@/theme/tokens';
 import { Label } from '@/components/primitives';
 import { exerciseById } from '@/data/content';
-import { blockLabel, formatQuantity, mmss, titleCase } from '@/state/steps';
+import { mmss } from '@/lib/format';
+import { blockLabel, formatPrescription, titleCase } from '@/state/steps';
 
 /** How the block's own volume reads at a glance: "3 rounds", "12 min". */
 function blockVolume(block: WorkoutBlock): string | null {
@@ -126,8 +127,7 @@ export function FullWorkout({
                 {block.exercises.map((be, j) => (
                   <ExerciseRow
                     key={`${be.exercise_id}-${j}`}
-                    quantity={formatQuantity(
-                      be.prescription_type, be.quantity, be.quantity_unit).text}
+                    quantity={formatPrescription(be)}
                     name={exerciseById.get(be.exercise_id)?.name
                       ?? titleCase(be.exercise_id.replace(/^ex_/, ''))}
                     note={be.intensity_note ?? null}

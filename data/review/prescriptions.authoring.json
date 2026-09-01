@@ -1,0 +1,95 @@
+{
+  "note": "Rest between working sets, which the dump never carried. Fill rest_seconds and re-run scripts/apply-prescriptions.mjs --rest to apply. Until then the true-strength coverage gate stays red.",
+  "rows": [
+    {
+      "id": "wo_hyrox_legs_a_b1_e1",
+      "exercise_id": "ex_back_squat",
+      "sets": 4,
+      "rest_seconds": null
+    },
+    {
+      "id": "wo_hyrox_legs_a_b1_e2",
+      "exercise_id": "ex_bulgarian_split_squat",
+      "sets": 3,
+      "rest_seconds": null
+    },
+    {
+      "id": "wo_hyrox_legs_a_b1_e3",
+      "exercise_id": "ex_walking_lunge",
+      "sets": 3,
+      "rest_seconds": null
+    },
+    {
+      "id": "wo_hyrox_legs_a_b1_e5",
+      "exercise_id": "ex_pallof_press",
+      "sets": 3,
+      "rest_seconds": null
+    },
+    {
+      "id": "wo_hyrox_legs_b_b1_e1",
+      "exercise_id": "ex_front_squat",
+      "sets": 4,
+      "rest_seconds": null
+    },
+    {
+      "id": "wo_hyrox_legs_b_b1_e2",
+      "exercise_id": "ex_romanian_deadlift",
+      "sets": 3,
+      "rest_seconds": null
+    },
+    {
+      "id": "wo_hyrox_legs_b_b1_e3",
+      "exercise_id": "ex_reverse_lunge",
+      "sets": 3,
+      "rest_seconds": null
+    },
+    {
+      "id": "wo_hyrox_push_a_b1_e1",
+      "exercise_id": "ex_push_press",
+      "sets": 4,
+      "rest_seconds": null
+    },
+    {
+      "id": "wo_hyrox_push_a_b1_e2",
+      "exercise_id": "ex_incline_db_press",
+      "sets": 3,
+      "rest_seconds": null
+    },
+    {
+      "id": "wo_hyrox_push_a_b1_e3",
+      "exercise_id": "ex_landmine_press",
+      "sets": 3,
+      "rest_seconds": null
+    },
+    {
+      "id": "wo_hyrox_push_a_b1_e4",
+      "exercise_id": "ex_trx_push_up",
+      "sets": 3,
+      "rest_seconds": null
+    },
+    {
+      "id": "wo_hyrox_push_a_b1_e5",
+      "exercise_id": "ex_wall_ball",
+      "sets": 4,
+      "rest_seconds": null
+    },
+    {
+      "id": "wo_hyrox_pull_a_b1_e1",
+      "exercise_id": "ex_deadlift",
+      "sets": 4,
+      "rest_seconds": null
+    },
+    {
+      "id": "wo_hyrox_pull_a_b1_e2",
+      "exercise_id": "ex_db_row",
+      "sets": 3,
+      "rest_seconds": null
+    },
+    {
+      "id": "wo_hyrox_pull_a_b1_e3",
+      "exercise_id": "ex_pull_up",
+      "sets": 3,
+      "rest_seconds": null
+    }
+  ]
+}

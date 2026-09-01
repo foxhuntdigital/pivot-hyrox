@@ -64,12 +64,36 @@ const equipByExercise = {};
 for (const r of tables.exercise_equipment) {
   (equipByExercise[r.exercise_id] ??= []).push(r.equipment_id);
 }
+/** Ontology arrays are JSON text in the dump (see scripts/import-ontology.mjs). */
+function jsonArray(raw) {
+  if (raw === null || raw === undefined || raw === '') return [];
+  if (Array.isArray(raw)) return raw;
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    throw new Error(`exercise ontology field is not a JSON array: ${String(raw).slice(0, 60)}`);
+  }
+}
+
 const exercises = tables.exercises.map(e => ({
   id: e.id,
   name: e.name,
   impact_level: e.impact_level,
   postpartum_friendly: e.postpartum_friendly === 1,
   equipment: equipByExercise[e.id] ?? [],
+  // Ontology (addendum §3). The engine does not rank on these yet; the library
+  // QA gates read them, and the progression service will branch on
+  // progression_class.
+  movement_families: jsonArray(e.movement_families),
+  training_qualities: jsonArray(e.training_qualities),
+  movement_characters: jsonArray(e.movement_characters),
+  complexity_level: e.complexity_level ?? null,
+  exercise_role_eligibility: jsonArray(e.exercise_role_eligibility),
+  progression_class: e.progression_class ?? null,
+  progression_tracks: jsonArray(e.progression_tracks),
+  exercise_family_id: e.exercise_family_id ?? null,
+  history_comparability_group: e.history_comparability_group ?? null,
 }));
 
 // Blocks with their exercises.
@@ -92,9 +116,23 @@ for (const b of tables.workout_blocks) {
         exercise_id: x.exercise_id,
         sequence_order: x.sequence_order,
         prescription_type: x.prescription_type,
+        // The role this movement plays in THIS session (addendum §6).
+        ...(x.exercise_role ? { exercise_role: x.exercise_role } : {}),
         quantity: x.quantity,
         quantity_unit: x.quantity_unit,
         intensity_note: x.intensity_note,
+        // Structured strength prescription (migration 0011). Emitted only where
+        // the row has one, so a distance or duration exercise keeps the shape
+        // it has always had rather than gaining seven nulls.
+        ...(x.sets == null ? {} : {
+          sets: x.sets,
+          reps_min: x.reps_min,
+          reps_max: x.reps_max,
+          rest_seconds: x.rest_seconds,
+          target_rpe: x.target_rpe,
+          load_basis: x.load_basis,
+          load_value: x.load_value,
+        }),
       })),
   });
 }
@@ -134,6 +172,11 @@ const templates = tables.workout_templates.map(t => ({
   requires_ski: t.requires_ski === 1,
   description: t.description,
   coaching_notes: t.coaching_notes,
+  // Taxonomy (migration 0013). Null until the classification pass runs; the
+  // engine reads primary_goal until the coverage gate allows the switch.
+  training_domain: t.training_domain ?? null,
+  session_type: t.session_type ?? null,
+  workout_role: t.workout_role ?? 'primary',
   tags: tagsByWorkout[t.id] ?? [],
   variants: variantsByWorkout[t.id] ?? [],
   blocks: (blocksByWorkout[t.id] ?? []).sort((a, b) => a.block_order - b.block_order),
@@ -147,8 +190,23 @@ const substitutions = tables.substitutions.map(s => ({
 }));
 
 const out = { exercises, templates, substitutions, equipment: tables.equipment };
-writeFileSync(new URL('../tests/engine-fixtures/content.json', import.meta.url),
-  JSON.stringify(out, null, 2));
+const json = JSON.stringify(out, null, 2);
+
+/**
+ * Two destinations, one build.
+ *
+ * The app bundles the library so it runs with no network (src/data/content.ts),
+ * and the engine tests run against the same file so a seed change that breaks
+ * the engine shows up as a test failure. They were byte-identical copies kept
+ * in step by hand, which works until one of them is regenerated and the other
+ * is not — and then the tests pass against content the app does not have.
+ */
+for (const dest of [
+  '../tests/engine-fixtures/content.json',
+  '../apps/mobile/src/data/content.json',
+]) {
+  writeFileSync(new URL(dest, import.meta.url), json);
+}
 
 console.log(`exercises     ${exercises.length}`);
 console.log(`templates     ${templates.length}`);

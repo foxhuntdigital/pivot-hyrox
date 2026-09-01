@@ -8,7 +8,6 @@
  * of the player's render path.
  */
 import type { Recommendation, WorkoutBlock } from '@pivot/engine';
-import { exerciseById } from '../data/content';
 
 export interface Step {
   /** Section label, e.g. 'Warm-up', 'Threshold'. */
@@ -39,6 +38,26 @@ export interface Step {
   quantity_unit: string;
   /** Rest steps are structure, not work: they are never logged. */
   rest: boolean;
+
+  /* --- working sets (migration 0011) ---------------------------------------
+     Present only on a structured strength prescription. A sets x reps row used
+     to collapse into ONE step showing "4 x6", so four working sets were one
+     tap and the log recorded the set count as the rep count. Each set is now
+     its own step, which is what makes per-set entry possible at all. --------- */
+
+  /** 1-based position within this exercise's working sets. */
+  set_number?: number;
+  /** How many working sets this exercise prescribes. */
+  set_count?: number;
+  /** Prescribed rep range for this set. Both null on an AMRAP. */
+  prescribed_reps_min?: number | null;
+  prescribed_reps_max?: number | null;
+  /** Authored RPE ceiling for the working sets, when one was given. */
+  target_rpe?: number | null;
+  /** Reps in reserve on an AMRAP set; null when the reps are a fixed number. */
+  amrap_reserve?: number | null;
+  /** True when the athlete should be asked what they lifted. */
+  logs_load?: boolean;
 }
 
 export function titleCase(s: string): string {
@@ -51,6 +70,10 @@ export function titleCase(s: string): string {
  * Exported because the workout card shows the same prescription before the
  * athlete starts as the player shows during it. Two formatters would let the
  * card promise "500 m" and the player ask for something written differently.
+ *
+ * A structured strength row goes through `formatPrescription` instead, which
+ * knows about `sets` — passing one here would render "4 x6" again, the exact
+ * ambiguity the per-set expansion removed from the player.
  */
 export function formatQuantity(
   type: string, quantity: number, unit: string,
@@ -66,12 +89,63 @@ export function formatQuantity(
     case 'distance':
       return { text: `${quantity % 1 === 0 ? quantity : quantity.toFixed(0)} ${unit}`, seconds: null };
     case 'sets_reps':
+      // Only reached by a row with no structured prescription. A structured
+      // one is expanded into per-set steps by buildSteps and formats its reps
+      // directly, because "4 x6" on a single step is the bug this replaced.
       return { text: `${quantity} ${unit}`, seconds: null };
     case 'reps':
       return { text: `${quantity} ${unit}`, seconds: null };
     default:
       return { text: `${quantity} ${unit}`, seconds: null };
   }
+}
+
+/**
+ * A whole prescription as the card should read it: '4 x 6', '3 x 8-10 / side'.
+ *
+ * The card summarises where the player walks. It states the set count because
+ * that is what an athlete looks at a card to learn — but with an explicit 'x'
+ * between two labelled numbers, rather than the bare "4 x6" that let the set
+ * count be read, and logged, as the rep count.
+ */
+export function formatPrescription(be: {
+  prescription_type: string; quantity: number; quantity_unit: string;
+  sets?: number | null; reps_min?: number | null; reps_max?: number | null;
+}): string {
+  if (be.sets == null || be.sets <= 0) {
+    return formatQuantity(be.prescription_type, be.quantity, be.quantity_unit).text;
+  }
+  const reps = repsLabel(be);
+  const perSide = /\/(?:leg|side|arm)\b/i.test(be.quantity_unit ?? '');
+  return `${be.sets} × ${reps}${perSide ? ' / side' : ''}`;
+}
+
+/** 'AMRAP-2' in the authored unit means as many as possible, two in reserve. */
+function amrapReserveOf(be: { quantity_unit?: string; reps_min?: number | null }): number | null {
+  if (be.reps_min != null) return null;
+  const m = String(be.quantity_unit ?? '').match(/AMRAP(?:\s*-\s*(\d+))?/i);
+  return m ? Number(m[1] ?? 0) : null;
+}
+
+/**
+ * The reps a single working set asks for: '6', '8-10', or 'AMRAP-2'.
+ *
+ * The set count is deliberately absent — it is on the step's own `phase`
+ * ('SET 2 / 4'), and repeating it in the headline number is what produced
+ * "4 x6" and the reps-logged-as-sets bug behind it.
+ */
+function repsLabel(be: {
+  reps_min?: number | null; reps_max?: number | null; quantity_unit?: string;
+}): string {
+  const reserve = amrapReserveOf(be);
+  if (reserve !== null) return reserve > 0 ? `AMRAP-${reserve}` : 'AMRAP';
+  if (be.reps_min == null) return String(be.quantity_unit ?? '').replace(/^x/i, '') || '—';
+  if (be.reps_max != null && be.reps_max !== be.reps_min) return `${be.reps_min}-${be.reps_max}`;
+  return String(be.reps_min);
+}
+
+function mmssOf(seconds: number): string {
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 }
 
 /** 'Warm-up', 'Cooldown', 'Work' or 'Main', from the block's own wording. */
@@ -82,7 +156,18 @@ export function blockLabel(block: WorkoutBlock): string {
   return titleCase(block.block_type === 'rounds' ? 'Work' : 'Main');
 }
 
-export function buildSteps(rec: Recommendation): Step[] {
+/**
+ * Resolves an exercise id to its display name.
+ *
+ * Injected rather than imported so this module stays free of the content
+ * bundle — the same reason `actuals.ts` keeps its distance. `../data/content`
+ * pulls in a 16,000-line JSON import that only Metro can resolve, and reaching
+ * for it here would make the whole step-expansion path untestable outside the
+ * app, which is exactly the path most worth testing.
+ */
+export type NameLookup = (exerciseId: string) => string | undefined;
+
+export function buildSteps(rec: Recommendation, nameOf: NameLookup = () => undefined): Step[] {
   const steps: Step[] = [];
   const intensity = rec.template.intensity_target ?? 'RPE 6';
 
@@ -92,28 +177,83 @@ export function buildSteps(rec: Recommendation): Step[] {
 
     for (let r = 1; r <= rounds; r++) {
       for (const be of block.exercises) {
-        const ex = exerciseById.get(be.exercise_id);
-        const { text, seconds } = formatQuantity(be.prescription_type, be.quantity, be.quantity_unit);
+        const name = nameOf(be.exercise_id) ?? titleCase(be.exercise_id.replace(/^ex_/, ''));
         const note = be.intensity_note ?? block.instructions ?? '';
+        const targetRpe = intensity.replace(/^RPE\s*/i, '');
 
-        steps.push({
+        const common = {
           kind,
-          qty: text,
-          label: ex?.name ?? titleCase(be.exercise_id.replace(/^ex_/, '')),
+          label: name,
           // Pace targets need a measured baseline; until one exists the honest
           // target is the authored RPE rather than a fabricated pace.
           targetKey: 'Target RPE',
-          target: intensity.replace(/^RPE\s*/i, ''),
+          target: targetRpe,
           note: note || 'Controlled and repeatable.',
-          phase: rounds > 1 ? `ROUND ${r} / ${rounds}` : kind.toUpperCase(),
           exercise_id: be.exercise_id,
-          duration_seconds: seconds,
           block_order: blockOrder,
           round: r,
           prescription_type: be.prescription_type,
           quantity: be.quantity,
           quantity_unit: be.quantity_unit,
           rest: false,
+        };
+
+        // ── A structured strength prescription: one step per working set ────
+        //
+        // The whole point of migration 0011. Collapsed into a single step the
+        // athlete saw "4 x6", tapped once, and the log recorded four reps —
+        // the set count. Expanded, each set is its own step that can carry its
+        // own load, reps and RPE, and the rest between them is real time on
+        // the clock rather than an invisible pause.
+        if (be.sets != null && be.sets > 0) {
+          for (let n = 1; n <= be.sets; n++) {
+            steps.push({
+              ...common,
+              qty: repsLabel(be),
+              phase: `SET ${n} / ${be.sets}`,
+              duration_seconds: null,
+              set_number: n,
+              set_count: be.sets,
+              prescribed_reps_min: be.reps_min ?? null,
+              prescribed_reps_max: be.reps_max ?? null,
+              target_rpe: be.target_rpe ?? null,
+              amrap_reserve: amrapReserveOf(be),
+              // Bodyweight work has nothing to put on the bar, so asking would
+              // be a field the athlete can only leave empty.
+              logs_load: be.load_basis !== 'bodyweight',
+            });
+
+            // Rest between working sets is what separates strength from
+            // density work, so it is a step rather than dead time between two
+            // taps. Not emitted after the last set: the next thing is the next
+            // exercise, which carries its own rest.
+            if (be.rest_seconds && n < be.sets) {
+              steps.push({
+                ...common,
+                kind: 'Rest',
+                qty: mmssOf(be.rest_seconds),
+                label: 'Recover',
+                target: '2',
+                note: `Before set ${n + 1} of ${be.sets} · ${name}`,
+                phase: `SET ${n} / ${be.sets}`,
+                duration_seconds: be.rest_seconds,
+                prescription_type: 'duration',
+                quantity: be.rest_seconds,
+                quantity_unit: 'seconds',
+                exercise_id: '',
+                rest: true,
+              });
+            }
+          }
+          continue;
+        }
+
+        const { text, seconds } = formatQuantity(be.prescription_type, be.quantity, be.quantity_unit);
+        steps.push({
+          ...common,
+          qty: text,
+          phase: rounds > 1 ? `ROUND ${r} / ${rounds}` : kind.toUpperCase(),
+          duration_seconds: seconds,
         });
       }
       if (block.rest_seconds && r < rounds) {
@@ -141,5 +281,7 @@ export function buildSteps(rec: Recommendation): Step[] {
   return steps;
 }
 
-/** Re-exported so the player's many callers keep one import for the clock. */
-export { mmss } from '../lib/format';
+// `mmss` used to be re-exported from here so the player kept one import for the
+// clock. It is imported from '@/lib/format' directly now: the re-export was the
+// only runtime dependency this module had, and it is what kept the step
+// expansion — the part most worth testing — unloadable outside Metro.

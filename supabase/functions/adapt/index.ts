@@ -14,6 +14,7 @@ import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
   localDate, requireEntitlement, requireUser,
 } from '../_shared/context.ts';
+import { auditInputs } from '../_shared/audit.ts';
 
 Deno.serve(async (req) => {
   const origin = req.headers.get('Origin');
@@ -74,7 +75,7 @@ Deno.serve(async (req) => {
       original_variant: body.original_variant ?? null,
       selected_template_id: decision.kind === 'session' ? decision.template.id : null,
       selected_variant: decision.kind === 'session' ? decision.variant.variant_code : null,
-      inputs_json: input,
+      inputs_json: auditInputs(input),
       reason_codes: decision.reason_codes,
       rationale: decision.rationale,
       engine_version: ENGINE_VERSION,

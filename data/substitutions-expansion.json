@@ -1,0 +1,58 @@
+{
+  "note": "Equipment substitution edges. resolveEquipment() in the engine is ONE HOP — it takes the first satisfiable substitute by priority and does not chain — so every fallback tier needs a direct edge from the original movement.",
+  "principle": "A primary strength lift may only fall back to something that can still be loaded progressively. Barbell back squat -> goblet squat is a strength session with less load; barbell back squat -> air squat is not a strength session at all, and allowing it would rebuild the exact problem this release exists to fix, one level down. Where no loaded fallback exists the template stays ineligible and the coverage gate says so, which is the honest answer. Bodyweight fallbacks appear only for accessory and core movements, where the stimulus genuinely survives the swap.",
+  "edges": [
+    ["ex_back_squat", "ex_goblet_squat", "no barbell; loaded squat pattern", 1],
+    ["ex_back_squat", "ex_kettlebell_swing", "no barbell or rack; loaded hinge", 2],
+    ["ex_front_squat", "ex_goblet_squat", "no barbell; loaded squat pattern", 1],
+
+    ["ex_deadlift", "ex_romanian_deadlift", "no barbell; loaded hinge", 1],
+    ["ex_deadlift", "ex_kettlebell_swing", "no barbell; loaded hinge", 2],
+    ["ex_romanian_deadlift", "ex_kettlebell_swing", "no barbell or dumbbells; loaded hinge", 1],
+    ["ex_kettlebell_swing", "ex_romanian_deadlift", "no kettlebell; loaded hinge", 1],
+
+    ["ex_push_press", "ex_incline_db_press", "no barbell; loaded press", 1],
+    ["ex_push_press", "ex_landmine_press", "no barbell; loaded press", 2],
+    ["ex_landmine_press", "ex_incline_db_press", "no landmine; loaded press", 1],
+    ["ex_incline_db_press", "ex_landmine_press", "no bench; loaded press", 1],
+
+    ["ex_pull_up", "ex_db_row", "no rig; loaded pull", 1],
+    ["ex_pull_up", "ex_cable_row", "no rig; loaded pull", 2],
+    ["ex_pull_up", "ex_trx_row", "no rig; bodyweight pull", 3],
+    ["ex_db_row", "ex_cable_row", "no dumbbells; loaded pull", 1],
+    ["ex_db_row", "ex_trx_row", "no dumbbells; bodyweight pull", 2],
+    ["ex_cable_row", "ex_db_row", "no cable; loaded pull", 1],
+    ["ex_cable_row", "ex_trx_row", "no cable; bodyweight pull", 2],
+    ["ex_trx_row", "ex_db_row", "no TRX; loaded pull", 1],
+
+    ["ex_bulgarian_split_squat", "ex_reverse_lunge", "no bench; loaded single-leg", 1],
+    ["ex_bulgarian_split_squat", "ex_step_up", "no bench or dumbbells; single-leg", 2],
+    ["ex_walking_lunge", "ex_reverse_lunge", "space or dumbbells; single-leg", 1],
+    ["ex_walking_lunge", "ex_step_up", "no dumbbells; single-leg", 2],
+    ["ex_reverse_lunge", "ex_step_up", "no dumbbells; single-leg", 1],
+    ["ex_sandbag_walking_lunge", "ex_walking_lunge", "no sandbag; loaded lunge", 1],
+    ["ex_sandbag_walking_lunge", "ex_reverse_lunge", "no sandbag; loaded lunge", 2],
+    ["ex_sandbag_front_rack_march", "ex_farmer_carry", "no sandbag; loaded carry", 1],
+    ["ex_sandbag_carry", "ex_farmer_carry", "no sandbag; loaded carry", 1],
+    ["ex_farmer_carry", "ex_sandbag_front_rack_march", "no dumbbells or kettlebells; loaded carry", 2],
+
+    ["ex_goblet_squat", "ex_kettlebell_swing", "no dumbbells; loaded lower body", 1],
+    ["ex_sled_pull", "ex_db_row", "no sled; loaded pull", 2],
+    ["ex_sled_pull", "ex_trx_row", "no sled; horizontal pull", 3],
+    ["ex_sled_push", "ex_step_up", "no sled; loaded leg drive", 2],
+
+    ["ex_trx_push_up", "ex_push_up", "no TRX; same pattern unloaded", 1],
+    ["ex_pallof_press", "ex_landmine_rotation", "no cable or bands; loaded anti-rotation", 1],
+    ["ex_pallof_press", "ex_side_plank", "no cable or bands; anti-rotation core", 2],
+    ["ex_landmine_rotation", "ex_pallof_press", "no landmine; loaded anti-rotation", 1],
+    ["ex_landmine_rotation", "ex_side_plank", "no landmine; anti-rotation core", 2],
+
+    ["ex_box_step_over", "ex_step_up", "no box height; same pattern", 1],
+    ["ex_step_up", "ex_box_step_over", "no box; same pattern", 1],
+    ["ex_skierg", "ex_rowerg", "no SkiErg; low-impact engine", 1],
+    ["ex_rowerg", "ex_skierg", "no RowErg; low-impact engine", 1],
+    ["ex_rowerg", "ex_spin_bike", "no RowErg; low-impact engine", 2],
+    ["ex_spin_bike", "ex_rowerg", "no bike; low-impact engine", 1],
+    ["ex_incline_walk", "ex_spin_bike", "no treadmill; low-impact engine", 1]
+  ]
+}

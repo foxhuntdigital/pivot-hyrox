@@ -304,6 +304,49 @@ describe('Variant transformation (PRD §9.3)', () => {
       if (mi?.rounds != null && fi?.rounds != null) assert.ok(mi.rounds <= fi.rounds);
     }
   });
+
+  /**
+   * Working sets come off with the variant, and reps do not.
+   *
+   * `sets` (migration 0011) carries the same count `quantity` has always
+   * carried on a sets x reps row, and the player reads `sets` in preference
+   * because it is the field that can be trusted. If only `quantity` scaled, an
+   * athlete on a twenty-minute Micro would be handed the full four working
+   * sets while every other part of the session compressed around them.
+   *
+   * Reps holding steady is the other half: a 4x6 cut to 2x6 keeps the stimulus
+   * and takes away the dose, where 4x4 would change what the session trains.
+   */
+  test('a Micro cuts working sets, not reps', () => {
+    const strength = TEMPLATES.find((t: WorkoutTemplate) =>
+      t.blocks.some(b => b.exercises.some(e => e.sets != null)));
+    if (!strength) return;   // no structured prescription in the fixture yet
+
+    const micro = strength.variants.find(v => v.variant_code === 'red')!;
+    const full = strength.variants.find(v => v.variant_code === 'green')!;
+
+    const microSets = transformBlocks(strength, micro)
+      .flatMap(b => b.exercises).filter(e => e.sets != null);
+    const fullSets = transformBlocks(strength, full)
+      .flatMap(b => b.exercises).filter(e => e.sets != null);
+
+    assert.ok(microSets.length > 0, 'the fixture should carry a structured prescription');
+
+    for (const m of microSets) {
+      const f = fullSets.find(x => x.exercise_id === m.exercise_id);
+      if (!f) continue;
+      assert.ok(m.sets! <= f.sets!,
+        `${m.exercise_id}: Micro prescribes ${m.sets} sets against Full's ${f.sets}`);
+      assert.ok(m.sets! >= 1, 'a set count never scales to nothing');
+      assert.equal(m.reps_min, f.reps_min,
+        `${m.exercise_id}: reps changed with the variant — volume comes off in whole sets`);
+      assert.equal(m.reps_max, f.reps_max);
+    }
+
+    // And the legacy field stays in step with the new one, so a reader of
+    // either sees the same session.
+    for (const m of microSets) assert.equal(m.sets, m.quantity);
+  });
 });
 
 describe('Equipment substitution graph (PRD §6.4)', () => {

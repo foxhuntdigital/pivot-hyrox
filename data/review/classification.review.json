@@ -1,0 +1,93 @@
+{
+  "note": "Classifications worth a human ruling. Each kept its training value; what changed is the label the planner reads. A session listed as loaded+engine may be better split into a strength session and a finisher than reclassified whole.",
+  "rows": [
+    {
+      "id": "wo_carry_lunge_chipper",
+      "name": "Carry Lunge Chipper",
+      "family": "hybrid",
+      "old_primary_goal": "strength",
+      "proposed": "hybrid",
+      "basis": "loaded work combined with engine work, and no working sets"
+    },
+    {
+      "id": "wo_treadmill_incline_hybrid",
+      "name": "Treadmill Incline Hybrid",
+      "family": "hybrid",
+      "old_primary_goal": "strength",
+      "proposed": "hybrid",
+      "basis": "loaded work combined with engine work, and no working sets"
+    },
+    {
+      "id": "wo_box_carry_engine",
+      "name": "Box Carry Engine",
+      "family": "hybrid",
+      "old_primary_goal": "strength",
+      "proposed": "hybrid",
+      "basis": "loaded work combined with engine work, and no working sets"
+    },
+    {
+      "id": "wo_row_plus_farmer_carry_engine",
+      "name": "Row + Farmer Carry Engine",
+      "family": "hybrid_engine",
+      "old_primary_goal": "strength",
+      "proposed": "hybrid",
+      "basis": "loaded work combined with engine work, and no working sets"
+    },
+    {
+      "id": "wo_row_plus_sandbag_lunge_engine",
+      "name": "Row + Sandbag Lunge Engine",
+      "family": "hybrid_engine",
+      "old_primary_goal": "strength",
+      "proposed": "hybrid",
+      "basis": "loaded work combined with engine work, and no working sets"
+    },
+    {
+      "id": "run_incline_hills_03",
+      "name": "Incline Aerobic Builder",
+      "family": "hills",
+      "old_primary_goal": "strength",
+      "proposed": "aerobic",
+      "basis": "labelled strength but carries no external load"
+    },
+    {
+      "id": "mx_burpee_broad_jump_strength_power",
+      "name": "Burpee Broad Jump — Strength-Power",
+      "family": "station_burpee_broad_jump",
+      "old_primary_goal": "strength",
+      "proposed": "muscular_endurance",
+      "basis": "labelled strength but carries no external load"
+    },
+    {
+      "id": "mx_rowerg_strength_power",
+      "name": "RowErg — Strength-Power",
+      "family": "station_rowerg",
+      "old_primary_goal": "strength",
+      "proposed": "aerobic",
+      "basis": "labelled strength but carries no external load"
+    },
+    {
+      "id": "mx_skierg_strength_power",
+      "name": "SkiErg — Strength-Power",
+      "family": "station_skierg",
+      "old_primary_goal": "strength",
+      "proposed": "aerobic",
+      "basis": "labelled strength but carries no external load"
+    },
+    {
+      "id": "run_incline_hills_01",
+      "name": "Treadmill Incline Repeats",
+      "family": "hills",
+      "old_primary_goal": "strength",
+      "proposed": "aerobic",
+      "basis": "labelled strength but carries no external load"
+    },
+    {
+      "id": "run_incline_hills_02",
+      "name": "Hill Strength 10x60s",
+      "family": "hills",
+      "old_primary_goal": "strength",
+      "proposed": "aerobic",
+      "basis": "labelled strength but carries no external load"
+    }
+  ]
+}

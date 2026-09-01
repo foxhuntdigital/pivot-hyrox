@@ -286,3 +286,96 @@ export function parsePrescription(text, { station = null, fallbackMovement = nul
     throw e;
   }
 }
+
+/**
+ * Reads a set-and-rep scheme out of the encoding the seed already uses.
+ *
+ * `content.block_exercises` had nowhere to put a set scheme before migration
+ * 0011, so the library encoded one by overloading the two columns it had: the
+ * set count went in `quantity` and the rep count went in the *unit string*.
+ *
+ *   ex_back_squat  quantity=4  quantity_unit='x6'      four sets of six
+ *   ex_db_row      quantity=3  quantity_unit='x10/side' three sets of ten a side
+ *   ex_pull_up     quantity=3  quantity_unit='AMRAP-2'  three sets, two in reserve
+ *
+ * That is recoverable, and recovering it is not authoring — the coach wrote
+ * "4 x6" and meant four sets of six. This reads it back into the columns that
+ * can hold it, so the player can show "SET 2 OF 4 · 6 reps" instead of "4 x6"
+ * and the log can record six reps instead of four.
+ *
+ * What it will NOT do is invent rest. Rest between working sets is the field
+ * that separates strength from density work, it was never in the dump, and
+ * guessing it would put a number the coach never chose behind a progression
+ * decision. Callers get `rest_seconds: null` and are expected to treat that as
+ * needing an authoring pass, the same way the importer already refuses a
+ * workout with no explicit `intensity_target`.
+ *
+ * Returns `null` when the text is not a set scheme at all, so a distance or
+ * duration row falls through untouched.
+ */
+export function parseSetScheme(quantity, unit, { intensityNote = null } = {}) {
+  if (!Number.isFinite(quantity) || quantity <= 0) return null;
+  const raw = String(unit ?? '').trim();
+  if (!raw) return null;
+
+  const sets = Math.round(quantity);
+  const perSide = /\/(?:leg|side|arm)\b/i.test(raw);
+  // Strip the leading 'x' and any per-side suffix; what is left is the rep spec.
+  const spec = raw.replace(/^x/i, '').replace(/\/(?:leg|side|arm)\b/i, '').trim();
+
+  const base = {
+    sets,
+    reps_min: null,
+    reps_max: null,
+    per_side: perSide,
+    amrap_reserve: null,
+    target_rpe: rpeFrom(intensityNote),
+    // Never derived. See the header.
+    rest_seconds: null,
+  };
+
+  // "AMRAP-2" — as many as possible leaving two in reserve. A real prescription
+  // with no fixed rep count, which is why reps stay null rather than becoming a
+  // number nobody wrote.
+  const amrap = spec.match(/^AMRAP(?:\s*-\s*(\d+))?$/i);
+  if (amrap) {
+    return { ...base, amrap_reserve: amrap[1] ? Number(amrap[1]) : 0 };
+  }
+
+  // "8-10" — an authored range.
+  const range = spec.match(/^(\d+)\s*[-–]\s*(\d+)$/);
+  if (range) {
+    const [min, max] = [Number(range[1]), Number(range[2])].sort((a, b) => a - b);
+    return { ...base, reps_min: min, reps_max: max };
+  }
+
+  // "6" — a single value, which is the degenerate range.
+  const single = spec.match(/^(\d+)$/);
+  if (single) {
+    return { ...base, reps_min: Number(single[1]), reps_max: Number(single[1]) };
+  }
+
+  return null;
+}
+
+/**
+ * The RPE ceiling from an authored note: 'RPE 7' -> 7, 'RPE 3-4' -> 4.
+ *
+ * The top of a range, because the field is a ceiling that progression must stay
+ * under — reading 'RPE 3-4' as 3 would hold back a session the coach was happy
+ * to see at 4. Matches how `intensityCost` in the engine reads the same text.
+ *
+ * The note must actually say RPE. `intensity_note` is free text and holds other
+ * numbers that are not efforts: the pull-up row reads 'leave 2', meaning two
+ * reps in reserve. Taking any digit would have made that RPE 2 — an intensity
+ * ceiling of 2 on a set of pull-ups, which no progression could ever clear.
+ */
+export function rpeFrom(note) {
+  if (!note) return null;
+  const text = String(note);
+  if (!/\bRPE\b/i.test(text)) return null;
+  const nums = text.match(/\d+/g);
+  if (!nums) return null;
+  const peak = Math.max(...nums.map(Number));
+  return peak >= 1 && peak <= 10 ? peak : null;
+}

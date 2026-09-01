@@ -200,3 +200,166 @@ const HYROX_STATIONS = new Set([
 export function knownStimuli() {
   return [...Object.keys(DIRECT), ...Object.keys(CONTEXTUAL), ...DOSE_DESCRIPTORS].sort();
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Classification (Workstream A)
+// ─────────────────────────────────────────────────────────────────────────────
+//
+// `primary_goal` is the planner's five-name vocabulary. `training_domain` and
+// `session_type` are the honest description of what a session *is*, and they
+// exist because the five names cannot tell the truth about strength.
+//
+// Twenty-five templates carry `primary_goal = 'strength'`. Four of them are
+// resistance sessions. The other twenty-one are sled pushes, erg intervals,
+// hill repeats and carries — real training, correctly authored, wrongly
+// filed. The planner asks for strength twice a week and is handed *SkiErg —
+// Strength-Power*, and nothing in the data can see the difference.
+//
+// So the strength domain is decided STRUCTURALLY, not by name. A session is
+// strength when it prescribes working sets with deliberate recovery between
+// them (`sets` and `rest_seconds`, migration 0011) — the PRD's own definition.
+// A name cannot promote a session into it, which is what stops the whole
+// reclassification from being satisfied by find-and-replace.
+//
+// Everything that loses the strength label lands somewhere true rather than
+// being demoted: loaded work without working sets is `muscular_endurance`,
+// mixed loaded-plus-engine work is `hybrid`. Neither is a lesser session.
+
+/** The physiological domains a session can belong to. */
+export const TRAINING_DOMAINS = [
+  'strength', 'aerobic', 'threshold', 'speed', 'power',
+  'muscular_endurance', 'hybrid', 'skill', 'recovery',
+];
+
+/** Structural forms. What the session looks like, as opposed to what it develops. */
+export const SESSION_TYPES = [
+  'strength', 'strength_endurance', 'run', 'hybrid',
+  'conditioning', 'recovery', 'skill', 'benchmark',
+];
+
+/** Families that are a test of current form rather than a dose of training. */
+const BENCHMARK_FAMILIES = new Set(['benchmark', 'simulation']);
+
+/**
+ * How a planner goal reads as a domain when structure does not override it.
+ * `strength` is deliberately absent: it is never reached by name.
+ */
+const DOMAIN_FROM_GOAL = {
+  aerobic_durability: 'aerobic',
+  threshold: 'threshold',
+  race_specific: 'hybrid',
+  recovery: 'recovery',
+};
+
+/**
+ * The domain and structural form of a session.
+ *
+ * `ctx.hasWorkingSets` is the discriminator for strength and comes from the
+ * template's own block exercises, not from any label. `ctx.modalities`,
+ * `ctx.family` and `ctx.requiresRunning` describe the session the same way
+ * `resolveGoal` uses them.
+ *
+ * `hasWorkingSets` is `sets != null` — whether the session prescribes working
+ * sets at all. It deliberately does NOT also require `rest_seconds`, even
+ * though the coverage gate does. The two are asking different questions:
+ * classification asks what a session *is*, and a squat session is a strength
+ * session whether or not anyone has yet written down how long to rest; the
+ * gate asks whether the library is *complete enough to plan from*, and it is
+ * not until rest is authored. Folding rest into this test would demote the
+ * four genuine strength templates to muscular_endurance over a missing field,
+ * and the reclassification would then be wrong in the opposite direction.
+ *
+ * Returns `{ training_domain, session_type, basis, ambiguous }`. `basis` names
+ * the evidence so the classification report can show its working, and
+ * `ambiguous` marks a call worth a human look rather than resolving it
+ * silently — the PRD asks for exactly that bucket.
+ */
+export function resolveClassification(primaryGoal, ctx = {}) {
+  const {
+    hasWorkingSets = false,
+    modalities = [],
+    family = '',
+    requiresRunning = false,
+  } = ctx;
+
+  const loaded = modalities.some(m => LOADED_MODALITIES.has(m));
+  const engine = modalities.some(m => ENGINE_MODALITIES.has(m));
+
+  // A test, whatever it trains. Classified first because a benchmark that is
+  // also loaded is still a benchmark.
+  if (BENCHMARK_FAMILIES.has(family)) {
+    return {
+      training_domain: DOMAIN_FROM_GOAL[primaryGoal] ?? 'hybrid',
+      session_type: 'benchmark',
+      basis: `${family} is a test of form, not a dose`,
+      ambiguous: false,
+    };
+  }
+
+  if (primaryGoal === 'recovery') {
+    return {
+      training_domain: 'recovery',
+      session_type: 'recovery',
+      basis: 'recovery goal',
+      ambiguous: false,
+    };
+  }
+
+  // ── The strength decision ──────────────────────────────────────────────────
+  if (hasWorkingSets) {
+    return {
+      training_domain: 'strength',
+      session_type: 'strength',
+      basis: 'prescribes working sets with rest between them',
+      ambiguous: false,
+    };
+  }
+
+  // Claimed strength, no working sets. This is the reclassification: the
+  // session keeps its real character and loses a label it never earned.
+  if (primaryGoal === 'strength') {
+    if (loaded && engine) {
+      return {
+        training_domain: 'hybrid',
+        session_type: 'hybrid',
+        basis: 'loaded work combined with engine work, and no working sets',
+        // Worth a look: some of these are a strength session with a finisher
+        // attached, and would be better split than reclassified.
+        ambiguous: true,
+      };
+    }
+    if (loaded) {
+      return {
+        training_domain: 'muscular_endurance',
+        session_type: 'strength_endurance',
+        basis: 'carries load but prescribes no working sets with rest',
+        ambiguous: false,
+      };
+    }
+    // Labelled strength while carrying no load at all — a hill repeat or an
+    // erg interval. The label was never describing this session.
+    return {
+      training_domain: requiresRunning || engine ? 'aerobic' : 'muscular_endurance',
+      session_type: 'conditioning',
+      basis: 'labelled strength but carries no external load',
+      ambiguous: true,
+    };
+  }
+
+  // ── Everything else ────────────────────────────────────────────────────────
+  const domain = DOMAIN_FROM_GOAL[primaryGoal] ?? 'hybrid';
+
+  const session_type =
+    requiresRunning && !loaded ? 'run'
+    : loaded && engine ? 'hybrid'
+    : loaded ? 'strength_endurance'
+    : 'conditioning';
+
+  return {
+    training_domain: domain,
+    session_type,
+    basis: `${primaryGoal} with ${loaded ? 'loaded' : 'unloaded'}`
+      + `${engine ? ' engine' : ''} work`,
+    ambiguous: false,
+  };
+}

@@ -20,7 +20,7 @@ import {
   recoveryFromEnergy, ENGINE_VERSION,
   type EngineDecision, type EngineInput, type Energy, type VariantCode,
 } from '@pivot/engine';
-import { EXERCISES, TEMPLATES, SUBSTITUTIONS } from '../data/content';
+import { EXERCISES, TEMPLATES, SUBSTITUTIONS, exerciseById } from '../data/content';
 import { metricDetail, type MetricDetail } from '../data/metrics';
 import { EMPTY_PROFILE, type AthleteProfile, type ExperienceLevel } from '../data/profile';
 import { fetchProfile, saveProfile } from '../data/profileRepo';
@@ -44,7 +44,7 @@ import { COMPONENT_KEYS } from '@pivot/coach';
 import { useSession } from './session';
 import { useOnboarding } from './onboarding';
 import { buildSteps, type Step } from './steps';
-import { buildLogs } from './actuals';
+import { buildLogs, type SetEntries, type SetEntry } from './actuals';
 import { buildSplits } from './splits';
 
 /**
@@ -158,6 +158,16 @@ interface State {
    */
   completed_session_id: string | null;
 
+  /**
+   * What the athlete typed for each working set, keyed by step index.
+   *
+   * Keyed by step rather than by exercise because the same movement appears in
+   * several sets and each carries its own load and reps — that is the point of
+   * expanding sets into steps. Entries survive moving back and forth through
+   * the session and are read once, at finish, by `buildLogs`.
+   */
+  entries: SetEntries;
+
   // UI
   open_metric: string | null;
 }
@@ -194,6 +204,7 @@ const initialState: State = {
   step_index: 0,
   elapsed_seconds: 0,
   step_seconds: [],
+  entries: {},
   session_rpe: null,
   ended_early: false,
   completed_today: false,
@@ -260,6 +271,7 @@ type Action =
   | { type: 'end_and_discard' }
   | { type: 'set_rpe'; rpe: number }
   | { type: 'back_to_today' }
+  | { type: 'set_entry'; step: number; entry: SetEntry }
   | { type: 'toggle_metric'; key: string };
 
 function reducer(s: State, a: Action): State {
@@ -351,7 +363,7 @@ function reducer(s: State, a: Action): State {
     case 'start_workout':
       return {
         ...s, status: 'active_block', step_index: 0, elapsed_seconds: 0,
-        step_seconds: [], ended_early: false,
+        step_seconds: [], entries: {}, ended_early: false,
         // Cleared here rather than on finish: the id belongs to the session
         // being performed, and a new one starts without the last one's row.
         session_id: null, session_revision: 0,
@@ -382,13 +394,16 @@ function reducer(s: State, a: Action): State {
       };
     case 'end_and_discard':
       // Abandoned, not completed: nothing is logged and the stimulus stays open.
-      return { ...s, status: 'ready', step_index: 0, elapsed_seconds: 0, step_seconds: [] };
+      return {
+        ...s, status: 'ready', step_index: 0, elapsed_seconds: 0,
+        step_seconds: [], entries: {},
+      };
     case 'set_rpe':
       return { ...s, session_rpe: a.rpe };
     case 'back_to_today':
       return {
         ...s, status: 'ready', step_index: 0, elapsed_seconds: 0, step_seconds: [],
-        session_rpe: null, session_id: null, session_revision: 0,
+        entries: {}, session_rpe: null, session_id: null, session_revision: 0,
         /**
          * The override is spent. It meant "this is what I am doing today", and
          * today's session is now finished — left standing it kept forcing the
@@ -400,6 +415,12 @@ function reducer(s: State, a: Action): State {
         adapted: false,
       };
 
+    case 'set_entry': {
+      // Merged rather than replaced: the weight, the reps and the RPE are
+      // three independent answers and typing one must not clear another.
+      const prev = s.entries[a.step] ?? {};
+      return { ...s, entries: { ...s.entries, [a.step]: { ...prev, ...a.entry } } };
+    }
     case 'toggle_metric':
       return { ...s, open_metric: s.open_metric === a.key ? null : a.key };
   }
@@ -831,7 +852,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
      * than written down as a failure.
      */
     const completedCount = s.ended_early ? s.step_index : performed.length;
-    const actuals = buildLogs(performed, s.step_seconds, completedCount);
+    const actuals = buildLogs(performed, s.step_seconds, completedCount, new Date(), s.entries);
     // The laps, in order. Same completion rule as the logs: the step the
     // athlete was in the middle of when they ended has no finished time, so it
     // is not a split.
@@ -1190,7 +1211,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [engineInput, commitAdaptation]);
 
   const steps = useMemo(
-    () => (session.kind === 'session' ? buildSteps(session) : []), [session]);
+    () => (session.kind === 'session' ? buildSteps(session, id => exerciseById.get(id)?.name) : []), [session]);
   stepsRef.current = steps;
 
   const readiness = useMemo(() => {

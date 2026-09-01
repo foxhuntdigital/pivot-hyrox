@@ -21,6 +21,36 @@ export interface BlockActual {
   skipped?: boolean;
 }
 
+/**
+ * What the athlete typed for one working set.
+ *
+ * Every field optional and every field independent: an athlete who logs the
+ * weight and not the reps has told us something true, and an RPE left blank
+ * must never block finishing the set (PRD §11, "Optional RPE/notes never block
+ * completion").
+ */
+export interface SetEntry {
+  weight?: number | null;
+  reps?: number | null;
+  rpe?: number | null;
+  unit?: 'lb' | 'kg';
+  /**
+   * Corrections to a measured effort, for the cases where the clock was not
+   * the truth: a treadmill run the phone never saw, a timer left running
+   * through a water stop, a distance the athlete cut short.
+   *
+   * `distance_meters` and `seconds` override what the player observed rather
+   * than adding to it. The timer remains one source of a run, not the only one
+   * — a manual entry has to work with no timer at all, or an athlete who
+   * forgot to tap has no way to record the session they actually did.
+   */
+  distance_meters?: number | null;
+  seconds?: number | null;
+}
+
+/** Entered values by step index. Steps with no entry are absent, not empty. */
+export type SetEntries = Record<number, SetEntry>;
+
 /** One set performed, as `set_logs` records it. */
 export interface SetActual {
   block_order: number;
@@ -28,6 +58,22 @@ export interface SetActual {
   set_index: number;
   prescribed_reps: number | null;
   actual_reps: number | null;
+  /** The authored range this set was performed against (migration 0012). */
+  prescribed_reps_min?: number | null;
+  prescribed_reps_max?: number | null;
+  prescribed_rpe?: number | null;
+  actual_load?: number | null;
+  load_unit?: string | null;
+  rpe?: number | null;
+  /**
+   * Where the numbers came from.
+   *
+   * `asserted` is a row that exists only because the athlete tapped Complete.
+   * It cannot show a miss — the prescription is the only thing it knows — so
+   * trending it would read the library back as achievement. `manual` is a row
+   * the athlete typed, and is the only kind that is evidence.
+   */
+  source: 'asserted' | 'manual';
 }
 
 /** One cardio effort performed, as `cardio_logs` records it. */
@@ -36,12 +82,25 @@ export interface CardioActual {
   exercise_id: string;
   duration_seconds: number | null;
   distance_meters: number | null;
+  rpe?: number | null;
+  /**
+   * Where the numbers came from. Unlike a set, the default here is a real
+   * measurement: a distance step is timed by the player whether or not anyone
+   * typed anything, which is why `comparable.ts` has been able to trend running
+   * all along. `manual` marks a row the athlete corrected or entered outright.
+   */
+  source: 'timer' | 'manual';
 }
 
 export interface SessionActuals {
   blocks: BlockActual[];
   set_logs: SetActual[];
   cardio_logs: CardioActual[];
+}
+
+/** A number the athlete could plausibly have meant, or null. */
+function entered(v: number | null | undefined): number | null {
+  return typeof v === 'number' && Number.isFinite(v) && v >= 0 ? v : null;
 }
 
 /** Prescribed distances arrive in whatever unit the block was authored in. */
@@ -63,15 +122,20 @@ function meters(quantity: number, unit: string): number | null {
  * completed, and for nothing else.
  *
  * Steps never reached are absent, not zeroed: ending early leaves the rest of
- * the session unrecorded rather than logged as a failure. Load is not inferred
- * at all — nothing here knows what was on the bar, so `actual_load` stays null
- * until there is a way to ask.
+ * the session unrecorded rather than logged as a failure.
+ *
+ * There is now a way to ask. `entries` carries what the athlete typed for a
+ * working set, and where they typed something it is recorded as `manual` — the
+ * only kind of row that is evidence. Where they typed nothing the old rule
+ * still holds and the row is `asserted`: the prescription, restated, marked as
+ * what it is so no trend ever reads the library back as achievement.
  */
 export function buildLogs(
   steps: Step[],
   stepSeconds: number[],
   completedCount: number,
   finishedAt: Date = new Date(),
+  entries: SetEntries = {},
 ): SessionActuals {
   const done = steps.slice(0, Math.max(0, completedCount));
   const blocks = new Map<number, BlockActual>();
@@ -113,36 +177,79 @@ export function buildLogs(
       case 'sets_reps': {
         const index = setIndex.get(step.block_order) ?? 0;
         setIndex.set(step.block_order, index + 1);
+
+        const entry = entries[i] ?? {};
+        const weight = entered(entry.weight);
+        const reps = entered(entry.reps);
+        const rpe = entered(entry.rpe);
+
+        /**
+         * What this set asked for.
+         *
+         * On a structured prescription (migration 0011) that is `reps_min`, the
+         * rep target. On an unstructured `sets_reps` row `step.quantity` is the
+         * SET COUNT — reading it as reps is the bug that made every historical
+         * `set_log` say "4 reps" for a set of six — so it is only used where
+         * the step genuinely has no structure, which is a plain `reps` step.
+         */
+        const prescribedReps = step.set_number != null
+          ? step.prescribed_reps_min ?? null
+          : step.prescription_type === 'reps' ? step.quantity : null;
+
         set_logs.push({
           block_order: step.block_order,
           exercise_id: step.exercise_id,
           set_index: index,
-          prescribed_reps: step.quantity,
-          actual_reps: step.quantity,
+          prescribed_reps: prescribedReps,
+          // The typed value wins. Falling back to the prescription keeps the
+          // Complete tap meaning what it has always meant, and `source` is what
+          // stops the two being confused later.
+          actual_reps: reps ?? prescribedReps,
+          prescribed_reps_min: step.prescribed_reps_min ?? null,
+          prescribed_reps_max: step.prescribed_reps_max ?? null,
+          prescribed_rpe: step.target_rpe ?? null,
+          actual_load: weight,
+          load_unit: weight === null ? null : (entry.unit ?? 'lb'),
+          rpe,
+          source: (weight !== null || reps !== null || rpe !== null) ? 'manual' : 'asserted',
         });
         break;
       }
-      case 'distance':
+      case 'distance': {
         // Distance prescribed, duration measured — a real pace, because the
-        // clock ran and the tap says the distance was covered.
+        // clock ran and the tap says the distance was covered. A correction
+        // replaces either half: the athlete knows what the treadmill said.
+        const entry = entries[i] ?? {};
+        const correctedDistance = entered(entry.distance_meters);
+        const correctedSeconds = entered(entry.seconds);
         cardio_logs.push({
           block_order: step.block_order,
           exercise_id: step.exercise_id,
-          duration_seconds: seconds || null,
-          distance_meters: meters(step.quantity, step.quantity_unit),
+          duration_seconds: correctedSeconds ?? (seconds || null),
+          distance_meters: correctedDistance ?? meters(step.quantity, step.quantity_unit),
+          rpe: entered(entry.rpe),
+          source: (correctedDistance !== null || correctedSeconds !== null) ? 'manual' : 'timer',
         });
         break;
+      }
       case 'duration':
-      case 'calories':
+      case 'calories': {
         // Time is known, distance is not. Logged without one rather than with
-        // an estimate, which is what keeps it out of any pace claim.
+        // an estimate, which is what keeps it out of any pace claim — unless
+        // the athlete supplies the distance, which makes the pace real.
+        const entry = entries[i] ?? {};
+        const correctedDistance = entered(entry.distance_meters);
+        const correctedSeconds = entered(entry.seconds);
         cardio_logs.push({
           block_order: step.block_order,
           exercise_id: step.exercise_id,
-          duration_seconds: seconds || step.duration_seconds,
-          distance_meters: null,
+          duration_seconds: correctedSeconds ?? (seconds || step.duration_seconds),
+          distance_meters: correctedDistance,
+          rpe: entered(entry.rpe),
+          source: (correctedDistance !== null || correctedSeconds !== null) ? 'manual' : 'timer',
         });
         break;
+      }
       default:
         break;
     }

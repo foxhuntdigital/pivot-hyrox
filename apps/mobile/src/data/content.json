@@ -8,7 +8,16 @@
       "equipment": [
         "treadmill",
         "outdoor"
-      ]
+      ],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
     },
     {
       "id": "ex_incline_walk",
@@ -17,7 +26,16 @@
       "postpartum_friendly": true,
       "equipment": [
         "treadmill"
-      ]
+      ],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
     },
     {
       "id": "ex_skierg",
@@ -26,7 +44,16 @@
       "postpartum_friendly": true,
       "equipment": [
         "ski"
-      ]
+      ],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
     },
     {
       "id": "ex_spin_bike",
@@ -35,7 +62,16 @@
       "postpartum_friendly": true,
       "equipment": [
         "bike"
-      ]
+      ],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
     },
     {
       "id": "ex_rowerg",
@@ -44,7 +80,16 @@
       "postpartum_friendly": true,
       "equipment": [
         "row_erg"
-      ]
+      ],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
     },
     {
       "id": "ex_sled_push",
@@ -53,7 +98,31 @@
       "postpartum_friendly": true,
       "equipment": [
         "sled"
-      ]
+      ],
+      "movement_families": [
+        "sled_resisted_locomotion"
+      ],
+      "training_qualities": [
+        "strength_endurance",
+        "power"
+      ],
+      "movement_characters": [
+        "loaded_locomotion",
+        "hybrid_specific"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "finisher",
+        "power"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "distance",
+        "work_rest"
+      ],
+      "exercise_family_id": "sled",
+      "history_comparability_group": "sled_push"
     },
     {
       "id": "ex_sled_pull",
@@ -63,7 +132,31 @@
       "equipment": [
         "sled",
         "rope"
-      ]
+      ],
+      "movement_families": [
+        "sled_resisted_locomotion"
+      ],
+      "training_qualities": [
+        "strength_endurance",
+        "power"
+      ],
+      "movement_characters": [
+        "loaded_locomotion",
+        "hybrid_specific"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "finisher",
+        "power"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "distance",
+        "work_rest"
+      ],
+      "exercise_family_id": "sled",
+      "history_comparability_group": "sled_pull"
     },
     {
       "id": "ex_burpee_broad_jump",
@@ -72,7 +165,37 @@
       "postpartum_friendly": true,
       "equipment": [
         "bodyweight"
-      ]
+      ],
+      "movement_families": [
+        "jump_plyometric",
+        "ground_get_up",
+        "complex_total_body"
+      ],
+      "training_qualities": [
+        "plyometric_reactive",
+        "integrated_complex",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "explosive",
+        "ballistic",
+        "complex",
+        "hybrid_specific"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher",
+        "power"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "reps",
+        "density",
+        "distance",
+        "work_rest"
+      ],
+      "exercise_family_id": "burpee_broad_jump",
+      "history_comparability_group": "burpee_broad_jump"
     },
     {
       "id": "ex_farmer_carry",
@@ -82,7 +205,32 @@
       "equipment": [
         "db",
         "kb"
-      ]
+      ],
+      "movement_families": [
+        "carry"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "strength_endurance",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "loaded_locomotion",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry",
+        "finisher",
+        "secondary_strength"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "distance"
+      ],
+      "exercise_family_id": "bilateral_carry",
+      "history_comparability_group": "farmer_carry"
     },
     {
       "id": "ex_sandbag_walking_lunge",
@@ -91,7 +239,33 @@
       "postpartum_friendly": true,
       "equipment": [
         "sandbag"
-      ]
+      ],
+      "movement_families": [
+        "lunge",
+        "carry"
+      ],
+      "training_qualities": [
+        "strength_endurance",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "loaded_locomotion",
+        "hybrid_specific"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher",
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "distance",
+        "reps"
+      ],
+      "exercise_family_id": "walking_lunge",
+      "history_comparability_group": "sandbag_walking_lunge"
     },
     {
       "id": "ex_wall_ball",
@@ -100,7 +274,30 @@
       "postpartum_friendly": true,
       "equipment": [
         "wall_ball"
-      ]
+      ],
+      "movement_families": [
+        "complex_total_body"
+      ],
+      "training_qualities": [
+        "strength_endurance",
+        "power"
+      ],
+      "movement_characters": [
+        "explosive",
+        "hybrid_specific"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "reps",
+        "work_rest",
+        "density"
+      ],
+      "exercise_family_id": "wall_ball",
+      "history_comparability_group": "wall_ball"
     },
     {
       "id": "ex_back_squat",
@@ -110,7 +307,30 @@
       "equipment": [
         "barbell",
         "rack"
-      ]
+      ],
+      "movement_families": [
+        "squat"
+      ],
+      "training_qualities": [
+        "absolute_strength",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "primary_strength",
+        "secondary_strength"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "back_squat",
+      "history_comparability_group": "back_squat"
     },
     {
       "id": "ex_front_squat",
@@ -120,7 +340,31 @@
       "equipment": [
         "barbell",
         "rack"
-      ]
+      ],
+      "movement_families": [
+        "squat"
+      ],
+      "training_qualities": [
+        "absolute_strength",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral",
+        "technical"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "primary_strength",
+        "secondary_strength"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "front_squat",
+      "history_comparability_group": "front_squat"
     },
     {
       "id": "ex_goblet_squat",
@@ -130,7 +374,31 @@
       "equipment": [
         "db",
         "kb"
-      ]
+      ],
+      "movement_families": [
+        "squat"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primary_strength",
+        "secondary_strength",
+        "primer"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "goblet_squat",
+      "history_comparability_group": "goblet_squat"
     },
     {
       "id": "ex_deadlift",
@@ -139,7 +407,29 @@
       "postpartum_friendly": true,
       "equipment": [
         "barbell"
-      ]
+      ],
+      "movement_families": [
+        "hinge"
+      ],
+      "training_qualities": [
+        "absolute_strength"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral",
+        "technical"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "primary_strength"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "deadlift",
+      "history_comparability_group": "conventional_deadlift"
     },
     {
       "id": "ex_romanian_deadlift",
@@ -149,7 +439,30 @@
       "equipment": [
         "barbell",
         "db"
-      ]
+      ],
+      "movement_families": [
+        "hinge"
+      ],
+      "training_qualities": [
+        "absolute_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "primary_strength",
+        "secondary_strength"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "romanian_deadlift",
+      "history_comparability_group": "romanian_deadlift"
     },
     {
       "id": "ex_bulgarian_split_squat",
@@ -159,7 +472,32 @@
       "equipment": [
         "db",
         "bench"
-      ]
+      ],
+      "movement_families": [
+        "lunge"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "primary_strength",
+        "secondary_strength",
+        "accessory"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "split_squat",
+      "history_comparability_group": "bulgarian_split_squat"
     },
     {
       "id": "ex_walking_lunge",
@@ -168,7 +506,31 @@
       "postpartum_friendly": true,
       "equipment": [
         "db"
-      ]
+      ],
+      "movement_families": [
+        "lunge"
+      ],
+      "training_qualities": [
+        "strength_endurance",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "loaded_locomotion"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "finisher"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "distance",
+        "reps"
+      ],
+      "exercise_family_id": "walking_lunge",
+      "history_comparability_group": "walking_lunge"
     },
     {
       "id": "ex_reverse_lunge",
@@ -177,7 +539,30 @@
       "postpartum_friendly": true,
       "equipment": [
         "db"
-      ]
+      ],
+      "movement_families": [
+        "lunge"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "unilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "accessory"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "reverse_lunge",
+      "history_comparability_group": "reverse_lunge"
     },
     {
       "id": "ex_push_press",
@@ -186,7 +571,33 @@
       "postpartum_friendly": true,
       "equipment": [
         "barbell"
-      ]
+      ],
+      "movement_families": [
+        "vertical_push",
+        "olympic_explosive"
+      ],
+      "training_qualities": [
+        "power",
+        "absolute_strength"
+      ],
+      "movement_characters": [
+        "explosive",
+        "bilateral",
+        "technical"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power",
+        "primary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "velocity",
+        "technical"
+      ],
+      "exercise_family_id": "push_press",
+      "history_comparability_group": "push_press"
     },
     {
       "id": "ex_incline_db_press",
@@ -196,7 +607,30 @@
       "equipment": [
         "db",
         "bench"
-      ]
+      ],
+      "movement_families": [
+        "horizontal_push"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "accessory"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "db_bench_press",
+      "history_comparability_group": "incline_db_press"
     },
     {
       "id": "ex_landmine_press",
@@ -205,7 +639,30 @@
       "postpartum_friendly": true,
       "equipment": [
         "landmine"
-      ]
+      ],
+      "movement_families": [
+        "vertical_push"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "accessory"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "landmine_press",
+      "history_comparability_group": "landmine_press"
     },
     {
       "id": "ex_trx_push_up",
@@ -214,7 +671,31 @@
       "postpartum_friendly": true,
       "equipment": [
         "trx"
-      ]
+      ],
+      "movement_families": [
+        "horizontal_push"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "bilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory",
+        "finisher"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "reps",
+        "range_of_motion",
+        "tempo"
+      ],
+      "exercise_family_id": "push_up",
+      "history_comparability_group": "trx_push_up"
     },
     {
       "id": "ex_db_row",
@@ -223,7 +704,30 @@
       "postpartum_friendly": true,
       "equipment": [
         "db"
-      ]
+      ],
+      "movement_families": [
+        "horizontal_pull"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "unilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "accessory"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "db_row",
+      "history_comparability_group": "db_row"
     },
     {
       "id": "ex_pull_up",
@@ -232,7 +736,30 @@
       "postpartum_friendly": true,
       "equipment": [
         "rig"
-      ]
+      ],
+      "movement_families": [
+        "vertical_pull"
+      ],
+      "training_qualities": [
+        "absolute_strength",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "primary_strength",
+        "secondary_strength"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "reps",
+        "load"
+      ],
+      "exercise_family_id": "vertical_pull",
+      "history_comparability_group": "pull_up"
     },
     {
       "id": "ex_cable_row",
@@ -241,7 +768,30 @@
       "postpartum_friendly": true,
       "equipment": [
         "cable"
-      ]
+      ],
+      "movement_families": [
+        "horizontal_pull"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "accessory"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "seated_row",
+      "history_comparability_group": "cable_row"
     },
     {
       "id": "ex_kettlebell_swing",
@@ -250,7 +800,33 @@
       "postpartum_friendly": true,
       "equipment": [
         "kb"
-      ]
+      ],
+      "movement_families": [
+        "hinge"
+      ],
+      "training_qualities": [
+        "power",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "ballistic",
+        "explosive",
+        "bilateral"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power",
+        "finisher",
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "velocity"
+      ],
+      "exercise_family_id": "kettlebell_swing",
+      "history_comparability_group": "kettlebell_swing"
     },
     {
       "id": "ex_box_step_over",
@@ -259,7 +835,31 @@
       "postpartum_friendly": true,
       "equipment": [
         "box"
-      ]
+      ],
+      "movement_families": [
+        "lunge"
+      ],
+      "training_qualities": [
+        "strength_endurance",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "simple",
+        "unilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory",
+        "finisher"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "reps",
+        "distance",
+        "density"
+      ],
+      "exercise_family_id": "step_up",
+      "history_comparability_group": "box_step_over"
     },
     {
       "id": "ex_box_jump",
@@ -268,7 +868,32 @@
       "postpartum_friendly": false,
       "equipment": [
         "box"
-      ]
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "power",
+        "plyometric_reactive"
+      ],
+      "movement_characters": [
+        "explosive",
+        "ballistic",
+        "bilateral"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power",
+        "primer"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "technical",
+        "volume"
+      ],
+      "exercise_family_id": "vertical_jump",
+      "history_comparability_group": "box_jump"
     },
     {
       "id": "ex_sandbag_carry",
@@ -277,7 +902,30 @@
       "postpartum_friendly": true,
       "equipment": [
         "sandbag"
-      ]
+      ],
+      "movement_families": [
+        "carry"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "loaded_locomotion",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry",
+        "finisher"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "distance"
+      ],
+      "exercise_family_id": "bilateral_carry",
+      "history_comparability_group": "sandbag_carry"
     },
     {
       "id": "ex_sandbag_front_rack_march",
@@ -286,7 +934,31 @@
       "postpartum_friendly": true,
       "equipment": [
         "sandbag"
-      ]
+      ],
+      "movement_families": [
+        "carry",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "loaded_locomotion",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry",
+        "accessory"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "distance"
+      ],
+      "exercise_family_id": "front_rack_carry",
+      "history_comparability_group": "sandbag_front_rack_march"
     },
     {
       "id": "ex_landmine_rotation",
@@ -295,7 +967,31 @@
       "postpartum_friendly": true,
       "equipment": [
         "landmine"
-      ]
+      ],
+      "movement_families": [
+        "rotation"
+      ],
+      "training_qualities": [
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "rotational",
+        "multiplanar",
+        "unilateral"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "accessory",
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "technical"
+      ],
+      "exercise_family_id": "rotational_press",
+      "history_comparability_group": "landmine_rotation"
     },
     {
       "id": "ex_pallof_press",
@@ -305,7 +1001,32 @@
       "equipment": [
         "cable",
         "bands"
-      ]
+      ],
+      "movement_families": [
+        "trunk",
+        "rotation"
+      ],
+      "training_qualities": [
+        "structural_resilience",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "stability_demanding",
+        "rotational"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry",
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "tempo"
+      ],
+      "exercise_family_id": "anti_rotation",
+      "history_comparability_group": "pallof_press"
     },
     {
       "id": "ex_side_plank",
@@ -314,7 +1035,29 @@
       "postpartum_friendly": true,
       "equipment": [
         "bodyweight"
-      ]
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "stability_demanding",
+        "unilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry",
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "volume",
+        "tempo"
+      ],
+      "exercise_family_id": "lateral_trunk",
+      "history_comparability_group": "side_plank"
     },
     {
       "id": "ex_glute_bridge",
@@ -323,7 +1066,33 @@
       "postpartum_friendly": true,
       "equipment": [
         "bodyweight"
-      ]
+      ],
+      "movement_families": [
+        "hinge",
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "structural_resilience",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "simple",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory",
+        "primer"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "tempo"
+      ],
+      "exercise_family_id": "glute_bridge",
+      "history_comparability_group": "glute_bridge"
     },
     {
       "id": "ex_air_squat",
@@ -332,7 +1101,32 @@
       "postpartum_friendly": true,
       "equipment": [
         "bodyweight"
-      ]
+      ],
+      "movement_families": [
+        "squat"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "foundational",
+        "simple",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primer",
+        "accessory",
+        "finisher"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "reps",
+        "tempo"
+      ],
+      "exercise_family_id": "bodyweight_squat",
+      "history_comparability_group": "air_squat"
     },
     {
       "id": "ex_push_up",
@@ -341,7 +1135,33 @@
       "postpartum_friendly": true,
       "equipment": [
         "bodyweight"
-      ]
+      ],
+      "movement_families": [
+        "horizontal_push"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "hypertrophy",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "accessory",
+        "finisher"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "reps",
+        "load",
+        "tempo"
+      ],
+      "exercise_family_id": "push_up",
+      "history_comparability_group": "push_up"
     },
     {
       "id": "ex_bear_crawl",
@@ -350,7 +1170,34 @@
       "postpartum_friendly": true,
       "equipment": [
         "bodyweight"
-      ]
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "trunk"
+      ],
+      "training_qualities": [
+        "athletic_multiplanar",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "complex",
+        "contralateral",
+        "multiplanar",
+        "stability_demanding"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primer",
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "distance",
+        "density",
+        "work_rest"
+      ],
+      "exercise_family_id": "quadrupedal",
+      "history_comparability_group": "bear_crawl"
     },
     {
       "id": "ex_step_up",
@@ -359,7 +1206,30 @@
       "postpartum_friendly": true,
       "equipment": [
         "box"
-      ]
+      ],
+      "movement_families": [
+        "lunge"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "unilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "accessory"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "step_up",
+      "history_comparability_group": "step_up"
     },
     {
       "id": "ex_jump_rope",
@@ -368,7 +1238,30 @@
       "postpartum_friendly": false,
       "equipment": [
         "jump_rope"
-      ]
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "plyometric_reactive"
+      ],
+      "movement_characters": [
+        "reactive",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primer",
+        "finisher"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "density",
+        "work_rest"
+      ],
+      "exercise_family_id": "pogo",
+      "history_comparability_group": "jump_rope"
     },
     {
       "id": "ex_boxing_bag",
@@ -377,7 +1270,22 @@
       "postpartum_friendly": true,
       "equipment": [
         "bag"
-      ]
+      ],
+      "movement_families": [],
+      "training_qualities": [
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "hybrid_specific"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
     },
     {
       "id": "ex_pilates_reformer",
@@ -386,7 +1294,16 @@
       "postpartum_friendly": true,
       "equipment": [
         "reformer"
-      ]
+      ],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
     },
     {
       "id": "ex_mobility_flow",
@@ -395,7 +1312,22 @@
       "postpartum_friendly": true,
       "equipment": [
         "bodyweight"
-      ]
+      ],
+      "movement_families": [],
+      "training_qualities": [
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "foundational"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primer"
+      ],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
     },
     {
       "id": "ex_breathing_core_reset",
@@ -404,7 +1336,25 @@
       "postpartum_friendly": true,
       "equipment": [
         "bodyweight"
-      ]
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "foundational",
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primer"
+      ],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": "trunk_primer",
+      "history_comparability_group": "breathing_core_reset"
     },
     {
       "id": "ex_trx_row",
@@ -413,7 +1363,31 @@
       "postpartum_friendly": true,
       "equipment": [
         "trx"
-      ]
+      ],
+      "movement_families": [
+        "horizontal_pull"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "bilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory",
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "reps",
+        "range_of_motion",
+        "tempo"
+      ],
+      "exercise_family_id": "inverted_row",
+      "history_comparability_group": "trx_row"
     },
     {
       "id": "ex_running_drills",
@@ -422,7 +1396,18 @@
       "postpartum_friendly": true,
       "equipment": [
         "bodyweight"
-      ]
+      ],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primer"
+      ],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
     }
   ],
   "templates": [
@@ -442,6 +1427,9 @@
       "requires_ski": false,
       "description": "Easy conversational run",
       "coaching_notes": "Walk briefly if needed",
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [
         "run",
         "zone2",
@@ -509,6 +1497,9 @@
       "requires_ski": false,
       "description": "Long easy run",
       "coaching_notes": "Keep easy",
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [
         "run",
         "zone2"
@@ -575,6 +1566,9 @@
       "requires_ski": false,
       "description": "Run/walk rebuild",
       "coaching_notes": "Symptom-free pacing",
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [
         "run",
         "return_to_run",
@@ -650,6 +1644,9 @@
       "requires_ski": false,
       "description": "Controlled tempo",
       "coaching_notes": "No sprinting",
+      "training_domain": "threshold",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [
         "run",
         "threshold"
@@ -716,6 +1713,9 @@
       "requires_ski": false,
       "description": "1 km repeats",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [
         "run",
         "race_pace",
@@ -783,6 +1783,9 @@
       "requires_ski": true,
       "description": "Easy SkiErg",
       "coaching_notes": "Smooth stroke",
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [
         "ski",
         "zone2",
@@ -850,6 +1853,9 @@
       "requires_ski": true,
       "description": "Short ski repeats",
       "coaching_notes": "Crisp form",
+      "training_domain": "threshold",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [
         "ski",
         "intervals",
@@ -917,6 +1923,9 @@
       "requires_ski": true,
       "description": "Threshold ski repeats",
       "coaching_notes": "Consistent splits",
+      "training_domain": "threshold",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [
         "ski",
         "threshold",
@@ -984,6 +1993,9 @@
       "requires_ski": false,
       "description": "Lower-body strength",
       "coaching_notes": "2-3 RIR",
+      "training_domain": "strength",
+      "session_type": "strength",
+      "workout_role": "primary",
       "tags": [
         "strength",
         "legs",
@@ -1030,7 +2042,14 @@
               "prescription_type": "sets_reps",
               "quantity": 4,
               "quantity_unit": "x6",
-              "intensity_note": "RPE 7"
+              "intensity_note": "RPE 7",
+              "sets": 4,
+              "reps_min": 6,
+              "reps_max": 6,
+              "rest_seconds": null,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
             },
             {
               "exercise_id": "ex_bulgarian_split_squat",
@@ -1038,7 +2057,14 @@
               "prescription_type": "sets_reps",
               "quantity": 3,
               "quantity_unit": "x10/leg",
-              "intensity_note": "RPE 7"
+              "intensity_note": "RPE 7",
+              "sets": 3,
+              "reps_min": 10,
+              "reps_max": 10,
+              "rest_seconds": null,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
             },
             {
               "exercise_id": "ex_walking_lunge",
@@ -1046,7 +2072,14 @@
               "prescription_type": "sets_reps",
               "quantity": 3,
               "quantity_unit": "x12/leg",
-              "intensity_note": "RPE 7"
+              "intensity_note": "RPE 7",
+              "sets": 3,
+              "reps_min": 12,
+              "reps_max": 12,
+              "rest_seconds": null,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
             },
             {
               "exercise_id": "ex_sled_push",
@@ -1062,7 +2095,14 @@
               "prescription_type": "sets_reps",
               "quantity": 3,
               "quantity_unit": "x12/side",
-              "intensity_note": "controlled"
+              "intensity_note": "controlled",
+              "sets": 3,
+              "reps_min": 12,
+              "reps_max": 12,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
             }
           ]
         }
@@ -1084,6 +2124,9 @@
       "requires_ski": false,
       "description": "Leg strength endurance",
       "coaching_notes": "Clean reps",
+      "training_domain": "strength",
+      "session_type": "strength",
+      "workout_role": "primary",
       "tags": [
         "strength",
         "legs",
@@ -1130,7 +2173,14 @@
               "prescription_type": "sets_reps",
               "quantity": 4,
               "quantity_unit": "x5",
-              "intensity_note": "RPE 7"
+              "intensity_note": "RPE 7",
+              "sets": 4,
+              "reps_min": 5,
+              "reps_max": 5,
+              "rest_seconds": null,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
             },
             {
               "exercise_id": "ex_romanian_deadlift",
@@ -1138,7 +2188,14 @@
               "prescription_type": "sets_reps",
               "quantity": 3,
               "quantity_unit": "x8",
-              "intensity_note": "RPE 7"
+              "intensity_note": "RPE 7",
+              "sets": 3,
+              "reps_min": 8,
+              "reps_max": 8,
+              "rest_seconds": null,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
             },
             {
               "exercise_id": "ex_reverse_lunge",
@@ -1146,7 +2203,14 @@
               "prescription_type": "sets_reps",
               "quantity": 3,
               "quantity_unit": "x10/leg",
-              "intensity_note": "RPE 7"
+              "intensity_note": "RPE 7",
+              "sets": 3,
+              "reps_min": 10,
+              "reps_max": 10,
+              "rest_seconds": null,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
             },
             {
               "exercise_id": "ex_sled_pull",
@@ -1184,6 +2248,9 @@
       "requires_ski": false,
       "description": "Press + wall balls",
       "coaching_notes": "No failure",
+      "training_domain": "strength",
+      "session_type": "strength",
+      "workout_role": "primary",
       "tags": [
         "strength",
         "push",
@@ -1230,7 +2297,14 @@
               "prescription_type": "sets_reps",
               "quantity": 4,
               "quantity_unit": "x6",
-              "intensity_note": "RPE 7"
+              "intensity_note": "RPE 7",
+              "sets": 4,
+              "reps_min": 6,
+              "reps_max": 6,
+              "rest_seconds": null,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
             },
             {
               "exercise_id": "ex_incline_db_press",
@@ -1238,7 +2312,14 @@
               "prescription_type": "sets_reps",
               "quantity": 3,
               "quantity_unit": "x10",
-              "intensity_note": "RPE 7"
+              "intensity_note": "RPE 7",
+              "sets": 3,
+              "reps_min": 10,
+              "reps_max": 10,
+              "rest_seconds": null,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
             },
             {
               "exercise_id": "ex_landmine_press",
@@ -1246,7 +2327,14 @@
               "prescription_type": "sets_reps",
               "quantity": 3,
               "quantity_unit": "x10/side",
-              "intensity_note": "RPE 7"
+              "intensity_note": "RPE 7",
+              "sets": 3,
+              "reps_min": 10,
+              "reps_max": 10,
+              "rest_seconds": null,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
             },
             {
               "exercise_id": "ex_trx_push_up",
@@ -1254,7 +2342,14 @@
               "prescription_type": "sets_reps",
               "quantity": 3,
               "quantity_unit": "x12",
-              "intensity_note": "smooth"
+              "intensity_note": "smooth",
+              "sets": 3,
+              "reps_min": 12,
+              "reps_max": 12,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
             },
             {
               "exercise_id": "ex_wall_ball",
@@ -1262,7 +2357,14 @@
               "prescription_type": "sets_reps",
               "quantity": 4,
               "quantity_unit": "x15",
-              "intensity_note": "RPE 6"
+              "intensity_note": "RPE 6",
+              "sets": 4,
+              "reps_min": 15,
+              "reps_max": 15,
+              "rest_seconds": null,
+              "target_rpe": 6,
+              "load_basis": null,
+              "load_value": null
             }
           ]
         }
@@ -1284,6 +2386,9 @@
       "requires_ski": false,
       "description": "Posterior chain + grip",
       "coaching_notes": "Submax deadlift",
+      "training_domain": "strength",
+      "session_type": "strength",
+      "workout_role": "primary",
       "tags": [
         "strength",
         "pull",
@@ -1330,7 +2435,14 @@
               "prescription_type": "sets_reps",
               "quantity": 4,
               "quantity_unit": "x5",
-              "intensity_note": "RPE 7"
+              "intensity_note": "RPE 7",
+              "sets": 4,
+              "reps_min": 5,
+              "reps_max": 5,
+              "rest_seconds": null,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
             },
             {
               "exercise_id": "ex_db_row",
@@ -1338,7 +2450,14 @@
               "prescription_type": "sets_reps",
               "quantity": 3,
               "quantity_unit": "x10/side",
-              "intensity_note": "RPE 7"
+              "intensity_note": "RPE 7",
+              "sets": 3,
+              "reps_min": 10,
+              "reps_max": 10,
+              "rest_seconds": null,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
             },
             {
               "exercise_id": "ex_pull_up",
@@ -1346,7 +2465,14 @@
               "prescription_type": "sets_reps",
               "quantity": 3,
               "quantity_unit": "AMRAP-2",
-              "intensity_note": "leave 2"
+              "intensity_note": "leave 2",
+              "sets": 3,
+              "reps_min": null,
+              "reps_max": null,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
             },
             {
               "exercise_id": "ex_farmer_carry",
@@ -1384,6 +2510,9 @@
       "requires_ski": true,
       "description": "Creative hybrid",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "aerobic",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "hybrid",
         "hyrox",
@@ -1475,6 +2604,9 @@
       "requires_ski": false,
       "description": "Creative hybrid",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "hybrid",
         "hyrox",
@@ -1550,6 +2682,9 @@
       "requires_ski": false,
       "description": "Creative hybrid",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "hybrid",
         "hyrox",
@@ -1633,6 +2768,9 @@
       "requires_ski": false,
       "description": "Creative hybrid",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [
         "hybrid",
         "hyrox",
@@ -1708,6 +2846,9 @@
       "requires_ski": true,
       "description": "Creative hybrid",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "hybrid",
         "hyrox",
@@ -1799,6 +2940,9 @@
       "requires_ski": true,
       "description": "Creative hybrid",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "aerobic",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "hybrid",
         "hyrox",
@@ -1898,6 +3042,9 @@
       "requires_ski": true,
       "description": "Creative hybrid",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "aerobic",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "hybrid",
         "hyrox",
@@ -1997,6 +3144,9 @@
       "requires_ski": true,
       "description": "Creative hybrid",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "hybrid",
         "hyrox",
@@ -2072,6 +3222,9 @@
       "requires_ski": true,
       "description": "Creative hybrid",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "hybrid",
         "hyrox",
@@ -2155,6 +3308,9 @@
       "requires_ski": false,
       "description": "Creative hybrid",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "hybrid",
         "hyrox",
@@ -2238,6 +3394,9 @@
       "requires_ski": true,
       "description": "Creative hybrid",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "hybrid",
         "hyrox",
@@ -2321,6 +3480,9 @@
       "requires_ski": false,
       "description": "Creative hybrid",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "hybrid",
         "hyrox",
@@ -2404,6 +3566,9 @@
       "requires_ski": true,
       "description": "Creative hybrid",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "hybrid",
         "hyrox",
@@ -2487,6 +3652,9 @@
       "requires_ski": false,
       "description": "Creative hybrid",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "hybrid",
         "hyrox",
@@ -2570,6 +3738,9 @@
       "requires_ski": true,
       "description": "Creative hybrid",
       "coaching_notes": "Repeatable pace",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "hybrid",
         "hyrox",
@@ -2653,6 +3824,9 @@
       "requires_ski": true,
       "description": "Five-station EMOM",
       "coaching_notes": "Finish each minute with breathing room",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "emom",
         "hyrox",
@@ -2752,6 +3926,9 @@
       "requires_ski": true,
       "description": "Minimum effective dose",
       "coaching_notes": "Use on rough days",
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [
         "micro",
         "ski",
@@ -2827,6 +4004,9 @@
       "requires_ski": false,
       "description": "Short lower strength",
       "coaching_notes": "Use on rough days",
+      "training_domain": "muscular_endurance",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [
         "micro",
         "strength"
@@ -2909,6 +4089,9 @@
       "requires_ski": false,
       "description": "Short upper strength",
       "coaching_notes": "Use on rough days",
+      "training_domain": "muscular_endurance",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [
         "micro",
         "strength"
@@ -2991,6 +4174,9 @@
       "requires_ski": true,
       "description": "Short HYROX session",
       "coaching_notes": "Use on rough days",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [
         "micro",
         "hyrox",
@@ -3074,6 +4260,9 @@
       "requires_ski": false,
       "description": "Recovery session",
       "coaching_notes": "Very easy",
+      "training_domain": "recovery",
+      "session_type": "recovery",
+      "workout_role": "primary",
       "tags": [
         "recovery",
         "mobility",
@@ -3149,6 +4338,9 @@
       "requires_ski": true,
       "description": "Half-race simulation",
       "coaching_notes": "Pace, do not race",
+      "training_domain": "hybrid",
+      "session_type": "benchmark",
+      "workout_role": "primary",
       "tags": [
         "simulation",
         "benchmark",
@@ -3272,6 +4464,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -3335,6 +4530,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -3398,6 +4596,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -3485,6 +4686,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "threshold",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -3548,6 +4752,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "threshold",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -3611,6 +4818,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "hybrid",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -3674,6 +4884,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "threshold",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -3761,6 +4974,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "hybrid",
+      "session_type": "benchmark",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -3824,6 +5040,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -3895,6 +5114,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -3974,6 +5196,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -4045,6 +5270,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -4116,6 +5344,9 @@
       "requires_ski": true,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -4187,6 +5418,9 @@
       "requires_ski": true,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "threshold",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -4258,6 +5492,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -4337,6 +5574,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "hybrid",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -4408,6 +5648,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -4495,6 +5738,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -4566,6 +5812,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -4645,6 +5894,9 @@
       "requires_ski": false,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "hybrid",
+      "session_type": "benchmark",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -4716,6 +5968,9 @@
       "requires_ski": true,
       "description": "RowErg expansion workout.",
       "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -4795,6 +6050,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Running Expansion v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -4878,6 +6136,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Running Expansion v1 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -4941,6 +6202,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -5004,6 +6268,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -5067,6 +6334,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -5150,6 +6420,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -5213,6 +6486,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -5332,6 +6608,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -5543,6 +6822,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -5606,6 +6888,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -5769,6 +7054,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -5832,6 +7120,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "benchmark",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -5935,6 +7226,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "benchmark",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -6038,6 +7332,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "benchmark",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -6101,6 +7398,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "recovery",
+      "session_type": "recovery",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -6164,6 +7464,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -6267,6 +7570,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -6370,6 +7676,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -6473,6 +7782,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -6576,6 +7888,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -6699,6 +8014,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -6802,6 +8120,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -6865,6 +8186,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -6936,6 +8260,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -7007,6 +8334,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -7078,6 +8408,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -7149,6 +8482,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -7220,6 +8556,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -7291,6 +8630,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -7362,6 +8704,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -7433,6 +8778,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -7504,6 +8852,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -7583,6 +8934,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -7662,6 +9016,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "recovery",
+      "session_type": "recovery",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -7725,6 +9082,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Authored v1 workout.",
       "coaching_notes": null,
+      "training_domain": "recovery",
+      "session_type": "recovery",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -7796,6 +9156,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -7867,6 +9230,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -7930,6 +9296,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -8001,6 +9370,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -8072,6 +9444,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -8135,6 +9510,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -8206,6 +9584,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -8285,6 +9666,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -8356,6 +9740,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -8419,6 +9806,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "muscular_endurance",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -8490,6 +9880,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -8553,6 +9946,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -8616,6 +10012,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -8679,6 +10078,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -8742,6 +10144,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -8813,6 +10218,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -8892,6 +10300,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -8955,6 +10366,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -9026,6 +10440,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -9105,6 +10522,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "muscular_endurance",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -9176,6 +10596,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -9239,6 +10662,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "muscular_endurance",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -9302,6 +10728,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -9365,6 +10794,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -9428,6 +10860,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -9491,6 +10926,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -9554,6 +10992,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -9625,6 +11066,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -9712,6 +11156,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -9775,6 +11222,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -9846,6 +11296,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -9925,6 +11378,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -9996,6 +11452,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -10059,6 +11518,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -10122,6 +11584,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -10229,6 +11694,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -10292,6 +11760,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -10355,6 +11826,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -10418,6 +11892,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -10489,6 +11966,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -10568,6 +12048,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -10631,6 +12114,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -10702,6 +12188,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -10781,6 +12270,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -10852,6 +12344,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -10915,6 +12410,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "muscular_endurance",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -10978,6 +12476,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -11041,6 +12542,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -11104,6 +12608,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -11167,6 +12674,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -11238,6 +12748,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -11317,6 +12830,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -11380,6 +12896,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -11451,6 +12970,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -11530,6 +13052,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -11593,6 +13118,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -11656,6 +13184,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -11719,6 +13250,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -11782,6 +13316,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -11845,6 +13382,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -11908,6 +13448,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -11979,6 +13522,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -12050,6 +13596,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -12113,6 +13662,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -12184,6 +13736,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -12263,6 +13818,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "muscular_endurance",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -12326,6 +13884,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -12389,6 +13950,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "muscular_endurance",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -12452,6 +14016,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -12515,6 +14082,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -12586,6 +14156,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -12649,6 +14222,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -12712,6 +14288,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -12783,6 +14362,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -12854,6 +14436,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -12917,6 +14502,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -12988,6 +14576,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -13067,6 +14658,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "muscular_endurance",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -13130,6 +14724,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -13193,6 +14790,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "muscular_endurance",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -13256,6 +14856,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -13319,6 +14922,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -13390,6 +14996,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -13453,6 +15062,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -13516,6 +15128,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -13587,6 +15202,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -13666,6 +15284,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -13729,6 +15350,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -13800,6 +15424,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -13879,6 +15506,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "hybrid",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -13950,6 +15580,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -14013,6 +15646,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "muscular_endurance",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -14076,6 +15712,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -14139,6 +15778,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "strength_endurance",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -14202,6 +15844,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -14305,6 +15950,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -14408,6 +16056,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -14511,6 +16162,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -14602,6 +16256,9 @@
       "requires_ski": true,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "conditioning",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -14673,6 +16330,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -14776,6 +16436,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -14839,6 +16502,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -14942,6 +16608,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -15045,6 +16714,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -15148,6 +16820,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "hybrid",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -15271,6 +16946,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -15394,6 +17072,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -15489,6 +17170,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -15592,6 +17276,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -15695,6 +17382,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -15798,6 +17488,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -15901,6 +17594,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "threshold",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -16004,6 +17700,9 @@
       "requires_ski": false,
       "description": "Adaptive Athlete Follow-up v2 workout.",
       "coaching_notes": null,
+      "training_domain": "aerobic",
+      "session_type": "run",
+      "workout_role": "primary",
       "tags": [],
       "variants": [
         {
@@ -16133,6 +17832,276 @@
       "exercise_id": "ex_box_jump",
       "substitute_exercise_id": "ex_box_step_over",
       "reason": "reduce impact",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_back_squat",
+      "substitute_exercise_id": "ex_goblet_squat",
+      "reason": "no barbell; loaded squat pattern",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_back_squat",
+      "substitute_exercise_id": "ex_kettlebell_swing",
+      "reason": "no barbell or rack; loaded hinge",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_front_squat",
+      "substitute_exercise_id": "ex_goblet_squat",
+      "reason": "no barbell; loaded squat pattern",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_deadlift",
+      "substitute_exercise_id": "ex_romanian_deadlift",
+      "reason": "no barbell; loaded hinge",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_deadlift",
+      "substitute_exercise_id": "ex_kettlebell_swing",
+      "reason": "no barbell; loaded hinge",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_romanian_deadlift",
+      "substitute_exercise_id": "ex_kettlebell_swing",
+      "reason": "no barbell or dumbbells; loaded hinge",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_kettlebell_swing",
+      "substitute_exercise_id": "ex_romanian_deadlift",
+      "reason": "no kettlebell; loaded hinge",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_push_press",
+      "substitute_exercise_id": "ex_incline_db_press",
+      "reason": "no barbell; loaded press",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_push_press",
+      "substitute_exercise_id": "ex_landmine_press",
+      "reason": "no barbell; loaded press",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_landmine_press",
+      "substitute_exercise_id": "ex_incline_db_press",
+      "reason": "no landmine; loaded press",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_incline_db_press",
+      "substitute_exercise_id": "ex_landmine_press",
+      "reason": "no bench; loaded press",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_pull_up",
+      "substitute_exercise_id": "ex_db_row",
+      "reason": "no rig; loaded pull",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_pull_up",
+      "substitute_exercise_id": "ex_cable_row",
+      "reason": "no rig; loaded pull",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_pull_up",
+      "substitute_exercise_id": "ex_trx_row",
+      "reason": "no rig; bodyweight pull",
+      "priority": 3
+    },
+    {
+      "exercise_id": "ex_db_row",
+      "substitute_exercise_id": "ex_cable_row",
+      "reason": "no dumbbells; loaded pull",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_db_row",
+      "substitute_exercise_id": "ex_trx_row",
+      "reason": "no dumbbells; bodyweight pull",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_cable_row",
+      "substitute_exercise_id": "ex_db_row",
+      "reason": "no cable; loaded pull",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_cable_row",
+      "substitute_exercise_id": "ex_trx_row",
+      "reason": "no cable; bodyweight pull",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_trx_row",
+      "substitute_exercise_id": "ex_db_row",
+      "reason": "no TRX; loaded pull",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_bulgarian_split_squat",
+      "substitute_exercise_id": "ex_reverse_lunge",
+      "reason": "no bench; loaded single-leg",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_bulgarian_split_squat",
+      "substitute_exercise_id": "ex_step_up",
+      "reason": "no bench or dumbbells; single-leg",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_walking_lunge",
+      "substitute_exercise_id": "ex_reverse_lunge",
+      "reason": "space or dumbbells; single-leg",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_walking_lunge",
+      "substitute_exercise_id": "ex_step_up",
+      "reason": "no dumbbells; single-leg",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_reverse_lunge",
+      "substitute_exercise_id": "ex_step_up",
+      "reason": "no dumbbells; single-leg",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_sandbag_walking_lunge",
+      "substitute_exercise_id": "ex_walking_lunge",
+      "reason": "no sandbag; loaded lunge",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_sandbag_walking_lunge",
+      "substitute_exercise_id": "ex_reverse_lunge",
+      "reason": "no sandbag; loaded lunge",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_sandbag_front_rack_march",
+      "substitute_exercise_id": "ex_farmer_carry",
+      "reason": "no sandbag; loaded carry",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_sandbag_carry",
+      "substitute_exercise_id": "ex_farmer_carry",
+      "reason": "no sandbag; loaded carry",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_farmer_carry",
+      "substitute_exercise_id": "ex_sandbag_front_rack_march",
+      "reason": "no dumbbells or kettlebells; loaded carry",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_goblet_squat",
+      "substitute_exercise_id": "ex_kettlebell_swing",
+      "reason": "no dumbbells; loaded lower body",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_sled_pull",
+      "substitute_exercise_id": "ex_db_row",
+      "reason": "no sled; loaded pull",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_sled_pull",
+      "substitute_exercise_id": "ex_trx_row",
+      "reason": "no sled; horizontal pull",
+      "priority": 3
+    },
+    {
+      "exercise_id": "ex_sled_push",
+      "substitute_exercise_id": "ex_step_up",
+      "reason": "no sled; loaded leg drive",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_trx_push_up",
+      "substitute_exercise_id": "ex_push_up",
+      "reason": "no TRX; same pattern unloaded",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_pallof_press",
+      "substitute_exercise_id": "ex_landmine_rotation",
+      "reason": "no cable or bands; loaded anti-rotation",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_pallof_press",
+      "substitute_exercise_id": "ex_side_plank",
+      "reason": "no cable or bands; anti-rotation core",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_landmine_rotation",
+      "substitute_exercise_id": "ex_pallof_press",
+      "reason": "no landmine; loaded anti-rotation",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_landmine_rotation",
+      "substitute_exercise_id": "ex_side_plank",
+      "reason": "no landmine; anti-rotation core",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_box_step_over",
+      "substitute_exercise_id": "ex_step_up",
+      "reason": "no box height; same pattern",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_step_up",
+      "substitute_exercise_id": "ex_box_step_over",
+      "reason": "no box; same pattern",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_skierg",
+      "substitute_exercise_id": "ex_rowerg",
+      "reason": "no SkiErg; low-impact engine",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_rowerg",
+      "substitute_exercise_id": "ex_skierg",
+      "reason": "no RowErg; low-impact engine",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_rowerg",
+      "substitute_exercise_id": "ex_spin_bike",
+      "reason": "no RowErg; low-impact engine",
+      "priority": 2
+    },
+    {
+      "exercise_id": "ex_spin_bike",
+      "substitute_exercise_id": "ex_rowerg",
+      "reason": "no bike; low-impact engine",
+      "priority": 1
+    },
+    {
+      "exercise_id": "ex_incline_walk",
+      "substitute_exercise_id": "ex_spin_bike",
+      "reason": "no treadmill; low-impact engine",
       "priority": 1
     }
   ],

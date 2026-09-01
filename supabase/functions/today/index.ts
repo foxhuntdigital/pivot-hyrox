@@ -12,6 +12,7 @@ import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
   localDate, requireEntitlement, requireUser,
 } from '../_shared/context.ts';
+import { auditInputs } from '../_shared/audit.ts';
 import { loadProgressSnapshot } from '../_shared/progress.ts';
 import { daysAgo, sessionMinutes } from '../_shared/readiness-history.ts';
 import { ensureWeekQueue } from '../_shared/queue.ts';
@@ -176,7 +177,7 @@ Deno.serve(async (req) => {
       user_id: user.id,
       selected_template_id: decision.kind === 'session' ? decision.template.id : null,
       selected_variant: decision.kind === 'session' ? decision.variant.variant_code : null,
-      inputs_json: input,
+      inputs_json: auditInputs(input),
       reason_codes: decision.reason_codes,
       rationale: decision.rationale,
       engine_version: ENGINE_VERSION,

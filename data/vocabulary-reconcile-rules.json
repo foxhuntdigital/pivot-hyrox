@@ -1,0 +1,52 @@
+{
+  "note": "Human rulings that the reconciliation report cannot safely infer. Everything here is a claim that two names are the same movement, or that a token means another token — the kind of judgement a string comparison must never make on its own.",
+  "equipment_aliases": {
+    "dumbbell": "db",
+    "kettlebell": "kb",
+    "band": "bands",
+    "pullup_bar": "rig",
+    "bar": "barbell"
+  },
+  "equipment_new": {
+    "note": "Tokens with no equivalent in content.equipment. `tier` is a PROPOSAL for review: athlete_selectable becomes an onboarding control, derived_common is implied by a gym rather than ticked, specialized needs deliberate opt-in and never a backfill.",
+    "trap_bar":       { "tier": "athlete_selectable", "category": "strength" },
+    "machine":        { "tier": "athlete_selectable", "category": "strength" },
+    "medicine_ball":  { "tier": "athlete_selectable", "category": "strength" },
+    "hurdle":         { "tier": "athlete_selectable", "category": "hyrox" },
+    "plate":          { "tier": "derived_common",     "category": "strength" },
+    "wall":           { "tier": "derived_common",     "category": "bodyweight" },
+    "ab_wheel":       { "tier": "specialized",        "category": "strength" },
+    "sliders":        { "tier": "specialized",        "category": "strength" },
+    "stability_ball": { "tier": "specialized",        "category": "strength" },
+    "back_extension": { "tier": "specialized",        "category": "strength" },
+    "reverse_hyper":  { "tier": "specialized",        "category": "strength" },
+    "nordic_anchor":  { "tier": "specialized",        "category": "strength" }
+  },
+  "bucket_normalisation": {
+    "note": "The 50/25/25 bucket answers 'what kind of exposure is this'. Anchor-ness answers 'how should the progression engine treat it' and belongs in progression_class. Six values collapse to the methodology's three; the anchor half of each label is carried out separately as a proposed progression_class.",
+    "Foundational / repeatable":     { "bucket": "foundational_repeatable" },
+    "Primary anchor":                { "bucket": "foundational_repeatable", "implies_class": "anchor" },
+    "Accessory anchor":              { "bucket": "foundational_repeatable", "implies_class": "accessory_anchor" },
+    "Accessory/secondary anchor":    { "bucket": "foundational_repeatable", "implies_class": "accessory_anchor" },
+    "Athletic / power / plyometric": { "bucket": "athletic_power_plyometric" },
+    "Complex / specific / novel":    { "bucket": "complex_specific_novel" }
+  },
+  "renames": {
+    "note": "Proposed RENAME_EXISTING: the sheet's preferred display name for a movement the library already has. The id is preserved; only the canonical name changes, and the old name becomes an alias.",
+    "Conventional Deadlift": "ex_deadlift",
+    "Pull-Up / Chin-Up": "ex_pull_up",
+    "1-Arm DB Row": "ex_db_row"
+  },
+  "keep_existing": {
+    "note": "Live exercises absent from the sheet that are NOT deprecation candidates. Cardio, mobility and skill work is out of scope for a strength vocabulary, so its absence carries no signal at all. The six named by product are kept deliberately: five are endpoints in the substitution graph and push_press -> incline_db_press is what makes HYROX Push A reachable without a barbell.",
+    "out_of_scope": [
+      "ex_run", "ex_incline_walk", "ex_skierg", "ex_spin_bike", "ex_rowerg",
+      "ex_jump_rope", "ex_boxing_bag", "ex_pilates_reformer", "ex_mobility_flow",
+      "ex_breathing_core_reset", "ex_running_drills"
+    ],
+    "product_ruling": [
+      "ex_incline_db_press", "ex_kettlebell_swing", "ex_air_squat",
+      "ex_trx_row", "ex_box_step_over", "ex_sandbag_walking_lunge"
+    ]
+  }
+}

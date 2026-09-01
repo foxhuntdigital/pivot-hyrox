@@ -21,6 +21,17 @@ export type RecoveryState = 'good' | 'okay' | 'poor';
 export type ImpactLevel = 'low' | 'medium' | 'high';
 export type Energy = 'low' | 'normal' | 'high';
 
+/** How a movement is allowed to progress (Strength addendum §11). */
+export type ProgressionClass =
+  /** Stable and repeatable: the primary home for deterministic overload. */
+  | 'anchor'
+  /** Technique, complexity or reactivity leads; load follows if at all. */
+  | 'developmental'
+  /** Density, work:rest and total output rather than a heavier bar. */
+  | 'variable_complex'
+  /** Progressed like an anchor, but weighted lower in capability inference. */
+  | 'accessory_anchor';
+
 export interface Exercise {
   id: string;
   name: string;
@@ -28,6 +39,34 @@ export interface Exercise {
   postpartum_friendly: boolean;
   /** Equipment ids that can satisfy this exercise. Empty = needs nothing. */
   equipment: string[];
+
+  /**
+   * Ontology (Strength addendum §3). Multi-valued because a Bulgarian split
+   * squat is a lunge that is also unilateral and stability-demanding, and
+   * trains functional strength and hypertrophy at once — forcing a primary
+   * would discard the reason to carry the field.
+   *
+   * The engine does not rank on these. They exist so the progression service
+   * can branch on `progression_class` — load-and-reps is the wrong track for a
+   * box jump, a thruster and a sled push, for three different reasons — and so
+   * library QA can report anchor and movement-family coverage.
+   *
+   * `progression_class` is null for movements the strength progression service
+   * does not govern: runs, ergs and mobility progress through the running and
+   * readiness paths instead. Null means "not ours", which is different from a
+   * movement that has no valid progression.
+   */
+  movement_families?: string[];
+  training_qualities?: string[];
+  movement_characters?: string[];
+  complexity_level?: 'basic' | 'intermediate' | 'advanced' | null;
+  exercise_role_eligibility?: string[];
+  progression_class?: ProgressionClass | null;
+  progression_tracks?: string[];
+  /** The variant tree: barbell RDL and dumbbell RDL are one family. */
+  exercise_family_id?: string | null;
+  /** Loads may only carry forward within this group. Narrower than a family. */
+  history_comparability_group?: string | null;
 }
 
 export interface BlockExercise {
@@ -37,6 +76,41 @@ export interface BlockExercise {
   quantity: number;
   quantity_unit: string;
   intensity_note?: string | null;
+
+  /**
+   * Structured strength prescription (migration 0011).
+   *
+   * `sets` is the discriminator: non-null means this row prescribes working
+   * sets, and `buildSteps` expands it into one step per set rather than the
+   * single collapsed step `quantity`/`quantity_unit` used to produce. The old
+   * encoding put the set count in `quantity` and the rep count in the *unit
+   * string* — 4x6 was `quantity: 4, quantity_unit: '6'` — which is why a
+   * strength session rendered as "4 6" and logged the set count as reps.
+   *
+   * Absent on distance, duration and calorie work, which `quantity` and
+   * `quantity_unit` describe correctly.
+   */
+  sets?: number | null;
+  reps_min?: number | null;
+  reps_max?: number | null;
+  /** Rest between working sets. `WorkoutBlock.rest_seconds` is between rounds. */
+  rest_seconds?: number | null;
+  /** Authored RPE ceiling. Progression is allowed only while observed RPE is under it. */
+  target_rpe?: number | null;
+  load_basis?: 'absolute' | 'percent_1rm' | 'rpe' | 'bodyweight' | null;
+  load_value?: number | null;
+
+  /**
+   * The role this movement plays in THIS session (addendum §6).
+   *
+   * On the prescription rather than the exercise: a goblet squat is a primary
+   * lift for a beginner, a primer for a lifter and a finisher at the end of a
+   * circuit. `Exercise.exercise_role_eligibility` says which roles the movement
+   * can hold; this says which one it holds here.
+   */
+  exercise_role?:
+    | 'primer' | 'power' | 'primary_strength' | 'secondary_strength'
+    | 'accessory' | 'trunk_carry' | 'finisher' | null;
 }
 
 export interface WorkoutBlock {
@@ -71,6 +145,20 @@ export interface WorkoutTemplate {
    */
   stimulus?: string | null;
   secondary_goal?: string | null;
+  /**
+   * Physiological domain (migration 0013). Becomes the planner-facing match key
+   * once the coverage gate proves there is enough true-strength content to
+   * survive the switch; until then `matchesStimulus` still reads `primary_goal`
+   * and this is written but unread.
+   */
+  training_domain?: string | null;
+  /** Structural form — `strength` and `strength_endurance` are not the same session. */
+  session_type?: string | null;
+  /** How the work is performed. An array because a hybrid session is genuinely more than one. */
+  modality?: string[];
+  workout_role?: 'primary' | 'supplemental';
+  supplemental_type?: string | null;
+  supplemental_load?: 'minimal' | 'low' | 'moderate' | null;
   estimated_minutes: number;
   intensity_target?: string | null;
   impact_level: ImpactLevel;

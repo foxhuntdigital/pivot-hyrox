@@ -31,7 +31,24 @@ function scaleQuantity(be: BlockExercise, multiplier: number): BlockExercise {
   // Rep- and distance-based work scales; a sets×reps prescription scales its
   // set count, which the quantity field holds.
   const scaled = Math.max(1, Math.round(be.quantity * multiplier));
-  return { ...be, quantity: be.prescription_type === 'load' ? be.quantity : scaled };
+  const out: BlockExercise = {
+    ...be,
+    quantity: be.prescription_type === 'load' ? be.quantity : scaled,
+  };
+
+  // `sets` carries the same count as `quantity` on a sets×reps row and must
+  // scale with it (migration 0011). The player reads `sets` in preference to
+  // `quantity` because it is the field that can be trusted, so leaving it
+  // unscaled would hand an athlete on a 20-minute Micro the full four working
+  // sets while every other part of the session compressed around them.
+  //
+  // Reps are deliberately NOT scaled. Volume comes off in whole sets: cutting
+  // a 4x6 to 4x4 changes what the session trains, where cutting it to 2x6
+  // keeps the stimulus and takes away the dose — which is what a variant is
+  // for (PRD §9.3).
+  if (be.sets != null) out.sets = Math.max(1, Math.round(be.sets * multiplier));
+
+  return out;
 }
 
 /**

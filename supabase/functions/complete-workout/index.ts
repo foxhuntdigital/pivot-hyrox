@@ -35,11 +35,29 @@ interface CompleteBody {
     prescribed_reps?: number | null; actual_reps?: number | null;
     prescribed_load?: number | null; actual_load?: number | null;
     load_unit?: string | null; rpe?: number | null;
+    /** The range and ceiling this set was performed against (migration 0012). */
+    prescribed_reps_min?: number | null; prescribed_reps_max?: number | null;
+    prescribed_rpe?: number | null; notes?: string | null;
+    /**
+     * 'manual' where the athlete typed something, 'asserted' where the row
+     * exists only because they tapped Complete. Only the first is evidence: an
+     * asserted row restates the prescription and cannot show a miss, so
+     * trending it would read the library back as achievement. Absent means
+     * asserted, matching the column default.
+     */
+    source?: 'asserted' | 'manual' | 'carried' | 'timer' | null;
   }[];
   cardio_logs?: {
     block_order: number; exercise_id: string;
     duration_seconds?: number | null; distance_meters?: number | null;
     avg_hr?: number | null; calories?: number | null; rpe?: number | null;
+    /**
+     * 'timer' where the player measured it, 'manual' where the athlete
+     * corrected or entered it. Defaults to 'timer' because a distance step is
+     * timed whether or not anyone typed anything — the opposite of a set,
+     * which knows nothing unless asked.
+     */
+    source?: 'timer' | 'manual' | 'integration' | null;
   }[];
   /**
    * The laps the player's clock recorded, in order — one per completed step,
@@ -249,6 +267,13 @@ async function writeLogs(db: ReturnType<typeof clientFor>, body: CompleteBody) {
       actual_load: l.actual_load ?? null,
       load_unit: l.load_unit ?? null,
       rpe: l.rpe ?? null,
+      prescribed_reps_min: l.prescribed_reps_min ?? null,
+      prescribed_reps_max: l.prescribed_reps_max ?? null,
+      prescribed_rpe: l.prescribed_rpe ?? null,
+      notes: l.notes ?? null,
+      // Defaulted rather than trusted blank: a client that does not send it is
+      // an older build whose rows are asserted by construction.
+      source: l.source ?? 'asserted',
       client_event_id: crypto.randomUUID(),
     }));
 
@@ -262,6 +287,7 @@ async function writeLogs(db: ReturnType<typeof clientFor>, body: CompleteBody) {
       avg_hr: l.avg_hr ?? null,
       calories: l.calories ?? null,
       rpe: l.rpe ?? null,
+      source: l.source ?? 'timer',
       client_event_id: crypto.randomUUID(),
     }));
 
