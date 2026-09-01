@@ -402,17 +402,17 @@ describe('true strength coverage (the gate on reclassification)', () => {
             + `session(s), need ${floor}\n${inventory()}`);
 
           /**
-           * WATCH: the poor-recovery lane clears this by exactly nothing.
+           * WATCH: the poor-recovery lane is the thin one.
            *
-           * Every RPE<=6 strength session in the library lives in
-           * strength_maintenance_lower or strength_maintenance_upper, which is
-           * two families against a floor of two. Any reclassification,
-           * deprecation, equipment restriction or substitution collapse takes
-           * it to one immediately, and the first content pass after this
-           * release should add a third poor-recovery pattern — not to widen a
-           * margin for its own sake, but because a single point of failure in
-           * readiness coverage is the one place the athlete has no way out.
-           * Recorded with the numbers in data/review/reclassification-delta.json.
+           * It cleared this by exactly nothing until the taper micros were
+           * authored into true strength, which added `micro` as a third RPE<=6
+           * family beside strength_maintenance_lower and _upper. Three against
+           * a floor of two is a margin of one, and a single point of failure in
+           * readiness coverage is the one place an athlete has no way out — so
+           * any reclassification, deprecation, equipment restriction or
+           * substitution collapse touching those three families should be
+           * measured here before it lands.
+           * Numbers in data/review/reclassification-delta.json.
            */
           assert.ok(familiesOf(found).size >= FAMILY_FLOOR,
             `${profile}, ${recovery} recovery, ${minutes} min: true strength comes from `

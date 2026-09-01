@@ -773,5 +773,12 @@
    "verdict": "All 21 defensible. No true-strength session was mislabelled out."
   },
   "follow_up": "Author working sets and rest into wo_micro_strength_legs_15 and wo_micro_upper_15. They already prescribe the right movements at RPE 6 in 15 minutes and sit in the micro family, which taper permits \u2014 they lack only sets and rest_seconds. That restores the taper strength exposures truthfully rather than by mislabel."
+ },
+ "follow_up_completed": {
+  "change": "wo_micro_strength_legs_15 and wo_micro_upper_15 re-authored as true strength: same movements, same RPE 6 ceiling, same fifteen minutes, now two working sets per movement with 60-75s rest. Maintenance, not density: two sets at RPE 6 keeps the pattern through a taper without banking fatigue anyone has to recover from.",
+  "taper_result": "strength exposures 0 -> 2 in all five equipment profiles; db and barbell-gym taper queues no longer empty",
+  "drift": "none \u2014 0 of 20 non-taper week queues changed, 0 of 480 prescriptions changed",
+  "side_effect": "poor-recovery strength family diversity 2 -> 3. `micro` is now an RPE<=6 true-strength family beside the two maintenance families, which resolves the watch condition this file recorded.",
+  "strength_templates": "46 keep the strength label, up from 44"
  }
 }

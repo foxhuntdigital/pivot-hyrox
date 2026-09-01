@@ -307,7 +307,11 @@ function displayPair(it, structured, where, problems) {
   }
   const { sets, reps_min, reps_max } = structured;
   const reps = reps_max != null && reps_max !== reps_min ? `${reps_min}-${reps_max}` : `${reps_min}`;
-  const unit = `x${reps}${it.per_side ? '/leg' : ''}`;
+  // `per_side: true` reads as a leg movement because that is what the seed's
+  // existing per-side rows are; a string says which side-word to use, so a
+  // row that is per-arm does not render as "/leg".
+  const side = it.per_side === true ? 'leg' : it.per_side || null;
+  const unit = `x${reps}${side ? `/${side}` : ''}`;
   if (it.quantity != null && it.quantity !== sets) {
     problems.push(`${where}: quantity ${it.quantity} disagrees with sets ${sets}`);
   }

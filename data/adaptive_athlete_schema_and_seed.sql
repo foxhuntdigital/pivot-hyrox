@@ -84,12 +84,6 @@ INSERT INTO "block_exercises" VALUES('wo_hyrox_density_emom_20_b1_e4','wo_hyrox_
 INSERT INTO "block_exercises" VALUES('wo_hyrox_density_emom_20_b1_e5','wo_hyrox_density_emom_20_b1',5,'ex_air_squat','reps',15.0,'reps','easy',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO "block_exercises" VALUES('wo_micro_engine_12_b1_e1','wo_micro_engine_12_b1',1,'ex_skierg','distance',250.0,'m','steady',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO "block_exercises" VALUES('wo_micro_engine_12_b1_e2','wo_micro_engine_12_b1',2,'ex_air_squat','reps',10.0,'reps','smooth',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
-INSERT INTO "block_exercises" VALUES('wo_micro_strength_legs_15_b1_e1','wo_micro_strength_legs_15_b1',1,'ex_goblet_squat','reps',10.0,'reps','RPE 6',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
-INSERT INTO "block_exercises" VALUES('wo_micro_strength_legs_15_b1_e2','wo_micro_strength_legs_15_b1',2,'ex_reverse_lunge','reps',8.0,'reps/leg','RPE 6',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
-INSERT INTO "block_exercises" VALUES('wo_micro_strength_legs_15_b1_e3','wo_micro_strength_legs_15_b1',3,'ex_glute_bridge','reps',15.0,'reps','smooth',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
-INSERT INTO "block_exercises" VALUES('wo_micro_upper_15_b1_e1','wo_micro_upper_15_b1',1,'ex_push_up','reps',8.0,'reps','scaled',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
-INSERT INTO "block_exercises" VALUES('wo_micro_upper_15_b1_e2','wo_micro_upper_15_b1',2,'ex_db_row','reps',10.0,'reps/side','RPE 6',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
-INSERT INTO "block_exercises" VALUES('wo_micro_upper_15_b1_e3','wo_micro_upper_15_b1',3,'ex_landmine_press','reps',8.0,'reps/side','RPE 6',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO "block_exercises" VALUES('wo_micro_hyrox_18_b1_e1','wo_micro_hyrox_18_b1',1,'ex_skierg','distance',250.0,'m','steady',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO "block_exercises" VALUES('wo_micro_hyrox_18_b1_e2','wo_micro_hyrox_18_b1',2,'ex_wall_ball','reps',10.0,'reps','smooth',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO "block_exercises" VALUES('wo_micro_hyrox_18_b1_e3','wo_micro_hyrox_18_b1',3,'ex_farmer_carry','distance',60.0,'ft','moderate',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
@@ -639,6 +633,12 @@ INSERT INTO "block_exercises" VALUES('str_recovery_04_b1_e1','str_recovery_04_b1
 INSERT INTO "block_exercises" VALUES('str_recovery_04_b1_e2','str_recovery_04_b1',2,'ex_chest_supported_row','sets_reps',3,'x8','RPE 6',NULL,3,8,8,120,6,NULL,NULL);
 INSERT INTO "block_exercises" VALUES('str_recovery_04_b1_e3','str_recovery_04_b1',3,'ex_arnold_press','sets_reps',2,'x10','RPE 5.5',NULL,2,10,10,90,5.5,NULL,NULL);
 INSERT INTO "block_exercises" VALUES('str_recovery_04_b1_e4','str_recovery_04_b1',4,'ex_rear_delt_fly','sets_reps',2,'x12','RPE 5.5',NULL,2,12,12,60,5.5,NULL,NULL);
+INSERT INTO "block_exercises" VALUES('wo_micro_strength_legs_15_b1_e1','wo_micro_strength_legs_15_b1',1,'ex_goblet_squat','sets_reps',2,'x10','RPE 6',NULL,2,10,10,75,6,NULL,NULL);
+INSERT INTO "block_exercises" VALUES('wo_micro_strength_legs_15_b1_e2','wo_micro_strength_legs_15_b1',2,'ex_reverse_lunge','sets_reps',2,'x8/leg','RPE 6',NULL,2,8,8,60,6,NULL,NULL);
+INSERT INTO "block_exercises" VALUES('wo_micro_strength_legs_15_b1_e3','wo_micro_strength_legs_15_b1',3,'ex_glute_bridge','sets_reps',2,'x15','RPE 6',NULL,2,15,15,60,6,NULL,NULL);
+INSERT INTO "block_exercises" VALUES('wo_micro_upper_15_b1_e1','wo_micro_upper_15_b1',1,'ex_push_up','sets_reps',2,'x8','RPE 6',NULL,2,8,8,60,6,NULL,NULL);
+INSERT INTO "block_exercises" VALUES('wo_micro_upper_15_b1_e2','wo_micro_upper_15_b1',2,'ex_db_row','sets_reps',2,'x10/side','RPE 6',NULL,2,10,10,60,6,NULL,NULL);
+INSERT INTO "block_exercises" VALUES('wo_micro_upper_15_b1_e3','wo_micro_upper_15_b1',3,'ex_landmine_press','sets_reps',2,'x8/side','RPE 6',NULL,2,8,8,75,6,NULL,NULL);
 CREATE TABLE equipment(id TEXT PRIMARY KEY,name TEXT UNIQUE,category TEXT,selection_tier TEXT);
 INSERT INTO "equipment" VALUES('treadmill','Treadmill','cardio','athlete_selectable');
 INSERT INTO "equipment" VALUES('outdoor','Outdoor run','cardio','athlete_selectable');
@@ -1377,8 +1377,6 @@ INSERT INTO "workout_blocks" VALUES('wo_treadmill_incline_hybrid_b1','wo_treadmi
 INSERT INTO "workout_blocks" VALUES('wo_box_carry_engine_b1','wo_box_carry_engine',1,'rounds','Main','Creative hybrid',4,NULL,NULL);
 INSERT INTO "workout_blocks" VALUES('wo_hyrox_density_emom_20_b1','wo_hyrox_density_emom_20',1,'rounds','Main','Five-station EMOM',4,NULL,NULL);
 INSERT INTO "workout_blocks" VALUES('wo_micro_engine_12_b1','wo_micro_engine_12',1,'continuous','Main','Minimum effective dose',NULL,12.0,NULL);
-INSERT INTO "workout_blocks" VALUES('wo_micro_strength_legs_15_b1','wo_micro_strength_legs_15',1,'continuous','Main','Short lower strength',NULL,15.0,NULL);
-INSERT INTO "workout_blocks" VALUES('wo_micro_upper_15_b1','wo_micro_upper_15',1,'continuous','Main','Short upper strength',NULL,15.0,NULL);
 INSERT INTO "workout_blocks" VALUES('wo_micro_hyrox_18_b1','wo_micro_hyrox_18',1,'continuous','Main','Short HYROX session',NULL,18.0,NULL);
 INSERT INTO "workout_blocks" VALUES('wo_recovery_spin_mobility_b1','wo_recovery_spin_mobility',1,'continuous','Main','Recovery session',NULL,30.0,NULL);
 INSERT INTO "workout_blocks" VALUES('wo_half_hyrox_simulation_b1','wo_half_hyrox_simulation',1,'continuous','Main','Half-race simulation',NULL,NULL,NULL);
@@ -1653,6 +1651,8 @@ INSERT INTO "workout_blocks" VALUES('str_recovery_01_b1','str_recovery_01',1,'co
 INSERT INTO "workout_blocks" VALUES('str_recovery_02_b1','str_recovery_02',1,'continuous','Main','Poor-recovery upper strength: structurally distinct from lower lane; hard ceiling RPE 6.',NULL,NULL,NULL);
 INSERT INTO "workout_blocks" VALUES('str_recovery_03_b1','str_recovery_03',1,'continuous','Main','Poor-recovery hinge exposure; no density and no compensatory conditioning.',NULL,NULL,NULL);
 INSERT INTO "workout_blocks" VALUES('str_recovery_04_b1','str_recovery_04',1,'continuous','Main','Poor-recovery horizontal push/pull exposure; hard ceiling RPE 6.',NULL,NULL,NULL);
+INSERT INTO "workout_blocks" VALUES('wo_micro_strength_legs_15_b1','wo_micro_strength_legs_15',1,'continuous','Main','Two working sets per movement. Rest fully between sets; the clock is not part of the prescription.',NULL,NULL,NULL);
+INSERT INTO "workout_blocks" VALUES('wo_micro_upper_15_b1','wo_micro_upper_15',1,'continuous','Main','Two working sets per movement. Rest fully between sets; the clock is not part of the prescription.',NULL,NULL,NULL);
 CREATE TABLE workout_tags(workout_id TEXT,tag_id TEXT,PRIMARY KEY(workout_id,tag_id));
 INSERT INTO "workout_tags" VALUES('wo_zone_2_run_30','tag_run');
 INSERT INTO "workout_tags" VALUES('wo_zone_2_run_30','tag_zone2');
@@ -1786,8 +1786,6 @@ INSERT INTO "workout_templates" VALUES('wo_treadmill_incline_hybrid','Treadmill 
 INSERT INTO "workout_templates" VALUES('wo_box_carry_engine','Box Carry Engine','hybrid','strength','aerobic_strength','hyrox_capacity',40,'RPE 5-6','low',0.9,1,0,1,'Creative hybrid','Repeatable pace','hybrid','hybrid','content_eligible',NULL);
 INSERT INTO "workout_templates" VALUES('wo_hyrox_density_emom_20','HYROX Density EMOM 20','density','race_specific','station_durability','transition_efficiency',20,'RPE 6','medium',0.9,1,0,1,'Five-station EMOM','Finish each minute with breathing room','hybrid','hybrid','content_eligible',NULL);
 INSERT INTO "workout_templates" VALUES('wo_micro_engine_12','Micro Engine 12','micro','aerobic_durability','aerobic_maintenance','time_crunched',12,'RPE 5','low',0.6,1,0,1,'Minimum effective dose','Use on rough days','aerobic','conditioning','content_eligible',NULL);
-INSERT INTO "workout_templates" VALUES('wo_micro_strength_legs_15','Micro Strength Legs 15','micro','strength','strength_maintenance','time_crunched',15,'RPE 6','low',0.4,1,0,0,'Short lower strength','Use on rough days','muscular_endurance','strength_endurance','content_eligible',NULL);
-INSERT INTO "workout_templates" VALUES('wo_micro_upper_15','Micro Upper 15','micro','strength','strength_maintenance','time_crunched',15,'RPE 6','low',0.35,1,0,0,'Short upper strength','Use on rough days','muscular_endurance','strength_endurance','content_eligible',NULL);
 INSERT INTO "workout_templates" VALUES('wo_micro_hyrox_18','Micro HYROX 18','micro','race_specific','hyrox_maintenance','time_crunched',18,'RPE 6','medium',0.75,1,0,1,'Short HYROX session','Use on rough days','hybrid','hybrid','content_eligible',NULL);
 INSERT INTO "workout_templates" VALUES('wo_recovery_spin_mobility','Recovery Spin Mobility','recovery','recovery','recovery','aerobic_maintenance',30,'RPE 2-3','low',0.15,1,0,0,'Recovery session','Very easy','recovery','recovery','content_eligible',NULL);
 INSERT INTO "workout_templates" VALUES('wo_half_hyrox_simulation','Half HYROX Simulation','simulation','race_specific','race_specific','pacing',75,'RPE 7','high',1.0,1,1,1,'Half-race simulation','Pace, do not race','hybrid','benchmark','content_eligible',NULL);
@@ -2000,6 +1998,8 @@ INSERT INTO "workout_templates" VALUES('str_recovery_01','Recovery Strength — 
 INSERT INTO "workout_templates" VALUES('str_recovery_02','Recovery Strength — Upper','strength_maintenance_upper','strength','upper_body_strength',NULL,40,'RPE 5-6','low',0.3,1,0,0,'Recovery Strength — Upper','Poor-recovery upper strength: structurally distinct from lower lane; hard ceiling RPE 6.','strength','strength','content_eligible',NULL);
 INSERT INTO "workout_templates" VALUES('str_recovery_03','Recovery Strength — Hinge','strength_maintenance_lower','strength','hinge_strength',NULL,40,'RPE 5-6','low',0.3,1,0,0,'Recovery Strength — Hinge','Poor-recovery hinge exposure; no density and no compensatory conditioning.','strength','strength','content_eligible',NULL);
 INSERT INTO "workout_templates" VALUES('str_recovery_04','Recovery Strength — Push/Pull','strength_maintenance_upper','strength','horizontal_push_pull_strength',NULL,40,'RPE 5-6','low',0.3,1,0,0,'Recovery Strength — Push/Pull','Poor-recovery horizontal push/pull exposure; hard ceiling RPE 6.','strength','strength','content_eligible',NULL);
+INSERT INTO "workout_templates" VALUES('wo_micro_strength_legs_15','Micro Strength Legs 15','micro','strength','strength_maintenance','time_crunched',15,'RPE 6','low',0.4,1,0,0,'Short lower strength','Use on rough days, and through a taper. Two working sets per movement with real rest — keep the pattern, bank no fatigue.','strength','strength','content_eligible',NULL);
+INSERT INTO "workout_templates" VALUES('wo_micro_upper_15','Micro Upper 15','micro','strength','strength_maintenance','time_crunched',15,'RPE 6','low',0.35,1,0,0,'Short upper strength','Use on rough days, and through a taper. Two working sets per movement with real rest — keep the pattern, bank no fatigue.','strength','strength','content_eligible',NULL);
 CREATE TABLE workout_variants(id TEXT PRIMARY KEY,workout_id TEXT,variant_code TEXT,time_budget_minutes INTEGER,recovery_state TEXT,volume_multiplier REAL,intensity_modifier TEXT,notes TEXT,UNIQUE(workout_id,variant_code));
 INSERT INTO "workout_variants" VALUES('wo_zone_2_run_30_green','wo_zone_2_run_30','green',45,'good',1.0,'full prescription','Adaptive version');
 INSERT INTO "workout_variants" VALUES('wo_zone_2_run_30_yellow','wo_zone_2_run_30','yellow',30,'okay',0.65,'reduce rounds/sets; preserve purpose','Adaptive version');
@@ -2088,12 +2088,6 @@ INSERT INTO "workout_variants" VALUES('wo_hyrox_density_emom_20_red','wo_hyrox_d
 INSERT INTO "workout_variants" VALUES('wo_micro_engine_12_green','wo_micro_engine_12','green',45,'good',1.0,'full prescription','Adaptive version');
 INSERT INTO "workout_variants" VALUES('wo_micro_engine_12_yellow','wo_micro_engine_12','yellow',30,'okay',0.65,'reduce rounds/sets; preserve purpose','Adaptive version');
 INSERT INTO "workout_variants" VALUES('wo_micro_engine_12_red','wo_micro_engine_12','red',10,'poor',0.3,'minimum effective dose','Adaptive version');
-INSERT INTO "workout_variants" VALUES('wo_micro_strength_legs_15_green','wo_micro_strength_legs_15','green',45,'good',1.0,'full prescription','Adaptive version');
-INSERT INTO "workout_variants" VALUES('wo_micro_strength_legs_15_yellow','wo_micro_strength_legs_15','yellow',30,'okay',0.65,'reduce rounds/sets; preserve purpose','Adaptive version');
-INSERT INTO "workout_variants" VALUES('wo_micro_strength_legs_15_red','wo_micro_strength_legs_15','red',10,'poor',0.3,'minimum effective dose','Adaptive version');
-INSERT INTO "workout_variants" VALUES('wo_micro_upper_15_green','wo_micro_upper_15','green',45,'good',1.0,'full prescription','Adaptive version');
-INSERT INTO "workout_variants" VALUES('wo_micro_upper_15_yellow','wo_micro_upper_15','yellow',30,'okay',0.65,'reduce rounds/sets; preserve purpose','Adaptive version');
-INSERT INTO "workout_variants" VALUES('wo_micro_upper_15_red','wo_micro_upper_15','red',10,'poor',0.3,'minimum effective dose','Adaptive version');
 INSERT INTO "workout_variants" VALUES('wo_micro_hyrox_18_green','wo_micro_hyrox_18','green',45,'good',1.0,'full prescription','Adaptive version');
 INSERT INTO "workout_variants" VALUES('wo_micro_hyrox_18_yellow','wo_micro_hyrox_18','yellow',30,'okay',0.65,'reduce rounds/sets; preserve purpose','Adaptive version');
 INSERT INTO "workout_variants" VALUES('wo_micro_hyrox_18_red','wo_micro_hyrox_18','red',10,'poor',0.3,'minimum effective dose','Adaptive version');
@@ -2730,4 +2724,10 @@ INSERT INTO "workout_variants" VALUES('str_recovery_03_red','str_recovery_03','r
 INSERT INTO "workout_variants" VALUES('str_recovery_04_green','str_recovery_04','green',40,'good',1,'full prescription','PIVOT Strength Library Expansion v1');
 INSERT INTO "workout_variants" VALUES('str_recovery_04_yellow','str_recovery_04','yellow',26,'okay',0.65,'drop accessory and trunk volume first; the anchor lifts keep their sets','PIVOT Strength Library Expansion v1');
 INSERT INTO "workout_variants" VALUES('str_recovery_04_red','str_recovery_04','red',12,'poor',0.3,'the anchor lift only, at the prescribed load; no intensity compensation','PIVOT Strength Library Expansion v1');
+INSERT INTO "workout_variants" VALUES('wo_micro_strength_legs_15_green','wo_micro_strength_legs_15','green',15,'good',1,'full prescription','PIVOT Taper Micro Strength v1');
+INSERT INTO "workout_variants" VALUES('wo_micro_strength_legs_15_yellow','wo_micro_strength_legs_15','yellow',10,'okay',0.65,'already the minimum dose; drop the third movement before shortening rest','PIVOT Taper Micro Strength v1');
+INSERT INTO "workout_variants" VALUES('wo_micro_strength_legs_15_red','wo_micro_strength_legs_15','red',8,'poor',0.3,'the first two movements only, at the same rest','PIVOT Taper Micro Strength v1');
+INSERT INTO "workout_variants" VALUES('wo_micro_upper_15_green','wo_micro_upper_15','green',15,'good',1,'full prescription','PIVOT Taper Micro Strength v1');
+INSERT INTO "workout_variants" VALUES('wo_micro_upper_15_yellow','wo_micro_upper_15','yellow',10,'okay',0.65,'already the minimum dose; drop the third movement before shortening rest','PIVOT Taper Micro Strength v1');
+INSERT INTO "workout_variants" VALUES('wo_micro_upper_15_red','wo_micro_upper_15','red',8,'poor',0.3,'the first two movements only, at the same rest','PIVOT Taper Micro Strength v1');
 COMMIT;

@@ -1,0 +1,115 @@
+{
+ "meta": {
+  "pack": "PIVOT Taper Micro Strength v1",
+  "workout_count": 2,
+  "format": "canonical-v1",
+  "_purpose": "Re-authors the two 15-minute micro strength sessions as true strength: the same movements, the same RPE 6 ceiling and the same fifteen minutes, with explicit working sets and deliberate rest between them. Before this they prescribed reps with no sets and no rest, so ENGINE 2.0.0 correctly stopped counting them as strength exposures — and taper, which narrows to the recovery/micro/run_quality/ski_quality families, was left with no way to meet its strength requirement at all. The gap is closed by making the sessions qualify rather than by loosening what qualifying means.",
+  "_not_density": "Rest is 60 to 75 seconds: short, because fifteen minutes is the whole budget, and real, because rest between working sets is the thing that separates strength from a circuit. Two sets per movement at RPE 6 is a maintenance dose during a taper — enough to keep the pattern, not enough to create fatigue anyone has to recover from before a race.",
+  "default_description": "Short strength maintenance.",
+  "default_coaching_notes": "Two working sets, resting fully between them. This is maintenance, not a session to push.",
+  "express_rule": "already the minimum dose; drop the third movement before shortening rest",
+  "micro_rule": "the first two movements only, at the same rest"
+ },
+ "workouts": [
+  {
+   "id": "wo_micro_strength_legs_15",
+   "name": "Micro Strength Legs 15",
+   "workout_family": "micro",
+   "stimulus": "strength_maintenance",
+   "secondary_goal": "time_crunched",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.4,
+   "description": "Short lower strength",
+   "coaching_notes": "Use on rough days, and through a taper. Two working sets per movement with real rest — keep the pattern, bank no fatigue.",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Two working sets per movement. Rest fully between sets; the clock is not part of the prescription."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_goblet_squat",
+     "exercise": "Goblet Squat",
+     "prescription_type": "sets_reps",
+     "sets": 2, "reps_min": 10, "reps_max": 10,
+     "rest_seconds": 75, "target_rpe": 6,
+     "intensity": "RPE 6",
+     "exercise_role": "primary_strength"
+    },
+    {
+     "exercise_id": "ex_reverse_lunge",
+     "exercise": "Reverse Lunge",
+     "prescription_type": "sets_reps",
+     "sets": 2, "reps_min": 8, "reps_max": 8, "per_side": "leg",
+     "rest_seconds": 60, "target_rpe": 6,
+     "intensity": "RPE 6",
+     "exercise_role": "secondary_strength"
+    },
+    {
+     "exercise_id": "ex_glute_bridge",
+     "exercise": "Glute Bridge",
+     "prescription_type": "sets_reps",
+     "sets": 2, "reps_min": 15, "reps_max": 15,
+     "rest_seconds": 60, "target_rpe": 6,
+     "intensity": "RPE 6",
+     "exercise_role": "accessory"
+    }
+   ]
+  },
+  {
+   "id": "wo_micro_upper_15",
+   "name": "Micro Upper 15",
+   "workout_family": "micro",
+   "stimulus": "strength_maintenance",
+   "secondary_goal": "time_crunched",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.35,
+   "description": "Short upper strength",
+   "coaching_notes": "Use on rough days, and through a taper. Two working sets per movement with real rest — keep the pattern, bank no fatigue.",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Two working sets per movement. Rest fully between sets; the clock is not part of the prescription."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_push_up",
+     "exercise": "Push-Up",
+     "prescription_type": "sets_reps",
+     "sets": 2, "reps_min": 8, "reps_max": 8,
+     "rest_seconds": 60, "target_rpe": 6,
+     "intensity": "RPE 6",
+     "exercise_role": "primary_strength"
+    },
+    {
+     "exercise_id": "ex_db_row",
+     "exercise": "DB Row",
+     "prescription_type": "sets_reps",
+     "sets": 2, "reps_min": 10, "reps_max": 10, "per_side": "side",
+     "rest_seconds": 60, "target_rpe": 6,
+     "intensity": "RPE 6",
+     "exercise_role": "primary_strength"
+    },
+    {
+     "exercise_id": "ex_landmine_press",
+     "exercise": "Landmine Press",
+     "prescription_type": "sets_reps",
+     "sets": 2, "reps_min": 8, "reps_max": 8, "per_side": "side",
+     "rest_seconds": 75, "target_rpe": 6,
+     "intensity": "RPE 6",
+     "exercise_role": "secondary_strength"
+    }
+   ]
+  }
+ ]
+}
