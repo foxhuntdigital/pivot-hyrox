@@ -54,6 +54,11 @@ const DIRECT = {
   strength:                   ['strength', 'identity'],
   strength_maintenance:       ['strength', 'specified'],
   grip_posterior:             ['strength', 'proposed'],
+  // Authored by the strength expansion: a session organised around total-body
+  // force production rather than one region. It rolls up to the same planner
+  // goal as `strength` — the distinction it draws is about which muscles the
+  // session covers, and the planner has never asked that question.
+  total_body_strength:        ['strength', 'specified'],
 
   // → race_specific
   race_pacing:                ['race_specific', 'specified'],

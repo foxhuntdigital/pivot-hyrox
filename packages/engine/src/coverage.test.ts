@@ -538,14 +538,24 @@ describe('strength library QA (addendum §18)', () => {
       + Object.entries(byClass).sort((a, b) => b[1] - a[1])
         .map(([c, n]) => `  ${String(n).padStart(3)}  ${c}`).join('\n'));
 
-    // Complexity must not be standing in for progressive overload. A library
-    // whose strength movements are mostly variable_complex has plenty to do
-    // and nothing to measure.
-    const anchorCount = byClass.anchor ?? 0;
+    /**
+     * Complexity must not be standing in for progressive overload. A library
+     * whose strength movements are mostly variable_complex has plenty to do
+     * and nothing to measure.
+     *
+     * Counted over BOTH anchor classes, matching ANCHOR_CLASSES above. An
+     * accessory anchor is progressively overloadable by definition — that is
+     * what separates it from a developmental movement; what it carries less of
+     * is weight in capability inference, which is a different question from
+     * whether the library can measure progress at all. Counting only `anchor`
+     * understated the library by the entire bodybuilding block.
+     */
+    const anchorCount = (byClass.anchor ?? 0) + (byClass.accessory_anchor ?? 0);
     const complexCount = byClass.variable_complex ?? 0;
     assert.ok(anchorCount >= complexCount,
-      `${complexCount} variable/complex movements against ${anchorCount} anchors — `
-      + 'complexity is substituting for progressive overload');
+      `${complexCount} variable/complex movements against ${anchorCount} progressively `
+      + 'overloadable ones (anchor + accessory_anchor) — complexity is substituting '
+      + 'for progressive overload');
   });
 
   /**

@@ -1,0 +1,3276 @@
+{
+  "note": "What write-vocabulary.mjs actually did. Derived columns are listed because the review did not contain them; postpartum_friendly is false on every new exercise and needs a coaching pass before any of them reaches an athlete who set that consideration.",
+  "updated": [
+    {
+      "id": "ex_sled_push",
+      "was": "Sled Push",
+      "now": "Sled Push",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_sled_pull",
+      "was": "Sled Pull",
+      "now": "Sled Pull",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_burpee_broad_jump",
+      "was": "Burpee Broad Jump",
+      "now": "Burpee Broad Jump",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_farmer_carry",
+      "was": "Farmer Carry",
+      "now": "Farmer Carry",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_wall_ball",
+      "was": "Wall Ball",
+      "now": "Wall Ball",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_back_squat",
+      "was": "Back Squat",
+      "now": "Back Squat",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_front_squat",
+      "was": "Front Squat",
+      "now": "Front Squat",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_goblet_squat",
+      "was": "Goblet Squat",
+      "now": "Goblet Squat",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_deadlift",
+      "was": "Deadlift",
+      "now": "Conventional Deadlift",
+      "renamed": true,
+      "aliases": [
+        "Deadlift"
+      ]
+    },
+    {
+      "id": "ex_romanian_deadlift",
+      "was": "Romanian Deadlift",
+      "now": "Romanian Deadlift",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_bulgarian_split_squat",
+      "was": "Bulgarian Split Squat",
+      "now": "Bulgarian Split Squat",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_walking_lunge",
+      "was": "Walking Lunge",
+      "now": "Walking Lunge",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_reverse_lunge",
+      "was": "Reverse Lunge",
+      "now": "Reverse Lunge",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_push_press",
+      "was": "Push Press",
+      "now": "Push Press",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_incline_db_press",
+      "was": "Incline DB Press",
+      "now": "Incline DB Press",
+      "renamed": false,
+      "aliases": [
+        "Incline DB Bench Press"
+      ]
+    },
+    {
+      "id": "ex_landmine_press",
+      "was": "Landmine Press",
+      "now": "Landmine Press",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_db_row",
+      "was": "DB Row",
+      "now": "1-Arm DB Row",
+      "renamed": true,
+      "aliases": [
+        "DB Row"
+      ]
+    },
+    {
+      "id": "ex_pull_up",
+      "was": "Pull-Up",
+      "now": "Pull-Up / Chin-Up",
+      "renamed": true,
+      "aliases": [
+        "Pull-Up"
+      ]
+    },
+    {
+      "id": "ex_cable_row",
+      "was": "Cable Row",
+      "now": "Cable Row",
+      "renamed": false,
+      "aliases": [
+        "Cable / Seated Row"
+      ]
+    },
+    {
+      "id": "ex_kettlebell_swing",
+      "was": "Kettlebell Swing",
+      "now": "Kettlebell Swing",
+      "renamed": false,
+      "aliases": [
+        "Two-Hand KB Swing"
+      ]
+    },
+    {
+      "id": "ex_box_jump",
+      "was": "Box Jump",
+      "now": "Box Jump",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_sandbag_carry",
+      "was": "Sandbag Carry",
+      "now": "Sandbag Carry",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_landmine_rotation",
+      "was": "Landmine Rotation",
+      "now": "Landmine Rotation",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_pallof_press",
+      "was": "Pallof Press",
+      "now": "Pallof Press",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_side_plank",
+      "was": "Side Plank",
+      "now": "Side Plank",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_glute_bridge",
+      "was": "Glute Bridge",
+      "now": "Glute Bridge",
+      "renamed": false,
+      "aliases": [
+        "Hip Bridge"
+      ]
+    },
+    {
+      "id": "ex_push_up",
+      "was": "Push-Up",
+      "now": "Push-Up",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_bear_crawl",
+      "was": "Bear Crawl",
+      "now": "Bear Crawl",
+      "renamed": false,
+      "aliases": []
+    },
+    {
+      "id": "ex_step_up",
+      "was": "Step-Up",
+      "now": "Step-Up",
+      "renamed": false,
+      "aliases": []
+    }
+  ],
+  "created": [
+    {
+      "id": "ex_bench_press",
+      "name": "Bench Press",
+      "parent": null,
+      "equipment": [
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_db_bench_press",
+      "name": "DB Bench Press",
+      "parent": null,
+      "equipment": [
+        "db",
+        "bench"
+      ]
+    },
+    {
+      "id": "ex_strict_overhead_press",
+      "name": "Strict Overhead Press",
+      "parent": null,
+      "equipment": [
+        "barbell",
+        "db"
+      ]
+    },
+    {
+      "id": "ex_1_arm_db_overhead_press",
+      "name": "1-Arm DB Overhead Press",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_chest_supported_row",
+      "name": "Chest-Supported Row",
+      "parent": null,
+      "equipment": [
+        "db",
+        "machine",
+        "bench"
+      ]
+    },
+    {
+      "id": "ex_lat_pulldown",
+      "name": "Lat Pulldown",
+      "parent": null,
+      "equipment": [
+        "cable",
+        "machine"
+      ]
+    },
+    {
+      "id": "ex_suitcase_carry",
+      "name": "Suitcase Carry",
+      "parent": null,
+      "equipment": [
+        "db",
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_hip_thrust",
+      "name": "Hip Thrust",
+      "parent": null,
+      "equipment": [
+        "barbell",
+        "db"
+      ]
+    },
+    {
+      "id": "ex_close_grip_bench_press",
+      "name": "Close-Grip Bench Press",
+      "parent": null,
+      "equipment": [
+        "barbell",
+        "bench"
+      ]
+    },
+    {
+      "id": "ex_db_floor_press",
+      "name": "DB Floor Press",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_barbell_row",
+      "name": "Barbell Row",
+      "parent": null,
+      "equipment": [
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_db_curl",
+      "name": "DB Curl",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_hammer_curl",
+      "name": "Hammer Curl",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_cable_curl",
+      "name": "Cable Curl",
+      "parent": null,
+      "equipment": [
+        "cable"
+      ]
+    },
+    {
+      "id": "ex_incline_db_curl",
+      "name": "Incline DB Curl",
+      "parent": null,
+      "equipment": [
+        "db",
+        "bench"
+      ]
+    },
+    {
+      "id": "ex_triceps_pushdown",
+      "name": "Triceps Pushdown",
+      "parent": null,
+      "equipment": [
+        "cable"
+      ]
+    },
+    {
+      "id": "ex_overhead_triceps_extension",
+      "name": "Overhead Triceps Extension",
+      "parent": null,
+      "equipment": [
+        "db",
+        "cable"
+      ]
+    },
+    {
+      "id": "ex_skull_crusher",
+      "name": "Skull Crusher",
+      "parent": null,
+      "equipment": [
+        "barbell",
+        "db",
+        "bench"
+      ]
+    },
+    {
+      "id": "ex_db_lateral_raise",
+      "name": "DB Lateral Raise",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_rear_delt_fly",
+      "name": "Rear-Delt Fly",
+      "parent": null,
+      "equipment": [
+        "db",
+        "cable",
+        "machine"
+      ]
+    },
+    {
+      "id": "ex_face_pull",
+      "name": "Face Pull",
+      "parent": null,
+      "equipment": [
+        "cable",
+        "bands"
+      ]
+    },
+    {
+      "id": "ex_cable_machine_fly",
+      "name": "Cable Fly",
+      "parent": null,
+      "equipment": [
+        "cable",
+        "machine"
+      ]
+    },
+    {
+      "id": "ex_leg_curl",
+      "name": "Leg Curl",
+      "parent": null,
+      "equipment": [
+        "machine"
+      ]
+    },
+    {
+      "id": "ex_leg_extension",
+      "name": "Leg Extension",
+      "parent": null,
+      "equipment": [
+        "machine"
+      ]
+    },
+    {
+      "id": "ex_standing_calf_raise",
+      "name": "Standing Calf Raise",
+      "parent": null,
+      "equipment": [
+        "machine",
+        "barbell",
+        "db"
+      ]
+    },
+    {
+      "id": "ex_seated_calf_raise",
+      "name": "Seated Calf Raise",
+      "parent": null,
+      "equipment": [
+        "machine",
+        "db"
+      ]
+    },
+    {
+      "id": "ex_tibialis_raise",
+      "name": "Tibialis Raise",
+      "parent": null,
+      "equipment": [
+        "bodyweight",
+        "machine",
+        "bands"
+      ]
+    },
+    {
+      "id": "ex_hip_abduction",
+      "name": "Hip Abduction",
+      "parent": null,
+      "equipment": [
+        "machine",
+        "bands",
+        "cable"
+      ]
+    },
+    {
+      "id": "ex_hip_adduction",
+      "name": "Hip Adduction",
+      "parent": null,
+      "equipment": [
+        "machine",
+        "bands",
+        "cable"
+      ]
+    },
+    {
+      "id": "ex_back_extension",
+      "name": "Back Extension",
+      "parent": null,
+      "equipment": [
+        "back_extension"
+      ]
+    },
+    {
+      "id": "ex_straight_arm_pulldown",
+      "name": "Straight-Arm Pulldown",
+      "parent": null,
+      "equipment": [
+        "cable",
+        "bands"
+      ]
+    },
+    {
+      "id": "ex_y_raise",
+      "name": "Y-Raise",
+      "parent": null,
+      "equipment": [
+        "db",
+        "cable",
+        "bench"
+      ]
+    },
+    {
+      "id": "ex_lateral_lunge",
+      "name": "Lateral Lunge",
+      "parent": null,
+      "equipment": [
+        "db",
+        "kb",
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_cossack_squat",
+      "name": "Cossack Squat",
+      "parent": null,
+      "equipment": [
+        "bodyweight",
+        "db",
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_pistol_squat_single_leg_squat",
+      "name": "Pistol Squat",
+      "parent": null,
+      "equipment": [
+        "bodyweight",
+        "db",
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_assisted_pistol_squat",
+      "name": "Assisted Pistol Squat",
+      "parent": null,
+      "equipment": [
+        "bodyweight",
+        "trx",
+        "rack"
+      ]
+    },
+    {
+      "id": "ex_box_target_pistol_squat",
+      "name": "Box / Target Pistol Squat",
+      "parent": null,
+      "equipment": [
+        "bodyweight",
+        "box"
+      ]
+    },
+    {
+      "id": "ex_skater_squat",
+      "name": "Skater Squat",
+      "parent": null,
+      "equipment": [
+        "bodyweight",
+        "db"
+      ]
+    },
+    {
+      "id": "ex_single_leg_hip_thrust",
+      "name": "Single-Leg Hip Thrust",
+      "parent": null,
+      "equipment": [
+        "bodyweight",
+        "db"
+      ]
+    },
+    {
+      "id": "ex_z_press",
+      "name": "Z Press",
+      "parent": null,
+      "equipment": [
+        "barbell",
+        "db"
+      ]
+    },
+    {
+      "id": "ex_half_kneeling_1_arm_press",
+      "name": "Half-Kneeling 1-Arm Press",
+      "parent": null,
+      "equipment": [
+        "db",
+        "kb",
+        "cable"
+      ]
+    },
+    {
+      "id": "ex_tall_kneeling_press",
+      "name": "Tall-Kneeling Press",
+      "parent": null,
+      "equipment": [
+        "db",
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_bottoms_up_kb_press",
+      "name": "Bottoms-Up KB Press",
+      "parent": null,
+      "equipment": [
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_db_hang_clean",
+      "name": "DB Hang Clean",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_double_db_hang_clean",
+      "name": "Double-DB Hang Clean",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_db_high_pull",
+      "name": "DB High Pull",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_db_jump_shrug",
+      "name": "DB Jump Shrug",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_barbell_high_pull",
+      "name": "Barbell High Pull",
+      "parent": null,
+      "equipment": [
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_clean_pull",
+      "name": "Clean Pull",
+      "parent": null,
+      "equipment": [
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_hang_power_clean",
+      "name": "Hang Power Clean",
+      "parent": null,
+      "equipment": [
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_power_clean",
+      "name": "Power Clean",
+      "parent": null,
+      "equipment": [
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_hang_power_snatch",
+      "name": "Hang Power Snatch",
+      "parent": null,
+      "equipment": [
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_db_snatch",
+      "name": "DB Snatch",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_kb_clean",
+      "name": "KB Clean",
+      "parent": null,
+      "equipment": [
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_kb_snatch",
+      "name": "KB Snatch",
+      "parent": null,
+      "equipment": [
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_overhead_squat",
+      "name": "Overhead Squat",
+      "parent": null,
+      "equipment": [
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_turkish_get_up",
+      "name": "Turkish Get-Up",
+      "parent": null,
+      "equipment": [
+        "kb",
+        "db"
+      ]
+    },
+    {
+      "id": "ex_sandbag_ground_to_shoulder",
+      "name": "Sandbag Ground-to-Shoulder",
+      "parent": null,
+      "equipment": [
+        "sandbag"
+      ]
+    },
+    {
+      "id": "ex_sandbag_bear_hug_squat",
+      "name": "Sandbag Bear-Hug Squat",
+      "parent": null,
+      "equipment": [
+        "sandbag"
+      ]
+    },
+    {
+      "id": "ex_front_rack_carry",
+      "name": "Front-Rack Carry",
+      "parent": null,
+      "equipment": [
+        "db",
+        "kb",
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_overhead_waiter_carry",
+      "name": "Waiter Carry",
+      "parent": null,
+      "equipment": [
+        "db",
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_zercher_carry",
+      "name": "Zercher Carry",
+      "parent": null,
+      "equipment": [
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_snap_down",
+      "name": "Snap-Down",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_jump_and_stick_landing",
+      "name": "Jump-and-Stick Landing",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_pogo_jump",
+      "name": "Pogo Jump",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_lateral_pogo",
+      "name": "Lateral Pogo",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_line_hop",
+      "name": "Line Hop",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_countermovement_jump",
+      "name": "Countermovement Jump",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_squat_jump",
+      "name": "Squat Jump",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_broad_jump",
+      "name": "Broad Jump",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_repeated_broad_jump",
+      "name": "Repeated Broad Jump",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_hurdle_hop",
+      "name": "Hurdle Hop",
+      "parent": null,
+      "equipment": [
+        "hurdle"
+      ]
+    },
+    {
+      "id": "ex_skater_jump_lateral_bound",
+      "name": "Lateral Bound",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_single_leg_hop_and_stick",
+      "name": "Single-Leg Hop-and-Stick",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_single_leg_broad_jump",
+      "name": "Single-Leg Broad Jump",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_lateral_hurdle_hop",
+      "name": "Lateral Hurdle Hop",
+      "parent": null,
+      "equipment": [
+        "hurdle"
+      ]
+    },
+    {
+      "id": "ex_depth_jump",
+      "name": "Depth Jump",
+      "parent": null,
+      "equipment": [
+        "box"
+      ]
+    },
+    {
+      "id": "ex_drop_jump_to_rebound",
+      "name": "Drop Jump to Rebound",
+      "parent": null,
+      "equipment": [
+        "box"
+      ]
+    },
+    {
+      "id": "ex_dead_bug",
+      "name": "Dead Bug",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_weighted_dead_bug",
+      "name": "Weighted Dead Bug",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_hollow_hold",
+      "name": "Hollow Hold",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_hollow_rock",
+      "name": "Hollow Rock",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_front_plank",
+      "name": "Front Plank",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_weighted_plank",
+      "name": "Weighted Plank",
+      "parent": null,
+      "equipment": [
+        "plate",
+        "sandbag"
+      ]
+    },
+    {
+      "id": "ex_body_saw",
+      "name": "Body Saw",
+      "parent": null,
+      "equipment": [
+        "trx",
+        "sliders"
+      ]
+    },
+    {
+      "id": "ex_ab_wheel_rollout",
+      "name": "Ab Wheel Rollout",
+      "parent": null,
+      "equipment": [
+        "ab_wheel"
+      ]
+    },
+    {
+      "id": "ex_stability_ball_rollout",
+      "name": "Stability-Ball Rollout",
+      "parent": null,
+      "equipment": [
+        "stability_ball"
+      ]
+    },
+    {
+      "id": "ex_copenhagen_plank",
+      "name": "Copenhagen Plank",
+      "parent": null,
+      "equipment": [
+        "bench"
+      ]
+    },
+    {
+      "id": "ex_bird_dog",
+      "name": "Bird Dog",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_bird_dog_row",
+      "name": "Bird Dog Row",
+      "parent": null,
+      "equipment": [
+        "db",
+        "bench"
+      ]
+    },
+    {
+      "id": "ex_bear_plank",
+      "name": "Bear Plank",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_bear_plank_shoulder_tap",
+      "name": "Bear Plank Shoulder Tap",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_plank_db_drag",
+      "name": "Plank DB Drag",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_reverse_crunch",
+      "name": "Reverse Crunch",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_cable_crunch",
+      "name": "Cable Crunch",
+      "parent": null,
+      "equipment": [
+        "cable"
+      ]
+    },
+    {
+      "id": "ex_hanging_knee_raise",
+      "name": "Hanging Knee Raise",
+      "parent": null,
+      "equipment": [
+        "rig"
+      ]
+    },
+    {
+      "id": "ex_hanging_leg_raise",
+      "name": "Hanging Leg Raise",
+      "parent": null,
+      "equipment": [
+        "rig"
+      ]
+    },
+    {
+      "id": "ex_v_up",
+      "name": "V-Up",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_cable_chop",
+      "name": "Cable Chop",
+      "parent": null,
+      "equipment": [
+        "cable"
+      ]
+    },
+    {
+      "id": "ex_cable_lift",
+      "name": "Cable Lift",
+      "parent": null,
+      "equipment": [
+        "cable"
+      ]
+    },
+    {
+      "id": "ex_sorensen_hold",
+      "name": "Sorensen Hold",
+      "parent": null,
+      "equipment": [
+        "back_extension"
+      ]
+    },
+    {
+      "id": "ex_reverse_hyper",
+      "name": "Reverse Hyper",
+      "parent": null,
+      "equipment": [
+        "reverse_hyper"
+      ]
+    },
+    {
+      "id": "ex_barbell_thruster",
+      "name": "Barbell Thruster",
+      "parent": null,
+      "equipment": [
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_db_thruster",
+      "name": "DB Thruster",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_single_arm_db_thruster",
+      "name": "Single-Arm DB Thruster",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_man_maker",
+      "name": "Man-Maker",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_devil_press",
+      "name": "Devil Press",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_renegade_row",
+      "name": "Renegade Row",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_renegade_row_push_up",
+      "name": "Renegade Row + Push-Up",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_db_clean_front_squat",
+      "name": "DB Clean + Front Squat",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_db_clean_push_press",
+      "name": "DB Clean + Push Press",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_db_clean_front_squat_push_press",
+      "name": "DB Clean + Front Squat + Push Press",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_db_deadlift_hang_clean_front_squat",
+      "name": "DB Deadlift + Hang Clean + Front Squat",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_db_snatch_overhead_reverse_lunge",
+      "name": "DB Snatch + Overhead Reverse Lunge",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_front_rack_reverse_lunge_press",
+      "name": "Front-Rack Reverse Lunge + Press",
+      "parent": null,
+      "equipment": [
+        "db",
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_burpee_to_db_clean",
+      "name": "Burpee to DB Clean",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_db_ground_to_overhead",
+      "name": "DB Ground-to-Overhead",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_crab_walk",
+      "name": "Crab Walk",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_turkish_get_up_to_carry",
+      "name": "Turkish Get-Up to Carry",
+      "parent": null,
+      "equipment": [
+        "kb",
+        "db"
+      ]
+    },
+    {
+      "id": "ex_sandbag_clean_bear_hug_carry",
+      "name": "Sandbag Clean + Bear-Hug Carry",
+      "parent": null,
+      "equipment": [
+        "sandbag"
+      ]
+    },
+    {
+      "id": "ex_sandbag_ground_to_shoulder_squat",
+      "name": "Sandbag Ground-to-Shoulder + Squat",
+      "parent": null,
+      "equipment": [
+        "sandbag"
+      ]
+    },
+    {
+      "id": "ex_sandbag_get_up",
+      "name": "Sandbag Get-Up",
+      "parent": null,
+      "equipment": [
+        "sandbag"
+      ]
+    },
+    {
+      "id": "ex_med_ball_slam",
+      "name": "Med-Ball Slam",
+      "parent": null,
+      "equipment": [
+        "medicine_ball"
+      ]
+    },
+    {
+      "id": "ex_rotational_med_ball_throw",
+      "name": "Rotational Med-Ball Throw",
+      "parent": null,
+      "equipment": [
+        "medicine_ball",
+        "wall"
+      ]
+    },
+    {
+      "id": "ex_med_ball_scoop_toss",
+      "name": "Med-Ball Scoop Toss",
+      "parent": null,
+      "equipment": [
+        "medicine_ball",
+        "wall"
+      ]
+    },
+    {
+      "id": "ex_med_ball_shot_put_throw",
+      "name": "Med-Ball Shot-Put Throw",
+      "parent": null,
+      "equipment": [
+        "medicine_ball",
+        "wall"
+      ]
+    },
+    {
+      "id": "ex_broad_jump_vertical_jump",
+      "name": "Broad Jump + Vertical Jump",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_lateral_bound_sprint",
+      "name": "Lateral Bound + Sprint",
+      "parent": null,
+      "equipment": [
+        "bodyweight",
+        "outdoor"
+      ]
+    },
+    {
+      "id": "ex_box_jump_over",
+      "name": "Box Jump Over",
+      "parent": null,
+      "equipment": [
+        "box"
+      ]
+    },
+    {
+      "id": "ex_db_romanian_deadlift_row",
+      "name": "DB Romanian Deadlift + Row",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_db_front_squat_press",
+      "name": "DB Front Squat + Press",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_single_arm_kb_clean_press",
+      "name": "Single-Arm KB Clean + Press",
+      "parent": null,
+      "equipment": [
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_kb_clean_front_rack_reverse_lunge",
+      "name": "KB Clean + Front-Rack Reverse Lunge",
+      "parent": null,
+      "equipment": [
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_kb_swing_goblet_squat",
+      "name": "KB Swing + Goblet Squat",
+      "parent": null,
+      "equipment": [
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_landmine_squat_to_press",
+      "name": "Landmine Squat to Press",
+      "parent": null,
+      "equipment": [
+        "landmine"
+      ]
+    },
+    {
+      "id": "ex_landmine_reverse_lunge_to_press",
+      "name": "Landmine Reverse Lunge to Press",
+      "parent": null,
+      "equipment": [
+        "landmine"
+      ]
+    },
+    {
+      "id": "ex_half_kneeling_cable_chop_to_press",
+      "name": "Half-Kneeling Cable Chop to Press",
+      "parent": null,
+      "equipment": [
+        "cable"
+      ]
+    },
+    {
+      "id": "ex_plank_jack",
+      "name": "Plank Jack",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_mountain_climber",
+      "name": "Mountain Climber",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_cross_body_mountain_climber",
+      "name": "Cross-Body Mountain Climber",
+      "parent": null,
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_suitcase_march",
+      "name": "Suitcase March",
+      "parent": null,
+      "equipment": [
+        "db",
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_front_rack_march",
+      "name": "Front-Rack March",
+      "parent": null,
+      "equipment": [
+        "db",
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_overhead_march",
+      "name": "Overhead March",
+      "parent": null,
+      "equipment": [
+        "db",
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_arnold_press",
+      "name": "Arnold Press",
+      "parent": null,
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_preacher_curl",
+      "name": "Preacher Curl",
+      "parent": null,
+      "equipment": [
+        "db",
+        "barbell",
+        "machine"
+      ]
+    },
+    {
+      "id": "ex_cable_lateral_raise",
+      "name": "Cable Lateral Raise",
+      "parent": null,
+      "equipment": [
+        "cable"
+      ]
+    },
+    {
+      "id": "ex_nordic_hamstring_curl",
+      "name": "Nordic Hamstring Curl",
+      "parent": null,
+      "equipment": [
+        "bodyweight",
+        "nordic_anchor"
+      ]
+    },
+    {
+      "id": "ex_single_leg_calf_raise",
+      "name": "Single-Leg Calf Raise",
+      "parent": null,
+      "equipment": [
+        "bodyweight",
+        "db"
+      ]
+    },
+    {
+      "id": "ex_single_arm_cable_press",
+      "name": "Single-Arm Cable Press",
+      "parent": null,
+      "equipment": [
+        "cable"
+      ]
+    },
+    {
+      "id": "ex_half_turkish_get_up",
+      "name": "Half Turkish Get-Up",
+      "parent": null,
+      "equipment": [
+        "kb",
+        "db"
+      ]
+    },
+    {
+      "id": "ex_single_arm_front_rack_carry",
+      "name": "Single-Arm Front-Rack Carry",
+      "parent": null,
+      "equipment": [
+        "db",
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_db_front_rack_squat",
+      "name": "DB Front-Rack Squat",
+      "parent": "ex_front_squat",
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_trap_bar_deadlift",
+      "name": "Trap-Bar Deadlift",
+      "parent": "ex_deadlift",
+      "equipment": [
+        "trap_bar"
+      ]
+    },
+    {
+      "id": "ex_inverted_row",
+      "name": "Inverted Row",
+      "parent": "ex_trx_row",
+      "equipment": [
+        "barbell",
+        "trx"
+      ]
+    },
+    {
+      "id": "ex_front_foot_elevated_split_squat",
+      "name": "Front-Foot-Elevated Split Squat",
+      "parent": "ex_bulgarian_split_squat",
+      "equipment": [
+        "db",
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_lateral_step_up",
+      "name": "Lateral Step-Up",
+      "parent": "ex_step_up",
+      "equipment": [
+        "box",
+        "db"
+      ]
+    },
+    {
+      "id": "ex_crossover_step_up",
+      "name": "Crossover Step-Up",
+      "parent": "ex_step_up",
+      "equipment": [
+        "box",
+        "db"
+      ]
+    },
+    {
+      "id": "ex_single_leg_rdl",
+      "name": "Single-Leg RDL",
+      "parent": "ex_romanian_deadlift",
+      "equipment": [
+        "db",
+        "kb",
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_b_stance_rdl",
+      "name": "B-Stance RDL",
+      "parent": "ex_romanian_deadlift",
+      "equipment": [
+        "db",
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_landmine_rotational_press",
+      "name": "Landmine Rotational Press",
+      "parent": "ex_landmine_press",
+      "equipment": [
+        "landmine"
+      ]
+    },
+    {
+      "id": "ex_one_arm_kb_swing",
+      "name": "One-Arm KB Swing",
+      "parent": "ex_kettlebell_swing",
+      "equipment": [
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_pallof_hold",
+      "name": "Pallof Hold",
+      "parent": "ex_pallof_press",
+      "equipment": [
+        "cable",
+        "bands"
+      ]
+    },
+    {
+      "id": "ex_half_kneeling_pallof_press",
+      "name": "Half-Kneeling Pallof Press",
+      "parent": "ex_pallof_press",
+      "equipment": [
+        "cable",
+        "bands"
+      ]
+    },
+    {
+      "id": "ex_glute_bridge_march",
+      "name": "Glute Bridge March",
+      "parent": "ex_glute_bridge",
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_bear_crawl_db_drag",
+      "name": "Bear Crawl + DB Drag",
+      "parent": "ex_bear_crawl",
+      "equipment": [
+        "db"
+      ]
+    },
+    {
+      "id": "ex_backward_sled_drag",
+      "name": "Backward Sled Drag",
+      "parent": "ex_sled_pull",
+      "equipment": [
+        "sled"
+      ]
+    },
+    {
+      "id": "ex_lateral_sled_drag",
+      "name": "Lateral Sled Drag",
+      "parent": "ex_sled_pull",
+      "equipment": [
+        "sled"
+      ]
+    },
+    {
+      "id": "ex_overhead_walking_lunge",
+      "name": "Overhead Walking Lunge",
+      "parent": "ex_walking_lunge",
+      "equipment": [
+        "db",
+        "kb",
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_front_rack_walking_lunge",
+      "name": "Front-Rack Walking Lunge",
+      "parent": "ex_walking_lunge",
+      "equipment": [
+        "db",
+        "kb",
+        "barbell"
+      ]
+    },
+    {
+      "id": "ex_offset_front_rack_reverse_lunge",
+      "name": "Offset Front-Rack Reverse Lunge",
+      "parent": "ex_reverse_lunge",
+      "equipment": [
+        "db",
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_contralateral_single_leg_rdl",
+      "name": "Contralateral Single-Leg RDL",
+      "parent": "ex_romanian_deadlift",
+      "equipment": [
+        "db",
+        "kb"
+      ]
+    },
+    {
+      "id": "ex_push_up_shoulder_tap",
+      "name": "Push-Up + Shoulder Tap",
+      "parent": "ex_push_up",
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_bear_crawl_shoulder_tap",
+      "name": "Bear Crawl Shoulder Tap",
+      "parent": "ex_bear_crawl",
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_single_arm_cable_row",
+      "name": "Single-Arm Cable Row",
+      "parent": "ex_cable_row",
+      "equipment": [
+        "cable"
+      ]
+    },
+    {
+      "id": "ex_half_kneeling_cable_row",
+      "name": "Half-Kneeling Cable Row",
+      "parent": "ex_cable_row",
+      "equipment": [
+        "cable"
+      ]
+    },
+    {
+      "id": "ex_push_up_to_down_dog",
+      "name": "Push-Up to Down Dog",
+      "parent": "ex_push_up",
+      "equipment": [
+        "bodyweight"
+      ]
+    },
+    {
+      "id": "ex_bear_hug_sandbag_carry",
+      "name": "Bear-Hug Sandbag Carry",
+      "parent": "ex_sandbag_carry",
+      "equipment": [
+        "sandbag"
+      ]
+    },
+    {
+      "id": "ex_db_step_up_to_knee_drive",
+      "name": "DB Step-Up to Knee Drive",
+      "parent": "ex_step_up",
+      "equipment": [
+        "db",
+        "box"
+      ]
+    },
+    {
+      "id": "ex_lateral_step_up_to_balance",
+      "name": "Lateral Step-Up to Balance",
+      "parent": "ex_step_up",
+      "equipment": [
+        "box",
+        "db"
+      ]
+    },
+    {
+      "id": "ex_split_stance_cable_row",
+      "name": "Split-Stance Cable Row",
+      "parent": "ex_cable_row",
+      "equipment": [
+        "cable"
+      ]
+    }
+  ],
+  "equipment": [
+    {
+      "id": "trap_bar",
+      "name": "Trap Bar",
+      "tier": "athlete_selectable",
+      "uses": 2
+    },
+    {
+      "id": "machine",
+      "name": "Machine",
+      "tier": "specialized",
+      "uses": 14
+    },
+    {
+      "id": "back_extension",
+      "name": "Back Extension",
+      "tier": "specialized",
+      "uses": 2
+    },
+    {
+      "id": "hurdle",
+      "name": "Hurdle",
+      "tier": "specialized",
+      "uses": 2
+    },
+    {
+      "id": "plate",
+      "name": "Plate",
+      "tier": "derived_common",
+      "uses": 1
+    },
+    {
+      "id": "sliders",
+      "name": "Sliders",
+      "tier": "specialized",
+      "uses": 1
+    },
+    {
+      "id": "ab_wheel",
+      "name": "Ab Wheel",
+      "tier": "specialized",
+      "uses": 1
+    },
+    {
+      "id": "stability_ball",
+      "name": "Stability Ball",
+      "tier": "specialized",
+      "uses": 1
+    },
+    {
+      "id": "reverse_hyper",
+      "name": "Reverse Hyper",
+      "tier": "specialized",
+      "uses": 1
+    },
+    {
+      "id": "medicine_ball",
+      "name": "Medicine Ball",
+      "tier": "athlete_selectable",
+      "uses": 4
+    },
+    {
+      "id": "wall",
+      "name": "Wall",
+      "tier": "derived_common",
+      "uses": 3
+    },
+    {
+      "id": "nordic_anchor",
+      "name": "Nordic Anchor",
+      "tier": "specialized",
+      "uses": 1
+    }
+  ],
+  "derived": [
+    {
+      "id": "ex_bench_press",
+      "name": "Bench Press",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_db_bench_press",
+      "name": "DB Bench Press",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_strict_overhead_press",
+      "name": "Strict Overhead Press",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_1_arm_db_overhead_press",
+      "name": "1-Arm DB Overhead Press",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_chest_supported_row",
+      "name": "Chest-Supported Row",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_lat_pulldown",
+      "name": "Lat Pulldown",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_suitcase_carry",
+      "name": "Suitcase Carry",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "m",
+      "category": "strength"
+    },
+    {
+      "id": "ex_hip_thrust",
+      "name": "Hip Thrust",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_close_grip_bench_press",
+      "name": "Close-Grip Bench Press",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_db_floor_press",
+      "name": "DB Floor Press",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_barbell_row",
+      "name": "Barbell Row",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_db_curl",
+      "name": "DB Curl",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_hammer_curl",
+      "name": "Hammer Curl",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_cable_curl",
+      "name": "Cable Curl",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_incline_db_curl",
+      "name": "Incline DB Curl",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_triceps_pushdown",
+      "name": "Triceps Pushdown",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_overhead_triceps_extension",
+      "name": "Overhead Triceps Extension",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_skull_crusher",
+      "name": "Skull Crusher",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_db_lateral_raise",
+      "name": "DB Lateral Raise",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_rear_delt_fly",
+      "name": "Rear-Delt Fly",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_face_pull",
+      "name": "Face Pull",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_cable_machine_fly",
+      "name": "Cable Fly",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_leg_curl",
+      "name": "Leg Curl",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_leg_extension",
+      "name": "Leg Extension",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_standing_calf_raise",
+      "name": "Standing Calf Raise",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_seated_calf_raise",
+      "name": "Seated Calf Raise",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_tibialis_raise",
+      "name": "Tibialis Raise",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_hip_abduction",
+      "name": "Hip Abduction",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_hip_adduction",
+      "name": "Hip Adduction",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_back_extension",
+      "name": "Back Extension",
+      "impact_level": "low",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_straight_arm_pulldown",
+      "name": "Straight-Arm Pulldown",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_y_raise",
+      "name": "Y-Raise",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_lateral_lunge",
+      "name": "Lateral Lunge",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_cossack_squat",
+      "name": "Cossack Squat",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_pistol_squat_single_leg_squat",
+      "name": "Pistol Squat",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_assisted_pistol_squat",
+      "name": "Assisted Pistol Squat",
+      "impact_level": "low",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_box_target_pistol_squat",
+      "name": "Box / Target Pistol Squat",
+      "impact_level": "low",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_skater_squat",
+      "name": "Skater Squat",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_single_leg_hip_thrust",
+      "name": "Single-Leg Hip Thrust",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_z_press",
+      "name": "Z Press",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_half_kneeling_1_arm_press",
+      "name": "Half-Kneeling 1-Arm Press",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_tall_kneeling_press",
+      "name": "Tall-Kneeling Press",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_bottoms_up_kb_press",
+      "name": "Bottoms-Up KB Press",
+      "impact_level": "low",
+      "modality": "kettlebell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_db_hang_clean",
+      "name": "DB Hang Clean",
+      "impact_level": "high",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_double_db_hang_clean",
+      "name": "Double-DB Hang Clean",
+      "impact_level": "high",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_db_high_pull",
+      "name": "DB High Pull",
+      "impact_level": "high",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_db_jump_shrug",
+      "name": "DB Jump Shrug",
+      "impact_level": "high",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_barbell_high_pull",
+      "name": "Barbell High Pull",
+      "impact_level": "high",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_clean_pull",
+      "name": "Clean Pull",
+      "impact_level": "high",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_hang_power_clean",
+      "name": "Hang Power Clean",
+      "impact_level": "high",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_power_clean",
+      "name": "Power Clean",
+      "impact_level": "high",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_hang_power_snatch",
+      "name": "Hang Power Snatch",
+      "impact_level": "high",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_db_snatch",
+      "name": "DB Snatch",
+      "impact_level": "high",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_kb_clean",
+      "name": "KB Clean",
+      "impact_level": "high",
+      "modality": "kettlebell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_kb_snatch",
+      "name": "KB Snatch",
+      "impact_level": "high",
+      "modality": "kettlebell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_overhead_squat",
+      "name": "Overhead Squat",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_turkish_get_up",
+      "name": "Turkish Get-Up",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_sandbag_ground_to_shoulder",
+      "name": "Sandbag Ground-to-Shoulder",
+      "impact_level": "medium",
+      "modality": "sandbag",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_sandbag_bear_hug_squat",
+      "name": "Sandbag Bear-Hug Squat",
+      "impact_level": "low",
+      "modality": "sandbag",
+      "default_unit": "sec",
+      "category": "power"
+    },
+    {
+      "id": "ex_front_rack_carry",
+      "name": "Front-Rack Carry",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "m",
+      "category": "power"
+    },
+    {
+      "id": "ex_overhead_waiter_carry",
+      "name": "Waiter Carry",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "m",
+      "category": "power"
+    },
+    {
+      "id": "ex_zercher_carry",
+      "name": "Zercher Carry",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "m",
+      "category": "power"
+    },
+    {
+      "id": "ex_snap_down",
+      "name": "Snap-Down",
+      "impact_level": "high",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_jump_and_stick_landing",
+      "name": "Jump-and-Stick Landing",
+      "impact_level": "high",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_pogo_jump",
+      "name": "Pogo Jump",
+      "impact_level": "high",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_lateral_pogo",
+      "name": "Lateral Pogo",
+      "impact_level": "high",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_line_hop",
+      "name": "Line Hop",
+      "impact_level": "high",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_countermovement_jump",
+      "name": "Countermovement Jump",
+      "impact_level": "high",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_squat_jump",
+      "name": "Squat Jump",
+      "impact_level": "high",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_broad_jump",
+      "name": "Broad Jump",
+      "impact_level": "high",
+      "modality": "bodyweight",
+      "default_unit": "m",
+      "category": "power"
+    },
+    {
+      "id": "ex_repeated_broad_jump",
+      "name": "Repeated Broad Jump",
+      "impact_level": "high",
+      "modality": "bodyweight",
+      "default_unit": "m",
+      "category": "power"
+    },
+    {
+      "id": "ex_hurdle_hop",
+      "name": "Hurdle Hop",
+      "impact_level": "high",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_skater_jump_lateral_bound",
+      "name": "Lateral Bound",
+      "impact_level": "high",
+      "modality": "bodyweight",
+      "default_unit": "m",
+      "category": "power"
+    },
+    {
+      "id": "ex_single_leg_hop_and_stick",
+      "name": "Single-Leg Hop-and-Stick",
+      "impact_level": "high",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_single_leg_broad_jump",
+      "name": "Single-Leg Broad Jump",
+      "impact_level": "high",
+      "modality": "bodyweight",
+      "default_unit": "m",
+      "category": "power"
+    },
+    {
+      "id": "ex_lateral_hurdle_hop",
+      "name": "Lateral Hurdle Hop",
+      "impact_level": "high",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_depth_jump",
+      "name": "Depth Jump",
+      "impact_level": "high",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_drop_jump_to_rebound",
+      "name": "Drop Jump to Rebound",
+      "impact_level": "high",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_dead_bug",
+      "name": "Dead Bug",
+      "impact_level": "low",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_weighted_dead_bug",
+      "name": "Weighted Dead Bug",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_hollow_hold",
+      "name": "Hollow Hold",
+      "impact_level": "low",
+      "modality": "bodyweight",
+      "default_unit": "sec",
+      "category": "strength"
+    },
+    {
+      "id": "ex_hollow_rock",
+      "name": "Hollow Rock",
+      "impact_level": "low",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_front_plank",
+      "name": "Front Plank",
+      "impact_level": "low",
+      "modality": "bodyweight",
+      "default_unit": "sec",
+      "category": "strength"
+    },
+    {
+      "id": "ex_weighted_plank",
+      "name": "Weighted Plank",
+      "impact_level": "low",
+      "modality": "sandbag",
+      "default_unit": "sec",
+      "category": "strength"
+    },
+    {
+      "id": "ex_body_saw",
+      "name": "Body Saw",
+      "impact_level": "low",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_ab_wheel_rollout",
+      "name": "Ab Wheel Rollout",
+      "impact_level": "low",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_stability_ball_rollout",
+      "name": "Stability-Ball Rollout",
+      "impact_level": "low",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_copenhagen_plank",
+      "name": "Copenhagen Plank",
+      "impact_level": "low",
+      "modality": "mixed",
+      "default_unit": "sec",
+      "category": "power"
+    },
+    {
+      "id": "ex_bird_dog",
+      "name": "Bird Dog",
+      "impact_level": "low",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_bird_dog_row",
+      "name": "Bird Dog Row",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_bear_plank",
+      "name": "Bear Plank",
+      "impact_level": "medium",
+      "modality": "bodyweight",
+      "default_unit": "sec",
+      "category": "strength"
+    },
+    {
+      "id": "ex_bear_plank_shoulder_tap",
+      "name": "Bear Plank Shoulder Tap",
+      "impact_level": "medium",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_plank_db_drag",
+      "name": "Plank DB Drag",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_reverse_crunch",
+      "name": "Reverse Crunch",
+      "impact_level": "low",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_cable_crunch",
+      "name": "Cable Crunch",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_hanging_knee_raise",
+      "name": "Hanging Knee Raise",
+      "impact_level": "low",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_hanging_leg_raise",
+      "name": "Hanging Leg Raise",
+      "impact_level": "low",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_v_up",
+      "name": "V-Up",
+      "impact_level": "low",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_cable_chop",
+      "name": "Cable Chop",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_cable_lift",
+      "name": "Cable Lift",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_sorensen_hold",
+      "name": "Sorensen Hold",
+      "impact_level": "low",
+      "modality": "mixed",
+      "default_unit": "sec",
+      "category": "strength"
+    },
+    {
+      "id": "ex_reverse_hyper",
+      "name": "Reverse Hyper",
+      "impact_level": "low",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_barbell_thruster",
+      "name": "Barbell Thruster",
+      "impact_level": "medium",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_db_thruster",
+      "name": "DB Thruster",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_single_arm_db_thruster",
+      "name": "Single-Arm DB Thruster",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_man_maker",
+      "name": "Man-Maker",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_devil_press",
+      "name": "Devil Press",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_renegade_row",
+      "name": "Renegade Row",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_renegade_row_push_up",
+      "name": "Renegade Row + Push-Up",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_db_clean_front_squat",
+      "name": "DB Clean + Front Squat",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_db_clean_push_press",
+      "name": "DB Clean + Push Press",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_db_clean_front_squat_push_press",
+      "name": "DB Clean + Front Squat + Push Press",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_db_deadlift_hang_clean_front_squat",
+      "name": "DB Deadlift + Hang Clean + Front Squat",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_db_snatch_overhead_reverse_lunge",
+      "name": "DB Snatch + Overhead Reverse Lunge",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_front_rack_reverse_lunge_press",
+      "name": "Front-Rack Reverse Lunge + Press",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_burpee_to_db_clean",
+      "name": "Burpee to DB Clean",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_db_ground_to_overhead",
+      "name": "DB Ground-to-Overhead",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_crab_walk",
+      "name": "Crab Walk",
+      "impact_level": "medium",
+      "modality": "bodyweight",
+      "default_unit": "sec",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_turkish_get_up_to_carry",
+      "name": "Turkish Get-Up to Carry",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "m",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_sandbag_clean_bear_hug_carry",
+      "name": "Sandbag Clean + Bear-Hug Carry",
+      "impact_level": "medium",
+      "modality": "sandbag",
+      "default_unit": "m",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_sandbag_ground_to_shoulder_squat",
+      "name": "Sandbag Ground-to-Shoulder + Squat",
+      "impact_level": "medium",
+      "modality": "sandbag",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_sandbag_get_up",
+      "name": "Sandbag Get-Up",
+      "impact_level": "medium",
+      "modality": "sandbag",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_med_ball_slam",
+      "name": "Med-Ball Slam",
+      "impact_level": "high",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_rotational_med_ball_throw",
+      "name": "Rotational Med-Ball Throw",
+      "impact_level": "high",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_med_ball_scoop_toss",
+      "name": "Med-Ball Scoop Toss",
+      "impact_level": "high",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_med_ball_shot_put_throw",
+      "name": "Med-Ball Shot-Put Throw",
+      "impact_level": "high",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_broad_jump_vertical_jump",
+      "name": "Broad Jump + Vertical Jump",
+      "impact_level": "high",
+      "modality": "bodyweight",
+      "default_unit": "m",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_lateral_bound_sprint",
+      "name": "Lateral Bound + Sprint",
+      "impact_level": "high",
+      "modality": "bodyweight",
+      "default_unit": "m",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_box_jump_over",
+      "name": "Box Jump Over",
+      "impact_level": "high",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_db_romanian_deadlift_row",
+      "name": "DB Romanian Deadlift + Row",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_db_front_squat_press",
+      "name": "DB Front Squat + Press",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_single_arm_kb_clean_press",
+      "name": "Single-Arm KB Clean + Press",
+      "impact_level": "medium",
+      "modality": "kettlebell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_kb_clean_front_rack_reverse_lunge",
+      "name": "KB Clean + Front-Rack Reverse Lunge",
+      "impact_level": "low",
+      "modality": "kettlebell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_kb_swing_goblet_squat",
+      "name": "KB Swing + Goblet Squat",
+      "impact_level": "medium",
+      "modality": "kettlebell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_landmine_squat_to_press",
+      "name": "Landmine Squat to Press",
+      "impact_level": "medium",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_landmine_reverse_lunge_to_press",
+      "name": "Landmine Reverse Lunge to Press",
+      "impact_level": "low",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_half_kneeling_cable_chop_to_press",
+      "name": "Half-Kneeling Cable Chop to Press",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_plank_jack",
+      "name": "Plank Jack",
+      "impact_level": "low",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_mountain_climber",
+      "name": "Mountain Climber",
+      "impact_level": "medium",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_cross_body_mountain_climber",
+      "name": "Cross-Body Mountain Climber",
+      "impact_level": "medium",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_suitcase_march",
+      "name": "Suitcase March",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "sec",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_front_rack_march",
+      "name": "Front-Rack March",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "sec",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_overhead_march",
+      "name": "Overhead March",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "sec",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_arnold_press",
+      "name": "Arnold Press",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_preacher_curl",
+      "name": "Preacher Curl",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_cable_lateral_raise",
+      "name": "Cable Lateral Raise",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_nordic_hamstring_curl",
+      "name": "Nordic Hamstring Curl",
+      "impact_level": "low",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_single_leg_calf_raise",
+      "name": "Single-Leg Calf Raise",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "accessory"
+    },
+    {
+      "id": "ex_single_arm_cable_press",
+      "name": "Single-Arm Cable Press",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_half_turkish_get_up",
+      "name": "Half Turkish Get-Up",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_single_arm_front_rack_carry",
+      "name": "Single-Arm Front-Rack Carry",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "m",
+      "category": "power"
+    },
+    {
+      "id": "ex_db_front_rack_squat",
+      "name": "DB Front-Rack Squat",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_trap_bar_deadlift",
+      "name": "Trap-Bar Deadlift",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_inverted_row",
+      "name": "Inverted Row",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_front_foot_elevated_split_squat",
+      "name": "Front-Foot-Elevated Split Squat",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_lateral_step_up",
+      "name": "Lateral Step-Up",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_crossover_step_up",
+      "name": "Crossover Step-Up",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_single_leg_rdl",
+      "name": "Single-Leg RDL",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_b_stance_rdl",
+      "name": "B-Stance RDL",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_landmine_rotational_press",
+      "name": "Landmine Rotational Press",
+      "impact_level": "medium",
+      "modality": "mixed",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_one_arm_kb_swing",
+      "name": "One-Arm KB Swing",
+      "impact_level": "high",
+      "modality": "kettlebell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_pallof_hold",
+      "name": "Pallof Hold",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "sec",
+      "category": "strength"
+    },
+    {
+      "id": "ex_half_kneeling_pallof_press",
+      "name": "Half-Kneeling Pallof Press",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_glute_bridge_march",
+      "name": "Glute Bridge March",
+      "impact_level": "low",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_bear_crawl_db_drag",
+      "name": "Bear Crawl + DB Drag",
+      "impact_level": "medium",
+      "modality": "dumbbell",
+      "default_unit": "m",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_backward_sled_drag",
+      "name": "Backward Sled Drag",
+      "impact_level": "medium",
+      "modality": "sled",
+      "default_unit": "m",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_lateral_sled_drag",
+      "name": "Lateral Sled Drag",
+      "impact_level": "medium",
+      "modality": "sled",
+      "default_unit": "m",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_overhead_walking_lunge",
+      "name": "Overhead Walking Lunge",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "m",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_front_rack_walking_lunge",
+      "name": "Front-Rack Walking Lunge",
+      "impact_level": "low",
+      "modality": "barbell",
+      "default_unit": "m",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_offset_front_rack_reverse_lunge",
+      "name": "Offset Front-Rack Reverse Lunge",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_contralateral_single_leg_rdl",
+      "name": "Contralateral Single-Leg RDL",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_push_up_shoulder_tap",
+      "name": "Push-Up + Shoulder Tap",
+      "impact_level": "low",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_bear_crawl_shoulder_tap",
+      "name": "Bear Crawl Shoulder Tap",
+      "impact_level": "medium",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_single_arm_cable_row",
+      "name": "Single-Arm Cable Row",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "strength"
+    },
+    {
+      "id": "ex_half_kneeling_cable_row",
+      "name": "Half-Kneeling Cable Row",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_push_up_to_down_dog",
+      "name": "Push-Up to Down Dog",
+      "impact_level": "medium",
+      "modality": "bodyweight",
+      "default_unit": "reps",
+      "category": "conditioning"
+    },
+    {
+      "id": "ex_bear_hug_sandbag_carry",
+      "name": "Bear-Hug Sandbag Carry",
+      "impact_level": "low",
+      "modality": "sandbag",
+      "default_unit": "m",
+      "category": "power"
+    },
+    {
+      "id": "ex_db_step_up_to_knee_drive",
+      "name": "DB Step-Up to Knee Drive",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_lateral_step_up_to_balance",
+      "name": "Lateral Step-Up to Balance",
+      "impact_level": "low",
+      "modality": "dumbbell",
+      "default_unit": "reps",
+      "category": "power"
+    },
+    {
+      "id": "ex_split_stance_cable_row",
+      "name": "Split-Stance Cable Row",
+      "impact_level": "low",
+      "modality": "cable",
+      "default_unit": "reps",
+      "category": "power"
+    }
+  ],
+  "skipped": [
+    {
+      "name": "Calf Raise",
+      "why": "duplicate candidate"
+    },
+    {
+      "name": "DB Walking Lunge + Curl",
+      "why": "duplicate candidate"
+    },
+    {
+      "name": "Push-Up to Renegade Row",
+      "why": "duplicate candidate"
+    }
+  ]
+}

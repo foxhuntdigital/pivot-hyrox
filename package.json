@@ -26,6 +26,7 @@
     "seed:prepare": "node scripts/prepare-pack.mjs",
     "seed:sheets": "node scripts/export-authoring-sheet.mjs",
     "vocab:reconcile": "node scripts/reconcile-vocabulary.mjs",
+    "vocab:apply": "node scripts/apply-vocabulary.mjs",
     "db:verify": "./scripts/verify-schema.sh",
     "test": "npm run engine:test && npm run coach:test && npm run functions:test && npm run functions:test:deno && npm run mobile:test && npm run scripts:test",
     "postinstall": "node scripts/patch-native-deps.mjs"

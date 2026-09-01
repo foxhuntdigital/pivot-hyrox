@@ -36,7 +36,19 @@ const q = v =>
   : typeof v === 'number' ? String(v)
   : typeof v === 'boolean' ? (v ? '1' : '0')
   : `'${String(v).replace(/'/g, "''")}'`;
-const row = (table, values) => `INSERT INTO "${table}" VALUES(${values.map(q).join(',')});`;
+const row = (table, values) => {
+  // Rows are written positionally, so a migration that widens a table silently
+  // turns every emitted row into a short one. 0011 added seven columns to
+  // block_exercises and 0013 two to workout_templates while this still wrote
+  // the old nine and fifteen — a file SQLite refuses to load, long after the
+  // import has reported success. Arity is checked against the schema in the
+  // file actually being written, so a widened table stops the import.
+  if (arity[table] && values.length !== arity[table]) {
+    throw new Error(`${table}: emitting ${values.length} values into ${arity[table]} `
+      + 'columns — the dump\'s schema has moved and this importer has not');
+  }
+  return `INSERT INTO "${table}" VALUES(${values.map(q).join(',')});`;
+};
 
 function splitValues(body) {
   const out = []; let cur = '', inStr = false;
@@ -51,6 +63,32 @@ function splitValues(body) {
   return out;
 }
 const unquote = v => (v.startsWith("'") ? v.slice(1, -1).replace(/''/g, "'") : v === 'NULL' ? null : v);
+
+/**
+ * Columns per table.
+ *
+ * Split at paren depth zero, so `UNIQUE(workout_id,variant_code)` is one item
+ * rather than two — and then dropped, because a table constraint is not a
+ * column and counting it would demand a ninth value for workout_variants that
+ * has nowhere to go.
+ */
+const TABLE_CONSTRAINT = /^(UNIQUE|PRIMARY|FOREIGN|CHECK|CONSTRAINT)\b/i;
+const columnCount = (body) => {
+  const items = [];
+  let depth = 0, cur = '';
+  for (const ch of body) {
+    if (ch === '(') depth++;
+    else if (ch === ')') depth--;
+    if (ch === ',' && depth === 0) { items.push(cur); cur = ''; continue; }
+    cur += ch;
+  }
+  items.push(cur);
+  return items.filter(i => !TABLE_CONSTRAINT.test(i.trim())).length;
+};
+const arity = {};
+for (const m of sql.matchAll(/CREATE TABLE (\w+)\(([\s\S]*?)\);/g)) {
+  arity[m[1]] = columnCount(m[2]);
+}
 
 // ── existing content, for name resolution and dedup ────────────────────────
 const exerciseIdByName = {};
@@ -156,6 +194,103 @@ for (const [wid, items] of Object.entries(existingItems)) {
 
 // ── read packs, enforcing the explicit-unit rule ───────────────────────────
 const PRESCRIPTION_TYPES = new Set(['duration', 'distance', 'reps', 'sets_reps', 'calories', 'load']);
+
+/**
+ * Rest that is recovery between working sets rather than a density clock.
+ *
+ * The same bounds apply-prescriptions.mjs enforces, for the same reason: rest
+ * is what separates a strength session from a circuit, so an eight-second
+ * "rest" would quietly reclassify a squat session into the thing migration
+ * 0011 exists to keep out of the strength count, and a thirty-minute one is a
+ * transcription slip that would sit in the library unnoticed.
+ */
+const REST_BOUNDS = [30, 600];
+const LOAD_BASES = new Set(['absolute', 'percent_1rm', 'rpe', 'bodyweight']);
+
+/**
+ * The structured prescription 0011 added, read from a pack item.
+ *
+ * Before 0011 a set scheme was stored by overloading the two columns every
+ * prescription had: four sets of six was `quantity 4, unit 'x6'`. That shape
+ * cannot hold rest, a rep range or a target RPE, and it rendered in the player
+ * as "4 x6". A pack may no longer author strength that way — a sets_reps item
+ * must say `sets` and `reps_min` in the fields that can hold them, which is
+ * the one rule that stops new content landing in the shape 0011 replaced.
+ *
+ * Every other field is optional and validated only if present, because a pack
+ * that has not yet had a coaching pass on rest is a normal state to be in:
+ * `rest_seconds` NULL keeps the session out of the true-strength coverage
+ * gate, which is the honest reading of a prescription that does not yet say
+ * how long to rest.
+ */
+function structuredPrescription(it, where, problems) {
+  if (it.prescription_type === 'sets_reps' && (it.sets == null || it.reps_min == null)) {
+    problems.push(`${where}: a sets_reps item must carry sets and reps_min — `
+      + 'encoding the reps in the unit string (4, "x6") is the pre-0011 shape');
+    return null;
+  }
+
+  const sets = it.sets ?? null;
+  const reps_min = it.reps_min ?? null;
+  const reps_max = it.reps_max ?? reps_min;
+  const rest = it.rest_seconds ?? null;
+  const rpe = it.target_rpe ?? null;
+  const basis = it.load_basis ?? null;
+
+  if (sets != null && !(Number.isInteger(sets) && sets > 0)) {
+    problems.push(`${where}: sets must be a positive whole number, got ${JSON.stringify(it.sets)}`);
+  }
+  if (reps_min != null && reps_max != null && reps_max < reps_min) {
+    problems.push(`${where}: reps_max ${reps_max} is below reps_min ${reps_min}`);
+  }
+  if (rest != null) {
+    if (!Number.isInteger(rest)) {
+      problems.push(`${where}: rest_seconds ${JSON.stringify(rest)} is not a whole number of seconds`);
+    } else if (rest < REST_BOUNDS[0] || rest > REST_BOUNDS[1]) {
+      problems.push(`${where}: rest_seconds ${rest} is outside ${REST_BOUNDS[0]}-${REST_BOUNDS[1]}s — `
+        + 'that is a density clock or a transcription slip, not rest between working sets');
+    }
+  }
+  if (rpe != null && !(rpe >= 1 && rpe <= 10)) {
+    problems.push(`${where}: target_rpe ${rpe} is outside 1-10`);
+  }
+  if (basis != null && !LOAD_BASES.has(basis)) {
+    problems.push(`${where}: load_basis "${basis}" is not one of ${[...LOAD_BASES].join('/')}`);
+  }
+  if (sets == null && rest != null) {
+    problems.push(`${where}: rest_seconds without sets — rest between what?`);
+  }
+
+  return { sets, reps_min, reps_max, rest_seconds: rest, target_rpe: rpe,
+    load_basis: basis, load_value: it.load_value ?? null };
+}
+
+/**
+ * The `quantity`/`quantity_unit` pair, which the player still renders and the
+ * dedup signature still compares.
+ *
+ * For a sets_reps item it is DERIVED from the structured fields rather than
+ * authored, so the two can never drift apart — and a pack that states both is
+ * checked rather than trusted, because a disagreement between "4 x6" and
+ * `sets 4, reps_min 8` is exactly the kind of edit that reaches an athlete.
+ * Every other prescription type keeps what it authored: a 30m carry for three
+ * sets is thirty metres, not three of them.
+ */
+function displayPair(it, structured, where, problems) {
+  if (it.prescription_type !== 'sets_reps' || structured?.sets == null) {
+    return { quantity: it.quantity, unit: it.unit };
+  }
+  const { sets, reps_min, reps_max } = structured;
+  const reps = reps_max != null && reps_max !== reps_min ? `${reps_min}-${reps_max}` : `${reps_min}`;
+  const unit = `x${reps}${it.per_side ? '/leg' : ''}`;
+  if (it.quantity != null && it.quantity !== sets) {
+    problems.push(`${where}: quantity ${it.quantity} disagrees with sets ${sets}`);
+  }
+  if (it.unit != null && it.unit !== unit) {
+    problems.push(`${where}: unit "${it.unit}" disagrees with the authored reps ("${unit}")`);
+  }
+  return { quantity: sets, unit };
+}
 const fatal = [], skipped = [], toImport = [], rejected = [], conflicts = [];
 const packIds = new Set();
 
@@ -174,11 +309,19 @@ for (const path of packPaths) {
         const where = `${id} block ${bi + 1} item ${ii + 1}`;
         if (!it.prescription_type) problems.push(`${where}: missing prescription_type (explicit-unit rule)`);
         else if (!PRESCRIPTION_TYPES.has(it.prescription_type)) problems.push(`${where}: prescription_type "${it.prescription_type}" is not one of ${[...PRESCRIPTION_TYPES].join('/')}`);
-        if (!it.unit) problems.push(`${where}: missing unit (explicit-unit rule)`);
-        if (it.quantity == null) problems.push(`${where}: missing quantity`);
+        const structured = structuredPrescription(it, where, problems);
+        const shown = displayPair(it, structured, where, problems);
+        // The explicit-unit rule, restated for the shape 0011 introduced: a
+        // sets_reps item states its quantity as sets and reps, and the pair
+        // above is derived from them. Demanding a unit string as well would be
+        // asking for the encoding this release exists to remove.
+        if (!shown.unit) problems.push(`${where}: missing unit (explicit-unit rule)`);
+        if (shown.quantity == null) problems.push(`${where}: missing quantity`);
         const exId = exerciseIdByName[String(it.exercise ?? '').toLowerCase()] ?? it.exercise_id;
         if (!exId) problems.push(`${where}: no exercise named ${JSON.stringify(it.exercise)}`);
-        return { exercise_id: exId, prescription_type: it.prescription_type, quantity: it.quantity, unit: it.unit, intensity: it.intensity ?? null };
+        return { exercise_id: exId, prescription_type: it.prescription_type,
+          quantity: shown.quantity, unit: shown.unit, intensity: it.intensity ?? null,
+          side_note: it.side_note ?? null, ...(structured ?? {}) };
       });
       if (!items.length) problems.push(`${id} block ${bi + 1}: no items`);
       return { ...b, items };
@@ -281,6 +424,11 @@ for (const { meta, w, id, blocks } of accepted) {
     allItems.some(i => i.exercise_id === 'ex_skierg'),
     w.description ?? meta.default_description ?? `${meta.pack ?? 'Imported'} workout.`,
     w.coaching_notes ?? meta.default_coaching_notes ?? null,
+    // training_domain and session_type are left for apply-classification.mjs,
+    // which reads them off the session's structure rather than its label. An
+    // importer that set them here would let a pack assert the strength domain
+    // by writing the word, which is what deciding it structurally prevents.
+    null, null,
   ]));
 
   blocks.forEach((b, bi) => {
@@ -292,7 +440,10 @@ for (const { meta, w, id, blocks } of accepted) {
     b.items.forEach((it, ii) => {
       emitted.block_exercises.push(row('block_exercises', [
         `${blockId}_e${ii + 1}`, blockId, ii + 1, it.exercise_id,
-        it.prescription_type, it.quantity, it.unit, it.intensity, null,
+        it.prescription_type, it.quantity, it.unit, it.intensity, it.side_note,
+        it.sets ?? null, it.reps_min ?? null, it.reps_max ?? null,
+        it.rest_seconds ?? null, it.target_rpe ?? null,
+        it.load_basis ?? null, it.load_value ?? null,
       ]));
     });
   });
@@ -375,4 +526,5 @@ if (skipped.length) {
     console.log(`  ${s.id.padEnd(34)} -> ${s.matched.padEnd(32)} ${s.kind}`);
   }
 }
-console.log('\nNow run: node scripts/apply-taxonomy.mjs && node scripts/convert-seed.mjs && node scripts/build-fixtures.mjs');
+console.log('\nNow run: node scripts/apply-taxonomy.mjs && node scripts/apply-classification.mjs'
+  + ' && node scripts/convert-seed.mjs && node scripts/build-fixtures.mjs');

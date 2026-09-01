@@ -35,7 +35,7 @@
  *
  *   node scripts/reconcile-vocabulary.mjs <workbook.xlsx> [--quiet]
  */
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 
 import { readWorkbook, asTable } from './lib/xlsx.mjs';
 
@@ -50,6 +50,7 @@ const RULES = JSON.parse(readFileSync(new URL('../data/vocabulary-reconcile-rule
 const LIB = JSON.parse(readFileSync(new URL('../tests/engine-fixtures/content.json', import.meta.url), 'utf8'));
 const OUT_JSON = new URL('../data/review/vocabulary.reconcile.json', import.meta.url);
 const OUT_CSV = new URL('../data/review/vocabulary.reconcile.csv', import.meta.url);
+const OUT_ABSENT_CSV = new URL('../data/review/vocabulary.absent.csv', import.meta.url);
 
 /** Vocabularies the schema constrains (migrations 0014 + the approved additions). */
 const VOCAB = {
@@ -348,17 +349,99 @@ const report = {
 mkdirSync(new URL('../data/review/', import.meta.url), { recursive: true });
 writeFileSync(OUT_JSON, JSON.stringify(report, null, 2) + '\n');
 
-const csvCols = ['row', 'disposition', 'proposed_name', 'existing_id', 'proposed_id',
+/**
+ * A ruled file is an input, not an output.
+ *
+ * Regenerating the report is the natural thing to do after any change to the
+ * workbook or the rules — and doing it after a review has been completed would
+ * silently overwrite every ruling with the gate's own proposals. Hours of
+ * canonical-identity decisions, gone, with a cheerful summary printed over the
+ * top of them.
+ *
+ * So the CSV is only written when it does not exist, or when nothing in it has
+ * been ruled on yet. A file that has been touched is preserved and the new
+ * proposals go beside it as `.new`, for a human to merge.
+ */
+function hasRulings(url) {
+  if (!existsSync(url)) return false;
+  const [header, ...lines] = readFileSync(url, 'utf8').split('\n').filter(Boolean);
+  const cols = header.split(',');
+  const ruling = cols.indexOf('ruling');
+  const gate = cols.indexOf('gate_disposition');
+  const status = cols.indexOf('review_status');
+  if (ruling < 0) return false;
+  return lines.some(line => {
+    const cells = line.split(',').map(c => c.replace(/^"|"$/g, ''));
+    return (gate >= 0 && cells[ruling] !== cells[gate])
+      || (status >= 0 && /approved/i.test(cells[status] ?? ''));
+  });
+}
+
+/**
+ * The review file.
+ *
+ * Ruling columns come first and are PRE-FILLED with what the gate proposes, so
+ * a reviewer changes only what is wrong rather than transcribing 212 rows.
+ * `ruling` left as the gate proposed it means "agreed"; everything after
+ * `review_status` is context the gate supplies and the reviewer does not edit.
+ *
+ * CSV rather than a workbook on purpose: these are canonical identity
+ * decisions, and in a text file a ruling is a reviewable line in a diff —
+ * who changed which exercise's identity, and when. A binary workbook loses
+ * exactly the history this data most needs. The validation a spreadsheet's
+ * dropdowns would give is done on the way back in instead, where it can also
+ * check that a target id actually exists.
+ */
+const csvCols = [
+  // ── edit these ──────────────────────────────────────────────────────────
+  'ruling', 'ruling_target_id', 'ruling_aliases', 'ruling_variant_parent', 'ruling_notes',
+  // ── context ─────────────────────────────────────────────────────────────
+  'row', 'proposed_name', 'proposed_id', 'gate_disposition', 'existing_id',
   'progression_class_in_sheet', 'progression_class', 'bucket_in_sheet', 'methodology_bucket',
-  'review_status', 'issues', 'note'];
+  'review_status', 'issues', 'note',
+];
+
+const csvValue = (v) => `"${String(Array.isArray(v) ? v.join('; ') : (v ?? '')).replace(/"/g, '""')}"`;
+
 const csv = [csvCols.join(',')];
 for (const r of rows) {
-  csv.push(csvCols.map(c => {
-    const v = Array.isArray(r[c]) ? r[c].join('; ') : r[c];
-    return `"${String(v ?? '').replace(/"/g, '""')}"`;
-  }).join(','));
+  const record = {
+    ...r,
+    gate_disposition: r.disposition,
+    // Pre-filled with the proposal. Overwrite to overrule it.
+    ruling: r.disposition,
+    ruling_target_id: r.existing_id ?? '',
+    ruling_aliases: r.aliases,
+    ruling_variant_parent: r.variant_parent ?? '',
+    ruling_notes: '',
+  };
+  csv.push(csvCols.map(c => csvValue(record[c])).join(','));
 }
-writeFileSync(OUT_CSV, csv.join('\n') + '\n');
+const reconcileRuled = hasRulings(OUT_CSV);
+writeFileSync(
+  reconcileRuled ? new URL(`${OUT_CSV.pathname}.new`, 'file://') : OUT_CSV,
+  csv.join('\n') + '\n');
+
+/**
+ * The other half of the ruling, and the one that is easy to forget: every
+ * existing exercise the sheet does not mention. Absence is not a decision, so
+ * each one is listed with a disposition to confirm rather than being silently
+ * carried forward or silently dropped.
+ */
+const absentCols = ['ruling', 'ruling_notes', 'id', 'name', 'gate_disposition',
+  'referenced_by', 'reason'];
+const absentCsv = [absentCols.join(',')];
+for (const a of absent) {
+  absentCsv.push(absentCols.map(c => csvValue(
+    c === 'ruling' ? a.disposition
+    : c === 'ruling_notes' ? ''
+    : c === 'gate_disposition' ? a.disposition
+    : a[c])).join(','));
+}
+const absentRuled = hasRulings(OUT_ABSENT_CSV);
+writeFileSync(
+  absentRuled ? new URL(`${OUT_ABSENT_CSV.pathname}.new`, 'file://') : OUT_ABSENT_CSV,
+  absentCsv.join('\n') + '\n');
 
 if (!quiet) {
   console.log(`reconciled ${rows.length} proposed rows against ${LIB.exercises.length} existing\n`);
@@ -378,6 +461,11 @@ if (!quiet) {
   for (const [id, v] of newEq.sort((a, b) => b[1].uses - a[1].uses)) {
     console.log(`  ${String(v.uses).padStart(4)}  ${id.padEnd(16)} proposed tier: ${v.proposed_tier}`);
   }
-  console.log(`\n  -> data/review/vocabulary.reconcile.json`);
-  console.log(`  -> data/review/vocabulary.reconcile.csv`);
+  if (reconcileRuled || absentRuled) {
+    console.log('\nA completed review is already on disk and was NOT overwritten.');
+    console.log('New proposals were written alongside it as *.csv.new — merge by hand.');
+  }
+  console.log(`\n  -> data/review/vocabulary.reconcile.csv   ${rows.length} rows to rule on`);
+  console.log(`  -> data/review/vocabulary.absent.csv      ${absent.length} existing exercises to confirm`);
+  console.log(`  -> data/review/vocabulary.reconcile.json  full detail`);
 }

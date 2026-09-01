@@ -116,13 +116,24 @@ export function readWorkbook(path) {
   for (const [name, target] of sheets) {
     const rows = [];
     const rowRe = new RegExp(`<${T('row')}[^>]*>([\\s\\S]*?)</${T('row')}>`, 'g');
-    const cellRe = new RegExp(`<${T('c')} r="([A-Z]+\\d+)"([^>]*)>([\\s\\S]*?)</${T('c')}>`, 'g');
+    /**
+     * A cell, closed either way.
+     *
+     * An empty cell is written self-closing — `<c r="K2" s="9" t="str" />` —
+     * and a pattern that only matches `<c ...>…</c>` does not skip it, it
+     * MISREADS it: the lazy body runs past the self-closing tag to the next
+     * real `</c>`, so the following cell's value is attributed to the empty
+     * one's column. A row with a gap in the middle silently shifts, which is
+     * the worst possible failure for a file whose whole job is column meaning.
+     */
+    const cellRe = new RegExp(
+      `<${T('c')}\\s+r="([A-Z]+\\d+)"([^>]*?)(?:/>|>([\\s\\S]*?)</${T('c')}>)`, 'g');
     const vRe = new RegExp(`<${T('v')}>([\\s\\S]*?)</${T('v')}>`);
     const isRe = new RegExp(`<${T('is')}>([\\s\\S]*?)</${T('is')}>`);
     for (const r of get(target).matchAll(rowRe)) {
       const cells = new Map();
       for (const c of r[1].matchAll(cellRe)) {
-        const [, ref, attrs, body] = c;
+        const [, ref, attrs, body = ''] = c;
         const isShared = /t="s"/.test(attrs);
         const v = body.match(vRe);
         const inline = body.match(isRe);

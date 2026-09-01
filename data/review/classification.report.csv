@@ -202,3 +202,7 @@
 "run_threshold_02","Threshold 4x6","threshold","threshold","threshold","run","threshold with unloaded engine work",""
 "run_threshold_03","Threshold 3x1 Mile","threshold","threshold","threshold","run","threshold with unloaded engine work",""
 "run_treadmill_control_03","Treadmill Rolling Incline","treadmill","aerobic_durability","aerobic","run","aerobic_durability with unloaded engine work",""
+"wo_strength_total_a","Total Strength A","strength_total","strength","strength","strength","prescribes working sets with rest between them",""
+"wo_strength_total_b","Total Strength B","strength_total","strength","strength","strength","prescribes working sets with rest between them",""
+"wo_strength_recovery_a","Recovery Strength Lower","strength_maintenance_lower","strength","strength","strength","prescribes working sets with rest between them",""
+"wo_strength_recovery_b","Recovery Strength Upper","strength_maintenance_upper","strength","strength","strength","prescribes working sets with rest between them",""

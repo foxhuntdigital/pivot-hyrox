@@ -1408,6 +1408,5840 @@
       "progression_tracks": [],
       "exercise_family_id": null,
       "history_comparability_group": null
+    },
+    {
+      "id": "ex_bench_press",
+      "name": "Bench Press",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell"
+      ],
+      "movement_families": [
+        "horizontal_push"
+      ],
+      "training_qualities": [
+        "absolute_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primary_strength"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "bench_press",
+      "history_comparability_group": "bench_press"
+    },
+    {
+      "id": "ex_db_bench_press",
+      "name": "DB Bench Press",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "bench"
+      ],
+      "movement_families": [
+        "horizontal_push"
+      ],
+      "training_qualities": [
+        "absolute_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primary_strength",
+        "secondary_strength"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "db_bench_press",
+      "history_comparability_group": "db_bench_press"
+    },
+    {
+      "id": "ex_strict_overhead_press",
+      "name": "Strict Overhead Press",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell",
+        "db"
+      ],
+      "movement_families": [
+        "vertical_push"
+      ],
+      "training_qualities": [
+        "absolute_strength",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "primary_strength"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "strict_overhead_press",
+      "history_comparability_group": "strict_overhead_press"
+    },
+    {
+      "id": "ex_1_arm_db_overhead_press",
+      "name": "1-Arm DB Overhead Press",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "vertical_push"
+      ],
+      "training_qualities": [
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "foundational",
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "1_arm_db_overhead_press",
+      "history_comparability_group": "1_arm_db_overhead_press"
+    },
+    {
+      "id": "ex_chest_supported_row",
+      "name": "Chest-Supported Row",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "machine",
+        "bench"
+      ],
+      "movement_families": [
+        "horizontal_pull"
+      ],
+      "training_qualities": [
+        "absolute_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "chest_supported_row",
+      "history_comparability_group": "chest_supported_row"
+    },
+    {
+      "id": "ex_lat_pulldown",
+      "name": "Lat Pulldown",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable",
+        "machine"
+      ],
+      "movement_families": [
+        "vertical_pull"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "lat_pulldown",
+      "history_comparability_group": "lat_pulldown"
+    },
+    {
+      "id": "ex_suitcase_carry",
+      "name": "Suitcase Carry",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb"
+      ],
+      "movement_families": [
+        "carry",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "foundational",
+        "loaded_locomotion",
+        "unilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "distance"
+      ],
+      "exercise_family_id": "suitcase_carry",
+      "history_comparability_group": "suitcase_carry"
+    },
+    {
+      "id": "ex_hip_thrust",
+      "name": "Hip Thrust",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell",
+        "db"
+      ],
+      "movement_families": [
+        "hinge"
+      ],
+      "training_qualities": [
+        "absolute_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primary_strength",
+        "secondary_strength"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "hip_thrust",
+      "history_comparability_group": "hip_thrust"
+    },
+    {
+      "id": "ex_close_grip_bench_press",
+      "name": "Close-Grip Bench Press",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell",
+        "bench"
+      ],
+      "movement_families": [
+        "horizontal_push"
+      ],
+      "training_qualities": [
+        "absolute_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "close_grip_bench_press",
+      "history_comparability_group": "close_grip_bench_press"
+    },
+    {
+      "id": "ex_db_floor_press",
+      "name": "DB Floor Press",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "horizontal_push"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "db_floor_press",
+      "history_comparability_group": "db_floor_press"
+    },
+    {
+      "id": "ex_barbell_row",
+      "name": "Barbell Row",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell"
+      ],
+      "movement_families": [
+        "horizontal_pull"
+      ],
+      "training_qualities": [
+        "absolute_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "barbell_row",
+      "history_comparability_group": "barbell_row"
+    },
+    {
+      "id": "ex_db_curl",
+      "name": "DB Curl",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "simple",
+        "unilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "db_curl",
+      "history_comparability_group": "db_curl"
+    },
+    {
+      "id": "ex_hammer_curl",
+      "name": "Hammer Curl",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "simple",
+        "unilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "hammer_curl",
+      "history_comparability_group": "hammer_curl"
+    },
+    {
+      "id": "ex_cable_curl",
+      "name": "Cable Curl",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "cable_curl",
+      "history_comparability_group": "cable_curl"
+    },
+    {
+      "id": "ex_incline_db_curl",
+      "name": "Incline DB Curl",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "bench"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "incline_db_curl",
+      "history_comparability_group": "incline_db_curl"
+    },
+    {
+      "id": "ex_triceps_pushdown",
+      "name": "Triceps Pushdown",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "triceps_pushdown",
+      "history_comparability_group": "triceps_pushdown"
+    },
+    {
+      "id": "ex_overhead_triceps_extension",
+      "name": "Overhead Triceps Extension",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "cable"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "overhead_triceps_extension",
+      "history_comparability_group": "overhead_triceps_extension"
+    },
+    {
+      "id": "ex_skull_crusher",
+      "name": "Skull Crusher",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell",
+        "db",
+        "bench"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "skull_crusher",
+      "history_comparability_group": "skull_crusher"
+    },
+    {
+      "id": "ex_db_lateral_raise",
+      "name": "DB Lateral Raise",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "db_lateral_raise",
+      "history_comparability_group": "db_lateral_raise"
+    },
+    {
+      "id": "ex_rear_delt_fly",
+      "name": "Rear-Delt Fly",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "cable",
+        "machine"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "rear_delt_fly",
+      "history_comparability_group": "rear_delt_fly"
+    },
+    {
+      "id": "ex_face_pull",
+      "name": "Face Pull",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable",
+        "bands"
+      ],
+      "movement_families": [
+        "horizontal_pull",
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "face_pull",
+      "history_comparability_group": "face_pull"
+    },
+    {
+      "id": "ex_cable_machine_fly",
+      "name": "Cable Fly",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable",
+        "machine"
+      ],
+      "movement_families": [
+        "horizontal_push",
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "cable_machine_fly",
+      "history_comparability_group": "cable_machine_fly"
+    },
+    {
+      "id": "ex_leg_curl",
+      "name": "Leg Curl",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "machine"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "leg_curl",
+      "history_comparability_group": "leg_curl"
+    },
+    {
+      "id": "ex_leg_extension",
+      "name": "Leg Extension",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "machine"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "leg_extension",
+      "history_comparability_group": "leg_extension"
+    },
+    {
+      "id": "ex_standing_calf_raise",
+      "name": "Standing Calf Raise",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "machine",
+        "barbell",
+        "db"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "standing_calf_raise",
+      "history_comparability_group": "standing_calf_raise"
+    },
+    {
+      "id": "ex_seated_calf_raise",
+      "name": "Seated Calf Raise",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "machine",
+        "db"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "seated_calf_raise",
+      "history_comparability_group": "seated_calf_raise"
+    },
+    {
+      "id": "ex_tibialis_raise",
+      "name": "Tibialis Raise",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight",
+        "machine",
+        "bands"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "tibialis_raise",
+      "history_comparability_group": "tibialis_raise"
+    },
+    {
+      "id": "ex_hip_abduction",
+      "name": "Hip Abduction",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "machine",
+        "bands",
+        "cable"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "hip_abduction",
+      "history_comparability_group": "hip_abduction"
+    },
+    {
+      "id": "ex_hip_adduction",
+      "name": "Hip Adduction",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "machine",
+        "bands",
+        "cable"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "hip_adduction",
+      "history_comparability_group": "hip_adduction"
+    },
+    {
+      "id": "ex_back_extension",
+      "name": "Back Extension",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "back_extension"
+      ],
+      "movement_families": [
+        "hinge",
+        "trunk"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "foundational",
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "back_extension",
+      "history_comparability_group": "back_extension"
+    },
+    {
+      "id": "ex_straight_arm_pulldown",
+      "name": "Straight-Arm Pulldown",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable",
+        "bands"
+      ],
+      "movement_families": [
+        "vertical_pull",
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "straight_arm_pulldown",
+      "history_comparability_group": "straight_arm_pulldown"
+    },
+    {
+      "id": "ex_y_raise",
+      "name": "Y-Raise",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "cable",
+        "bench"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "structural_resilience",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "y_raise",
+      "history_comparability_group": "y_raise"
+    },
+    {
+      "id": "ex_lateral_lunge",
+      "name": "Lateral Lunge",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb",
+        "barbell"
+      ],
+      "movement_families": [
+        "lunge"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "multiplanar"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "range_of_motion"
+      ],
+      "exercise_family_id": "lateral_lunge",
+      "history_comparability_group": "lateral_lunge"
+    },
+    {
+      "id": "ex_cossack_squat",
+      "name": "Cossack Squat",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight",
+        "db",
+        "kb"
+      ],
+      "movement_families": [
+        "squat",
+        "lunge"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "multiplanar",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "range_of_motion",
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "cossack_squat",
+      "history_comparability_group": "cossack_squat"
+    },
+    {
+      "id": "ex_pistol_squat_single_leg_squat",
+      "name": "Pistol Squat",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight",
+        "db",
+        "kb"
+      ],
+      "movement_families": [
+        "squat"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "stability_demanding",
+        "technical"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "range_of_motion",
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "pistol_squat_single_leg_squat",
+      "history_comparability_group": "pistol_squat_single_leg_squat"
+    },
+    {
+      "id": "ex_assisted_pistol_squat",
+      "name": "Assisted Pistol Squat",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight",
+        "trx",
+        "rack"
+      ],
+      "movement_families": [
+        "squat"
+      ],
+      "training_qualities": [
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "range_of_motion",
+        "reps"
+      ],
+      "exercise_family_id": "assisted_pistol_squat",
+      "history_comparability_group": "assisted_pistol_squat"
+    },
+    {
+      "id": "ex_box_target_pistol_squat",
+      "name": "Box / Target Pistol Squat",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight",
+        "box"
+      ],
+      "movement_families": [
+        "squat"
+      ],
+      "training_qualities": [
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "range_of_motion",
+        "reps"
+      ],
+      "exercise_family_id": "box_target_pistol_squat",
+      "history_comparability_group": "box_target_pistol_squat"
+    },
+    {
+      "id": "ex_skater_squat",
+      "name": "Skater Squat",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight",
+        "db"
+      ],
+      "movement_families": [
+        "squat",
+        "lunge"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "range_of_motion",
+        "reps"
+      ],
+      "exercise_family_id": "skater_squat",
+      "history_comparability_group": "skater_squat"
+    },
+    {
+      "id": "ex_single_leg_hip_thrust",
+      "name": "Single-Leg Hip Thrust",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight",
+        "db"
+      ],
+      "movement_families": [
+        "hinge"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "unilateral"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "single_leg_hip_thrust",
+      "history_comparability_group": "single_leg_hip_thrust"
+    },
+    {
+      "id": "ex_z_press",
+      "name": "Z Press",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell",
+        "db"
+      ],
+      "movement_families": [
+        "vertical_push",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "stability_demanding",
+        "technical"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "z_press",
+      "history_comparability_group": "z_press"
+    },
+    {
+      "id": "ex_half_kneeling_1_arm_press",
+      "name": "Half-Kneeling 1-Arm Press",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb",
+        "cable"
+      ],
+      "movement_families": [
+        "vertical_push",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "half_kneeling_1_arm_press",
+      "history_comparability_group": "half_kneeling_1_arm_press"
+    },
+    {
+      "id": "ex_tall_kneeling_press",
+      "name": "Tall-Kneeling Press",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb"
+      ],
+      "movement_families": [
+        "vertical_push",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "stability_demanding"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "tall_kneeling_press",
+      "history_comparability_group": "tall_kneeling_press"
+    },
+    {
+      "id": "ex_bottoms_up_kb_press",
+      "name": "Bottoms-Up KB Press",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "kb"
+      ],
+      "movement_families": [
+        "vertical_push"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "stability_demanding",
+        "technical"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "bottoms_up_kb_press",
+      "history_comparability_group": "bottoms_up_kb_press"
+    },
+    {
+      "id": "ex_db_hang_clean",
+      "name": "DB Hang Clean",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "olympic_explosive",
+        "hinge"
+      ],
+      "training_qualities": [
+        "power",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "explosive",
+        "ballistic",
+        "technical"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "load",
+        "velocity"
+      ],
+      "exercise_family_id": "db_hang_clean",
+      "history_comparability_group": "db_hang_clean"
+    },
+    {
+      "id": "ex_double_db_hang_clean",
+      "name": "Double-DB Hang Clean",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "olympic_explosive",
+        "hinge"
+      ],
+      "training_qualities": [
+        "power",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "explosive",
+        "ballistic",
+        "technical"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "load",
+        "velocity"
+      ],
+      "exercise_family_id": "double_db_hang_clean",
+      "history_comparability_group": "double_db_hang_clean"
+    },
+    {
+      "id": "ex_db_high_pull",
+      "name": "DB High Pull",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "olympic_explosive",
+        "hinge"
+      ],
+      "training_qualities": [
+        "power"
+      ],
+      "movement_characters": [
+        "explosive",
+        "ballistic"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "load",
+        "velocity"
+      ],
+      "exercise_family_id": "db_high_pull",
+      "history_comparability_group": "db_high_pull"
+    },
+    {
+      "id": "ex_db_jump_shrug",
+      "name": "DB Jump Shrug",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "olympic_explosive",
+        "hinge"
+      ],
+      "training_qualities": [
+        "power"
+      ],
+      "movement_characters": [
+        "explosive",
+        "ballistic"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "velocity",
+        "load"
+      ],
+      "exercise_family_id": "db_jump_shrug",
+      "history_comparability_group": "db_jump_shrug"
+    },
+    {
+      "id": "ex_barbell_high_pull",
+      "name": "Barbell High Pull",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell"
+      ],
+      "movement_families": [
+        "olympic_explosive",
+        "hinge"
+      ],
+      "training_qualities": [
+        "power"
+      ],
+      "movement_characters": [
+        "explosive",
+        "ballistic",
+        "technical"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "load",
+        "velocity"
+      ],
+      "exercise_family_id": "barbell_high_pull",
+      "history_comparability_group": "barbell_high_pull"
+    },
+    {
+      "id": "ex_clean_pull",
+      "name": "Clean Pull",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell"
+      ],
+      "movement_families": [
+        "olympic_explosive",
+        "hinge"
+      ],
+      "training_qualities": [
+        "power"
+      ],
+      "movement_characters": [
+        "explosive",
+        "ballistic",
+        "technical"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "load",
+        "velocity"
+      ],
+      "exercise_family_id": "clean_pull",
+      "history_comparability_group": "clean_pull"
+    },
+    {
+      "id": "ex_hang_power_clean",
+      "name": "Hang Power Clean",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell"
+      ],
+      "movement_families": [
+        "olympic_explosive",
+        "hinge"
+      ],
+      "training_qualities": [
+        "power"
+      ],
+      "movement_characters": [
+        "explosive",
+        "ballistic",
+        "technical"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "load",
+        "velocity"
+      ],
+      "exercise_family_id": "hang_power_clean",
+      "history_comparability_group": "hang_power_clean"
+    },
+    {
+      "id": "ex_power_clean",
+      "name": "Power Clean",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell"
+      ],
+      "movement_families": [
+        "olympic_explosive",
+        "hinge"
+      ],
+      "training_qualities": [
+        "power"
+      ],
+      "movement_characters": [
+        "explosive",
+        "ballistic",
+        "technical"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "load",
+        "velocity"
+      ],
+      "exercise_family_id": "power_clean",
+      "history_comparability_group": "power_clean"
+    },
+    {
+      "id": "ex_hang_power_snatch",
+      "name": "Hang Power Snatch",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell"
+      ],
+      "movement_families": [
+        "olympic_explosive",
+        "hinge"
+      ],
+      "training_qualities": [
+        "power"
+      ],
+      "movement_characters": [
+        "explosive",
+        "ballistic",
+        "technical"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "load",
+        "velocity"
+      ],
+      "exercise_family_id": "hang_power_snatch",
+      "history_comparability_group": "hang_power_snatch"
+    },
+    {
+      "id": "ex_db_snatch",
+      "name": "DB Snatch",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "olympic_explosive",
+        "hinge"
+      ],
+      "training_qualities": [
+        "power",
+        "integrated_complex"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "explosive",
+        "ballistic"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power",
+        "finisher"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "db_snatch",
+      "history_comparability_group": "db_snatch"
+    },
+    {
+      "id": "ex_kb_clean",
+      "name": "KB Clean",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "kb"
+      ],
+      "movement_families": [
+        "olympic_explosive",
+        "hinge"
+      ],
+      "training_qualities": [
+        "power",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "explosive",
+        "ballistic"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "kb_clean",
+      "history_comparability_group": "kb_clean"
+    },
+    {
+      "id": "ex_kb_snatch",
+      "name": "KB Snatch",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "kb"
+      ],
+      "movement_families": [
+        "olympic_explosive",
+        "hinge"
+      ],
+      "training_qualities": [
+        "power",
+        "integrated_complex"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "explosive",
+        "ballistic",
+        "technical"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "kb_snatch",
+      "history_comparability_group": "kb_snatch"
+    },
+    {
+      "id": "ex_overhead_squat",
+      "name": "Overhead Squat",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell"
+      ],
+      "movement_families": [
+        "squat",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "technical",
+        "stability_demanding",
+        "complex"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "range_of_motion",
+        "load"
+      ],
+      "exercise_family_id": "overhead_squat",
+      "history_comparability_group": "overhead_squat"
+    },
+    {
+      "id": "ex_turkish_get_up",
+      "name": "Turkish Get-Up",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "kb",
+        "db"
+      ],
+      "movement_families": [
+        "ground_get_up",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "complex",
+        "technical",
+        "stability_demanding"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "load"
+      ],
+      "exercise_family_id": "turkish_get_up",
+      "history_comparability_group": "turkish_get_up"
+    },
+    {
+      "id": "ex_sandbag_ground_to_shoulder",
+      "name": "Sandbag Ground-to-Shoulder",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "sandbag"
+      ],
+      "movement_families": [
+        "ground_get_up",
+        "hinge"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "power"
+      ],
+      "movement_characters": [
+        "loaded_locomotion",
+        "complex"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power",
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "sandbag_ground_to_shoulder",
+      "history_comparability_group": "sandbag_ground_to_shoulder"
+    },
+    {
+      "id": "ex_sandbag_bear_hug_squat",
+      "name": "Sandbag Bear-Hug Squat",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "sandbag"
+      ],
+      "movement_families": [
+        "squat",
+        "carry"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "loaded_locomotion",
+        "stability_demanding"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "sandbag_bear_hug_squat",
+      "history_comparability_group": "sandbag_bear_hug_squat"
+    },
+    {
+      "id": "ex_front_rack_carry",
+      "name": "Front-Rack Carry",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb",
+        "barbell"
+      ],
+      "movement_families": [
+        "carry",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "loaded_locomotion",
+        "stability_demanding"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "distance"
+      ],
+      "exercise_family_id": "front_rack_carry",
+      "history_comparability_group": "front_rack_carry"
+    },
+    {
+      "id": "ex_overhead_waiter_carry",
+      "name": "Waiter Carry",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb"
+      ],
+      "movement_families": [
+        "carry",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "loaded_locomotion",
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "distance"
+      ],
+      "exercise_family_id": "overhead_waiter_carry",
+      "history_comparability_group": "overhead_waiter_carry"
+    },
+    {
+      "id": "ex_zercher_carry",
+      "name": "Zercher Carry",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell"
+      ],
+      "movement_families": [
+        "carry",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "loaded_locomotion",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "distance"
+      ],
+      "exercise_family_id": "zercher_carry",
+      "history_comparability_group": "zercher_carry"
+    },
+    {
+      "id": "ex_snap_down",
+      "name": "Snap-Down",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "plyometric_reactive"
+      ],
+      "movement_characters": [
+        "reactive",
+        "technical"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primer"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical"
+      ],
+      "exercise_family_id": "snap_down",
+      "history_comparability_group": "snap_down"
+    },
+    {
+      "id": "ex_jump_and_stick_landing",
+      "name": "Jump-and-Stick Landing",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "plyometric_reactive"
+      ],
+      "movement_characters": [
+        "reactive",
+        "technical"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primer",
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical"
+      ],
+      "exercise_family_id": "jump_and_stick_landing",
+      "history_comparability_group": "jump_and_stick_landing"
+    },
+    {
+      "id": "ex_pogo_jump",
+      "name": "Pogo Jump",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "plyometric_reactive"
+      ],
+      "movement_characters": [
+        "reactive",
+        "ballistic"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primer",
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "volume"
+      ],
+      "exercise_family_id": "pogo_jump",
+      "history_comparability_group": "pogo_jump"
+    },
+    {
+      "id": "ex_lateral_pogo",
+      "name": "Lateral Pogo",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "plyometric_reactive",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "reactive",
+        "multiplanar"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primer",
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "volume"
+      ],
+      "exercise_family_id": "lateral_pogo",
+      "history_comparability_group": "lateral_pogo"
+    },
+    {
+      "id": "ex_line_hop",
+      "name": "Line Hop",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "plyometric_reactive"
+      ],
+      "movement_characters": [
+        "reactive"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primer"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "volume"
+      ],
+      "exercise_family_id": "line_hop",
+      "history_comparability_group": "line_hop"
+    },
+    {
+      "id": "ex_countermovement_jump",
+      "name": "Countermovement Jump",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "power",
+        "plyometric_reactive"
+      ],
+      "movement_characters": [
+        "explosive",
+        "ballistic"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "technical"
+      ],
+      "exercise_family_id": "countermovement_jump",
+      "history_comparability_group": "countermovement_jump"
+    },
+    {
+      "id": "ex_squat_jump",
+      "name": "Squat Jump",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "jump_plyometric",
+        "squat"
+      ],
+      "training_qualities": [
+        "power",
+        "plyometric_reactive"
+      ],
+      "movement_characters": [
+        "explosive",
+        "ballistic"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "volume"
+      ],
+      "exercise_family_id": "squat_jump",
+      "history_comparability_group": "squat_jump"
+    },
+    {
+      "id": "ex_broad_jump",
+      "name": "Broad Jump",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "power",
+        "plyometric_reactive"
+      ],
+      "movement_characters": [
+        "explosive",
+        "ballistic"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "distance"
+      ],
+      "exercise_family_id": "broad_jump",
+      "history_comparability_group": "broad_jump"
+    },
+    {
+      "id": "ex_repeated_broad_jump",
+      "name": "Repeated Broad Jump",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "power",
+        "plyometric_reactive"
+      ],
+      "movement_characters": [
+        "reactive",
+        "explosive",
+        "ballistic"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "distance",
+        "volume"
+      ],
+      "exercise_family_id": "repeated_broad_jump",
+      "history_comparability_group": "repeated_broad_jump"
+    },
+    {
+      "id": "ex_hurdle_hop",
+      "name": "Hurdle Hop",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "hurdle"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "plyometric_reactive"
+      ],
+      "movement_characters": [
+        "reactive",
+        "ballistic"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "volume"
+      ],
+      "exercise_family_id": "hurdle_hop",
+      "history_comparability_group": "hurdle_hop"
+    },
+    {
+      "id": "ex_skater_jump_lateral_bound",
+      "name": "Lateral Bound",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "power",
+        "plyometric_reactive",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "multiplanar",
+        "explosive"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "distance"
+      ],
+      "exercise_family_id": "skater_jump_lateral_bound",
+      "history_comparability_group": "skater_jump_lateral_bound"
+    },
+    {
+      "id": "ex_single_leg_hop_and_stick",
+      "name": "Single-Leg Hop-and-Stick",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "plyometric_reactive",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "reactive",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "technical"
+      ],
+      "exercise_family_id": "single_leg_hop_and_stick",
+      "history_comparability_group": "single_leg_hop_and_stick"
+    },
+    {
+      "id": "ex_single_leg_broad_jump",
+      "name": "Single-Leg Broad Jump",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "power",
+        "plyometric_reactive"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "explosive"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "distance"
+      ],
+      "exercise_family_id": "single_leg_broad_jump",
+      "history_comparability_group": "single_leg_broad_jump"
+    },
+    {
+      "id": "ex_lateral_hurdle_hop",
+      "name": "Lateral Hurdle Hop",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "hurdle"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "plyometric_reactive",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "reactive",
+        "multiplanar"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "volume"
+      ],
+      "exercise_family_id": "lateral_hurdle_hop",
+      "history_comparability_group": "lateral_hurdle_hop"
+    },
+    {
+      "id": "ex_depth_jump",
+      "name": "Depth Jump",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "box"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "plyometric_reactive",
+        "power"
+      ],
+      "movement_characters": [
+        "reactive",
+        "ballistic",
+        "technical"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "technical"
+      ],
+      "exercise_family_id": "depth_jump",
+      "history_comparability_group": "depth_jump"
+    },
+    {
+      "id": "ex_drop_jump_to_rebound",
+      "name": "Drop Jump to Rebound",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "box"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "plyometric_reactive",
+        "power"
+      ],
+      "movement_characters": [
+        "reactive",
+        "ballistic",
+        "technical"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "plyometric",
+        "technical"
+      ],
+      "exercise_family_id": "drop_jump_to_rebound",
+      "history_comparability_group": "drop_jump_to_rebound"
+    },
+    {
+      "id": "ex_dead_bug",
+      "name": "Dead Bug",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "foundational",
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "reps",
+        "technical"
+      ],
+      "exercise_family_id": "dead_bug",
+      "history_comparability_group": "dead_bug"
+    },
+    {
+      "id": "ex_weighted_dead_bug",
+      "name": "Weighted Dead Bug",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "structural_resilience",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "weighted_dead_bug",
+      "history_comparability_group": "weighted_dead_bug"
+    },
+    {
+      "id": "ex_hollow_hold",
+      "name": "Hollow Hold",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "foundational",
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "duration",
+        "technical"
+      ],
+      "exercise_family_id": "hollow_hold",
+      "history_comparability_group": "hollow_hold"
+    },
+    {
+      "id": "ex_hollow_rock",
+      "name": "Hollow Rock",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "structural_resilience",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "dynamic",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "reps",
+        "duration"
+      ],
+      "exercise_family_id": "hollow_rock",
+      "history_comparability_group": "hollow_rock"
+    },
+    {
+      "id": "ex_front_plank",
+      "name": "Front Plank",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "foundational",
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "duration",
+        "load"
+      ],
+      "exercise_family_id": "front_plank",
+      "history_comparability_group": "front_plank"
+    },
+    {
+      "id": "ex_weighted_plank",
+      "name": "Weighted Plank",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "plate",
+        "sandbag"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "duration"
+      ],
+      "exercise_family_id": "weighted_plank",
+      "history_comparability_group": "weighted_plank"
+    },
+    {
+      "id": "ex_body_saw",
+      "name": "Body Saw",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "trx",
+        "sliders"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "structural_resilience",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "reps",
+        "range_of_motion"
+      ],
+      "exercise_family_id": "body_saw",
+      "history_comparability_group": "body_saw"
+    },
+    {
+      "id": "ex_ab_wheel_rollout",
+      "name": "Ab Wheel Rollout",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "ab_wheel"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "stability_demanding",
+        "technical"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "range_of_motion",
+        "reps"
+      ],
+      "exercise_family_id": "ab_wheel_rollout",
+      "history_comparability_group": "ab_wheel_rollout"
+    },
+    {
+      "id": "ex_stability_ball_rollout",
+      "name": "Stability-Ball Rollout",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "stability_ball"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "range_of_motion",
+        "reps"
+      ],
+      "exercise_family_id": "stability_ball_rollout",
+      "history_comparability_group": "stability_ball_rollout"
+    },
+    {
+      "id": "ex_copenhagen_plank",
+      "name": "Copenhagen Plank",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bench"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "structural_resilience",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "duration",
+        "complexity"
+      ],
+      "exercise_family_id": "copenhagen_plank",
+      "history_comparability_group": "copenhagen_plank"
+    },
+    {
+      "id": "ex_bird_dog",
+      "name": "Bird Dog",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "contralateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "reps",
+        "technical"
+      ],
+      "exercise_family_id": "bird_dog",
+      "history_comparability_group": "bird_dog"
+    },
+    {
+      "id": "ex_bird_dog_row",
+      "name": "Bird Dog Row",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "bench"
+      ],
+      "movement_families": [
+        "trunk",
+        "horizontal_pull"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "contralateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry",
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "bird_dog_row",
+      "history_comparability_group": "bird_dog_row"
+    },
+    {
+      "id": "ex_bear_plank",
+      "name": "Bear Plank",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "trunk",
+        "ground_get_up"
+      ],
+      "training_qualities": [
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "stability_demanding"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "duration",
+        "complexity"
+      ],
+      "exercise_family_id": "bear_plank",
+      "history_comparability_group": "bear_plank"
+    },
+    {
+      "id": "ex_bear_plank_shoulder_tap",
+      "name": "Bear Plank Shoulder Tap",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "trunk",
+        "ground_get_up"
+      ],
+      "training_qualities": [
+        "structural_resilience",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "contralateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "reps",
+        "technical"
+      ],
+      "exercise_family_id": "bear_plank_shoulder_tap",
+      "history_comparability_group": "bear_plank_shoulder_tap"
+    },
+    {
+      "id": "ex_plank_db_drag",
+      "name": "Plank DB Drag",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "trunk",
+        "horizontal_pull"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "contralateral",
+        "anti_rotation",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "plank_db_drag",
+      "history_comparability_group": "plank_db_drag"
+    },
+    {
+      "id": "ex_reverse_crunch",
+      "name": "Reverse Crunch",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "reps"
+      ],
+      "exercise_family_id": "reverse_crunch",
+      "history_comparability_group": "reverse_crunch"
+    },
+    {
+      "id": "ex_cable_crunch",
+      "name": "Cable Crunch",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "cable_crunch",
+      "history_comparability_group": "cable_crunch"
+    },
+    {
+      "id": "ex_hanging_knee_raise",
+      "name": "Hanging Knee Raise",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "rig"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "reps",
+        "range_of_motion"
+      ],
+      "exercise_family_id": "hanging_knee_raise",
+      "history_comparability_group": "hanging_knee_raise"
+    },
+    {
+      "id": "ex_hanging_leg_raise",
+      "name": "Hanging Leg Raise",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "rig"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "stability_demanding",
+        "technical"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "reps",
+        "range_of_motion"
+      ],
+      "exercise_family_id": "hanging_leg_raise",
+      "history_comparability_group": "hanging_leg_raise"
+    },
+    {
+      "id": "ex_v_up",
+      "name": "V-Up",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "dynamic"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "reps"
+      ],
+      "exercise_family_id": "v_up",
+      "history_comparability_group": "v_up"
+    },
+    {
+      "id": "ex_cable_chop",
+      "name": "Cable Chop",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable"
+      ],
+      "movement_families": [
+        "trunk",
+        "rotation"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "rotational",
+        "multiplanar"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "cable_chop",
+      "history_comparability_group": "cable_chop"
+    },
+    {
+      "id": "ex_cable_lift",
+      "name": "Cable Lift",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable"
+      ],
+      "movement_families": [
+        "trunk",
+        "rotation"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "rotational",
+        "multiplanar"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "cable_lift",
+      "history_comparability_group": "cable_lift"
+    },
+    {
+      "id": "ex_sorensen_hold",
+      "name": "Sorensen Hold",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "back_extension"
+      ],
+      "movement_families": [
+        "trunk",
+        "hinge"
+      ],
+      "training_qualities": [
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "foundational",
+        "simple"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "duration",
+        "load"
+      ],
+      "exercise_family_id": "sorensen_hold",
+      "history_comparability_group": "sorensen_hold"
+    },
+    {
+      "id": "ex_reverse_hyper",
+      "name": "Reverse Hyper",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "reverse_hyper"
+      ],
+      "movement_families": [
+        "hinge",
+        "trunk"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "reverse_hyper",
+      "history_comparability_group": "reverse_hyper"
+    },
+    {
+      "id": "ex_barbell_thruster",
+      "name": "Barbell Thruster",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "squat",
+        "vertical_push"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "strength_endurance",
+        "power"
+      ],
+      "movement_characters": [
+        "complex",
+        "explosive"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "barbell_thruster",
+      "history_comparability_group": "barbell_thruster"
+    },
+    {
+      "id": "ex_db_thruster",
+      "name": "DB Thruster",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "squat",
+        "vertical_push"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "strength_endurance",
+        "power"
+      ],
+      "movement_characters": [
+        "complex",
+        "explosive"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "db_thruster",
+      "history_comparability_group": "db_thruster"
+    },
+    {
+      "id": "ex_single_arm_db_thruster",
+      "name": "Single-Arm DB Thruster",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "squat",
+        "vertical_push"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "complex",
+        "explosive"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "single_arm_db_thruster",
+      "history_comparability_group": "single_arm_db_thruster"
+    },
+    {
+      "id": "ex_man_maker",
+      "name": "Man-Maker",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "horizontal_push",
+        "horizontal_pull",
+        "ground_get_up"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "complex",
+        "stability_demanding"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "man_maker",
+      "history_comparability_group": "man_maker"
+    },
+    {
+      "id": "ex_devil_press",
+      "name": "Devil Press",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "ground_get_up",
+        "hinge"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "strength_endurance",
+        "power"
+      ],
+      "movement_characters": [
+        "complex",
+        "explosive"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "devil_press",
+      "history_comparability_group": "devil_press"
+    },
+    {
+      "id": "ex_renegade_row",
+      "name": "Renegade Row",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "horizontal_pull",
+        "trunk"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "anti_rotation",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "renegade_row",
+      "history_comparability_group": "renegade_row"
+    },
+    {
+      "id": "ex_renegade_row_push_up",
+      "name": "Renegade Row + Push-Up",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "horizontal_pull",
+        "horizontal_push",
+        "trunk"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "complex",
+        "stability_demanding"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "renegade_row_push_up",
+      "history_comparability_group": "renegade_row_push_up"
+    },
+    {
+      "id": "ex_db_clean_front_squat",
+      "name": "DB Clean + Front Squat",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "olympic_explosive",
+        "squat"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "power",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "complex",
+        "explosive"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power",
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "db_clean_front_squat",
+      "history_comparability_group": "db_clean_front_squat"
+    },
+    {
+      "id": "ex_db_clean_push_press",
+      "name": "DB Clean + Push Press",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "olympic_explosive",
+        "vertical_push"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "power"
+      ],
+      "movement_characters": [
+        "complex",
+        "explosive"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power",
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "db_clean_push_press",
+      "history_comparability_group": "db_clean_push_press"
+    },
+    {
+      "id": "ex_db_clean_front_squat_push_press",
+      "name": "DB Clean + Front Squat + Push Press",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "olympic_explosive",
+        "squat",
+        "vertical_push"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "strength_endurance",
+        "power"
+      ],
+      "movement_characters": [
+        "complex",
+        "explosive",
+        "technical"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "db_clean_front_squat_push_press",
+      "history_comparability_group": "db_clean_front_squat_push_press"
+    },
+    {
+      "id": "ex_db_deadlift_hang_clean_front_squat",
+      "name": "DB Deadlift + Hang Clean + Front Squat",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "hinge",
+        "olympic_explosive",
+        "squat"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "strength_endurance",
+        "power"
+      ],
+      "movement_characters": [
+        "complex",
+        "technical"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "db_deadlift_hang_clean_front_squat",
+      "history_comparability_group": "db_deadlift_hang_clean_front_squat"
+    },
+    {
+      "id": "ex_db_snatch_overhead_reverse_lunge",
+      "name": "DB Snatch + Overhead Reverse Lunge",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "olympic_explosive",
+        "lunge"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "athletic_multiplanar",
+        "power"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "complex",
+        "stability_demanding"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "db_snatch_overhead_reverse_lunge",
+      "history_comparability_group": "db_snatch_overhead_reverse_lunge"
+    },
+    {
+      "id": "ex_front_rack_reverse_lunge_press",
+      "name": "Front-Rack Reverse Lunge + Press",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "lunge",
+        "vertical_push"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "complex"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "front_rack_reverse_lunge_press",
+      "history_comparability_group": "front_rack_reverse_lunge_press"
+    },
+    {
+      "id": "ex_burpee_to_db_clean",
+      "name": "Burpee to DB Clean",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "ground_get_up",
+        "olympic_explosive"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "strength_endurance",
+        "power"
+      ],
+      "movement_characters": [
+        "complex",
+        "explosive"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "burpee_to_db_clean",
+      "history_comparability_group": "burpee_to_db_clean"
+    },
+    {
+      "id": "ex_db_ground_to_overhead",
+      "name": "DB Ground-to-Overhead",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "ground_get_up"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "power",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "complex",
+        "explosive"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "db_ground_to_overhead",
+      "history_comparability_group": "db_ground_to_overhead"
+    },
+    {
+      "id": "ex_crab_walk",
+      "name": "Crab Walk",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "ground_get_up",
+        "trunk"
+      ],
+      "training_qualities": [
+        "strength_endurance",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "loaded_locomotion",
+        "multiplanar"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "distance",
+        "duration"
+      ],
+      "exercise_family_id": "crab_walk",
+      "history_comparability_group": "crab_walk"
+    },
+    {
+      "id": "ex_turkish_get_up_to_carry",
+      "name": "Turkish Get-Up to Carry",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "kb",
+        "db"
+      ],
+      "movement_families": [
+        "ground_get_up",
+        "carry",
+        "trunk"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "complex",
+        "loaded_locomotion",
+        "stability_demanding"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "trunk_carry",
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "distance",
+        "technical"
+      ],
+      "exercise_family_id": "turkish_get_up_to_carry",
+      "history_comparability_group": "turkish_get_up_to_carry"
+    },
+    {
+      "id": "ex_sandbag_clean_bear_hug_carry",
+      "name": "Sandbag Clean + Bear-Hug Carry",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "sandbag"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "hinge",
+        "carry"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "functional_strength",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "complex",
+        "loaded_locomotion"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "distance",
+        "reps"
+      ],
+      "exercise_family_id": "sandbag_clean_bear_hug_carry",
+      "history_comparability_group": "sandbag_clean_bear_hug_carry"
+    },
+    {
+      "id": "ex_sandbag_ground_to_shoulder_squat",
+      "name": "Sandbag Ground-to-Shoulder + Squat",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "sandbag"
+      ],
+      "movement_families": [
+        "complex_total_body",
+        "ground_get_up",
+        "squat"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "complex"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "sandbag_ground_to_shoulder_squat",
+      "history_comparability_group": "sandbag_ground_to_shoulder_squat"
+    },
+    {
+      "id": "ex_sandbag_get_up",
+      "name": "Sandbag Get-Up",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "sandbag"
+      ],
+      "movement_families": [
+        "ground_get_up",
+        "trunk"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "complex",
+        "technical",
+        "stability_demanding"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "technical"
+      ],
+      "exercise_family_id": "sandbag_get_up",
+      "history_comparability_group": "sandbag_get_up"
+    },
+    {
+      "id": "ex_med_ball_slam",
+      "name": "Med-Ball Slam",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "medicine_ball"
+      ],
+      "movement_families": [
+        "trunk",
+        "complex_total_body"
+      ],
+      "training_qualities": [
+        "power",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "ballistic",
+        "explosive"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "power",
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "med_ball_slam",
+      "history_comparability_group": "med_ball_slam"
+    },
+    {
+      "id": "ex_rotational_med_ball_throw",
+      "name": "Rotational Med-Ball Throw",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "medicine_ball",
+        "wall"
+      ],
+      "movement_families": [
+        "rotation",
+        "trunk"
+      ],
+      "training_qualities": [
+        "power",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "rotational",
+        "ballistic",
+        "explosive"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "technical"
+      ],
+      "exercise_family_id": "rotational_med_ball_throw",
+      "history_comparability_group": "rotational_med_ball_throw"
+    },
+    {
+      "id": "ex_med_ball_scoop_toss",
+      "name": "Med-Ball Scoop Toss",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "medicine_ball",
+        "wall"
+      ],
+      "movement_families": [
+        "rotation",
+        "trunk"
+      ],
+      "training_qualities": [
+        "power",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "rotational",
+        "ballistic",
+        "explosive"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "technical"
+      ],
+      "exercise_family_id": "med_ball_scoop_toss",
+      "history_comparability_group": "med_ball_scoop_toss"
+    },
+    {
+      "id": "ex_med_ball_shot_put_throw",
+      "name": "Med-Ball Shot-Put Throw",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "medicine_ball",
+        "wall"
+      ],
+      "movement_families": [
+        "rotation",
+        "horizontal_push"
+      ],
+      "training_qualities": [
+        "power",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "rotational",
+        "ballistic"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "technical"
+      ],
+      "exercise_family_id": "med_ball_shot_put_throw",
+      "history_comparability_group": "med_ball_shot_put_throw"
+    },
+    {
+      "id": "ex_broad_jump_vertical_jump",
+      "name": "Broad Jump + Vertical Jump",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "power",
+        "plyometric_reactive"
+      ],
+      "movement_characters": [
+        "complex",
+        "explosive",
+        "ballistic"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "distance",
+        "technical"
+      ],
+      "exercise_family_id": "broad_jump_vertical_jump",
+      "history_comparability_group": "broad_jump_vertical_jump"
+    },
+    {
+      "id": "ex_lateral_bound_sprint",
+      "name": "Lateral Bound + Sprint",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight",
+        "outdoor"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "power",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "multiplanar",
+        "explosive"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "power"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "distance",
+        "technical"
+      ],
+      "exercise_family_id": "lateral_bound_sprint",
+      "history_comparability_group": "lateral_bound_sprint"
+    },
+    {
+      "id": "ex_box_jump_over",
+      "name": "Box Jump Over",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "box"
+      ],
+      "movement_families": [
+        "jump_plyometric"
+      ],
+      "training_qualities": [
+        "plyometric_reactive",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "reactive",
+        "complex"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "box_jump_over",
+      "history_comparability_group": "box_jump_over"
+    },
+    {
+      "id": "ex_db_romanian_deadlift_row",
+      "name": "DB Romanian Deadlift + Row",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "hinge",
+        "horizontal_pull"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "complex"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "db_romanian_deadlift_row",
+      "history_comparability_group": "db_romanian_deadlift_row"
+    },
+    {
+      "id": "ex_db_front_squat_press",
+      "name": "DB Front Squat + Press",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "squat",
+        "vertical_push",
+        "complex_total_body"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "complex"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "db_front_squat_press",
+      "history_comparability_group": "db_front_squat_press"
+    },
+    {
+      "id": "ex_single_arm_kb_clean_press",
+      "name": "Single-Arm KB Clean + Press",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "kb"
+      ],
+      "movement_families": [
+        "olympic_explosive",
+        "vertical_push",
+        "complex_total_body"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "power",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "complex",
+        "explosive"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power",
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "single_arm_kb_clean_press",
+      "history_comparability_group": "single_arm_kb_clean_press"
+    },
+    {
+      "id": "ex_kb_clean_front_rack_reverse_lunge",
+      "name": "KB Clean + Front-Rack Reverse Lunge",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "kb"
+      ],
+      "movement_families": [
+        "olympic_explosive",
+        "lunge"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "complex"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "kb_clean_front_rack_reverse_lunge",
+      "history_comparability_group": "kb_clean_front_rack_reverse_lunge"
+    },
+    {
+      "id": "ex_kb_swing_goblet_squat",
+      "name": "KB Swing + Goblet Squat",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "kb"
+      ],
+      "movement_families": [
+        "hinge",
+        "squat",
+        "complex_total_body"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "strength_endurance",
+        "power"
+      ],
+      "movement_characters": [
+        "complex",
+        "explosive"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "kb_swing_goblet_squat",
+      "history_comparability_group": "kb_swing_goblet_squat"
+    },
+    {
+      "id": "ex_landmine_squat_to_press",
+      "name": "Landmine Squat to Press",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "landmine"
+      ],
+      "movement_families": [
+        "squat",
+        "vertical_push",
+        "complex_total_body"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "power"
+      ],
+      "movement_characters": [
+        "complex",
+        "explosive"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "landmine_squat_to_press",
+      "history_comparability_group": "landmine_squat_to_press"
+    },
+    {
+      "id": "ex_landmine_reverse_lunge_to_press",
+      "name": "Landmine Reverse Lunge to Press",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "landmine"
+      ],
+      "movement_families": [
+        "lunge",
+        "vertical_push",
+        "rotation"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "complex",
+        "multiplanar"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "landmine_reverse_lunge_to_press",
+      "history_comparability_group": "landmine_reverse_lunge_to_press"
+    },
+    {
+      "id": "ex_half_kneeling_cable_chop_to_press",
+      "name": "Half-Kneeling Cable Chop to Press",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable"
+      ],
+      "movement_families": [
+        "rotation",
+        "horizontal_push",
+        "trunk"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "rotational",
+        "complex",
+        "stability_demanding"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "half_kneeling_cable_chop_to_press",
+      "history_comparability_group": "half_kneeling_cable_chop_to_press"
+    },
+    {
+      "id": "ex_plank_jack",
+      "name": "Plank Jack",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "trunk"
+      ],
+      "training_qualities": [
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "dynamic",
+        "complex"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "reps",
+        "duration"
+      ],
+      "exercise_family_id": "plank_jack",
+      "history_comparability_group": "plank_jack"
+    },
+    {
+      "id": "ex_mountain_climber",
+      "name": "Mountain Climber",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "trunk",
+        "ground_get_up"
+      ],
+      "training_qualities": [
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "dynamic",
+        "contralateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "reps",
+        "duration"
+      ],
+      "exercise_family_id": "mountain_climber",
+      "history_comparability_group": "mountain_climber"
+    },
+    {
+      "id": "ex_cross_body_mountain_climber",
+      "name": "Cross-Body Mountain Climber",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "trunk",
+        "rotation",
+        "ground_get_up"
+      ],
+      "training_qualities": [
+        "strength_endurance",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "dynamic",
+        "contralateral",
+        "rotational"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "reps",
+        "duration"
+      ],
+      "exercise_family_id": "cross_body_mountain_climber",
+      "history_comparability_group": "cross_body_mountain_climber"
+    },
+    {
+      "id": "ex_suitcase_march",
+      "name": "Suitcase March",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb"
+      ],
+      "movement_families": [
+        "carry",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "anti_lateral_flexion"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "duration"
+      ],
+      "exercise_family_id": "suitcase_march",
+      "history_comparability_group": "suitcase_march"
+    },
+    {
+      "id": "ex_front_rack_march",
+      "name": "Front-Rack March",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb"
+      ],
+      "movement_families": [
+        "carry",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "stability_demanding"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "duration"
+      ],
+      "exercise_family_id": "front_rack_march",
+      "history_comparability_group": "front_rack_march"
+    },
+    {
+      "id": "ex_overhead_march",
+      "name": "Overhead March",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb"
+      ],
+      "movement_families": [
+        "carry",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "duration"
+      ],
+      "exercise_family_id": "overhead_march",
+      "history_comparability_group": "overhead_march"
+    },
+    {
+      "id": "ex_arnold_press",
+      "name": "Arnold Press",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "vertical_push"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "complex"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "accessory",
+        "secondary_strength"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "arnold_press",
+      "history_comparability_group": "arnold_press"
+    },
+    {
+      "id": "ex_preacher_curl",
+      "name": "Preacher Curl",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "barbell",
+        "machine"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "simple"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "preacher_curl",
+      "history_comparability_group": "preacher_curl"
+    },
+    {
+      "id": "ex_cable_lateral_raise",
+      "name": "Cable Lateral Raise",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "simple",
+        "unilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "cable_lateral_raise",
+      "history_comparability_group": "cable_lateral_raise"
+    },
+    {
+      "id": "ex_nordic_hamstring_curl",
+      "name": "Nordic Hamstring Curl",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight",
+        "nordic_anchor"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "technical"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "reps",
+        "range_of_motion",
+        "technical"
+      ],
+      "exercise_family_id": "nordic_hamstring_curl",
+      "history_comparability_group": "nordic_hamstring_curl"
+    },
+    {
+      "id": "ex_single_leg_calf_raise",
+      "name": "Single-Leg Calf Raise",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight",
+        "db"
+      ],
+      "movement_families": [
+        "accessory_isolation"
+      ],
+      "training_qualities": [
+        "hypertrophy",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "unilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "accessory"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "single_leg_calf_raise",
+      "history_comparability_group": "single_leg_calf_raise"
+    },
+    {
+      "id": "ex_single_arm_cable_press",
+      "name": "Single-Arm Cable Press",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable"
+      ],
+      "movement_families": [
+        "horizontal_push",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "single_arm_cable_press",
+      "history_comparability_group": "single_arm_cable_press"
+    },
+    {
+      "id": "ex_half_turkish_get_up",
+      "name": "Half Turkish Get-Up",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "kb",
+        "db"
+      ],
+      "movement_families": [
+        "ground_get_up",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "technical",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "load"
+      ],
+      "exercise_family_id": "half_turkish_get_up",
+      "history_comparability_group": "half_turkish_get_up"
+    },
+    {
+      "id": "ex_single_arm_front_rack_carry",
+      "name": "Single-Arm Front-Rack Carry",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb"
+      ],
+      "movement_families": [
+        "carry",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "loaded_locomotion",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "distance"
+      ],
+      "exercise_family_id": "single_arm_front_rack_carry",
+      "history_comparability_group": "single_arm_front_rack_carry"
+    },
+    {
+      "id": "ex_db_front_rack_squat",
+      "name": "DB Front-Rack Squat",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "squat"
+      ],
+      "training_qualities": [
+        "absolute_strength",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primary_strength"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "db_front_rack_squat",
+      "history_comparability_group": "db_front_rack_squat"
+    },
+    {
+      "id": "ex_trap_bar_deadlift",
+      "name": "Trap-Bar Deadlift",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "trap_bar"
+      ],
+      "movement_families": [
+        "hinge"
+      ],
+      "training_qualities": [
+        "absolute_strength",
+        "functional_strength"
+      ],
+      "movement_characters": [
+        "foundational",
+        "bilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primary_strength"
+      ],
+      "progression_class": "anchor",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "trap_bar_deadlift",
+      "history_comparability_group": "trap_bar_deadlift"
+    },
+    {
+      "id": "ex_inverted_row",
+      "name": "Inverted Row",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "barbell",
+        "trx"
+      ],
+      "movement_families": [
+        "horizontal_pull"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "foundational"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "accessory_anchor",
+      "progression_tracks": [
+        "reps",
+        "load"
+      ],
+      "exercise_family_id": "inverted_row",
+      "history_comparability_group": "inverted_row"
+    },
+    {
+      "id": "ex_front_foot_elevated_split_squat",
+      "name": "Front-Foot-Elevated Split Squat",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "barbell"
+      ],
+      "movement_families": [
+        "lunge"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "range_of_motion"
+      ],
+      "exercise_family_id": "front_foot_elevated_split_squat",
+      "history_comparability_group": "front_foot_elevated_split_squat"
+    },
+    {
+      "id": "ex_lateral_step_up",
+      "name": "Lateral Step-Up",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "box",
+        "db"
+      ],
+      "movement_families": [
+        "lunge"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "multiplanar"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "lateral_step_up",
+      "history_comparability_group": "lateral_step_up"
+    },
+    {
+      "id": "ex_crossover_step_up",
+      "name": "Crossover Step-Up",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "box",
+        "db"
+      ],
+      "movement_families": [
+        "lunge"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "multiplanar",
+        "contralateral"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "crossover_step_up",
+      "history_comparability_group": "crossover_step_up"
+    },
+    {
+      "id": "ex_single_leg_rdl",
+      "name": "Single-Leg RDL",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb",
+        "barbell"
+      ],
+      "movement_families": [
+        "hinge"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "range_of_motion"
+      ],
+      "exercise_family_id": "single_leg_rdl",
+      "history_comparability_group": "single_leg_rdl"
+    },
+    {
+      "id": "ex_b_stance_rdl",
+      "name": "B-Stance RDL",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "barbell"
+      ],
+      "movement_families": [
+        "hinge"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "b_stance_rdl",
+      "history_comparability_group": "b_stance_rdl"
+    },
+    {
+      "id": "ex_landmine_rotational_press",
+      "name": "Landmine Rotational Press",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "landmine"
+      ],
+      "movement_families": [
+        "vertical_push",
+        "rotation"
+      ],
+      "training_qualities": [
+        "power",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "rotational",
+        "multiplanar",
+        "explosive"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power",
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "technical",
+        "load",
+        "velocity"
+      ],
+      "exercise_family_id": "landmine_rotational_press",
+      "history_comparability_group": "landmine_rotational_press"
+    },
+    {
+      "id": "ex_one_arm_kb_swing",
+      "name": "One-Arm KB Swing",
+      "impact_level": "high",
+      "postpartum_friendly": false,
+      "equipment": [
+        "kb"
+      ],
+      "movement_families": [
+        "hinge",
+        "olympic_explosive"
+      ],
+      "training_qualities": [
+        "power",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "explosive",
+        "ballistic"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "power",
+        "finisher"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "one_arm_kb_swing",
+      "history_comparability_group": "one_arm_kb_swing"
+    },
+    {
+      "id": "ex_pallof_hold",
+      "name": "Pallof Hold",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable",
+        "bands"
+      ],
+      "movement_families": [
+        "trunk",
+        "rotation"
+      ],
+      "training_qualities": [
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "anti_rotation",
+        "stability_demanding"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "duration"
+      ],
+      "exercise_family_id": "pallof_hold",
+      "history_comparability_group": "pallof_hold"
+    },
+    {
+      "id": "ex_half_kneeling_pallof_press",
+      "name": "Half-Kneeling Pallof Press",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable",
+        "bands"
+      ],
+      "movement_families": [
+        "trunk",
+        "rotation"
+      ],
+      "training_qualities": [
+        "structural_resilience",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "anti_rotation",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "half_kneeling_pallof_press",
+      "history_comparability_group": "half_kneeling_pallof_press"
+    },
+    {
+      "id": "ex_glute_bridge_march",
+      "name": "Glute Bridge March",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "hinge",
+        "trunk"
+      ],
+      "training_qualities": [
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "contralateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "reps",
+        "technical"
+      ],
+      "exercise_family_id": "glute_bridge_march",
+      "history_comparability_group": "glute_bridge_march"
+    },
+    {
+      "id": "ex_bear_crawl_db_drag",
+      "name": "Bear Crawl + DB Drag",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db"
+      ],
+      "movement_families": [
+        "ground_get_up",
+        "trunk",
+        "horizontal_pull"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "contralateral",
+        "loaded_locomotion",
+        "complex"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher",
+        "trunk_carry"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "distance"
+      ],
+      "exercise_family_id": "bear_crawl_db_drag",
+      "history_comparability_group": "bear_crawl_db_drag"
+    },
+    {
+      "id": "ex_backward_sled_drag",
+      "name": "Backward Sled Drag",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "sled"
+      ],
+      "movement_families": [
+        "sled_resisted_locomotion"
+      ],
+      "training_qualities": [
+        "strength_endurance",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "loaded_locomotion"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "distance",
+        "duration"
+      ],
+      "exercise_family_id": "backward_sled_drag",
+      "history_comparability_group": "backward_sled_drag"
+    },
+    {
+      "id": "ex_lateral_sled_drag",
+      "name": "Lateral Sled Drag",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "sled"
+      ],
+      "movement_families": [
+        "sled_resisted_locomotion"
+      ],
+      "training_qualities": [
+        "strength_endurance",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "loaded_locomotion",
+        "multiplanar"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "distance"
+      ],
+      "exercise_family_id": "lateral_sled_drag",
+      "history_comparability_group": "lateral_sled_drag"
+    },
+    {
+      "id": "ex_overhead_walking_lunge",
+      "name": "Overhead Walking Lunge",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb",
+        "barbell"
+      ],
+      "movement_families": [
+        "lunge",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "loaded_locomotion",
+        "stability_demanding"
+      ],
+      "complexity_level": "advanced",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "distance"
+      ],
+      "exercise_family_id": "overhead_walking_lunge",
+      "history_comparability_group": "overhead_walking_lunge"
+    },
+    {
+      "id": "ex_front_rack_walking_lunge",
+      "name": "Front-Rack Walking Lunge",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb",
+        "barbell"
+      ],
+      "movement_families": [
+        "lunge",
+        "carry"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "loaded_locomotion"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength",
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "distance"
+      ],
+      "exercise_family_id": "front_rack_walking_lunge",
+      "history_comparability_group": "front_rack_walking_lunge"
+    },
+    {
+      "id": "ex_offset_front_rack_reverse_lunge",
+      "name": "Offset Front-Rack Reverse Lunge",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb"
+      ],
+      "movement_families": [
+        "lunge",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "contralateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "offset_front_rack_reverse_lunge",
+      "history_comparability_group": "offset_front_rack_reverse_lunge"
+    },
+    {
+      "id": "ex_contralateral_single_leg_rdl",
+      "name": "Contralateral Single-Leg RDL",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "kb"
+      ],
+      "movement_families": [
+        "hinge",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "contralateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "contralateral_single_leg_rdl",
+      "history_comparability_group": "contralateral_single_leg_rdl"
+    },
+    {
+      "id": "ex_push_up_shoulder_tap",
+      "name": "Push-Up + Shoulder Tap",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "horizontal_push",
+        "trunk"
+      ],
+      "training_qualities": [
+        "strength_endurance",
+        "structural_resilience"
+      ],
+      "movement_characters": [
+        "contralateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "reps",
+        "density"
+      ],
+      "exercise_family_id": "push_up_shoulder_tap",
+      "history_comparability_group": "push_up_shoulder_tap"
+    },
+    {
+      "id": "ex_bear_crawl_shoulder_tap",
+      "name": "Bear Crawl Shoulder Tap",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "ground_get_up",
+        "trunk"
+      ],
+      "training_qualities": [
+        "integrated_complex",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "contralateral",
+        "complex",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "reps",
+        "distance"
+      ],
+      "exercise_family_id": "bear_crawl_shoulder_tap",
+      "history_comparability_group": "bear_crawl_shoulder_tap"
+    },
+    {
+      "id": "ex_single_arm_cable_row",
+      "name": "Single-Arm Cable Row",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable"
+      ],
+      "movement_families": [
+        "horizontal_pull"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+      ],
+      "movement_characters": [
+        "unilateral"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "single_arm_cable_row",
+      "history_comparability_group": "single_arm_cable_row"
+    },
+    {
+      "id": "ex_half_kneeling_cable_row",
+      "name": "Half-Kneeling Cable Row",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable"
+      ],
+      "movement_families": [
+        "horizontal_pull",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "half_kneeling_cable_row",
+      "history_comparability_group": "half_kneeling_cable_row"
+    },
+    {
+      "id": "ex_push_up_to_down_dog",
+      "name": "Push-Up to Down Dog",
+      "impact_level": "medium",
+      "postpartum_friendly": false,
+      "equipment": [
+        "bodyweight"
+      ],
+      "movement_families": [
+        "horizontal_push",
+        "ground_get_up"
+      ],
+      "training_qualities": [
+        "structural_resilience",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "complex"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "primer",
+        "finisher"
+      ],
+      "progression_class": "variable_complex",
+      "progression_tracks": [
+        "reps"
+      ],
+      "exercise_family_id": "push_up_to_down_dog",
+      "history_comparability_group": "push_up_to_down_dog"
+    },
+    {
+      "id": "ex_bear_hug_sandbag_carry",
+      "name": "Bear-Hug Sandbag Carry",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "sandbag"
+      ],
+      "movement_families": [
+        "carry",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "strength_endurance"
+      ],
+      "movement_characters": [
+        "loaded_locomotion",
+        "stability_demanding"
+      ],
+      "complexity_level": "basic",
+      "exercise_role_eligibility": [
+        "trunk_carry"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "distance"
+      ],
+      "exercise_family_id": "bear_hug_sandbag_carry",
+      "history_comparability_group": "bear_hug_sandbag_carry"
+    },
+    {
+      "id": "ex_db_step_up_to_knee_drive",
+      "name": "DB Step-Up to Knee Drive",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "db",
+        "box"
+      ],
+      "movement_families": [
+        "lunge"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "db_step_up_to_knee_drive",
+      "history_comparability_group": "db_step_up_to_knee_drive"
+    },
+    {
+      "id": "ex_lateral_step_up_to_balance",
+      "name": "Lateral Step-Up to Balance",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "box",
+        "db"
+      ],
+      "movement_families": [
+        "lunge"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "multiplanar",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "lateral_step_up_to_balance",
+      "history_comparability_group": "lateral_step_up_to_balance"
+    },
+    {
+      "id": "ex_split_stance_cable_row",
+      "name": "Split-Stance Cable Row",
+      "impact_level": "low",
+      "postpartum_friendly": false,
+      "equipment": [
+        "cable"
+      ],
+      "movement_families": [
+        "horizontal_pull",
+        "trunk"
+      ],
+      "training_qualities": [
+        "functional_strength",
+        "athletic_multiplanar"
+      ],
+      "movement_characters": [
+        "unilateral",
+        "stability_demanding"
+      ],
+      "complexity_level": "intermediate",
+      "exercise_role_eligibility": [
+        "secondary_strength"
+      ],
+      "progression_class": "developmental",
+      "progression_tracks": [
+        "load",
+        "reps"
+      ],
+      "exercise_family_id": "split_stance_cable_row",
+      "history_comparability_group": "split_stance_cable_row"
     }
   ],
   "templates": [
@@ -2046,7 +7880,7 @@
               "sets": 4,
               "reps_min": 6,
               "reps_max": 6,
-              "rest_seconds": null,
+              "rest_seconds": 180,
               "target_rpe": 7,
               "load_basis": null,
               "load_value": null
@@ -2061,7 +7895,7 @@
               "sets": 3,
               "reps_min": 10,
               "reps_max": 10,
-              "rest_seconds": null,
+              "rest_seconds": 120,
               "target_rpe": 7,
               "load_basis": null,
               "load_value": null
@@ -2076,7 +7910,7 @@
               "sets": 3,
               "reps_min": 12,
               "reps_max": 12,
-              "rest_seconds": null,
+              "rest_seconds": 90,
               "target_rpe": 7,
               "load_basis": null,
               "load_value": null
@@ -2099,7 +7933,7 @@
               "sets": 3,
               "reps_min": 12,
               "reps_max": 12,
-              "rest_seconds": null,
+              "rest_seconds": 60,
               "target_rpe": null,
               "load_basis": null,
               "load_value": null
@@ -2177,7 +8011,7 @@
               "sets": 4,
               "reps_min": 5,
               "reps_max": 5,
-              "rest_seconds": null,
+              "rest_seconds": 180,
               "target_rpe": 7,
               "load_basis": null,
               "load_value": null
@@ -2192,7 +8026,7 @@
               "sets": 3,
               "reps_min": 8,
               "reps_max": 8,
-              "rest_seconds": null,
+              "rest_seconds": 150,
               "target_rpe": 7,
               "load_basis": null,
               "load_value": null
@@ -2207,7 +8041,7 @@
               "sets": 3,
               "reps_min": 10,
               "reps_max": 10,
-              "rest_seconds": null,
+              "rest_seconds": 120,
               "target_rpe": 7,
               "load_basis": null,
               "load_value": null
@@ -2301,7 +8135,7 @@
               "sets": 4,
               "reps_min": 6,
               "reps_max": 6,
-              "rest_seconds": null,
+              "rest_seconds": 150,
               "target_rpe": 7,
               "load_basis": null,
               "load_value": null
@@ -2316,7 +8150,7 @@
               "sets": 3,
               "reps_min": 10,
               "reps_max": 10,
-              "rest_seconds": null,
+              "rest_seconds": 120,
               "target_rpe": 7,
               "load_basis": null,
               "load_value": null
@@ -2331,7 +8165,7 @@
               "sets": 3,
               "reps_min": 10,
               "reps_max": 10,
-              "rest_seconds": null,
+              "rest_seconds": 90,
               "target_rpe": 7,
               "load_basis": null,
               "load_value": null
@@ -2346,7 +8180,7 @@
               "sets": 3,
               "reps_min": 12,
               "reps_max": 12,
-              "rest_seconds": null,
+              "rest_seconds": 75,
               "target_rpe": null,
               "load_basis": null,
               "load_value": null
@@ -2361,7 +8195,7 @@
               "sets": 4,
               "reps_min": 15,
               "reps_max": 15,
-              "rest_seconds": null,
+              "rest_seconds": 60,
               "target_rpe": 6,
               "load_basis": null,
               "load_value": null
@@ -2439,7 +8273,7 @@
               "sets": 4,
               "reps_min": 5,
               "reps_max": 5,
-              "rest_seconds": null,
+              "rest_seconds": 180,
               "target_rpe": 7,
               "load_basis": null,
               "load_value": null
@@ -2454,7 +8288,7 @@
               "sets": 3,
               "reps_min": 10,
               "reps_max": 10,
-              "rest_seconds": null,
+              "rest_seconds": 120,
               "target_rpe": 7,
               "load_basis": null,
               "load_value": null
@@ -2469,7 +8303,7 @@
               "sets": 3,
               "reps_min": null,
               "reps_max": null,
-              "rest_seconds": null,
+              "rest_seconds": 120,
               "target_rpe": null,
               "load_basis": null,
               "load_value": null
@@ -17777,6 +23611,508 @@
           ]
         }
       ]
+    },
+    {
+      "id": "wo_strength_total_a",
+      "name": "Total Strength A",
+      "workout_family": "strength_total",
+      "primary_goal": "strength",
+      "stimulus": "total_body_strength",
+      "secondary_goal": null,
+      "estimated_minutes": 60,
+      "intensity_target": "RPE 7",
+      "impact_level": "low",
+      "hyrox_specificity": 0.5,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "True-strength session: stable anchors, progressive overload, deliberate inter-set recovery.",
+      "coaching_notes": "True-strength session: stable anchors, progressive overload, deliberate inter-set recovery. No density clock.",
+      "training_domain": "strength",
+      "session_type": "strength",
+      "workout_role": "primary",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 60,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 39,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop accessory and carry volume first; the anchor lifts keep their sets"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 18,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the anchor lift only, at the prescribed load; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_strength_total_a_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "True-strength session: stable anchors, progressive overload, deliberate inter-set recovery. No density clock.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_back_squat",
+              "sequence_order": 1,
+              "prescription_type": "sets_reps",
+              "quantity": 4,
+              "quantity_unit": "x5",
+              "intensity_note": "RPE 7",
+              "sets": 4,
+              "reps_min": 5,
+              "reps_max": 5,
+              "rest_seconds": 180,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_bench_press",
+              "sequence_order": 2,
+              "prescription_type": "sets_reps",
+              "quantity": 4,
+              "quantity_unit": "x6",
+              "intensity_note": "RPE 7",
+              "sets": 4,
+              "reps_min": 6,
+              "reps_max": 6,
+              "rest_seconds": 150,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_chest_supported_row",
+              "sequence_order": 3,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x8",
+              "intensity_note": "RPE 7",
+              "sets": 3,
+              "reps_min": 8,
+              "reps_max": 8,
+              "rest_seconds": 120,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_romanian_deadlift",
+              "sequence_order": 4,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x8",
+              "intensity_note": "RPE 7",
+              "sets": 3,
+              "reps_min": 8,
+              "reps_max": 8,
+              "rest_seconds": 150,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "sequence_order": 5,
+              "prescription_type": "distance",
+              "quantity": 30,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 7",
+              "sets": 3,
+              "reps_min": null,
+              "reps_max": null,
+              "rest_seconds": 90,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_strength_total_b",
+      "name": "Total Strength B",
+      "workout_family": "strength_total",
+      "primary_goal": "strength",
+      "stimulus": "total_body_strength",
+      "secondary_goal": null,
+      "estimated_minutes": 60,
+      "intensity_target": "RPE 7",
+      "impact_level": "low",
+      "hyrox_specificity": 0.6,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "True-strength session: hinge + vertical press anchors with unilateral and pull support.",
+      "coaching_notes": "True-strength session: hinge + vertical press anchors with unilateral and pull support. No AMRAP/EMOM.",
+      "training_domain": "strength",
+      "session_type": "strength",
+      "workout_role": "primary",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 60,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 39,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop accessory and carry volume first; the anchor lifts keep their sets"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 18,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the anchor lift only, at the prescribed load; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_strength_total_b_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "True-strength session: hinge + vertical press anchors with unilateral and pull support. No AMRAP/EMOM.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_deadlift",
+              "sequence_order": 1,
+              "prescription_type": "sets_reps",
+              "quantity": 4,
+              "quantity_unit": "x5",
+              "intensity_note": "RPE 7",
+              "sets": 4,
+              "reps_min": 5,
+              "reps_max": 5,
+              "rest_seconds": 180,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_strict_overhead_press",
+              "sequence_order": 2,
+              "prescription_type": "sets_reps",
+              "quantity": 4,
+              "quantity_unit": "x6",
+              "intensity_note": "RPE 7",
+              "sets": 4,
+              "reps_min": 6,
+              "reps_max": 6,
+              "rest_seconds": 150,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_bulgarian_split_squat",
+              "sequence_order": 3,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x8",
+              "intensity_note": "RPE 7",
+              "sets": 3,
+              "reps_min": 8,
+              "reps_max": 8,
+              "rest_seconds": 120,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_lat_pulldown",
+              "sequence_order": 4,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x8-10",
+              "intensity_note": "RPE 7",
+              "sets": 3,
+              "reps_min": 8,
+              "reps_max": 10,
+              "rest_seconds": 120,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 5,
+              "prescription_type": "distance",
+              "quantity": 40,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 7",
+              "sets": 3,
+              "reps_min": null,
+              "reps_max": null,
+              "rest_seconds": 90,
+              "target_rpe": 7,
+              "load_basis": null,
+              "load_value": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_strength_recovery_a",
+      "name": "Recovery Strength Lower",
+      "workout_family": "strength_maintenance_lower",
+      "primary_goal": "strength",
+      "stimulus": "strength_maintenance",
+      "secondary_goal": null,
+      "estimated_minutes": 40,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.4,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Poor-recovery true strength, lower-body led.",
+      "coaching_notes": "Poor-recovery true strength, lower-body led. Preserve the strength exposure by reducing load and volume, not by creating density. Hard ceiling RPE 6.",
+      "training_domain": "strength",
+      "session_type": "strength",
+      "workout_role": "primary",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 40,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 26,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop accessory and carry volume first; the anchor lifts keep their sets"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 12,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the anchor lift only, at the prescribed load; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_strength_recovery_a_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Poor-recovery true strength, lower-body led. Preserve the strength exposure by reducing load and volume, not by creating density. Hard ceiling RPE 6.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_goblet_squat",
+              "sequence_order": 1,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x6",
+              "intensity_note": "RPE 6",
+              "sets": 3,
+              "reps_min": 6,
+              "reps_max": 6,
+              "rest_seconds": 150,
+              "target_rpe": 6,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_hip_thrust",
+              "sequence_order": 2,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x8",
+              "intensity_note": "RPE 6",
+              "sets": 3,
+              "reps_min": 8,
+              "reps_max": 8,
+              "rest_seconds": 120,
+              "target_rpe": 6,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_reverse_lunge",
+              "sequence_order": 3,
+              "prescription_type": "sets_reps",
+              "quantity": 2,
+              "quantity_unit": "x8",
+              "intensity_note": "RPE 6",
+              "sets": 2,
+              "reps_min": 8,
+              "reps_max": 8,
+              "rest_seconds": 120,
+              "target_rpe": 6,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "sequence_order": 4,
+              "prescription_type": "distance",
+              "quantity": 30,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6",
+              "sets": 3,
+              "reps_min": null,
+              "reps_max": null,
+              "rest_seconds": 90,
+              "target_rpe": 6,
+              "load_basis": null,
+              "load_value": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wo_strength_recovery_b",
+      "name": "Recovery Strength Upper",
+      "workout_family": "strength_maintenance_upper",
+      "primary_goal": "strength",
+      "stimulus": "strength_maintenance",
+      "secondary_goal": null,
+      "estimated_minutes": 40,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.3,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Poor-recovery true strength, upper-body led.",
+      "coaching_notes": "Poor-recovery true strength, upper-body led. Deliberate rest stays intact; volume and effort are what come down. Hard ceiling RPE 6.",
+      "training_domain": "strength",
+      "session_type": "strength",
+      "workout_role": "primary",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 40,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 26,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop accessory and carry volume first; the anchor lifts keep their sets"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 12,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the anchor lift only, at the prescribed load; no intensity compensation"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "wo_strength_recovery_b_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Poor-recovery true strength, upper-body led. Deliberate rest stays intact; volume and effort are what come down. Hard ceiling RPE 6.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_db_bench_press",
+              "sequence_order": 1,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x8",
+              "intensity_note": "RPE 6",
+              "sets": 3,
+              "reps_min": 8,
+              "reps_max": 8,
+              "rest_seconds": 120,
+              "target_rpe": 6,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_1_arm_db_overhead_press",
+              "sequence_order": 2,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x8",
+              "intensity_note": "RPE 6",
+              "sets": 3,
+              "reps_min": 8,
+              "reps_max": 8,
+              "rest_seconds": 120,
+              "target_rpe": 6,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "sequence_order": 3,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x8",
+              "intensity_note": "RPE 6",
+              "sets": 3,
+              "reps_min": 8,
+              "reps_max": 8,
+              "rest_seconds": 120,
+              "target_rpe": 6,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_chest_supported_row",
+              "sequence_order": 4,
+              "prescription_type": "sets_reps",
+              "quantity": 2,
+              "quantity_unit": "x10",
+              "intensity_note": "RPE 6",
+              "sets": 2,
+              "reps_min": 10,
+              "reps_max": 10,
+              "rest_seconds": 120,
+              "target_rpe": 6,
+              "load_basis": null,
+              "load_value": null
+            }
+          ]
+        }
+      ]
     }
   ],
   "substitutions": [
@@ -18109,122 +24445,218 @@
     {
       "id": "treadmill",
       "name": "Treadmill",
-      "category": "cardio"
+      "category": "cardio",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "outdoor",
       "name": "Outdoor run",
-      "category": "cardio"
+      "category": "cardio",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "ski",
       "name": "SkiErg",
-      "category": "cardio"
+      "category": "cardio",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "bike",
       "name": "Spin bike",
-      "category": "cardio"
+      "category": "cardio",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "row_erg",
       "name": "Rower",
-      "category": "cardio"
+      "category": "cardio",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "sled",
       "name": "Sled",
-      "category": "hyrox"
+      "category": "hyrox",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "rope",
       "name": "Sled rope",
-      "category": "hyrox"
+      "category": "hyrox",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "wall_ball",
       "name": "Wall ball",
-      "category": "hyrox"
+      "category": "hyrox",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "sandbag",
       "name": "Sandbag",
-      "category": "strength"
+      "category": "strength",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "db",
       "name": "Dumbbells",
-      "category": "strength"
+      "category": "strength",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "kb",
       "name": "Kettlebells",
-      "category": "strength"
+      "category": "strength",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "barbell",
       "name": "Barbell",
-      "category": "strength"
+      "category": "strength",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "rack",
       "name": "Rack",
-      "category": "strength"
+      "category": "strength",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "bench",
       "name": "Bench",
-      "category": "strength"
+      "category": "strength",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "box",
       "name": "Box",
-      "category": "strength"
+      "category": "strength",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "cable",
       "name": "Cable machine",
-      "category": "strength"
+      "category": "strength",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "bands",
       "name": "Resistance bands",
-      "category": "strength"
+      "category": "strength",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "trx",
       "name": "TRX",
-      "category": "strength"
+      "category": "strength",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "landmine",
       "name": "Landmine",
-      "category": "strength"
+      "category": "strength",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "rig",
       "name": "Pull-up rig",
-      "category": "strength"
+      "category": "strength",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "reformer",
       "name": "Pilates reformer",
-      "category": "recovery"
+      "category": "recovery",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "jump_rope",
       "name": "Jump rope",
-      "category": "conditioning"
+      "category": "conditioning",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "bag",
       "name": "Boxing bag",
-      "category": "conditioning"
+      "category": "conditioning",
+      "selection_tier": "athlete_selectable"
     },
     {
       "id": "bodyweight",
       "name": "Bodyweight",
-      "category": "none"
+      "category": "none",
+      "selection_tier": "athlete_selectable"
+    },
+    {
+      "id": "trap_bar",
+      "name": "Trap Bar",
+      "category": "strength",
+      "selection_tier": "athlete_selectable"
+    },
+    {
+      "id": "machine",
+      "name": "Machine",
+      "category": "strength",
+      "selection_tier": "specialized"
+    },
+    {
+      "id": "back_extension",
+      "name": "Back Extension",
+      "category": "strength",
+      "selection_tier": "specialized"
+    },
+    {
+      "id": "hurdle",
+      "name": "Hurdle",
+      "category": "hyrox",
+      "selection_tier": "specialized"
+    },
+    {
+      "id": "plate",
+      "name": "Plate",
+      "category": "strength",
+      "selection_tier": "derived_common"
+    },
+    {
+      "id": "sliders",
+      "name": "Sliders",
+      "category": "strength",
+      "selection_tier": "specialized"
+    },
+    {
+      "id": "ab_wheel",
+      "name": "Ab Wheel",
+      "category": "strength",
+      "selection_tier": "specialized"
+    },
+    {
+      "id": "stability_ball",
+      "name": "Stability Ball",
+      "category": "strength",
+      "selection_tier": "specialized"
+    },
+    {
+      "id": "reverse_hyper",
+      "name": "Reverse Hyper",
+      "category": "strength",
+      "selection_tier": "specialized"
+    },
+    {
+      "id": "medicine_ball",
+      "name": "Medicine Ball",
+      "category": "strength",
+      "selection_tier": "athlete_selectable"
+    },
+    {
+      "id": "wall",
+      "name": "Wall",
+      "category": "bodyweight",
+      "selection_tier": "derived_common"
+    },
+    {
+      "id": "nordic_anchor",
+      "name": "Nordic Anchor",
+      "category": "strength",
+      "selection_tier": "specialized"
     }
   ]
 }

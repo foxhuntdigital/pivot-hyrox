@@ -1,0 +1,138 @@
+{
+ "note": "Templates asserting postpartum_friendly while prescribing a loaded barbell anchor. scripts/import-workouts.mjs stamps postpartum_friendly = true on every workout it imports; nothing has ever ruled on it per session. checkEligibility treats the flag as a hard constraint (requiresPostpartumSafe), so a false positive here reaches an athlete who declared the consideration.",
+ "decision": "DEFERRED to a coaching pass (2026-08-31). Nothing here is being changed yet.",
+ "related": "data/review/vocabulary.written.json \u2014 the 180 exercises created by the vocabulary migration are postpartum_friendly = false and need the same pass from the other side.",
+ "count": 6,
+ "templates": [
+  {
+   "template_id": "wo_hyrox_legs_a",
+   "name": "HYROX Legs A",
+   "workout_family": "strength_legs",
+   "intensity_target": "RPE 7",
+   "peak_rpe": 7,
+   "postpartum_friendly": true,
+   "barbell_anchors": [
+    {
+     "exercise_id": "ex_back_squat",
+     "name": "Back Squat",
+     "sets": 4,
+     "reps_min": 6,
+     "target_rpe": 7
+    }
+   ]
+  },
+  {
+   "template_id": "wo_hyrox_legs_b",
+   "name": "HYROX Legs B",
+   "workout_family": "strength_legs",
+   "intensity_target": "RPE 7",
+   "peak_rpe": 7,
+   "postpartum_friendly": true,
+   "barbell_anchors": [
+    {
+     "exercise_id": "ex_front_squat",
+     "name": "Front Squat",
+     "sets": 4,
+     "reps_min": 5,
+     "target_rpe": 7
+    },
+    {
+     "exercise_id": "ex_romanian_deadlift",
+     "name": "Romanian Deadlift",
+     "sets": 3,
+     "reps_min": 8,
+     "target_rpe": 7
+    }
+   ]
+  },
+  {
+   "template_id": "wo_hyrox_pull_a",
+   "name": "HYROX Pull A",
+   "workout_family": "strength_pull",
+   "intensity_target": "RPE 7",
+   "peak_rpe": 7,
+   "postpartum_friendly": true,
+   "barbell_anchors": [
+    {
+     "exercise_id": "ex_deadlift",
+     "name": "Deadlift",
+     "sets": 4,
+     "reps_min": 5,
+     "target_rpe": 7
+    }
+   ]
+  },
+  {
+   "template_id": "wo_strength_total_a",
+   "name": "Total Strength A",
+   "workout_family": "strength_total",
+   "intensity_target": "RPE 7",
+   "peak_rpe": 7,
+   "postpartum_friendly": true,
+   "barbell_anchors": [
+    {
+     "exercise_id": "ex_back_squat",
+     "name": "Back Squat",
+     "sets": 4,
+     "reps_min": 5,
+     "target_rpe": 7
+    },
+    {
+     "exercise_id": "ex_bench_press",
+     "name": "Bench Press",
+     "sets": 4,
+     "reps_min": 6,
+     "target_rpe": 7
+    },
+    {
+     "exercise_id": "ex_romanian_deadlift",
+     "name": "Romanian Deadlift",
+     "sets": 3,
+     "reps_min": 8,
+     "target_rpe": 7
+    }
+   ]
+  },
+  {
+   "template_id": "wo_strength_total_b",
+   "name": "Total Strength B",
+   "workout_family": "strength_total",
+   "intensity_target": "RPE 7",
+   "peak_rpe": 7,
+   "postpartum_friendly": true,
+   "barbell_anchors": [
+    {
+     "exercise_id": "ex_deadlift",
+     "name": "Deadlift",
+     "sets": 4,
+     "reps_min": 5,
+     "target_rpe": 7
+    },
+    {
+     "exercise_id": "ex_strict_overhead_press",
+     "name": "Strict Overhead Press",
+     "sets": 4,
+     "reps_min": 6,
+     "target_rpe": 7
+    }
+   ]
+  },
+  {
+   "template_id": "wo_strength_recovery_a",
+   "name": "Recovery Strength Lower",
+   "workout_family": "strength_maintenance_lower",
+   "intensity_target": "RPE 5-6",
+   "peak_rpe": 6,
+   "postpartum_friendly": true,
+   "barbell_anchors": [
+    {
+     "exercise_id": "ex_hip_thrust",
+     "name": "Hip Thrust",
+     "sets": 3,
+     "reps_min": 8,
+     "target_rpe": 6
+    }
+   ]
+  }
+ ]
+}

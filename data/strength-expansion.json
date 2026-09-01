@@ -1,0 +1,334 @@
+{
+ "meta": {
+  "pack": "PIVOT Strength Gate Expansion v1",
+  "workout_count": 4,
+  "format": "canonical-v1",
+  "_format_note": "Structured strength prescriptions (migration 0011): sets, reps and rest are stated in the fields that hold them. quantity/quantity_unit are DERIVED by import-workouts.mjs and must not be authored here.",
+  "_purpose": "Closes the true-strength coverage gate: two normal-readiness true-strength sessions plus two poor-recovery sessions at RPE <= 6, authored against the rules in the source brief \u2014 resistance work organised around progressive overload with deliberate inter-set rest, and no density clock.",
+  "default_description": "Strength expansion session.",
+  "default_coaching_notes": "Rest fully between working sets; the clock is not part of the prescription.",
+  "express_rule": "drop accessory and carry volume first; the anchor lifts keep their sets",
+  "micro_rule": "the anchor lift only, at the prescribed load; no intensity compensation",
+  "_family_note": "The two poor-recovery sessions carry their own families rather than borrowing strength_legs, which guardrails.ts reads as HEAVY_LOWER_FAMILIES and spaces two days apart. A 3x6 goblet squat at RPE 6 is not heavy lower-body loading, and filing it as such would withdraw one of only two strength options from exactly the depleted athlete these sessions exist for."
+ },
+ "workouts": [
+  {
+   "id": "wo_strength_total_a",
+   "name": "Total Strength A",
+   "workout_family": "strength_total",
+   "stimulus": "total_body_strength",
+   "secondary_goal": null,
+   "estimated_minutes": 60,
+   "intensity_target": "RPE 7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.5,
+   "description": "True-strength session: stable anchors, progressive overload, deliberate inter-set recovery.",
+   "coaching_notes": "True-strength session: stable anchors, progressive overload, deliberate inter-set recovery. No density clock.",
+   "authored_readiness_band": "normal",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "True-strength session: stable anchors, progressive overload, deliberate inter-set recovery. No density clock."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_back_squat",
+     "exercise": "Back Squat",
+     "prescription_type": "sets_reps",
+     "intensity": "RPE 7",
+     "sets": 4,
+     "reps_min": 5,
+     "reps_max": 5,
+     "rest_seconds": 180,
+     "target_rpe": 7,
+     "exercise_role": "primary_strength"
+    },
+    {
+     "exercise_id": "ex_bench_press",
+     "exercise": "Bench Press",
+     "prescription_type": "sets_reps",
+     "intensity": "RPE 7",
+     "sets": 4,
+     "reps_min": 6,
+     "reps_max": 6,
+     "rest_seconds": 150,
+     "target_rpe": 7,
+     "exercise_role": "primary_strength"
+    },
+    {
+     "exercise_id": "ex_chest_supported_row",
+     "exercise": "Chest-Supported Row",
+     "prescription_type": "sets_reps",
+     "intensity": "RPE 7",
+     "sets": 3,
+     "reps_min": 8,
+     "reps_max": 8,
+     "rest_seconds": 120,
+     "target_rpe": 7,
+     "exercise_role": "secondary_strength"
+    },
+    {
+     "exercise_id": "ex_romanian_deadlift",
+     "exercise": "Romanian Deadlift",
+     "prescription_type": "sets_reps",
+     "intensity": "RPE 7",
+     "sets": 3,
+     "reps_min": 8,
+     "reps_max": 8,
+     "rest_seconds": 150,
+     "target_rpe": 7,
+     "exercise_role": "secondary_strength"
+    },
+    {
+     "exercise_id": "ex_suitcase_carry",
+     "exercise": "Suitcase Carry",
+     "prescription_type": "distance",
+     "quantity": 30,
+     "unit": "m",
+     "intensity": "RPE 7",
+     "sets": 3,
+     "reps_min": null,
+     "reps_max": null,
+     "rest_seconds": 90,
+     "target_rpe": 7,
+     "exercise_role": "trunk_carry"
+    }
+   ]
+  },
+  {
+   "id": "wo_strength_total_b",
+   "name": "Total Strength B",
+   "workout_family": "strength_total",
+   "stimulus": "total_body_strength",
+   "secondary_goal": null,
+   "estimated_minutes": 60,
+   "intensity_target": "RPE 7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "description": "True-strength session: hinge + vertical press anchors with unilateral and pull support.",
+   "coaching_notes": "True-strength session: hinge + vertical press anchors with unilateral and pull support. No AMRAP/EMOM.",
+   "authored_readiness_band": "normal",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "True-strength session: hinge + vertical press anchors with unilateral and pull support. No AMRAP/EMOM."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_deadlift",
+     "exercise": "Conventional Deadlift",
+     "prescription_type": "sets_reps",
+     "intensity": "RPE 7",
+     "sets": 4,
+     "reps_min": 5,
+     "reps_max": 5,
+     "rest_seconds": 180,
+     "target_rpe": 7,
+     "exercise_role": "primary_strength"
+    },
+    {
+     "exercise_id": "ex_strict_overhead_press",
+     "exercise": "Strict Overhead Press",
+     "prescription_type": "sets_reps",
+     "intensity": "RPE 7",
+     "sets": 4,
+     "reps_min": 6,
+     "reps_max": 6,
+     "rest_seconds": 150,
+     "target_rpe": 7,
+     "exercise_role": "primary_strength"
+    },
+    {
+     "exercise_id": "ex_bulgarian_split_squat",
+     "exercise": "Bulgarian Split Squat",
+     "prescription_type": "sets_reps",
+     "intensity": "RPE 7",
+     "sets": 3,
+     "reps_min": 8,
+     "reps_max": 8,
+     "rest_seconds": 120,
+     "target_rpe": 7,
+     "exercise_role": "secondary_strength"
+    },
+    {
+     "exercise_id": "ex_lat_pulldown",
+     "exercise": "Lat Pulldown",
+     "prescription_type": "sets_reps",
+     "intensity": "RPE 7",
+     "sets": 3,
+     "reps_min": 8,
+     "reps_max": 10,
+     "rest_seconds": 120,
+     "target_rpe": 7,
+     "exercise_role": "secondary_strength"
+    },
+    {
+     "exercise_id": "ex_farmer_carry",
+     "exercise": "Farmer Carry",
+     "prescription_type": "distance",
+     "quantity": 40,
+     "unit": "m",
+     "intensity": "RPE 7",
+     "sets": 3,
+     "reps_min": null,
+     "reps_max": null,
+     "rest_seconds": 90,
+     "target_rpe": 7,
+     "exercise_role": "trunk_carry"
+    }
+   ]
+  },
+  {
+   "id": "wo_strength_recovery_a",
+   "name": "Recovery Strength Lower",
+   "workout_family": "strength_maintenance_lower",
+   "stimulus": "strength_maintenance",
+   "secondary_goal": null,
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.4,
+   "description": "Poor-recovery true strength, lower-body led.",
+   "coaching_notes": "Poor-recovery true strength, lower-body led. Preserve the strength exposure by reducing load and volume, not by creating density. Hard ceiling RPE 6.",
+   "authored_readiness_band": "poor_recovery",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Poor-recovery true strength, lower-body led. Preserve the strength exposure by reducing load and volume, not by creating density. Hard ceiling RPE 6."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_goblet_squat",
+     "exercise": "Goblet Squat",
+     "prescription_type": "sets_reps",
+     "intensity": "RPE 6",
+     "sets": 3,
+     "reps_min": 6,
+     "reps_max": 6,
+     "rest_seconds": 150,
+     "target_rpe": 6,
+     "exercise_role": "primary_strength"
+    },
+    {
+     "exercise_id": "ex_hip_thrust",
+     "exercise": "Hip Thrust",
+     "prescription_type": "sets_reps",
+     "intensity": "RPE 6",
+     "sets": 3,
+     "reps_min": 8,
+     "reps_max": 8,
+     "rest_seconds": 120,
+     "target_rpe": 6,
+     "exercise_role": "secondary_strength"
+    },
+    {
+     "exercise_id": "ex_reverse_lunge",
+     "exercise": "Reverse Lunge",
+     "prescription_type": "sets_reps",
+     "intensity": "RPE 6",
+     "sets": 2,
+     "reps_min": 8,
+     "reps_max": 8,
+     "rest_seconds": 120,
+     "target_rpe": 6,
+     "exercise_role": "secondary_strength"
+    },
+    {
+     "exercise_id": "ex_suitcase_carry",
+     "exercise": "Suitcase Carry",
+     "prescription_type": "distance",
+     "quantity": 30,
+     "unit": "m",
+     "intensity": "RPE 6",
+     "sets": 3,
+     "reps_min": null,
+     "reps_max": null,
+     "rest_seconds": 90,
+     "target_rpe": 6,
+     "exercise_role": "trunk_carry"
+    }
+   ]
+  },
+  {
+   "id": "wo_strength_recovery_b",
+   "name": "Recovery Strength Upper",
+   "workout_family": "strength_maintenance_upper",
+   "stimulus": "strength_maintenance",
+   "secondary_goal": null,
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.3,
+   "description": "Poor-recovery true strength, upper-body led.",
+   "coaching_notes": "Poor-recovery true strength, upper-body led. Deliberate rest stays intact; volume and effort are what come down. Hard ceiling RPE 6.",
+   "authored_readiness_band": "poor_recovery",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Poor-recovery true strength, upper-body led. Deliberate rest stays intact; volume and effort are what come down. Hard ceiling RPE 6."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_db_bench_press",
+     "exercise": "DB Bench Press",
+     "prescription_type": "sets_reps",
+     "intensity": "RPE 6",
+     "sets": 3,
+     "reps_min": 8,
+     "reps_max": 8,
+     "rest_seconds": 120,
+     "target_rpe": 6,
+     "exercise_role": "primary_strength"
+    },
+    {
+     "exercise_id": "ex_1_arm_db_overhead_press",
+     "exercise": "1-Arm DB Overhead Press",
+     "prescription_type": "sets_reps",
+     "intensity": "RPE 6",
+     "sets": 3,
+     "reps_min": 8,
+     "reps_max": 8,
+     "rest_seconds": 120,
+     "target_rpe": 6,
+     "exercise_role": "primary_strength"
+    },
+    {
+     "exercise_id": "ex_db_row",
+     "exercise": "1-Arm DB Row",
+     "prescription_type": "sets_reps",
+     "intensity": "RPE 6",
+     "sets": 3,
+     "reps_min": 8,
+     "reps_max": 8,
+     "rest_seconds": 120,
+     "target_rpe": 6,
+     "exercise_role": "secondary_strength"
+    },
+    {
+     "exercise_id": "ex_chest_supported_row",
+     "exercise": "Chest-Supported Row",
+     "prescription_type": "sets_reps",
+     "intensity": "RPE 6",
+     "sets": 2,
+     "reps_min": 10,
+     "reps_max": 10,
+     "rest_seconds": 120,
+     "target_rpe": 6,
+     "exercise_role": "secondary_strength"
+    }
+   ]
+  }
+ ]
+}

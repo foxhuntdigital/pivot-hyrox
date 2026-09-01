@@ -260,7 +260,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -304,7 +304,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -348,7 +348,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -394,7 +394,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -444,7 +444,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -489,7 +489,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -538,7 +538,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "trap_bar",
@@ -586,7 +586,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -640,7 +640,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -689,7 +689,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -738,7 +738,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -783,7 +783,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -833,7 +833,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -877,7 +877,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -926,7 +926,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -972,7 +972,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -1016,7 +1016,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -1072,7 +1072,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -1125,7 +1125,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "pullup_bar",
@@ -1169,7 +1169,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -1221,7 +1221,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -1279,7 +1279,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -1329,7 +1329,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -1378,7 +1378,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Primary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -1439,7 +1439,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory/secondary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -1490,7 +1490,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory/secondary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -1541,7 +1541,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory/secondary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -1587,7 +1587,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory/secondary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -1632,7 +1632,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory/secondary anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bar",
@@ -1683,7 +1683,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -1733,7 +1733,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -1778,7 +1778,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -1822,7 +1822,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -1866,7 +1866,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -1915,7 +1915,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -1959,7 +1959,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -2008,7 +2008,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -2063,7 +2063,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -2108,7 +2108,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -2166,7 +2166,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -2216,7 +2216,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -2268,7 +2268,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "machine",
@@ -2315,7 +2315,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "machine",
@@ -2362,7 +2362,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "machine",
@@ -2419,7 +2419,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "machine",
@@ -2470,7 +2470,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -2527,7 +2527,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "machine",
@@ -2584,7 +2584,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "machine",
@@ -2643,7 +2643,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "back_extension",
@@ -2690,7 +2690,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -2740,7 +2740,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Accessory anchor",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -2797,7 +2797,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -2847,7 +2847,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -2904,7 +2904,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -3034,7 +3034,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -3082,7 +3082,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -3119,7 +3119,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -3133,7 +3133,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -3168,7 +3168,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "box",
@@ -3218,7 +3218,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "box",
@@ -3268,7 +3268,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -3322,7 +3322,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -3370,7 +3370,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -3421,7 +3421,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -3481,7 +3481,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -3531,7 +3531,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -3585,7 +3585,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -3634,7 +3634,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "landmine",
@@ -3682,7 +3682,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "landmine",
@@ -3728,7 +3728,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "kettlebell",
@@ -3737,7 +3737,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -3774,7 +3774,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -3835,7 +3835,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -3882,7 +3882,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -3927,7 +3927,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -3971,7 +3971,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -4017,7 +4017,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -4063,7 +4063,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -4109,7 +4109,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -4192,7 +4192,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -4201,7 +4201,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -4240,7 +4240,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -4287,7 +4287,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "kettlebell",
@@ -4335,7 +4335,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "kettlebell",
@@ -4344,7 +4344,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -4382,7 +4382,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "kettlebell",
@@ -4430,7 +4430,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "kettlebell",
@@ -4477,7 +4477,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -4486,7 +4486,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -4575,7 +4575,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "sandbag",
@@ -4620,7 +4620,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "sandbag",
@@ -4663,7 +4663,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "sandbag",
@@ -4708,7 +4708,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -4764,7 +4764,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -4814,7 +4814,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -4865,7 +4865,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -4908,7 +4908,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -4952,7 +4952,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -4988,7 +4988,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -5030,7 +5030,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -5074,7 +5074,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -5119,7 +5119,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -5172,7 +5172,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "name matches an existing exercise exactly"
     },
@@ -5216,7 +5216,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "looks related to ex_burpee_broad_jump (Burpee Broad Jump) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -5253,7 +5253,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -5307,7 +5307,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -5344,7 +5344,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -5389,7 +5389,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -5433,7 +5433,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -5442,7 +5442,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "looks related to ex_burpee_broad_jump (Burpee Broad Jump) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -5477,7 +5477,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "hurdle",
@@ -5488,7 +5488,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -5612,7 +5612,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -5655,7 +5655,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -5698,7 +5698,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -5742,7 +5742,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -5794,7 +5794,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -5844,7 +5844,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -5878,7 +5878,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "trx",
@@ -5940,7 +5940,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -5973,7 +5973,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "stability_ball",
@@ -6020,7 +6020,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -6069,7 +6069,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -6119,7 +6119,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -6168,7 +6168,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -6212,7 +6212,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bench",
@@ -6255,7 +6255,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -6301,7 +6301,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -6349,7 +6349,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -6394,7 +6394,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -6440,7 +6440,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -6482,7 +6482,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -6525,7 +6525,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -6577,7 +6577,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -6653,7 +6653,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -6698,7 +6698,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -6743,7 +6743,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -6789,7 +6789,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "landmine",
@@ -6833,7 +6833,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "back_extension",
@@ -6879,7 +6879,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "reverse_hyper",
@@ -6925,7 +6925,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -6973,7 +6973,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "barbell",
@@ -6982,7 +6982,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -7021,7 +7021,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -7030,7 +7030,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -7069,7 +7069,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -7078,7 +7078,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -7117,7 +7117,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -7126,7 +7126,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -7165,7 +7165,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -7174,7 +7174,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -7212,7 +7212,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -7221,7 +7221,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -7260,7 +7260,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -7269,7 +7269,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "looks related to ex_push_up (Push-Up), ex_trx_push_up (TRX Push-Up) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -7309,7 +7309,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -7318,7 +7318,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "looks related to ex_front_squat (Front Squat) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -7357,7 +7357,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -7366,7 +7366,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "looks related to ex_push_press (Push Press), ex_incline_db_press (Incline DB Press) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -7407,7 +7407,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -7416,7 +7416,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "looks related to ex_push_press (Push Press), ex_incline_db_press (Incline DB Press) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -7456,7 +7456,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -7465,7 +7465,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "looks related to ex_front_squat (Front Squat) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -7505,7 +7505,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -7514,7 +7514,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "looks related to ex_reverse_lunge (Reverse Lunge) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -7552,7 +7552,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -7566,7 +7566,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -7605,7 +7605,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -7614,7 +7614,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -7652,7 +7652,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -7661,7 +7661,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -7698,7 +7698,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -7707,7 +7707,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "name matches an existing exercise exactly"
     },
@@ -7746,7 +7746,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -7755,7 +7755,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -7791,7 +7791,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -7800,7 +7800,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -7893,7 +7893,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "sandbag",
@@ -7902,7 +7902,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "looks related to ex_sandbag_carry (Sandbag Carry) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -7939,7 +7939,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "sandbag",
@@ -7948,7 +7948,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -7987,7 +7987,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "sandbag",
@@ -7996,7 +7996,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -8031,7 +8031,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "sled",
@@ -8040,7 +8040,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "name matches an existing exercise exactly"
     },
@@ -8075,7 +8075,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "sled",
@@ -8084,7 +8084,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "name matches an existing exercise exactly"
     },
@@ -8119,7 +8119,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "sled",
@@ -8128,7 +8128,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -8163,7 +8163,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "sled",
@@ -8172,7 +8172,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -8210,7 +8210,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "wall_ball",
@@ -8219,7 +8219,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "name matches an existing exercise exactly"
     },
@@ -8257,7 +8257,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "medicine_ball",
@@ -8268,7 +8268,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -8306,7 +8306,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "medicine_ball",
@@ -8324,7 +8324,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -8362,7 +8362,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "medicine_ball",
@@ -8380,7 +8380,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -8418,7 +8418,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "medicine_ball",
@@ -8436,7 +8436,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -8474,7 +8474,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -8483,7 +8483,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "name matches an existing exercise exactly"
     },
@@ -8519,7 +8519,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -8528,7 +8528,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "looks related to ex_burpee_broad_jump (Burpee Broad Jump) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -8564,7 +8564,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -8578,7 +8578,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -8613,7 +8613,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "box",
@@ -8622,7 +8622,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "looks related to ex_box_step_over (Box Step-Over) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -8660,7 +8660,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -8669,7 +8669,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -8705,7 +8705,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -8714,7 +8714,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "looks related to ex_db_row (DB Row) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -8750,7 +8750,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -8759,7 +8759,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "looks related to ex_incline_db_press (Incline DB Press) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -8799,7 +8799,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "kettlebell",
@@ -8808,7 +8808,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -8845,7 +8845,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "kettlebell",
@@ -8854,7 +8854,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "looks related to ex_reverse_lunge (Reverse Lunge) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -8893,7 +8893,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "kettlebell",
@@ -8902,7 +8902,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "looks related to ex_goblet_squat (Goblet Squat) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -8940,7 +8940,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -8959,7 +8959,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "looks related to ex_walking_lunge (Walking Lunge), ex_sandbag_walking_lunge (Sandbag Walking Lunge) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -8996,7 +8996,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -9015,7 +9015,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "looks related to ex_walking_lunge (Walking Lunge), ex_sandbag_walking_lunge (Sandbag Walking Lunge) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -9052,7 +9052,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -9066,7 +9066,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "looks related to ex_reverse_lunge (Reverse Lunge) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -9103,7 +9103,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -9117,7 +9117,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -9154,7 +9154,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "landmine",
@@ -9163,7 +9163,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "looks related to ex_landmine_press (Landmine Press) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -9201,7 +9201,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "landmine",
@@ -9210,7 +9210,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "looks related to ex_landmine_press (Landmine Press) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -9248,7 +9248,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -9257,7 +9257,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -9294,7 +9294,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -9303,7 +9303,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -9339,7 +9339,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -9348,7 +9348,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -9382,7 +9382,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -9391,7 +9391,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -9426,7 +9426,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -9435,7 +9435,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -9473,7 +9473,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -9482,7 +9482,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -9519,7 +9519,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -9528,7 +9528,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -9564,7 +9564,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -9578,7 +9578,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -9613,7 +9613,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -9627,7 +9627,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "looks related to ex_sandbag_front_rack_march (Sandbag Front Rack March) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
@@ -9662,7 +9662,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -9676,7 +9676,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -9711,7 +9711,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -9753,7 +9753,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -9809,7 +9809,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -9903,7 +9903,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -9951,7 +9951,7 @@
       ],
       "methodology_bucket": "foundational_repeatable",
       "bucket_in_sheet": "Foundational / repeatable",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -9996,7 +9996,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -10041,7 +10041,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",
@@ -10085,7 +10085,7 @@
       ],
       "methodology_bucket": "complex_specific_novel",
       "bucket_in_sheet": "Complex / specific / novel",
-      "variant_parent": "Track performance, but do not apply generic last-load → heavier-load progression.",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "bodyweight",
@@ -10094,7 +10094,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "",
+      "review_notes": "Track performance, but do not apply generic last-load → heavier-load progression.",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -10144,7 +10144,7 @@
         }
       ],
       "review_status": "Review",
-      "review_notes": "Review",
+      "review_notes": "",
       "issues": [],
       "note": "no existing exercise resembles this"
     },
@@ -10181,7 +10181,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -10231,7 +10231,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "sandbag",
@@ -10275,7 +10275,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "dumbbell",
@@ -10325,7 +10325,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "box",
@@ -10375,7 +10375,7 @@
       ],
       "methodology_bucket": "athletic_power_plyometric",
       "bucket_in_sheet": "Athletic / power / plyometric",
-      "variant_parent": "Review",
+      "variant_parent": null,
       "equipment": [
         {
           "token": "cable",

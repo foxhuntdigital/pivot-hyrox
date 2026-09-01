@@ -29,7 +29,7 @@ const BOOL_COLUMNS = {
 const ARRAY_COLUMNS = {
   exercises: [
     'movement_families', 'training_qualities', 'movement_characters',
-    'exercise_role_eligibility', 'progression_tracks',
+    'exercise_role_eligibility', 'progression_tracks', 'aliases',
   ],
   workout_templates: ['modality'],
 };

@@ -1,0 +1,16 @@
+rest_seconds,workout,position,exercise,prescription,target_rpe,block,id
+180,HYROX Legs A,movement 1,Back Squat,4 x 6,7,Main,wo_hyrox_legs_a_b1_e1
+120,HYROX Legs A,movement 2,Bulgarian Split Squat,3 x 10,7,Main,wo_hyrox_legs_a_b1_e2
+90,HYROX Legs A,movement 3,Walking Lunge,3 x 12,7,Main,wo_hyrox_legs_a_b1_e3
+60,HYROX Legs A,movement 5,Pallof Press,3 x 12,,Main,wo_hyrox_legs_a_b1_e5
+180,HYROX Legs B,movement 1,Front Squat,4 x 5,7,Main,wo_hyrox_legs_b_b1_e1
+150,HYROX Legs B,movement 2,Romanian Deadlift,3 x 8,7,Main,wo_hyrox_legs_b_b1_e2
+120,HYROX Legs B,movement 3,Reverse Lunge,3 x 10,7,Main,wo_hyrox_legs_b_b1_e3
+150,HYROX Push A,movement 1,Push Press,4 x 6,7,Main,wo_hyrox_push_a_b1_e1
+120,HYROX Push A,movement 2,Incline DB Press,3 x 10,7,Main,wo_hyrox_push_a_b1_e2
+90,HYROX Push A,movement 3,Landmine Press,3 x 10,7,Main,wo_hyrox_push_a_b1_e3
+75,HYROX Push A,movement 4,TRX Push-Up,3 x 12,,Main,wo_hyrox_push_a_b1_e4
+60,HYROX Push A,movement 5,Wall Ball,4 x 15,6,Main,wo_hyrox_push_a_b1_e5
+180,HYROX Pull A,movement 1,Deadlift,4 x 5,7,Main,wo_hyrox_pull_a_b1_e1
+120,HYROX Pull A,movement 2,DB Row,3 x 10,7,Main,wo_hyrox_pull_a_b1_e2
+120,HYROX Pull A,movement 3,Pull-Up,3 x AMRAP,,Main,wo_hyrox_pull_a_b1_e3
