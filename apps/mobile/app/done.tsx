@@ -6,14 +6,15 @@
  * the summary reports what was done without framing it as a shortfall.
  */
 import React from 'react';
-import { View, Text, ScrollView, TextInput } from 'react-native';
+import { View, Text, ScrollView, TextInput, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { VARIANT_LABEL } from '@pivot/engine';
+import { VARIANT_LABEL, supplementalOffer } from '@pivot/engine';
 import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, InkPanel, Chip } from '@/components/primitives';
 import { useApp } from '@/state/store';
+import { TEMPLATES, EXERCISES } from '@/data/content';
 import { mmss } from '@/lib/format';
 import { buildSplits, splitTotals, fastestAndSlowest } from '@/state/splits';
 import { LOW_SLEEP_HOURS } from '@/lib/format';
@@ -67,7 +68,10 @@ function CorrectionField({
 export default function DoneScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { state, dispatch, session, steps, plan, sleep, finishSession } = useApp();
+  const {
+    state, dispatch, session, steps, plan, sleep, finishSession,
+    engineInput, startSupplemental,
+  } = useApp();
 
   if (session.kind !== 'session') {
     router.replace('/today');
@@ -131,12 +135,66 @@ export default function DoneScreen() {
       : `${session.template.name} completed as ${VARIANT_LABEL[session.variant.variant_code]}. `
         + 'The week stays intact and your next exposure builds from here.';
 
+  /**
+   * The optional extra, decided here rather than asked of the server.
+   *
+   * The finish is queued through the outbox rather than awaited, so at the
+   * moment this screen renders the server does not yet know the session is
+   * over — asking it would reliably answer NO_PRIMARY_COMPLETED. The decision
+   * is the identical `supplementalOffer` the Edge Function runs, which is why
+   * it lives in the engine, and `start-workout` re-runs the gate server-side
+   * before opening anything. An offer is a suggestion; the gate is the
+   * enforcement.
+   *
+   * It recomputes as the athlete taps an RPE, which is the honest behaviour:
+   * rating the session a 9 spends the day and withdraws the offer, and the
+   * screen says so rather than leaving a button that would be refused.
+   *
+   * `supplementalTakenToday` is false because this client does not track it.
+   * The server does, in the one-per-day index and in the gate — so the worst
+   * case is an offer that is declined on tap, not a second one performed.
+   */
+  const offer = React.useMemo(() => supplementalOffer({
+    input: engineInput,
+    templates: TEMPLATES,
+    exercises: EXERCISES,
+    primary: {
+      template: session.template,
+      session_rpe: state.session_rpe,
+      ended_early: state.ended_early,
+    },
+    supplementalTakenToday: false,
+  }), [engineInput, session, state.session_rpe, state.ended_early]);
+
+  /**
+   * Refusals worth saying out loud.
+   *
+   * These four are coaching statements about the athlete's day and belong on a
+   * screen that has just told them they finished. The rest — no content fits
+   * their equipment, one already taken, nothing completed — are facts about the
+   * library or about state they can see, and printing them under a completed
+   * session is noise dressed as feedback.
+   */
+  const SPOKEN_REFUSALS = ['RECOVERY_TOO_LOW', 'PRIMARY_ALREADY_DEMANDING',
+    'TAPER_WEEK', 'SYMPTOMS_REPORTED'];
+  const showRefusal = !offer.offered && SPOKEN_REFUSALS.includes(offer.reason_code);
+
   const finish = () => {
     // RPE is captured on this screen, so the finish is written here rather
     // than when the last block ended — the record carries what the athlete
     // actually reported.
     finishSession();
     router.replace('/today');
+  };
+
+  /**
+   * Take one. The primary is written first and unconditionally: the session
+   * they completed is recorded whether or not the extra opens.
+   */
+  const takeSupplemental = (templateId: string) => {
+    finishSession();
+    if (startSupplemental(templateId)) router.replace('/active');
+    else router.replace('/today');
   };
 
   return (
@@ -366,6 +424,52 @@ export default function DoneScreen() {
           </View>
         ))}
       </View>
+
+      {offer.offered || showRefusal ? (
+        <>
+          <Label style={{ paddingHorizontal: space.gutter, paddingTop: 22, paddingBottom: 6 }}>
+            Something extra?
+          </Label>
+          {showRefusal ? (
+            <Text style={[t.body, {
+              paddingHorizontal: space.gutter, color: color.muted2, paddingBottom: 2,
+            }]}>
+              {offer.rationale}
+            </Text>
+          ) : (
+            <>
+              <Text style={[t.meta, {
+                paddingHorizontal: space.gutter, color: color.muted, paddingBottom: 8,
+              }]}>
+                Optional · skipping records nothing
+              </Text>
+              <View style={{ paddingHorizontal: space.gutter }}>
+                {offer.options.map(option => (
+                  <Pressable
+                    key={option.template_id}
+                    accessibilityRole="button"
+                    accessibilityLabel={
+                      `${option.name}, ${option.minutes} minutes, ${option.supplemental_load} load`}
+                    onPress={() => takeSupplemental(option.template_id)}
+                    style={{
+                      flexDirection: 'row', justifyContent: 'space-between',
+                      alignItems: 'baseline', paddingVertical: 12,
+                      borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
+                    }}
+                  >
+                    <Text style={[t.rowTitle, { fontSize: 13, color: color.ink, flex: 1 }]}>
+                      {option.name}
+                    </Text>
+                    <Text style={[t.bodySm, { color: color.muted2, marginLeft: 12 }]}>
+                      {option.minutes} min · {option.supplemental_type.replace(/_/g, ' ')}
+                    </Text>
+                  </Pressable>
+                ))}
+              </View>
+            </>
+          )}
+        </>
+      ) : null}
 
       <ActionButton
         label="Done" onPress={finish}

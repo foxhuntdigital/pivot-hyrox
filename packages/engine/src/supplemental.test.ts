@@ -12,7 +12,7 @@ import {
   SUPPLEMENTAL_MAX_MINUTES,
 } from './supplemental.ts';
 import type { CompletedPrimary } from './supplemental.ts';
-import type { EngineInput, Exercise, WorkoutTemplate } from '../../../packages/engine/src/index.ts';
+import type { EngineInput, Exercise, WorkoutTemplate } from './types.ts';
 
 const EXERCISES: Exercise[] = [
   { id: 'ex_plank', name: 'Plank', impact_level: 'low', postpartum_friendly: true, equipment: ['bodyweight'] },

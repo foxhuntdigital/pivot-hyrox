@@ -29,6 +29,7 @@ export * from './guardrails.ts';
 export * from './rank.ts';
 export * from './transform.ts';
 export * from './readiness.ts';
+export * from './supplemental.ts';
 
 /** Days without training that trigger re-entry rather than backlog (PRD §20). */
 const REENTRY_GAP_DAYS = 7;

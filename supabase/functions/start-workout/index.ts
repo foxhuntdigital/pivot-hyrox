@@ -16,7 +16,8 @@
  * returns it (PRD §15.1).
  */
 import {
-  recommend, recoveryFromEnergy, ENGINE_VERSION, VARIANT_LABEL,
+  recommend, recoveryFromEnergy, evaluateSupplementalEligibility,
+  ENGINE_VERSION, VARIANT_LABEL,
   type EngineInput, type VariantCode,
 } from '../../../packages/engine/src/index.ts';
 import {
@@ -24,7 +25,6 @@ import {
   loadTodaySessions, localDate, requireEntitlement, requireUser,
 } from '../_shared/context.ts';
 import { claimableFor, type QueueItem } from '../_shared/queue.ts';
-import { evaluateSupplementalEligibility } from '../_shared/supplemental.ts';
 
 interface StartBody {
   template_id: string;

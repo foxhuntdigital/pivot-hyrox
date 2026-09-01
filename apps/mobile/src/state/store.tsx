@@ -495,6 +495,22 @@ interface Store {
    */
   switchToQueued(templateId: string, opts?: { override?: boolean }): VariantChoice;
   /**
+   * Runs an optional supplemental as the active session.
+   *
+   * The same override mechanism a queued switch uses — the store's session IS
+   * the override template once one is set — but it records no adaptation,
+   * because nothing was adapted. The athlete completed exactly what the plan
+   * asked and chose to add something afterwards, and writing an
+   * `adaptation_applied` event for that would put a change in the audit trail
+   * that never happened.
+   *
+   * Returns false when the engine refuses the template, which is the same
+   * answer the server's gate gives and is not an error worth a message: the
+   * offer that produced this id was computed from the same snapshot, so a
+   * refusal here means state moved underneath it.
+   */
+  startSupplemental(templateId: string): boolean;
+  /**
    * Applies a specific variant of a workout — the Adapt sheet's Full/Micro
    * choices.
    *
@@ -934,14 +950,25 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
    * contradict.
    */
   const planCandidates = useMemo(() => {
+    /**
+     * Never a supplemental, on any path.
+     *
+     * Supplementals are offered after a session by `supplementalOffer`, never
+     * scheduled — the server excludes them from its candidate pool in
+     * `loadContent` and this is the same exclusion for the local engine. It
+     * matters most on the fallback below, which is the path the seeded and
+     * signed-out builds actually take: without it, an eight-minute core routine
+     * would compete to be today's session on time_fit alone.
+     */
+    const plannable = TEMPLATES.filter(t => (t.workout_role ?? 'primary') === 'primary');
     const queued = today?.week?.queue ?? [];
-    if (!queued.length) return TEMPLATES;
+    if (!queued.length) return plannable;
     const ids = new Set<string>(queued.map(q => q.template_id));
     if (today?.recommendation?.template?.id) ids.add(today.recommendation.template.id);
-    const inPlan = TEMPLATES.filter(t => ids.has(t.id));
+    const inPlan = plannable.filter(t => ids.has(t.id));
     // A queue naming templates this build does not carry would otherwise leave
     // nothing to choose from; the library is a safer fallback than an empty set.
-    return inPlan.length ? inPlan : TEMPLATES;
+    return inPlan.length ? inPlan : plannable;
   }, [today]);
 
   const engineInput = useMemo<EngineInput>(() => {
@@ -1210,6 +1237,23 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     return { ok: true };
   }, [engineInput, commitAdaptation]);
 
+  const startSupplemental = useCallback((templateId: string): boolean => {
+    const template = TEMPLATES.find(t => t.id === templateId);
+    if (!template) return false;
+    const chosen = recommend({ ...engineInput, candidates: [template] }, EXERCISES);
+    if (chosen.kind !== 'session') return false;
+    // `back_to_today` has already cleared the finished session's step index,
+    // timings, entries and RPE, so this opens a clean one rather than resuming
+    // the player mid-session.
+    dispatch({
+      type: 'accept_adaptation',
+      template_id: templateId,
+      variant: chosen.variant.variant_code,
+      forced: false,
+    });
+    return true;
+  }, [engineInput]);
+
   const steps = useMemo(
     () => (session.kind === 'session' ? buildSteps(session, id => exerciseById.get(id)?.name) : []), [session]);
   stepsRef.current = steps;
@@ -1290,12 +1334,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       state, dispatch, decision, session, steps, readiness,
       metricDetail: metricDetailView, plan, sleep, engineInput,
       commitProfile, commitCheckin, commitEquipment, reportSymptom,
-      beginSession, finishSession, commitAdaptation, switchToQueued, chooseVariant,
+      beginSession, finishSession, commitAdaptation, switchToQueued, startSupplemental,
+      chooseVariant,
       profileError, refreshProfile, today, todayLoading, todayError, refreshToday,
     }),
     [state, decision, session, steps, readiness, metricDetailView, plan, sleep, engineInput, commitProfile,
      commitCheckin, commitEquipment, reportSymptom,
-     beginSession, finishSession, commitAdaptation, switchToQueued, chooseVariant,
+     beginSession, finishSession, commitAdaptation, switchToQueued, startSupplemental,
+     chooseVariant,
      profileError, refreshProfile, today, todayLoading, todayError, refreshToday]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

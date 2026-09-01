@@ -16,15 +16,14 @@
  * completion path. What differs is only that it credits no requirement.
  */
 import {
-  recoveryFromEnergy, type EngineInput,
+  recoveryFromEnergy, supplementalOffer, SUPPLEMENTAL_MAX_MINUTES,
+  type EngineInput, type SupplementalType,
 } from '../../../packages/engine/src/index.ts';
 import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
   loadTodaySessions, localDate, requireEntitlement, requireUser,
 } from '../_shared/context.ts';
-import {
-  supplementalOffer, SUPPLEMENTAL_MAX_MINUTES, type SupplementalType,
-} from '../_shared/supplemental.ts';
+
 
 Deno.serve(async (req) => {
   const origin = req.headers.get('Origin');

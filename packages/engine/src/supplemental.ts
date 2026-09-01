@@ -12,6 +12,15 @@
  * and reusing `checkEligibility` rather than restating any of it, so a
  * supplemental cannot reach an athlete a primary could not.
  *
+ * It lives in the engine rather than beside the Edge Functions for the reason
+ * the engine exists at all: the identical source runs on the server and in the
+ * app, so the offer cannot differ between them. The client needs it because the
+ * finish is queued through the outbox rather than awaited — at the moment the
+ * completion screen renders, the server does not yet know the session is over,
+ * and asking it would reliably return NO_PRIMARY_COMPLETED. The server keeps
+ * its own copy of the gate anyway, in `start-workout`, because an offer is a
+ * suggestion and the gate is the enforcement.
+ *
  * ── The refusal that matters most ───────────────────────────────────────────
  *
  * Poor recovery blocks the offer, and `athlete_override` does not lift it.
@@ -33,10 +42,12 @@
  */
 import {
   checkEligibility, eligibleVariants, effectiveRecovery, hasSevereSymptom,
-  intensityCost, capabilityNeed, preference, variantMinutes,
-  type EngineInput, type Exercise, type RecoveryState, type Variant,
-  type WorkoutTemplate,
-} from '../../../packages/engine/src/index.ts';
+  variantMinutes,
+} from './guardrails.ts';
+import { intensityCost, capabilityNeed, preference } from './rank.ts';
+import type {
+  EngineInput, Exercise, RecoveryState, Variant, WorkoutTemplate,
+} from './types.ts';
 
 export type SupplementalType =
   | 'core' | 'muscular_endurance' | 'metcon' | 'accessory_strength'
