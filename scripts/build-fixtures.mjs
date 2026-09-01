@@ -188,6 +188,11 @@ const templates = schedulable.map(t => ({
   training_domain: t.training_domain ?? null,
   session_type: t.session_type ?? null,
   workout_role: t.workout_role ?? 'primary',
+  // Null on a primary, and the two fields a supplemental cannot be offered
+  // without (migration 0013). `_shared/supplemental.ts` skips a supplemental
+  // row missing either rather than guessing at it.
+  supplemental_type: t.supplemental_type ?? null,
+  supplemental_load: t.supplemental_load ?? null,
   tags: tagsByWorkout[t.id] ?? [],
   variants: variantsByWorkout[t.id] ?? [],
   blocks: (blocksByWorkout[t.id] ?? []).sort((a, b) => a.block_order - b.block_order),

@@ -30,7 +30,17 @@ import type { WorkoutTemplate } from './types.ts';
 const fixture = JSON.parse(readFileSync(
   new URL('../../../tests/engine-fixtures/content.json', import.meta.url), 'utf8'));
 
-const TEMPLATES: WorkoutTemplate[] = fixture.templates;
+const ALL: WorkoutTemplate[] = fixture.templates;
+
+/**
+ * What the planner can select. Supplementals are excluded here exactly as
+ * `loadContent` excludes them from `candidates` — they are offered after a
+ * session, never scheduled — and the goal invariant below applies to this pool
+ * rather than to the catalogue, because that is where being unaddressable
+ * actually costs an athlete a session.
+ */
+const TEMPLATES: WorkoutTemplate[] = ALL
+  .filter(t => (t.workout_role ?? 'primary') === 'primary');
 
 /** The only goals the planner ever asks for (BASE_STIMULI in periodization). */
 const PLANNER_GOALS = [
@@ -38,7 +48,7 @@ const PLANNER_GOALS = [
 ] as const;
 
 describe('Library invariants', () => {
-  test('every template carries one of the five planner goals', () => {
+  test('every planner-selectable template resolves to one of the five goals', () => {
     const stray = TEMPLATES
       .filter(t => !(PLANNER_GOALS as readonly string[]).includes(t.primary_goal))
       .map(t => `${t.id} (primary_goal "${t.primary_goal}", stimulus "${t.stimulus ?? '-'}")`);
@@ -67,6 +77,37 @@ describe('Library invariants', () => {
     const retired = TEMPLATES.filter((t: any) => t.status === 'retired').map(t => t.id);
     assert.deepEqual(retired, [],
       'retired templates are in the planning fixture — re-run scripts/build-fixtures.mjs');
+  });
+
+  test('a supplemental is never plannable, and carries no goal it cannot serve', () => {
+    const supplemental = ALL.filter(t => (t.workout_role ?? 'primary') === 'supplemental');
+    // The exemption, stated: a supplemental may have no planner goal, and must
+    // not have been given one to satisfy a constraint. Migration 0018 permits
+    // the null and still refuses it for everything else.
+    for (const t of supplemental) {
+      assert.equal(t.primary_goal ?? null, null,
+        `${t.id} is supplemental and carries primary_goal "${t.primary_goal}" — a value `
+        + 'written only to satisfy an invariant is the fallback the validator removes');
+    }
+    // The other half of the exemption: a supplemental is excused the planner
+    // goal only because it can never be planned. If one ever reaches the
+    // planner's pool, the excuse stops being true and this fails.
+    assert.equal(
+      TEMPLATES.filter(t => (t.workout_role ?? 'primary') === 'supplemental').length, 0,
+      'a supplemental is in the planner pool; it is exempt from the goal invariant '
+      + 'only because it is not');
+    // Not an assertion that any exist — the library may have none. What is
+    // pinned is that if they do, each carries the two fields the offer path
+    // cannot work without, because `searchSupplementals` skips a row missing
+    // either rather than guessing at it, and a skipped row is invisible.
+    for (const t of supplemental) {
+      assert.ok(t.supplemental_type,
+        `${t.id} is supplemental with no supplemental_type — it can never be offered`);
+      assert.ok(t.supplemental_load,
+        `${t.id} is supplemental with no supplemental_load — it can never be offered`);
+      assert.notEqual(t.supplemental_load as string, 'high',
+        `${t.id} carries supplemental_load 'high'; work that could compromise tomorrow is not supplemental`);
+    }
   });
 
   test('every template has a family, and a goal its family does not contradict', () => {

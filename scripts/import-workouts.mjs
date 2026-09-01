@@ -85,6 +85,37 @@ const columnCount = (body) => {
   items.push(cur);
   return items.filter(i => !TABLE_CONSTRAINT.test(i.trim())).length;
 };
+/**
+ * Columns a pack may declare that the dump does not have yet.
+ *
+ * Migration 0013 added the supplemental model to Postgres; the dump is the
+ * authoring source and needs the same three columns before a pack can say a
+ * workout is supplemental. Added here rather than in a script of their own
+ * because the importer is what reads them off a pack — the column and the
+ * thing that writes it stay together.
+ */
+const TEMPLATE_COLUMNS = [
+  ['workout_role', 'TEXT'], ['supplemental_type', 'TEXT'], ['supplemental_load', 'TEXT'],
+];
+{
+  const re = /CREATE TABLE workout_templates\(([^)]*)\);/;
+  const m = sql.match(re);
+  if (!m) throw new Error('workout_templates CREATE TABLE not found in the dump');
+  const missing = TEMPLATE_COLUMNS.filter(([n]) => !new RegExp(`\\b${n}\\b`).test(m[1]));
+  if (missing.length && missing.length !== TEMPLATE_COLUMNS.length) {
+    throw new Error(`dump is half-migrated: missing ${missing.map(c => c[0]).join(', ')}`);
+  }
+  if (missing.length) {
+    sql = sql.replace(re, `CREATE TABLE workout_templates(${m[1]},`
+      + missing.map(([n, t]) => `${n} ${t}`).join(',') + ');');
+    // Every existing row is a primary with no supplemental fields, which is
+    // exactly what 0013's default and its completeness constraint say.
+    sql = sql.replace(/INSERT INTO "workout_templates" VALUES\(([\s\S]*?)\);/g,
+      (whole, body) => `INSERT INTO "workout_templates" VALUES(${body},'primary',NULL,NULL);`);
+    console.log('added workout_role + supplemental_type + supplemental_load to workout_templates\n');
+  }
+}
+
 const arity = {};
 for (const m of sql.matchAll(/CREATE TABLE (\w+)\(([\s\S]*?)\);/g)) {
   arity[m[1]] = columnCount(m[2]);
@@ -105,7 +136,12 @@ const blockOwner = {}, blockMeta = {};
 for (const m of sql.matchAll(/INSERT INTO "workout_blocks" VALUES\(([\s\S]*?)\);/g)) {
   const v = splitValues(m[1]).map(unquote);
   blockOwner[v[0]] = v[1];
-  blockMeta[v[0]] = { order: Number(v[2]), rounds: v[6] == null ? null : Number(v[6]), duration: v[7] == null ? null : Number(v[7]) };
+  blockMeta[v[0]] = {
+    order: Number(v[2]),
+    rounds: v[6] == null ? null : Number(v[6]),
+    duration: v[7] == null ? null : Number(v[7]),
+    instructions: v[5] ?? null,
+  };
 }
 const existingItems = {};
 for (const m of sql.matchAll(/INSERT INTO "block_exercises" VALUES\(([\s\S]*?)\);/g)) {
@@ -126,12 +162,30 @@ for (const m of sql.matchAll(/INSERT INTO "block_exercises" VALUES\(([\s\S]*?)\)
 const effort = note => String(note ?? '')
   .toLowerCase().replace(/[^a-z0-9%.-]+/g, ' ').trim();
 
+/**
+ * Block instructions are part of the prescription, not decoration.
+ *
+ * For most content the movements and quantities say what a session is, and the
+ * instruction repeats it. For skill content they are the whole prescription:
+ * every round of the boxing pack is `ex_shadowboxing, 90s, RPE 4`, and what
+ * separates "Jab + Movement" from "Footwork Flow" is the combination written in
+ * the instruction. Without this, semantic dedup collapsed six of fourteen
+ * deliberately distinct sessions into one another — correct by its own rule and
+ * wrong in fact.
+ *
+ * Normalised the same way effort is, so whitespace and punctuation edits do not
+ * make two identical sessions look different.
+ */
+const instruction = text => String(text ?? '')
+  .toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+
 function signature(blocks) {
   return blocks.map(b => {
     const items = b.items
       .map(i => `${i.exercise_id}:${i.prescription_type}:${i.quantity}${i.unit}@${effort(i.intensity ?? i.intensity_note)}`)
       .sort().join('|');
-    return `${b.rounds ?? '-'}r/${b.duration_minutes ?? '-'}m/${b.rest_seconds ?? '-'}s[${items}]`;
+    return `${b.rounds ?? '-'}r/${b.duration_minutes ?? '-'}m/${b.rest_seconds ?? '-'}s`
+      + `"${instruction(b.instructions)}"[${items}]`;
   }).join(' >> ');
 }
 
@@ -188,12 +242,21 @@ for (const [wid, items] of Object.entries(existingItems)) {
   for (const it of items) (byBlock[it.block] ??= []).push(it);
   const blocks = Object.entries(byBlock)
     .sort((a, b) => blockMeta[a[0]].order - blockMeta[b[0]].order)
-    .map(([bid, its]) => ({ rounds: blockMeta[bid].rounds, duration_minutes: blockMeta[bid].duration, items: its }));
+    .map(([bid, its]) => ({
+      rounds: blockMeta[bid].rounds,
+      duration_minutes: blockMeta[bid].duration,
+      instructions: blockMeta[bid].instructions,
+      items: its,
+    }));
   existingByBlocks[wid] = blocks;
 }
 
 // ── read packs, enforcing the explicit-unit rule ───────────────────────────
 const PRESCRIPTION_TYPES = new Set(['duration', 'distance', 'reps', 'sets_reps', 'calories', 'load']);
+/** The supplemental vocabulary, from migration 0013's own check constraints. */
+const SUPPLEMENTAL_TYPES = ['core', 'muscular_endurance', 'metcon', 'accessory_strength',
+  'resilience', 'recovery', 'boxing'];
+const SUPPLEMENTAL_LOADS = ['minimal', 'low', 'moderate'];
 
 /**
  * Rest that is recovery between working sets rather than a density clock.
@@ -360,6 +423,8 @@ for (const path of packPaths) {
     // intensityCost() falls back to 0.5, so an RPE 7 session reads as moderate
     // and the recovery guardrail hands it to a depleted athlete. A missing
     // intensity is therefore a refusal, not a default.
+    const role = w.workout_role ?? 'primary';
+
     /**
      * The planner goal has to be one of the five, or the template is content
      * nothing will ever schedule.
@@ -384,11 +449,43 @@ for (const path of packPaths) {
       category: w.category ?? w.workout_family,
       intensityTarget: w.intensity_target,
     })?.primary_goal ?? null;
-    if (!PLANNER_GOALS.includes(plannerGoal)) {
+    /**
+     * Supplementals are exempt, and are not put through `resolveGoal` at all.
+     *
+     * The invariant is that every PLANNER-SELECTABLE template resolves to one
+     * of the five. A supplemental is not selectable — `loadContent` keeps it
+     * out of the candidate pool — so making it claim a goal would be writing a
+     * value only to satisfy a constraint, which is the silent fallback this
+     * validator exists to remove. It carries NULL, which migration 0018 permits
+     * for supplementals and still refuses for everything else.
+     */
+    if (role !== 'supplemental' && !PLANNER_GOALS.includes(plannerGoal)) {
       problems.push(`${id}: stimulus "${w.stimulus}" does not roll up to a planner goal `
         + `(${PLANNER_GOALS.join('/')}). Add the roll-up to scripts/lib/stimulus-taxonomy.mjs — `
         + 'without one the stimulus would become the template\'s primary_goal, which no '
         + 'planner goal matches, and the session would never be scheduled.');
+    }
+    /**
+     * The supplemental model, as 0013 constrains it.
+     *
+     * A supplemental needs a type and a load; a primary must carry neither.
+     * The constraint exists in Postgres and is restated here so a pack fails
+     * while its author is looking, rather than on a migration months later.
+     */
+    if (!['primary', 'supplemental'].includes(role)) {
+      problems.push(`${id}: workout_role "${role}" is not primary or supplemental`);
+    } else if (role === 'supplemental') {
+      if (!SUPPLEMENTAL_TYPES.includes(w.supplemental_type)) {
+        problems.push(`${id}: supplemental_type ${JSON.stringify(w.supplemental_type)} is not one of `
+          + SUPPLEMENTAL_TYPES.join('/'));
+      }
+      if (!SUPPLEMENTAL_LOADS.includes(w.supplemental_load)) {
+        problems.push(`${id}: supplemental_load ${JSON.stringify(w.supplemental_load)} is not one of `
+          + SUPPLEMENTAL_LOADS.join('/') + ' — supplemental work that could compromise tomorrow '
+          + 'is not supplemental, so there is no "high"');
+      }
+    } else if (w.supplemental_type != null || w.supplemental_load != null) {
+      problems.push(`${id}: a primary workout must not carry supplemental_type or supplemental_load`);
     }
     if (!w.intensity_target) problems.push(`${id}: missing intensity_target — intensityCost() would default it to moderate`);
     if (!w.stimulus) problems.push(`${id}: missing stimulus`);
@@ -474,11 +571,13 @@ for (const { meta, w, id, blocks } of accepted) {
   // A new template derives its planner goal from its stimulus at import time.
   // apply-taxonomy will not re-derive it afterwards — once set it is canonical.
   // Already validated as one of the five on the way in; recomputed rather than
-  // threaded through so the two can never say different things.
-  const derivedGoal = goalOf(w.stimulus, allItems.map(i => i.exercise_id), {
+  // threaded through so the two can never say different things. A supplemental
+  // is never resolved at all — see the validator above.
+  const isSupplemental = (w.workout_role ?? 'primary') === 'supplemental';
+  const derivedGoal = isSupplemental ? null : goalOf(w.stimulus, allItems.map(i => i.exercise_id), {
     family: w.workout_family, category: w.category ?? w.workout_family, intensityTarget: w.intensity_target,
   });
-  if (!PLANNER_GOALS.includes(derivedGoal)) {
+  if (!isSupplemental && !PLANNER_GOALS.includes(derivedGoal)) {
     throw new Error(`${id}: planner goal resolved to ${JSON.stringify(derivedGoal)} at emit time `
       + 'but passed validation — the two resolutions disagree');
   }
@@ -500,6 +599,7 @@ for (const { meta, w, id, blocks } of accepted) {
     // must not be able to retire a template by omitting it, or re-importing an
     // edited pack would silently retire whatever the edit dropped.
     'content_eligible', null,
+    w.workout_role ?? 'primary', w.supplemental_type ?? null, w.supplemental_load ?? null,
   ]));
 
   blocks.forEach((b, bi) => {

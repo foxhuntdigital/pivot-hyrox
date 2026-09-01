@@ -55,7 +55,18 @@ const fixture = JSON.parse(readFileSync(
   new URL('../../../tests/engine-fixtures/content.json', import.meta.url), 'utf8'));
 
 const EXERCISES: Exercise[] = fixture.exercises;
-const TEMPLATES: WorkoutTemplate[] = fixture.templates;
+
+/**
+ * What the planner may choose from.
+ *
+ * Supplemental templates are in the fixture because the app displays them, and
+ * they are not candidates: they are offered after a session, never scheduled.
+ * Counting an eight-minute core routine toward a coverage floor would report a
+ * week the planner cannot actually build — the gate would go green on content
+ * that can never be queued.
+ */
+const TEMPLATES: WorkoutTemplate[] = (fixture.templates as WorkoutTemplate[])
+  .filter(t => (t.workout_role ?? 'primary') === 'primary');
 const SUBSTITUTIONS: Substitution[] = fixture.substitutions;
 
 const EXERCISE_INDEX = new Map(EXERCISES.map(e =>

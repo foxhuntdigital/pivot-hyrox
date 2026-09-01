@@ -121,6 +121,20 @@ sql = sql.replace(/INSERT INTO "workout_templates" VALUES\(([\s\S]*?)\);/g, (who
   if (fresh) v.splice(iStim, 0, v[iGoal]);
   const stimulus = unquote(v[iStim]);
   const id = unquote(v[0]);
+
+  /**
+   * A supplemental has no planner goal and is not resolved to one.
+   *
+   * `loadContent` keeps supplementals out of the planner's candidate pool, so
+   * there is no question for a goal to answer. Migration 0018 makes the column
+   * nullable for exactly this role, and resolving one anyway would write a
+   * value whose only purpose was to satisfy a constraint — the silent fallback
+   * the importer's validator exists to remove. Its authored `stimulus` still
+   * carries the content intent, untouched.
+   */
+  const iRole = cols.indexOf('workout_role');
+  if (iRole !== -1 && unquote(v[iRole]) === 'supplemental') return whole;
+
   const resolved = resolveGoal(stimulus, {
     modalities: [...(modalitiesByWorkout[id] ?? [])].filter(Boolean),
     exercises: [...(exercisesByWorkout[id] ?? [])],

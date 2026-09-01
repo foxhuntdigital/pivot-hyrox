@@ -150,6 +150,11 @@ sql = sql.replace(
     const vals = splitValues(body);
     const row = Object.fromEntries(templateCols.map((c, i) => [c, unquote(vals[i])]));
 
+    // A supplemental is classified by what it is for, not by the domain the
+    // planner would schedule it under — and the planner never schedules it.
+    // Leaving the domain NULL keeps it out of every count that reads one.
+    if ((row.workout_role ?? 'primary') === 'supplemental') return line;
+
     const ev = evidence.get(row.id) ?? { modalities: new Set(), hasWorkingSets: false, needsRest: 0 };
     const cls = resolveClassification(row.primary_goal, {
       hasWorkingSets: ev.hasWorkingSets,

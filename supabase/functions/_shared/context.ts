@@ -80,12 +80,19 @@ export async function loadContent(db: SupabaseClient): Promise<{
    */
   templates: WorkoutTemplate[];
   /**
-   * Templates that may be scheduled. Build `EngineInput.candidates` from this.
+   * Templates the planner may schedule. Build `EngineInput.candidates` from
+   * this, never from `templates`.
    *
-   * Retirement (migration 0016) removes a template from candidate generation
-   * and from nothing else, so the split is between these two arrays rather
-   * than inside a filter at each call site — one of which would eventually be
-   * forgotten, and would quietly go on scheduling a retired session.
+   * Two exclusions. Retirement (migration 0016) removes a template from
+   * candidate generation and from nothing else. And a supplemental is not
+   * plannable at all: it is offered after a session by
+   * `_shared/supplemental.ts`, never queued into a week and never returned as
+   * today's session. Left in this array it would compete for the day — the
+   * eight-minute core routine has a plausible time_fit against a twenty-minute
+   * budget — and `planWeekQueue` would queue optional work as the week's.
+   *
+   * The split lives here rather than in a filter at each call site because one
+   * of five filters would eventually be forgotten.
    */
   candidates: WorkoutTemplate[];
   substitutions: Substitution[];
@@ -169,8 +176,38 @@ export async function loadContent(db: SupabaseClient): Promise<{
   return {
     exercises,
     templates,
-    candidates: templates.filter((t: any) => t.status !== 'retired'),
+    candidates: templates.filter((t: any) =>
+      t.status !== 'retired' && (t.workout_role ?? 'primary') === 'primary'),
     substitutions: subRes.data! as Substitution[],
+  };
+}
+
+/**
+ * The athlete's sessions for one of THEIR days.
+ *
+ * Read from `snapshot_json.started_local_date` rather than from `started_at`,
+ * because "today" is a question about the athlete's day and not about UTC. A
+ * session begun at 23:40 and finished after midnight is still that day's
+ * session, and anything counting sessions per day has to agree with the
+ * athlete about which day it was.
+ */
+export async function loadTodaySessions(db: SupabaseClient, userId: string, today: string) {
+  const { data } = await db
+    .from('workout_sessions')
+    .select('id, template_id, status, workout_role, session_rpe, ended_early, snapshot_json')
+    .eq('user_id', userId)
+    .order('started_at', { ascending: false })
+    .limit(20);
+
+  const onToday = (data ?? []).filter((s: any) =>
+    (s.snapshot_json?.started_local_date ?? null) === today);
+
+  return {
+    sessions: onToday,
+    completedPrimary: onToday.find((s: any) =>
+      s.status === 'completed' && (s.workout_role ?? 'primary') === 'primary') ?? null,
+    supplementalTakenToday: onToday.some((s: any) =>
+      (s.workout_role ?? 'primary') === 'supplemental'),
   };
 }
 

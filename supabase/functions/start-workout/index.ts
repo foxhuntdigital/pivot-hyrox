@@ -21,9 +21,10 @@ import {
 } from '../../../packages/engine/src/index.ts';
 import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
-  localDate, requireEntitlement, requireUser,
+  loadTodaySessions, localDate, requireEntitlement, requireUser,
 } from '../_shared/context.ts';
 import { claimableFor, type QueueItem } from '../_shared/queue.ts';
+import { evaluateSupplementalEligibility } from '../_shared/supplemental.ts';
 
 interface StartBody {
   template_id: string;
@@ -131,6 +132,46 @@ Deno.serve(async (req) => {
       substitutions: content.substitutions,
     };
 
+    /**
+     * A supplemental is gated here as well as offered by /v1/supplemental.
+     *
+     * The offer endpoint is what the app reads, and a client that skips it — an
+     * old build, a replayed request, a deep link — must not be able to open
+     * work the athlete's recovery says no to. Checked before the engine runs,
+     * because the answer does not depend on the engine: it depends on what they
+     * already did today and how they are.
+     */
+    const role = template.workout_role ?? 'primary';
+    if (role === 'supplemental') {
+      const { completedPrimary, supplementalTakenToday } =
+        await loadTodaySessions(db, user.id, today);
+      const primaryTemplate = completedPrimary
+        ? templateIndex.get(completedPrimary.template_id)
+        : undefined;
+
+      const gate = evaluateSupplementalEligibility({
+        input,
+        primary: completedPrimary && primaryTemplate
+          ? {
+            template: primaryTemplate,
+            session_rpe: completedPrimary.session_rpe,
+            ended_early: completedPrimary.ended_early ?? false,
+          }
+          : null,
+        supplementalTakenToday,
+      });
+      if (!gate.allowed) {
+        return json({
+          session_id: null,
+          refused: true,
+          reason_codes: [gate.reason_code],
+          rationale: 'Supplemental work is not on offer right now.',
+          guidance: 'Finish the day here. Nothing is pending.',
+          engine_version: ENGINE_VERSION,
+        }, 409, origin);
+      }
+    }
+
     const decision = recommend(input, content.exercises);
 
     // The guardrails refused. That is an answer, not a failure — return it with
@@ -149,8 +190,13 @@ Deno.serve(async (req) => {
     // The queued item this session performs, so completion credits the week's
     // stimulus. Absent when the athlete started something off-plan — the
     // session is still recorded, it just credits nothing.
-    const queueItemId = await claimQueueItem(
-      db, (state.currentCycle?.session_queue_items ?? []) as QueueItem[], template.id);
+    // A supplemental credits no requirement: the week asked for a primary
+    // session and already got one. Claiming a queue item for it would count the
+    // bonus as the work, which is the opposite of what it is.
+    const queueItemId = role === 'supplemental'
+      ? null
+      : await claimQueueItem(
+        db, (state.currentCycle?.session_queue_items ?? []) as QueueItem[], template.id);
 
     const snapshot = {
       template_id: decision.template.id,
@@ -177,6 +223,10 @@ Deno.serve(async (req) => {
         snapshot_json: snapshot,
         status: 'active',
         started_at: new Date().toISOString(),
+        // Copied from the template, not joined from it later. A template
+        // re-roled next month must not change what this athlete did today
+        // (migration 0017).
+        workout_role: role,
         revision: 0,
       })
       .select('id, revision')

@@ -169,7 +169,19 @@ Deno.serve(async (req) => {
     const stimulus = snapshot?.primary_stimulus;
     let creditedStimulus: string | null = null;
 
-    if (stimulus && !alreadyCounted) {
+    /**
+     * A supplemental credits nothing, however well it matches.
+     *
+     * It carries a stimulus like any session, and the fallback below matches a
+     * session's own stimulus against the week when there is no queue item to
+     * name a requirement — which a supplemental never has. Without this it
+     * would land squarely in that branch and count the optional extra as the
+     * week's work, which inverts what a supplemental is: the week asked for a
+     * primary session and already got one.
+     */
+    const isSupplemental = (session.workout_role ?? 'primary') === 'supplemental';
+
+    if (stimulus && !alreadyCounted && !isSupplemental) {
       let cycleId: string | null = null;
 
       if (session.queue_item_id) {
