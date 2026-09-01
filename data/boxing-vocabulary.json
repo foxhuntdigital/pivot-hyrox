@@ -1,0 +1,15 @@
+{
+ "note": "Boxing movements as ordinary content.exercises rows with an empty strength ontology, on the same terms as the mobility vocabulary. ex_boxing_bag already existed this way — it is the only exercise using the `bag` equipment and carries no progression_class — so this adds only its unequipped counterpart.",
+ "why_no_progression": "Shadowboxing has no load and no rep scheme to advance. progression.ts reads a null progression_class as reps, which is the answer that cannot put weight on anything, and inventing a class for it would be inventing a progression nobody coaches.",
+ "exercises": [
+  {
+   "id": "ex_shadowboxing",
+   "name": "Shadowboxing",
+   "category": "conditioning",
+   "movement_pattern": "locomotion",
+   "modality": "boxing",
+   "default_unit": "s",
+   "notes": "Technical work against no resistance. Quality of movement, never output."
+  }
+ ]
+}

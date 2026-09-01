@@ -1,0 +1,114 @@
+{
+ "note": "Mobility and stretch movements, as ordinary content.exercises rows with an empty strength ontology. They are not strength-library exercises \u2014 that library is the subset with a populated ontology \u2014 and no progression metadata is invented for them. This exists so block_exercises.exercise_id stays the single content reference model rather than gaining a second shape for routine steps.",
+ "category_note": "content.exercises.category is free text with no enum, and the seed already uses power/conditioning/strength/accessory/hyrox/cardio/core/recovery. Stretching shares the mobility category: nothing in the product distinguishes them and inventing a split nothing reads is how a vocabulary rots.",
+ "exercises": [
+  {
+   "id": "ex_90_90_hip_switch",
+   "name": "90/90 Hip Switch",
+   "category": "mobility",
+   "notes": "Controlled, unloaded range of motion."
+  },
+  {
+   "id": "ex_adductor_rock_back",
+   "name": "Adductor Rock-Back",
+   "category": "mobility",
+   "notes": "Controlled, unloaded range of motion."
+  },
+  {
+   "id": "ex_calf_stretch",
+   "name": "Calf Stretch",
+   "category": "mobility",
+   "notes": "Held to a comfortable range; never a stretch into pain."
+  },
+  {
+   "id": "ex_cat_cow",
+   "name": "Cat-Cow",
+   "category": "mobility",
+   "notes": "Controlled, unloaded range of motion."
+  },
+  {
+   "id": "ex_child_s_pose",
+   "name": "Child's Pose",
+   "category": "mobility",
+   "notes": "Held to a comfortable range; never a stretch into pain."
+  },
+  {
+   "id": "ex_cross_body_shoulder_stretch",
+   "name": "Cross-Body Shoulder Stretch",
+   "category": "mobility",
+   "notes": "Held to a comfortable range; never a stretch into pain."
+  },
+  {
+   "id": "ex_deep_squat_pry",
+   "name": "Deep Squat Pry",
+   "category": "mobility",
+   "notes": "Controlled, unloaded range of motion."
+  },
+  {
+   "id": "ex_doorway_pec_stretch",
+   "name": "Doorway Pec Stretch",
+   "category": "mobility",
+   "notes": "Held to a comfortable range; never a stretch into pain."
+  },
+  {
+   "id": "ex_figure_4_glute_stretch",
+   "name": "Figure-4 Glute Stretch",
+   "category": "mobility",
+   "notes": "Held to a comfortable range; never a stretch into pain."
+  },
+  {
+   "id": "ex_half_kneeling_hip_flexor_mobilization",
+   "name": "Half-Kneeling Hip Flexor Mobilization",
+   "category": "mobility",
+   "notes": "Controlled, unloaded range of motion."
+  },
+  {
+   "id": "ex_hamstring_stretch",
+   "name": "Hamstring Stretch",
+   "category": "mobility",
+   "notes": "Held to a comfortable range; never a stretch into pain."
+  },
+  {
+   "id": "ex_hip_flexor_stretch",
+   "name": "Hip Flexor Stretch",
+   "category": "mobility",
+   "notes": "Held to a comfortable range; never a stretch into pain."
+  },
+  {
+   "id": "ex_knee_to_wall_ankle_mobilization",
+   "name": "Knee-to-Wall Ankle Mobilization",
+   "category": "mobility",
+   "notes": "Controlled, unloaded range of motion."
+  },
+  {
+   "id": "ex_lat_stretch",
+   "name": "Lat Stretch",
+   "category": "mobility",
+   "notes": "Held to a comfortable range; never a stretch into pain."
+  },
+  {
+   "id": "ex_open_book_rotation",
+   "name": "Open Book Rotation",
+   "category": "mobility",
+   "notes": "Controlled, unloaded range of motion."
+  },
+  {
+   "id": "ex_thread_the_needle",
+   "name": "Thread-the-Needle",
+   "category": "mobility",
+   "notes": "Controlled, unloaded range of motion."
+  },
+  {
+   "id": "ex_wall_slide",
+   "name": "Wall Slide",
+   "category": "mobility",
+   "notes": "Controlled, unloaded range of motion."
+  },
+  {
+   "id": "ex_world_s_greatest_stretch",
+   "name": "World's Greatest Stretch",
+   "category": "mobility",
+   "notes": "Controlled, unloaded range of motion."
+  }
+ ]
+}

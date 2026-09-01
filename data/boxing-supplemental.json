@@ -1,0 +1,1437 @@
+{
+ "meta": {
+  "pack": "PIVOT Boxing Supplemental Pack v1",
+  "workout_count": 14,
+  "format": "canonical-v1",
+  "_rounds": "A boxing round is a timed work interval with its own rest, so each authored round becomes its own workout_block: rounds 1, the work as a duration item, and the round rest at BLOCK level. Item-level rest_seconds is rest between working sets and is bounds-checked at 30-600s because that is what separates strength from density; a 15-second breather between boxing rounds is a different thing and that check would rightly have refused it.",
+  "_vocabulary": "No boxing exercise ids were invented. ex_boxing_bag already existed as the only exercise using the `bag` equipment, carrying no progression_class; ex_shadowboxing joins it on the same terms (data/boxing-vocabulary.json). The combination sequence is the block instruction, which is what the player renders, rather than a fabricated exercise per combo.",
+  "_gating": "Shadowboxing needs no equipment and is always reachable. Heavy-bag templates resolve to ex_boxing_bag, which requires `bag`, so checkEligibility gates them without any rule written here.",
+  "_intensity": "intensity_target is the peak round_intensity: easy -> RPE 4, moderate -> RPE 6. It sets the supplemental ceiling as well as the recovery guardrail, so it is stated rather than defaulted.",
+  "default_description": "Optional boxing work.",
+  "default_coaching_notes": "Technical quality first. Optional; skip it freely.",
+  "express_rule": "drop the last round; never shorten the round rest",
+  "micro_rule": "the first two rounds only"
+ },
+ "workouts": [
+  {
+   "id": "sup_box_01",
+   "name": "Boxing \u2014 Jab + Movement",
+   "workout_family": "supplemental_boxing",
+   "stimulus": "jab_footwork",
+   "secondary_goal": null,
+   "estimated_minutes": 8,
+   "intensity_target": "RPE 4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "boxing",
+   "supplemental_load": "minimal",
+   "description": "Boxing \u2014 Jab + Movement",
+   "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+   "authored_structure": "boxing_rounds",
+   "authored_equipment_profile": "bodyweight",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 1",
+     "instructions": "Jab only + forward/backward movement. Return hand to guard; stay relaxed.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 90,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Jab only + forward/backward movement"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 2",
+     "instructions": "Double jab + lateral step. Move after the second jab.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 90,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Double jab + lateral step"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 3",
+     "instructions": "Jab to body / jab to head. Change level without folding at the waist.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 90,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Jab to body / jab to head"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 0,
+     "title": "Round 4",
+     "instructions": "Free jab movement. Quality and rhythm, not output.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 90,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Free jab movement"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sup_box_02",
+   "name": "Boxing \u2014 1\u20132 Fundamentals",
+   "workout_family": "supplemental_boxing",
+   "stimulus": "straight_punch_technique",
+   "secondary_goal": null,
+   "estimated_minutes": 8,
+   "intensity_target": "RPE 4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "boxing",
+   "supplemental_load": "minimal",
+   "description": "Boxing \u2014 1\u20132 Fundamentals",
+   "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+   "authored_structure": "boxing_rounds",
+   "authored_equipment_profile": "bodyweight",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 1",
+     "instructions": "1\u20132. Rotate through the floor; recover to stance.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 90,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 2",
+     "instructions": "1\u20131\u20132. First jab finds range; second jab sets the cross.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 90,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20131\u20132"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 3",
+     "instructions": "1\u20132 + exit. Finish then step off line.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 90,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132 + exit"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 0,
+     "title": "Round 4",
+     "instructions": "Free straight-punch flow. Stay smooth and technically clean.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 90,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Free straight-punch flow"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sup_box_03",
+   "name": "Boxing \u2014 Defense + Return",
+   "workout_family": "supplemental_boxing",
+   "stimulus": "defense_counter",
+   "secondary_goal": null,
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "boxing",
+   "supplemental_load": "low",
+   "description": "Boxing \u2014 Defense + Return",
+   "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+   "authored_structure": "boxing_rounds",
+   "authored_equipment_profile": "bodyweight",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 1",
+     "instructions": "1\u20132, slip outside, 2. Small slip; eyes forward.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132, slip outside, 2"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 2",
+     "instructions": "1\u20132, roll, 2\u20133. Bend through knees rather than waist.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132, roll, 2\u20133"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 3",
+     "instructions": "Parry imaginary jab, return 1\u20132. Defense immediately creates offense.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Parry imaginary jab, return 1\u20132"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 0,
+     "title": "Round 4",
+     "instructions": "Free defense + 2\u20133 punch return. Do not chase speed.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Free defense + 2\u20133 punch return"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sup_box_04",
+   "name": "Boxing \u2014 Footwork Flow",
+   "workout_family": "supplemental_boxing",
+   "stimulus": "footwork",
+   "secondary_goal": null,
+   "estimated_minutes": 8,
+   "intensity_target": "RPE 4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "boxing",
+   "supplemental_load": "minimal",
+   "description": "Boxing \u2014 Footwork Flow",
+   "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+   "authored_structure": "boxing_rounds",
+   "authored_equipment_profile": "bodyweight",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 1",
+     "instructions": "Step forward/back + jab. Feet move before range disappears.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 90,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Step forward/back + jab"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 2",
+     "instructions": "Lateral step + 1\u20132. Keep stance width while moving.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 90,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Lateral step + 1\u20132"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 3",
+     "instructions": "Pivot after 1\u20132. Turn out, reset stance.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 90,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Pivot after 1\u20132"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 0,
+     "title": "Round 4",
+     "instructions": "Free movement, light punches. Continuous relaxed movement.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 90,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Free movement, light punches"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sup_box_05",
+   "name": "Boxing \u2014 10-Minute Shadow Flow",
+   "workout_family": "supplemental_boxing",
+   "stimulus": "aerobic_boxing_flow",
+   "secondary_goal": null,
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "boxing",
+   "supplemental_load": "low",
+   "description": "Boxing \u2014 10-Minute Shadow Flow",
+   "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+   "authored_structure": "boxing_rounds",
+   "authored_equipment_profile": "bodyweight",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 1",
+     "instructions": "1\u20132 + movement. Conversational effort.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132 + movement"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 2",
+     "instructions": "1\u20132\u20133 + exit. Smooth rhythm.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132\u20133 + exit"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 3",
+     "instructions": "1\u20132, slip, 2. Stay relaxed.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132, slip, 2"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 0,
+     "title": "Round 4",
+     "instructions": "Free 2\u20134 punch combinations. Never turn this into a sprint.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Free 2\u20134 punch combinations"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sup_box_06",
+   "name": "Boxing \u2014 Combination Flow",
+   "workout_family": "supplemental_boxing",
+   "stimulus": "combination_skill_endurance",
+   "secondary_goal": null,
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "boxing",
+   "supplemental_load": "low",
+   "description": "Boxing \u2014 Combination Flow",
+   "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+   "authored_structure": "boxing_rounds",
+   "authored_equipment_profile": "bodyweight",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 1",
+     "instructions": "1\u20132\u20133. Clean shape.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132\u20133"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 2",
+     "instructions": "1\u20132\u20133\u20132. Cross finishes balanced.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132\u20133\u20132"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 3",
+     "instructions": "1\u20131\u20132\u20133. Relax shoulders between punches.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20131\u20132\u20133"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 4",
+     "instructions": "1\u20132, roll, 3\u20132. Defense stays compact.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132, roll, 3\u20132"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 0,
+     "title": "Round 5",
+     "instructions": "Free combinations + exits. Flow, don't chase volume.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Free combinations + exits"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sup_box_07",
+   "name": "Boxing \u2014 Body/Head Flow",
+   "workout_family": "supplemental_boxing",
+   "stimulus": "level_change_combinations",
+   "secondary_goal": null,
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "boxing",
+   "supplemental_load": "low",
+   "description": "Boxing \u2014 Body/Head Flow",
+   "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+   "authored_structure": "boxing_rounds",
+   "authored_equipment_profile": "bodyweight",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 1",
+     "instructions": "Jab head, cross body. Level change through legs.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Jab head, cross body"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 2",
+     "instructions": "Jab body, cross head, hook. Return to stance after hook.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Jab body, cross head, hook"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 3",
+     "instructions": "1\u20132 head, 3 body, 2 head. Controlled rotation.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132 head, 3 body, 2 head"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 0,
+     "title": "Round 4",
+     "instructions": "Free head/body combinations. Accuracy over speed.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Free head/body combinations"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sup_box_08",
+   "name": "Boxing \u2014 Defensive Aerobic Flow",
+   "workout_family": "supplemental_boxing",
+   "stimulus": "defensive_flow",
+   "secondary_goal": null,
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "boxing",
+   "supplemental_load": "low",
+   "description": "Boxing \u2014 Defensive Aerobic Flow",
+   "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+   "authored_structure": "boxing_rounds",
+   "authored_equipment_profile": "bodyweight",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 1",
+     "instructions": "1\u20132, slip, 2. Easy continuous pace.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132, slip, 2"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 2",
+     "instructions": "1\u20132\u20133, roll, 3. Stay under control.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132\u20133, roll, 3"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 3",
+     "instructions": "Double jab, pivot, 2. Feet and hands stay connected.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Double jab, pivot, 2"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 4",
+     "instructions": "2\u20133 punch attack + defensive exit. No hard flurries.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "2\u20133 punch attack + defensive exit"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 0,
+     "title": "Round 5",
+     "instructions": "Free technical flow. Finish fresher than you started.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Free technical flow"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sup_box_09",
+   "name": "Heavy Bag \u2014 Fundamentals",
+   "workout_family": "supplemental_boxing",
+   "stimulus": "bag_technique",
+   "secondary_goal": null,
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "boxing",
+   "supplemental_load": "low",
+   "description": "Heavy Bag \u2014 Fundamentals",
+   "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+   "authored_structure": "boxing_rounds",
+   "authored_equipment_profile": "heavy_bag",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 1",
+     "instructions": "Jab + double jab. Touch the bag; establish distance.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Jab + double jab"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 2",
+     "instructions": "1\u20132. Clean contact, immediate guard recovery.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 3",
+     "instructions": "1\u20132\u20133. Stay balanced through the hook.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132\u20133"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 0,
+     "title": "Round 4",
+     "instructions": "Free 2\u20133 punch combinations. Power stays submaximal.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Free 2\u20133 punch combinations"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sup_box_10",
+   "name": "Heavy Bag \u2014 Straight-Punch Conditioning",
+   "workout_family": "supplemental_boxing",
+   "stimulus": "bag_conditioning",
+   "secondary_goal": null,
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "boxing",
+   "supplemental_load": "moderate",
+   "description": "Heavy Bag \u2014 Straight-Punch Conditioning",
+   "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+   "authored_structure": "boxing_rounds",
+   "authored_equipment_profile": "heavy_bag",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 1",
+     "instructions": "1\u20132, reset. Steady repeatable output.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 6",
+       "side_note": "1\u20132, reset"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 2",
+     "instructions": "1\u20131\u20132, reset. Do not sprint.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 6",
+       "side_note": "1\u20131\u20132, reset"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 3",
+     "instructions": "1\u20132 + lateral exit. Move after combination.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 6",
+       "side_note": "1\u20132 + lateral exit"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 4",
+     "instructions": "20 sec steady / 10 sec light movement. Keep power controlled.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 6",
+       "side_note": "20 sec steady / 10 sec light movement"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 0,
+     "title": "Round 5",
+     "instructions": "Free straight-punch flow. Finish with technique intact.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 6",
+       "side_note": "Free straight-punch flow"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sup_box_11",
+   "name": "Heavy Bag \u2014 Combination Builder",
+   "workout_family": "supplemental_boxing",
+   "stimulus": "bag_combinations",
+   "secondary_goal": null,
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "boxing",
+   "supplemental_load": "moderate",
+   "description": "Heavy Bag \u2014 Combination Builder",
+   "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+   "authored_structure": "boxing_rounds",
+   "authored_equipment_profile": "heavy_bag",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 1",
+     "instructions": "1\u20132\u20133. Moderate power.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 6",
+       "side_note": "1\u20132\u20133"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 2",
+     "instructions": "1\u20132\u20133\u20132. Stay balanced.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 6",
+       "side_note": "1\u20132\u20133\u20132"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 3",
+     "instructions": "1\u20131\u20132\u20133. Hands return to guard.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 6",
+       "side_note": "1\u20131\u20132\u20133"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 4",
+     "instructions": "1\u20132, roll, 3\u20132. Defense breaks the combination.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 6",
+       "side_note": "1\u20132, roll, 3\u20132"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 0,
+     "title": "Round 5",
+     "instructions": "Free 3\u20134 punch combinations. No maximal flurries.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 6",
+       "side_note": "Free 3\u20134 punch combinations"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sup_box_12",
+   "name": "Heavy Bag \u2014 Movement + Output",
+   "workout_family": "supplemental_boxing",
+   "stimulus": "bag_movement_conditioning",
+   "secondary_goal": null,
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "boxing",
+   "supplemental_load": "moderate",
+   "description": "Heavy Bag \u2014 Movement + Output",
+   "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+   "authored_structure": "boxing_rounds",
+   "authored_equipment_profile": "heavy_bag",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 1",
+     "instructions": "Jab while circling. Own distance first.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 6",
+       "side_note": "Jab while circling"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 2",
+     "instructions": "1\u20132 + exit left/right. Move after every combination.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 6",
+       "side_note": "1\u20132 + exit left/right"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 3",
+     "instructions": "Double jab + 2 + pivot. Reset stance after pivot.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 6",
+       "side_note": "Double jab + 2 + pivot"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 4",
+     "instructions": "2\u20133 punches, move, repeat. No stationary volume dumping.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 6",
+       "side_note": "2\u20133 punches, move, repeat"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 0,
+     "title": "Round 5",
+     "instructions": "Free movement + combinations. Technical output, not a max-effort finisher.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 120,
+       "unit": "s",
+       "intensity": "RPE 6",
+       "side_note": "Free movement + combinations"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sup_box_13",
+   "name": "Boxing \u2014 5-Minute Technical Reset",
+   "workout_family": "supplemental_boxing",
+   "stimulus": "technical_reset",
+   "secondary_goal": null,
+   "estimated_minutes": 5,
+   "intensity_target": "RPE 4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "boxing",
+   "supplemental_load": "minimal",
+   "description": "Boxing \u2014 5-Minute Technical Reset",
+   "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+   "authored_structure": "boxing_rounds",
+   "authored_equipment_profile": "bodyweight",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 15,
+     "title": "Round 1",
+     "instructions": "Jab + movement. Relaxed.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 60,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Jab + movement"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 15,
+     "title": "Round 2",
+     "instructions": "1\u20132 + exit. Clean mechanics.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 60,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132 + exit"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 15,
+     "title": "Round 3",
+     "instructions": "1\u20132, slip, 2. Small defensive movement.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 60,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132, slip, 2"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 0,
+     "title": "Round 4",
+     "instructions": "Free technical flow. Stop fresh.",
+     "items": [
+      {
+       "exercise_id": "ex_shadowboxing",
+       "exercise": "Shadowboxing",
+       "prescription_type": "duration",
+       "quantity": 60,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Free technical flow"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sup_box_14",
+   "name": "Heavy Bag \u2014 6-Minute Skill Touch",
+   "workout_family": "supplemental_boxing",
+   "stimulus": "bag_technique",
+   "secondary_goal": null,
+   "estimated_minutes": 6,
+   "intensity_target": "RPE 4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "boxing",
+   "supplemental_load": "low",
+   "description": "Heavy Bag \u2014 6-Minute Skill Touch",
+   "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+   "authored_structure": "boxing_rounds",
+   "authored_equipment_profile": "heavy_bag",
+   "blocks": [
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 1",
+     "instructions": "Jab / double jab. Light contact.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 90,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Jab / double jab"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 30,
+     "title": "Round 2",
+     "instructions": "1\u20132 + movement. Submaximal.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 90,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "1\u20132 + movement"
+      }
+     ]
+    },
+    {
+     "block_type": "rounds",
+     "rounds": 1,
+     "duration_minutes": null,
+     "rest_seconds": 0,
+     "title": "Round 3",
+     "instructions": "Free 2\u20133 punch combinations. Technique only.",
+     "items": [
+      {
+       "exercise_id": "ex_boxing_bag",
+       "exercise": "Boxing Bag",
+       "prescription_type": "duration",
+       "quantity": 90,
+       "unit": "s",
+       "intensity": "RPE 4",
+       "side_note": "Free 2\u20133 punch combinations"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

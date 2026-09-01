@@ -7242,6 +7242,310 @@
       ],
       "exercise_family_id": "split_stance_cable_row",
       "history_comparability_group": "split_stance_cable_row"
+    },
+    {
+      "id": "ex_90_90_hip_switch",
+      "name": "90/90 Hip Switch",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_adductor_rock_back",
+      "name": "Adductor Rock-Back",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_calf_stretch",
+      "name": "Calf Stretch",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_cat_cow",
+      "name": "Cat-Cow",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_child_s_pose",
+      "name": "Child's Pose",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_cross_body_shoulder_stretch",
+      "name": "Cross-Body Shoulder Stretch",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_deep_squat_pry",
+      "name": "Deep Squat Pry",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_doorway_pec_stretch",
+      "name": "Doorway Pec Stretch",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_figure_4_glute_stretch",
+      "name": "Figure-4 Glute Stretch",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_half_kneeling_hip_flexor_mobilization",
+      "name": "Half-Kneeling Hip Flexor Mobilization",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_hamstring_stretch",
+      "name": "Hamstring Stretch",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_hip_flexor_stretch",
+      "name": "Hip Flexor Stretch",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_knee_to_wall_ankle_mobilization",
+      "name": "Knee-to-Wall Ankle Mobilization",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_lat_stretch",
+      "name": "Lat Stretch",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_open_book_rotation",
+      "name": "Open Book Rotation",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_thread_the_needle",
+      "name": "Thread-the-Needle",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_wall_slide",
+      "name": "Wall Slide",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_world_s_greatest_stretch",
+      "name": "World's Greatest Stretch",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
+    },
+    {
+      "id": "ex_shadowboxing",
+      "name": "Shadowboxing",
+      "impact_level": "low",
+      "postpartum_friendly": true,
+      "equipment": [],
+      "movement_families": [],
+      "training_qualities": [],
+      "movement_characters": [],
+      "complexity_level": null,
+      "exercise_role_eligibility": [],
+      "progression_class": null,
+      "progression_tracks": [],
+      "exercise_family_id": null,
+      "history_comparability_group": null
     }
   ],
   "templates": [
@@ -7264,6 +7568,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "run",
         "zone2",
@@ -7334,6 +7640,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "run",
         "zone2"
@@ -7403,6 +7711,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "run",
         "return_to_run",
@@ -7481,6 +7791,8 @@
       "training_domain": "threshold",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "run",
         "threshold"
@@ -7550,6 +7862,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "run",
         "race_pace",
@@ -7620,6 +7934,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "ski",
         "zone2",
@@ -7690,6 +8006,8 @@
       "training_domain": "threshold",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "ski",
         "intervals",
@@ -7760,6 +8078,8 @@
       "training_domain": "threshold",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "ski",
         "threshold",
@@ -7830,6 +8150,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "strength",
         "legs",
@@ -7961,6 +8283,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "strength",
         "legs",
@@ -8085,6 +8409,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "strength",
         "push",
@@ -8223,6 +8549,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "strength",
         "pull",
@@ -8347,6 +8675,8 @@
       "training_domain": "aerobic",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "hybrid",
         "hyrox",
@@ -8441,6 +8771,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "hybrid",
         "hyrox",
@@ -8519,6 +8851,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "hybrid",
         "hyrox",
@@ -8605,6 +8939,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "hybrid",
         "hyrox",
@@ -8683,6 +9019,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "hybrid",
         "hyrox",
@@ -8777,6 +9115,8 @@
       "training_domain": "aerobic",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "hybrid",
         "hyrox",
@@ -8879,6 +9219,8 @@
       "training_domain": "aerobic",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "hybrid",
         "hyrox",
@@ -8981,6 +9323,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9059,6 +9403,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9145,6 +9491,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9231,6 +9579,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9317,6 +9667,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9403,6 +9755,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9489,6 +9843,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9575,6 +9931,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9661,6 +10019,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "emom",
         "hyrox",
@@ -9763,6 +10123,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "micro",
         "ski",
@@ -9841,6 +10203,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "micro",
         "hyrox",
@@ -9927,6 +10291,8 @@
       "training_domain": "recovery",
       "session_type": "recovery",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "recovery",
         "mobility",
@@ -10005,6 +10371,8 @@
       "training_domain": "hybrid",
       "session_type": "benchmark",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "simulation",
         "benchmark",
@@ -10131,6 +10499,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -10197,6 +10567,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -10263,6 +10635,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -10353,6 +10727,8 @@
       "training_domain": "threshold",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -10419,6 +10795,8 @@
       "training_domain": "threshold",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -10485,6 +10863,8 @@
       "training_domain": "hybrid",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -10551,6 +10931,8 @@
       "training_domain": "threshold",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -10641,6 +11023,8 @@
       "training_domain": "hybrid",
       "session_type": "benchmark",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -10707,6 +11091,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -10781,6 +11167,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -10863,6 +11251,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -10937,6 +11327,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -11011,6 +11403,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -11085,6 +11479,8 @@
       "training_domain": "threshold",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -11159,6 +11555,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -11241,6 +11639,8 @@
       "training_domain": "hybrid",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -11315,6 +11715,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -11405,6 +11807,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -11479,6 +11883,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -11561,6 +11967,8 @@
       "training_domain": "hybrid",
       "session_type": "benchmark",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -11635,6 +12043,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -11717,6 +12127,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -11803,6 +12215,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -11869,6 +12283,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -11935,6 +12351,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -12001,6 +12419,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -12087,6 +12507,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -12153,6 +12575,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -12275,6 +12699,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -12489,6 +12915,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -12555,6 +12983,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -12721,6 +13151,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -12787,6 +13219,8 @@
       "training_domain": "hybrid",
       "session_type": "benchmark",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -12893,6 +13327,8 @@
       "training_domain": "hybrid",
       "session_type": "benchmark",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -12999,6 +13435,8 @@
       "training_domain": "hybrid",
       "session_type": "benchmark",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -13065,6 +13503,8 @@
       "training_domain": "recovery",
       "session_type": "recovery",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -13131,6 +13571,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -13237,6 +13679,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -13343,6 +13787,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -13449,6 +13895,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -13555,6 +14003,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -13681,6 +14131,8 @@
       "training_domain": "threshold",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -13787,6 +14239,8 @@
       "training_domain": "threshold",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -13853,6 +14307,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -13927,6 +14383,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -14001,6 +14459,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -14075,6 +14535,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -14149,6 +14611,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -14223,6 +14687,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -14297,6 +14763,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -14371,6 +14839,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -14445,6 +14915,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -14519,6 +14991,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -14601,6 +15075,8 @@
       "training_domain": "aerobic",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -14683,6 +15159,8 @@
       "training_domain": "recovery",
       "session_type": "recovery",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -14749,6 +15227,8 @@
       "training_domain": "recovery",
       "session_type": "recovery",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -14823,6 +15303,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -14897,6 +15379,8 @@
       "training_domain": "hybrid",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -14963,6 +15447,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -15037,6 +15523,8 @@
       "training_domain": "hybrid",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -15111,6 +15599,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -15177,6 +15667,8 @@
       "training_domain": "hybrid",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -15251,6 +15743,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -15333,6 +15827,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -15407,6 +15903,8 @@
       "training_domain": "hybrid",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -15473,6 +15971,8 @@
       "training_domain": "muscular_endurance",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -15547,6 +16047,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -15613,6 +16115,8 @@
       "training_domain": "threshold",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -15679,6 +16183,8 @@
       "training_domain": "aerobic",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -15745,6 +16251,8 @@
       "training_domain": "hybrid",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -15811,6 +16319,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -15885,6 +16395,8 @@
       "training_domain": "hybrid",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -15967,6 +16479,8 @@
       "training_domain": "aerobic",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -16033,6 +16547,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -16107,6 +16623,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -16189,6 +16707,8 @@
       "training_domain": "muscular_endurance",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -16263,6 +16783,8 @@
       "training_domain": "hybrid",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -16329,6 +16851,8 @@
       "training_domain": "muscular_endurance",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -16395,6 +16919,8 @@
       "training_domain": "aerobic",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -16461,6 +16987,8 @@
       "training_domain": "threshold",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -16527,6 +17055,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -16593,6 +17123,8 @@
       "training_domain": "hybrid",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -16659,6 +17191,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -16733,6 +17267,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -16823,6 +17359,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -16889,6 +17427,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -16963,6 +17503,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -17045,6 +17587,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -17119,6 +17663,8 @@
       "training_domain": "hybrid",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -17185,6 +17731,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -17251,6 +17799,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -17361,6 +17911,8 @@
       "training_domain": "threshold",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -17427,6 +17979,8 @@
       "training_domain": "aerobic",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -17493,6 +18047,8 @@
       "training_domain": "hybrid",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -17559,6 +18115,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -17633,6 +18191,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -17715,6 +18275,8 @@
       "training_domain": "aerobic",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -17781,6 +18343,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -17855,6 +18419,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -17937,6 +18503,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -18011,6 +18579,8 @@
       "training_domain": "hybrid",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -18077,6 +18647,8 @@
       "training_domain": "muscular_endurance",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -18143,6 +18715,8 @@
       "training_domain": "aerobic",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -18209,6 +18783,8 @@
       "training_domain": "threshold",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -18275,6 +18851,8 @@
       "training_domain": "hybrid",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -18341,6 +18919,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -18415,6 +18995,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -18497,6 +19079,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -18563,6 +19147,8 @@
       "training_domain": "hybrid",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -18637,6 +19223,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -18719,6 +19307,8 @@
       "training_domain": "hybrid",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -18785,6 +19375,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -18851,6 +19443,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -18917,6 +19511,8 @@
       "training_domain": "threshold",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -18983,6 +19579,8 @@
       "training_domain": "aerobic",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -19049,6 +19647,8 @@
       "training_domain": "hybrid",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -19115,6 +19715,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -19189,6 +19791,8 @@
       "training_domain": "hybrid",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -19263,6 +19867,8 @@
       "training_domain": "aerobic",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -19329,6 +19935,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -19403,6 +20011,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -19485,6 +20095,8 @@
       "training_domain": "muscular_endurance",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -19551,6 +20163,8 @@
       "training_domain": "hybrid",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -19617,6 +20231,8 @@
       "training_domain": "muscular_endurance",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -19683,6 +20299,8 @@
       "training_domain": "aerobic",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -19749,6 +20367,8 @@
       "training_domain": "threshold",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -19823,6 +20443,8 @@
       "training_domain": "aerobic",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -19889,6 +20511,8 @@
       "training_domain": "hybrid",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -19955,6 +20579,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -20029,6 +20655,8 @@
       "training_domain": "hybrid",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -20103,6 +20731,8 @@
       "training_domain": "aerobic",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -20169,6 +20799,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -20243,6 +20875,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -20325,6 +20959,8 @@
       "training_domain": "muscular_endurance",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -20391,6 +21027,8 @@
       "training_domain": "hybrid",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -20457,6 +21095,8 @@
       "training_domain": "muscular_endurance",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -20523,6 +21163,8 @@
       "training_domain": "aerobic",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -20589,6 +21231,8 @@
       "training_domain": "threshold",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -20663,6 +21307,8 @@
       "training_domain": "aerobic",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -20729,6 +21375,8 @@
       "training_domain": "hybrid",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -20795,6 +21443,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -20869,6 +21519,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -20951,6 +21603,8 @@
       "training_domain": "aerobic",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -21017,6 +21671,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -21091,6 +21747,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -21173,6 +21831,8 @@
       "training_domain": "hybrid",
       "session_type": "hybrid",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -21247,6 +21907,8 @@
       "training_domain": "hybrid",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -21313,6 +21975,8 @@
       "training_domain": "muscular_endurance",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -21379,6 +22043,8 @@
       "training_domain": "aerobic",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -21445,6 +22111,8 @@
       "training_domain": "threshold",
       "session_type": "strength_endurance",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -21511,6 +22179,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -21617,6 +22287,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -21723,6 +22395,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -21829,6 +22503,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -21923,6 +22599,8 @@
       "training_domain": "aerobic",
       "session_type": "conditioning",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -21997,6 +22675,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -22103,6 +22783,8 @@
       "training_domain": "threshold",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -22169,6 +22851,8 @@
       "training_domain": "threshold",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -22275,6 +22959,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -22381,6 +23067,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -22487,6 +23175,8 @@
       "training_domain": "hybrid",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -22613,6 +23303,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -22739,6 +23431,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -22837,6 +23531,8 @@
       "training_domain": "threshold",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -22943,6 +23639,8 @@
       "training_domain": "threshold",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -23049,6 +23747,8 @@
       "training_domain": "threshold",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -23155,6 +23855,8 @@
       "training_domain": "threshold",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -23261,6 +23963,8 @@
       "training_domain": "threshold",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -23367,6 +24071,8 @@
       "training_domain": "aerobic",
       "session_type": "run",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -23461,6 +24167,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -23594,6 +24302,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -23727,6 +24437,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -23860,6 +24572,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -23993,6 +24707,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -24126,6 +24842,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -24259,6 +24977,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -24392,6 +25112,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -24525,6 +25247,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -24658,6 +25382,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -24791,6 +25517,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -24924,6 +25652,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -25057,6 +25787,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -25190,6 +25922,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -25323,6 +26057,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -25456,6 +26192,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -25589,6 +26327,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -25722,6 +26462,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -25855,6 +26597,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -25988,6 +26732,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -26121,6 +26867,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -26254,6 +27002,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -26387,6 +27137,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -26520,6 +27272,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -26653,6 +27407,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -26786,6 +27542,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -26919,6 +27677,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -27037,6 +27797,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -27155,6 +27917,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -27273,6 +28037,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -27391,6 +28157,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -27509,6 +28277,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -27627,6 +28397,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -27745,6 +28517,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -27863,6 +28637,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -27981,6 +28757,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [],
       "variants": [
         {
@@ -28099,6 +28877,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "micro",
         "strength"
@@ -28205,6 +28985,8 @@
       "training_domain": "strength",
       "session_type": "strength",
       "workout_role": "primary",
+      "supplemental_type": null,
+      "supplemental_load": null,
       "tags": [
         "micro",
         "strength"
@@ -28287,6 +29069,3732 @@
               "target_rpe": 6,
               "load_basis": null,
               "load_value": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_core_01",
+      "name": "Core — Anti-Extension Reset",
+      "workout_family": "supplemental_core",
+      "primary_goal": null,
+      "stimulus": "anti_extension",
+      "secondary_goal": null,
+      "estimated_minutes": 8,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.2,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Core — Anti-Extension Reset",
+      "coaching_notes": "",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "core",
+      "supplemental_load": "minimal",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 8,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_core_01_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Quality over volume; stop well before failure.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_dead_bug",
+              "sequence_order": 1,
+              "prescription_type": "sets_reps",
+              "quantity": 2,
+              "quantity_unit": "x6/side",
+              "intensity_note": "RPE 5-6",
+              "sets": 2,
+              "reps_min": 6,
+              "reps_max": 6,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_bird_dog",
+              "sequence_order": 2,
+              "prescription_type": "sets_reps",
+              "quantity": 2,
+              "quantity_unit": "x6/side",
+              "intensity_note": "RPE 5-6",
+              "sets": 2,
+              "reps_min": 6,
+              "reps_max": 6,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_front_plank",
+              "sequence_order": 3,
+              "prescription_type": "duration",
+              "quantity": 20,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 5-6",
+              "sets": 2,
+              "reps_min": null,
+              "reps_max": null,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_core_02",
+      "name": "Core — Anti-Rotation",
+      "workout_family": "supplemental_core",
+      "primary_goal": null,
+      "stimulus": "anti_rotation",
+      "secondary_goal": null,
+      "estimated_minutes": 10,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.2,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Core — Anti-Rotation",
+      "coaching_notes": "",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "core",
+      "supplemental_load": "low",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 10,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_core_02_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Quality over volume; stop well before failure.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_pallof_press",
+              "sequence_order": 1,
+              "prescription_type": "sets_reps",
+              "quantity": 2,
+              "quantity_unit": "x8/side",
+              "intensity_note": "RPE 5-6",
+              "sets": 2,
+              "reps_min": 8,
+              "reps_max": 8,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_side_plank",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 20,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 5-6",
+              "sets": 2,
+              "reps_min": null,
+              "reps_max": null,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_dead_bug",
+              "sequence_order": 3,
+              "prescription_type": "sets_reps",
+              "quantity": 2,
+              "quantity_unit": "x6/side",
+              "intensity_note": "RPE 5-6",
+              "sets": 2,
+              "reps_min": 6,
+              "reps_max": 6,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_core_03",
+      "name": "Core — Lateral Stability",
+      "workout_family": "supplemental_core",
+      "primary_goal": null,
+      "stimulus": "anti_lateral_flexion",
+      "secondary_goal": null,
+      "estimated_minutes": 10,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.2,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Core — Lateral Stability",
+      "coaching_notes": "",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "core",
+      "supplemental_load": "low",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 10,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_core_03_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Quality over volume; stop well before failure.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 20,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 5-6",
+              "sets": 3,
+              "reps_min": null,
+              "reps_max": null,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_side_plank",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 25,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 5-6",
+              "sets": 2,
+              "reps_min": null,
+              "reps_max": null,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_bird_dog",
+              "sequence_order": 3,
+              "prescription_type": "sets_reps",
+              "quantity": 2,
+              "quantity_unit": "x6/side",
+              "intensity_note": "RPE 5-6",
+              "sets": 2,
+              "reps_min": 6,
+              "reps_max": 6,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_core_04",
+      "name": "Core — Trunk Strength",
+      "workout_family": "supplemental_core",
+      "primary_goal": null,
+      "stimulus": "trunk_strength",
+      "secondary_goal": null,
+      "estimated_minutes": 12,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.2,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Core — Trunk Strength",
+      "coaching_notes": "",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "core",
+      "supplemental_load": "moderate",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 12,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_core_04_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Quality over volume; stop well before failure.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_weighted_dead_bug",
+              "sequence_order": 1,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x6/side",
+              "intensity_note": "RPE 5-6",
+              "sets": 3,
+              "reps_min": 6,
+              "reps_max": 6,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_weighted_plank",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 20,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 5-6",
+              "sets": 3,
+              "reps_min": null,
+              "reps_max": null,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_pallof_press",
+              "sequence_order": 3,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x8/side",
+              "intensity_note": "RPE 5-6",
+              "sets": 3,
+              "reps_min": 8,
+              "reps_max": 8,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_core_05",
+      "name": "Core — Athletic Stability",
+      "workout_family": "supplemental_core",
+      "primary_goal": null,
+      "stimulus": "integrated_stability",
+      "secondary_goal": null,
+      "estimated_minutes": 10,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.2,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Core — Athletic Stability",
+      "coaching_notes": "",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "core",
+      "supplemental_load": "low",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 10,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_core_05_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Quality over volume; stop well before failure.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_bear_plank_shoulder_tap",
+              "sequence_order": 1,
+              "prescription_type": "sets_reps",
+              "quantity": 2,
+              "quantity_unit": "x8/side",
+              "intensity_note": "RPE 5-6",
+              "sets": 2,
+              "reps_min": 8,
+              "reps_max": 8,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_copenhagen_plank",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 15,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 5-6",
+              "sets": 2,
+              "reps_min": null,
+              "reps_max": null,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_hollow_hold",
+              "sequence_order": 3,
+              "prescription_type": "duration",
+              "quantity": 20,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 5-6",
+              "sets": 2,
+              "reps_min": null,
+              "reps_max": null,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_core_06",
+      "name": "Core — Dynamic Trunk",
+      "workout_family": "supplemental_core",
+      "primary_goal": null,
+      "stimulus": "dynamic_trunk",
+      "secondary_goal": null,
+      "estimated_minutes": 12,
+      "intensity_target": "RPE 5-6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.2,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Core — Dynamic Trunk",
+      "coaching_notes": "",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "core",
+      "supplemental_load": "moderate",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 12,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_core_06_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Quality over volume; stop well before failure.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_reverse_crunch",
+              "sequence_order": 1,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x10",
+              "intensity_note": "RPE 5-6",
+              "sets": 3,
+              "reps_min": 10,
+              "reps_max": 10,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_hollow_rock",
+              "sequence_order": 2,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x8-12",
+              "intensity_note": "RPE 5-6",
+              "sets": 3,
+              "reps_min": 8,
+              "reps_max": 12,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            },
+            {
+              "exercise_id": "ex_plank_db_drag",
+              "sequence_order": 3,
+              "prescription_type": "sets_reps",
+              "quantity": 3,
+              "quantity_unit": "x6/side",
+              "intensity_note": "RPE 5-6",
+              "sets": 3,
+              "reps_min": 6,
+              "reps_max": 6,
+              "rest_seconds": null,
+              "target_rpe": null,
+              "load_basis": null,
+              "load_value": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_metcon_01",
+      "name": "8-Minute DB EMOM",
+      "workout_family": "supplemental_metcon",
+      "primary_goal": null,
+      "stimulus": "general_conditioning",
+      "secondary_goal": null,
+      "estimated_minutes": 8,
+      "intensity_target": "RPE 6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.3,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "8-Minute DB EMOM",
+      "coaching_notes": "",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "metcon",
+      "supplemental_load": "moderate",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 8,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_metcon_01_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "One movement per minute, in order.",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_goblet_squat",
+              "sequence_order": 1,
+              "prescription_type": "reps",
+              "quantity": 8,
+              "quantity_unit": "reps",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 6,
+              "quantity_unit": "reps",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_metcon_02",
+      "name": "10-Minute Carry EMOM",
+      "workout_family": "supplemental_metcon",
+      "primary_goal": null,
+      "stimulus": "loaded_carry_conditioning",
+      "secondary_goal": null,
+      "estimated_minutes": 10,
+      "intensity_target": "RPE 6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.3,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "10-Minute Carry EMOM",
+      "coaching_notes": "",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "metcon",
+      "supplemental_load": "low",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 10,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_metcon_02_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "One movement per minute, in order.",
+          "rounds": 5,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_farmer_carry",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 30,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_dead_bug",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 6,
+              "quantity_unit": "reps",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_metcon_03",
+      "name": "9-Minute Step + Row EMOM",
+      "workout_family": "supplemental_metcon",
+      "primary_goal": null,
+      "stimulus": "mixed_conditioning",
+      "secondary_goal": null,
+      "estimated_minutes": 9,
+      "intensity_target": "RPE 6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.3,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "9-Minute Step + Row EMOM",
+      "coaching_notes": "",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "metcon",
+      "supplemental_load": "moderate",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 9,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_metcon_03_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "One movement per minute, in order.",
+          "rounds": 3,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_step_up",
+              "sequence_order": 1,
+              "prescription_type": "reps",
+              "quantity": 8,
+              "quantity_unit": "reps",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 8,
+              "quantity_unit": "reps",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_front_plank",
+              "sequence_order": 3,
+              "prescription_type": "duration",
+              "quantity": 25,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_metcon_04",
+      "name": "8-Minute Kettlebell EMOM",
+      "workout_family": "supplemental_metcon",
+      "primary_goal": null,
+      "stimulus": "hinge_conditioning",
+      "secondary_goal": null,
+      "estimated_minutes": 8,
+      "intensity_target": "RPE 6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.3,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "8-Minute Kettlebell EMOM",
+      "coaching_notes": "",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "metcon",
+      "supplemental_load": "moderate",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 8,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_metcon_04_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "One movement per minute, in order.",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_kettlebell_swing",
+              "sequence_order": 1,
+              "prescription_type": "reps",
+              "quantity": 10,
+              "quantity_unit": "reps",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 6,
+              "quantity_unit": "reps",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_metcon_05",
+      "name": "10-Minute Bodyweight EMOM",
+      "workout_family": "supplemental_metcon",
+      "primary_goal": null,
+      "stimulus": "bodyweight_conditioning",
+      "secondary_goal": null,
+      "estimated_minutes": 10,
+      "intensity_target": "RPE 6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.3,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "10-Minute Bodyweight EMOM",
+      "coaching_notes": "",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "metcon",
+      "supplemental_load": "low",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 10,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_metcon_05_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "One movement per minute, in order.",
+          "rounds": 5,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_reverse_lunge",
+              "sequence_order": 1,
+              "prescription_type": "reps",
+              "quantity": 6,
+              "quantity_unit": "reps",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "sequence_order": 2,
+              "prescription_type": "reps",
+              "quantity": 6,
+              "quantity_unit": "reps",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_metcon_06",
+      "name": "9-Minute Carry + Crawl",
+      "workout_family": "supplemental_metcon",
+      "primary_goal": null,
+      "stimulus": "integrated_conditioning",
+      "secondary_goal": null,
+      "estimated_minutes": 9,
+      "intensity_target": "RPE 6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.3,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "9-Minute Carry + Crawl",
+      "coaching_notes": "",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "metcon",
+      "supplemental_load": "moderate",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 9,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_metcon_06_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Main",
+          "instructions": "One movement per minute, in order.",
+          "rounds": 3,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "sequence_order": 1,
+              "prescription_type": "distance",
+              "quantity": 20,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_bear_crawl",
+              "sequence_order": 2,
+              "prescription_type": "distance",
+              "quantity": 15,
+              "quantity_unit": "m",
+              "intensity_note": "RPE 6"
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "sequence_order": 3,
+              "prescription_type": "reps",
+              "quantity": 6,
+              "quantity_unit": "reps",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_mobility_01",
+      "name": "Mobility — Hips + Ankles",
+      "workout_family": "supplemental_recovery",
+      "primary_goal": null,
+      "stimulus": "lower_body_mobility",
+      "secondary_goal": null,
+      "estimated_minutes": 8,
+      "intensity_target": "RPE 3",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Mobility — Hips + Ankles",
+      "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "recovery",
+      "supplemental_load": "minimal",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 8,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_mobility_01_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Move through in order, holding each position.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_90_90_hip_switch",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 60,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_half_kneeling_hip_flexor_mobilization",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_adductor_rock_back",
+              "sequence_order": 3,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_knee_to_wall_ankle_mobilization",
+              "sequence_order": 4,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_mobility_02",
+      "name": "Mobility — T-Spine + Shoulders",
+      "workout_family": "supplemental_recovery",
+      "primary_goal": null,
+      "stimulus": "upper_body_mobility",
+      "secondary_goal": null,
+      "estimated_minutes": 8,
+      "intensity_target": "RPE 3",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Mobility — T-Spine + Shoulders",
+      "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "recovery",
+      "supplemental_load": "minimal",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 8,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_mobility_02_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Move through in order, holding each position.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_cat_cow",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 60,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_open_book_rotation",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_thread_the_needle",
+              "sequence_order": 3,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_wall_slide",
+              "sequence_order": 4,
+              "prescription_type": "duration",
+              "quantity": 60,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_mobility_03",
+      "name": "Mobility — Full-Body Reset",
+      "workout_family": "supplemental_recovery",
+      "primary_goal": null,
+      "stimulus": "full_body_mobility",
+      "secondary_goal": null,
+      "estimated_minutes": 10,
+      "intensity_target": "RPE 3",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Mobility — Full-Body Reset",
+      "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "recovery",
+      "supplemental_load": "minimal",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 10,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_mobility_03_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Move through in order, holding each position.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_world_s_greatest_stretch",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_90_90_hip_switch",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 60,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_open_book_rotation",
+              "sequence_order": 3,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_deep_squat_pry",
+              "sequence_order": 4,
+              "prescription_type": "duration",
+              "quantity": 60,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_wall_slide",
+              "sequence_order": 5,
+              "prescription_type": "duration",
+              "quantity": 60,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_mobility_04",
+      "name": "Mobility — Post-Run",
+      "workout_family": "supplemental_recovery",
+      "primary_goal": null,
+      "stimulus": "post_run_mobility",
+      "secondary_goal": null,
+      "estimated_minutes": 8,
+      "intensity_target": "RPE 3",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Mobility — Post-Run",
+      "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "recovery",
+      "supplemental_load": "minimal",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 8,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_mobility_04_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Move through in order, holding each position.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_half_kneeling_hip_flexor_mobilization",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_calf_stretch",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_hamstring_stretch",
+              "sequence_order": 3,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_adductor_rock_back",
+              "sequence_order": 4,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_stretch_01",
+      "name": "Stretch — Full-Body Downshift",
+      "workout_family": "supplemental_recovery",
+      "primary_goal": null,
+      "stimulus": "general_stretching",
+      "secondary_goal": null,
+      "estimated_minutes": 10,
+      "intensity_target": "RPE 3",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Stretch — Full-Body Downshift",
+      "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "recovery",
+      "supplemental_load": "minimal",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 10,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_stretch_01_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Move through in order, holding each position.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_child_s_pose",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 60,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_hip_flexor_stretch",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_hamstring_stretch",
+              "sequence_order": 3,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_figure_4_glute_stretch",
+              "sequence_order": 4,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_doorway_pec_stretch",
+              "sequence_order": 5,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_stretch_02",
+      "name": "Stretch — Lower Body",
+      "workout_family": "supplemental_recovery",
+      "primary_goal": null,
+      "stimulus": "lower_body_stretching",
+      "secondary_goal": null,
+      "estimated_minutes": 8,
+      "intensity_target": "RPE 3",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Stretch — Lower Body",
+      "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "recovery",
+      "supplemental_load": "minimal",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 8,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_stretch_02_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Move through in order, holding each position.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_hip_flexor_stretch",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_hamstring_stretch",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_figure_4_glute_stretch",
+              "sequence_order": 3,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_calf_stretch",
+              "sequence_order": 4,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_stretch_03",
+      "name": "Stretch — Upper Body",
+      "workout_family": "supplemental_recovery",
+      "primary_goal": null,
+      "stimulus": "upper_body_stretching",
+      "secondary_goal": null,
+      "estimated_minutes": 8,
+      "intensity_target": "RPE 3",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Stretch — Upper Body",
+      "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "recovery",
+      "supplemental_load": "minimal",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 8,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_stretch_03_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Move through in order, holding each position.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_doorway_pec_stretch",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_lat_stretch",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_cross_body_shoulder_stretch",
+              "sequence_order": 3,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_child_s_pose",
+              "sequence_order": 4,
+              "prescription_type": "duration",
+              "quantity": 60,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_stretch_04",
+      "name": "Stretch — Short Downshift",
+      "workout_family": "supplemental_recovery",
+      "primary_goal": null,
+      "stimulus": "general_stretching",
+      "secondary_goal": null,
+      "estimated_minutes": 5,
+      "intensity_target": "RPE 3",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Stretch — Short Downshift",
+      "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "recovery",
+      "supplemental_load": "minimal",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 5,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last movement; never shorten the rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first movement only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_stretch_04_b1",
+          "block_order": 1,
+          "block_type": "continuous",
+          "title": "Main",
+          "instructions": "Move through in order, holding each position.",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "exercises": [
+            {
+              "exercise_id": "ex_child_s_pose",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 45,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_hip_flexor_stretch",
+              "sequence_order": 2,
+              "prescription_type": "duration",
+              "quantity": 30,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_hamstring_stretch",
+              "sequence_order": 3,
+              "prescription_type": "duration",
+              "quantity": 30,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            },
+            {
+              "exercise_id": "ex_doorway_pec_stretch",
+              "sequence_order": 4,
+              "prescription_type": "duration",
+              "quantity": 30,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_box_01",
+      "name": "Boxing — Jab + Movement",
+      "workout_family": "supplemental_boxing",
+      "primary_goal": null,
+      "stimulus": "jab_footwork",
+      "secondary_goal": null,
+      "estimated_minutes": 8,
+      "intensity_target": "RPE 4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Boxing — Jab + Movement",
+      "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "boxing",
+      "supplemental_load": "minimal",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 8,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last round; never shorten the round rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first two rounds only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_box_01_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Round 1",
+          "instructions": "Jab only + forward/backward movement. Return hand to guard; stay relaxed.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 90,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_01_b2",
+          "block_order": 2,
+          "block_type": "rounds",
+          "title": "Round 2",
+          "instructions": "Double jab + lateral step. Move after the second jab.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 90,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_01_b3",
+          "block_order": 3,
+          "block_type": "rounds",
+          "title": "Round 3",
+          "instructions": "Jab to body / jab to head. Change level without folding at the waist.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 90,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_01_b4",
+          "block_order": 4,
+          "block_type": "rounds",
+          "title": "Round 4",
+          "instructions": "Free jab movement. Quality and rhythm, not output.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 0,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 90,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_box_02",
+      "name": "Boxing — 1–2 Fundamentals",
+      "workout_family": "supplemental_boxing",
+      "primary_goal": null,
+      "stimulus": "straight_punch_technique",
+      "secondary_goal": null,
+      "estimated_minutes": 8,
+      "intensity_target": "RPE 4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Boxing — 1–2 Fundamentals",
+      "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "boxing",
+      "supplemental_load": "minimal",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 8,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last round; never shorten the round rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first two rounds only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_box_02_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Round 1",
+          "instructions": "1–2. Rotate through the floor; recover to stance.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 90,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_02_b2",
+          "block_order": 2,
+          "block_type": "rounds",
+          "title": "Round 2",
+          "instructions": "1–1–2. First jab finds range; second jab sets the cross.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 90,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_02_b3",
+          "block_order": 3,
+          "block_type": "rounds",
+          "title": "Round 3",
+          "instructions": "1–2 + exit. Finish then step off line.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 90,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_02_b4",
+          "block_order": 4,
+          "block_type": "rounds",
+          "title": "Round 4",
+          "instructions": "Free straight-punch flow. Stay smooth and technically clean.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 0,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 90,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_box_03",
+      "name": "Boxing — Defense + Return",
+      "workout_family": "supplemental_boxing",
+      "primary_goal": null,
+      "stimulus": "defense_counter",
+      "secondary_goal": null,
+      "estimated_minutes": 10,
+      "intensity_target": "RPE 4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Boxing — Defense + Return",
+      "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "boxing",
+      "supplemental_load": "low",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 10,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last round; never shorten the round rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first two rounds only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_box_03_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Round 1",
+          "instructions": "1–2, slip outside, 2. Small slip; eyes forward.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_03_b2",
+          "block_order": 2,
+          "block_type": "rounds",
+          "title": "Round 2",
+          "instructions": "1–2, roll, 2–3. Bend through knees rather than waist.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_03_b3",
+          "block_order": 3,
+          "block_type": "rounds",
+          "title": "Round 3",
+          "instructions": "Parry imaginary jab, return 1–2. Defense immediately creates offense.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_03_b4",
+          "block_order": 4,
+          "block_type": "rounds",
+          "title": "Round 4",
+          "instructions": "Free defense + 2–3 punch return. Do not chase speed.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 0,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_box_04",
+      "name": "Boxing — Footwork Flow",
+      "workout_family": "supplemental_boxing",
+      "primary_goal": null,
+      "stimulus": "footwork",
+      "secondary_goal": null,
+      "estimated_minutes": 8,
+      "intensity_target": "RPE 4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Boxing — Footwork Flow",
+      "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "boxing",
+      "supplemental_load": "minimal",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 8,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last round; never shorten the round rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first two rounds only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_box_04_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Round 1",
+          "instructions": "Step forward/back + jab. Feet move before range disappears.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 90,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_04_b2",
+          "block_order": 2,
+          "block_type": "rounds",
+          "title": "Round 2",
+          "instructions": "Lateral step + 1–2. Keep stance width while moving.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 90,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_04_b3",
+          "block_order": 3,
+          "block_type": "rounds",
+          "title": "Round 3",
+          "instructions": "Pivot after 1–2. Turn out, reset stance.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 90,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_04_b4",
+          "block_order": 4,
+          "block_type": "rounds",
+          "title": "Round 4",
+          "instructions": "Free movement, light punches. Continuous relaxed movement.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 0,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 90,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_box_05",
+      "name": "Boxing — 10-Minute Shadow Flow",
+      "workout_family": "supplemental_boxing",
+      "primary_goal": null,
+      "stimulus": "aerobic_boxing_flow",
+      "secondary_goal": null,
+      "estimated_minutes": 10,
+      "intensity_target": "RPE 4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Boxing — 10-Minute Shadow Flow",
+      "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "boxing",
+      "supplemental_load": "low",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 10,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last round; never shorten the round rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first two rounds only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_box_05_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Round 1",
+          "instructions": "1–2 + movement. Conversational effort.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_05_b2",
+          "block_order": 2,
+          "block_type": "rounds",
+          "title": "Round 2",
+          "instructions": "1–2–3 + exit. Smooth rhythm.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_05_b3",
+          "block_order": 3,
+          "block_type": "rounds",
+          "title": "Round 3",
+          "instructions": "1–2, slip, 2. Stay relaxed.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_05_b4",
+          "block_order": 4,
+          "block_type": "rounds",
+          "title": "Round 4",
+          "instructions": "Free 2–4 punch combinations. Never turn this into a sprint.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 0,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_box_06",
+      "name": "Boxing — Combination Flow",
+      "workout_family": "supplemental_boxing",
+      "primary_goal": null,
+      "stimulus": "combination_skill_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 12,
+      "intensity_target": "RPE 4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Boxing — Combination Flow",
+      "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "boxing",
+      "supplemental_load": "low",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 12,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last round; never shorten the round rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first two rounds only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_box_06_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Round 1",
+          "instructions": "1–2–3. Clean shape.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_06_b2",
+          "block_order": 2,
+          "block_type": "rounds",
+          "title": "Round 2",
+          "instructions": "1–2–3–2. Cross finishes balanced.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_06_b3",
+          "block_order": 3,
+          "block_type": "rounds",
+          "title": "Round 3",
+          "instructions": "1–1–2–3. Relax shoulders between punches.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_06_b4",
+          "block_order": 4,
+          "block_type": "rounds",
+          "title": "Round 4",
+          "instructions": "1–2, roll, 3–2. Defense stays compact.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_06_b5",
+          "block_order": 5,
+          "block_type": "rounds",
+          "title": "Round 5",
+          "instructions": "Free combinations + exits. Flow, don't chase volume.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 0,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_box_07",
+      "name": "Boxing — Body/Head Flow",
+      "workout_family": "supplemental_boxing",
+      "primary_goal": null,
+      "stimulus": "level_change_combinations",
+      "secondary_goal": null,
+      "estimated_minutes": 10,
+      "intensity_target": "RPE 4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Boxing — Body/Head Flow",
+      "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "boxing",
+      "supplemental_load": "low",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 10,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last round; never shorten the round rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first two rounds only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_box_07_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Round 1",
+          "instructions": "Jab head, cross body. Level change through legs.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_07_b2",
+          "block_order": 2,
+          "block_type": "rounds",
+          "title": "Round 2",
+          "instructions": "Jab body, cross head, hook. Return to stance after hook.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_07_b3",
+          "block_order": 3,
+          "block_type": "rounds",
+          "title": "Round 3",
+          "instructions": "1–2 head, 3 body, 2 head. Controlled rotation.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_07_b4",
+          "block_order": 4,
+          "block_type": "rounds",
+          "title": "Round 4",
+          "instructions": "Free head/body combinations. Accuracy over speed.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 0,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_box_08",
+      "name": "Boxing — Defensive Aerobic Flow",
+      "workout_family": "supplemental_boxing",
+      "primary_goal": null,
+      "stimulus": "defensive_flow",
+      "secondary_goal": null,
+      "estimated_minutes": 12,
+      "intensity_target": "RPE 4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Boxing — Defensive Aerobic Flow",
+      "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "boxing",
+      "supplemental_load": "low",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 12,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last round; never shorten the round rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first two rounds only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_box_08_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Round 1",
+          "instructions": "1–2, slip, 2. Easy continuous pace.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_08_b2",
+          "block_order": 2,
+          "block_type": "rounds",
+          "title": "Round 2",
+          "instructions": "1–2–3, roll, 3. Stay under control.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_08_b3",
+          "block_order": 3,
+          "block_type": "rounds",
+          "title": "Round 3",
+          "instructions": "Double jab, pivot, 2. Feet and hands stay connected.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_08_b4",
+          "block_order": 4,
+          "block_type": "rounds",
+          "title": "Round 4",
+          "instructions": "2–3 punch attack + defensive exit. No hard flurries.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_08_b5",
+          "block_order": 5,
+          "block_type": "rounds",
+          "title": "Round 5",
+          "instructions": "Free technical flow. Finish fresher than you started.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 0,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_box_09",
+      "name": "Heavy Bag — Fundamentals",
+      "workout_family": "supplemental_boxing",
+      "primary_goal": null,
+      "stimulus": "bag_technique",
+      "secondary_goal": null,
+      "estimated_minutes": 10,
+      "intensity_target": "RPE 4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Heavy Bag — Fundamentals",
+      "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "boxing",
+      "supplemental_load": "low",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 10,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last round; never shorten the round rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first two rounds only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_box_09_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Round 1",
+          "instructions": "Jab + double jab. Touch the bag; establish distance.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_09_b2",
+          "block_order": 2,
+          "block_type": "rounds",
+          "title": "Round 2",
+          "instructions": "1–2. Clean contact, immediate guard recovery.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_09_b3",
+          "block_order": 3,
+          "block_type": "rounds",
+          "title": "Round 3",
+          "instructions": "1–2–3. Stay balanced through the hook.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_09_b4",
+          "block_order": 4,
+          "block_type": "rounds",
+          "title": "Round 4",
+          "instructions": "Free 2–3 punch combinations. Power stays submaximal.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 0,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_box_10",
+      "name": "Heavy Bag — Straight-Punch Conditioning",
+      "workout_family": "supplemental_boxing",
+      "primary_goal": null,
+      "stimulus": "bag_conditioning",
+      "secondary_goal": null,
+      "estimated_minutes": 12,
+      "intensity_target": "RPE 6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Heavy Bag — Straight-Punch Conditioning",
+      "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "boxing",
+      "supplemental_load": "moderate",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 12,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last round; never shorten the round rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first two rounds only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_box_10_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Round 1",
+          "instructions": "1–2, reset. Steady repeatable output.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_10_b2",
+          "block_order": 2,
+          "block_type": "rounds",
+          "title": "Round 2",
+          "instructions": "1–1–2, reset. Do not sprint.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_10_b3",
+          "block_order": 3,
+          "block_type": "rounds",
+          "title": "Round 3",
+          "instructions": "1–2 + lateral exit. Move after combination.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_10_b4",
+          "block_order": 4,
+          "block_type": "rounds",
+          "title": "Round 4",
+          "instructions": "20 sec steady / 10 sec light movement. Keep power controlled.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_10_b5",
+          "block_order": 5,
+          "block_type": "rounds",
+          "title": "Round 5",
+          "instructions": "Free straight-punch flow. Finish with technique intact.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 0,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_box_11",
+      "name": "Heavy Bag — Combination Builder",
+      "workout_family": "supplemental_boxing",
+      "primary_goal": null,
+      "stimulus": "bag_combinations",
+      "secondary_goal": null,
+      "estimated_minutes": 12,
+      "intensity_target": "RPE 6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Heavy Bag — Combination Builder",
+      "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "boxing",
+      "supplemental_load": "moderate",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 12,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last round; never shorten the round rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first two rounds only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_box_11_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Round 1",
+          "instructions": "1–2–3. Moderate power.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_11_b2",
+          "block_order": 2,
+          "block_type": "rounds",
+          "title": "Round 2",
+          "instructions": "1–2–3–2. Stay balanced.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_11_b3",
+          "block_order": 3,
+          "block_type": "rounds",
+          "title": "Round 3",
+          "instructions": "1–1–2–3. Hands return to guard.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_11_b4",
+          "block_order": 4,
+          "block_type": "rounds",
+          "title": "Round 4",
+          "instructions": "1–2, roll, 3–2. Defense breaks the combination.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_11_b5",
+          "block_order": 5,
+          "block_type": "rounds",
+          "title": "Round 5",
+          "instructions": "Free 3–4 punch combinations. No maximal flurries.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 0,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_box_12",
+      "name": "Heavy Bag — Movement + Output",
+      "workout_family": "supplemental_boxing",
+      "primary_goal": null,
+      "stimulus": "bag_movement_conditioning",
+      "secondary_goal": null,
+      "estimated_minutes": 12,
+      "intensity_target": "RPE 6",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Heavy Bag — Movement + Output",
+      "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "boxing",
+      "supplemental_load": "moderate",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 12,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last round; never shorten the round rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first two rounds only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_box_12_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Round 1",
+          "instructions": "Jab while circling. Own distance first.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_12_b2",
+          "block_order": 2,
+          "block_type": "rounds",
+          "title": "Round 2",
+          "instructions": "1–2 + exit left/right. Move after every combination.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_12_b3",
+          "block_order": 3,
+          "block_type": "rounds",
+          "title": "Round 3",
+          "instructions": "Double jab + 2 + pivot. Reset stance after pivot.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_12_b4",
+          "block_order": 4,
+          "block_type": "rounds",
+          "title": "Round 4",
+          "instructions": "2–3 punches, move, repeat. No stationary volume dumping.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_12_b5",
+          "block_order": 5,
+          "block_type": "rounds",
+          "title": "Round 5",
+          "instructions": "Free movement + combinations. Technical output, not a max-effort finisher.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 0,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 120,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_box_13",
+      "name": "Boxing — 5-Minute Technical Reset",
+      "workout_family": "supplemental_boxing",
+      "primary_goal": null,
+      "stimulus": "technical_reset",
+      "secondary_goal": null,
+      "estimated_minutes": 5,
+      "intensity_target": "RPE 4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Boxing — 5-Minute Technical Reset",
+      "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "boxing",
+      "supplemental_load": "minimal",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 5,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last round; never shorten the round rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first two rounds only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_box_13_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Round 1",
+          "instructions": "Jab + movement. Relaxed.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 15,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 60,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_13_b2",
+          "block_order": 2,
+          "block_type": "rounds",
+          "title": "Round 2",
+          "instructions": "1–2 + exit. Clean mechanics.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 15,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 60,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_13_b3",
+          "block_order": 3,
+          "block_type": "rounds",
+          "title": "Round 3",
+          "instructions": "1–2, slip, 2. Small defensive movement.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 15,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 60,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_13_b4",
+          "block_order": 4,
+          "block_type": "rounds",
+          "title": "Round 4",
+          "instructions": "Free technical flow. Stop fresh.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 0,
+          "exercises": [
+            {
+              "exercise_id": "ex_shadowboxing",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 60,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sup_box_14",
+      "name": "Heavy Bag — 6-Minute Skill Touch",
+      "workout_family": "supplemental_boxing",
+      "primary_goal": null,
+      "stimulus": "bag_technique",
+      "secondary_goal": null,
+      "estimated_minutes": 6,
+      "intensity_target": "RPE 4",
+      "impact_level": "low",
+      "hyrox_specificity": 0.1,
+      "postpartum_friendly": true,
+      "requires_running": false,
+      "requires_ski": false,
+      "description": "Heavy Bag — 6-Minute Skill Touch",
+      "coaching_notes": "Supplemental boxing: technical quality first; never prescribed as high-load supplemental work.",
+      "training_domain": null,
+      "session_type": null,
+      "workout_role": "supplemental",
+      "supplemental_type": "boxing",
+      "supplemental_load": "low",
+      "tags": [],
+      "variants": [
+        {
+          "variant_code": "green",
+          "time_budget_minutes": 6,
+          "recovery_state": "good",
+          "volume_multiplier": 1,
+          "intensity_modifier": "full prescription"
+        },
+        {
+          "variant_code": "yellow",
+          "time_budget_minutes": 10,
+          "recovery_state": "okay",
+          "volume_multiplier": 0.65,
+          "intensity_modifier": "drop the last round; never shorten the round rest"
+        },
+        {
+          "variant_code": "red",
+          "time_budget_minutes": 8,
+          "recovery_state": "poor",
+          "volume_multiplier": 0.3,
+          "intensity_modifier": "the first two rounds only"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "sup_box_14_b1",
+          "block_order": 1,
+          "block_type": "rounds",
+          "title": "Round 1",
+          "instructions": "Jab / double jab. Light contact.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 90,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_14_b2",
+          "block_order": 2,
+          "block_type": "rounds",
+          "title": "Round 2",
+          "instructions": "1–2 + movement. Submaximal.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 30,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 90,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
+            }
+          ]
+        },
+        {
+          "id": "sup_box_14_b3",
+          "block_order": 3,
+          "block_type": "rounds",
+          "title": "Round 3",
+          "instructions": "Free 2–3 punch combinations. Technique only.",
+          "rounds": 1,
+          "duration_minutes": null,
+          "rest_seconds": 0,
+          "exercises": [
+            {
+              "exercise_id": "ex_boxing_bag",
+              "sequence_order": 1,
+              "prescription_type": "duration",
+              "quantity": 90,
+              "quantity_unit": "s",
+              "intensity_note": "RPE 4"
             }
           ]
         }

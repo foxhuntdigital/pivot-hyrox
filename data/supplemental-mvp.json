@@ -1,0 +1,1211 @@
+{
+ "meta": {
+  "pack": "PIVOT Supplemental MVP Pack v1",
+  "workout_count": 20,
+  "format": "canonical-v1",
+  "_type_ruling": "Authored as short_metcon/mobility/stretching, which are not in migration 0013's vocabulary. Product ruling 2026-09-01: short_metcon -> metcon, mobility and stretching -> recovery. No new enum value. The authored value is kept on each workout as authored_supplemental_type.",
+  "_routine_steps": "Mobility and stretch movements are ordinary content.exercises rows with an empty strength ontology (scripts/import-mobility-vocabulary.mjs), so block_exercises.exercise_id stays the single content reference model. No second persistence shape, and no invented progression metadata.",
+  "_emom": "An EMOM is rounds of one-minute work, which workout_blocks already expresses \u2014 wo_hyrox_density_emom_20 is the precedent. The minute clock is block structure; rounds are the authored minutes divided by the movement count, which divides exactly for all six. Nothing stays embedded in a dose string.",
+  "_derived": "workout_family, intensity_target, impact_level and hyrox_specificity were absent and are stated explicitly per supplemental_type rather than defaulted; the RPE targets come from the authoring notes (\"RPE cap 6\", \"stop well before failure\"). `stimulus` is the authored `focus`, verbatim.",
+  "default_description": "Optional supplemental work.",
+  "default_coaching_notes": "Optional. Skip it freely; nothing is pending if you do.",
+  "express_rule": "drop the last movement; never shorten the rest",
+  "micro_rule": "the first movement only"
+ },
+ "workouts": [
+  {
+   "id": "sup_core_01",
+   "name": "Core \u2014 Anti-Extension Reset",
+   "workout_family": "supplemental_core",
+   "stimulus": "anti_extension",
+   "secondary_goal": null,
+   "estimated_minutes": 8,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.2,
+   "workout_role": "supplemental",
+   "supplemental_type": "core",
+   "supplemental_load": "minimal",
+   "description": "Core \u2014 Anti-Extension Reset",
+   "coaching_notes": "",
+   "authored_supplemental_type": "core",
+   "authored_structure": "quality_rounds",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Quality over volume; stop well before failure."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_dead_bug",
+     "exercise": "Dead Bug",
+     "intensity": "RPE 5-6",
+     "authored_dose": "2 x 6/side",
+     "side_note": "Slow exhale; stop before trunk position changes.",
+     "prescription_type": "sets_reps",
+     "sets": 2,
+     "reps_min": 6,
+     "reps_max": 6,
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_bird_dog",
+     "exercise": "Bird Dog",
+     "intensity": "RPE 5-6",
+     "authored_dose": "2 x 6/side",
+     "side_note": "Controlled reach; no speed.",
+     "prescription_type": "sets_reps",
+     "sets": 2,
+     "reps_min": 6,
+     "reps_max": 6,
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_front_plank",
+     "exercise": "Front Plank",
+     "intensity": "RPE 5-6",
+     "authored_dose": "2 x 20-30 sec",
+     "side_note": "Leave reps/time in reserve.",
+     "prescription_type": "duration",
+     "quantity": 20,
+     "unit": "s",
+     "sets": 2
+    }
+   ]
+  },
+  {
+   "id": "sup_core_02",
+   "name": "Core \u2014 Anti-Rotation",
+   "workout_family": "supplemental_core",
+   "stimulus": "anti_rotation",
+   "secondary_goal": null,
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.2,
+   "workout_role": "supplemental",
+   "supplemental_type": "core",
+   "supplemental_load": "low",
+   "description": "Core \u2014 Anti-Rotation",
+   "coaching_notes": "",
+   "authored_supplemental_type": "core",
+   "authored_structure": "straight_sets",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Quality over volume; stop well before failure."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_pallof_press",
+     "exercise": "Pallof Press",
+     "intensity": "RPE 5-6",
+     "authored_dose": "2 x 8/side",
+     "side_note": "Controlled press and return.",
+     "prescription_type": "sets_reps",
+     "sets": 2,
+     "reps_min": 8,
+     "reps_max": 8,
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_side_plank",
+     "exercise": "Side Plank",
+     "intensity": "RPE 5-6",
+     "authored_dose": "2 x 20-30 sec/side",
+     "prescription_type": "duration",
+     "quantity": 20,
+     "unit": "s",
+     "sets": 2,
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_dead_bug",
+     "exercise": "Dead Bug",
+     "intensity": "RPE 5-6",
+     "authored_dose": "2 x 6/side",
+     "prescription_type": "sets_reps",
+     "sets": 2,
+     "reps_min": 6,
+     "reps_max": 6,
+     "per_side": "side"
+    }
+   ]
+  },
+  {
+   "id": "sup_core_03",
+   "name": "Core \u2014 Lateral Stability",
+   "workout_family": "supplemental_core",
+   "stimulus": "anti_lateral_flexion",
+   "secondary_goal": null,
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.2,
+   "workout_role": "supplemental",
+   "supplemental_type": "core",
+   "supplemental_load": "low",
+   "description": "Core \u2014 Lateral Stability",
+   "coaching_notes": "",
+   "authored_supplemental_type": "core",
+   "authored_structure": "straight_sets",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Quality over volume; stop well before failure."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_suitcase_carry",
+     "exercise": "Suitcase Carry",
+     "intensity": "RPE 5-6",
+     "authored_dose": "3 x 20-30 m/side",
+     "side_note": "Moderate load; posture stays tall.",
+     "prescription_type": "distance",
+     "quantity": 20,
+     "unit": "m",
+     "sets": 3,
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_side_plank",
+     "exercise": "Side Plank",
+     "intensity": "RPE 5-6",
+     "authored_dose": "2 x 25 sec/side",
+     "prescription_type": "duration",
+     "quantity": 25,
+     "unit": "s",
+     "sets": 2,
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_bird_dog",
+     "exercise": "Bird Dog",
+     "intensity": "RPE 5-6",
+     "authored_dose": "2 x 6/side",
+     "prescription_type": "sets_reps",
+     "sets": 2,
+     "reps_min": 6,
+     "reps_max": 6,
+     "per_side": "side"
+    }
+   ]
+  },
+  {
+   "id": "sup_core_04",
+   "name": "Core \u2014 Trunk Strength",
+   "workout_family": "supplemental_core",
+   "stimulus": "trunk_strength",
+   "secondary_goal": null,
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.2,
+   "workout_role": "supplemental",
+   "supplemental_type": "core",
+   "supplemental_load": "moderate",
+   "description": "Core \u2014 Trunk Strength",
+   "coaching_notes": "",
+   "authored_supplemental_type": "core",
+   "authored_structure": "straight_sets",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Quality over volume; stop well before failure."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_weighted_dead_bug",
+     "exercise": "Weighted Dead Bug",
+     "intensity": "RPE 5-6",
+     "authored_dose": "3 x 6/side",
+     "prescription_type": "sets_reps",
+     "sets": 3,
+     "reps_min": 6,
+     "reps_max": 6,
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_weighted_plank",
+     "exercise": "Weighted Plank",
+     "intensity": "RPE 5-6",
+     "authored_dose": "3 x 20-30 sec",
+     "prescription_type": "duration",
+     "quantity": 20,
+     "unit": "s",
+     "sets": 3
+    },
+    {
+     "exercise_id": "ex_pallof_press",
+     "exercise": "Pallof Press",
+     "intensity": "RPE 5-6",
+     "authored_dose": "3 x 8/side",
+     "prescription_type": "sets_reps",
+     "sets": 3,
+     "reps_min": 8,
+     "reps_max": 8,
+     "per_side": "side"
+    }
+   ]
+  },
+  {
+   "id": "sup_core_05",
+   "name": "Core \u2014 Athletic Stability",
+   "workout_family": "supplemental_core",
+   "stimulus": "integrated_stability",
+   "secondary_goal": null,
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.2,
+   "workout_role": "supplemental",
+   "supplemental_type": "core",
+   "supplemental_load": "low",
+   "description": "Core \u2014 Athletic Stability",
+   "coaching_notes": "",
+   "authored_supplemental_type": "core",
+   "authored_structure": "quality_rounds",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Quality over volume; stop well before failure."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_bear_plank_shoulder_tap",
+     "exercise": "Bear Plank Shoulder Tap",
+     "intensity": "RPE 5-6",
+     "authored_dose": "2 x 8/side",
+     "prescription_type": "sets_reps",
+     "sets": 2,
+     "reps_min": 8,
+     "reps_max": 8,
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_copenhagen_plank",
+     "exercise": "Copenhagen Plank",
+     "intensity": "RPE 5-6",
+     "authored_dose": "2 x 15-20 sec/side",
+     "prescription_type": "duration",
+     "quantity": 15,
+     "unit": "s",
+     "sets": 2,
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_hollow_hold",
+     "exercise": "Hollow Hold",
+     "intensity": "RPE 5-6",
+     "authored_dose": "2 x 20 sec",
+     "prescription_type": "duration",
+     "quantity": 20,
+     "unit": "s",
+     "sets": 2
+    }
+   ]
+  },
+  {
+   "id": "sup_core_06",
+   "name": "Core \u2014 Dynamic Trunk",
+   "workout_family": "supplemental_core",
+   "stimulus": "dynamic_trunk",
+   "secondary_goal": null,
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.2,
+   "workout_role": "supplemental",
+   "supplemental_type": "core",
+   "supplemental_load": "moderate",
+   "description": "Core \u2014 Dynamic Trunk",
+   "coaching_notes": "",
+   "authored_supplemental_type": "core",
+   "authored_structure": "straight_sets",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Quality over volume; stop well before failure."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_reverse_crunch",
+     "exercise": "Reverse Crunch",
+     "intensity": "RPE 5-6",
+     "authored_dose": "3 x 10",
+     "prescription_type": "sets_reps",
+     "sets": 3,
+     "reps_min": 10,
+     "reps_max": 10
+    },
+    {
+     "exercise_id": "ex_hollow_rock",
+     "exercise": "Hollow Rock",
+     "intensity": "RPE 5-6",
+     "authored_dose": "3 x 8-12",
+     "prescription_type": "sets_reps",
+     "sets": 3,
+     "reps_min": 8,
+     "reps_max": 12
+    },
+    {
+     "exercise_id": "ex_plank_db_drag",
+     "exercise": "Plank DB Drag",
+     "intensity": "RPE 5-6",
+     "authored_dose": "3 x 6/side",
+     "prescription_type": "sets_reps",
+     "sets": 3,
+     "reps_min": 6,
+     "reps_max": 6,
+     "per_side": "side"
+    }
+   ]
+  },
+  {
+   "id": "sup_metcon_01",
+   "name": "8-Minute DB EMOM",
+   "workout_family": "supplemental_metcon",
+   "stimulus": "general_conditioning",
+   "secondary_goal": null,
+   "estimated_minutes": 8,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.3,
+   "workout_role": "supplemental",
+   "supplemental_type": "metcon",
+   "supplemental_load": "moderate",
+   "description": "8-Minute DB EMOM",
+   "coaching_notes": "",
+   "authored_supplemental_type": "short_metcon",
+   "authored_structure": "emom",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 4,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "One movement per minute, in order."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_goblet_squat",
+     "exercise": "Goblet Squat",
+     "intensity": "RPE 6",
+     "authored_dose": "Min 1: 8 reps",
+     "side_note": "RPE cap 6.",
+     "prescription_type": "reps",
+     "quantity": 8,
+     "unit": "reps"
+    },
+    {
+     "exercise_id": "ex_push_up",
+     "exercise": "Push-Up",
+     "intensity": "RPE 6",
+     "authored_dose": "Min 2: 6-10 reps",
+     "side_note": "Stop well before failure.",
+     "prescription_type": "reps",
+     "quantity": 6,
+     "unit": "reps"
+    }
+   ]
+  },
+  {
+   "id": "sup_metcon_02",
+   "name": "10-Minute Carry EMOM",
+   "workout_family": "supplemental_metcon",
+   "stimulus": "loaded_carry_conditioning",
+   "secondary_goal": null,
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.3,
+   "workout_role": "supplemental",
+   "supplemental_type": "metcon",
+   "supplemental_load": "low",
+   "description": "10-Minute Carry EMOM",
+   "coaching_notes": "",
+   "authored_supplemental_type": "short_metcon",
+   "authored_structure": "emom",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 5,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "One movement per minute, in order."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_farmer_carry",
+     "exercise": "Farmer Carry",
+     "intensity": "RPE 6",
+     "authored_dose": "Odd min: 30-40 m",
+     "side_note": "Easy-moderate load.",
+     "prescription_type": "distance",
+     "quantity": 30,
+     "unit": "m"
+    },
+    {
+     "exercise_id": "ex_dead_bug",
+     "exercise": "Dead Bug",
+     "intensity": "RPE 6",
+     "authored_dose": "Even min: 6/side",
+     "side_note": "Controlled.",
+     "prescription_type": "reps",
+     "quantity": 6,
+     "unit": "reps",
+     "per_side": "side"
+    }
+   ]
+  },
+  {
+   "id": "sup_metcon_03",
+   "name": "9-Minute Step + Row EMOM",
+   "workout_family": "supplemental_metcon",
+   "stimulus": "mixed_conditioning",
+   "secondary_goal": null,
+   "estimated_minutes": 9,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.3,
+   "workout_role": "supplemental",
+   "supplemental_type": "metcon",
+   "supplemental_load": "moderate",
+   "description": "9-Minute Step + Row EMOM",
+   "coaching_notes": "",
+   "authored_supplemental_type": "short_metcon",
+   "authored_structure": "emom",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 3,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "One movement per minute, in order."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_step_up",
+     "exercise": "Step-Up",
+     "intensity": "RPE 6",
+     "authored_dose": "Min 1: 8/side",
+     "side_note": "Smooth pace.",
+     "prescription_type": "reps",
+     "quantity": 8,
+     "unit": "reps",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_db_row",
+     "exercise": "DB Row",
+     "intensity": "RPE 6",
+     "authored_dose": "Min 2: 8/side",
+     "prescription_type": "reps",
+     "quantity": 8,
+     "unit": "reps",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_front_plank",
+     "exercise": "Front Plank",
+     "intensity": "RPE 6",
+     "authored_dose": "Min 3: 25 sec",
+     "prescription_type": "duration",
+     "quantity": 25,
+     "unit": "s"
+    }
+   ]
+  },
+  {
+   "id": "sup_metcon_04",
+   "name": "8-Minute Kettlebell EMOM",
+   "workout_family": "supplemental_metcon",
+   "stimulus": "hinge_conditioning",
+   "secondary_goal": null,
+   "estimated_minutes": 8,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.3,
+   "workout_role": "supplemental",
+   "supplemental_type": "metcon",
+   "supplemental_load": "moderate",
+   "description": "8-Minute Kettlebell EMOM",
+   "coaching_notes": "",
+   "authored_supplemental_type": "short_metcon",
+   "authored_structure": "emom",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 4,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "One movement per minute, in order."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_kettlebell_swing",
+     "exercise": "Kettlebell Swing",
+     "intensity": "RPE 6",
+     "authored_dose": "Odd min: 10 reps",
+     "side_note": "Crisp reps; RPE cap 6.",
+     "prescription_type": "reps",
+     "quantity": 10,
+     "unit": "reps"
+    },
+    {
+     "exercise_id": "ex_goblet_squat",
+     "exercise": "Goblet Squat",
+     "intensity": "RPE 6",
+     "authored_dose": "Even min: 6 reps",
+     "side_note": "No grinding.",
+     "prescription_type": "reps",
+     "quantity": 6,
+     "unit": "reps"
+    }
+   ]
+  },
+  {
+   "id": "sup_metcon_05",
+   "name": "10-Minute Bodyweight EMOM",
+   "workout_family": "supplemental_metcon",
+   "stimulus": "bodyweight_conditioning",
+   "secondary_goal": null,
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.3,
+   "workout_role": "supplemental",
+   "supplemental_type": "metcon",
+   "supplemental_load": "low",
+   "description": "10-Minute Bodyweight EMOM",
+   "coaching_notes": "",
+   "authored_supplemental_type": "short_metcon",
+   "authored_structure": "emom",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 5,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "One movement per minute, in order."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_reverse_lunge",
+     "exercise": "Reverse Lunge",
+     "intensity": "RPE 6",
+     "authored_dose": "Odd min: 6/side",
+     "prescription_type": "reps",
+     "quantity": 6,
+     "unit": "reps",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_push_up",
+     "exercise": "Push-Up",
+     "intensity": "RPE 6",
+     "authored_dose": "Even min: 6-10 reps",
+     "side_note": "Leave 3+ reps in reserve.",
+     "prescription_type": "reps",
+     "quantity": 6,
+     "unit": "reps"
+    }
+   ]
+  },
+  {
+   "id": "sup_metcon_06",
+   "name": "9-Minute Carry + Crawl",
+   "workout_family": "supplemental_metcon",
+   "stimulus": "integrated_conditioning",
+   "secondary_goal": null,
+   "estimated_minutes": 9,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.3,
+   "workout_role": "supplemental",
+   "supplemental_type": "metcon",
+   "supplemental_load": "moderate",
+   "description": "9-Minute Carry + Crawl",
+   "coaching_notes": "",
+   "authored_supplemental_type": "short_metcon",
+   "authored_structure": "emom",
+   "block": {
+    "block_type": "rounds",
+    "rounds": 3,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "One movement per minute, in order."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_suitcase_carry",
+     "exercise": "Suitcase Carry",
+     "intensity": "RPE 6",
+     "authored_dose": "Min 1: 20 m/side",
+     "prescription_type": "distance",
+     "quantity": 20,
+     "unit": "m",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_bear_crawl",
+     "exercise": "Bear Crawl",
+     "intensity": "RPE 6",
+     "authored_dose": "Min 2: 15-20 m",
+     "prescription_type": "distance",
+     "quantity": 15,
+     "unit": "m"
+    },
+    {
+     "exercise_id": "ex_goblet_squat",
+     "exercise": "Goblet Squat",
+     "intensity": "RPE 6",
+     "authored_dose": "Min 3: 6 reps",
+     "prescription_type": "reps",
+     "quantity": 6,
+     "unit": "reps"
+    }
+   ]
+  },
+  {
+   "id": "sup_mobility_01",
+   "name": "Mobility \u2014 Hips + Ankles",
+   "workout_family": "supplemental_recovery",
+   "stimulus": "lower_body_mobility",
+   "secondary_goal": null,
+   "estimated_minutes": 8,
+   "intensity_target": "RPE 3",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "recovery",
+   "supplemental_load": "minimal",
+   "description": "Mobility \u2014 Hips + Ankles",
+   "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+   "authored_supplemental_type": "mobility",
+   "authored_structure": "guided_timed_routine",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Move through in order, holding each position."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_90_90_hip_switch",
+     "exercise": "90/90 Hip Switch",
+     "prescription_type": "duration",
+     "quantity": 60,
+     "unit": "s",
+     "intensity": "RPE 3"
+    },
+    {
+     "exercise_id": "ex_half_kneeling_hip_flexor_mobilization",
+     "exercise": "Half-Kneeling Hip Flexor Mobilization",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_adductor_rock_back",
+     "exercise": "Adductor Rock-Back",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_knee_to_wall_ankle_mobilization",
+     "exercise": "Knee-to-Wall Ankle Mobilization",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    }
+   ]
+  },
+  {
+   "id": "sup_mobility_02",
+   "name": "Mobility \u2014 T-Spine + Shoulders",
+   "workout_family": "supplemental_recovery",
+   "stimulus": "upper_body_mobility",
+   "secondary_goal": null,
+   "estimated_minutes": 8,
+   "intensity_target": "RPE 3",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "recovery",
+   "supplemental_load": "minimal",
+   "description": "Mobility \u2014 T-Spine + Shoulders",
+   "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+   "authored_supplemental_type": "mobility",
+   "authored_structure": "guided_timed_routine",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Move through in order, holding each position."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_cat_cow",
+     "exercise": "Cat-Cow",
+     "prescription_type": "duration",
+     "quantity": 60,
+     "unit": "s",
+     "intensity": "RPE 3"
+    },
+    {
+     "exercise_id": "ex_open_book_rotation",
+     "exercise": "Open Book Rotation",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_thread_the_needle",
+     "exercise": "Thread-the-Needle",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_wall_slide",
+     "exercise": "Wall Slide",
+     "prescription_type": "duration",
+     "quantity": 60,
+     "unit": "s",
+     "intensity": "RPE 3"
+    }
+   ]
+  },
+  {
+   "id": "sup_mobility_03",
+   "name": "Mobility \u2014 Full-Body Reset",
+   "workout_family": "supplemental_recovery",
+   "stimulus": "full_body_mobility",
+   "secondary_goal": null,
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 3",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "recovery",
+   "supplemental_load": "minimal",
+   "description": "Mobility \u2014 Full-Body Reset",
+   "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+   "authored_supplemental_type": "mobility",
+   "authored_structure": "guided_timed_routine",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Move through in order, holding each position."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_world_s_greatest_stretch",
+     "exercise": "World's Greatest Stretch",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_90_90_hip_switch",
+     "exercise": "90/90 Hip Switch",
+     "prescription_type": "duration",
+     "quantity": 60,
+     "unit": "s",
+     "intensity": "RPE 3"
+    },
+    {
+     "exercise_id": "ex_open_book_rotation",
+     "exercise": "Open Book Rotation",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_deep_squat_pry",
+     "exercise": "Deep Squat Pry",
+     "prescription_type": "duration",
+     "quantity": 60,
+     "unit": "s",
+     "intensity": "RPE 3"
+    },
+    {
+     "exercise_id": "ex_wall_slide",
+     "exercise": "Wall Slide",
+     "prescription_type": "duration",
+     "quantity": 60,
+     "unit": "s",
+     "intensity": "RPE 3"
+    }
+   ]
+  },
+  {
+   "id": "sup_mobility_04",
+   "name": "Mobility \u2014 Post-Run",
+   "workout_family": "supplemental_recovery",
+   "stimulus": "post_run_mobility",
+   "secondary_goal": null,
+   "estimated_minutes": 8,
+   "intensity_target": "RPE 3",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "recovery",
+   "supplemental_load": "minimal",
+   "description": "Mobility \u2014 Post-Run",
+   "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+   "authored_supplemental_type": "mobility",
+   "authored_structure": "guided_timed_routine",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Move through in order, holding each position."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_half_kneeling_hip_flexor_mobilization",
+     "exercise": "Half-Kneeling Hip Flexor Mobilization",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_calf_stretch",
+     "exercise": "Calf Stretch",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_hamstring_stretch",
+     "exercise": "Hamstring Stretch",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_adductor_rock_back",
+     "exercise": "Adductor Rock-Back",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    }
+   ]
+  },
+  {
+   "id": "sup_stretch_01",
+   "name": "Stretch \u2014 Full-Body Downshift",
+   "workout_family": "supplemental_recovery",
+   "stimulus": "general_stretching",
+   "secondary_goal": null,
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 3",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "recovery",
+   "supplemental_load": "minimal",
+   "description": "Stretch \u2014 Full-Body Downshift",
+   "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+   "authored_supplemental_type": "stretching",
+   "authored_structure": "guided_timed_routine",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Move through in order, holding each position."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_child_s_pose",
+     "exercise": "Child's Pose",
+     "prescription_type": "duration",
+     "quantity": 60,
+     "unit": "s",
+     "intensity": "RPE 3"
+    },
+    {
+     "exercise_id": "ex_hip_flexor_stretch",
+     "exercise": "Hip Flexor Stretch",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_hamstring_stretch",
+     "exercise": "Hamstring Stretch",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_figure_4_glute_stretch",
+     "exercise": "Figure-4 Glute Stretch",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_doorway_pec_stretch",
+     "exercise": "Doorway Pec Stretch",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    }
+   ]
+  },
+  {
+   "id": "sup_stretch_02",
+   "name": "Stretch \u2014 Lower Body",
+   "workout_family": "supplemental_recovery",
+   "stimulus": "lower_body_stretching",
+   "secondary_goal": null,
+   "estimated_minutes": 8,
+   "intensity_target": "RPE 3",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "recovery",
+   "supplemental_load": "minimal",
+   "description": "Stretch \u2014 Lower Body",
+   "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+   "authored_supplemental_type": "stretching",
+   "authored_structure": "guided_timed_routine",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Move through in order, holding each position."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_hip_flexor_stretch",
+     "exercise": "Hip Flexor Stretch",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_hamstring_stretch",
+     "exercise": "Hamstring Stretch",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_figure_4_glute_stretch",
+     "exercise": "Figure-4 Glute Stretch",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_calf_stretch",
+     "exercise": "Calf Stretch",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    }
+   ]
+  },
+  {
+   "id": "sup_stretch_03",
+   "name": "Stretch \u2014 Upper Body",
+   "workout_family": "supplemental_recovery",
+   "stimulus": "upper_body_stretching",
+   "secondary_goal": null,
+   "estimated_minutes": 8,
+   "intensity_target": "RPE 3",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "recovery",
+   "supplemental_load": "minimal",
+   "description": "Stretch \u2014 Upper Body",
+   "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+   "authored_supplemental_type": "stretching",
+   "authored_structure": "guided_timed_routine",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Move through in order, holding each position."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_doorway_pec_stretch",
+     "exercise": "Doorway Pec Stretch",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_lat_stretch",
+     "exercise": "Lat Stretch",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_cross_body_shoulder_stretch",
+     "exercise": "Cross-Body Shoulder Stretch",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_child_s_pose",
+     "exercise": "Child's Pose",
+     "prescription_type": "duration",
+     "quantity": 60,
+     "unit": "s",
+     "intensity": "RPE 3"
+    }
+   ]
+  },
+  {
+   "id": "sup_stretch_04",
+   "name": "Stretch \u2014 Short Downshift",
+   "workout_family": "supplemental_recovery",
+   "stimulus": "general_stretching",
+   "secondary_goal": null,
+   "estimated_minutes": 5,
+   "intensity_target": "RPE 3",
+   "impact_level": "low",
+   "hyrox_specificity": 0.1,
+   "workout_role": "supplemental",
+   "supplemental_type": "recovery",
+   "supplemental_load": "minimal",
+   "description": "Stretch \u2014 Short Downshift",
+   "coaching_notes": "Routine-step content; intentionally not mapped to strength exercise vocabulary.",
+   "authored_supplemental_type": "stretching",
+   "authored_structure": "guided_timed_routine",
+   "block": {
+    "block_type": "continuous",
+    "rounds": null,
+    "duration_minutes": null,
+    "rest_seconds": null,
+    "title": "Main",
+    "instructions": "Move through in order, holding each position."
+   },
+   "items": [
+    {
+     "exercise_id": "ex_child_s_pose",
+     "exercise": "Child's Pose",
+     "prescription_type": "duration",
+     "quantity": 45,
+     "unit": "s",
+     "intensity": "RPE 3"
+    },
+    {
+     "exercise_id": "ex_hip_flexor_stretch",
+     "exercise": "Hip Flexor Stretch",
+     "prescription_type": "duration",
+     "quantity": 30,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_hamstring_stretch",
+     "exercise": "Hamstring Stretch",
+     "prescription_type": "duration",
+     "quantity": 30,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    },
+    {
+     "exercise_id": "ex_doorway_pec_stretch",
+     "exercise": "Doorway Pec Stretch",
+     "prescription_type": "duration",
+     "quantity": 30,
+     "unit": "s",
+     "intensity": "RPE 3",
+     "per_side": "side"
+    }
+   ]
+  }
+ ]
+}
