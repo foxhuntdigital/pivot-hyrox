@@ -34,10 +34,34 @@ drift between server and client because there is only one implementation.
 
 ```bash
 npm install
-npm test                  # engine suite (33 tests)
+npm test                  # every suite Node can run (447 tests)
+npm run ci                # the build gate: adds Deno, and the expected-failure contract
 npm run db:verify         # applies migrations + seed to a scratch Postgres
 npm run mobile            # Expo dev server
 ```
+
+### The build gate
+
+`npm run ci` is what decides whether the build is green, and it is not `npm
+test`. It adds the two Deno steps `npm test` deliberately omits — the Edge
+Functions are Deno and nothing else type-checks them — and it can tell a known
+coverage gap from a new break.
+
+Nine tests fail today. They are not regressions: they are coverage floors the
+content library does not yet meet, exposed when ENGINE 2.0.0 stopped counting
+mislabelled sessions toward goals they never trained. They are enumerated in
+`expected-failures.json` with the content that would close each one, and the
+build is green only while that list is exactly right:
+
+```
+438 pass / 9 expected fail / 0 unexpected fail
+```
+
+A listed test that starts passing fails the build, so resolved debt has to be
+deleted from the file rather than accumulating as an exception nobody can tell
+from a live one. A listed id that no longer exists fails the build too — a
+renamed test carries no exception. The summary never just says "green", because
+a passing build here is not a complete one.
 
 `db:verify` needs a local Postgres on the default socket. It creates a
 throwaway database, stubs the Supabase `auth` schema, applies every migration

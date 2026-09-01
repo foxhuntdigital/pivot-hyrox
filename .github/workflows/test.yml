@@ -1,0 +1,45 @@
+# The build gate.
+#
+# Runs scripts/ci.mjs rather than `npm test`, for two reasons. `npm test`
+# deliberately omits the Deno type-check and the Deno tests — the Edge Functions
+# are Deno and nothing else compiles them — and it cannot tell a known coverage
+# gap from a new break. Nine tests fail today because the content library does
+# not yet meet its own floors; they are enumerated in expected-failures.json,
+# and the build is green only while that list is exactly right.
+#
+# The summary reports "N pass / M expected fail / K unexpected fail", so a
+# passing build is never mistaken for a complete one.
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Type stripping and the test reporter API. The engine runs unbuilt
+          # from its own .ts sources, which is the whole reason there is no
+          # build step to break.
+          node-version: '24'
+          cache: npm
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - run: npm ci
+
+      - name: tests, type-checks and the expected-failure contract
+        run: node scripts/ci.mjs
+
+      # The app is not in scripts/ci.mjs because it has no tests of its own to
+      # report per-test — tsc either compiles it or does not.
+      - name: mobile type-check
+        run: npx tsc --noEmit -p apps/mobile/tsconfig.json

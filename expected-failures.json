@@ -1,0 +1,68 @@
+{
+ "note": "Tests that fail today and are not regressions. Each is a coverage floor the content library does not yet meet, exposed deliberately when ENGINE 2.0.0 stopped counting mislabelled sessions toward the goals they never trained.",
+ "contract": [
+  "Every test not listed here must pass.",
+  "A listed test that fails is expected, and is reported as open debt rather than hidden.",
+  "A listed test that PASSES fails the build. Resolved debt is removed from this file, or the list becomes a graveyard of exceptions nobody can tell from live ones.",
+  "A listed id that no longer exists fails the build. A renamed test carries no exception.",
+  "Growth is visible in review: this is a file in the repo and an addition is a diff someone has to approve."
+ ],
+ "kind_note": "Every entry is content_debt \u2014 a gap in the library, with a stated condition that closes it. Nothing here is test debt. An exception that cannot name the content that would remove it is an escape hatch, and does not belong in this file.",
+ "enforced_by": "scripts/ci.mjs, run by .github/workflows/test.yml",
+ "expected_failures": [
+  {
+   "id": "packages/engine/src/coverage.test.ts :: dumbbell-only coverage (expansion spec, QA acceptance test) > db \u00b7 good recovery \u00b7 threshold \u00b7 6+ sessions at every time budget",
+   "kind": "content_debt",
+   "reason": "threshold coverage, db profile, good and okay recovery",
+   "removed_when": "Six distinct threshold sessions are reachable with dumbbells and nothing else. Today there are four: the rest of the threshold library needs an erg, a treadmill or somewhere to run. Authoring two dumbbell-reachable threshold sessions closes both cells."
+  },
+  {
+   "id": "packages/engine/src/coverage.test.ts :: dumbbell-only coverage (expansion spec, QA acceptance test) > db \u00b7 okay recovery \u00b7 threshold \u00b7 6+ sessions at every time budget",
+   "kind": "content_debt",
+   "reason": "threshold coverage, db profile, good and okay recovery",
+   "removed_when": "Six distinct threshold sessions are reachable with dumbbells and nothing else. Today there are four: the rest of the threshold library needs an erg, a treadmill or somewhere to run. Authoring two dumbbell-reachable threshold sessions closes both cells."
+  },
+  {
+   "id": "packages/engine/src/coverage.test.ts :: dumbbell-only coverage (expansion spec, QA acceptance test) > db \u00b7 good recovery \u00b7 recovery \u00b7 3+ sessions at every time budget",
+   "kind": "content_debt",
+   "reason": "recovery coverage, db and db+outdoor profiles, all readiness states",
+   "removed_when": "Three distinct sessions in the recovery domain are reachable without running equipment (two at poor recovery). The library has four recovery-domain templates and a dumbbell athlete reaches none of them; db+outdoor reaches two. The eight mobility and stretch supplementals added in Phase 6 are the right shape but are supplemental, and supplementals are deliberately excluded from planner coverage. Recovery-domain PRIMARY sessions need authoring."
+  },
+  {
+   "id": "packages/engine/src/coverage.test.ts :: dumbbell-only coverage (expansion spec, QA acceptance test) > db \u00b7 okay recovery \u00b7 recovery \u00b7 3+ sessions at every time budget",
+   "kind": "content_debt",
+   "reason": "recovery coverage, db and db+outdoor profiles, all readiness states",
+   "removed_when": "Three distinct sessions in the recovery domain are reachable without running equipment (two at poor recovery). The library has four recovery-domain templates and a dumbbell athlete reaches none of them; db+outdoor reaches two. The eight mobility and stretch supplementals added in Phase 6 are the right shape but are supplemental, and supplementals are deliberately excluded from planner coverage. Recovery-domain PRIMARY sessions need authoring."
+  },
+  {
+   "id": "packages/engine/src/coverage.test.ts :: dumbbell-only coverage (expansion spec, QA acceptance test) > db \u00b7 poor recovery \u00b7 recovery \u00b7 2+ sessions at every time budget",
+   "kind": "content_debt",
+   "reason": "recovery coverage, db and db+outdoor profiles, all readiness states",
+   "removed_when": "Three distinct sessions in the recovery domain are reachable without running equipment (two at poor recovery). The library has four recovery-domain templates and a dumbbell athlete reaches none of them; db+outdoor reaches two. The eight mobility and stretch supplementals added in Phase 6 are the right shape but are supplemental, and supplementals are deliberately excluded from planner coverage. Recovery-domain PRIMARY sessions need authoring."
+  },
+  {
+   "id": "packages/engine/src/coverage.test.ts :: dumbbell-only coverage (expansion spec, QA acceptance test) > db + outdoor \u00b7 good recovery \u00b7 recovery \u00b7 3+ sessions at every time budget",
+   "kind": "content_debt",
+   "reason": "recovery coverage, db and db+outdoor profiles, all readiness states",
+   "removed_when": "Three distinct sessions in the recovery domain are reachable without running equipment (two at poor recovery). The library has four recovery-domain templates and a dumbbell athlete reaches none of them; db+outdoor reaches two. The eight mobility and stretch supplementals added in Phase 6 are the right shape but are supplemental, and supplementals are deliberately excluded from planner coverage. Recovery-domain PRIMARY sessions need authoring."
+  },
+  {
+   "id": "packages/engine/src/coverage.test.ts :: dumbbell-only coverage (expansion spec, QA acceptance test) > db + outdoor \u00b7 okay recovery \u00b7 recovery \u00b7 3+ sessions at every time budget",
+   "kind": "content_debt",
+   "reason": "recovery coverage, db and db+outdoor profiles, all readiness states",
+   "removed_when": "Three distinct sessions in the recovery domain are reachable without running equipment (two at poor recovery). The library has four recovery-domain templates and a dumbbell athlete reaches none of them; db+outdoor reaches two. The eight mobility and stretch supplementals added in Phase 6 are the right shape but are supplemental, and supplementals are deliberately excluded from planner coverage. Recovery-domain PRIMARY sessions need authoring."
+  },
+  {
+   "id": "packages/engine/src/coverage.test.ts :: dumbbell-only coverage (expansion spec, QA acceptance test) > db + outdoor \u00b7 poor recovery \u00b7 recovery \u00b7 2+ sessions at every time budget",
+   "kind": "content_debt",
+   "reason": "recovery coverage, db and db+outdoor profiles, all readiness states",
+   "removed_when": "Three distinct sessions in the recovery domain are reachable without running equipment (two at poor recovery). The library has four recovery-domain templates and a dumbbell athlete reaches none of them; db+outdoor reaches two. The eight mobility and stretch supplementals added in Phase 6 are the right shape but are supplemental, and supplementals are deliberately excluded from planner coverage. Recovery-domain PRIMARY sessions need authoring."
+  },
+  {
+   "id": "packages/engine/src/coverage.test.ts :: dumbbell-only coverage (expansion spec, QA acceptance test) > every training phase offers candidates, taper included",
+   "kind": "content_debt",
+   "reason": "taper phase offers no candidates for at least one goal",
+   "removed_when": "Every planner goal has at least one eligible candidate during taper. Taper narrows to the recovery, micro, run_quality and ski_quality families (PRD 9.4), and those four families do not currently cover all five goals. Overlaps with the recovery debt above: a taper-eligible recovery session would likely close both."
+  }
+ ]
+}
