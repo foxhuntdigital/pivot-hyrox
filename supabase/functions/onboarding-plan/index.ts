@@ -381,6 +381,12 @@ async function planFirstWeek(
         considerations: body?.profile?.considerations ?? [],
         candidates: content.candidates,
         substitutions: content.substitutions,
+        // No preferences and no capability needs, and both absences are correct
+        // rather than pending. A first plan is built for an athlete with no
+        // completed sessions, so there is no evidence any deficit could be read
+        // from; and onboarding does not yet ask what they like, which is the
+        // step that would populate the other. When it does, it will arrive in
+        // `body` like everything else here — this function loads no state.
       },
     });
   } catch (e) {

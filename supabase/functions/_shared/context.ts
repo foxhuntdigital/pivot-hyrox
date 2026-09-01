@@ -9,6 +9,7 @@ import { createClient, type SupabaseClient } from 'jsr:@supabase/supabase-js@2';
 import type {
   CompletedSession, Exercise, StimulusRequirement, Substitution, WorkoutTemplate,
 } from '../../../packages/engine/src/index.ts';
+import { capabilityState } from './evidence.ts';
 
 export function corsHeaders(origin: string | null) {
   return {
@@ -204,7 +205,8 @@ export async function requireEntitlement(db: SupabaseClient, userId: string): Pr
 
 /** Everything about the athlete the engine needs, in one round of queries. */
 export async function loadAthleteState(db: SupabaseClient, userId: string, today: string) {
-  const [profileRes, raceRes, programRes, checkinRes, sessionsRes, equipRes] = await Promise.all([
+  const [profileRes, raceRes, programRes, checkinRes, sessionsRes, equipRes,
+    prefRes, evidenceRes] = await Promise.all([
     db.from('athlete_profiles').select('*').eq('user_id', userId).maybeSingle(),
     db.from('races').select('*').eq('user_id', userId).eq('status', 'active').maybeSingle(),
     db.from('programs')
@@ -222,6 +224,14 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
     db.from('equipment_profiles')
       .select('id, is_default, equipment_profile_items(equipment_id)')
       .eq('user_id', userId),
+    db.from('athlete_preferences')
+      .select('modality_or_domain, rating').eq('user_id', userId),
+    // Append-only, so the whole log is the input: `capabilityState` needs the
+    // run of rows to decide whether anything has been shown twice.
+    db.from('athlete_capability_evidence')
+      .select('capability_key, direction, magnitude_band, confidence_band, created_at')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false }).limit(200),
   ]);
 
   const profile = profileRes.data;
@@ -336,11 +346,46 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
 
   const queue = (currentCycle?.session_queue_items ?? []) as { state: string }[];
 
+  /**
+   * Stated preferences, split into the two lists the engine scores with.
+   *
+   * `neutral` is not an opinion and produces nothing; `love` and `like` both
+   * reward, because the engine's preference dimension is a nudge and grading it
+   * finer than "yes" would imply a precision the athlete never expressed.
+   */
+  const prefs = prefRes.data ?? [];
+  const preferred_families = prefs
+    .filter((p: any) => p.rating === 'love' || p.rating === 'like')
+    .map((p: any) => p.modality_or_domain);
+  const avoided_families = prefs
+    .filter((p: any) => p.rating === 'rather_not')
+    .map((p: any) => p.modality_or_domain);
+
+  /**
+   * Demonstrated deficits, as demand the planner can score with.
+   *
+   * `capabilityState` is what makes this safe to act on: it reports a direction
+   * only where repeated comparable evidence agrees, so a single bad session
+   * cannot create a need. Only `negative` becomes demand — a capability that is
+   * improving needs no extra priority, and one that is holding is not a deficit.
+   */
+  const capability_needs: Record<string, number> = {};
+  const MAGNITUDE: Record<string, number> = { small: 0.3, moderate: 0.6, large: 1 };
+  const CONFIDENCE: Record<string, number> = { low: 0.5, medium: 0.75, high: 1 };
+  for (const state of capabilityState((evidenceRes.data ?? []) as any)) {
+    if (state.direction !== 'negative') continue;
+    const rows = (evidenceRes.data ?? []).filter((r: any) =>
+      r.capability_key === state.capability_key && r.direction === 'negative');
+    const magnitude = Math.max(...rows.map((r: any) => MAGNITUDE[r.magnitude_band] ?? 0.3));
+    capability_needs[state.capability_key] = magnitude * (CONFIDENCE[state.confidence] ?? 0.5);
+  }
+
   return {
     profile, race, daysToRace, currentPhase, currentCycle, checkin, checkins, queue,
     stimulus_requirements, recent_sessions, available_equipment,
     phaseSequence, programTotalWeeks, programWeek, weekInPhase, weekStart, weekEnd,
     completed_this_week, sessionRows,
+    preferred_families, avoided_families, capability_needs,
   };
 }
 

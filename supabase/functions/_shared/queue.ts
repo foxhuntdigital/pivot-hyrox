@@ -7,7 +7,7 @@
  * one definition of what may be moved and one of what may not.
  */
 import {
-  checkEligibility,
+  checkEligibility, matchesStimulus,
   type EngineInput, type Exercise, type WorkoutTemplate,
 } from '../../../packages/engine/src/index.ts';
 import { HttpError } from './context.ts';
@@ -139,9 +139,18 @@ export function planWeekQueue(args: {
   const eligible = templates.filter(
     t => checkEligibility(t, planningInput, exerciseIndex, 'okay').eligible);
 
-  /** Candidates for one stimulus, most race-specific first. */
+  /**
+   * Candidates for one stimulus, most race-specific first.
+   *
+   * Uses the engine's own matcher rather than comparing `primary_goal` itself.
+   * The two had drifted into being separate implementations of the same
+   * question: after ENGINE 2.0.0 moved `matchesStimulus` onto `training_domain`,
+   * this would have gone on queueing the week from what sessions were CALLED
+   * while today's decision scored them by what they ARE. The week and the day
+   * would have disagreed about what counts as a strength session.
+   */
   const poolFor = (stimulus: string) => eligible
-    .filter(t => t.primary_goal === stimulus)
+    .filter(t => matchesStimulus(t, stimulus))
     .sort((a, b) =>
       (b.hyrox_specificity ?? 0) - (a.hyrox_specificity ?? 0) ||
       a.id.localeCompare(b.id));

@@ -16,7 +16,13 @@ import {
 import { score } from './rank.ts';
 import { transformBlocks, preservesPrimaryStimulus } from './transform.ts';
 
-export const ENGINE_VERSION = '1.0.0';
+/**
+ * 2.0.0: `capability_need` joins the scoring dimensions and every weight is
+ * re-balanced around it, so a score from this version is not comparable with
+ * one from 1.x. `adaptation_events` replay reads this to know which rules
+ * produced a recommendation.
+ */
+export const ENGINE_VERSION = '2.0.0';
 
 export * from './types.ts';
 export * from './guardrails.ts';

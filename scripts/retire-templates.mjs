@@ -66,6 +66,22 @@ if (widening) {
 
 // ── Rows ─────────────────────────────────────────────────────────────────────
 
+/**
+ * Where this script's two columns live, found by NAME rather than by counting
+ * back from the end of the row.
+ *
+ * apply-classification.mjs located its own two columns positionally and held
+ * until these two were appended after them, at which point it wrote the
+ * classification into `status` and un-retired four templates. Sharing a table
+ * means never assuming which end of it you are on.
+ */
+const columns = create[1].split(',').map(c => c.trim().split(/\s+/)[0]);
+const AT = Object.fromEntries(ADDED.map(([name]) => {
+  const i = columns.indexOf(name);
+  if (i === -1) throw new Error(`workout_templates has no ${name} column`);
+  return [name, i];
+}));
+
 const rowRe = /INSERT INTO "workout_templates" VALUES\(([\s\S]*?)\);/g;
 const ids = new Set();
 for (const m of sql.matchAll(rowRe)) ids.add(unquote(splitValues(m[1])[0]));
@@ -97,18 +113,23 @@ const applied = [], lifted = [];
 sql = sql.replace(rowRe, (whole, body) => {
   const values = splitValues(body);
   const id = unquote(values[0]);
-  const base = widening ? values : values.slice(0, values.length - ADDED.length);
-  const wasStatus = widening ? null : unquote(values[values.length - 2]);
+  const out = widening ? [...values, 'NULL', 'NULL'] : [...values];
+  const wasStatus = widening ? null : unquote(out[AT.status]);
   const r = byId.get(id);
 
   if (r) {
     applied.push(r);
-    return `INSERT INTO "workout_templates" VALUES(${[...base, q('retired'), q(r.superseded_by)].join(',')});`;
+    out[AT.status] = q('retired');
+    out[AT.superseded_by] = q(r.superseded_by);
+  } else {
+    // Not in the ruling file: eligible. A template previously retired and since
+    // removed from the file is lifted, so the file is the whole answer — and a
+    // status corrupted by something else is repaired on the way through.
+    if (wasStatus === 'retired') lifted.push(id);
+    out[AT.status] = q('content_eligible');
+    out[AT.superseded_by] = 'NULL';
   }
-  // Not in the ruling file: eligible. A template previously retired and since
-  // removed from the file is lifted, so the file is the whole answer.
-  if (wasStatus === 'retired') lifted.push(id);
-  return `INSERT INTO "workout_templates" VALUES(${[...base, q('content_eligible'), 'NULL'].join(',')});`;
+  return `INSERT INTO "workout_templates" VALUES(${out.join(',')});`;
 });
 
 writeFileSync(SRC, sql);

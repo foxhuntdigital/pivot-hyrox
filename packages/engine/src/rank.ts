@@ -10,13 +10,22 @@ import type {
 import { recoveryRank, variantMinutes } from './guardrails.ts';
 
 export const WEIGHTS = {
-  stimulus_urgency: 0.30,
-  recovery_fit: 0.20,
-  race_specificity: 0.15,
-  progression_continuity: 0.15,
-  time_fit: 0.10,
-  equipment_fit: 0.05,
-  preference: 0.05,
+  stimulus_urgency: 0.26,
+  /**
+   * Demonstrated deficit. New in 2.0.0.
+   *
+   * Weighted below stimulus urgency on purpose: what the week still owes is a
+   * statement about the plan, and a capability reading is a statement about
+   * several sessions of evidence. The plan wins where they disagree, and this
+   * moves the order within what the week already permits.
+   */
+  capability_need: 0.14,
+  recovery_fit: 0.18,
+  race_specificity: 0.13,
+  progression_continuity: 0.13,
+  time_fit: 0.08,
+  equipment_fit: 0.04,
+  preference: 0.04,
 } as const;
 
 /** Intensity cost of a template, 0..1, read from its authored RPE target. */
@@ -56,8 +65,52 @@ export function stimulusUrgency(
  * coarse goal, `stimulus` the authored one it rolls up to. Both are matched, so
  * widening what a phase asks for does not require re-labelling content.
  */
+/**
+ * The planner's five goals, said in the classification's vocabulary.
+ *
+ * `training_domain` and `primary_goal` are two different vocabularies, and the
+ * reclassification is only safe because of this table. `aerobic` is not the
+ * string `aerobic_durability`, and `hybrid` is not `race_specific`: matching
+ * the domain directly would have silently emptied both goals. Measured before
+ * the switch, that flip regressed 18 of 32 coverage cells and fixed none.
+ *
+ * `muscular_endurance` is deliberately absent. It is the honest home for the
+ * eleven templates that carried load with no working sets — Sled Push
+ * Strength-Power, Farmer Carry Micro, the sessions that used to satisfy the
+ * week's strength exposures — and the planner has never asked for muscular
+ * endurance. Mapping it to a goal to keep those counts up would be reinstating
+ * the mislabel this release exists to remove. Measured both ways: identical
+ * coverage, so the truthful reading costs nothing.
+ */
+const DOMAIN_TO_GOAL: Record<string, string> = {
+  strength: 'strength',
+  aerobic: 'aerobic_durability',
+  threshold: 'threshold',
+  recovery: 'recovery',
+  hybrid: 'race_specific',
+};
+
+/**
+ * Whether a template serves the stimulus the week is asking for.
+ *
+ * ENGINE 2.0.0: this reads `training_domain` — what the session structurally
+ * IS — where it used to read `primary_goal`, which is what someone called it.
+ * Twenty-five templates claimed the strength goal and four were resistance
+ * sessions; the planner asked for two strength exposures a week and was handed
+ * *SkiErg — Strength-Power*.
+ *
+ * Falls back to `primary_goal` for a template the classification pass has not
+ * reached, so an unclassified row degrades to the old behaviour rather than
+ * matching nothing.
+ *
+ * The other three clauses are unchanged and still carry the authored detail:
+ * a week asking for a named stimulus or a specific family still finds it.
+ */
 export function matchesStimulus(template: WorkoutTemplate, stimulusType: string): boolean {
-  return template.primary_goal === stimulusType
+  const domain = template.training_domain ?? null;
+  const goal = domain ? (DOMAIN_TO_GOAL[domain] ?? null) : template.primary_goal;
+
+  return goal === stimulusType
     || template.stimulus === stimulusType
     || template.secondary_goal === stimulusType
     || template.workout_family === stimulusType;
@@ -110,6 +163,80 @@ export function timeFit(
   return Math.max(0.2, minutes / availableMinutes);
 }
 
+/**
+ * Which work addresses which capability.
+ *
+ * Families rather than exercises, because the planner selects sessions and a
+ * session is the unit an athlete trains. Prefixes rather than an exhaustive
+ * list, so a family added by a future content pack is covered by the naming
+ * convention it already follows instead of silently scoring zero.
+ *
+ * The training domain is the fallback: it is broader — every strength session
+ * trains strength — and the family is what distinguishes an upper-body deficit
+ * from a lower-body one, which is the distinction this dimension exists to act
+ * on. A domain match therefore scores less than a family match rather than the
+ * same.
+ */
+const CAPABILITY_TARGETS: Record<string, { families: RegExp[]; domains: string[] }> = {
+  lower_body_strength: {
+    families: [/^strength_(legs|total|maintenance_lower)/], domains: ['strength'],
+  },
+  upper_body_strength: {
+    families: [/^strength_(push|pull|total|maintenance_upper)/], domains: ['strength'],
+  },
+  running_threshold: {
+    families: [/^(threshold|tempo|one_k|short_intervals|run_quality|hills|race_pace)/],
+    domains: ['threshold'],
+  },
+  aerobic_durability: {
+    families: [/^(run_base|long_run|easy_base|long_engine|low_impact|progression|row_base|ski_base|erg_engine|treadmill)/],
+    domains: ['aerobic'],
+  },
+  muscular_endurance: {
+    families: [/^(density|micro|compromised)/], domains: ['muscular_endurance'],
+  },
+  loaded_movement: {
+    families: [/^station_(farmer_carry|sled_push|sled_pull|sandbag_lunge)/],
+    domains: ['muscular_endurance', 'strength'],
+  },
+  station_proficiency: {
+    families: [/^(station_|hybrid|run_to_station|station_to_run)/], domains: ['hybrid'],
+  },
+};
+
+/**
+ * How much this session addresses a deficit the evidence has demonstrated.
+ *
+ * Additive demand, never authority. Every hard constraint — safety, the
+ * recovery intensity ceiling, equipment, impact, postpartum, spacing — has
+ * already run in `checkEligibility` before anything is scored, so a capability
+ * need can only reorder candidates that were all independently allowed. An
+ * athlete with a large strength deficit and poor recovery still gets no
+ * strength session above their intensity ceiling; they get the best of what
+ * remains, ordered by what they most need.
+ *
+ * The strongest single need wins rather than the sum: a session that happens
+ * to touch three mild deficits is not more urgent than one squarely addressing
+ * a large one, and summing would make breadth beat depth.
+ */
+export function capabilityNeed(template: WorkoutTemplate, input: EngineInput): number {
+  const needs = input.capability_needs;
+  if (!needs) return 0;
+
+  const domain = template.training_domain ?? template.primary_goal;
+  let best = 0;
+  for (const [key, need] of Object.entries(needs)) {
+    if (!(need > 0)) continue;
+    const target = CAPABILITY_TARGETS[key];
+    if (!target) continue;
+    const match = target.families.some(re => re.test(template.workout_family)) ? 1
+      : target.domains.includes(domain) ? 0.6
+      : 0;
+    best = Math.max(best, match * Math.min(1, need));
+  }
+  return best;
+}
+
 /** Full marks for a direct match; substitutions cost a little confidence. */
 export function equipmentFit(swapCount: number): number {
   return Math.max(0, 1 - swapCount * 0.25);
@@ -119,7 +246,23 @@ export function equipmentFit(swapCount: number): number {
 export function preference(template: WorkoutTemplate, input: EngineInput): number {
   let score = 0.5;
 
-  if (input.preferred_families?.includes(template.workout_family)) score += 0.3;
+  /**
+   * An athlete states a preference in whichever vocabulary they think in, so a
+   * stated key is compared against the family, the domain and the planner goal
+   * alike. "I like strength" and "I like leg day" are both answerable.
+   */
+  const describes = [
+    template.workout_family,
+    template.training_domain ?? '',
+    template.primary_goal,
+  ].filter(Boolean);
+  const stated = (list?: string[]) => list?.some(k => describes.includes(k)) ?? false;
+
+  if (stated(input.preferred_families)) score += 0.3;
+  // Soft, and deliberately smaller than the reward. A dislike is a reason to
+  // offer something else where something else exists, not a reason to leave a
+  // requirement unmet — the athlete who would rather not run still has to.
+  if (stated(input.avoided_families)) score -= 0.2;
 
   // Variation: penalise repeating the exact template the athlete just did.
   const repeated = input.recent_sessions.some(
@@ -138,6 +281,7 @@ export function score(
 ): ScoreBreakdown {
   const parts = {
     stimulus_urgency: stimulusUrgency(template, input.stimulus_requirements),
+    capability_need: capabilityNeed(template, input),
     recovery_fit: recoveryFit(template, recovery),
     race_specificity: raceSpecificity(template, input.days_to_race),
     progression_continuity: progressionContinuity(template, input),

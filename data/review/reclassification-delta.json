@@ -1,0 +1,777 @@
+{
+ "note": "Coverage delta across the ENGINE 2.0.0 reclassification: matchesStimulus moved from primary_goal (what a session was called) to training_domain (what it structurally is). Measured with the real engine \u2014 checkEligibility + eligibleVariants \u2014 over tests/engine-fixtures/content.json, at the minimum across time budgets 20/30/45/60.",
+ "engine_version": "2.0.0",
+ "measured_on": "2026-09-01",
+ "naive_flip": "Matching training_domain directly against the planner goal regressed 18 of 32 cells and fixed none: `aerobic` is not the string `aerobic_durability` and `hybrid` is not `race_specific`. DOMAIN_TO_GOAL in rank.ts is what makes the reclassification safe.",
+ "muscular_endurance": "Left unmapped. The eleven templates that landed there carry load with no working sets and are exactly what used to satisfy the week strength exposures. Measured both ways \u2014 unmapped, and mapped to race_specific \u2014 with identical coverage, so the truthful reading costs nothing.",
+ "summary": {
+  "regressed": 0,
+  "fixed": 0,
+  "red_before_and_after": 14,
+  "cells": 65
+ },
+ "red_cells": [
+  [
+   "barbell gym",
+   "good",
+   "recovery"
+  ],
+  [
+   "barbell gym",
+   "good",
+   "threshold"
+  ],
+  [
+   "barbell gym",
+   "okay",
+   "recovery"
+  ],
+  [
+   "barbell gym",
+   "okay",
+   "threshold"
+  ],
+  [
+   "barbell gym",
+   "poor",
+   "recovery"
+  ],
+  [
+   "db",
+   "good",
+   "recovery"
+  ],
+  [
+   "db",
+   "good",
+   "threshold"
+  ],
+  [
+   "db",
+   "okay",
+   "recovery"
+  ],
+  [
+   "db",
+   "okay",
+   "threshold"
+  ],
+  [
+   "db",
+   "poor",
+   "recovery"
+  ],
+  [
+   "db + bench",
+   "good",
+   "recovery"
+  ],
+  [
+   "db + bench",
+   "okay",
+   "recovery"
+  ],
+  [
+   "db + outdoor",
+   "good",
+   "recovery"
+  ],
+  [
+   "db + outdoor",
+   "okay",
+   "recovery"
+  ]
+ ],
+ "watch": "Poor-recovery strength family diversity sits at exactly 2, the floor. All RPE<=6 strength content lives in strength_maintenance_lower and strength_maintenance_upper. Any reclassification, deprecation, equipment restriction or substitution collapse takes it to 1 immediately.",
+ "cells": [
+  {
+   "equipment_profile": "db",
+   "readiness": "good",
+   "goal": "aerobic_durability",
+   "floor": 6,
+   "old": 17,
+   "new": 17,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db",
+   "readiness": "good",
+   "goal": "threshold",
+   "floor": 6,
+   "old": 4,
+   "new": 4,
+   "delta": 0,
+   "verdict": "still red"
+  },
+  {
+   "equipment_profile": "db",
+   "readiness": "good",
+   "goal": "strength",
+   "floor": 6,
+   "old": 36,
+   "new": 25,
+   "delta": -11,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db",
+   "readiness": "good",
+   "goal": "race_specific",
+   "floor": 3,
+   "old": 13,
+   "new": 13,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db",
+   "readiness": "good",
+   "goal": "recovery",
+   "floor": 3,
+   "old": 0,
+   "new": 0,
+   "delta": 0,
+   "verdict": "still red"
+  },
+  {
+   "equipment_profile": "db",
+   "readiness": "okay",
+   "goal": "aerobic_durability",
+   "floor": 6,
+   "old": 17,
+   "new": 17,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db",
+   "readiness": "okay",
+   "goal": "threshold",
+   "floor": 6,
+   "old": 4,
+   "new": 4,
+   "delta": 0,
+   "verdict": "still red"
+  },
+  {
+   "equipment_profile": "db",
+   "readiness": "okay",
+   "goal": "strength",
+   "floor": 6,
+   "old": 36,
+   "new": 25,
+   "delta": -11,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db",
+   "readiness": "okay",
+   "goal": "race_specific",
+   "floor": 3,
+   "old": 7,
+   "new": 7,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db",
+   "readiness": "okay",
+   "goal": "recovery",
+   "floor": 3,
+   "old": 0,
+   "new": 0,
+   "delta": 0,
+   "verdict": "still red"
+  },
+  {
+   "equipment_profile": "db",
+   "readiness": "poor",
+   "goal": "aerobic_durability",
+   "floor": 2,
+   "old": 17,
+   "new": 17,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db",
+   "readiness": "poor",
+   "goal": "strength",
+   "floor": 2,
+   "old": 8,
+   "new": 3,
+   "delta": -5,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db",
+   "readiness": "poor",
+   "goal": "recovery",
+   "floor": 2,
+   "old": 0,
+   "new": 0,
+   "delta": 0,
+   "verdict": "still red"
+  },
+  {
+   "equipment_profile": "db + outdoor",
+   "readiness": "good",
+   "goal": "aerobic_durability",
+   "floor": 6,
+   "old": 33,
+   "new": 36,
+   "delta": 3,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + outdoor",
+   "readiness": "good",
+   "goal": "threshold",
+   "floor": 6,
+   "old": 15,
+   "new": 15,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + outdoor",
+   "readiness": "good",
+   "goal": "strength",
+   "floor": 6,
+   "old": 39,
+   "new": 25,
+   "delta": -14,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + outdoor",
+   "readiness": "good",
+   "goal": "race_specific",
+   "floor": 3,
+   "old": 42,
+   "new": 42,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + outdoor",
+   "readiness": "good",
+   "goal": "recovery",
+   "floor": 3,
+   "old": 2,
+   "new": 2,
+   "delta": 0,
+   "verdict": "still red"
+  },
+  {
+   "equipment_profile": "db + outdoor",
+   "readiness": "okay",
+   "goal": "aerobic_durability",
+   "floor": 6,
+   "old": 33,
+   "new": 36,
+   "delta": 3,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + outdoor",
+   "readiness": "okay",
+   "goal": "threshold",
+   "floor": 6,
+   "old": 15,
+   "new": 15,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + outdoor",
+   "readiness": "okay",
+   "goal": "strength",
+   "floor": 6,
+   "old": 39,
+   "new": 25,
+   "delta": -14,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + outdoor",
+   "readiness": "okay",
+   "goal": "race_specific",
+   "floor": 3,
+   "old": 35,
+   "new": 35,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + outdoor",
+   "readiness": "okay",
+   "goal": "recovery",
+   "floor": 3,
+   "old": 2,
+   "new": 2,
+   "delta": 0,
+   "verdict": "still red"
+  },
+  {
+   "equipment_profile": "db + outdoor",
+   "readiness": "poor",
+   "goal": "aerobic_durability",
+   "floor": 2,
+   "old": 33,
+   "new": 34,
+   "delta": 1,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + outdoor",
+   "readiness": "poor",
+   "goal": "strength",
+   "floor": 2,
+   "old": 9,
+   "new": 3,
+   "delta": -6,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + outdoor",
+   "readiness": "poor",
+   "goal": "recovery",
+   "floor": 2,
+   "old": 2,
+   "new": 2,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + bench",
+   "readiness": "good",
+   "goal": "aerobic_durability",
+   "floor": 6,
+   "old": 33,
+   "new": 36,
+   "delta": 3,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + bench",
+   "readiness": "good",
+   "goal": "threshold",
+   "floor": 6,
+   "old": 15,
+   "new": 15,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + bench",
+   "readiness": "good",
+   "goal": "strength",
+   "floor": 6,
+   "old": 39,
+   "new": 25,
+   "delta": -14,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + bench",
+   "readiness": "good",
+   "goal": "race_specific",
+   "floor": 3,
+   "old": 42,
+   "new": 42,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + bench",
+   "readiness": "good",
+   "goal": "recovery",
+   "floor": 3,
+   "old": 2,
+   "new": 2,
+   "delta": 0,
+   "verdict": "still red"
+  },
+  {
+   "equipment_profile": "db + bench",
+   "readiness": "okay",
+   "goal": "aerobic_durability",
+   "floor": 6,
+   "old": 33,
+   "new": 36,
+   "delta": 3,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + bench",
+   "readiness": "okay",
+   "goal": "threshold",
+   "floor": 6,
+   "old": 15,
+   "new": 15,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + bench",
+   "readiness": "okay",
+   "goal": "strength",
+   "floor": 6,
+   "old": 39,
+   "new": 25,
+   "delta": -14,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + bench",
+   "readiness": "okay",
+   "goal": "race_specific",
+   "floor": 3,
+   "old": 35,
+   "new": 35,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + bench",
+   "readiness": "okay",
+   "goal": "recovery",
+   "floor": 3,
+   "old": 2,
+   "new": 2,
+   "delta": 0,
+   "verdict": "still red"
+  },
+  {
+   "equipment_profile": "db + bench",
+   "readiness": "poor",
+   "goal": "aerobic_durability",
+   "floor": 2,
+   "old": 33,
+   "new": 34,
+   "delta": 1,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + bench",
+   "readiness": "poor",
+   "goal": "strength",
+   "floor": 2,
+   "old": 9,
+   "new": 3,
+   "delta": -6,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "db + bench",
+   "readiness": "poor",
+   "goal": "recovery",
+   "floor": 2,
+   "old": 2,
+   "new": 2,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "barbell gym",
+   "readiness": "good",
+   "goal": "aerobic_durability",
+   "floor": 6,
+   "old": 17,
+   "new": 17,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "barbell gym",
+   "readiness": "good",
+   "goal": "threshold",
+   "floor": 6,
+   "old": 4,
+   "new": 4,
+   "delta": 0,
+   "verdict": "still red"
+  },
+  {
+   "equipment_profile": "barbell gym",
+   "readiness": "good",
+   "goal": "strength",
+   "floor": 6,
+   "old": 46,
+   "new": 35,
+   "delta": -11,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "barbell gym",
+   "readiness": "good",
+   "goal": "race_specific",
+   "floor": 3,
+   "old": 15,
+   "new": 15,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "barbell gym",
+   "readiness": "good",
+   "goal": "recovery",
+   "floor": 3,
+   "old": 0,
+   "new": 0,
+   "delta": 0,
+   "verdict": "still red"
+  },
+  {
+   "equipment_profile": "barbell gym",
+   "readiness": "okay",
+   "goal": "aerobic_durability",
+   "floor": 6,
+   "old": 17,
+   "new": 17,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "barbell gym",
+   "readiness": "okay",
+   "goal": "threshold",
+   "floor": 6,
+   "old": 4,
+   "new": 4,
+   "delta": 0,
+   "verdict": "still red"
+  },
+  {
+   "equipment_profile": "barbell gym",
+   "readiness": "okay",
+   "goal": "strength",
+   "floor": 6,
+   "old": 46,
+   "new": 35,
+   "delta": -11,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "barbell gym",
+   "readiness": "okay",
+   "goal": "race_specific",
+   "floor": 3,
+   "old": 9,
+   "new": 9,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "barbell gym",
+   "readiness": "okay",
+   "goal": "recovery",
+   "floor": 3,
+   "old": 0,
+   "new": 0,
+   "delta": 0,
+   "verdict": "still red"
+  },
+  {
+   "equipment_profile": "barbell gym",
+   "readiness": "poor",
+   "goal": "aerobic_durability",
+   "floor": 2,
+   "old": 17,
+   "new": 17,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "barbell gym",
+   "readiness": "poor",
+   "goal": "strength",
+   "floor": 2,
+   "old": 9,
+   "new": 4,
+   "delta": -5,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "barbell gym",
+   "readiness": "poor",
+   "goal": "recovery",
+   "floor": 2,
+   "old": 0,
+   "new": 0,
+   "delta": 0,
+   "verdict": "still red"
+  },
+  {
+   "equipment_profile": "full gym + hyrox",
+   "readiness": "good",
+   "goal": "aerobic_durability",
+   "floor": 6,
+   "old": 56,
+   "new": 61,
+   "delta": 5,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "full gym + hyrox",
+   "readiness": "good",
+   "goal": "threshold",
+   "floor": 6,
+   "old": 25,
+   "new": 25,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "full gym + hyrox",
+   "readiness": "good",
+   "goal": "strength",
+   "floor": 6,
+   "old": 56,
+   "new": 35,
+   "delta": -21,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "full gym + hyrox",
+   "readiness": "good",
+   "goal": "race_specific",
+   "floor": 3,
+   "old": 88,
+   "new": 93,
+   "delta": 5,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "full gym + hyrox",
+   "readiness": "good",
+   "goal": "recovery",
+   "floor": 3,
+   "old": 4,
+   "new": 4,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "full gym + hyrox",
+   "readiness": "okay",
+   "goal": "aerobic_durability",
+   "floor": 6,
+   "old": 56,
+   "new": 61,
+   "delta": 5,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "full gym + hyrox",
+   "readiness": "okay",
+   "goal": "threshold",
+   "floor": 6,
+   "old": 25,
+   "new": 25,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "full gym + hyrox",
+   "readiness": "okay",
+   "goal": "strength",
+   "floor": 6,
+   "old": 56,
+   "new": 35,
+   "delta": -21,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "full gym + hyrox",
+   "readiness": "okay",
+   "goal": "race_specific",
+   "floor": 3,
+   "old": 78,
+   "new": 83,
+   "delta": 5,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "full gym + hyrox",
+   "readiness": "okay",
+   "goal": "recovery",
+   "floor": 3,
+   "old": 4,
+   "new": 4,
+   "delta": 0,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "full gym + hyrox",
+   "readiness": "poor",
+   "goal": "aerobic_durability",
+   "floor": 2,
+   "old": 56,
+   "new": 57,
+   "delta": 1,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "full gym + hyrox",
+   "readiness": "poor",
+   "goal": "strength",
+   "floor": 2,
+   "old": 15,
+   "new": 4,
+   "delta": -11,
+   "verdict": "ok"
+  },
+  {
+   "equipment_profile": "full gym + hyrox",
+   "readiness": "poor",
+   "goal": "recovery",
+   "floor": 2,
+   "old": 4,
+   "new": 4,
+   "delta": 0,
+   "verdict": "ok"
+  }
+ ],
+ "shadow": {
+  "method": "The real engine run twice over the same athlete population, with rank.ts and queue.ts swapped between the pre- and post-flip states. No test-only code path: recommend() and planWeekQueue() as they ship.",
+  "population": "480 scenarios \u2014 5 equipment profiles x 4 phases x 3 recovery states x 4 time budgets x 2 week-completion states",
+  "prescriptions": {
+   "changed": 6,
+   "unchanged": 474,
+   "became_no_session": 0,
+   "gained_a_session": 0,
+   "detail": "All six changes are the same correction: a hybrid carry/lunge chipper was satisfying an aerobic_durability requirement for full-gym athletes and is now replaced by a treadmill pace session that actually trains it."
+  },
+  "week_queues": {
+   "changed": 14,
+   "of": 20,
+   "recomposed_same_count": 9,
+   "lost_exposures": 5,
+   "detail": "Every taper week loses its two strength exposures. Both were satisfied by Micro Strength Legs 15 and Micro Upper 15, which prescribe reps with no working sets and no rest \u2014 precisely what the reclassification exists to stop counting. For db and barbell-gym profiles the taper queue becomes empty, because those two were the whole queue. Taper coverage was already red before the flip."
+  },
+  "strength_losses_reviewed": {
+   "total": 21,
+   "to_aerobic": [
+    "SkiErg/RowErg Strength-Power",
+    "hill repeats",
+    "incline builder \u2014 engine work"
+   ],
+   "to_hybrid": [
+    "Carry Lunge Chipper",
+    "Row + Farmer Carry Engine \u2014 loaded plus engine, no working sets"
+   ],
+   "to_muscular_endurance": [
+    "sled push/pull",
+    "wall ball",
+    "farmer carry",
+    "burpee broad jump",
+    "the two 15-minute micros \u2014 load without working sets"
+   ],
+   "verdict": "All 21 defensible. No true-strength session was mislabelled out."
+  },
+  "follow_up": "Author working sets and rest into wo_micro_strength_legs_15 and wo_micro_upper_15. They already prescribe the right movements at RPE 6 in 15 minutes and sit in the micro family, which taper permits \u2014 they lack only sets and rest_seconds. That restores the taper strength exposures truthfully rather than by mislabel."
+ }
+}

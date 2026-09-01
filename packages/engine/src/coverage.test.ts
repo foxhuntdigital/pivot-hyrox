@@ -401,6 +401,19 @@ describe('true strength coverage (the gate on reclassification)', () => {
             `${profile}, ${recovery} recovery, ${minutes} min: ${found.length} true-strength `
             + `session(s), need ${floor}\n${inventory()}`);
 
+          /**
+           * WATCH: the poor-recovery lane clears this by exactly nothing.
+           *
+           * Every RPE<=6 strength session in the library lives in
+           * strength_maintenance_lower or strength_maintenance_upper, which is
+           * two families against a floor of two. Any reclassification,
+           * deprecation, equipment restriction or substitution collapse takes
+           * it to one immediately, and the first content pass after this
+           * release should add a third poor-recovery pattern — not to widen a
+           * margin for its own sake, but because a single point of failure in
+           * readiness coverage is the one place the athlete has no way out.
+           * Recorded with the numbers in data/review/reclassification-delta.json.
+           */
           assert.ok(familiesOf(found).size >= FAMILY_FLOOR,
             `${profile}, ${recovery} recovery, ${minutes} min: true strength comes from `
             + `${familiesOf(found).size} family/families (${[...familiesOf(found)].join(', ')}), `

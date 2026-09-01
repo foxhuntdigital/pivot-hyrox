@@ -243,10 +243,35 @@ export interface EngineInput {
   /** Return-to-training considerations from the athlete profile. */
   considerations: string[];
 
-  /** Modality preferences; never override safety (PRD §9.2). */
+  /**
+   * Kinds of work the athlete likes, from `athlete_preferences`.
+   *
+   * Matched against a template's family, training domain and planner goal,
+   * because the athlete states a preference in whichever of those vocabularies
+   * they think in — "I like barbell work" and "I like strength" are the same
+   * sentence to them. Never overrides safety (PRD §9.2).
+   */
   preferred_families?: string[];
+  /**
+   * Kinds of work the athlete asked not to be given (`rating = 'rather_not'`).
+   *
+   * A soft penalty, matched the same way. It is deliberately not a filter: an
+   * athlete who dislikes running still has to run for a HYROX, and turning a
+   * stated dislike into a hard exclusion would let preference quietly overrule
+   * the sport.
+   */
+  avoided_families?: string[];
   /** Families to avoid repeating; drives variation tolerance. */
   variation_tolerance?: number;
+  /**
+   * Evidence-backed demand per capability, keyed by `capability_key`, 0..1.
+   *
+   * Composed server-side from `athlete_capability_evidence`, which only moves
+   * on repeated comparable evidence. Additive demand and nothing more: it
+   * raises the priority of work that addresses a demonstrated deficit and
+   * cannot reach any hard constraint, all of which run before scoring.
+   */
+  capability_needs?: Record<string, number>;
 
   candidates: WorkoutTemplate[];
   substitutions: Substitution[];
@@ -254,6 +279,7 @@ export interface EngineInput {
 
 export interface ScoreBreakdown {
   stimulus_urgency: number;
+  capability_need: number;
   recovery_fit: number;
   race_specificity: number;
   progression_continuity: number;

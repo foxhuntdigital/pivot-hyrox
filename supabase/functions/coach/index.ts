@@ -169,6 +169,12 @@ Deno.serve(async (req) => {
       considerations: state.profile?.considerations ?? [],
       candidates: content.candidates,
       substitutions: content.substitutions,
+      // Stated preference and demonstrated deficit. Both are scoring inputs and
+      // neither is a filter: every hard constraint has already run by the time
+      // anything here is read (rank.ts).
+      preferred_families: state.preferred_families,
+      avoided_families: state.avoided_families,
+      capability_needs: state.capability_needs,
       variation_tolerance: 1,
     };
 

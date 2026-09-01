@@ -120,7 +120,23 @@ if (!present.length) {
 }
 
 const templateCols = columnsOf('workout_templates');
-const BASE = templateCols.length - (present.length ? ADDED.length : 0);
+
+/**
+ * Where this script's two columns live, found by NAME.
+ *
+ * They used to be located by counting back from the end of the row, which held
+ * for exactly as long as they stayed last. Migration 0016 appended `status` and
+ * `superseded_by` after them, and the next run wrote the classification into
+ * those two instead — every template's status became 'strength', which silently
+ * un-retired four templates and left the domain NULL on thirty-six. Positional
+ * assumptions about a table that other migrations extend are a bug waiting for
+ * a schema change, so the position is looked up rather than inferred.
+ */
+const AT = Object.fromEntries(ADDED.map(([name]) => {
+  const i = templateCols.indexOf(name);
+  if (i === -1) throw new Error(`workout_templates has no ${name} column`);
+  return [name, i];
+}));
 
 // ── Rows ─────────────────────────────────────────────────────────────────────
 
@@ -132,8 +148,7 @@ sql = sql.replace(
   /INSERT INTO "workout_templates" VALUES\((.*)\);/g,
   (line, body) => {
     const vals = splitValues(body);
-    const base = vals.slice(0, BASE).map(unquote);
-    const row = Object.fromEntries(templateCols.slice(0, BASE).map((c, i) => [c, base[i]]));
+    const row = Object.fromEntries(templateCols.map((c, i) => [c, unquote(vals[i])]));
 
     const ev = evidence.get(row.id) ?? { modalities: new Set(), hasWorkingSets: false, needsRest: 0 };
     const cls = resolveClassification(row.primary_goal, {
@@ -154,9 +169,12 @@ sql = sql.replace(
         old_primary_goal: row.primary_goal, proposed: cls.training_domain, basis: cls.basis });
     }
 
-    const tail = [quote(cls.training_domain), quote(cls.session_type)];
-    return `INSERT INTO "workout_templates" VALUES(${
-      vals.slice(0, BASE).join(',')},${tail.join(',')});`;
+    // Written in place. Every other column is carried through untouched, which
+    // is the only way a script that owns two columns can share a table.
+    const out = [...vals];
+    out[AT.training_domain] = quote(cls.training_domain);
+    out[AT.session_type] = quote(cls.session_type);
+    return `INSERT INTO "workout_templates" VALUES(${out.join(',')});`;
   });
 
 writeFileSync(SRC, sql);
