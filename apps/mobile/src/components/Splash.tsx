@@ -6,12 +6,28 @@
  * the middle lane and opens onto the app — so the seam follows the mark rather
  * than the page, and the two doors are not the same width.
  *
+ * ── The palette is the app icon's ────────────────────────────────────────────
+ *
+ * The icon is a monogram cut from three materials on a cool charcoal: a glossy
+ * vermilion, a frosted face carrying fine engraved line work, and a granular
+ * teal, with a cyan light-leak running the seam between them. Three materials
+ * and three lanes was too close to ignore, so each lane is one of them and the
+ * drawing head is the light-leak.
+ *
+ * The ground is `app.json`'s own `adaptiveIcon.backgroundColor`, not a sampled
+ * approximation, so three things that must agree do: the icon on the home
+ * screen, the native splash painted before any JavaScript runs, and this. The
+ * launch reads as one surface from the tap onward, and the doors then part on a
+ * dark frame to show a light app — which is a reveal rather than the seamless
+ * paper-on-paper it used to be.
+ *
  * `react-native-svg` is not a dependency and adding one would mean a native
  * rebuild, which this project cannot currently do, so every part of the mark is
  * a plain View:
  *
  *   - each lane's fill is a stack of flat strips sampled from a two-stop ramp at
- *     the strip's own y. The ramp is a function of absolute y, not of distance
+ *     the strip's own y, and its material's grain is a modulation of those same
+ *     strips — so the texture costs no views at all. The ramp is a function of absolute y, not of distance
  *     along the stroke, so the stem, the corner and the bend share one
  *     continuous fill and meet without a seam;
  *   - the bend is a fan of rotated rectangles, cut wide enough that no gap opens
@@ -38,8 +54,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { color } from '../theme/tokens';
-
 /** Run the straight, wrap the bend, hold a beat, then open. */
 const STEM_MS = 680;
 /** The lanes leave in echelon, outside first — the outer one has furthest to go. */
@@ -56,15 +70,54 @@ const EASE_SWEEP = Easing.out(Easing.cubic);
 const EASE_DOOR = Easing.bezier(0.7, 0, 0.3, 1);
 
 /**
- * Three tones of the brand red, outside lane deepest — `color.redDark`,
- * `color.red` and a step above `color.redBright`, each falling away to a darker
- * partner. Every lane runs from `head` at the crown to `tail` at the bottom of
- * the screen, so the mark reads as light gathering at the front of the run.
+ * The flat charcoal, for the covers and trims that must match the ground.
+ *
+ * Taken from `app.json`'s `adaptiveIcon.backgroundColor` rather than sampled by
+ * eye, so the splash and the Android icon cannot drift apart — and so the
+ * native splash, which paints this same value before any JavaScript runs, hands
+ * over to a screen of exactly its own colour.
+ */
+const GROUND = '#1F252C';
+
+/**
+ * Sampled from the app icon, so the first thing the athlete sees is the thing
+ * they tapped.
+ *
+ * The icon is a monogram cut from three materials on a cool charcoal: a glossy
+ * vermilion, a frosted pale face carrying fine engraved line work, and a
+ * granular teal — with a cyan light-leak running the seam between them. Three
+ * materials for three lanes is not a coincidence worth ignoring, so the lanes
+ * stop being three tones of one red and become the icon's own three.
+ *
+ * The charcoal is deliberately not neutral. It carries a blue bias, which is
+ * what stops the teal reading as grubby against it and what makes the vermilion
+ * look lit rather than printed.
+ */
+const ICON = {
+  groundTop: '#252b33',
+  groundFoot: '#171c22',
+  /** The light-leak along the icon's seam. The brightest thing in the mark. */
+  glow: '#4ff7ea',
+} as const;
+
+/**
+ * A lane per material, outside first — the order they sit in the icon, read
+ * left to right. Every lane runs from `head` at the crown to `tail` at the
+ * bottom of the screen, so the mark still reads as light gathering at the front
+ * of the run; what changed is that the three are now different materials rather
+ * than three temperatures of one.
+ *
+ * `grain` is how the material behaves under the ramp, and costs nothing: the
+ * fill is already a stack of flat strips, so the texture is a modulation of
+ * strips that are being painted anyway rather than anything drawn on top.
  */
 const LANES = [
-  { head: '#ae1800', tail: '#6d1a0b' },
-  { head: '#ec3013', tail: '#971b04' },
-  { head: '#ff6c53', tail: '#cf2a13' },
+  /** Glossy, like the icon's vermilion face. Smooth — gloss has no grain. */
+  { head: '#e04a24', tail: '#7c2410', grain: 'gloss' },
+  /** The frosted face, and its engraved hairlines. */
+  { head: '#e4eef0', tail: '#7f969b', grain: 'etched' },
+  /** The speckled teal. The noisiest material in the icon. */
+  { head: '#46b5a8', tail: '#164e49', grain: 'granular' },
 ] as const;
 
 /** Strips in a lane's gradient over the full drop, and segments per half-bend. */
@@ -75,14 +128,41 @@ const ARC_SEGS = 24;
 const LANE_IN = LANES.map((_, i) => (i * LANE_LAG) / RUN_MS);
 const LANE_OUT = LANES.map((_, i) => (i * LANE_LAG + STEM_MS) / RUN_MS);
 
-function mix(a: string, b: string, t: number) {
+function mix(a: string, b: string, t: number, lift = 1) {
   const ca = parseInt(a.slice(1), 16);
   const cb = parseInt(b.slice(1), 16);
   const ch = (shift: number) => {
     const va = (ca >> shift) & 255;
-    return Math.round(va + (((cb >> shift) & 255) - va) * t);
+    const v = va + (((cb >> shift) & 255) - va) * t;
+    return Math.max(0, Math.min(255, Math.round(v * lift)));
   };
   return `rgb(${ch(16)},${ch(8)},${ch(0)})`;
+}
+
+/**
+ * A stable pseudo-random number for one strip of one lane.
+ *
+ * Deterministic on purpose: the grain must not crawl between renders, and a
+ * splash that reshuffles its own texture on a re-layout would draw the eye to
+ * exactly the thing that should sit still. Same input, same speckle, every time.
+ */
+function noise(lane: number, k: number) {
+  const h = Math.sin(lane * 12.9898 + k * 78.233) * 43758.5453;
+  return h - Math.floor(h);
+}
+
+/**
+ * How a material catches the light, as a multiplier on the strip's own colour.
+ *
+ * Gloss is flat — a polished face has no texture to find. Etched lifts one
+ * strip in seven, which is the icon's engraved line work at the scale a lane
+ * can carry it. Granular jitters every strip a few percent, which reads as the
+ * icon's speckle without a single extra view.
+ */
+function materialLift(grain: string, lane: number, k: number) {
+  if (grain === 'etched') return k % 7 === 3 ? 1.16 : 1;
+  if (grain === 'granular') return 0.93 + noise(lane, k) * 0.14;
+  return 1;
 }
 
 type Glyph = ReturnType<typeof useGlyph>;
@@ -123,8 +203,17 @@ function useGlyph(W: number, H: number) {
     const by = top + ro;
     const drop = H - top;
 
-    const tone = (lane: number, y: number) =>
-      mix(LANES[lane].head, LANES[lane].tail, Math.min(1, Math.max(0, (y - top) / drop)));
+    // `k` is the strip's index within its stack, which is what a material's
+    // grain is a function of. Absent — as it is on the bend — the material
+    // reads smooth, which is right: the grain belongs to the long run, and
+    // speckling the arc as well would turn texture into noise.
+    const tone = (lane: number, y: number, k = -1) =>
+      mix(
+        LANES[lane].head,
+        LANES[lane].tail,
+        Math.min(1, Math.max(0, (y - top) / drop)),
+        k < 0 ? 1 : materialLift(LANES[lane].grain, lane, k),
+      );
 
     return { W, H, laneW, L, cx, sx, bx, ro, ri, top, by, drop, tone };
   }, [W, H]);
@@ -135,6 +224,34 @@ function useGlyph(W: number, H: number) {
  * rather than distance along the stroke, so any two rects that abut anywhere in
  * the mark meet without a seam.
  */
+/**
+ * The charcoal the mark sits on, with the icon's own falloff.
+ *
+ * Painted inside `Mark` rather than on the doors: both doors draw a full-width
+ * copy of the mark and shift it, so a ground painted here registers across the
+ * seam and the two halves cannot disagree about where the light is.
+ */
+function Ground({ g }: { g: Glyph }) {
+  const steps = 12;
+  return (
+    <View style={{ position: 'absolute', left: 0, top: 0, width: g.W, height: g.H }}>
+      {Array.from({ length: steps }, (_, k) => (
+        <View
+          key={k}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: (k * g.H) / steps,
+            height: g.H / steps + 1,
+            backgroundColor: mix(ICON.groundTop, ICON.groundFoot, (k + 0.5) / steps),
+          }}
+        />
+      ))}
+    </View>
+  );
+}
+
 function Ramp({ g, lane, x, y, w, h }: { g: Glyph; lane: number; x: number; y: number; w: number; h: number }) {
   const steps = Math.max(1, Math.round((h / g.drop) * RAMP_STEPS));
   const band = h / steps;
@@ -150,7 +267,7 @@ function Ramp({ g, lane, x, y, w, h }: { g: Glyph; lane: number; x: number; y: n
             top: k * band,
             // A hair of overlap: adjacent strips must not leave a sub-pixel seam.
             height: band + 1,
-            backgroundColor: g.tone(lane, y + (k + 0.5) * band),
+            backgroundColor: g.tone(lane, y + (k + 0.5) * band, k),
           }}
         />
       ))}
@@ -183,14 +300,14 @@ function Cover({ g, lane, stem }: { g: Glyph; lane: number; stem: SharedValue<nu
           width: g.laneW,
           top: -2 * g.H,
           height: 2 * g.H,
-          backgroundColor: color.paper,
+          backgroundColor: GROUND,
         },
         slide,
       ]}
     >
       <Animated.View
         style={[
-          { position: 'absolute', bottom: 0, left: 0, width: g.laneW, height: 2, backgroundColor: color.tint },
+          { position: 'absolute', bottom: 0, left: 0, width: g.laneW, height: 2, backgroundColor: ICON.glow },
           head,
         ]}
       />
@@ -276,7 +393,7 @@ function Bend({ g }: { g: Glyph }) {
           height: 2 * (g.ro + trim),
           borderRadius: g.ro + trim,
           borderWidth: trim,
-          borderColor: color.paper,
+          borderColor: GROUND,
         }}
       />
       <View
@@ -287,7 +404,7 @@ function Bend({ g }: { g: Glyph }) {
           width: 2 * g.ri,
           height: 2 * g.ri,
           borderRadius: g.ri,
-          backgroundColor: color.paper,
+          backgroundColor: GROUND,
         }}
       />
     </>
@@ -330,7 +447,7 @@ function BendHead({ g, sweep }: { g: Glyph; sweep: SharedValue<number> }) {
     >
       <Animated.View
         style={[
-          { position: 'absolute', left: g.ro - 1, top: 0, width: 2, height: g.L, backgroundColor: color.tint },
+          { position: 'absolute', left: g.ro - 1, top: 0, width: 2, height: g.L, backgroundColor: ICON.glow },
           fade,
         ]}
       />
@@ -356,6 +473,7 @@ function Mark({
 }) {
   return (
     <View style={{ position: 'absolute', left: 0, top: 0, width: g.W, height: g.H }}>
+      <Ground g={g} />
       {LANES.map((_, lane) => (
         <Ramp key={lane} g={g} lane={lane} x={g.sx + lane * g.laneW} y={g.top} w={g.laneW} h={g.drop} />
       ))}
@@ -452,5 +570,5 @@ export function Splash({ ready, onDone }: { ready: boolean; onDone: () => void }
 }
 
 const styles = StyleSheet.create({
-  door: { position: 'absolute', top: 0, overflow: 'hidden', backgroundColor: color.paper },
+  door: { position: 'absolute', top: 0, overflow: 'hidden', backgroundColor: GROUND },
 });

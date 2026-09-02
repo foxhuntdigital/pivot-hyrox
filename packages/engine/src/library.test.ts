@@ -25,7 +25,8 @@ import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-import type { WorkoutTemplate } from './types.ts';
+import { recommend } from './index.ts';
+import type { EngineInput, WorkoutTemplate } from './types.ts';
 
 const fixture = JSON.parse(readFileSync(
   new URL('../../../tests/engine-fixtures/content.json', import.meta.url), 'utf8'));
@@ -122,5 +123,62 @@ describe('Library invariants', () => {
       .map(t => `${t.id} (${t.workout_family} -> ${t.primary_goal})`);
     assert.deepEqual(contradicting, [],
       'templates in a strength_* family that do not roll up to the strength goal');
+  });
+  test('every template in the library can be recommended, supplementals included', () => {
+    /*
+     * The crash this exists to stop.
+     *
+     * `startSupplemental` runs the same `recommend` the planner runs, over a
+     * single candidate the athlete tapped. `buildRationale` read
+     * `template.primary_goal.replace(...)`, and the test above pins that a
+     * supplemental's goal is null — so every one of the 34 supplementals threw
+     * a TypeError the moment it was chosen, and the app died on the Done
+     * screen. The type said `string`, so nothing caught it: the content was
+     * right and the type was the lie.
+     *
+     * Over the whole library rather than over supplementals, because the
+     * defect was never about boxing. Any field the content is allowed to leave
+     * null and the renderer is not is the same bug wearing a different name.
+     */
+    const input: EngineInput = {
+      local_date: '2026-01-01',
+      phase_type: 'build',
+      days_to_race: 60,
+      stimulus_requirements: [],
+      recent_sessions: [],
+      recovery_state: 'good',
+      energy: 'good',
+      sleep_hours: 7.5,
+      available_minutes: 60,
+      available_equipment: [...new Set(
+        (fixture.exercises as { equipment?: string[] }[]).flatMap(e => e.equipment ?? []))],
+      low_impact_required: false,
+      symptom_flags: [],
+      considerations: [],
+      candidates: [],
+      substitutions: fixture.substitutions,
+      variation_tolerance: 1,
+      preferred_families: [],
+      avoided_families: [],
+      perceived_weaknesses: [],
+    };
+
+    const broke: string[] = [];
+    for (const template of ALL) {
+      try {
+        const decision = recommend({ ...input, candidates: [template] }, fixture.exercises);
+        // A refusal is a legitimate answer; a throw is not. What is pinned is
+        // that the engine ANSWERS, and that a session it returns carries the
+        // rationale and stimulus the screens render without checking.
+        if (decision.kind !== 'session') continue;
+        assert.ok(decision.primary_stimulus, `${template.id}: empty primary_stimulus`);
+        assert.ok(decision.rationale, `${template.id}: empty rationale`);
+      } catch (e) {
+        broke.push(`${template.id} (${template.workout_family}): ${(e as Error).message}`);
+      }
+    }
+
+    assert.deepEqual(broke, [],
+      `${broke.length} of ${ALL.length} template(s) threw when recommended`);
   });
 });

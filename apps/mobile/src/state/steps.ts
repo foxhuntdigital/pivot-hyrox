@@ -39,6 +39,17 @@ export interface Step {
   /** Rest steps are structure, not work: they are never logged. */
   rest: boolean;
 
+  /* --- unilateral work ------------------------------------------------------
+     A prescription authored per side ('x10/leg', '30 sec/side') is TWO efforts,
+     and the player used to walk one. The athlete got a single beat, a single
+     clock and a single row to log — so the second leg was untimed, unlogged,
+     and easy to forget entirely. Each side is now its own step. ------------- */
+
+  /** 1 or 2 on work performed once per side. Absent on bilateral work. */
+  side_number?: number;
+  /** How many sides this movement is performed on. Always 2 where present. */
+  side_count?: number;
+
   /* --- working sets (migration 0011) ---------------------------------------
      Present only on a structured strength prescription. A sets x reps row used
      to collapse into ONE step showing "4 x6", so four working sets were one
@@ -63,6 +74,38 @@ export interface Step {
 export function titleCase(s: string): string {
   return s.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
+
+/**
+ * The authored marker for work performed once per side: 'x10/leg',
+ * '30 sec/side', 'x8/arm'.
+ *
+ * The unit is the only place the content states this — `side_note` exists on
+ * the column and is null on every row in the library — so it is read from
+ * there rather than guessed at from the movement. `ex_bulgarian_split_squat`
+ * is unilateral and `ex_walking_lunge` is not, and no property of the exercise
+ * separates 'ten each leg' from 'ten alternating'; only the prescription does.
+ */
+const PER_SIDE = /\/\s*(side|leg|arm)s?\b/i;
+
+/** The authored word — 'side', 'leg', 'arm' — or null when not per-side. */
+export function sideWordOf(unit: string | null | undefined): string | null {
+  return PER_SIDE.exec(String(unit ?? ''))?.[1].toLowerCase() ?? null;
+}
+
+/**
+ * The unit with the per-side marker removed.
+ *
+ * Once the step IS one side, '30 sec/side' on it would be saying the same
+ * thing twice and asking for twice the work: the number shown is what this
+ * side asks for. The authored unit stays on `quantity_unit` untouched, because
+ * that is what `buildLogs` reads and what the row was written as.
+ */
+function withoutSide(unit: string): string {
+  return unit.replace(PER_SIDE, '').trim();
+}
+
+/** 'First'/'Second' — which side this is, never which of the athlete's. */
+const SIDE_ORDINAL = ['First', 'Second'] as const;
 
 /**
  * Renders a prescription the way a coach would write it on a whiteboard.
@@ -181,9 +224,27 @@ export function buildSteps(rec: Recommendation, nameOf: NameLookup = () => undef
         const note = be.intensity_note ?? block.instructions ?? '';
         const targetRpe = intensity.replace(/^RPE\s*/i, '');
 
-        const common = {
+        /*
+         * Per-side work is walked one side at a time.
+         *
+         * `sides` is [null] for ordinary work and [1, 2] for a movement the
+         * prescription states per side, so everything below is written once
+         * and emitted twice where it has to be. The numbers are NOT halved:
+         * '10/leg' already means ten on each, so two steps of ten is the
+         * prescription, and one step of ten was half of it.
+         */
+        const sideWord = sideWordOf(be.quantity_unit);
+        const sides: (number | null)[] = sideWord ? [1, 2] : [null];
+        // The per-side marker belongs on the prescription, not on a step that
+        // IS one side. `be` itself is never modified — `buildLogs` reads the
+        // authored unit from the step and must keep seeing what was written.
+        const shown = sideWord
+          ? { ...be, quantity_unit: withoutSide(be.quantity_unit) }
+          : be;
+
+        const commonFor = (side: number | null) => ({
           kind,
-          label: name,
+          label: side ? `${name} · ${SIDE_ORDINAL[side - 1]} ${sideWord}` : name,
           // Pace targets need a measured baseline; until one exists the honest
           // target is the authored RPE rather than a fabricated pace.
           targetKey: 'Target RPE',
@@ -196,7 +257,9 @@ export function buildSteps(rec: Recommendation, nameOf: NameLookup = () => undef
           quantity: be.quantity,
           quantity_unit: be.quantity_unit,
           rest: false,
-        };
+          ...(side ? { side_number: side, side_count: 2 } : {}),
+        });
+        const common = commonFor(null);
 
         // ── A structured strength prescription: one step per working set ────
         //
@@ -207,21 +270,28 @@ export function buildSteps(rec: Recommendation, nameOf: NameLookup = () => undef
         // the clock rather than an invisible pause.
         if (be.sets != null && be.sets > 0) {
           for (let n = 1; n <= be.sets; n++) {
-            steps.push({
-              ...common,
-              qty: repsLabel(be),
-              phase: `SET ${n} / ${be.sets}`,
-              duration_seconds: null,
-              set_number: n,
-              set_count: be.sets,
-              prescribed_reps_min: be.reps_min ?? null,
-              prescribed_reps_max: be.reps_max ?? null,
-              target_rpe: be.target_rpe ?? null,
-              amrap_reserve: amrapReserveOf(be),
-              // Bodyweight work has nothing to put on the bar, so asking would
-              // be a field the athlete can only leave empty.
-              logs_load: be.load_basis !== 'bodyweight',
-            });
+            // Both sides of a set, then the rest. Resting between the two
+            // halves of one set would turn '3x10 each leg' into six sets with
+            // a break in the middle of each, which is a different session.
+            for (const side of sides) {
+              steps.push({
+                ...commonFor(side),
+                qty: repsLabel(shown),
+                phase: side
+                  ? `SET ${n} / ${be.sets} · ${SIDE_ORDINAL[side - 1].toUpperCase()} ${sideWord!.toUpperCase()}`
+                  : `SET ${n} / ${be.sets}`,
+                duration_seconds: null,
+                set_number: n,
+                set_count: be.sets,
+                prescribed_reps_min: be.reps_min ?? null,
+                prescribed_reps_max: be.reps_max ?? null,
+                target_rpe: be.target_rpe ?? null,
+                amrap_reserve: amrapReserveOf(shown),
+                // Bodyweight work has nothing to put on the bar, so asking would
+                // be a field the athlete can only leave empty.
+                logs_load: be.load_basis !== 'bodyweight',
+              });
+            }
 
             // Rest between working sets is what separates strength from
             // density work, so it is a step rather than dead time between two
@@ -248,13 +318,22 @@ export function buildSteps(rec: Recommendation, nameOf: NameLookup = () => undef
           continue;
         }
 
-        const { text, seconds } = formatQuantity(be.prescription_type, be.quantity, be.quantity_unit);
-        steps.push({
-          ...common,
-          qty: text,
-          phase: rounds > 1 ? `ROUND ${r} / ${rounds}` : kind.toUpperCase(),
-          duration_seconds: seconds,
-        });
+        const { text, seconds } = formatQuantity(
+          shown.prescription_type, shown.quantity, shown.quantity_unit);
+        for (const side of sides) {
+          const progress = rounds > 1 ? `ROUND ${r} / ${rounds}` : kind.toUpperCase();
+          steps.push({
+            ...commonFor(side),
+            qty: text,
+            phase: side
+              ? `${progress} · ${SIDE_ORDINAL[side - 1].toUpperCase()} ${sideWord!.toUpperCase()}`
+              : progress,
+            // Its own clock, because it is its own effort. A 30-second side
+            // plank held twice is two thirty-second holds, and the split the
+            // athlete sees afterwards should say so.
+            duration_seconds: seconds,
+          });
+        }
       }
       if (block.rest_seconds && r < rounds) {
         steps.push({

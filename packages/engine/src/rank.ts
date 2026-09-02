@@ -245,7 +245,7 @@ export function capabilityNeed(template: WorkoutTemplate, input: EngineInput): n
   const needs = input.capability_needs;
   if (!needs) return 0;
 
-  const domain = template.training_domain ?? template.primary_goal;
+  const domain = template.training_domain ?? template.primary_goal ?? '';
   let best = 0;
   for (const [key, need] of Object.entries(needs)) {
     if (!(need > 0)) continue;
@@ -276,7 +276,7 @@ export function perceivedWeakness(template: WorkoutTemplate, input: EngineInput)
   const stated = input.perceived_weaknesses;
   if (!stated?.length) return 0;
 
-  const domain = template.training_domain ?? template.primary_goal;
+  const domain = template.training_domain ?? template.primary_goal ?? '';
   let best = 0;
   for (const key of stated) {
     const target = CAPABILITY_TARGETS[key];

@@ -112,7 +112,7 @@ export function recommend(
     variant: best.variant,
     blocks,
     estimated_minutes: variantMinutes(best.template, best.variant),
-    primary_stimulus: best.template.primary_goal,
+    primary_stimulus: stimulusOf(best.template),
     score: best.breakdown,
     reason_codes: codes,
     rationale: buildRationale(best, input, recovery, codes),
@@ -155,6 +155,22 @@ function buildReasonCodes(
 }
 
 /**
+ * The stimulus this session is about, as a name that can always be rendered.
+ *
+ * `primary_goal` is null on every supplemental template — a supplemental is
+ * chosen to sit beside the day's stimulus, not to carry one — so the authored
+ * `stimulus` ('jab_footwork') is the next most specific thing, then the
+ * supplemental type ('boxing'), then the family. Never null, because both the
+ * rationale and the Adapt sheet render this string directly.
+ */
+function stimulusOf(template: WorkoutTemplate): string {
+  return template.primary_goal
+    ?? template.stimulus
+    ?? template.supplemental_type
+    ?? template.workout_family;
+}
+
+/**
  * The human-readable "why". PRD §2 requires every adaptation to expose a short
  * rationale naming the stimulus being preserved.
  */
@@ -164,7 +180,7 @@ function buildRationale(
   recovery: 'good' | 'okay' | 'poor',
   codes: ReasonCode[],
 ): string {
-  const stimulus = best.template.primary_goal.replace(/_/g, ' ');
+  const stimulus = stimulusOf(best.template).replace(/_/g, ' ');
   const parts: string[] = [];
 
   if (codes.includes('REENTRY_AFTER_GAP')) {

@@ -137,7 +137,14 @@ export interface WorkoutTemplate {
   id: string;
   name: string;
   workout_family: string;
-  primary_goal: string;
+  /**
+   * The planner's goal, or null. Supplemental sessions have none: they are
+   * chosen to sit alongside the day's stimulus rather than to carry one, so the
+   * seed leaves the column NULL for all 34 of them. Typed non-null, this read
+   * as a guarantee the content never made, and `buildRationale` crashed on the
+   * first supplemental an athlete tapped. Use `stimulusOf` to render it.
+   */
+  primary_goal: string | null;
   /**
    * The authored training stimulus, which is finer-grained than the planner's
    * five goals — `lactate_threshold` rather than `threshold`. `primary_goal` is

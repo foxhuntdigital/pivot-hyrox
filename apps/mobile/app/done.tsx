@@ -66,6 +66,21 @@ function CorrectionField({
   );
 }
 
+/**
+ * Disclosure caret — the same typographic arrow Profile's sections use, since
+ * the design carries no icon set. Rotated a quarter turn when open.
+ */
+function Caret({ open }: { open: boolean }) {
+  return (
+    <Text style={{
+      fontFamily: t.rowTitle.fontFamily, fontSize: 15, color: color.muted,
+      transform: [{ rotate: open ? '90deg' : '0deg' }],
+    }}>
+      ›
+    </Text>
+  );
+}
+
 export default function DoneScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -73,6 +88,17 @@ export default function DoneScreen() {
     state, dispatch, session, steps, plan, sleep, finishSession,
     engineInput, startSupplemental, guidance,
   } = useApp();
+
+  /**
+   * Corrections start closed.
+   *
+   * The clock is right almost every time, so the fields are an exception path
+   * — and open by default they were the largest thing on a screen whose job is
+   * to report what happened. Closing hides nothing the athlete needs: the
+   * header counts what is inside, and every value in there is already the
+   * measured one until somebody changes it.
+   */
+  const [correctionsOpen, setCorrectionsOpen] = React.useState(false);
 
   if (session.kind !== 'session') {
     router.replace('/today');
@@ -377,20 +403,47 @@ export default function DoneScreen() {
 
       {correctable.length ? (
         <>
-          <View style={{
-            flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between',
-            paddingHorizontal: space.gutter, paddingTop: 18, paddingBottom: 2,
-          }}>
-            <Label>Correct what was measured</Label>
-            <Text style={[t.meta, { color: color.muted }]}>optional</Text>
+          {/* Its own block, ruled top and bottom. Every section on this screen
+              used to run straight into the next, and this one is the only one
+              that asks for input rather than reporting — the edges are what
+              say so before the athlete reads a word of it. */}
+          <View style={{ paddingHorizontal: space.gutter, paddingTop: 18 }}>
+            <Rule />
           </View>
-          <Text style={[t.meta, {
-            paddingHorizontal: space.gutter, color: color.muted, paddingBottom: 6,
-          }]}>
-            Leave these alone if the clock had it right.
-          </Text>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityState={{ expanded: correctionsOpen }}
+            accessibilityLabel="Correct what was measured"
+            accessibilityHint={correctionsOpen
+              ? 'Collapse the corrections'
+              : `Expand to correct ${correctable.length} timed section(s)`}
+            onPress={() => setCorrectionsOpen(o => !o)}
+            style={({ pressed }) => ({
+              flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+              paddingHorizontal: space.gutter, paddingVertical: 12,
+              backgroundColor: pressed ? color.hover : 'transparent',
+            })}
+          >
+            <View style={{ flex: 1 }}>
+              <Label>Correct what was measured</Label>
+              {/* Closed, the subtitle says what is in there rather than how to
+                  use it — the instruction is only useful once it is open. */}
+              <Text style={[t.meta, { color: color.muted, marginTop: 3 }]}>
+                {correctionsOpen
+                  ? 'Leave these alone if the clock had it right.'
+                  : `${correctable.length} timed section${correctable.length === 1 ? '' : 's'} · the clock's numbers stand`}
+              </Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+              <Text style={[t.meta, { color: color.muted }]}>optional</Text>
+              <Caret open={correctionsOpen} />
+            </View>
+          </Pressable>
 
-          <View style={{ paddingHorizontal: space.gutter }}>
+          <View style={{
+            paddingHorizontal: space.gutter,
+            display: correctionsOpen ? 'flex' : 'none',
+          }}>
             {correctable.map(({ step, i }) => {
               const entry = state.entries[i] ?? {};
               const measured = state.step_seconds[i] ?? 0;
@@ -430,6 +483,9 @@ export default function DoneScreen() {
                 </View>
               );
             })}
+          </View>
+          <View style={{ paddingHorizontal: space.gutter, paddingTop: correctionsOpen ? 8 : 0 }}>
+            <Rule />
           </View>
         </>
       ) : null}
@@ -483,13 +539,22 @@ export default function DoneScreen() {
       </View>
 
       {offer.offered || showRefusal ? (
-        <>
-          <Label style={{ paddingHorizontal: space.gutter, paddingTop: 22, paddingBottom: 6 }}>
+        /* The offer sits on its own wash rather than continuing the report
+           above it. Everything before this is what happened; this is the one
+           thing on the screen still being asked, and running it into the row
+           of stat lines is what made the whole page read as one column. */
+        <View style={{
+          marginTop: 22,
+          backgroundColor: color.mist,
+          borderTopWidth: 1, borderBottomWidth: 1, borderColor: color.mistEdge,
+          paddingBottom: 4,
+        }}>
+          <Label style={{ paddingHorizontal: space.gutter, paddingTop: 16, paddingBottom: 6 }}>
             Something extra?
           </Label>
           {showRefusal ? (
             <Text style={[t.body, {
-              paddingHorizontal: space.gutter, color: color.muted2, paddingBottom: 2,
+              paddingHorizontal: space.gutter, color: color.muted2, paddingBottom: 14,
             }]}>
               {offer.rationale}
             </Text>
@@ -501,18 +566,22 @@ export default function DoneScreen() {
                 Optional · skipping records nothing
               </Text>
               <View style={{ paddingHorizontal: space.gutter }}>
-                {offer.options.map(option => (
+                {offer.options.map((option, i) => (
                   <Pressable
                     key={option.template_id}
                     accessibilityRole="button"
                     accessibilityLabel={
                       `${option.name}, ${option.minutes} minutes, ${option.supplemental_load} load`}
                     onPress={() => takeSupplemental(option.template_id)}
-                    style={{
+                    style={({ pressed }) => ({
                       flexDirection: 'row', justifyContent: 'space-between',
                       alignItems: 'baseline', paddingVertical: 12,
-                      borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
-                    }}
+                      // The faint paper rule is invisible on mist; the wash has
+                      // its own edge colour and the rows between them need it.
+                      borderBottomWidth: i === offer.options.length - 1 ? 0 : 1,
+                      borderBottomColor: color.mistEdge,
+                      opacity: pressed ? 0.6 : 1,
+                    })}
                   >
                     <Text style={[t.rowTitle, { fontSize: 13, color: color.ink, flex: 1 }]}>
                       {option.name}
@@ -525,7 +594,7 @@ export default function DoneScreen() {
               </View>
             </>
           )}
-        </>
+        </View>
       ) : null}
 
       <ActionButton

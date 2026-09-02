@@ -130,8 +130,14 @@ export function SetEntryRow({
           onPress={() => onChange({ weight: carryWeight, unit })}
           style={({ pressed }) => ({ paddingVertical: 8, opacity: pressed ? 0.6 : 1 })}
         >
-          <Text style={[t.meta, { color: color.salmon }]}>
-            Same as last set · {carryWeight} {unit}
+          {/* Sized and weighted as the control it is: at 11pt regular it read
+              as a caption under the field, and the one tap that fills the
+              weight in looked like something the screen was telling you. The
+              leading arrow is the same cue "See all ›" carries in the header. */}
+          <Text style={[t.meta, {
+            fontFamily: t.rowTitle.fontFamily, fontSize: 13, color: color.salmon,
+          }]}>
+            → Same as last set · {carryWeight} {unit}
           </Text>
         </Pressable>
       ) : null}

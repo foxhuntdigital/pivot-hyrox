@@ -264,4 +264,51 @@ describe('Session actuals', () => {
     assert.equal(logs.cardio_logs.length, 0);
     assert.ok(logs.blocks.every(b => b.skipped), 'and claims no block was performed');
   });
+  test('each side of a unilateral movement logs separately', () => {
+    /*
+     * The second side used to be invisible here, because it was never a step:
+     * one lunge step meant one `set_log`, so an athlete who used a heavier
+     * dumbbell on their stronger leg had nowhere to say so, and the weaker
+     * side's reps were never recorded at all.
+     *
+     * Two steps, two rows, two independent entries. `set_index` differs, which
+     * is what `set_logs`' (session_block_id, set_index) unique constraint
+     * needs and what keeps the two from overwriting one another.
+     */
+    const sides = [
+      step({ prescription_type: 'sets_reps', exercise_id: 'ex_reverse_lunge',
+             set_number: 1, set_count: 1, prescribed_reps_min: 10,
+             side_number: 1, side_count: 2 }),
+      step({ prescription_type: 'sets_reps', exercise_id: 'ex_reverse_lunge',
+             set_number: 1, set_count: 1, prescribed_reps_min: 10,
+             side_number: 2, side_count: 2 }),
+    ];
+    const logs = buildLogs(sides, [40, 42], 2, AT, {
+      0: { weight: 40, reps: 10 },
+      1: { weight: 35, reps: 8 },
+    });
+
+    assert.equal(logs.set_logs.length, 2, 'one row per side');
+    assert.deepEqual(logs.set_logs.map(l => l.set_index), [0, 1]);
+    assert.deepEqual(logs.set_logs.map(l => l.actual_load), [40, 35]);
+    assert.deepEqual(logs.set_logs.map(l => l.actual_reps), [10, 8]);
+    assert.deepEqual([...new Set(logs.set_logs.map(l => l.source))], ['manual']);
+  });
+
+  test('each side of a held position gets its own split', () => {
+    // A 30-second side plank held twice is two thirty-second efforts. Logged
+    // as one, half the work was missing from the record and from the clock.
+    const sides = [
+      step({ prescription_type: 'duration', exercise_id: 'ex_side_plank',
+             quantity: 30, quantity_unit: 'sec/side', duration_seconds: 30,
+             side_number: 1, side_count: 2 }),
+      step({ prescription_type: 'duration', exercise_id: 'ex_side_plank',
+             quantity: 30, quantity_unit: 'sec/side', duration_seconds: 30,
+             side_number: 2, side_count: 2 }),
+    ];
+    const logs = buildLogs(sides, [31, 27], 2, AT);
+    assert.equal(logs.cardio_logs.length, 2);
+    assert.deepEqual(logs.cardio_logs.map(l => l.duration_seconds), [31, 27],
+      'the clock that actually ran on each side, not the prescription twice');
+  });
 });

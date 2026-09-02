@@ -150,3 +150,90 @@ describe('Step expansion', () => {
     assert.deepEqual([...new Set(steps.map(s => s.round))], [1, 2, 3]);
   });
 });
+
+/**
+ * Unilateral work: two efforts, not one.
+ *
+ * A prescription authored per side — 'x10/leg', '30 sec/side' — used to become
+ * a single step. The athlete got one beat, one clock and one row to log, so
+ * the second leg was never timed, never logged, and easy to skip outright. The
+ * rule under test: each side is its own step, and the numbers are NOT halved,
+ * because '10/leg' already meant ten on each.
+ */
+describe('Per-side expansion', () => {
+  const lunge = (over: any = {}) => ({
+    exercise_id: 'ex_reverse_lunge', sequence_order: 1, prescription_type: 'sets_reps',
+    quantity: 3, quantity_unit: 'x10/leg', intensity_note: null,
+    sets: 3, reps_min: 10, reps_max: 10, rest_seconds: 120, target_rpe: 7,
+    load_basis: null, load_value: null, ...over,
+  });
+
+  const plank = (over: any = {}) => ({
+    exercise_id: 'ex_side_plank', sequence_order: 1, prescription_type: 'duration',
+    quantity: 30, quantity_unit: 'sec/side', intensity_note: null,
+    sets: null, reps_min: null, reps_max: null, rest_seconds: null, target_rpe: null,
+    load_basis: 'bodyweight', load_value: null, ...over,
+  });
+
+  test('a per-side working set becomes two steps, one per side', () => {
+    const work = buildSteps(rec([lunge()])).filter(s => !s.rest);
+    assert.equal(work.length, 6, 'three sets of two sides');
+    assert.deepEqual(work.map(s => s.side_number), [1, 2, 1, 2, 1, 2]);
+    assert.deepEqual(work.map(s => s.set_number), [1, 1, 2, 2, 3, 3]);
+  });
+
+  test('the rest falls after both sides, never between them', () => {
+    // Resting mid-set would turn '3x10 each leg' into six sets with a break in
+    // the middle of each — a different session, at a different intensity.
+    const kinds = buildSteps(rec([lunge()])).map(s => (s.rest ? 'rest' : `side ${s.side_number}`));
+    assert.deepEqual(kinds, [
+      'side 1', 'side 2', 'rest',
+      'side 1', 'side 2', 'rest',
+      'side 1', 'side 2',
+    ]);
+  });
+
+  test('each side asks for the full prescribed number, not half of it', () => {
+    // The authored '10/leg' is ten on EACH. Halving it to five would be the
+    // opposite bug: the player quietly prescribing half the session.
+    const work = buildSteps(rec([lunge()])).filter(s => !s.rest);
+    assert.deepEqual([...new Set(work.map(s => s.qty))], ['10']);
+    assert.deepEqual([...new Set(work.map(s => s.prescribed_reps_min))], [10]);
+  });
+
+  test('a step that IS one side does not also say "per side"', () => {
+    // '30 sec/side' on a step that is one side asks for it twice.
+    const work = buildSteps(rec([plank()])).filter(s => !s.rest);
+    assert.deepEqual(work.map(s => s.qty), ['30 sec', '30 sec']);
+    // The authored unit survives on the step: buildLogs reads it, and it is
+    // what the row was actually written as.
+    assert.deepEqual([...new Set(work.map(s => s.quantity_unit))], ['sec/side']);
+  });
+
+  test('each side is timed on its own clock', () => {
+    // The whole point of the second beat: a 30-second hold performed twice is
+    // two thirty-second splits, and the summary should show both.
+    const work = buildSteps(rec([plank()])).filter(s => !s.rest);
+    assert.deepEqual(work.map(s => s.duration_seconds), [30, 30]);
+  });
+
+  test('the side is named in the label and the progress line', () => {
+    const work = buildSteps(rec([lunge()]), () => 'Reverse Lunge').filter(s => !s.rest);
+    assert.equal(work[0].label, 'Reverse Lunge · First leg');
+    assert.equal(work[1].label, 'Reverse Lunge · Second leg');
+    assert.equal(work[1].phase, 'SET 1 / 3 · SECOND LEG');
+    // The authored word is used, so '/side' and '/arm' read as themselves.
+    const press = buildSteps(rec([lunge({
+      exercise_id: 'ex_landmine_press', quantity_unit: 'x8/arm', sets: 1, reps_min: 8,
+    })]), () => 'Landmine Press').filter(s => !s.rest);
+    assert.equal(press[1].label, 'Landmine Press · Second arm');
+  });
+
+  test('bilateral work is untouched', () => {
+    const work = buildSteps(rec([squat()])).filter(s => !s.rest);
+    assert.equal(work.length, 4);
+    assert.deepEqual([...new Set(work.map(s => s.side_number))], [undefined]);
+    assert.equal(work[0].label, 'Back Squat');
+    assert.equal(work[0].phase, 'SET 1 / 4');
+  });
+});

@@ -351,10 +351,16 @@ export default function ActiveScreen() {
               flexDirection: 'row', justifyContent: 'space-between',
               alignItems: 'baseline', paddingTop: 10,
             }}>
-              <Text style={[t.meta, { color: color.muted3 }]} numberOfLines={1}>
+              {/* Sized under the live pair above rather than level with it: the
+                  running split is what the athlete paces against, and the lap
+                  just banked is the reference beside it. At 11pt it sat below
+                  the rest of the panel and read as a footnote to it. */}
+              <Text style={[t.meta, { fontSize: 13, color: color.muted3 }]} numberOfLines={1}>
                 Last · {lastSplit.rest ? 'rest' : lastSplit.label}
               </Text>
-              <Text style={[t.meta, { fontFamily: t.rowTitle.fontFamily, color: color.salmon }]}>
+              <Text style={[t.meta, {
+                fontFamily: t.rowTitle.fontFamily, fontSize: 16, color: color.salmon,
+              }]}>
                 {mmss(lastSplit.seconds)}
               </Text>
             </View>

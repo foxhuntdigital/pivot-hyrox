@@ -29,6 +29,41 @@
  */
 import { supabase } from '@/lib/supabase';
 
+/**
+ * The APP user's id — `public.users.id`, not the auth uid.
+ *
+ * The two are different uuids joined by `users.auth_id` (migration 0002), and
+ * both tables here take the app one: they reference `public.users(id)`, and
+ * 0013's RLS policy is `user_id = public.current_app_user_id()`, which resolves
+ * the same value. Writing `auth.getUser().id` instead failed the policy's WITH
+ * CHECK on every save — silently, because these writes are best-effort and
+ * swallow their errors — so a preference showed on screen from local state and
+ * was gone by the next launch. `equipmentRepo` states the same rule where it
+ * creates a profile row; this is that rule, applied to the other two tables.
+ *
+ * RLS restricts this select to the caller's own row, so it needs no filter.
+ */
+async function appUserId(): Promise<string | null> {
+  if (!supabase) return null;
+  const { data, error } = await supabase.from('users').select('id').single();
+  if (error || !data) return null;
+  return data.id as string;
+}
+
+/**
+ * Says that a best-effort write did not land.
+ *
+ * PostgREST does not throw on a rejected write — an RLS refusal comes back as
+ * `{ error }` on a resolved promise. Both writes here ignored that value and
+ * had only a `catch`, which sees network failures and nothing else, so every
+ * refused save looked exactly like a successful one. Staying best-effort is
+ * deliberate (a lost setting must never cost the session); staying silent
+ * about it was not.
+ */
+function reportWriteFailure(what: string, error: unknown): void {
+  if (error && __DEV__) console.warn(`[${what}] save was refused`, error);
+}
+
 export type PreferenceRating = 'love' | 'like' | 'rather_not';
 
 /** One offered choice: what the athlete sees, and the key that must match. */
@@ -86,28 +121,25 @@ export async function savePreference(
 ): Promise<void> {
   if (!supabase) return;
   try {
-    const { data: user } = await supabase.auth.getUser();
-    const userId = user?.user?.id;
+    const userId = await appUserId();
     if (!userId) return;
 
-    if (rating === null) {
-      await supabase.from('athlete_preferences')
-        .delete().eq('user_id', userId).eq('modality_or_domain', value);
-      return;
-    }
-
-    await supabase.from('athlete_preferences').upsert({
-      user_id: userId,
-      modality_or_domain: value,
-      rating,
-      // 'profile' rather than 'onboarding': the column exists so Coach can
-      // answer "where did this come from", and a preference set deliberately
-      // in settings is a stronger statement than one picked during signup.
-      source: 'profile',
-      updated_at: new Date().toISOString(),
-    }, { onConflict: 'user_id,modality_or_domain' });
-  } catch {
-    // Offline or unconfigured. Local state stands.
+    const { error } = rating === null
+      ? await supabase.from('athlete_preferences')
+        .delete().eq('user_id', userId).eq('modality_or_domain', value)
+      : await supabase.from('athlete_preferences').upsert({
+        user_id: userId,
+        modality_or_domain: value,
+        rating,
+        // 'profile' rather than 'onboarding': the column exists so Coach can
+        // answer "where did this come from", and a preference set deliberately
+        // in settings is a stronger statement than one picked during signup.
+        source: 'profile',
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'user_id,modality_or_domain' });
+    reportWriteFailure('preferences', error);
+  } catch (e) {
+    reportWriteFailure('preferences', e);
   }
 }
 
@@ -154,19 +186,17 @@ export async function fetchWeaknesses(): Promise<string[] | null> {
 export async function saveWeakness(value: string, stated: boolean): Promise<void> {
   if (!supabase) return;
   try {
-    const { data: user } = await supabase.auth.getUser();
-    const userId = user?.user?.id;
+    const userId = await appUserId();
     if (!userId) return;
 
-    if (!stated) {
-      await supabase.from('athlete_perceived_weaknesses')
+    const { error } = stated
+      ? await supabase.from('athlete_perceived_weaknesses')
+        .upsert({ user_id: userId, capability_key: value },
+          { onConflict: 'user_id,capability_key' })
+      : await supabase.from('athlete_perceived_weaknesses')
         .delete().eq('user_id', userId).eq('capability_key', value);
-      return;
-    }
-    await supabase.from('athlete_perceived_weaknesses')
-      .upsert({ user_id: userId, capability_key: value },
-        { onConflict: 'user_id,capability_key' });
-  } catch {
-    // Offline or unconfigured. Local state stands.
+    reportWriteFailure('weaknesses', error);
+  } catch (e) {
+    reportWriteFailure('weaknesses', e);
   }
 }
