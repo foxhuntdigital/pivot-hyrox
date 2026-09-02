@@ -24,7 +24,7 @@ import { EXERCISES, TEMPLATES, SUBSTITUTIONS, exerciseById } from '../data/conte
 import { metricDetail, type MetricDetail } from '../data/metrics';
 import { EMPTY_PROFILE, type AthleteProfile, type ExperienceLevel } from '../data/profile';
 import { fetchProfile, saveProfile } from '../data/profileRepo';
-import { fetchToday, type TodayPayload } from '../data/todayRepo';
+import { fetchToday, type ExerciseGuidance, type TodayPayload } from '../data/todayRepo';
 import { saveCheckin, EMPTY_CHECKIN, type Checkin } from '../data/recoveryRepo';
 import { fetchProgressNarration } from '../data/coachRepo';
 import {
@@ -436,6 +436,15 @@ interface Store {
   steps: Step[];
   readiness: ReturnType<typeof computeReadiness>;
   metricDetail: Record<string, MetricDetail>;
+  /**
+   * Last exposure and suggested load per movement, keyed by exercise id.
+   *
+   * Computed server-side because the input is the athlete's whole logged
+   * history. Empty when today has no session, when the server has not answered,
+   * or for any movement that prescribes no working sets — the player shows
+   * nothing rather than a prior it had to invent.
+   */
+  guidance: Record<string, ExerciseGuidance>;
   /**
    * The race, phase and week as the screens render them. One resolution of
    * payload-or-seed, so no screen has to know which it is looking at.
@@ -1332,7 +1341,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const value = useMemo(
     () => ({
       state, dispatch, decision, session, steps, readiness,
-      metricDetail: metricDetailView, plan, sleep, engineInput,
+      metricDetail: metricDetailView, guidance: today?.exercise_guidance ?? {},
+      plan, sleep, engineInput,
       commitProfile, commitCheckin, commitEquipment, reportSymptom,
       beginSession, finishSession, commitAdaptation, switchToQueued, startSupplemental,
       chooseVariant,

@@ -68,6 +68,31 @@ export interface CompletedThisWeek {
   completed_on: string;
 }
 
+/** One movement's history and suggestion, as `_shared/guidance.ts` sends it. */
+export interface ExerciseGuidance {
+  exercise_id: string;
+  exercise: string;
+  last: {
+    date: string;
+    days_ago: number;
+    load: number | null;
+    load_unit: string | null;
+    reps: number | null;
+    rpe: number | null;
+    sets: number;
+  } | null;
+  suggestion: {
+    dimension: 'load' | 'reps' | 'density' | 'none';
+    load: number | null;
+    load_unit: string | null;
+    reps: number | null;
+    reason_code: string;
+    /** The reason in prose. Held server-side so Coach and the player agree. */
+    reason: string;
+    caveat: string | null;
+  };
+}
+
 export interface TodayPayload {
   date_local: string;
   active_race: {
@@ -109,6 +134,15 @@ export interface TodayPayload {
    * the window qualified — which is an answer, not an empty state to fill.
    */
   comparable_runs: ComparableSeries | null;
+  /**
+   * Last exposure and suggested load for today's movements, keyed by exercise
+   * id. Absent for a movement with no working sets, and for a no_session day.
+   *
+   * `last` being null is a real answer — the athlete has nothing comparable on
+   * this movement — and the player shows nothing rather than a number from a
+   * different day or a different rep range.
+   */
+  exercise_guidance?: Record<string, ExerciseGuidance>;
   /**
    * The athlete's own check-in. Null when they have not logged one — which is
    * not zero, and must not be rendered as a number.

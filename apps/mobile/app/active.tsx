@@ -18,9 +18,38 @@ import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { ActionButton, Label } from '@/components/primitives';
 import { SetEntryRow } from '@/components/SetEntry';
 import { useApp } from '@/state/store';
+import type { ExerciseGuidance } from '@/data/todayRepo';
 import { mmss } from '@/lib/format';
 import { buildSplits } from '@/state/splits';
 import { track, elapsedMinutes } from '@/lib/analytics';
+
+/**
+ * "135 lb x 6 @ 7 - 8 days ago", with every part optional.
+ *
+ * A set logged without a weight is still a rep count worth showing, and one
+ * logged without an RPE is still a load. Nothing is invented to fill a gap.
+ */
+function lastLine(last: NonNullable<ExerciseGuidance['last']>): string {
+  const parts: string[] = [];
+  if (last.load != null) parts.push(`${last.load}${last.load_unit ? ` ${last.load_unit}` : ''}`);
+  if (last.reps != null) parts.push(`${parts.length ? '\u00d7 ' : ''}${last.reps}`);
+  if (last.rpe != null) parts.push(`@ ${last.rpe}`);
+  const when = last.days_ago === 0 ? 'today'
+    : last.days_ago === 1 ? 'yesterday'
+    : `${last.days_ago} days ago`;
+  return `${parts.join(' ')}  \u00b7  ${when}`;
+}
+
+/** The suggestion, or nothing at all when the engine is holding. */
+function suggestionLine(s: ExerciseGuidance['suggestion']): string | null {
+  if (s.dimension === 'load' && s.load != null) {
+    return `${s.load}${s.load_unit ? ` ${s.load_unit}` : ''} suggested`;
+  }
+  if (s.dimension === 'reps' && s.reps != null) return `${s.reps} reps suggested`;
+  // A hold, a density track, or no rule: the reason line below says why, and a
+  // repeated number here would read as a change when nothing changed.
+  return null;
+}
 
 export default function ActiveScreen() {
   // A workout screen that sleeps mid-interval is useless.
@@ -28,7 +57,7 @@ export default function ActiveScreen() {
 
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { state, dispatch, session, steps } = useApp();
+  const { state, dispatch, session, steps, guidance } = useApp();
   const [endPrompt, setEndPrompt] = useState(false);
   const [showList, setShowList] = useState(false);
 
@@ -54,14 +83,18 @@ export default function ActiveScreen() {
   const splitSeconds = state.step_seconds[index] ?? 0;
   const lastSplit = splits.length ? splits[splits.length - 1] : null;
 
+  /** Cross-session history for this movement, when the server had any. */
+  const guide = step.exercise_id ? guidance[step.exercise_id] : undefined;
+
   /**
-   * The weight from the previous set of this same movement, this session.
+   * The weight from the previous set of this same movement, THIS session.
    *
-   * Walks backwards from the current step rather than reading a stored "last
-   * value", because that is the only prior this screen can honestly offer: a
-   * cross-session comparable needs history the server does not serve yet, and
-   * showing a number from a different day as if it were today's would be the
-   * fabricated prior the performance rules exist to prevent.
+   * Distinct from the cross-session prior shown above it, and both are there
+   * because they answer different questions: this prefills the field from the
+   * set just done, and `guidance` says what was lifted on a different day and
+   * what the engine makes of it. This used to be the only prior the screen
+   * could honestly offer, because the server did not serve the other one. It
+   * does now (`_shared/guidance.ts`).
    */
   const carryWeight = (() => {
     if (step.set_number == null) return null;
@@ -208,6 +241,32 @@ export default function ActiveScreen() {
         {/* Only on a working set, and never on rest. Placed directly under the
             movement because during a set it is the thing the athlete came here
             to do; the clocks below matter more between sets than during one. */}
+        {/* What they lifted last time, and what the engine makes of it. Absent
+            when the server has nothing comparable — an answer, and better than
+            a number borrowed from a different day. */}
+        {step.set_number != null && !step.rest && guide ? (
+          <View style={{
+            marginTop: 14, paddingTop: 12,
+            borderTopWidth: 1, borderTopColor: color.ruleDark,
+          }}>
+            {guide.last ? (
+              <Text style={[t.bodySm, { color: color.onDarkSoft }]}>
+                <Text style={{ color: color.muted3 }}>Last  </Text>
+                {lastLine(guide.last)}
+              </Text>
+            ) : null}
+            {suggestionLine(guide.suggestion) ? (
+              <Text style={[t.bodySm, { color: color.onDark, marginTop: 2 }]}>
+                <Text style={{ color: color.muted3 }}>Today  </Text>
+                {suggestionLine(guide.suggestion)}
+              </Text>
+            ) : null}
+            <Text style={[t.meta, { color: color.muted3, marginTop: 4 }]}>
+              {guide.suggestion.reason}
+            </Text>
+          </View>
+        ) : null}
+
         {step.set_number != null && !step.rest ? (
           <SetEntryRow
             entry={entry}

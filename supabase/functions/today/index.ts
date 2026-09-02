@@ -14,6 +14,8 @@ import {
 } from '../_shared/context.ts';
 import { auditInputs } from '../_shared/audit.ts';
 import { loadProgressSnapshot } from '../_shared/progress.ts';
+import { exerciseHistory, loadPerformanceLogs } from '../_shared/exercise-history.ts';
+import { guidanceFor } from '../_shared/guidance.ts';
 import { daysAgo, sessionMinutes } from '../_shared/readiness-history.ts';
 import { ensureWeekQueue } from '../_shared/queue.ts';
 
@@ -107,6 +109,32 @@ Deno.serve(async (req) => {
     const { readiness, metric_detail, comparable } = await loadProgressSnapshot({
       db, userId: user.id, today, content, state,
     });
+
+    /**
+     * Last exposure and suggested load for today's movements.
+     *
+     * Loaded separately from the readiness history rather than sharing it: that
+     * loader selects a shorter window and omits `source`, and without `source`
+     * every row reads as an unverified Complete tap and is correctly excluded
+     * as evidence — which would silently produce guidance for nobody.
+     *
+     * Skipped entirely on a no_session day. There is no session to guide, and
+     * the queries are not worth making to answer that.
+     */
+    let exercise_guidance: Record<string, unknown> = {};
+    if (decision.kind === 'session') {
+      const [{ setLogs }, rulesRes] = await Promise.all([
+        loadPerformanceLogs(db, state.sessionRows.map((s: any) => s.id)),
+        db.schema('content').from('progression_rules').select('*'),
+      ]);
+      exercise_guidance = guidanceFor({
+        today,
+        template: decision.template as any,
+        histories: exerciseHistory({ today, sessions: state.sessionRows, setLogs }),
+        rules: rulesRes.data ?? [],
+        exercises: new Map(content.exercises.map((e: any) => [e.id, e])),
+      });
+    }
 
     /**
      * The week's queue, in the order the engine holds it. Names and durations
@@ -234,6 +262,16 @@ Deno.serve(async (req) => {
        * comparing sessions that were not alike.
        */
       comparable_runs: comparable,
+      /**
+       * Last exposure and the suggested load, per movement in today's session.
+       *
+       * Sent with the recommendation because the player cannot compute it: the
+       * input is the athlete's whole logged history. Empty when today is a
+       * no_session, or when nothing prescribes working sets — a distance carry
+       * has no load to progress, and an empty entry would invite the screen to
+       * render a blank where a number should be.
+       */
+      exercise_guidance,
       // Self-reported recovery, carried with its source and the day it was
       // logged (PRD §11.1 — health-derived values never arrive anonymous).
       // `source` is always self_reported until HealthKit ingestion lands.
