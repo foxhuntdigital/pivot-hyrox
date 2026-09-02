@@ -24,7 +24,11 @@ import { EXERCISES, TEMPLATES, SUBSTITUTIONS, exerciseById } from '../data/conte
 import { metricDetail, type MetricDetail } from '../data/metrics';
 import { EMPTY_PROFILE, type AthleteProfile, type ExperienceLevel } from '../data/profile';
 import { fetchProfile, saveProfile } from '../data/profileRepo';
-import { fetchToday, type ExerciseGuidance, type TodayPayload } from '../data/todayRepo';
+import {
+  fetchToday,
+  type CapabilityState, type ExerciseGuidance,
+  type PerformanceTrend, type TodayPayload,
+} from '../data/todayRepo';
 import { saveCheckin, EMPTY_CHECKIN, type Checkin } from '../data/recoveryRepo';
 import { fetchProgressNarration } from '../data/coachRepo';
 import {
@@ -455,6 +459,15 @@ interface Store {
    * Absent from the map means neutral, which is what the engine assumes and
    * what the table stores by omitting the row.
    */
+  /**
+   * What performance has demonstrated, and the one trend worth stating.
+   *
+   * Both come from the server because both are determinations over the
+   * athlete's whole history — the client renders them and does not re-derive
+   * them. A null trend is an answer, not a missing value.
+   */
+  capability: CapabilityState[];
+  trend: PerformanceTrend | null;
   preferences: Preferences;
   /** Sets one preference, or clears it back to neutral with null. */
   setPreference(value: string, rating: PreferenceRating | null): void;
@@ -1409,6 +1422,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     () => ({
       state, dispatch, decision, session, steps, readiness,
       metricDetail: metricDetailView, guidance: today?.exercise_guidance ?? {},
+      capability: today?.capability_state ?? [],
+      trend: today?.performance_trend ?? null,
       preferences, setPreference, weaknesses, setWeakness,
       plan, sleep, engineInput,
       commitProfile, commitCheckin, commitEquipment, reportSymptom,

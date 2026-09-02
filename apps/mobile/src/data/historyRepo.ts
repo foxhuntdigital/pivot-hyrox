@@ -47,6 +47,8 @@ export interface HistorySession {
     unit: string | null;
     previous: number;
   }[];
+  /** Optional work taken after a session, rather than prescribed by the plan. */
+  supplemental?: boolean;
 }
 
 export interface HistoryPage {

@@ -107,6 +107,27 @@ export interface ExerciseGuidance {
   };
 }
 
+/** PIVOT's determination about one capability. */
+export interface CapabilityState {
+  capability_key: string;
+  direction: 'negative' | 'neutral' | 'positive';
+  confidence: 'low' | 'medium' | 'high';
+  samples: number;
+  agreeing: number;
+}
+
+/** A trend, as `_shared/trends.ts` composes it. */
+export interface PerformanceTrend {
+  metric: string;
+  window_weeks: number;
+  direction: 'improving' | 'holding' | 'slowing';
+  samples: number;
+  from: string;
+  to: string;
+  confidence: 'low' | 'medium' | 'high';
+  caveat: string;
+}
+
 export interface TodayPayload {
   date_local: string;
   active_race: {
@@ -157,6 +178,19 @@ export interface TodayPayload {
    * different day or a different rep range.
    */
   exercise_guidance?: Record<string, ExerciseGuidance>;
+  /**
+   * The one trend worth stating, or null when nothing qualifies. Null is an
+   * answer the screen renders rather than hides.
+   */
+  performance_trend?: PerformanceTrend | null;
+  /**
+   * What performance has demonstrated. Bands, never numbers — a confidence
+   * band rendered as a percentage would be inventing precision the evidence
+   * does not have.
+   */
+  capability_state?: CapabilityState[];
+  /** What the athlete says needs work. A separate claim, never merged above. */
+  perceived_weaknesses?: string[];
   /**
    * The athlete's own check-in. Null when they have not logged one — which is
    * not zero, and must not be rendered as a number.

@@ -14,6 +14,8 @@ import { personalRecordsIn } from './prs.ts';
 
 export interface HistorySessionRow extends SessionRow {
   variant_code: string | null;
+  /** 'supplemental' for optional work taken after a session (migration 0017). */
+  workout_role?: string | null;
   session_rpe: number | null;
   ended_early: boolean | null;
   snapshot_json: Record<string, any> | null;
@@ -78,6 +80,16 @@ export interface HistoryEntry {
    * marking.
    */
   records: { exercise: string; kind: 'load' | 'reps'; value: number; unit: string | null; previous: number }[];
+  /**
+   * True for optional work taken after a session rather than prescribed.
+   *
+   * Read from the session's own `workout_role`, copied at start, so a template
+   * re-roled later cannot change what this athlete did. Without the
+   * distinction a week reads as more prescribed training than it was — which is
+   * exactly the confusion the crediting rule prevents in the data, and it
+   * should not reappear in the feed.
+   */
+  supplemental: boolean;
 }
 
 const round = (n: number) => Math.round(n * 10) / 10;
@@ -231,6 +243,7 @@ export function historyEntriesFrom(args: {
           rest: !!l.rest,
         })),
       records: recordsBySession.get(s.id) ?? [],
+      supplemental: (s.workout_role ?? 'primary') === 'supplemental',
     };
   });
 }
@@ -238,7 +251,8 @@ export function historyEntriesFrom(args: {
 /** One page of completed sessions, newest first. */
 export async function loadHistory(db: any, userId: string, opts: { limit: number; before?: string | null }) {
   let q = db.from('workout_sessions')
-    .select('id, template_id, started_at, ended_at, session_rpe, ended_early, variant_code, snapshot_json')
+    .select('id, template_id, started_at, ended_at, session_rpe, ended_early, variant_code, '
+      + 'workout_role, snapshot_json')
     .eq('user_id', userId).eq('status', 'completed')
     .order('started_at', { ascending: false })
     .limit(opts.limit + 1);          // one extra to know whether more exist

@@ -16,6 +16,7 @@ import { auditInputs } from '../_shared/audit.ts';
 import { loadProgressSnapshot } from '../_shared/progress.ts';
 import { exerciseHistory, loadPerformanceLogs } from '../_shared/exercise-history.ts';
 import { guidanceFor } from '../_shared/guidance.ts';
+import { performanceTrend } from '../_shared/trends.ts';
 import { daysAgo, sessionMinutes } from '../_shared/readiness-history.ts';
 import { ensureWeekQueue } from '../_shared/queue.ts';
 
@@ -122,20 +123,38 @@ Deno.serve(async (req) => {
      * Skipped entirely on a no_session day. There is no session to guide, and
      * the queries are not worth making to answer that.
      */
+    const [{ setLogs }, rulesRes] = await Promise.all([
+      loadPerformanceLogs(db, state.sessionRows.map((s: any) => s.id)),
+      db.schema('content').from('progression_rules').select('*'),
+    ]);
+    const strengthHistories = exerciseHistory({
+      today, sessions: state.sessionRows, setLogs,
+    });
+
     let exercise_guidance: Record<string, unknown> = {};
     if (decision.kind === 'session') {
-      const [{ setLogs }, rulesRes] = await Promise.all([
-        loadPerformanceLogs(db, state.sessionRows.map((s: any) => s.id)),
-        db.schema('content').from('progression_rules').select('*'),
-      ]);
       exercise_guidance = guidanceFor({
         today,
         template: decision.template as any,
-        histories: exerciseHistory({ today, sessions: state.sessionRows, setLogs }),
+        histories: strengthHistories,
         rules: rulesRes.data ?? [],
         exercises: new Map(content.exercises.map((e: any) => [e.id, e])),
       });
     }
+
+    /**
+     * The one trend Progress may state, chosen from whichever evidence is
+     * strongest. Null when nothing qualifies, which the screen renders as
+     * "not enough comparable sessions yet" rather than hiding — an athlete
+     * with no history is the common case for months, and an empty card that
+     * explains itself is better than a card that vanishes.
+     */
+    const exerciseNames = new Map(content.exercises.map((e: any) => [e.id, e.name]));
+    const performance_trend = performanceTrend({
+      runs: comparable,
+      strength: strengthHistories,
+      nameFor: (id: string) => exerciseNames.get(id) ?? id,
+    });
 
     /**
      * The week's queue, in the order the engine holds it. Names and durations
@@ -273,6 +292,16 @@ Deno.serve(async (req) => {
        * render a blank where a number should be.
        */
       exercise_guidance,
+      performance_trend,
+      /**
+       * What performance has demonstrated, as PIVOT determined it — direction,
+       * confidence and the sample behind each. Bands, never numbers: the
+       * schema stores them that way so nobody renders "82% confident", and the
+       * screen has to honour that or the safeguard was pointless.
+       */
+      capability_state: state.capability_state,
+      /** What the athlete says needs work. A different claim, kept separate. */
+      perceived_weaknesses: state.perceived_weaknesses,
       // Self-reported recovery, carried with its source and the day it was
       // logged (PRD §11.1 — health-derived values never arrive anonymous).
       // `source` is always self_reported until HealthKit ingestion lands.

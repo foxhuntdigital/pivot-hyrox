@@ -137,6 +137,12 @@ export default function HistoryScreen() {
                       {s.ended_early ? (
                         <Text style={[t.meta, { color: color.redDark }]}>ended early</Text>
                       ) : null}
+                      {/* An add-on, not another prescribed session. Understated
+                          on purpose: the week should not read as more planned
+                          training than it was. */}
+                      {s.supplemental ? (
+                        <Text style={[t.meta, { color: color.muted }]}>supplemental</Text>
+                      ) : null}
                     </View>
 
                     {/* A record, stated quietly and persistently. The

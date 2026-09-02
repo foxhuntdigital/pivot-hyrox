@@ -13,11 +13,39 @@ import { color, numeralTrim, type as t, space } from '@/theme/tokens';
 import { Rule, Label, InkPanel } from '@/components/primitives';
 import { useApp } from '@/state/store';
 import { track } from '@/lib/analytics';
+import { WEAKNESS_OPTIONS } from '@/data/preferencesRepo';
+
+/**
+ * The seven capabilities, in the order they read as a body rather than as an
+ * enum. Labels are shared with the Profile question so the athlete sees one
+ * name for one thing.
+ */
+const CAPABILITIES = WEAKNESS_OPTIONS.map(o => ({ key: o.value, label: o.label }));
+
+/**
+ * Direction as a word, never as a number.
+ *
+ * `athlete_capability_evidence` stores bands specifically so nobody renders a
+ * decimal, and the same restraint applies to the word: "improving" is a claim
+ * the evidence supports, "up 12%" is not.
+ */
+const DIRECTION: Record<string, string> = {
+  positive: 'Improving',
+  neutral: 'Stable',
+  negative: 'Declining',
+};
+
+/** The trend module's own vocabulary, said plainly. */
+const DIRECTION_TREND: Record<string, string> = {
+  improving: 'Improving',
+  holding: 'Holding',
+  slowing: 'Slowing',
+};
 
 
 
 export default function ProgressScreen() {
-  const { state, dispatch, readiness, metricDetail } = useApp();
+  const { state, dispatch, readiness, metricDetail, capability, trend, weaknesses } = useApp();
   const router = useRouter();
 
   const entries = Object.entries(readiness.components) as [keyof typeof readiness.components, number][];
@@ -230,6 +258,94 @@ export default function ProgressScreen() {
           </Text>
         </InkPanel>
       )}
+
+      {/* ── What the training has shown ───────────────────────────────
+          Bands, never numbers. The schema stores direction and confidence as
+          bands precisely so nobody renders "82% confident", and converting one
+          here would invent a precision the evidence does not have. */}
+      <Label style={{ paddingHorizontal: space.gutter, paddingTop: 26, paddingBottom: 2 }}>
+        What your training shows
+      </Label>
+      <Text style={[t.meta, {
+        paddingHorizontal: space.gutter, color: color.muted, paddingBottom: 8,
+      }]}>
+        Read from completed sessions · never moves on one session alone
+      </Text>
+      <View style={{ paddingHorizontal: space.gutter }}>
+        {CAPABILITIES.map(({ key, label }) => {
+          const found = capability.find(c => c.capability_key === key);
+          const flagged = weaknesses.includes(key);
+          return (
+            <View
+              key={key}
+              style={{
+                flexDirection: 'row', alignItems: 'baseline',
+                justifyContent: 'space-between', paddingVertical: 11,
+                borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
+              }}
+            >
+              <View style={{ flex: 1, paddingRight: 12 }}>
+                <Text style={[t.rowTitle, { fontSize: 13.5, color: color.ink }]}>{label}</Text>
+                {/* The athlete's own read, beside the evidence rather than
+                    merged into it. Where the two disagree, both stand. */}
+                {flagged ? (
+                  <Text style={[t.meta, { color: color.muted, marginTop: 1 }]}>
+                    you flagged this
+                  </Text>
+                ) : null}
+              </View>
+              <Text style={[t.bodySm, {
+                color: found ? color.muted2 : color.muted3,
+                textAlign: 'right',
+              }]}>
+                {found
+                  ? `${DIRECTION[found.direction]} · ${found.confidence} confidence`
+                  : 'Not enough evidence yet'}
+              </Text>
+            </View>
+          );
+        })}
+      </View>
+
+      {/* ── The one trend worth stating ────────────────────────────────
+          Null renders rather than hides. An athlete with no comparable history
+          is the common case for months, and a card that explains its own
+          emptiness teaches that PIVOT is waiting for evidence — a card that
+          disappears just looks broken. */}
+      <Label style={{ paddingHorizontal: space.gutter, paddingTop: 26, paddingBottom: 8 }}>
+        Trend
+      </Label>
+      <View style={{
+        marginHorizontal: space.gutter,
+        borderWidth: 1, borderColor: trend ? color.mistEdge : color.rule,
+        backgroundColor: trend ? color.mist : 'transparent',
+        paddingHorizontal: 14, paddingVertical: 13,
+      }}>
+        {trend ? (
+          <>
+            <Text style={[t.rowTitle, { fontSize: 13.5, color: color.ink }]}>
+              {trend.metric}
+            </Text>
+            <Text style={[t.h4, { fontSize: 18, color: color.ink, marginTop: 4 }]}>
+              {trend.from} → {trend.to}
+            </Text>
+            <Text style={[t.bodySm, { color: color.muted2, marginTop: 4 }]}>
+              {DIRECTION_TREND[trend.direction]} over {trend.window_weeks} weeks
+              {' · '}{trend.confidence} confidence
+            </Text>
+            <Text style={[t.meta, { color: color.muted, marginTop: 6 }]}>
+              {trend.caveat}
+            </Text>
+          </>
+        ) : (
+          <Text style={[t.bodySm, { color: color.muted2 }]}>
+            Not enough comparable sessions yet. A trend needs two sessions that
+            were actually alike — same distance and effort, or the same lift at
+            the same reps — and PIVOT waits for them rather than comparing
+            sessions that were not.
+          </Text>
+        )}
+      </View>
 
       {lowest && canRank && (
         <InkPanel
