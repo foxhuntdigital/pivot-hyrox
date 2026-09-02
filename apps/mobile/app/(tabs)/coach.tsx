@@ -13,15 +13,17 @@
  * so a session accepted here is the session Today shows — and leaves an inline
  * confirmation with an undo (brief §5.6, §10).
  */
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View,
+  Dimensions, Keyboard, Platform, Pressable, ScrollView, Text, TextInput, View,
+  type KeyboardEvent,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 
 import { color, type as t, space } from '@/theme/tokens';
 import { Label, Rule } from '@/components/primitives';
+import { useTabBarHeight } from '@/lib/tabBar';
 import {
   ActionFooter, AthleteMessage, CoachNarrative, Committed, ContextStrip, InsightCard,
   Pending, PromptRow, RecentRow, Rise, StructuredCard, WhyDrawer,
@@ -301,11 +303,54 @@ export default function CoachScreen() {
 
   const reviewAnswer = coach.reviewing ? answers.get(coach.reviewing) : undefined;
 
+  /**
+   * How far the keyboard actually covers this screen.
+   *
+   * `KeyboardAvoidingView` was here and did nothing, because it cannot work
+   * from inside a tab scene: `(tabs)/_layout` draws its own tab bar as a
+   * SIBLING of `<Tabs>`, so this screen's frame stops where the bar starts and
+   * the view has no way to know the keyboard is also covering the bar below it.
+   * The composer sat behind the keyboard with the athlete typing blind.
+   *
+   * So the overlap is computed rather than inferred: the keyboard's height less
+   * the bar it already covers. `WillChangeFrame` rather than `DidShow` so the
+   * composer travels with the keyboard instead of jumping after it, and the
+   * hardware-keyboard case — a keyboard of almost no height — falls out of the
+   * arithmetic rather than needing a special case.
+   */
+  const tabBarHeight = useTabBarHeight();
+  const [keyboard, setKeyboard] = useState(0);
+
+  useEffect(() => {
+    /**
+     * Read from where the keyboard's top edge lands, not from its height.
+     *
+     * On iOS `keyboardWillChangeFrame` fires on the way out as well as in, and
+     * carries the keyboard's full height either way — so pairing it with a
+     * `WillHide` listener means two events racing to set the same number, and
+     * whichever lands last wins. Measuring the gap between the window's bottom
+     * and the keyboard's top needs one listener and is self-correcting: hidden,
+     * the top edge IS the window's bottom, and the gap is zero.
+     *
+     * It also handles the cases a height would not: an undocked or split
+     * keyboard on iPad, and a hardware keyboard's accessory bar.
+     */
+    const onFrame = (e: KeyboardEvent) => {
+      const screen = Dimensions.get('window').height;
+      setKeyboard(Math.max(0, screen - (e.endCoordinates?.screenY ?? screen)));
+    };
+    const sub = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillChangeFrame' : 'keyboardDidChangeFrame',
+      onFrame,
+    );
+    return () => sub.remove();
+  }, []);
+
+  /** Only the part of the keyboard that covers this screen; the bar is below it. */
+  const lift = Math.max(0, keyboard - tabBarHeight);
+
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
+    <View style={{ flex: 1, paddingBottom: lift }}>
       {coach.view === 'thread' && coach.thread ? (
         <>
           <View style={{
@@ -334,6 +379,7 @@ export default function CoachScreen() {
             }}
             onContentSizeChange={() => scroller.current?.scrollToEnd({ animated: true })}
             keyboardDismissMode="interactive"
+            keyboardShouldPersistTaps="handled"
           >
             {coach.thread.messages.map(message => {
               if (message.role === 'athlete') {
@@ -398,7 +444,14 @@ export default function CoachScreen() {
           </ScrollView>
         </>
       ) : (
-        <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 20 }}>
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ paddingBottom: 20 }}
+          // Dragging dismisses, and a tap on a suggestion fires first time
+          // rather than being swallowed to close the keyboard.
+          keyboardDismissMode="on-drag"
+          keyboardShouldPersistTaps="handled"
+        >
           <ContextStrip
             // The race is named as the athlete named it. This used to strip a
             // literal " HYROX" out of it, which only ever fit one event.
@@ -515,6 +568,6 @@ export default function CoachScreen() {
         onApply={() => coach.reviewing && applyProposal(coach.reviewing)}
         onCancel={coach.closeReview}
       />
-    </KeyboardAvoidingView>
+    </View>
   );
 }

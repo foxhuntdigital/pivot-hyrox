@@ -12,6 +12,8 @@ import Animated, {
   Easing, useAnimatedStyle, useSharedValue, withTiming,
 } from 'react-native-reanimated';
 import { Tabs, usePathname, useRouter } from 'expo-router';
+
+import { TAB_BOTTOM_MIN, TAB_ROW_HEIGHT } from '@/lib/tabBar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { color, type as t, space } from '@/theme/tokens';
@@ -134,7 +136,9 @@ function TabBar() {
   return (
     <TourSpot id="tabs" style={{ backgroundColor: color.paper }}>
       <Rule heavy />
-      <View style={{ flexDirection: 'row', paddingBottom: Math.max(insets.bottom, 12) }}>
+      {/* Built from the shared measurements so a screen lifting its input above
+          the keyboard can know this bar's height without guessing at it. */}
+      <View style={{ flexDirection: 'row', paddingBottom: Math.max(insets.bottom, TAB_BOTTOM_MIN) }}>
         {TABS.map(tab => {
           const isActive = active === tab.key;
           return (
@@ -145,7 +149,7 @@ function TabBar() {
               accessibilityState={{ selected: isActive }}
               accessibilityLabel={tab.label}
               style={({ pressed }) => ({
-                flex: 1, minHeight: 52, paddingTop: 11, paddingBottom: 9,
+                flex: 1, minHeight: TAB_ROW_HEIGHT, paddingTop: 11, paddingBottom: 9,
                 alignItems: 'center', justifyContent: 'center', gap: 6,
                 backgroundColor: pressed ? color.hover : 'transparent',
               })}
