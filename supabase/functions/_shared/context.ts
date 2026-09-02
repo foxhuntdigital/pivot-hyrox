@@ -243,7 +243,7 @@ export async function requireEntitlement(db: SupabaseClient, userId: string): Pr
 /** Everything about the athlete the engine needs, in one round of queries. */
 export async function loadAthleteState(db: SupabaseClient, userId: string, today: string) {
   const [profileRes, raceRes, programRes, checkinRes, sessionsRes, equipRes,
-    prefRes, evidenceRes] = await Promise.all([
+    prefRes, weaknessRes, evidenceRes] = await Promise.all([
     db.from('athlete_profiles').select('*').eq('user_id', userId).maybeSingle(),
     db.from('races').select('*').eq('user_id', userId).eq('status', 'active').maybeSingle(),
     db.from('programs')
@@ -263,6 +263,8 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
       .eq('user_id', userId),
     db.from('athlete_preferences')
       .select('modality_or_domain, rating').eq('user_id', userId),
+    db.from('athlete_perceived_weaknesses')
+      .select('capability_key').eq('user_id', userId),
     // Append-only, so the whole log is the input: `capabilityState` needs the
     // run of rows to decide whether anything has been shown twice.
     db.from('athlete_capability_evidence')
@@ -406,6 +408,13 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
    * cannot create a need. Only `negative` becomes demand — a capability that is
    * improving needs no extra priority, and one that is holding is not a deficit.
    */
+  /**
+   * What the athlete says needs work. A third signal, never mixed with the
+   * second: it ranks, and it does not become evidence. Migration 0013 puts it
+   * on the table itself — a belief has no confidence band.
+   */
+  const perceived_weaknesses = (weaknessRes.data ?? []).map((w: any) => w.capability_key);
+
   const capability_needs: Record<string, number> = {};
   const MAGNITUDE: Record<string, number> = { small: 0.3, moderate: 0.6, large: 1 };
   const CONFIDENCE: Record<string, number> = { low: 0.5, medium: 0.75, high: 1 };
@@ -422,7 +431,7 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
     stimulus_requirements, recent_sessions, available_equipment,
     phaseSequence, programTotalWeeks, programWeek, weekInPhase, weekStart, weekEnd,
     completed_this_week, sessionRows,
-    preferred_families, avoided_families, capability_needs,
+    preferred_families, avoided_families, capability_needs, perceived_weaknesses,
   };
 }
 

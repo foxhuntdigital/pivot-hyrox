@@ -17,12 +17,17 @@ import { score } from './rank.ts';
 import { transformBlocks, preservesPrimaryStimulus } from './transform.ts';
 
 /**
- * 2.0.0: `capability_need` joins the scoring dimensions and every weight is
- * re-balanced around it, so a score from this version is not comparable with
- * one from 1.x. `adaptation_events` replay reads this to know which rules
- * produced a recommendation.
+ * 2.1.0: `perceived_weakness` joins as a ninth dimension and every weight moves
+ * again, so a 2.1.0 score is not numerically comparable with a 2.0.0 one — and
+ * replay stays version-aware rather than pretending otherwise. The alternative
+ * was hiding a new concept inside `capability_need`, which would have preserved
+ * comparability by making the number mean something different without saying
+ * so. The version tells the truth instead.
+ *
+ * 2.0.0: `capability_need` joined the scoring dimensions and `matchesStimulus`
+ * moved onto `training_domain`.
  */
-export const ENGINE_VERSION = '2.0.0';
+export const ENGINE_VERSION = '2.1.0';
 
 export * from './types.ts';
 export * from './guardrails.ts';

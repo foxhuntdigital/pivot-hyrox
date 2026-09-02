@@ -71,6 +71,7 @@ Deno.serve(async (req) => {
       preferred_families: state.preferred_families,
       avoided_families: state.avoided_families,
       capability_needs: state.capability_needs,
+      perceived_weaknesses: state.perceived_weaknesses,
     };
 
     const decision = recommend(input, content.exercises);

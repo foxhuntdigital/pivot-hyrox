@@ -10,7 +10,7 @@ import type {
 import { recoveryRank, variantMinutes } from './guardrails.ts';
 
 export const WEIGHTS = {
-  stimulus_urgency: 0.26,
+  stimulus_urgency: 0.24,
   /**
    * Demonstrated deficit. New in 2.0.0.
    *
@@ -19,12 +19,34 @@ export const WEIGHTS = {
    * several sessions of evidence. The plan wins where they disagree, and this
    * moves the order within what the week already permits.
    */
-  capability_need: 0.14,
-  recovery_fit: 0.18,
-  race_specificity: 0.13,
-  progression_continuity: 0.13,
-  time_fit: 0.08,
-  equipment_fit: 0.04,
+  capability_need: 0.13,
+  recovery_fit: 0.17,
+  race_specificity: 0.12,
+  progression_continuity: 0.12,
+  /**
+   * Stated deficit — what the athlete believes needs work. New in 2.1.0.
+   *
+   * Deliberately its own dimension, between evidence and preference, and the
+   * three are kept apart because they are three different claims:
+   *
+   *   capability_need     what performance has demonstrated
+   *   perceived_weakness  what the athlete believes
+   *   preference          what the athlete wants
+   *
+   * Below `capability_need` because a belief is not a measurement. Above
+   * `preference` because "I am bad at this" is a different statement from "I
+   * enjoy this", and the plan should answer the first more readily.
+   *
+   * Disagreement is information and is not reconciled here. An athlete who says
+   * their running is weak while the evidence says otherwise keeps both signals:
+   * this dimension still gives the belief its small influence, and Coach is
+   * handed both and can say the two disagree. Suppressing the belief because
+   * evidence contradicts it, or letting the belief colour the evidence, would
+   * destroy the distinction the athlete model exists to draw.
+   */
+  perceived_weakness: 0.08,
+  time_fit: 0.07,
+  equipment_fit: 0.03,
   preference: 0.04,
 } as const;
 
@@ -237,6 +259,36 @@ export function capabilityNeed(template: WorkoutTemplate, input: EngineInput): n
   return best;
 }
 
+/**
+ * How much this session addresses a deficit the athlete has TOLD us about.
+ *
+ * The same target map as `capabilityNeed`, and deliberately not the same input.
+ * Migration 0013 states the reason on the table itself: a belief has no
+ * confidence band — the athlete either said it or did not — so there is no
+ * magnitude to scale by and every stated weakness counts the same.
+ *
+ * It reads `perceived_weaknesses` and never `capability_needs`. Nothing here
+ * consults the evidence, in either direction: a belief the evidence contradicts
+ * is still the athlete's belief and still ranks, and no belief ever becomes
+ * evidence, alters a capability band or moves a confidence band.
+ */
+export function perceivedWeakness(template: WorkoutTemplate, input: EngineInput): number {
+  const stated = input.perceived_weaknesses;
+  if (!stated?.length) return 0;
+
+  const domain = template.training_domain ?? template.primary_goal;
+  let best = 0;
+  for (const key of stated) {
+    const target = CAPABILITY_TARGETS[key];
+    if (!target) continue;
+    const match = target.families.some(re => re.test(template.workout_family)) ? 1
+      : target.domains.includes(domain) ? 0.6
+      : 0;
+    best = Math.max(best, match);
+  }
+  return best;
+}
+
 /** Full marks for a direct match; substitutions cost a little confidence. */
 export function equipmentFit(swapCount: number): number {
   return Math.max(0, 1 - swapCount * 0.25);
@@ -282,6 +334,7 @@ export function score(
   const parts = {
     stimulus_urgency: stimulusUrgency(template, input.stimulus_requirements),
     capability_need: capabilityNeed(template, input),
+    perceived_weakness: perceivedWeakness(template, input),
     recovery_fit: recoveryFit(template, recovery),
     race_specificity: raceSpecificity(template, input.days_to_race),
     progression_continuity: progressionContinuity(template, input),

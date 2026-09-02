@@ -17,7 +17,7 @@ import { useRouter } from 'expo-router';
 import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label, Chip, SquareCheck, ActionButton } from '@/components/primitives';
 import { useApp } from '@/state/store';
-import { PREFERENCE_OPTIONS } from '@/data/preferencesRepo';
+import { PREFERENCE_OPTIONS, WEAKNESS_OPTIONS } from '@/data/preferencesRepo';
 import { useSession } from '@/state/session';
 import { useTour } from '@/state/tour';
 import { GoalSettings } from '@/components/GoalSettings';
@@ -170,7 +170,7 @@ function FieldLabel({ children, first }: { children: React.ReactNode; first?: bo
 export default function ProfileScreen() {
   const {
     state, dispatch, commitProfile, commitEquipment, profileError, refreshProfile,
-    plan, refreshToday, preferences, setPreference,
+    plan, refreshToday, preferences, setPreference, weaknesses, setWeakness,
   } = useApp();
 
   /** Only what the athlete actually said; neutral is the absence of a row. */
@@ -187,7 +187,7 @@ export default function ProfileScreen() {
   // nothing outside this screen reads it and no engine input depends on it.
   const [open, setOpen] = useState({
     about: false, goal: false, equipment: false, schedule: false,
-    length: false, preferences: false, considerations: false, account: false,
+    length: false, preferences: false, weaknesses: false, considerations: false, account: false,
   });
   const toggle = (k: keyof typeof open) => setOpen(o => ({ ...o, [k]: !o[k] }));
 
@@ -662,6 +662,56 @@ export default function ProfileScreen() {
             Preference ranks sessions your plan already allows. It never overrules
             recovery, equipment, or what your race needs — a week short on
             threshold still gives you threshold.
+          </Text>
+        </View>
+      </Section>
+
+      {/* ── Perceived weaknesses ─────────────────────────── */}
+      <Section
+        title="What needs work"
+        open={open.weaknesses}
+        onToggle={() => toggle('weaknesses')}
+        badge={weaknesses.length ? (
+          <Label size="sm" style={{ letterSpacing: 0.9 }}>{weaknesses.length}</Label>
+        ) : undefined}
+      >
+        <View style={{ paddingHorizontal: space.gutter }}>
+          {WEAKNESS_OPTIONS.map(option => {
+            const on = weaknesses.includes(option.value);
+            return (
+              <Pressable
+                key={option.value}
+                onPress={() => setWeakness(option.value, !on)}
+                accessibilityRole="checkbox"
+                accessibilityState={{ checked: on }}
+                accessibilityLabel={option.label}
+                style={{
+                  flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+                  paddingVertical: 13,
+                  borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
+                }}
+              >
+                <View style={{ flex: 1, paddingRight: 12 }}>
+                  <Text style={{
+                    fontFamily: t.greeting.fontFamily, fontSize: 13.5,
+                    color: on ? color.ink : color.muted2,
+                  }}>
+                    {option.label}
+                  </Text>
+                  <Text style={[t.meta, { fontSize: 11.5, color: color.muted, marginTop: 1 }]}>
+                    {option.hint}
+                  </Text>
+                </View>
+                <SquareCheck on={on} />
+              </Pressable>
+            );
+          })}
+          <Text style={[t.meta, {
+            fontSize: 11.5, lineHeight: 17, color: color.muted, marginTop: 12,
+          }]}>
+            Your own read, kept separate from what your training shows. Where the two
+            disagree PIVOT holds both rather than deciding you are wrong about
+            yourself — and Coach can tell you where they part company.
           </Text>
         </View>
       </Section>

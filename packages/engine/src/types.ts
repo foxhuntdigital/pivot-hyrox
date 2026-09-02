@@ -272,6 +272,21 @@ export interface EngineInput {
    * cannot reach any hard constraint, all of which run before scoring.
    */
   capability_needs?: Record<string, number>;
+  /**
+   * Capabilities the athlete has SAID need work, from
+   * `athlete_perceived_weaknesses`.
+   *
+   * A third signal, kept apart from the other two on purpose: evidence is what
+   * performance demonstrated, this is what the athlete believes, and
+   * `preferred_families` is what they want. No magnitude and no confidence — as
+   * migration 0013 puts it, a belief has no confidence band, the athlete either
+   * said it or did not.
+   *
+   * It ranks and it never becomes evidence. Nothing here writes
+   * `athlete_capability_evidence`, moves a capability band or changes a
+   * confidence band, and evidence that disagrees does not suppress it.
+   */
+  perceived_weaknesses?: string[];
 
   candidates: WorkoutTemplate[];
   substitutions: Substitution[];
@@ -280,6 +295,7 @@ export interface EngineInput {
 export interface ScoreBreakdown {
   stimulus_urgency: number;
   capability_need: number;
+  perceived_weakness: number;
   recovery_fit: number;
   race_specificity: number;
   progression_continuity: number;

@@ -110,3 +110,63 @@ export async function savePreference(
     // Offline or unconfigured. Local state stands.
   }
 }
+
+
+/* ── What the athlete believes needs work ─────────────────────────────────
+ *
+ * A different question from the one above, and a different table, because they
+ * are different claims: `athlete_preferences` is what someone wants to do and
+ * this is what they think they are bad at. Migration 0013 keeps them apart and
+ * ENGINE 2.1.0 scores them as separate dimensions — belief below evidence,
+ * above preference.
+ *
+ * No rating and no magnitude. As the migration puts it, a belief has no
+ * confidence band: the athlete either said it or did not.
+ */
+
+/** The seven capabilities, in the vocabulary the evidence table also uses. */
+export interface WeaknessOption { value: string; label: string; hint: string }
+
+export const WEAKNESS_OPTIONS: WeaknessOption[] = [
+  { value: 'lower_body_strength', label: 'Lower-body strength', hint: 'Squat, hinge, lunge' },
+  { value: 'upper_body_strength', label: 'Upper-body strength', hint: 'Press, pull, row' },
+  { value: 'running_threshold', label: 'Running speed', hint: 'Holding a hard pace' },
+  { value: 'aerobic_durability', label: 'Aerobic endurance', hint: 'Lasting the distance' },
+  { value: 'loaded_movement', label: 'Carries and sleds', hint: 'Moving weight over ground' },
+  { value: 'muscular_endurance', label: 'Muscular endurance', hint: 'High reps under fatigue' },
+  { value: 'station_proficiency', label: 'Race stations', hint: 'Wall balls, burpees, ski' },
+];
+
+/** Null when there is no server to ask; `[]` when the athlete has said nothing. */
+export async function fetchWeaknesses(): Promise<string[] | null> {
+  if (!supabase) return null;
+  try {
+    const { data, error } = await supabase
+      .from('athlete_perceived_weaknesses').select('capability_key');
+    if (error) return null;
+    return (data ?? []).map(r => r.capability_key as string);
+  } catch {
+    return null;
+  }
+}
+
+/** Adds or removes one stated weakness. Best-effort, like every write here. */
+export async function saveWeakness(value: string, stated: boolean): Promise<void> {
+  if (!supabase) return;
+  try {
+    const { data: user } = await supabase.auth.getUser();
+    const userId = user?.user?.id;
+    if (!userId) return;
+
+    if (!stated) {
+      await supabase.from('athlete_perceived_weaknesses')
+        .delete().eq('user_id', userId).eq('capability_key', value);
+      return;
+    }
+    await supabase.from('athlete_perceived_weaknesses')
+      .upsert({ user_id: userId, capability_key: value },
+        { onConflict: 'user_id,capability_key' });
+  } catch {
+    // Offline or unconfigured. Local state stands.
+  }
+}

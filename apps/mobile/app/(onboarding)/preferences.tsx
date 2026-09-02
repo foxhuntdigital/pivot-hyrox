@@ -16,14 +16,14 @@
  * whether or not they finish the flow.
  */
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 
 import { OnboardingStep } from '@/components/onboarding';
-import { Chip, Label } from '@/components/primitives';
+import { Chip, Label, Rule, SquareCheck } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
 import {
-  PREFERENCE_OPTIONS, savePreference,
+  PREFERENCE_OPTIONS, WEAKNESS_OPTIONS, savePreference, saveWeakness,
   type PreferenceRating, type Preferences,
 } from '@/data/preferencesRepo';
 
@@ -37,6 +37,13 @@ const RATINGS: { key: PreferenceRating; label: string }[] = [
 export default function PreferencesScreen() {
   const router = useRouter();
   const [chosen, setChosen] = useState<Preferences>({});
+  const [weak, setWeak] = useState<string[]>([]);
+
+  const toggleWeak = (value: string) => {
+    const stated = !weak.includes(value);
+    setWeak(prev => (stated ? [...prev, value] : prev.filter(v => v !== value)));
+    saveWeakness(value, stated).catch(() => {});
+  };
 
   const set = (value: string, rating: PreferenceRating) => {
     const next = chosen[value] === rating ? null : rating;
@@ -56,11 +63,11 @@ export default function PreferencesScreen() {
   return (
     <OnboardingStep
       step={7}
-      title="What do you actually enjoy?"
-      description="This orders the sessions your plan already allows. It never overrules recovery, your equipment, or what your race needs."
+      title="What you enjoy, and what needs work"
+      description="Two different questions. Neither overrules recovery, your equipment, or what your race needs — they order the sessions your plan already allows."
       onBack={() => router.back()}
       onContinue={() => router.push('/ready' as never)}
-      continueLabel={stated ? 'Continue' : 'Skip for now'}
+      continueLabel={stated || weak.length ? 'Continue' : 'Skip for now'}
     >
       <View style={{ paddingHorizontal: space.gutter }}>
         {PREFERENCE_OPTIONS.map(option => {
@@ -104,9 +111,54 @@ export default function PreferencesScreen() {
         <Text style={[t.meta, {
           fontSize: 11.5, lineHeight: 17, color: color.muted, marginTop: 12,
         }]}>
-          Answer as much or as little as you like. Anything you skip stays neutral,
-          and you can change all of it later.
+          Anything you skip stays neutral, and you can change all of it later.
         </Text>
+      </View>
+
+      <Rule faint />
+
+      <Label tone="ink" style={{ paddingHorizontal: space.gutter, paddingTop: 20, paddingBottom: 2 }}>
+        What do you think needs work?
+      </Label>
+      <Text style={[t.meta, {
+        paddingHorizontal: space.gutter, fontSize: 11.5, lineHeight: 17,
+        color: color.muted, paddingBottom: 8,
+      }]}>
+        Your read on yourself. Kept separate from what your training actually shows —
+        when the two disagree, PIVOT keeps both and says so.
+      </Text>
+
+      <View style={{ paddingHorizontal: space.gutter }}>
+        {WEAKNESS_OPTIONS.map(option => {
+          const on = weak.includes(option.value);
+          return (
+            <Pressable
+              key={option.value}
+              onPress={() => toggleWeak(option.value)}
+              accessibilityRole="checkbox"
+              accessibilityState={{ checked: on }}
+              accessibilityLabel={option.label}
+              style={{
+                flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+                paddingVertical: 13,
+                borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
+              }}
+            >
+              <View style={{ flex: 1, paddingRight: 12 }}>
+                <Text style={{
+                  fontFamily: t.greeting.fontFamily, fontSize: 13.5,
+                  color: on ? color.ink : color.muted2,
+                }}>
+                  {option.label}
+                </Text>
+                <Text style={[t.meta, { fontSize: 11.5, color: color.muted, marginTop: 1 }]}>
+                  {option.hint}
+                </Text>
+              </View>
+              <SquareCheck on={on} />
+            </Pressable>
+          );
+        })}
       </View>
     </OnboardingStep>
   );

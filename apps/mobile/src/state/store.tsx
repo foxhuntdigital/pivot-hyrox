@@ -37,7 +37,7 @@ import {
 import { recordAdaptation } from '../data/adaptRepo';
 import { fetchEquipment, saveEquipment } from '../data/equipmentRepo';
 import {
-  fetchPreferences, savePreference,
+  fetchPreferences, savePreference, fetchWeaknesses, saveWeakness,
   type PreferenceRating, type Preferences,
 } from '../data/preferencesRepo';
 import { planView, type PlanView } from '../data/plan';
@@ -459,6 +459,12 @@ interface Store {
   /** Sets one preference, or clears it back to neutral with null. */
   setPreference(value: string, rating: PreferenceRating | null): void;
   /**
+   * Capabilities the athlete says need work. A separate claim from preference
+   * and from evidence, and scored as its own dimension since ENGINE 2.1.0.
+   */
+  weaknesses: string[];
+  setWeakness(value: string, stated: boolean): void;
+  /**
    * The race, phase and week as the screens render them. One resolution of
    * payload-or-seed, so no screen has to know which it is looking at.
    */
@@ -699,13 +705,22 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
    * the write is best-effort behind it, exactly like equipment.
    */
   const [preferences, setPreferences] = useState<Preferences>({});
+  const [weaknesses, setWeaknesses] = useState<string[]>([]);
 
   useEffect(() => {
     if (!serverReady) return;
     let cancelled = false;
     fetchPreferences().then(p => { if (!cancelled && p) setPreferences(p); });
+    fetchWeaknesses().then(w => { if (!cancelled && w) setWeaknesses(w); });
     return () => { cancelled = true; };
   }, [serverReady]);
+
+  const setWeakness = useCallback((value: string, stated: boolean) => {
+    setWeaknesses(prev => (stated
+      ? (prev.includes(value) ? prev : [...prev, value])
+      : prev.filter(v => v !== value)));
+    saveWeakness(value, stated).catch(() => {});
+  }, []);
 
   const setPreference = useCallback((value: string, rating: PreferenceRating | null) => {
     setPreferences(prev => {
@@ -1084,10 +1099,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         .filter(([, r]) => r === 'love' || r === 'like').map(([k]) => k),
       avoided_families: Object.entries(preferences)
         .filter(([, r]) => r === 'rather_not').map(([k]) => k),
+      // The third signal, kept separate from the other two all the way down.
+      perceived_weaknesses: weaknesses,
     };
   }, [state.energy, state.flags, state.available_minutes, state.equipment,
       state.today_equipment, state.profile.considerations,
-      state.checkin, today, planCandidates, preferences]);
+      state.checkin, today, planCandidates, preferences, weaknesses]);
 
   /**
    * The server's decision is authoritative when there is one — it is the one
@@ -1392,7 +1409,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     () => ({
       state, dispatch, decision, session, steps, readiness,
       metricDetail: metricDetailView, guidance: today?.exercise_guidance ?? {},
-      preferences, setPreference,
+      preferences, setPreference, weaknesses, setWeakness,
       plan, sleep, engineInput,
       commitProfile, commitCheckin, commitEquipment, reportSymptom,
       beginSession, finishSession, commitAdaptation, switchToQueued, startSupplemental,
@@ -1401,7 +1418,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }),
     [state, decision, session, steps, readiness, metricDetailView, plan, sleep, engineInput, commitProfile,
      commitCheckin, commitEquipment, reportSymptom,
-     preferences, setPreference,
+     preferences, setPreference, weaknesses, setWeakness,
      beginSession, finishSession, commitAdaptation, switchToQueued, startSupplemental,
      chooseVariant,
      profileError, refreshProfile, today, todayLoading, todayError, refreshToday]);
