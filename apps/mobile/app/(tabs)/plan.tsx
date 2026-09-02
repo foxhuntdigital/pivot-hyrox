@@ -356,6 +356,9 @@ export default function PlanScreen() {
         paddingHorizontal: space.gutter, paddingTop: 18, color: color.muted2,
       }]}>
         Stimuli, not weekdays. A session landing a day late doesn't put you behind.
+        {'\n\n'}
+        Feeling like something different from what's above? Ask Coach, and the session
+        adapts to what you're after today.
       </Text>
       </>
       )}

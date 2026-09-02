@@ -291,7 +291,14 @@ export default function ProfileScreen() {
   }
 
   return (
-    <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
+    <ScrollView
+      contentContainerStyle={{ paddingBottom: 30 }}
+      // Name and birth date open a keyboard; dragging puts it away, and a tap
+      // on a section header or a chip fires first time rather than being
+      // swallowed to close it.
+      keyboardDismissMode="on-drag"
+      keyboardShouldPersistTaps="handled"
+    >
       <View style={{
         flexDirection: 'row', alignItems: 'center', gap: 14,
         paddingHorizontal: space.gutter, paddingTop: 18, paddingBottom: 16,

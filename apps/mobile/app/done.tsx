@@ -225,6 +225,11 @@ export default function DoneScreen() {
     <ScrollView
       style={{ backgroundColor: color.paper }}
       contentContainerStyle={{ paddingTop: insets.top + 22, paddingBottom: 40 }}
+      // The split corrections open a numeric pad, which has no return key.
+      // Dragging puts it away, and a tap on an RPE chip or on Done fires first
+      // time instead of being swallowed closing it.
+      keyboardDismissMode="on-drag"
+      keyboardShouldPersistTaps="handled"
     >
       <View style={{ paddingHorizontal: space.gutter }}>
         <View style={{

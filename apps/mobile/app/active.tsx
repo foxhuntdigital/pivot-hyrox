@@ -6,7 +6,7 @@
  * visually so nothing is conveyed by feel alone.
  */
 import React, { useState } from 'react';
-import { View, Text, Pressable, Modal, ScrollView } from 'react-native';
+import { View, Text, Pressable, Modal, ScrollView, Keyboard } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -153,224 +153,241 @@ export default function ActiveScreen() {
     <View style={{ flex: 1, backgroundColor: color.ink, paddingTop: insets.top }}>
       <StatusBar style="light" />
 
-      {/* Read at arm's length, mid-effort, on a phone propped against a water
-          bottle — so this row is sized for glancing rather than for reading.
-          The session name yields first: which round you are on survives
-          truncation, the name is the part you already know. */}
-      <View style={{
-        flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline',
-        gap: 12, paddingHorizontal: space.gutter, paddingVertical: 12,
-      }}>
-        <Text
-          numberOfLines={1}
-          style={[t.labelSm, {
-            flexShrink: 1, fontSize: 13, letterSpacing: 1.2, color: color.muted3,
-          }]}
-        >
-          {session.template.name} · {VARIANT_LABEL[session.variant.variant_code]}
-        </Text>
-        <Text
-          numberOfLines={1}
-          style={[t.labelSm, { fontSize: 13, letterSpacing: 1.2, color: color.onDarkSoft }]}
-        >
-          {step.phase}
-        </Text>
-      </View>
+      {/* Tapping anywhere that is not a control puts the keypad away.
 
-      {/* Segment bars: done, current, upcoming.
-          
-          Also the way into the whole session. The bars already say how far
-          through the athlete is but not what is coming, and mid-workout is
-          exactly when "how many rounds left, and what is after this" is worth
-          knowing — the player otherwise reveals the session one step at a time
-          with no way to look ahead. Tapping them is the affordance because they
-          are already the progress object and already a large target. */}
+          The weight and reps fields open a numeric pad, and a numeric pad has
+          no return key — so before this there was no way to dismiss it at all.
+          The athlete could finish the set with the button still showing above
+          it, but the pad stayed for the rest of the session.
+
+          A parent Pressable does not steal from its children: a tap on Done,
+          on an RPE chip or in a field is handled there and never reaches this.
+          `accessible={false}` keeps it from becoming one enormous button in
+          VoiceOver. */}
       <Pressable
-        onPress={() => setShowList(true)}
-        accessibilityRole="button"
-        accessibilityLabel={`Step ${index + 1} of ${steps.length}. See the whole session.`}
-        style={({ pressed }) => ({
-          paddingHorizontal: space.gutter, paddingTop: 2, paddingBottom: 14,
-          opacity: pressed ? 0.6 : 1,
-        })}
+        onPress={Keyboard.dismiss}
+        accessible={false}
+        style={{ flex: 1 }}
       >
-        <View style={{ flexDirection: 'row', gap: 2 }}>
-          {steps.map((_, i) => (
-            <View key={i} style={{
-              // Taller alongside the larger type — a 4pt bar under 14pt text
-              // reads as a hairline rather than as the progress it is.
-              flex: 1, height: 6,
-              backgroundColor: i < index ? color.red : i === index ? color.onDark : color.ruleDark,
-            }} />
-          ))}
-        </View>
+        {/* Read at arm's length, mid-effort, on a phone propped against a water
+            bottle — so this row is sized for glancing rather than for reading.
+            The session name yields first: which round you are on survives
+            truncation, the name is the part you already know. */}
         <View style={{
-          flexDirection: 'row', alignItems: 'baseline',
-          justifyContent: 'space-between', paddingTop: 9,
+          flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline',
+          gap: 12, paddingHorizontal: space.gutter, paddingVertical: 12,
         }}>
-          <Text style={[t.meta, { fontSize: 14, color: color.muted3 }]}>
-            Step {index + 1} of {steps.length}
+          <Text
+            numberOfLines={1}
+            style={[t.labelSm, {
+              flexShrink: 1, fontSize: 13, letterSpacing: 1.2, color: color.muted3,
+            }]}
+          >
+            {session.template.name} · {VARIANT_LABEL[session.variant.variant_code]}
           </Text>
-          {/* The only way into the session list, so it is sized as the control
-              it is rather than as a caption next to it. */}
-          <Text style={[t.meta, {
-            fontFamily: t.rowTitle.fontFamily, fontSize: 15, color: color.salmon,
-          }]}>
-            See all ›
+          <Text
+            numberOfLines={1}
+            style={[t.labelSm, { fontSize: 13, letterSpacing: 1.2, color: color.onDarkSoft }]}
+          >
+            {step.phase}
           </Text>
+        </View>
+
+        {/* Segment bars: done, current, upcoming.
+          
+            Also the way into the whole session. The bars already say how far
+            through the athlete is but not what is coming, and mid-workout is
+            exactly when "how many rounds left, and what is after this" is worth
+            knowing — the player otherwise reveals the session one step at a time
+            with no way to look ahead. Tapping them is the affordance because they
+            are already the progress object and already a large target. */}
+        <Pressable
+          onPress={() => setShowList(true)}
+          accessibilityRole="button"
+          accessibilityLabel={`Step ${index + 1} of ${steps.length}. See the whole session.`}
+          style={({ pressed }) => ({
+            paddingHorizontal: space.gutter, paddingTop: 2, paddingBottom: 14,
+            opacity: pressed ? 0.6 : 1,
+          })}
+        >
+          <View style={{ flexDirection: 'row', gap: 2 }}>
+            {steps.map((_, i) => (
+              <View key={i} style={{
+                // Taller alongside the larger type — a 4pt bar under 14pt text
+                // reads as a hairline rather than as the progress it is.
+                flex: 1, height: 6,
+                backgroundColor: i < index ? color.red : i === index ? color.onDark : color.ruleDark,
+              }} />
+            ))}
+          </View>
+          <View style={{
+            flexDirection: 'row', alignItems: 'baseline',
+            justifyContent: 'space-between', paddingTop: 9,
+          }}>
+            <Text style={[t.meta, { fontSize: 14, color: color.muted3 }]}>
+              Step {index + 1} of {steps.length}
+            </Text>
+            {/* The only way into the session list, so it is sized as the control
+                it is rather than as a caption next to it. */}
+            <Text style={[t.meta, {
+              fontFamily: t.rowTitle.fontFamily, fontSize: 15, color: color.salmon,
+            }]}>
+              See all ›
+            </Text>
+          </View>
+        </Pressable>
+
+        {isPaused && (
+          <View style={{ alignItems: 'center', paddingTop: 14 }}>
+            <View style={{ backgroundColor: color.onDark, paddingVertical: 8, paddingHorizontal: 14 }}>
+              <Text style={[t.labelSm, { fontSize: 11, letterSpacing: 1.54, color: color.ink }]}>
+                Paused
+              </Text>
+            </View>
+          </View>
+        )}
+
+        <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: space.gutter }}>
+          <Text style={[t.eyebrow, { color: color.salmon }]}>{step.kind}</Text>
+          <Text style={[t.stepQty, numeralTrim.stepQty, { color: color.onDark, marginTop: 1 }]}>
+            {step.qty}
+          </Text>
+          <Text style={[t.h2, { fontSize: 26, color: color.onDarkSoft }]}>{step.label}</Text>
+
+          {/* Only on a working set, and never on rest. Placed directly under the
+              movement because during a set it is the thing the athlete came here
+              to do; the clocks below matter more between sets than during one. */}
+          {/* What they lifted last time, and what the engine makes of it. Absent
+              when the server has nothing comparable — an answer, and better than
+              a number borrowed from a different day. */}
+          {step.set_number != null && !step.rest && guide ? (
+            <View style={{
+              marginTop: 14, paddingTop: 12,
+              borderTopWidth: 1, borderTopColor: color.ruleDark,
+            }}>
+              {guide.last ? (
+                <Text style={[t.bodySm, { color: color.onDarkSoft }]}>
+                  <Text style={{ color: color.muted3 }}>Last  </Text>
+                  {lastLine(guide.last)}
+                </Text>
+              ) : null}
+              {suggestionLine(guide.suggestion) ? (
+                <Text style={[t.bodySm, { color: color.onDark, marginTop: 2 }]}>
+                  <Text style={{ color: color.muted3 }}>Today  </Text>
+                  {suggestionLine(guide.suggestion)}
+                </Text>
+              ) : null}
+              <Text style={[t.meta, { color: color.muted3, marginTop: 4 }]}>
+                {guide.suggestion.reason}
+              </Text>
+            </View>
+          ) : null}
+
+          {step.set_number != null && !step.rest ? (
+            <SetEntryRow
+              entry={entry}
+              prescribedReps={step.prescribed_reps_min ?? null}
+              targetRpe={step.target_rpe ?? null}
+              carryWeight={carryWeight}
+              unit="lb"
+              logsLoad={step.logs_load !== false}
+              onChange={patch => dispatch({ type: 'set_entry', step: index, entry: patch })}
+            />
+          ) : null}
+
+          <View style={{ height: 2, backgroundColor: color.ruleDark2, marginTop: 22 }} />
+          <View style={{ flexDirection: 'row' }}>
+            <View style={{
+              flex: 1, paddingVertical: 14,
+              borderRightWidth: 1, borderRightColor: color.ruleDark,
+            }}>
+              <Label tone="onDarkMuted" size="sm" style={{ letterSpacing: 1.26 }}>
+                {step.targetKey}
+              </Label>
+              <Text style={[t.h2, { color: color.onDark, marginTop: 2 }]}>{step.target}</Text>
+            </View>
+            <View style={{ flex: 1, paddingVertical: 14, paddingLeft: 16 }}>
+              <Label tone="onDarkMuted" size="sm" style={{ letterSpacing: 1.26 }}>
+                Heart rate
+              </Label>
+              {/* No HR source connected yet; showing a number would be inventing
+                  data. PRD §8.3 requires a neutral state over false precision. */}
+              <Text style={[t.h2, { color: color.muted3, marginTop: 2, fontSize: 20 }]}>
+                —<Text style={[t.meta, { color: color.muted3 }]}>  not connected</Text>
+              </Text>
+            </View>
+          </View>
+          <View style={{ height: 1, backgroundColor: color.ruleDark }} />
+
+          {/* Split beside elapsed, the split first: it is the number that
+              changes what the athlete does next, and the one they are pacing
+              against. Both are moving time — a pause stops them together. */}
+          <View style={{ flexDirection: 'row', paddingTop: 14 }}>
+            <View style={{
+              flex: 1, borderRightWidth: 1, borderRightColor: color.ruleDark, paddingRight: 12,
+            }}>
+              <Label tone="onDarkMuted" size="sm" style={{ letterSpacing: 1.26 }}>
+                {step.rest ? 'Rest split' : 'Split'}
+              </Label>
+              <Text
+                accessibilityLabel={`This section: ${mmss(splitSeconds)}`}
+                style={[t.h2, { fontSize: 22, color: color.onDark, marginTop: 2 }]}
+              >
+                {mmss(splitSeconds)}
+              </Text>
+            </View>
+            <View style={{ flex: 1, paddingLeft: 16 }}>
+              <Label tone="onDarkMuted" size="sm" style={{ letterSpacing: 1.26 }}>Elapsed</Label>
+              <Text style={[t.h2, { fontSize: 22, color: color.muted3, marginTop: 2 }]}>
+                {mmss(state.elapsed_seconds)}
+              </Text>
+            </View>
+          </View>
+
+          {/* The lap just banked. One line, because the whole list is a tap away
+              and mid-workout is not the moment to read a table. */}
+          {lastSplit ? (
+            <View style={{
+              flexDirection: 'row', justifyContent: 'space-between',
+              alignItems: 'baseline', paddingTop: 10,
+            }}>
+              <Text style={[t.meta, { color: color.muted3 }]} numberOfLines={1}>
+                Last · {lastSplit.rest ? 'rest' : lastSplit.label}
+              </Text>
+              <Text style={[t.meta, { fontFamily: t.rowTitle.fontFamily, color: color.salmon }]}>
+                {mmss(lastSplit.seconds)}
+              </Text>
+            </View>
+          ) : null}
+
+          <Text style={[t.bodySm, { fontSize: 12.5, color: color.muted3, marginTop: 18 }]}>
+            {step.note}
+          </Text>
+        </View>
+
+        <View style={{ paddingHorizontal: space.gutter, paddingBottom: Math.max(insets.bottom, 24) }}>
+          <ActionButton
+            size="lg"
+            label={isLast ? 'Finish' : 'Next'}
+            onPress={complete}
+          />
+          <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
+            <ActionButton
+              variant="outlineDark" arrow={null} label={isPaused ? 'Resume' : 'Pause'}
+              onPress={() => {
+                Haptics.selectionAsync();
+                dispatch({ type: 'toggle_pause' });
+              }}
+              style={{ flex: 1, paddingVertical: 19 }}
+            />
+            <ActionButton
+              variant="outlineDark" arrow={null} label="End early"
+              onPress={() => setEndPrompt(true)}
+              style={{ flex: 1, paddingVertical: 19 }}
+            />
+          </View>
         </View>
       </Pressable>
-
-      {isPaused && (
-        <View style={{ alignItems: 'center', paddingTop: 14 }}>
-          <View style={{ backgroundColor: color.onDark, paddingVertical: 8, paddingHorizontal: 14 }}>
-            <Text style={[t.labelSm, { fontSize: 11, letterSpacing: 1.54, color: color.ink }]}>
-              Paused
-            </Text>
-          </View>
-        </View>
-      )}
-
-      <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: space.gutter }}>
-        <Text style={[t.eyebrow, { color: color.salmon }]}>{step.kind}</Text>
-        <Text style={[t.stepQty, numeralTrim.stepQty, { color: color.onDark, marginTop: 1 }]}>
-          {step.qty}
-        </Text>
-        <Text style={[t.h2, { fontSize: 26, color: color.onDarkSoft }]}>{step.label}</Text>
-
-        {/* Only on a working set, and never on rest. Placed directly under the
-            movement because during a set it is the thing the athlete came here
-            to do; the clocks below matter more between sets than during one. */}
-        {/* What they lifted last time, and what the engine makes of it. Absent
-            when the server has nothing comparable — an answer, and better than
-            a number borrowed from a different day. */}
-        {step.set_number != null && !step.rest && guide ? (
-          <View style={{
-            marginTop: 14, paddingTop: 12,
-            borderTopWidth: 1, borderTopColor: color.ruleDark,
-          }}>
-            {guide.last ? (
-              <Text style={[t.bodySm, { color: color.onDarkSoft }]}>
-                <Text style={{ color: color.muted3 }}>Last  </Text>
-                {lastLine(guide.last)}
-              </Text>
-            ) : null}
-            {suggestionLine(guide.suggestion) ? (
-              <Text style={[t.bodySm, { color: color.onDark, marginTop: 2 }]}>
-                <Text style={{ color: color.muted3 }}>Today  </Text>
-                {suggestionLine(guide.suggestion)}
-              </Text>
-            ) : null}
-            <Text style={[t.meta, { color: color.muted3, marginTop: 4 }]}>
-              {guide.suggestion.reason}
-            </Text>
-          </View>
-        ) : null}
-
-        {step.set_number != null && !step.rest ? (
-          <SetEntryRow
-            entry={entry}
-            prescribedReps={step.prescribed_reps_min ?? null}
-            targetRpe={step.target_rpe ?? null}
-            carryWeight={carryWeight}
-            unit="lb"
-            logsLoad={step.logs_load !== false}
-            onChange={patch => dispatch({ type: 'set_entry', step: index, entry: patch })}
-          />
-        ) : null}
-
-        <View style={{ height: 2, backgroundColor: color.ruleDark2, marginTop: 22 }} />
-        <View style={{ flexDirection: 'row' }}>
-          <View style={{
-            flex: 1, paddingVertical: 14,
-            borderRightWidth: 1, borderRightColor: color.ruleDark,
-          }}>
-            <Label tone="onDarkMuted" size="sm" style={{ letterSpacing: 1.26 }}>
-              {step.targetKey}
-            </Label>
-            <Text style={[t.h2, { color: color.onDark, marginTop: 2 }]}>{step.target}</Text>
-          </View>
-          <View style={{ flex: 1, paddingVertical: 14, paddingLeft: 16 }}>
-            <Label tone="onDarkMuted" size="sm" style={{ letterSpacing: 1.26 }}>
-              Heart rate
-            </Label>
-            {/* No HR source connected yet; showing a number would be inventing
-                data. PRD §8.3 requires a neutral state over false precision. */}
-            <Text style={[t.h2, { color: color.muted3, marginTop: 2, fontSize: 20 }]}>
-              —<Text style={[t.meta, { color: color.muted3 }]}>  not connected</Text>
-            </Text>
-          </View>
-        </View>
-        <View style={{ height: 1, backgroundColor: color.ruleDark }} />
-
-        {/* Split beside elapsed, the split first: it is the number that
-            changes what the athlete does next, and the one they are pacing
-            against. Both are moving time — a pause stops them together. */}
-        <View style={{ flexDirection: 'row', paddingTop: 14 }}>
-          <View style={{
-            flex: 1, borderRightWidth: 1, borderRightColor: color.ruleDark, paddingRight: 12,
-          }}>
-            <Label tone="onDarkMuted" size="sm" style={{ letterSpacing: 1.26 }}>
-              {step.rest ? 'Rest split' : 'Split'}
-            </Label>
-            <Text
-              accessibilityLabel={`This section: ${mmss(splitSeconds)}`}
-              style={[t.h2, { fontSize: 22, color: color.onDark, marginTop: 2 }]}
-            >
-              {mmss(splitSeconds)}
-            </Text>
-          </View>
-          <View style={{ flex: 1, paddingLeft: 16 }}>
-            <Label tone="onDarkMuted" size="sm" style={{ letterSpacing: 1.26 }}>Elapsed</Label>
-            <Text style={[t.h2, { fontSize: 22, color: color.muted3, marginTop: 2 }]}>
-              {mmss(state.elapsed_seconds)}
-            </Text>
-          </View>
-        </View>
-
-        {/* The lap just banked. One line, because the whole list is a tap away
-            and mid-workout is not the moment to read a table. */}
-        {lastSplit ? (
-          <View style={{
-            flexDirection: 'row', justifyContent: 'space-between',
-            alignItems: 'baseline', paddingTop: 10,
-          }}>
-            <Text style={[t.meta, { color: color.muted3 }]} numberOfLines={1}>
-              Last · {lastSplit.rest ? 'rest' : lastSplit.label}
-            </Text>
-            <Text style={[t.meta, { fontFamily: t.rowTitle.fontFamily, color: color.salmon }]}>
-              {mmss(lastSplit.seconds)}
-            </Text>
-          </View>
-        ) : null}
-
-        <Text style={[t.bodySm, { fontSize: 12.5, color: color.muted3, marginTop: 18 }]}>
-          {step.note}
-        </Text>
-      </View>
-
-      <View style={{ paddingHorizontal: space.gutter, paddingBottom: Math.max(insets.bottom, 24) }}>
-        <ActionButton
-          size="lg"
-          label={isLast ? 'Finish' : 'Next'}
-          onPress={complete}
-        />
-        <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
-          <ActionButton
-            variant="outlineDark" arrow={null} label={isPaused ? 'Resume' : 'Pause'}
-            onPress={() => {
-              Haptics.selectionAsync();
-              dispatch({ type: 'toggle_pause' });
-            }}
-            style={{ flex: 1, paddingVertical: 19 }}
-          />
-          <ActionButton
-            variant="outlineDark" arrow={null} label="End early"
-            onPress={() => setEndPrompt(true)}
-            style={{ flex: 1, paddingVertical: 19 }}
-          />
-        </View>
-      </View>
 
       {/* The whole session, with the athlete's place in it.
           

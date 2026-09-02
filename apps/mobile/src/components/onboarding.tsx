@@ -124,6 +124,9 @@ export function OnboardingStep({
       <ScrollView
         contentContainerStyle={{ paddingBottom: 24 }}
         keyboardShouldPersistTaps="handled"
+        // Taps already worked; dragging did not put the keyboard away, which
+        // is the gesture people reach for on a form.
+        keyboardDismissMode="on-drag"
       >
         <Text style={[t.h1, {
           paddingHorizontal: space.gutter, color: color.ink, paddingBottom: description ? 8 : 18,
