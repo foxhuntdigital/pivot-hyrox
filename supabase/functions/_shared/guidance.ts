@@ -24,7 +24,9 @@
  * an empty guidance object for them invites the screen to render a blank where
  * a number should be. They are simply absent from the map.
  */
-import { mostRecentComparable, type ExerciseHistory } from './exercise-history.ts';
+import {
+  mostRecentComparable, rangesOverlap, type ExerciseHistory,
+} from './exercise-history.ts';
 import {
   progressionFor, type ProgressionRuleRow, type ExerciseOntology,
 } from './progression.ts';
@@ -43,6 +45,24 @@ export interface ExerciseGuidance {
     reps: number | null;
     rpe: number | null;
     sets: number;
+  } | null;
+  /**
+   * The best comparable exposure on record, and how many there are.
+   *
+   * Sent so the completion screen can recognise a record the moment the
+   * athlete finishes, without asking a server that does not yet know the
+   * session ended — the finish is queued through the outbox. `count` is what
+   * makes the recognition safe: a first exposure has nothing to beat, and
+   * `prs.ts` refuses one for exactly that reason.
+   */
+  best: {
+    load: number | null;
+    load_unit: string | null;
+    /** Reps achieved at that best load — what a plateau record has to beat. */
+    reps: number | null;
+    date: string;
+    /** Comparable exposures behind it. Zero means no record is possible. */
+    count: number;
   } | null;
   /**
    * What to do about it. Always present, because "I have nothing comparable to
@@ -128,6 +148,20 @@ export function guidanceFor(args: {
 
       const history = histories.get(be.exercise_id);
       const found = mostRecentComparable(history, prescription);
+
+      /**
+       * The heaviest comparable exposure, not the most recent one.
+       *
+       * `last` answers "what did I do", and this answers "what is there to
+       * beat" — different questions, and a record measured against the most
+       * recent set would hand out a PR for repeating a light day.
+       */
+      const comparable = (history?.exposures ?? [])
+        .filter(e => e.context === 'full' && rangesOverlap(e, prescription));
+      const loaded = comparable.filter(e => e.top_load != null);
+      const bestExposure = loaded.length
+        ? loaded.reduce((a, b) => (b.top_load! > a.top_load! ? b : a))
+        : null;
       const suggestion = progressionFor({
         prescription,
         history,
@@ -146,6 +180,13 @@ export function guidanceFor(args: {
           reps: found.exposure.top_reps,
           rpe: found.exposure.rpe,
           sets: found.exposure.sets,
+        } : null,
+        best: bestExposure ? {
+          load: bestExposure.top_load,
+          load_unit: bestExposure.load_unit,
+          reps: bestExposure.top_reps,
+          date: bestExposure.date,
+          count: comparable.length,
         } : null,
         suggestion: {
           dimension: suggestion.dimension,

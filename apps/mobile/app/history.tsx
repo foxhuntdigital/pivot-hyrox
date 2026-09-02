@@ -139,6 +139,26 @@ export default function HistoryScreen() {
                       ) : null}
                     </View>
 
+                    {/* A record, stated quietly and persistently. The
+                        celebration belongs on the completion screen; here it is
+                        a fact about the session, and it says what it beat
+                        because a record that cannot show its working is a
+                        claim. */}
+                    {s.records?.length ? (
+                      <View style={{ marginTop: 6 }}>
+                        {s.records.map(r => (
+                          <Text
+                            key={`${r.exercise}-${r.kind}`}
+                            style={[t.meta, { color: color.redDark }]}
+                          >
+                            PB · {r.exercise} {r.kind === 'load'
+                              ? `${r.value}${r.unit ? ` ${r.unit}` : ''}`
+                              : `${r.value} reps`} (was {r.previous})
+                          </Text>
+                        ))}
+                      </View>
+                    ) : null}
+
                     {/* Splits, when the session recorded them.
                         
                         Above the movement totals on purpose: totals say what

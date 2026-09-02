@@ -81,6 +81,20 @@ export interface ExerciseGuidance {
     rpe: number | null;
     sets: number;
   } | null;
+  /**
+   * The heaviest comparable exposure on record, and how many there are.
+   *
+   * The target a personal best is measured against. `count` of zero means
+   * nothing comparable came before, and no record is possible — which is the
+   * rule `_shared/prs.ts` applies server-side.
+   */
+  best: {
+    load: number | null;
+    load_unit: string | null;
+    reps: number | null;
+    date: string;
+    count: number;
+  } | null;
   suggestion: {
     dimension: 'load' | 'reps' | 'density' | 'none';
     load: number | null;

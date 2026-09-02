@@ -9,6 +9,8 @@
  * Shaping is a pure function over rows so it can be tested without a database.
  */
 import type { CardioLogRow, SessionRow, SetLogRow } from './readiness-history.ts';
+import { exerciseHistory } from './exercise-history.ts';
+import { personalRecordsIn } from './prs.ts';
 
 export interface HistorySessionRow extends SessionRow {
   variant_code: string | null;
@@ -66,6 +68,16 @@ export interface HistoryEntry {
    * plainly rather than drawing an empty table.
    */
   splits: HistorySplit[];
+  /**
+   * Records set in this session, if any.
+   *
+   * Computed against the athlete's comparable history rather than the page, so
+   * scrolling back does not invent a record that a heavier session further down
+   * the list already beat. Empty is the common case and is not an empty state to
+   * fill — most sessions set nothing, which is what makes the ones that do worth
+   * marking.
+   */
+  records: { exercise: string; kind: 'load' | 'reps'; value: number; unit: string | null; previous: number }[];
 }
 
 const round = (n: number) => Math.round(n * 10) / 10;
@@ -108,9 +120,38 @@ export function historyEntriesFrom(args: {
   cardioLogs: CardioLogRow[];
   splits?: SplitRow[];
   exerciseNames: Map<string, string>;
+  /**
+   * Today, for windowing the comparable history a record is measured against.
+   * Omitted means no records are computed — a caller that cannot say what day
+   * it is cannot honestly say what was a best.
+   */
+  today?: string;
 }): HistoryEntry[] {
   const { sessions, setLogs, cardioLogs, exerciseNames } = args;
   const splits = args.splits ?? [];
+
+  /**
+   * Records, computed once across every session loaded rather than per entry.
+   *
+   * `personalRecordsIn` compares a session against the athlete's other
+   * comparable exposures, so it needs the whole set in hand — computing it per
+   * page would let scrolling back invent a record that a heavier session
+   * further down the list already beat.
+   */
+  const histories = args.today
+    ? exerciseHistory({ today: args.today, sessions, setLogs: setLogs as any })
+    : new Map();
+  const recordsBySession = new Map<string, HistoryEntry['records']>();
+  if (args.today) {
+    for (const session of sessions) {
+      const found = personalRecordsIn({ sessionId: session.id, histories })
+        .map(r => ({
+          exercise: exerciseNames.get(r.exercise_id) ?? r.exercise_id,
+          kind: r.kind, value: r.value, unit: r.unit, previous: r.previous,
+        }));
+      if (found.length) recordsBySession.set(session.id, found);
+    }
+  }
 
   const setsBySession = new Map<string, SetLogRow[]>();
   for (const l of setLogs) {
@@ -189,6 +230,7 @@ export function historyEntriesFrom(args: {
           cumulative_seconds: l.cumulative_seconds,
           rest: !!l.rest,
         })),
+      records: recordsBySession.get(s.id) ?? [],
     };
   });
 }
@@ -222,7 +264,13 @@ export async function loadHistory(db: any, userId: string, opts: { limit: number
   if (!blockIds.length) return { sessions: page, setLogs: [], cardioLogs: [], splits, has_more };
 
   const [setRes, cardioRes] = await Promise.all([
-    db.from('set_logs').select('session_block_id, exercise_id, prescribed_reps, actual_reps').in('session_block_id', blockIds),
+    // Widened past what the feed renders: `source`, the loads and the
+    // prescribed range are what `exercise-history.ts` needs to tell evidence
+    // from a Complete tap, and without `source` every row reads as unverified
+    // and no record could ever be recognised.
+    db.from('set_logs').select('session_block_id, exercise_id, set_index, prescribed_reps, '
+      + 'prescribed_reps_min, prescribed_reps_max, actual_reps, actual_load, load_unit, rpe, source')
+      .in('session_block_id', blockIds),
     db.from('cardio_logs').select('session_block_id, exercise_id, distance_meters, duration_seconds').in('session_block_id', blockIds),
   ]);
   const attach = (r: any) => ({ ...r, session_id: blockToSession.get(r.session_block_id) });

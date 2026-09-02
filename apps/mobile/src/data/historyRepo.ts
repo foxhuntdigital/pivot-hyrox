@@ -36,6 +36,17 @@ export interface HistorySession {
   movements: HistoryMovement[];
   /** Empty for sessions finished before splits were recorded. */
   splits: HistorySplit[];
+  /**
+   * Records set in this session. Empty for almost every session, which is what
+   * makes the ones that are not worth marking — not an empty state to fill.
+   */
+  records?: {
+    exercise: string;
+    kind: 'load' | 'reps';
+    value: number;
+    unit: string | null;
+    previous: number;
+  }[];
 }
 
 export interface HistoryPage {

@@ -8,7 +8,7 @@
  * paywall gates.
  */
 import {
-  clientFor, corsHeaders, HttpError, json, requireUser,
+  clientFor, corsHeaders, HttpError, json, localDate, requireUser,
 } from '../_shared/context.ts';
 import { historyEntriesFrom, loadHistory } from '../_shared/history.ts';
 
@@ -45,6 +45,7 @@ Deno.serve(async (req) => {
       cardioLogs: page.cardioLogs,
       splits: page.splits,
       exerciseNames: new Map((exercises ?? []).map((e: any) => [e.id, e.name])),
+      today: localDate(user.timezone),
     });
 
     return json({

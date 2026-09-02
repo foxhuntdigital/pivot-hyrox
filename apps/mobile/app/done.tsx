@@ -17,6 +17,7 @@ import { useApp } from '@/state/store';
 import { TEMPLATES, EXERCISES } from '@/data/content';
 import { mmss } from '@/lib/format';
 import { buildSplits, splitTotals, fastestAndSlowest } from '@/state/splits';
+import { recordsIn } from '@/state/records';
 import { LOW_SLEEP_HOURS } from '@/lib/format';
 
 const RPE_CHOICES = [5, 6, 7, 8, 9];
@@ -70,7 +71,7 @@ export default function DoneScreen() {
   const insets = useSafeAreaInsets();
   const {
     state, dispatch, session, steps, plan, sleep, finishSession,
-    engineInput, startSupplemental,
+    engineInput, startSupplemental, guidance,
   } = useApp();
 
   if (session.kind !== 'session') {
@@ -134,6 +135,29 @@ export default function DoneScreen() {
         + "Tomorrow's recommendation reads that back as recovery load."
       : `${session.template.name} completed as ${VARIANT_LABEL[session.variant.variant_code]}. `
         + 'The week stays intact and your next exposure builds from here.';
+
+  /**
+   * Records set today, recognised here for the same reason the supplemental
+   * offer is: the finish is queued through the outbox, so the server does not
+   * yet know the session ended.
+   *
+   * What makes it safe to decide locally is that the target came from the
+   * server — `guidance.best` is the heaviest COMPARABLE exposure, already
+   * filtered to an overlapping rep range, with the count of exposures behind
+   * it. The client compares; it never decides what counts as comparable, and a
+   * movement with no prior comparable exposure sets no record.
+   */
+  const records = React.useMemo(() => recordsIn(
+    steps
+      .map((step, i) => ({ step, entry: state.entries[i] }))
+      .filter(({ step }) => step.set_number != null && !step.rest)
+      .map(({ step, entry }) => ({
+        exercise_id: step.exercise_id,
+        load: entry?.weight ?? null,
+        reps: entry?.reps ?? null,
+      })),
+    guidance,
+  ), [steps, state.entries, guidance]);
 
   /**
    * The optional extra, decided here rather than asked of the server.
@@ -214,6 +238,34 @@ export default function DoneScreen() {
           {session.template.name} · {VARIANT_LABEL[session.variant.variant_code]}
         </Text>
       </View>
+
+      {/* A record, when there is one. Placed here because it is the most
+          significant thing that happened, and kept to one line per movement
+          because a celebration that fills the screen stops reading as one. It
+          always states what was beaten: a record that cannot show its working
+          is a claim. */}
+      {records.length ? (
+        <View style={{
+          marginHorizontal: space.gutter, marginTop: 18,
+          backgroundColor: color.tint,
+          borderWidth: 1, borderColor: color.tintBorder,
+          paddingHorizontal: 14, paddingVertical: 12,
+        }}>
+          <Label tone="ink" size="sm" style={{ color: color.redDark }}>
+            {records.length > 1 ? `${records.length} personal bests` : 'Personal best'}
+          </Label>
+          {records.map(r => (
+            <Text
+              key={r.exercise_id}
+              style={[t.body, { color: color.redDeep, marginTop: 5 }]}
+            >
+              {r.exercise} — {r.kind === 'load'
+                ? `${r.value}${r.unit ? ` ${r.unit}` : ''}, up from ${r.previous}`
+                : `${r.value} reps, up from ${r.previous}`}
+            </Text>
+          ))}
+        </View>
+      ) : null}
 
       <View style={{ paddingHorizontal: space.gutter, paddingTop: 18 }}>
         <Rule heavy />
