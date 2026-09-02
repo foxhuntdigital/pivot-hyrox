@@ -6,15 +6,54 @@
  * drifting apart.
  */
 import React from 'react';
-import { ScrollView, Text, View, Pressable } from 'react-native';
+import { ScrollView, Text, View, Pressable, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ActionButton, Chip, Label, Rule } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
 import { toISODate } from '@/data/profile';
+import { useSession } from '@/state/session';
 
 /** D02–D08 inclusive: the steps an athlete actually walks through. */
 export const TOTAL_STEPS = 8;
+
+/**
+ * The way out of onboarding.
+ *
+ * Creating an account signs the athlete straight in, and the gate then sends
+ * them here — so an account made by mistake, or made when they meant to sign
+ * in to an existing one, left them with nowhere to go: `intro` and `trial`
+ * both `replace`, so even Back is gone by the second screen, and the only
+ * sign-out in the app lives in Profile behind the flow they are stuck in.
+ *
+ * Signing out is enough on its own. `AuthGate` sends a signed-out athlete to
+ * `/sign-in`, so this needs no navigation of its own and cannot disagree with
+ * the gate about where they end up.
+ *
+ * Worded as a question rather than a command: most people seeing it are not
+ * trying to leave, and "Sign out" alone reads as an instruction on a screen
+ * that is otherwise asking them to continue.
+ */
+export function SignOutEscape({ style }: { style?: ViewStyle }) {
+  const { signOut, status } = useSession();
+  if (status !== 'signed_in') return null;
+
+  return (
+    <Pressable
+      onPress={() => { signOut(); }}
+      accessibilityRole="button"
+      accessibilityLabel="Not your account? Sign out and go back to sign in"
+      style={[{ paddingVertical: 14 }, style]}
+    >
+      <Text style={[t.bodySm, { color: color.muted2, textAlign: 'center' }]}>
+        Not you?{' '}
+        <Text style={{ fontFamily: t.rowTitle.fontFamily, color: color.ink }}>
+          Sign out
+        </Text>
+      </Text>
+    </Pressable>
+  );
+}
 
 /**
  * A hairline bar rather than a percentage: the flow is short enough that
@@ -133,6 +172,10 @@ export function OnboardingStep({
             </Text>
           </Pressable>
         ) : null}
+
+        {/* Present on every step, because the athlete does not always realise
+            they are on the wrong account at step one. */}
+        <SignOutEscape style={onSkip ? { paddingTop: 2 } : undefined} />
       </View>
     </View>
   );

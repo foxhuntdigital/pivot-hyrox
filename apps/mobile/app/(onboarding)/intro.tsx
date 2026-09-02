@@ -19,6 +19,7 @@ import { ActionButton, Label, Rule } from '@/components/primitives';
 import { INTRO_SCENES } from '@/components/IntroScenes';
 import { useReduceMotion } from '@/lib/motion';
 import { color, space, type as t } from '@/theme/tokens';
+import { SignOutEscape } from '@/components/onboarding';
 
 export default function IntroScreen() {
   const router = useRouter();
@@ -96,6 +97,10 @@ export default function IntroScreen() {
             {index + 1} of {total}
           </Text>
         ) : null}
+
+        {/* This screen and `trial` both `replace` their way forward, so neither
+            has a Back and the account just created has no other exit. */}
+        <SignOutEscape />
       </View>
     </View>
   );

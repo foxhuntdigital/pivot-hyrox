@@ -20,6 +20,7 @@ import RevenueCatUI, { PAYWALL_RESULT } from 'react-native-purchases-ui';
 
 import { ActionButton, Label, Rule } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
+import { SignOutEscape } from '@/components/onboarding';
 import { fetchEntitlement, restorePurchases } from '@/data/subscriptionRepo';
 import { ENTITLEMENT_ID, isPurchasesConfigured, isTestStore } from '@/lib/purchases';
 
@@ -200,6 +201,9 @@ export default function TrialScreen() {
           onPress={busy ? undefined : openPaywall}
           style={{ opacity: busy ? 0.45 : 1 }}
         />
+        {/* The paywall is the sharpest place to discover you signed up on the
+            wrong account, and it was the one with no way out. */}
+        <SignOutEscape />
       </View>
     </View>
   );
