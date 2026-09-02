@@ -91,6 +91,7 @@ const services: CoachServices = {
   trends: () => null,
   progression: () => [],
   records: () => [],
+  athleteModel: () => ({ observed: [], believed: [], preferred: { liked: [], avoided: [] } }),
   week: () => [{ day: 'Thursday', template: 'aerobic_60', minutes: 60, priority: 1, stimulus: 'aerobic_durability' }],
   raceDefinition: () => null,
 };
@@ -164,6 +165,37 @@ test('symptom language becomes a symptom flag, never an energy level', () => {
   assert.ok(Array.isArray(constraints.symptom_flags));
   assert.equal(constraints.energy, undefined);
   assert.equal(constraints.recovery_state, undefined);
+});
+
+test('the three athlete signals reach Coach separately, with their provenance', () => {
+  const stated = {
+    ...services,
+    athleteModel: () => ({
+      // The evidence says running is improving. The athlete says running is
+      // their weakness. Both are true statements about different things, and
+      // the contract is that Coach receives them as two.
+      observed: [{
+        capability: 'running_threshold', direction: 'positive' as const,
+        confidence: 'medium' as const, samples: 4, agreeing: 3,
+      }],
+      believed: ['running_threshold'],
+      preferred: { liked: ['strength'], avoided: [] },
+    }),
+  };
+
+  const { tools } = route('ask_progress', {}, stated);
+  const t = tools as { athlete_model: any; model_note: string };
+
+  // Three fields, not one merged view: nothing in the payload lets a belief be
+  // mistaken for a measurement.
+  assert.equal(t.athlete_model.observed[0].capability, 'running_threshold');
+  assert.equal(t.athlete_model.observed[0].direction, 'positive');
+  assert.deepEqual(t.athlete_model.believed, ['running_threshold']);
+  assert.deepEqual(t.athlete_model.preferred.liked, ['strength']);
+
+  // And the instruction that keeps them apart travels with them.
+  assert.match(t.model_note, /never be reported as\s+demonstrated/);
+  assert.match(t.model_note, /evidence is not there yet/);
 });
 
 test('no race definition means none is offered to talk about', () => {

@@ -111,6 +111,7 @@ const services = {
   trends: () => null,
   progression: () => [],
   records: () => [],
+  athleteModel: () => ({ observed: [], believed: [], preferred: { liked: [], avoided: [] } }),
   week: () => [
     { day: 'Thursday', template: 'Long Hybrid 60', minutes: 60, priority: 1, stimulus: 'aerobic_durability' },
     { day: 'Friday', template: 'HYROX Pull A', minutes: 55, priority: 2, stimulus: 'strength' },

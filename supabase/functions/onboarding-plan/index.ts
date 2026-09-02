@@ -60,6 +60,7 @@ Deno.serve(async (req) => {
     const db = clientFor(req);
     const user = await requireUser(db);
     await requireEntitlement(db, user.id);
+
     const today = localDate(user.timezone);
 
     const body = await req.json().catch(() => null) as PlanRequest | null;
@@ -269,7 +270,7 @@ Deno.serve(async (req) => {
     // The first week gets its sessions now, so the summary the athlete sees and
     // the Plan tab they open next both have a week in them rather than a set of
     // targets with nothing against them.
-    await planFirstWeek(db, firstWeek, firstPhase, body, today);
+    await planFirstWeek(db, user.id, firstWeek, firstPhase, body, today);
     return json({
       program_id: program.id,
       version: nextVersion,
@@ -343,6 +344,7 @@ async function saveEquipment(
  */
 async function planFirstWeek(
   db: ReturnType<typeof clientFor>,
+  userId: string,
   first: { id: string } | undefined,
   firstPhase: { phase_type: PhaseType },
   body: PlanRequest | null,
@@ -351,7 +353,31 @@ async function planFirstWeek(
   if (!first) return;
 
   try {
-    const content = await loadContent(db);
+    /**
+     * What the athlete answered a moment ago, read back from their own rows.
+     *
+     * The onboarding step writes each answer as it is tapped, so by the time
+     * the plan is generated the rows exist. Read here rather than accepted in
+     * the body, so the plan ranks on what was actually stored — a client that
+     * dropped one write cannot rank on an answer the athlete will not find when
+     * they open Profile.
+     */
+    const [content, prefRes, weaknessRes] = await Promise.all([
+      loadContent(db),
+      db.from('athlete_preferences')
+        .select('modality_or_domain, rating').eq('user_id', userId),
+      db.from('athlete_perceived_weaknesses')
+        .select('capability_key').eq('user_id', userId),
+    ]);
+    const prefs = (prefRes.data ?? []) as { modality_or_domain: string; rating: string }[];
+    const preferred_families = prefs
+      .filter(p => p.rating === 'love' || p.rating === 'like')
+      .map(p => p.modality_or_domain);
+    const avoided_families = prefs
+      .filter(p => p.rating === 'rather_not')
+      .map(p => p.modality_or_domain);
+    const perceived_weaknesses = ((weaknessRes.data ?? []) as { capability_key: string }[])
+      .map(w => w.capability_key);
     await ensureWeekQueue({
       db,
       cycleId: first.id,
@@ -381,12 +407,25 @@ async function planFirstWeek(
         considerations: body?.profile?.considerations ?? [],
         candidates: content.candidates,
         substitutions: content.substitutions,
-        // No preferences and no capability needs, and both absences are correct
-        // rather than pending. A first plan is built for an athlete with no
-        // completed sessions, so there is no evidence any deficit could be read
-        // from; and onboarding does not yet ask what they like, which is the
-        // step that would populate the other. When it does, it will arrive in
-        // `body` like everything else here — this function loads no state.
+        /**
+         * The two things the athlete just told us, at exactly the authority
+         * they were given.
+         *
+         * Onboarding asks what they enjoy and what they think needs work, and a
+         * first plan built as though those answers never happened would make
+         * the questions cosmetic. Read from their tables rather than resent in
+         * the body, so what ranks the plan is what was actually stored.
+         *
+         * `capability_needs` stays absent, and that absence is correct rather
+         * than pending: a first plan is built for an athlete with no completed
+         * sessions, so there is no evidence a deficit could be read from.
+         * Perceived weakness is NOT promoted to fill the gap — it keeps the
+         * 0.08 it is worth beside evidence, because "nothing has been measured
+         * yet" is not a reason to treat a belief as a measurement.
+         */
+        preferred_families,
+        avoided_families,
+        perceived_weaknesses,
       },
     });
   } catch (e) {

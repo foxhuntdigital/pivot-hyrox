@@ -194,6 +194,7 @@ export function route(
     case 'ask_progress': {
       const trends = services.trends();
       const records = services.records();
+      const model = services.athleteModel();
       return {
         tools: {
           ...(trends
@@ -202,6 +203,16 @@ export function route(
           // A record is only a record against a prior comparable exposure, so an
           // empty list means there were none — not that the session went badly.
           ...(records.length ? { records } : {}),
+          athlete_model: model,
+          model_note:
+            'Three separate signals, and they must stay separate. `observed` is what '
+            + "performance demonstrated and is PIVOT's determination — explain it, never "
+            + 're-derive it from sessions yourself. `believed` is what the athlete said '
+            + 'about themselves; it is not evidence and must never be reported as '
+            + 'demonstrated. `preferred` is what they enjoy. Where they disagree, say so '
+            + 'plainly and attribute each to its source. Where `observed` is empty or low '
+            + 'confidence, say the evidence is not there yet rather than confirming what '
+            + 'the athlete believes.',
         },
         action: trends ? propose('open_metric_detail', { metric: trends.metric }) : null,
       };

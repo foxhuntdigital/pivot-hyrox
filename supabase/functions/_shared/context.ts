@@ -415,10 +415,19 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
    */
   const perceived_weaknesses = (weaknessRes.data ?? []).map((w: any) => w.capability_key);
 
+  /**
+   * PIVOT's determination about each capability — direction, confidence and the
+   * sample behind it. Coach is given this rather than the raw evidence rows,
+   * because deciding what a run of sessions means is the engine's job and
+   * inviting a language model to re-derive it is inviting a second opinion the
+   * product never sanctioned.
+   */
+  const capability_state = capabilityState((evidenceRes.data ?? []) as any);
+
   const capability_needs: Record<string, number> = {};
   const MAGNITUDE: Record<string, number> = { small: 0.3, moderate: 0.6, large: 1 };
   const CONFIDENCE: Record<string, number> = { low: 0.5, medium: 0.75, high: 1 };
-  for (const state of capabilityState((evidenceRes.data ?? []) as any)) {
+  for (const state of capability_state) {
     if (state.direction !== 'negative') continue;
     const rows = (evidenceRes.data ?? []).filter((r: any) =>
       r.capability_key === state.capability_key && r.direction === 'negative');
@@ -432,6 +441,7 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
     phaseSequence, programTotalWeeks, programWeek, weekInPhase, weekStart, weekEnd,
     completed_this_week, sessionRows,
     preferred_families, avoided_families, capability_needs, perceived_weaknesses,
+    capability_state,
   };
 }
 

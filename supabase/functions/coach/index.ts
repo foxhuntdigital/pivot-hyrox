@@ -276,6 +276,29 @@ Deno.serve(async (req) => {
           });
       },
 
+      /**
+       * The three signals, with their provenance intact.
+       *
+       * `observed` is the engine's determination, not the evidence rows it was
+       * derived from: what a run of sessions means is decided in
+       * `_shared/evidence.ts`, and handing a model the raw rows would be
+       * inviting a second opinion the product never sanctioned.
+       */
+      athleteModel: () => ({
+        observed: state.capability_state.map((c: any) => ({
+          capability: c.capability_key,
+          direction: c.direction,
+          confidence: c.confidence,
+          samples: c.samples,
+          agreeing: c.agreeing,
+        })),
+        believed: state.perceived_weaknesses,
+        preferred: {
+          liked: state.preferred_families,
+          avoided: state.avoided_families,
+        },
+      }),
+
       records: () => {
         const last = state.sessionRows[0]?.id;
         if (!last) return [];

@@ -173,6 +173,32 @@ export interface CoachServices {
   progression(): CoachProgression[];
   /** Comparable records set in the most recent completed session. */
   records(): CoachRecord[];
+  /**
+   * The three things PIVOT knows about this athlete, kept apart.
+   *
+   * They are three different claims and the contract is that Coach never
+   * collapses one into another: `observed` is what performance demonstrated,
+   * `believed` is what the athlete said about themselves, `preferred` is what
+   * they enjoy. Explaining how they relate — including that they disagree — is
+   * the point of separating them. Presenting a belief as demonstrated fact is
+   * not.
+   *
+   * `observed` carries PIVOT's determination — direction, confidence, sample —
+   * and not the raw evidence rows. Deciding what a run of sessions means is the
+   * engine's job; Coach explains that determination rather than forming its own.
+   */
+  athleteModel(): {
+    observed: {
+      capability: string;
+      direction: 'negative' | 'neutral' | 'positive';
+      confidence: 'low' | 'medium' | 'high';
+      /** Rows behind it, and how many agree — the claim's own sample size. */
+      samples: number;
+      agreeing: number;
+    }[];
+    believed: string[];
+    preferred: { liked: string[]; avoided: string[] };
+  };
   /** The week as the Plan tab shows it. */
   week(): { day: string; template: string; minutes: number; priority: number; stimulus: string }[];
   /** A versioned race definition, or null when none is published for the race. */
