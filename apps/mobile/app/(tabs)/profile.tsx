@@ -17,6 +17,7 @@ import { useRouter } from 'expo-router';
 import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label, Chip, SquareCheck, ActionButton } from '@/components/primitives';
 import { useApp } from '@/state/store';
+import { PREFERENCE_OPTIONS } from '@/data/preferencesRepo';
 import { useSession } from '@/state/session';
 import { useTour } from '@/state/tour';
 import { GoalSettings } from '@/components/GoalSettings';
@@ -67,6 +68,17 @@ function Caret({ open }: { open: boolean }) {
  * hides no state: what the athlete has set shows in the header badge, and the
  * identity fields are already summarised at the top of the screen.
  */
+/**
+ * The three statements worth offering. `neutral` is the fourth rating in the
+ * schema and is not a button: it is what no answer means, so clearing a choice
+ * expresses it exactly.
+ */
+const RATINGS = [
+  { key: 'love' as const, label: 'Love it' },
+  { key: 'like' as const, label: 'Like it' },
+  { key: 'rather_not' as const, label: 'Rather not' },
+];
+
 function Section({
   title, open, onToggle, badge, children,
 }: {
@@ -158,8 +170,11 @@ function FieldLabel({ children, first }: { children: React.ReactNode; first?: bo
 export default function ProfileScreen() {
   const {
     state, dispatch, commitProfile, commitEquipment, profileError, refreshProfile,
-    plan, refreshToday,
+    plan, refreshToday, preferences, setPreference,
   } = useApp();
+
+  /** Only what the athlete actually said; neutral is the absence of a row. */
+  const statedCount = Object.keys(preferences).length;
   const { email, signOut, deleteAccount, status } = useSession();
   const dialog = useDialog();
   const tour = useTour();
@@ -172,7 +187,7 @@ export default function ProfileScreen() {
   // nothing outside this screen reads it and no engine input depends on it.
   const [open, setOpen] = useState({
     about: false, goal: false, equipment: false, schedule: false,
-    length: false, considerations: false, account: false,
+    length: false, preferences: false, considerations: false, account: false,
   });
   const toggle = (k: keyof typeof open) => setOpen(o => ({ ...o, [k]: !o[k] }));
 
@@ -593,6 +608,63 @@ export default function ProfileScreen() {
       </Section>
 
       <Divider />
+
+      {/* ── Preferences ──────────────────────────────────── */}
+      <Section
+        title="What you enjoy"
+        open={open.preferences}
+        onToggle={() => toggle('preferences')}
+        badge={statedCount ? (
+          <Label size="sm" style={{ letterSpacing: 0.9 }}>{statedCount} set</Label>
+        ) : undefined}
+      >
+        <View style={{ paddingHorizontal: space.gutter }}>
+          {PREFERENCE_OPTIONS.map(option => {
+            const rating = preferences[option.value];
+            return (
+              <View
+                key={option.value}
+                style={{
+                  paddingVertical: 13,
+                  borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
+                }}
+              >
+                <Text style={{
+                  fontFamily: t.greeting.fontFamily, fontSize: 13.5,
+                  color: rating ? color.ink : color.muted2,
+                }}>
+                  {option.label}
+                </Text>
+                <Text style={[t.meta, { fontSize: 11.5, color: color.muted, marginTop: 1 }]}>
+                  {option.hint}
+                </Text>
+                <View style={{ flexDirection: 'row', gap: 6, marginTop: 9 }}>
+                  {RATINGS.map(({ key, label }) => (
+                    <Chip
+                      key={key}
+                      flex
+                      label={label}
+                      active={rating === key}
+                      accessibilityLabel={`${option.label}: ${label}`}
+                      // Tapping the active choice clears it. Neutral is the
+                      // absence of an opinion, which is what no row means and
+                      // what the engine already assumes.
+                      onPress={() => setPreference(option.value, rating === key ? null : key)}
+                    />
+                  ))}
+                </View>
+              </View>
+            );
+          })}
+          <Text style={[t.meta, {
+            fontSize: 11.5, lineHeight: 17, color: color.muted, marginTop: 12,
+          }]}>
+            Preference ranks sessions your plan already allows. It never overrules
+            recovery, equipment, or what your race needs — a week short on
+            threshold still gives you threshold.
+          </Text>
+        </View>
+      </Section>
 
       {/* ── Considerations ───────────────────────────────── */}
       <Section

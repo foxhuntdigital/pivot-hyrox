@@ -36,6 +36,10 @@ import {
 } from '../data/outbox';
 import { recordAdaptation } from '../data/adaptRepo';
 import { fetchEquipment, saveEquipment } from '../data/equipmentRepo';
+import {
+  fetchPreferences, savePreference,
+  type PreferenceRating, type Preferences,
+} from '../data/preferencesRepo';
 import { planView, type PlanView } from '../data/plan';
 import {
   track, flushAnalytics, bucketSleep, bucketScale, elapsedMinutes,
@@ -446,6 +450,15 @@ interface Store {
    */
   guidance: Record<string, ExerciseGuidance>;
   /**
+   * What the athlete said they want more and less of, by domain key.
+   *
+   * Absent from the map means neutral, which is what the engine assumes and
+   * what the table stores by omitting the row.
+   */
+  preferences: Preferences;
+  /** Sets one preference, or clears it back to neutral with null. */
+  setPreference(value: string, rating: PreferenceRating | null): void;
+  /**
    * The race, phase and week as the screens render them. One resolution of
    * payload-or-seed, so no screen has to know which it is looking at.
    */
@@ -680,6 +693,31 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       });
     return () => { cancelled = true; };
   }, [serverReady, profileNonce]);
+
+  /**
+   * Stated training preferences. Local state so the control responds instantly;
+   * the write is best-effort behind it, exactly like equipment.
+   */
+  const [preferences, setPreferences] = useState<Preferences>({});
+
+  useEffect(() => {
+    if (!serverReady) return;
+    let cancelled = false;
+    fetchPreferences().then(p => { if (!cancelled && p) setPreferences(p); });
+    return () => { cancelled = true; };
+  }, [serverReady]);
+
+  const setPreference = useCallback((value: string, rating: PreferenceRating | null) => {
+    setPreferences(prev => {
+      const next = { ...prev };
+      if (rating === null) delete next[value];
+      else next[value] = rating;
+      return next;
+    });
+    // Best-effort: a failed write costs the setting, never the session. The
+    // next payload re-reads the server's truth.
+    savePreference(value, rating).catch(() => {});
+  }, []);
 
   // The athlete's saved gym. Separate from the profile fetch because it is a
   // separate table, and because a failed equipment read must not cost the
@@ -1034,10 +1072,22 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       candidates: planCandidates,
       substitutions: SUBSTITUTIONS,
       variation_tolerance: 1,
+      /**
+       * The same preference signal the server scores with.
+       *
+       * Fed from local state rather than from the payload so the Adapt sheet
+       * re-ranks the moment a preference changes, and so the local engine and
+       * the server engine answer from the same inputs — which is the whole
+       * reason one implementation is shared between them.
+       */
+      preferred_families: Object.entries(preferences)
+        .filter(([, r]) => r === 'love' || r === 'like').map(([k]) => k),
+      avoided_families: Object.entries(preferences)
+        .filter(([, r]) => r === 'rather_not').map(([k]) => k),
     };
   }, [state.energy, state.flags, state.available_minutes, state.equipment,
       state.today_equipment, state.profile.considerations,
-      state.checkin, today, planCandidates]);
+      state.checkin, today, planCandidates, preferences]);
 
   /**
    * The server's decision is authoritative when there is one — it is the one
@@ -1342,6 +1392,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     () => ({
       state, dispatch, decision, session, steps, readiness,
       metricDetail: metricDetailView, guidance: today?.exercise_guidance ?? {},
+      preferences, setPreference,
       plan, sleep, engineInput,
       commitProfile, commitCheckin, commitEquipment, reportSymptom,
       beginSession, finishSession, commitAdaptation, switchToQueued, startSupplemental,
@@ -1350,6 +1401,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }),
     [state, decision, session, steps, readiness, metricDetailView, plan, sleep, engineInput, commitProfile,
      commitCheckin, commitEquipment, reportSymptom,
+     preferences, setPreference,
      beginSession, finishSession, commitAdaptation, switchToQueued, startSupplemental,
      chooseVariant,
      profileError, refreshProfile, today, todayLoading, todayError, refreshToday]);

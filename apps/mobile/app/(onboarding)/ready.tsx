@@ -47,7 +47,7 @@ export default function ReadyScreen() {
   if (!plan) {
     return (
       <OnboardingStep
-        step={7}
+        step={8}
         title="Ready to build your plan"
         description="Everything below can be changed later on Profile. Changing the race date, or adding one, rebuilds the weeks ahead and leaves completed training untouched."
         onBack={() => router.back()}
@@ -85,7 +85,7 @@ export default function ReadyScreen() {
 
   return (
     <OnboardingStep
-      step={7}
+      step={8}
       title="Your plan is ready"
       description={plan.race
         ? `${plan.total_weeks} week${plan.total_weeks === 1 ? '' : 's'} to ${plan.race.event_name}.`

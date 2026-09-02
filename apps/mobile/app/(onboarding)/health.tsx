@@ -48,7 +48,7 @@ export default function HealthScreen() {
       title="Health data, when you want it"
       description="Nothing is connected now. This is what it would read and write when it is, so the ask is not a surprise later."
       onBack={() => router.back()}
-      onContinue={() => router.push('/ready' as never)}
+      onContinue={() => router.push('/preferences' as never)}
       continueLabel="Continue"
     >
       <Label tone="ink" style={{ paddingHorizontal: space.gutter, paddingBottom: 10 }}>

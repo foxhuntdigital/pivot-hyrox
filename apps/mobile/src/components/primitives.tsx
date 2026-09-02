@@ -112,6 +112,7 @@ export function Chip({
   flex,
   size = 'md',
   style,
+  accessibilityLabel,
 }: {
   label: string;
   active: boolean;
@@ -119,6 +120,16 @@ export function Chip({
   flex?: boolean;
   size?: 'sm' | 'md' | 'lg';
   style?: ViewStyle;
+  /**
+   * What the chip means when its own label is not enough.
+   *
+   * A row of chips reading "Love it / Like it / Rather not" is unambiguous on
+   * screen, where the movement it belongs to is directly above it, and
+   * ambiguous to a screen reader moving through six such rows in sequence.
+   * Defaults to the visible label, so a chip that already says what it does
+   * needs nothing.
+   */
+  accessibilityLabel?: string;
 }) {
   const pad = { sm: 13, md: 16, lg: 16 }[size];
   // Horizontal breathing room so the label never sits against its own border.
@@ -133,6 +144,11 @@ export function Chip({
   return (
     <Pressable
       onPress={onPress}
+      // A chip is a toggle and carried none of that: no role, no selected
+      // state, and a label only where the visible text happened to be enough.
+      accessibilityRole="button"
+      accessibilityState={{ selected: active }}
+      accessibilityLabel={accessibilityLabel ?? label}
       style={[
         {
           flex: flex ? 1 : undefined,

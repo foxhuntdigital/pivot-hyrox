@@ -14,7 +14,7 @@ import { color, space, type as t } from '@/theme/tokens';
 import { toISODate } from '@/data/profile';
 
 /** D02–D08 inclusive: the steps an athlete actually walks through. */
-export const TOTAL_STEPS = 7;
+export const TOTAL_STEPS = 8;
 
 /**
  * A hairline bar rather than a percentage: the flow is short enough that
