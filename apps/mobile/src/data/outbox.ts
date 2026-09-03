@@ -26,7 +26,8 @@ import {
 } from './outboxRules';
 
 export {
-  finishRequestFor, hasPendingFinishOn, mergeQueued, type PendingFinish,
+  finishRequestFor, hasPendingFinishOn, mergeQueued, pendingFinishOn,
+  type PendingFinish,
 } from './outboxRules';
 
 const KEY = 'pivot.outbox.finishes.v1';

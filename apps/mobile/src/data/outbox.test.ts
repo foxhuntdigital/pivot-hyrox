@@ -13,7 +13,8 @@ import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-  expired, finishRequestFor, hasPendingFinishOn, mergeQueued, type PendingFinish,
+  expired, finishRequestFor, hasPendingFinishOn, mergeQueued, pendingFinishOn,
+  type PendingFinish,
 } from './outboxRules.ts';
 
 function entry(over: Partial<PendingFinish> = {}): PendingFinish {
@@ -136,5 +137,26 @@ describe('hasPendingFinishOn', () => {
 
   test('an empty queue claims nothing', () => {
     assert.equal(hasPendingFinishOn([], '2026-08-28'), false);
+  });
+});
+
+describe('pendingFinishOn', () => {
+  test('the queued finish is the one the screens can name', () => {
+    // Why it returns the entry and not a boolean: after a restart this is the
+    // only surviving record of which workout was performed, and Today and Plan
+    // have to print its name rather than the engine's next recommendation.
+    const found = pendingFinishOn([entry()], '2026-08-28');
+    assert.equal(found?.name, 'Long Hybrid 75');
+  });
+
+  test('two sessions in one day resolve to the one just finished', () => {
+    const found = pendingFinishOn(
+      [entry(), entry({ client_event_id: 'evt_2', name: 'Strength 45' })],
+      '2026-08-28');
+    assert.equal(found?.name, 'Strength 45');
+  });
+
+  test('a finish from another day is not today\'s', () => {
+    assert.equal(pendingFinishOn([entry()], '2026-08-29'), null);
   });
 });

@@ -262,12 +262,21 @@ export default function TodayScreen() {
    * local date so an app left open overnight does not keep saying "done".
    */
   const finishedToday = plan.pendingCompletion || plan.week.completedToday.length > 0;
+  /**
+   * The fallback is `pendingSession` rather than the engine's current answer.
+   *
+   * Finishing spends the override, so the live decision is already the *next*
+   * workout by the time this renders — an athlete who trained a session Coach
+   * built for them was told they had completed the one the plan assigned. What
+   * was performed is the only thing that can name what was performed.
+   */
+  const pending = plan.pendingSession;
   const doneNames = plan.week.completedToday.length
     ? plan.week.completedToday.map(c => c.name)
-    : session.kind === 'session' ? [session.template.name] : [];
+    : pending ? [pending.name] : [];
   const doneMinutes = plan.week.completedToday.reduce(
     (n, c) => n + (c.estimated_minutes ?? 0), 0)
-    || (session.kind === 'session' ? session.estimated_minutes : 0);
+    || pending?.estimated_minutes || 0;
 
   const start = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);

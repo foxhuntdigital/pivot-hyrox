@@ -28,6 +28,12 @@ export interface PendingFinish {
   local_date: string;
   template_id: string;
   name: string;
+  /**
+   * What the session was billed at, so a finish that outlives the process can
+   * still be named and totalled on Today and Plan. Optional because entries
+   * queued before it existed do not carry one.
+   */
+  estimated_minutes?: number;
   /** Null when the session was never opened server-side — start failed too. */
   session_id: string | null;
   /** The revision Start handed back. A finish always sends this plus one. */
@@ -86,7 +92,22 @@ export function finishRequestFor(
   };
 }
 
+/**
+ * The finish for `localDate` still waiting to be sent, if there is one.
+ *
+ * The most recently queued wins: two sessions on one day are queued in order,
+ * and the last one is the one just finished.
+ */
+export function pendingFinishOn(
+  pending: PendingFinish[], localDate: string,
+): PendingFinish | null {
+  for (let i = pending.length - 1; i >= 0; i--) {
+    if (pending[i].local_date === localDate) return pending[i];
+  }
+  return null;
+}
+
 /** Whether a finish for `localDate` is still waiting to be sent. */
 export function hasPendingFinishOn(pending: PendingFinish[], localDate: string): boolean {
-  return pending.some(e => e.local_date === localDate);
+  return pendingFinishOn(pending, localDate) !== null;
 }

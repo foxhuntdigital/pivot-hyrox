@@ -63,13 +63,26 @@ export default function PlanScreen() {
    * the session finished here is genuinely missing from the server's week — the
    * one window in which this row and that session are the same thing.
    */
-  const todayRow = session.kind === 'session'
+  const todayRow = plan.pendingSession
+    ? {
+        key: 'today',
+        // Named from what was performed, not from what the engine now
+        // recommends. Those are the same workout right up until the finish,
+        // which is the moment the override is spent and the engine moves on —
+        // so reading the name from `session` here labelled a Coach-built
+        // session with the plan's assigned one.
+        name: plan.pendingSession.name,
+        note: 'Completed today',
+        minutes: plan.pendingSession.estimated_minutes,
+        done: true,
+      }
+    : session.kind === 'session' && !plan.pendingCompletion
     ? {
         key: 'today',
         name: session.template.name,
-        note: plan.pendingCompletion ? 'Completed today' : 'Today',
+        note: 'Today',
         minutes: session.estimated_minutes,
-        done: plan.pendingCompletion,
+        done: false,
       }
     : null;
 
@@ -87,7 +100,11 @@ export default function PlanScreen() {
 
   const rows = [...completedRows, ...(todayRow ? [todayRow] : [])];
 
-  const todayTemplateId = session.kind === 'session' ? session.template.id : null;
+  // Whatever the row above is describing — the finished session while it is
+  // pending, today's decision otherwise. Dropping the other one's queue item
+  // would hide a session the athlete still owes.
+  const todayTemplateId = plan.pendingSession?.template_id
+    ?? (session.kind === 'session' ? session.template.id : null);
 
   /**
    * What is left after today — which is what "Up next" means.

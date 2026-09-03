@@ -122,3 +122,55 @@ describe('The week as Plan counts it', () => {
     assert.equal(v.week.done, 7);
   });
 });
+
+/**
+ * Naming the finished session.
+ *
+ * The screens used to read the name off the engine's current decision, which
+ * is only the finished session until the moment it is finished: the override
+ * that chose it is spent on the way out of the player, and the engine's next
+ * answer is a different workout. An athlete who trained a session Coach built
+ * for them was shown the plan's assigned workout, ticked and dated today.
+ */
+describe('What the pending finish is called', () => {
+  const performed = {
+    template_id: 'wo_strength_45',
+    name: 'Strength 45',
+    estimated_minutes: 45,
+  };
+
+  test('the session that was performed is the session that is named', () => {
+    const v = planView(
+      payload({ stimulus_requirements: week(0) }), true, 'sess_1', performed);
+    assert.deepEqual(v.pendingSession, performed);
+  });
+
+  test('nothing is named once the server has the session', () => {
+    // The server's own row is the better answer from here, and this one is a
+    // stale copy that would keep a finished session on screen as pending.
+    const v = planView(
+      payload({
+        stimulus_requirements: week(1),
+        week: { start_date: null, end_date: null, queue: [], completed: [completed('sess_1')] },
+      }),
+      true, 'sess_1', performed);
+    assert.equal(v.pendingCompletion, false);
+    assert.equal(v.pendingSession, null);
+  });
+
+  test('nothing is named when nothing was finished here', () => {
+    const v = planView(
+      payload({ stimulus_requirements: week(0) }), false, null, performed);
+    assert.equal(v.pendingSession, null);
+  });
+
+  test('an unknown session is a missing name, not a wrong one', () => {
+    const v = planView(payload({ stimulus_requirements: week(0) }), true, 'sess_1');
+    assert.equal(v.pendingCompletion, true);
+    assert.equal(v.pendingSession, null);
+  });
+
+  test('a plan that has not loaded still names what was performed', () => {
+    assert.deepEqual(planView(null, true, 'sess_1', performed).pendingSession, performed);
+  });
+});

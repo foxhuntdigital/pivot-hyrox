@@ -203,7 +203,19 @@ function buildRationale(
   if (codes.includes('IMPACT_REDUCTION')) parts.push('with high-impact movements swapped out');
   else if (codes.includes('EQUIPMENT_SUBSTITUTION')) parts.push('with substitutions for the kit you don\'t have');
 
-  return parts.join(', ').replace(/,([^,]*)$/, '$1') + '.';
+  /**
+   * Joined with commas, except before a clause that supplies its own
+   * conjunction — "A, and B" is the one place the comma is wrong.
+   *
+   * This used to strip the last comma unconditionally, which is correct only
+   * when the final clause opens with "and". Every other shape lost a comma it
+   * needed and ran two clauses together: "rather than picking up where the plan
+   * left off trimmed to fit the time you have" reads as a dropped word, not a
+   * dropped comma.
+   */
+  return parts.reduce((sentence, part) => (
+    part.startsWith('and ') ? `${sentence} ${part}` : `${sentence}, ${part}`
+  )) + '.';
 }
 
 /**

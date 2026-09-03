@@ -131,6 +131,72 @@ describe('E2E acceptance (PRD §23.3)', () => {
   });
 });
 
+/**
+ * The rationale is a sentence, and has to read like one.
+ *
+ * It is assembled from independent clauses, and the join used to strip the last
+ * comma unconditionally — right for the one clause that carries its own "and",
+ * wrong for every other shape. What the athlete saw was two clauses run
+ * together: "rather than picking up where the plan left off trimmed to fit the
+ * time you have", which reads as a missing word rather than a missing comma.
+ *
+ * Pinned as punctuation around the clause openings rather than as whole
+ * sentences, so rewording any clause does not break the test that guards how
+ * they are joined.
+ */
+describe('The rationale reads as a sentence', () => {
+  /** Clause openings that must be preceded by a comma when they appear. */
+  const COMMA_BEFORE = [
+    'trimmed to fit the time you have',
+    'cut to a minimum effective dose',
+    'at a controlled intensity',
+    'with high-impact movements swapped out',
+    'with substitutions for the kit',
+  ];
+
+  /** Inputs chosen to exercise each optional clause at least once. */
+  const CASES: Array<[string, Partial<EngineInput>]> = [
+    ['a re-entry after a gap, on limited time', {
+      available_minutes: 40,
+      recent_sessions: [
+        { template_id: 'wo_zone_2_run_30', workout_family: 'run_base', primary_goal: 'aerobic_base', days_ago: 11, impact_level: 'medium', session_rpe: 5 },
+      ],
+    }],
+    ['a very short session', { available_minutes: 20 }],
+    ['an athlete recovering poorly', { recovery_state: 'poor', energy: 'low', sleep_hours: 4 }],
+    ['an athlete recovering unevenly', { recovery_state: 'okay', energy: 'normal', sleep_hours: 6 }],
+    ['low impact required', { low_impact_required: true }],
+    ['missing equipment', { available_equipment: ALL_EQUIPMENT.filter(e => e !== 'ski') }],
+    ['everything at once', {
+      available_minutes: 20, low_impact_required: true,
+      recovery_state: 'poor', energy: 'low', sleep_hours: 4,
+      recent_sessions: [
+        { template_id: 'wo_zone_2_run_30', workout_family: 'run_base', primary_goal: 'aerobic_base', days_ago: 11, impact_level: 'medium', session_rpe: 5 },
+      ],
+    }],
+  ];
+
+  for (const [label, over] of CASES) {
+    test(`clauses are separated — ${label}`, () => {
+      const d = recommend(baseInput(over), EXERCISES);
+      if (d.kind !== 'session') return;   // a refusal has its own sentence
+
+      for (const clause of COMMA_BEFORE) {
+        const at = d.rationale.indexOf(clause);
+        if (at <= 0) continue;
+        assert.equal(d.rationale.slice(at - 2, at), ', ',
+          `"${clause}" runs into the clause before it: ${d.rationale}`);
+      }
+
+      // The one clause that carries its own conjunction takes no comma.
+      assert.doesNotMatch(d.rationale, /, and held well below/,
+        `a clause opening with "and" must not also take a comma: ${d.rationale}`);
+      assert.doesNotMatch(d.rationale, /,\s*\./, `trailing comma: ${d.rationale}`);
+      assert.match(d.rationale, /\.$/, `must end in a full stop: ${d.rationale}`);
+    });
+  }
+});
+
 describe('Hard guardrails (PRD §9.4)', () => {
   test('concerning symptoms return no session and do not diagnose', () => {
     const d = recommend(baseInput({ symptom_flags: ['chest tightness'] }), EXERCISES);

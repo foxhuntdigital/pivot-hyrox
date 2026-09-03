@@ -40,7 +40,7 @@ comment on column public.workout_sessions.workout_role is
 -- index depend on a jsonb path; UTC day is close enough for a guard whose job
 -- is stopping a loop, not adjudicating a timezone edge.
 create unique index if not exists workout_sessions_one_supplemental_per_day
-  on public.workout_sessions (user_id, (started_at at time zone 'utc')::date)
+  on public.workout_sessions (user_id, ((started_at at time zone 'utc')::date))
   where workout_role = 'supplemental';
 
 create index if not exists workout_sessions_role_idx

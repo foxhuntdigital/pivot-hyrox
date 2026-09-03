@@ -35,8 +35,8 @@ import {
   eventId, startSession, type StartRequest,
 } from '../data/sessionRepo';
 import {
-  enqueueFinish, flushOutbox, hasPendingFinishOn, loadOutbox, subscribeOutbox,
-  type PendingFinish,
+  enqueueFinish, flushOutbox, loadOutbox, pendingFinishOn,
+  subscribeOutbox, type PendingFinish,
 } from '../data/outbox';
 import { recordAdaptation } from '../data/adaptRepo';
 import { fetchEquipment, saveEquipment } from '../data/equipmentRepo';
@@ -44,7 +44,7 @@ import {
   fetchPreferences, savePreference, fetchWeaknesses, saveWeakness,
   type PreferenceRating, type Preferences,
 } from '../data/preferencesRepo';
-import { planView, type PlanView } from '../data/plan';
+import { planView, type PerformedSession, type PlanView } from '../data/plan';
 import {
   track, flushAnalytics, bucketSleep, bucketScale, elapsedMinutes,
 } from '../lib/analytics';
@@ -165,6 +165,17 @@ interface State {
    * Threshold session, ticked, that they had never seen.
    */
   completed_session_id: string | null;
+  /**
+   * The session the player was opened on, kept until the next one opens.
+   *
+   * Finishing spends the override, after which the engine's answer is the
+   * *next* workout — so a screen that names the finished session from the live
+   * decision names something the athlete never did. That is exactly what an
+   * athlete who trained a session Coach built for them saw: Today and Plan both
+   * credited them with the workout the plan had assigned instead. This is what
+   * was performed, recorded at the one moment the app is certain of it.
+   */
+  performed: PerformedSession | null;
 
   /**
    * What the athlete typed for each working set, keyed by step index.
@@ -217,6 +228,7 @@ const initialState: State = {
   ended_early: false,
   completed_today: false,
   completed_session_id: null,
+  performed: null,
 
   open_metric: 'running',
 };
@@ -270,7 +282,7 @@ type Action =
   | { type: 'set_travel'; travel: State['travel'] }
   | { type: 'set_checkin'; checkin: Checkin }
   | { type: 'restore'; snapshot: Restorable }
-  | { type: 'start_workout' }
+  | { type: 'start_workout'; performed: PerformedSession | null }
   | { type: 'session_opened'; session_id: string; revision: number }
   | { type: 'next_step'; total: number }
   | { type: 'tick' }
@@ -375,6 +387,10 @@ function reducer(s: State, a: Action): State {
         // Cleared here rather than on finish: the id belongs to the session
         // being performed, and a new one starts without the last one's row.
         session_id: null, session_revision: 0,
+        // Replaced here for the same reason, and for the same reason not
+        // cleared on finish: the finished session still has to be nameable
+        // after the override that chose it is spent.
+        performed: a.performed,
       };
     case 'session_opened':
       return { ...s, session_id: a.session_id, session_revision: a.revision };
@@ -402,9 +418,10 @@ function reducer(s: State, a: Action): State {
       };
     case 'end_and_discard':
       // Abandoned, not completed: nothing is logged and the stimulus stays open.
+      // Nothing was performed either, so the record of it goes with the rest.
       return {
         ...s, status: 'ready', step_index: 0, elapsed_seconds: 0,
-        step_seconds: [], entries: {},
+        step_seconds: [], entries: {}, performed: null,
       };
     case 'set_rpe':
       return { ...s, session_rpe: a.rpe };
@@ -865,15 +882,28 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const beginSession = useCallback(() => {
-    dispatch({ type: 'start_workout' });
-
     /**
+     * Read before the dispatch, because the dispatch is what the record is
+     * made from: this is the decision the athlete tapped Start on, override
+     * and all, and it is the last moment the app can say so.
+     *
      * Tracked before the sign-in check, not after: a started workout is a
      * started workout whether or not the server accepted the row, and gating
      * the event on the write would quietly under-count every session that began
      * offline — which §15.1 explicitly expects to happen.
      */
     const started = decisionRef.current;
+    dispatch({
+      type: 'start_workout',
+      performed: started?.kind === 'session'
+        ? {
+            template_id: started.template.id,
+            name: started.template.name,
+            estimated_minutes: started.estimated_minutes,
+          }
+        : null,
+    });
+
     if (started?.kind === 'session') {
       track({
         name: 'workout_started',
@@ -963,6 +993,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       local_date: todayRef.current?.date_local ?? new Date().toISOString().slice(0, 10),
       template_id: chosen?.template.id ?? '',
       name: chosen?.template.name ?? '',
+      // Carried so a finish that outlives the process can still be named and
+      // totalled by the screens, not just replayed to the server.
+      estimated_minutes: chosen?.estimated_minutes,
       session_id: s.session_id,
       revision: s.session_revision,
       start: {
@@ -1135,14 +1168,30 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
      * launches — and it stops answering it the moment the server confirms,
      * because the entry is then gone.
      */
-    () => planView(
-      today,
-      state.completed_today
-        || hasPendingFinishOn(pendingFinishes, today?.date_local
-          ?? new Date().toISOString().slice(0, 10)),
-      state.completed_session_id,
-    ),
-    [today, state.completed_today, state.completed_session_id, pendingFinishes]);
+    () => {
+      const localDate = today?.date_local ?? new Date().toISOString().slice(0, 10);
+      /**
+       * What was performed, preferring this run's own record and falling back
+       * to the queued finish — which is the only one of the two that survives a
+       * restart, and which is why the name lives on the outbox entry at all.
+       */
+      const queued = pendingFinishOn(pendingFinishes, localDate);
+      const performed = state.performed ?? (queued && queued.name
+        ? {
+            template_id: queued.template_id,
+            name: queued.name,
+            estimated_minutes: queued.estimated_minutes ?? 0,
+          }
+        : null);
+      return planView(
+        today,
+        state.completed_today || queued !== null,
+        state.completed_session_id,
+        performed,
+      );
+    },
+    [today, state.completed_today, state.completed_session_id, state.performed,
+     pendingFinishes]);
 
   const localDecision = useMemo(() => recommend(engineInput, EXERCISES), [engineInput]);
 

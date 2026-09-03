@@ -120,6 +120,21 @@ export interface WeekShape {
   queue_remaining: number;
 }
 
+/**
+ * A session the athlete performed, as this device knows it before the server
+ * does.
+ *
+ * Recorded when the player opens, because that is the last moment the app is
+ * certain what is being trained: finishing clears the override, and the
+ * engine's next answer is a different workout. A screen naming the finished
+ * session from the live decision therefore names whatever comes next.
+ */
+export interface PerformedSession {
+  template_id: string;
+  name: string;
+  estimated_minutes: number;
+}
+
 export interface PlanView {
   /**
    * True while a session finished on this device is not yet in the server's
@@ -127,6 +142,12 @@ export interface PlanView {
    * refetch lands, which is what stops them counting the same session twice.
    */
   pendingCompletion: boolean;
+  /**
+   * What that pending finish was, for the screens that have to name it. Null
+   * outside the window, and null inside it when nothing recorded the session —
+   * which is a missing name, never a wrong one.
+   */
+  pendingSession: PerformedSession | null;
   race: RaceView | null;
   phase: PhaseView | null;
   week: WeekView;
@@ -181,15 +202,20 @@ export function planView(
   today: TodayPayload | null,
   completedToday: boolean,
   completedSessionId: string | null = null,
+  performed: PerformedSession | null = null,
 ): PlanView {
   const serverHasIt = completedSessionId !== null
     && (today?.week?.completed ?? []).some(c => c.session_id === completedSessionId);
   const pendingCompletion = completedToday && !serverHasIt;
   const bump = pendingCompletion ? 1 : 0;
+  // Only meaningful while the finish is pending: once the server's week holds
+  // the session, its own row is the better answer and this one is stale.
+  const pendingSession = pendingCompletion ? performed : null;
 
   if (!today) {
     return {
       pendingCompletion,
+      pendingSession,
       race: null,
       phase: null,
       week: { done: bump, target: 0, queue: [], completed: [], completedToday: [] },
@@ -205,6 +231,7 @@ export function planView(
 
   return {
     pendingCompletion,
+    pendingSession,
     race: today.active_race && {
       id: today.active_race.id,
       name: today.active_race.name,
