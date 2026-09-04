@@ -44,6 +44,16 @@ export interface PendingFinish {
   finish: Omit<CompleteRequest, 'session_id' | 'client_event_id' | 'revision'>;
   attempts: number;
   queued_at: string;
+  /**
+   * Why this entry is not being retried, when something is stopping it.
+   *
+   * Only entitlement so far, and it is deliberately not an attempt count: a 402
+   * is the same answer every time until the athlete resubscribes, so counting
+   * it as a failure spent the queue's whole 30-day window on a question that was
+   * never going to answer differently — and then dropped a workout the athlete
+   * really had done.
+   */
+  blocked_reason?: 'entitlement' | null;
 }
 
 /**
@@ -67,10 +77,24 @@ export function mergeQueued(
   return [...without, entry].slice(-MAX_ENTRIES);
 }
 
-/** Whether a queued finish has been waiting long enough to give up on. */
+/**
+ * Whether a queued finish has been waiting long enough to give up on.
+ *
+ * A blocked entry never expires. The clock exists to retire finishes whose week
+ * has closed and whose retry is hopeless; a lapsed subscription is neither —
+ * it is a workout the athlete performed, waiting on a decision that is theirs
+ * to make. Expiring it would delete real training as a side effect of a billing
+ * state, and they would have no way to know it had happened.
+ */
 export function expired(entry: PendingFinish, now: number): boolean {
+  if (entry.blocked_reason) return false;
   const age = now - Date.parse(entry.queued_at);
   return Number.isFinite(age) && age > MAX_AGE_DAYS * 86_400_000;
+}
+
+/** Finishes held back by something other than a failed send. */
+export function blockedFinishes(entries: PendingFinish[]): PendingFinish[] {
+  return entries.filter(e => Boolean(e.blocked_reason));
 }
 
 /**

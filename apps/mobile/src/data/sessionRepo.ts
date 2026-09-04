@@ -45,6 +45,27 @@ export interface RefusedSession {
   guidance: string;
 }
 
+/**
+ * The server declined because the subscription has lapsed (402).
+ *
+ * Distinct from `null` because the two want opposite handling. `null` means
+ * "try again later" and the outbox does exactly that; an entitlement refusal
+ * will answer the same way on every attempt until the athlete resubscribes, so
+ * retrying it burns the queue's 30-day window and drops a real finished workout
+ * at the end of it. Worse, it does so silently — `history` deliberately does not
+ * check entitlement, so the surface built to survive a lapse was being fed by a
+ * writer that could not.
+ */
+export interface BlockedSession {
+  blocked: 'entitlement';
+}
+
+/** The HTTP status behind an Edge Function failure, when there is one. */
+function statusOf(error: unknown): number | null {
+  const context = (error as { context?: Response }).context;
+  return context && typeof context.status === 'number' ? context.status : null;
+}
+
 export interface CompleteRequest {
   session_id: string;
   /** Identifies this finish. Replays are caught by status and revision. */
@@ -80,7 +101,7 @@ export interface CompletedSession {
 
 export async function startSession(
   request: StartRequest,
-): Promise<StartedSession | RefusedSession | null> {
+): Promise<StartedSession | RefusedSession | BlockedSession | null> {
   if (!supabase) return null;
   try {
     const { data, error } = await supabase.functions.invoke('start-workout', {
@@ -88,6 +109,7 @@ export async function startSession(
       body: request,
     });
     if (error) {
+      if (statusOf(error) === 402) return { blocked: 'entitlement' };
       // A refusal arrives as 409 with the engine's guidance in the body, which
       // is an answer rather than a failure — read it before giving up.
       const refusal = await readRefusal(error);
@@ -109,13 +131,14 @@ export async function startSession(
 
 export async function completeSession(
   request: CompleteRequest,
-): Promise<CompletedSession | null> {
+): Promise<CompletedSession | BlockedSession | null> {
   if (!supabase) return null;
   try {
     const { data, error } = await supabase.functions.invoke('complete-workout', {
       method: 'POST',
       body: request,
     });
+    if (error && statusOf(error) === 402) return { blocked: 'entitlement' };
     if (error || !data?.session_id) return null;
     return {
       session_id: data.session_id,
@@ -139,6 +162,39 @@ async function readRefusal(error: unknown): Promise<RefusedSession | null> {
       : null;
   } catch {
     return null;
+  }
+}
+
+/**
+ * Closes a session the athlete discarded.
+ *
+ * Discarding was local-only, and the row it left behind was the mechanism
+ * behind every phantom workout: nothing in the codebase ever wrote
+ * `'abandoned'`, so a discarded session stayed `'active'` for good, and
+ * `start-workout`'s resume branch handed that stale row — with its original
+ * prescription and its original date — back to the next athlete who started the
+ * same template. Today's logs then landed on a fortnight-old snapshot, and
+ * history dated the entry to a day the athlete had not trained.
+ *
+ * Written straight through PostgREST rather than through an Edge Function: RLS
+ * already scopes `workout_sessions` to its owner, and this needs no engine, no
+ * entitlement and no reconciliation — it is the athlete retracting a claim.
+ *
+ * Guarded on the open statuses so it can never reopen a decided session: a
+ * finish that landed first leaves nothing here to update, which is the correct
+ * outcome for a race between the two.
+ */
+export async function abandonSession(sessionId: string): Promise<void> {
+  if (!supabase) return;
+  try {
+    await supabase
+      .from('workout_sessions')
+      .update({ status: 'abandoned', ended_at: new Date().toISOString() })
+      .eq('id', sessionId)
+      .in('status', ['ready', 'active', 'paused', 'completed_pending_review']);
+  } catch {
+    // Best-effort. A row left open is repaired by the staleness bound on the
+    // server's resume query, which is the backstop this is the tidy version of.
   }
 }
 

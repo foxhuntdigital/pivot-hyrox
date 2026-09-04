@@ -26,10 +26,12 @@
  * a plain View:
  *
  *   - each lane's fill is a stack of flat strips sampled from a two-stop ramp at
- *     the strip's own y, and its material's grain is a modulation of those same
- *     strips — so the texture costs no views at all. The ramp is a function of absolute y, not of distance
+ *     the strip's own y. The ramp is a function of absolute y, not of distance
  *     along the stroke, so the stem, the corner and the bend share one
- *     continuous fill and meet without a seam;
+ *     continuous fill and meet without a seam. The strips are fine enough that
+ *     the banding sits under the eye rather than in front of it, and the whole
+ *     static stack is flattened to a single layer so that the count costs
+ *     nothing to animate;
  *   - the bend is a fan of rotated rectangles, cut wide enough that no gap opens
  *     between them and then trimmed back to true circles by a paper ring outside
  *     it and a paper disc inside it;
@@ -107,62 +109,46 @@ const ICON = {
  * of the run; what changed is that the three are now different materials rather
  * than three temperatures of one.
  *
- * `grain` is how the material behaves under the ramp, and costs nothing: the
- * fill is already a stack of flat strips, so the texture is a modulation of
- * strips that are being painted anyway rather than anything drawn on top.
+ * The materials were once also given a grain — an engraved lift on the frosted
+ * lane, a speckle on the teal — modulating the strips that were being painted
+ * anyway. It cost no views and it still read as noise: at this size the only
+ * way to see a texture is to put contrast between neighbouring strips, which is
+ * indistinguishable from banding on a gradient. So the colours are the icon's
+ * three materials and the surfaces are smooth.
  */
 const LANES = [
-  /** Glossy, like the icon's vermilion face. Smooth — gloss has no grain. */
-  { head: '#e04a24', tail: '#7c2410', grain: 'gloss' },
-  /** The frosted face, and its engraved hairlines. */
-  { head: '#e4eef0', tail: '#7f969b', grain: 'etched' },
-  /** The speckled teal. The noisiest material in the icon. */
-  { head: '#46b5a8', tail: '#164e49', grain: 'granular' },
+  /** The icon's glossy vermilion face. */
+  { head: '#e04a24', tail: '#7c2410' },
+  /** The frosted face. */
+  { head: '#e4eef0', tail: '#7f969b' },
+  /** The teal. */
+  { head: '#46b5a8', tail: '#164e49' },
 ] as const;
 
-/** Strips in a lane's gradient over the full drop, and segments per half-bend. */
-const RAMP_STEPS = 30;
-const ARC_SEGS = 24;
+/**
+ * Strips in a lane's gradient over the full drop, and segments per half-bend.
+ *
+ * Both are higher than the eye strictly needs because neither is paid for per
+ * frame: the strips and the fan are static, and each is flattened to one layer
+ * before anything moves. Banding and faceting are what a hand-built gradient
+ * shows first, so the resolution goes where it is visible and the cost does not
+ * follow it.
+ */
+const RAMP_STEPS = 64;
+const ARC_SEGS = 36;
 
 /** Where each lane's cover starts and finishes, as a fraction of `RUN_MS`. */
 const LANE_IN = LANES.map((_, i) => (i * LANE_LAG) / RUN_MS);
 const LANE_OUT = LANES.map((_, i) => (i * LANE_LAG + STEM_MS) / RUN_MS);
 
-function mix(a: string, b: string, t: number, lift = 1) {
+function mix(a: string, b: string, t: number) {
   const ca = parseInt(a.slice(1), 16);
   const cb = parseInt(b.slice(1), 16);
   const ch = (shift: number) => {
     const va = (ca >> shift) & 255;
-    const v = va + (((cb >> shift) & 255) - va) * t;
-    return Math.max(0, Math.min(255, Math.round(v * lift)));
+    return Math.round(va + (((cb >> shift) & 255) - va) * t);
   };
   return `rgb(${ch(16)},${ch(8)},${ch(0)})`;
-}
-
-/**
- * A stable pseudo-random number for one strip of one lane.
- *
- * Deterministic on purpose: the grain must not crawl between renders, and a
- * splash that reshuffles its own texture on a re-layout would draw the eye to
- * exactly the thing that should sit still. Same input, same speckle, every time.
- */
-function noise(lane: number, k: number) {
-  const h = Math.sin(lane * 12.9898 + k * 78.233) * 43758.5453;
-  return h - Math.floor(h);
-}
-
-/**
- * How a material catches the light, as a multiplier on the strip's own colour.
- *
- * Gloss is flat — a polished face has no texture to find. Etched lifts one
- * strip in seven, which is the icon's engraved line work at the scale a lane
- * can carry it. Granular jitters every strip a few percent, which reads as the
- * icon's speckle without a single extra view.
- */
-function materialLift(grain: string, lane: number, k: number) {
-  if (grain === 'etched') return k % 7 === 3 ? 1.16 : 1;
-  if (grain === 'granular') return 0.93 + noise(lane, k) * 0.14;
-  return 1;
 }
 
 type Glyph = ReturnType<typeof useGlyph>;
@@ -203,17 +189,10 @@ function useGlyph(W: number, H: number) {
     const by = top + ro;
     const drop = H - top;
 
-    // `k` is the strip's index within its stack, which is what a material's
-    // grain is a function of. Absent — as it is on the bend — the material
-    // reads smooth, which is right: the grain belongs to the long run, and
-    // speckling the arc as well would turn texture into noise.
-    const tone = (lane: number, y: number, k = -1) =>
-      mix(
-        LANES[lane].head,
-        LANES[lane].tail,
-        Math.min(1, Math.max(0, (y - top) / drop)),
-        k < 0 ? 1 : materialLift(LANES[lane].grain, lane, k),
-      );
+    // Absolute y, so a strip in the stem and a segment of the bend at the same
+    // height are the same colour and the two meet without a seam.
+    const tone = (lane: number, y: number) =>
+      mix(LANES[lane].head, LANES[lane].tail, Math.min(1, Math.max(0, (y - top) / drop)));
 
     return { W, H, laneW, L, cx, sx, bx, ro, ri, top, by, drop, tone };
   }, [W, H]);
@@ -267,7 +246,7 @@ function Ramp({ g, lane, x, y, w, h }: { g: Glyph; lane: number; x: number; y: n
             top: k * band,
             // A hair of overlap: adjacent strips must not leave a sub-pixel seam.
             height: band + 1,
-            backgroundColor: g.tone(lane, y + (k + 0.5) * band, k),
+            backgroundColor: g.tone(lane, y + (k + 0.5) * band),
           }}
         />
       ))}
@@ -426,7 +405,15 @@ function Sweep({ g, sweep, children }: { g: Glyph; sweep: SharedValue<number>; c
     <View style={{ position: 'absolute', left: g.bx, top: g.by - g.ro, width: g.ro, height: d, overflow: 'hidden' }}>
       <Animated.View style={[{ position: 'absolute', left: -g.ro, top: 0, width: d, height: d }, rot]}>
         <View style={{ position: 'absolute', left: g.ro, top: 0, width: g.ro, height: d, overflow: 'hidden' }}>
-          <View style={{ position: 'absolute', left: -g.ro, top: 0, width: d, height: d }}>{children}</View>
+          {/* The fan is ARC_SEGS × 3 static views under a view that rotates
+              every frame of the sweep, so it is cached for the same reason. */}
+          <View
+            shouldRasterizeIOS
+            renderToHardwareTextureAndroid
+            style={{ position: 'absolute', left: -g.ro, top: 0, width: d, height: d }}
+          >
+            {children}
+          </View>
         </View>
       </Animated.View>
     </View>
@@ -473,11 +460,26 @@ function Mark({
 }) {
   return (
     <View style={{ position: 'absolute', left: 0, top: 0, width: g.W, height: g.H }}>
-      <Ground g={g} />
-      {LANES.map((_, lane) => (
-        <Ramp key={lane} g={g} lane={lane} x={g.sx + lane * g.laneW} y={g.top} w={g.laneW} h={g.drop} />
-      ))}
-      <Mitre g={g} />
+      {/*
+        Everything that never changes after layout, drawn once and cached as a
+        single layer. The ground, the three ramps and the mitre are around 150
+        views; without this the doors ask the compositor to move all of them
+        every frame of the split, which is what made a pure-transform animation
+        drop frames. Rasterising is safe precisely because these are only ever
+        translated — a cached layer that gets scaled would go soft, and none of
+        this does.
+      */}
+      <View
+        shouldRasterizeIOS
+        renderToHardwareTextureAndroid
+        style={{ position: 'absolute', left: 0, top: 0, width: g.W, height: g.H }}
+      >
+        <Ground g={g} />
+        {LANES.map((_, lane) => (
+          <Ramp key={lane} g={g} lane={lane} x={g.sx + lane * g.laneW} y={g.top} w={g.laneW} h={g.drop} />
+        ))}
+        <Mitre g={g} />
+      </View>
       {LANES.map((_, lane) => (
         <Cover key={lane} g={g} lane={lane} stem={stem} />
       ))}

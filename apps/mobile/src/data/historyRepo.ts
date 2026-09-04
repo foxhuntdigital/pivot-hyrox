@@ -57,15 +57,54 @@ export interface HistoryPage {
   next_before: string | null;
 }
 
-/** Null when there is no server to ask — the caller shows the seeded state. */
-export async function fetchHistory(before?: string | null): Promise<HistoryPage | null> {
-  if (!supabase) return null;
+/**
+ * The outcome of asking for a page of history.
+ *
+ * Three states, not two, because the difference between them is the whole
+ * point. This used to answer `HistoryPage | null`, and the screen read `null`
+ * as an empty list — so a dropped connection, an expired token or a 500 all
+ * rendered as "Nothing completed yet" over an athlete's entire training record.
+ * That is the single line behind every "the app erased my history" report: an
+ * absence of data and a failure to read it are not the same claim, and only one
+ * of them is safe to state.
+ *
+ * `unconfigured` stays separate from `error` for the same reason. A build with
+ * no Supabase credentials has nothing to show and nothing wrong with it; an
+ * error state there would be a fault reported to someone who cannot act on it.
+ */
+export type HistoryResult =
+  | { status: 'ok'; page: HistoryPage }
+  | { status: 'unconfigured' }
+  | { status: 'error'; message: string };
+
+export async function fetchHistory(before?: string | null): Promise<HistoryResult> {
+  if (!supabase) return { status: 'unconfigured' };
   try {
     const params = new URLSearchParams({ limit: '20' });
     if (before) params.set('before', before);
     const { data, error } = await supabase.functions.invoke(`history?${params}`, { method: 'GET' });
-    if (error || !data) return null;
-    return data as HistoryPage;
+    if (error) {
+      // The Edge Function puts the useful sentence in the response body; the
+      // envelope's own message is usually just "non-2xx status code".
+      return { status: 'error', message: await functionMessage(error) ?? error.message };
+    }
+    if (!data) return { status: 'error', message: 'The server returned no history.' };
+    return { status: 'ok', page: data as HistoryPage };
+  } catch (e) {
+    return {
+      status: 'error',
+      message: e instanceof Error && e.message ? e.message : 'Could not reach the server.',
+    };
+  }
+}
+
+/** Edge Function failures carry their body on the error's `context` Response. */
+async function functionMessage(error: unknown): Promise<string | null> {
+  const context = (error as { context?: Response }).context;
+  if (!context || typeof context.json !== 'function') return null;
+  try {
+    const body = await context.json();
+    return typeof body?.error === 'string' ? body.error : null;
   } catch {
     return null;
   }

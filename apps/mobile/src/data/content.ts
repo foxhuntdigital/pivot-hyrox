@@ -28,5 +28,26 @@ export const templateById = new Map(TEMPLATES.map(t => [t.id, t]));
 export const COMMON_EQUIPMENT = ['treadmill', 'outdoor', 'ski', 'bike', 'db', 'kb',
   'box', 'wall_ball', 'sled', 'rope', 'sandbag'];
 
+/**
+ * Equipment the athlete is never asked about.
+ *
+ * These stay in the catalogue — the engine still selects against them, and the
+ * seed is unchanged — they are simply not questions worth putting to an
+ * athlete:
+ *
+ * - `bodyweight` and `wall` are assumed. `resolveEquipment` already treats
+ *   bodyweight as always available regardless of what was claimed, and the only
+ *   three exercises gated on a wall list `medicine_ball` as an alternative, so
+ *   hiding both costs no content.
+ * - `reformer` gates a single recovery exercise and reads as noise in a picker
+ *   about training kit.
+ */
+const HIDDEN_EQUIPMENT = new Set(['bodyweight', 'wall', 'reformer']);
+
+/** The catalogue as an athlete should see it, from any source. */
+export function visibleEquipment<T extends { id: string }>(list: T[]): T[] {
+  return list.filter(e => !HIDDEN_EQUIPMENT.has(e.id));
+}
+
 /** Equipment the Profile screen offers, in the design's presentation order. */
-export const EQUIPMENT_CHOICES = EQUIPMENT.filter(e => e.id !== 'bodyweight');
+export const EQUIPMENT_CHOICES = visibleEquipment(EQUIPMENT);

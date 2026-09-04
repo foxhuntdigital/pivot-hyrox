@@ -18,6 +18,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label } from '@/components/primitives';
 import { fetchHistory, type HistorySession } from '@/data/historyRepo';
+import { useApp } from '@/state/store';
 import { mmss } from '@/lib/format';
 
 /** "Thu 20 Feb" — the day an athlete recognises, not an ISO string. */
@@ -46,21 +47,45 @@ function byMonth(sessions: HistorySession[]) {
 export default function HistoryScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { pendingSync } = useApp();
   const [sessions, setSessions] = useState<HistorySession[] | null>(null);
   const [cursor, setCursor] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [open, setOpen] = useState<string | null>(null);
+  /**
+   * Set when a read failed, and cleared only by one that succeeds.
+   *
+   * Kept separate from `sessions` so a failed *next page* cannot discard the
+   * pages already on screen: the athlete keeps what was read and is told the
+   * rest could not be.
+   */
+  const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async (before?: string | null) => {
-    const page = await fetchHistory(before);
-    if (!page) { setSessions(prev => prev ?? []); return; }
+    const result = await fetchHistory(before);
+    if (result.status === 'error') {
+      setError(result.message);
+      // Only the first page has nothing to fall back to. A failed continuation
+      // leaves the list as it stands.
+      if (!before) setSessions(prev => prev);
+      return;
+    }
+    setError(null);
+    if (result.status === 'unconfigured') { setSessions(prev => prev ?? []); return; }
+    const { page } = result;
     setSessions(prev => (before ? [...(prev ?? []), ...page.sessions] : page.sessions));
     setHasMore(page.has_more);
     setCursor(page.next_before);
   }, []);
 
   useEffect(() => { load(); }, [load]);
+
+  const retry = useCallback(() => {
+    setError(null);
+    setSessions(null);
+    load();
+  }, [load]);
 
   const groups = byMonth(sessions ?? []);
 
@@ -78,7 +103,60 @@ export default function HistoryScreen() {
       </View>
       <Rule heavy />
 
-      {sessions === null ? (
+      {/* Sessions that were finished and could not be filed, said out loud.
+          These used to retry silently for a month and then be dropped, so an
+          athlete whose subscription lapsed mid-block watched real training
+          quietly fail to appear here with nothing anywhere explaining it. */}
+      {pendingSync.blocked > 0 ? (
+        <View style={{
+          marginHorizontal: space.gutter, marginTop: 16,
+          backgroundColor: color.tint,
+          borderWidth: 1, borderColor: color.tintBorder,
+          paddingHorizontal: 13, paddingVertical: 12,
+        }}>
+          <Label tone="redDark" size="sm" style={{ paddingBottom: 6 }}>
+            {pendingSync.blocked === 1
+              ? '1 session waiting'
+              : `${pendingSync.blocked} sessions waiting`}
+          </Label>
+          <Text style={[t.bodySm, { color: color.redDeep }]}>
+            {pendingSync.blocked === 1 ? 'It is' : 'They are'} saved on this device and will be
+            added here as soon as your subscription is active again. Nothing has been lost.
+          </Text>
+        </View>
+      ) : null}
+
+      {error && sessions === null ? (
+        /**
+         * A read that failed, said as a failure.
+         *
+         * The alternative — and what this screen used to do — was to render the
+         * empty state, which tells an athlete with years of training behind them
+         * that they have never finished a session. Nothing has been lost: the
+         * sessions are on the server and this device could not reach them.
+         */
+        <View style={{ padding: space.gutter, paddingTop: 40 }}>
+          <Text style={[t.h4, { color: color.ink, fontSize: 17 }]}>
+            Couldn't load your history
+          </Text>
+          <Text style={[t.bodySm, { color: color.muted2, marginTop: 8 }]}>
+            Your sessions are safe — this device just couldn't reach them. Check your
+            connection and try again.
+          </Text>
+          <Text style={[t.meta, { color: color.muted3, marginTop: 8 }]}>{error}</Text>
+          <Pressable
+            onPress={retry}
+            accessibilityRole="button"
+            style={({ pressed }) => ({
+              marginTop: 16, alignSelf: 'flex-start',
+              paddingHorizontal: 18, paddingVertical: 13,
+              backgroundColor: pressed ? color.redPressed : color.red,
+            })}
+          >
+            <Text style={[t.button, { color: color.onDark }]}>Try again</Text>
+          </Pressable>
+        </View>
+      ) : sessions === null ? (
         <View style={{ paddingVertical: 60 }}><ActivityIndicator color={color.red} /></View>
       ) : sessions.length === 0 ? (
         <View style={{ padding: space.gutter, paddingTop: 40 }}>

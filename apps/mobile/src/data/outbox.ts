@@ -22,11 +22,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { completeSession, startSession } from './sessionRepo';
 import {
-  expired, finishRequestFor, mergeQueued, MAX_ENTRIES, type PendingFinish,
+  blockedFinishes as blocked, expired, finishRequestFor, mergeQueued, MAX_ENTRIES,
+  type PendingFinish,
 } from './outboxRules';
 
 export {
-  finishRequestFor, hasPendingFinishOn, mergeQueued, pendingFinishOn,
+  blockedFinishes, finishRequestFor, hasPendingFinishOn, mergeQueued, pendingFinishOn,
   type PendingFinish,
 } from './outboxRules';
 
@@ -94,6 +95,8 @@ export interface FlushResult {
   sent: number;
   /** Still queued afterwards. */
   remaining: number;
+  /** Of those, the ones waiting on the athlete's subscription rather than the network. */
+  blocked: number;
 }
 
 /**
@@ -105,11 +108,14 @@ export interface FlushResult {
  * the case that used to lose the session outright.
  */
 export async function flushOutbox(): Promise<FlushResult> {
-  if (flushing) return { sent: 0, remaining: (cache ?? []).length };
+  if (flushing) {
+    const held = cache ?? [];
+    return { sent: 0, remaining: held.length, blocked: blocked(held).length };
+  }
   flushing = true;
   try {
     const entries = await loadOutbox();
-    if (!entries.length) return { sent: 0, remaining: 0 };
+    if (!entries.length) return { sent: 0, remaining: 0, blocked: 0 };
 
     const now = Date.now();
     const keep: PendingFinish[] = [];
@@ -123,6 +129,12 @@ export async function flushOutbox(): Promise<FlushResult> {
 
       if (!sessionId) {
         const started = await startSession(entry.start);
+        if (started && 'blocked' in started) {
+          // Held, not failed. No attempt is counted and the entry stops ageing,
+          // so resubscribing months later still credits the workout.
+          keep.push({ ...entry, blocked_reason: started.blocked });
+          continue;
+        }
         if (started && 'session_id' in started) {
           sessionId = started.session_id;
           revision = started.revision;
@@ -131,24 +143,32 @@ export async function flushOutbox(): Promise<FlushResult> {
           // not open this session under today's inputs, which will not improve
           // by asking again today. Both are kept — the entry costs nothing and
           // tomorrow's inputs are different.
-          keep.push({ ...entry, attempts: entry.attempts + 1 });
+          keep.push({ ...entry, blocked_reason: null, attempts: entry.attempts + 1 });
           continue;
         }
       }
 
       const done = await completeSession(finishRequestFor(entry, sessionId, revision));
 
-      if (done) {
+      if (done && 'blocked' in done) {
+        keep.push({ ...entry, session_id: sessionId, revision, blocked_reason: done.blocked });
+      } else if (done) {
         sent++;
       } else {
         // The session id is kept even though the finish failed: it was opened,
         // and re-opening it on the next pass would be a second row.
-        keep.push({ ...entry, session_id: sessionId, revision, attempts: entry.attempts + 1 });
+        keep.push({
+          ...entry, session_id: sessionId, revision,
+          // Cleared on any non-402 answer: whatever was blocking it is not
+          // blocking it now, and the entry should age normally again.
+          blocked_reason: null,
+          attempts: entry.attempts + 1,
+        });
       }
     }
 
     await persist(keep);
-    return { sent, remaining: keep.length };
+    return { sent, remaining: keep.length, blocked: blocked(keep).length };
   } finally {
     flushing = false;
   }

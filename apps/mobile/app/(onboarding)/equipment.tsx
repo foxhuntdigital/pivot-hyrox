@@ -14,14 +14,13 @@ import { Label } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
 import { useOnboarding } from '@/state/onboarding';
 import { fetchEquipment, type EquipmentOption } from '@/data/planRepo';
-import { COMMON_EQUIPMENT, EQUIPMENT } from '@/data/content';
+import { COMMON_EQUIPMENT, EQUIPMENT, visibleEquipment } from '@/data/content';
 
 /** Readable headings for the category keys the library uses. */
 const CATEGORY_LABEL: Record<string, string> = {
   cardio: 'Cardio',
   hyrox: 'HYROX stations',
   strength: 'Strength',
-  bodyweight: 'Bodyweight',
   other: 'Other',
 };
 
@@ -36,7 +35,11 @@ export default function EquipmentScreen() {
 
   useEffect(() => {
     let cancelled = false;
-    function apply(list: EquipmentOption[]) {
+    function apply(source: EquipmentOption[]) {
+      // Filtered here rather than at each call site so the fetched catalogue and
+      // the bundled fallback offer the same thing, and so the default selection
+      // below can never pre-select something the athlete cannot see.
+      const list = visibleEquipment(source);
       setOptions(list);
       // Pre-select a sensible default the first time rather than starting
       // empty, which reads as "you own nothing".

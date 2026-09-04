@@ -55,3 +55,28 @@ const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
 export function headerDateLabel(now: Date = new Date()): string {
   return `${WEEKDAYS[now.getDay()]} ${now.getDate()} ${MONTHS_SHORT[now.getMonth()]}`;
 }
+
+/**
+ * Today, as the device's own calendar reads it — `2026-09-03`.
+ *
+ * `new Date().toISOString().slice(0, 10)` is UTC, and it was standing in for a
+ * local date in three places that all mattered: the engine's `local_date`, the
+ * day a queued finish is filed under, and the day Plan matches that finish
+ * against. Every one of those fallbacks fires precisely when the server has not
+ * answered — offline — so an athlete west of UTC finishing an evening session
+ * had it filed under tomorrow, where "completed today" could never find it.
+ *
+ * Built from the `Date` accessors rather than `Intl.DateTimeFormat` for the
+ * same reason `headerDateLabel` is: Hermes ships without full ICU on some
+ * builds, and a release that silently formats differently from the simulator is
+ * the harder bug of the two. These accessors are always the device's own zone.
+ *
+ * This is the device's day, not the athlete's stored timezone. The server still
+ * owns that answer and still wins whenever it has given one — this is only what
+ * to believe until it does.
+ */
+export function localToday(now: Date = new Date()): string {
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${now.getFullYear()}-${month}-${day}`;
+}

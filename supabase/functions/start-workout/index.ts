@@ -42,6 +42,24 @@ interface StartBody {
 /** Sessions that are still the athlete's to perform. */
 const OPEN_STATUSES = ['ready', 'active', 'paused', 'completed_pending_review'];
 
+/**
+ * How long an open session stays resumable.
+ *
+ * Resuming exists for a tapped-twice Start and for a retry after a dropped
+ * response — both measured in seconds. It was unbounded, which turned every
+ * session the athlete never finished into a permanent trap: the row stayed
+ * `active`, and the next Start on that template returned it *before* the engine
+ * ran, so a fortnight-old prescription was handed back with its original
+ * `started_at` and its original snapshot. The athlete's logs were then written
+ * against that snapshot's block rows, and history dated the entry from
+ * `snapshot_json.started_local_date` — a workout they never did, on a day they
+ * did not train.
+ *
+ * Twelve hours is longer than any session and shorter than any gap between two,
+ * so it resumes what resuming is for and opens a fresh row for everything else.
+ */
+const RESUMABLE_HOURS = 12;
+
 Deno.serve(async (req) => {
   const origin = req.headers.get('Origin');
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders(origin) });
@@ -68,12 +86,18 @@ Deno.serve(async (req) => {
 
     // An already-open session for this template is the same session, not a
     // second one. Returning it keeps Start idempotent without a dedupe column.
+    //
+    // Bounded by `RESUMABLE_HOURS`: past that the row is not an in-flight
+    // session, it is one that was never closed, and resuming it would return a
+    // stale prescription for today's work.
+    const resumableSince = new Date(Date.now() - RESUMABLE_HOURS * 3_600_000).toISOString();
     const { data: openSession } = await db
       .from('workout_sessions')
       .select('id, revision, template_id, variant_code, status, snapshot_json')
       .eq('user_id', user.id)
       .eq('template_id', template.id)
       .in('status', OPEN_STATUSES)
+      .gte('created_at', resumableSince)
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle();

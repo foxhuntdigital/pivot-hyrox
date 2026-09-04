@@ -57,7 +57,7 @@ export default function ActiveScreen() {
 
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { state, dispatch, session, steps, guidance } = useApp();
+  const { state, dispatch, session, steps, guidance, discardSession } = useApp();
   const [endPrompt, setEndPrompt] = useState(false);
   const [showList, setShowList] = useState(false);
 
@@ -142,7 +142,7 @@ export default function ActiveScreen() {
       elapsed_minutes: elapsedMinutes(state.elapsed_seconds),
       block_index: index,
     });
-    dispatch({ type: 'end_and_discard' });
+    discardSession();
     setEndPrompt(false);
     router.replace('/today');
   };

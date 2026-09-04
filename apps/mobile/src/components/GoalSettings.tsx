@@ -18,6 +18,7 @@ import { View, Text, TextInput } from 'react-native';
 import { ChipRow, DateChooser } from '@/components/onboarding';
 import { Label, ActionButton } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
+import { localToday } from '@/lib/format';
 import { createPlan, updateRaceDetails, type PlanTarget } from '@/data/planRepo';
 import type { PlanView } from '@/data/plan';
 import { useDialog } from '@/components/Dialog';
@@ -40,16 +41,12 @@ const BLOCK_LENGTHS = [6, 8, 10, 12, 16, 20].map(weeks => ({
   value: weeks, label: `${weeks} weeks`,
 }));
 
-function todayISO(): string {
-  return new Date().toISOString().slice(0, 10);
-}
-
 export function GoalSettings({ plan, onSaved }: {
   plan: PlanView;
   /** Called after a successful write so the caller can refetch Today. */
   onSaved: () => void;
 }) {
-  const [today] = useState(todayISO);
+  const [today] = useState(localToday);
   const dialog = useDialog();
 
   // Every field is seeded from the plan the athlete is actually on — including

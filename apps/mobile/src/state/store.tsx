@@ -32,10 +32,10 @@ import {
 import { saveCheckin, EMPTY_CHECKIN, type Checkin } from '../data/recoveryRepo';
 import { fetchProgressNarration } from '../data/coachRepo';
 import {
-  eventId, startSession, type StartRequest,
+  abandonSession, eventId, startSession, type StartRequest,
 } from '../data/sessionRepo';
 import {
-  enqueueFinish, flushOutbox, loadOutbox, pendingFinishOn,
+  blockedFinishes, enqueueFinish, flushOutbox, loadOutbox, pendingFinishOn,
   subscribeOutbox, type PendingFinish,
 } from '../data/outbox';
 import { recordAdaptation } from '../data/adaptRepo';
@@ -48,6 +48,7 @@ import { planView, type PerformedSession, type PlanView } from '../data/plan';
 import {
   track, flushAnalytics, bucketSleep, bucketScale, elapsedMinutes,
 } from '../lib/analytics';
+import { localToday } from '../lib/format';
 import { COMPONENT_KEYS } from '@pivot/coach';
 import { useSession } from './session';
 import { useOnboarding } from './onboarding';
@@ -541,6 +542,23 @@ interface Store {
    */
   finishSession(): void;
   /**
+   * Throws the session away — locally and on the server.
+   *
+   * The server half is the point. Discarding used to be a reducer case and
+   * nothing more, so the row it left behind stayed `active` for good and
+   * `start-workout` handed it back, snapshot and all, the next time the athlete
+   * started that template.
+   */
+  discardSession(): void;
+  /**
+   * Finishes written to disk that the server has not accepted yet, and how many
+   * of those are waiting on the subscription rather than on the network.
+   *
+   * Surfaced because the blocked ones are otherwise invisible: the athlete sees
+   * sessions missing from history with nothing anywhere saying why.
+   */
+  pendingSync: { pending: number; blocked: number };
+  /**
    * Applies an accepted adaptation and records it. The apply is local and
    * immediate; the record is the audit row (PRD §24).
    */
@@ -881,18 +899,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  const beginSession = useCallback(() => {
-    /**
-     * Read before the dispatch, because the dispatch is what the record is
-     * made from: this is the decision the athlete tapped Start on, override
-     * and all, and it is the last moment the app can say so.
-     *
-     * Tracked before the sign-in check, not after: a started workout is a
-     * started workout whether or not the server accepted the row, and gating
-     * the event on the write would quietly under-count every session that began
-     * offline — which §15.1 explicitly expects to happen.
-     */
-    const started = decisionRef.current;
+  /**
+   * Opens the player on a decision that has already been made: the status the
+   * elapsed-time ticker runs on, the analytics, and the server row.
+   *
+   * The decision arrives as an argument rather than being read from
+   * `decisionRef`, and that is the whole point of the split. A supplemental is
+   * chosen and started within one tick, and at that moment the ref still holds
+   * the session the athlete has just finished — so a version of this that read
+   * the ref would start the wrong thing, or nothing at all.
+   */
+  const openSession = useCallback((started: EngineDecision | null) => {
     dispatch({
       type: 'start_workout',
       performed: started?.kind === 'session'
@@ -926,13 +943,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
 
     if (authStatusRef.current !== 'signed_in') return;
+    if (started?.kind !== 'session') return;
 
-    // The engine's current answer, which already has any accepted override
-    // folded in — so the row records the session the athlete is looking at.
-    const chosen = sessionRef.current;
-    if (!chosen) return;
-
-    startSession({ ...adaptInputs(), ...chosen }).then(result => {
+    // The row records the session the athlete is looking at, with any accepted
+    // override already folded in.
+    startSession({
+      ...adaptInputs(),
+      template_id: started.template.id,
+      variant_code: started.variant.variant_code,
+    }).then(result => {
       if (result && 'session_id' in result) {
         dispatch({
           type: 'session_opened',
@@ -944,6 +963,20 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       // already in the player either way; nothing here interrupts them.
     });
   }, [adaptInputs]);
+
+  /**
+   * Start, from Today or from Coach.
+   *
+   * The decision is read before the dispatch, because the dispatch is what the
+   * record is made from: this is the decision the athlete tapped Start on,
+   * override and all, and it is the last moment the app can say so.
+   *
+   * Tracked before the sign-in check, not after: a started workout is a started
+   * workout whether or not the server accepted the row, and gating the event on
+   * the write would quietly under-count every session that began offline —
+   * which §15.1 explicitly expects to happen.
+   */
+  const beginSession = useCallback(() => openSession(decisionRef.current), [openSession]);
 
   const finishSession = useCallback(() => {
     const s = stateRef.current;
@@ -990,7 +1023,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     const chosen = finished?.kind === 'session' ? finished : null;
     enqueueFinish({
       client_event_id: eventId(),
-      local_date: todayRef.current?.date_local ?? new Date().toISOString().slice(0, 10),
+      local_date: todayRef.current?.date_local ?? localToday(),
       template_id: chosen?.template.id ?? '',
       name: chosen?.template.name ?? '',
       // Carried so a finish that outlives the process can still be named and
@@ -1016,6 +1049,21 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       if (result.sent > 0) refreshToday();
     });
   }, [refreshToday, adaptInputs]);
+
+  /**
+   * Discards the session, and says so to the server.
+   *
+   * The local dispatch is unconditional and immediate — the athlete has decided
+   * — and the write follows it. A failed write is not surfaced: nothing of the
+   * athlete's is at risk, and the server's own staleness bound retires the row
+   * either way.
+   */
+  const discardSession = useCallback(() => {
+    const sessionId = stateRef.current.session_id;
+    dispatch({ type: 'end_and_discard' });
+    if (authStatusRef.current !== 'signed_in' || !sessionId) return;
+    abandonSession(sessionId);
+  }, []);
 
   const commitAdaptation = useCallback((
     templateId: string, variant: VariantCode, forced = false,
@@ -1096,7 +1144,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       ?? today?.recovery?.sleep_hours
       ?? null;
     return {
-      local_date: today?.date_local ?? new Date().toISOString().slice(0, 10),
+      local_date: today?.date_local ?? localToday(),
       // 'build' is the server's own default for an athlete with no phase, so
       // both sides reason the same way about a plan that does not exist yet.
       phase_type: (today?.phase?.type as EngineInput['phase_type']) ?? 'build',
@@ -1169,7 +1217,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
      * because the entry is then gone.
      */
     () => {
-      const localDate = today?.date_local ?? new Date().toISOString().slice(0, 10);
+      const localDate = today?.date_local ?? localToday();
       /**
        * What was performed, preferring this run's own record and falling back
        * to the queued finish — which is the only one of the two that survives a
@@ -1192,6 +1240,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     },
     [today, state.completed_today, state.completed_session_id, state.performed,
      pendingFinishes]);
+
+  const pendingSync = useMemo(() => ({
+    pending: pendingFinishes.length,
+    blocked: blockedFinishes(pendingFinishes).length,
+  }), [pendingFinishes]);
 
   const localDecision = useMemo(() => recommend(engineInput, EXERCISES), [engineInput]);
 
@@ -1389,8 +1442,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       variant: chosen.variant.variant_code,
       forced: false,
     });
+    // Choosing it is not starting it. Without this the player opened on a
+    // supplemental that was never running: `start_workout` is what sets
+    // `active_block`, and `active_block` is the only status the elapsed-time
+    // ticker counts on — so the clock sat at 0:00 for the whole session. It is
+    // also what opens the server row, so the supplemental was invisible to the
+    // history, to `complete-workout`, and to the one-per-day guard that exists
+    // to stop exactly this session being logged twice.
+    openSession(chosen);
     return true;
-  }, [engineInput]);
+  }, [engineInput, openSession]);
 
   const steps = useMemo(
     () => (session.kind === 'session' ? buildSteps(session, id => exerciseById.get(id)?.name) : []), [session]);
@@ -1476,15 +1537,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       preferences, setPreference, weaknesses, setWeakness,
       plan, sleep, engineInput,
       commitProfile, commitCheckin, commitEquipment, reportSymptom,
-      beginSession, finishSession, commitAdaptation, switchToQueued, startSupplemental,
-      chooseVariant,
+      beginSession, finishSession, discardSession, commitAdaptation, switchToQueued,
+      startSupplemental,
+      chooseVariant, pendingSync,
       profileError, refreshProfile, today, todayLoading, todayError, refreshToday,
     }),
     [state, decision, session, steps, readiness, metricDetailView, plan, sleep, engineInput, commitProfile,
      commitCheckin, commitEquipment, reportSymptom,
      preferences, setPreference, weaknesses, setWeakness,
-     beginSession, finishSession, commitAdaptation, switchToQueued, startSupplemental,
-     chooseVariant,
+     beginSession, finishSession, discardSession, commitAdaptation, switchToQueued,
+     startSupplemental,
+     chooseVariant, pendingSync,
      profileError, refreshProfile, today, todayLoading, todayError, refreshToday]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

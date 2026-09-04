@@ -19,6 +19,7 @@ import { OnboardingStep, ChipRow, DateChooser } from '@/components/onboarding';
 import { Label } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
 import { useOnboarding, type PlanMode } from '@/state/onboarding';
+import { localToday } from '@/lib/format';
 
 /** HYROX divisions as the athlete describes their own entry, not as seeded. */
 const DIVISIONS = [
@@ -42,9 +43,7 @@ const BLOCK_LENGTHS = [6, 8, 10, 12, 16, 20].map(weeks => ({
   value: weeks, label: `${weeks} weeks`,
 }));
 
-function todayISO(): string {
-  return new Date().toISOString().slice(0, 10);
-}
+
 
 function weeksBetween(from: string, to: string): number {
   const ms = Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`);
@@ -68,7 +67,7 @@ function Runway({ title, children }: { title: string; children: string }) {
 export default function RaceScreen() {
   const router = useRouter();
   const { draft, update } = useOnboarding();
-  const [today] = useState(todayISO);
+  const [today] = useState(localToday);
 
   const isRace = draft.plan_mode === 'race';
 

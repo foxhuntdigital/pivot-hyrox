@@ -22,6 +22,23 @@ import { useSession } from './session';
 export type Goal = 'finish_healthy' | 'performance' | 'custom';
 
 /**
+ * What the athlete says they train for.
+ *
+ * Both options build the same plan: the content library is HYROX, and nothing
+ * downstream of onboarding reads this field. 'hybrid' exists so an athlete with
+ * no entry and no intention of getting one is not turned away at step one by a
+ * sport they do not compete in.
+ */
+export type Sport = 'hyrox' | 'hybrid';
+
+/**
+ * Every sport on offer resolves to the one the plans are actually built from.
+ * Stated explicitly so that when a second library does exist, the mapping is a
+ * place to change rather than an assumption to rediscover.
+ */
+export const PLAN_SPORT: Record<Sport, 'hyrox'> = { hyrox: 'hyrox', hybrid: 'hyrox' };
+
+/**
  * What the plan is built from. An athlete with an entry counts back from it; an
  * athlete without one picks how many weeks to train for. There is no third
  * option — an open-ended plan has no phases, because every phase length here is
@@ -30,7 +47,7 @@ export type Goal = 'finish_healthy' | 'performance' | 'custom';
 export type PlanMode = 'race' | 'block';
 
 export interface OnboardingDraft {
-  sport: string;
+  sport: Sport;
   goal_type: Goal;
   plan_mode: PlanMode;
   event_name: string;

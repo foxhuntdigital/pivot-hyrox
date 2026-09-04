@@ -1,9 +1,10 @@
 /**
  * D02 Goal selection — sport and primary outcome (PRD §6.1 step 2, §8.2).
  *
- * MVP prioritises HYROX. The other sports are shown but inert rather than
- * hidden, so the athlete can see where this is going without being offered a
- * plan the content library cannot build.
+ * MVP prioritises HYROX. The general option runs the same library rather than
+ * a thinner one — it is a different description of the athlete, not a different
+ * plan — so a beta athlete who does not race is not stopped at step one by a
+ * sport they do not compete in.
  */
 import React from 'react';
 import { View, Text } from 'react-native';
@@ -12,7 +13,23 @@ import { useRouter } from 'expo-router';
 import { OnboardingStep, ChipRow } from '@/components/onboarding';
 import { Label } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
-import { useOnboarding, type Goal } from '@/state/onboarding';
+import { useOnboarding, type Goal, type Sport } from '@/state/onboarding';
+
+const SPORTS: { value: Sport; label: string; detail: string }[] = [
+  {
+    value: 'hyrox',
+    label: 'HYROX',
+    detail: 'Built around the eight stations and the runs between them. This is what the plan '
+      + 'library does best.',
+  },
+  {
+    value: 'hybrid',
+    label: 'General hybrid fitness',
+    detail: 'Strength and engine on one plan, with no entry assumed. It is built from the same '
+      + 'HYROX library — running, sled and compromised strength — so expect that shape of week. '
+      + 'Dedicated running and triathlon plans are still on the way.',
+  },
+];
 
 const GOALS: { value: Goal; label: string; detail: string }[] = [
   {
@@ -36,6 +53,7 @@ export default function GoalScreen() {
   const router = useRouter();
   const { draft, update } = useOnboarding();
 
+  const selectedSport = SPORTS.find(s => s.value === draft.sport);
   const selected = GOALS.find(g => g.value === draft.goal_type);
 
   return (
@@ -47,16 +65,17 @@ export default function GoalScreen() {
     >
       <ChipRow
         label="Sport"
-        options={[{ value: 'hyrox', label: 'HYROX' }]}
+        options={SPORTS.map(s => ({ value: s.value, label: s.label }))}
         value={draft.sport}
         onChange={sport => update({ sport })}
       />
-      <Text style={[t.bodySm, {
-        paddingHorizontal: space.gutter, color: color.muted, paddingBottom: 24, marginTop: -12,
-      }]}>
-        HYROX is what we do best right now. Running, triathlon and hybrid plans are on the way — we
-        would rather add them properly than hand you something half-built.
-      </Text>
+      {selectedSport ? (
+        <Text style={[t.bodySm, {
+          paddingHorizontal: space.gutter, color: color.muted, paddingBottom: 24, marginTop: -12,
+        }]}>
+          {selectedSport.detail}
+        </Text>
+      ) : null}
 
       <ChipRow
         label="Primary outcome"
