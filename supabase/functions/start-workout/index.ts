@@ -28,6 +28,16 @@ import { claimableFor, type QueueItem } from '../_shared/queue.ts';
 
 interface StartBody {
   template_id: string;
+  /**
+   * The session's identity, minted by the device before Start was sent
+   * (migration 0021).
+   *
+   * When present it is the whole of the idempotency story: the same id names
+   * the same session on every retry, whether the first attempt reached the
+   * server, timed out, or never left the phone. Absent for clients that predate
+   * it, which fall back to the template-and-status query below.
+   */
+  client_session_id?: string;
   /** The variant the athlete accepted. Omitted lets the engine choose. */
   variant_code?: VariantCode;
   /** Adapt-sheet inputs, when the session was started from an adaptation. */
@@ -84,23 +94,44 @@ Deno.serve(async (req) => {
     const template = templateIndex.get(body.template_id);
     if (!template) throw new HttpError(400, 'Unknown template');
 
-    // An already-open session for this template is the same session, not a
-    // second one. Returning it keeps Start idempotent without a dedupe column.
-    //
-    // Bounded by `RESUMABLE_HOURS`: past that the row is not an in-flight
-    // session, it is one that was never closed, and resuming it would return a
-    // stale prescription for today's work.
-    const resumableSince = new Date(Date.now() - RESUMABLE_HOURS * 3_600_000).toISOString();
-    const { data: openSession } = await db
-      .from('workout_sessions')
-      .select('id, revision, template_id, variant_code, status, snapshot_json')
-      .eq('user_id', user.id)
-      .eq('template_id', template.id)
-      .in('status', OPEN_STATUSES)
-      .gte('created_at', resumableSince)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle();
+    /**
+     * The session this request is for, if it already exists.
+     *
+     * Two ways of asking, and they are not equally good. A `client_session_id`
+     * is the session's identity: it matches one row, whatever that row's status
+     * is now, so a retry after a completion still resolves to the session it
+     * completed rather than opening a second one. No status filter and no time
+     * bound belong on that lookup — an id does not go stale.
+     *
+     * Without one there is only the old question, and it keeps its old guards:
+     * open statuses, and `RESUMABLE_HOURS` so an abandoned row from a fortnight
+     * ago is not handed back with its stale prescription.
+     */
+    const clientSessionId = body.client_session_id ?? null;
+    let openSession = null;
+
+    if (clientSessionId) {
+      const { data } = await db
+        .from('workout_sessions')
+        .select('id, revision, template_id, variant_code, status, snapshot_json')
+        .eq('user_id', user.id)
+        .eq('client_session_id', clientSessionId)
+        .maybeSingle();
+      openSession = data;
+    } else {
+      const resumableSince = new Date(Date.now() - RESUMABLE_HOURS * 3_600_000).toISOString();
+      const { data } = await db
+        .from('workout_sessions')
+        .select('id, revision, template_id, variant_code, status, snapshot_json')
+        .eq('user_id', user.id)
+        .eq('template_id', template.id)
+        .in('status', OPEN_STATUSES)
+        .gte('created_at', resumableSince)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      openSession = data;
+    }
 
     if (openSession) {
       const snapshot = openSession.snapshot_json as Record<string, unknown> | null;
@@ -242,6 +273,7 @@ Deno.serve(async (req) => {
       .insert({
         user_id: user.id,
         queue_item_id: queueItemId,
+        client_session_id: clientSessionId,
         template_id: decision.template.id,
         variant_code: decision.variant.variant_code,
         snapshot_json: snapshot,
@@ -255,6 +287,37 @@ Deno.serve(async (req) => {
       })
       .select('id, revision')
       .single();
+    /**
+     * Losing the race is not an error — it is the constraint doing its job.
+     *
+     * Two Starts carrying one `client_session_id` can both get past the lookup
+     * above, because nothing locks between the select and the insert. The
+     * unique index from migration 0021 refuses the second (23505), and the
+     * correct answer at that point is the row the first one wrote. This is the
+     * case the old select-then-insert had no answer for at all: both requests
+     * found nothing and both opened a session.
+     */
+    if (insertError?.code === '23505' && clientSessionId) {
+      const { data: raced } = await db
+        .from('workout_sessions')
+        .select('id, revision, template_id, variant_code, status, snapshot_json')
+        .eq('user_id', user.id)
+        .eq('client_session_id', clientSessionId)
+        .maybeSingle();
+      if (raced) {
+        const snapshot = raced.snapshot_json as Record<string, unknown> | null;
+        return json({
+          session_id: raced.id,
+          revision: raced.revision,
+          status: raced.status,
+          template_id: raced.template_id,
+          variant: raced.variant_code,
+          resumed: true,
+          primary_stimulus: snapshot?.primary_stimulus ?? null,
+          engine_version: ENGINE_VERSION,
+        }, 200, origin);
+      }
+    }
     if (insertError || !session) {
       throw new HttpError(500, `Could not open session: ${insertError?.message}`);
     }

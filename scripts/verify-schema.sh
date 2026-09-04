@@ -259,3 +259,127 @@ select 'every template still classifiable as primary: ' || count(*)
 select 'templates carrying a training_domain: ' || count(*)
   from content.workout_templates where training_domain is not null;
 SQL
+
+echo
+echo "=== atomic completion (0022) ==="
+# The transaction is the point, so it is exercised rather than parsed: one
+# session finished, re-finished at the same revision, and corrected at a higher
+# one. What must hold across all three is that the week is credited exactly
+# once and that the logs describe the last finish rather than the sum of them.
+#
+# RLS is not under test here — psql connects as superuser and bypasses it. What
+# is under test is that everything a finish implies commits together.
+psql -X -A -t -v ON_ERROR_STOP=1 -d "$DB" <<'SQL'
+\set QUIET on
+insert into auth.users (id, email)
+  values ('55555555-5555-5555-5555-555555555555', 'finisher@example.com');
+select id as athlete from public.users where email = 'finisher@example.com' \gset
+select id as tpl from content.workout_templates where workout_role = 'primary' limit 1 \gset
+select id as ex from content.exercises limit 1 \gset
+
+insert into public.programs (id, user_id, start_date, end_date)
+  values ('bbbbbbbb-0000-0000-0000-000000000001', :'athlete', '2026-01-01', '2026-04-01');
+insert into public.program_phases (id, program_id, phase_type, phase_order, start_date, end_date)
+  values ('bbbbbbbb-0000-0000-0000-000000000002',
+          'bbbbbbbb-0000-0000-0000-000000000001', 'build', 1, '2026-01-01', '2026-04-01');
+insert into public.weekly_cycles (id, phase_id, week_index)
+  values ('bbbbbbbb-0000-0000-0000-000000000003',
+          'bbbbbbbb-0000-0000-0000-000000000002', 1);
+insert into public.stimulus_requirements
+  (weekly_cycle_id, stimulus_type, target_exposures, completed_exposures)
+  values ('bbbbbbbb-0000-0000-0000-000000000003', 'aerobic_durability', 3, 0);
+insert into public.session_queue_items
+  (id, weekly_cycle_id, workout_template_id, stimulus_type, rank)
+  values ('bbbbbbbb-0000-0000-0000-000000000004',
+          'bbbbbbbb-0000-0000-0000-000000000003', :'tpl', 'aerobic_durability', 1);
+
+insert into public.workout_sessions
+  (id, user_id, queue_item_id, template_id, variant_code, snapshot_json, status, started_at)
+  values ('bbbbbbbb-0000-0000-0000-000000000005', :'athlete',
+          'bbbbbbbb-0000-0000-0000-000000000004', :'tpl', 'green',
+          '{"primary_stimulus":"aerobic_durability"}'::jsonb, 'active', now());
+insert into public.session_blocks (session_id, block_order, block_type, prescribed_json)
+  values ('bbbbbbbb-0000-0000-0000-000000000005', 0, 'strength', '{}'::jsonb);
+\set QUIET off
+
+-- First finish.
+select 'first finish credits: ' || (public.complete_workout_tx(
+  'bbbbbbbb-0000-0000-0000-000000000005', 1, 7, null, false,
+  '[]'::jsonb,
+  format('[{"block_order":0,"exercise_id":"%s","set_index":0,"actual_reps":10}]', :'ex')::jsonb,
+  '[]'::jsonb,
+  '[{"index":0,"block_order":0,"label":"Squat","seconds":60,"cumulative_seconds":60}]'::jsonb,
+  'bbbbbbbb-0000-0000-0000-000000000003', 'aerobic_durability'
+)->>'credited_stimulus');
+
+-- Replay at the same revision: the outbox retrying a finish that landed.
+select 'replay is recognised: ' || (public.complete_workout_tx(
+  'bbbbbbbb-0000-0000-0000-000000000005', 1, 7, null, false,
+  '[]'::jsonb, '[]'::jsonb, '[]'::jsonb, null,
+  'bbbbbbbb-0000-0000-0000-000000000003', 'aerobic_durability'
+)->>'replayed');
+
+-- A correction at a higher revision: rewrites the record, credits nothing more.
+select 'correction credits again: ' || coalesce(public.complete_workout_tx(
+  'bbbbbbbb-0000-0000-0000-000000000005', 2, 9, null, false,
+  '[]'::jsonb,
+  format('[{"block_order":0,"exercise_id":"%s","set_index":0,"actual_reps":12}]', :'ex')::jsonb,
+  '[]'::jsonb,
+  '[{"index":0,"block_order":0,"label":"Squat","seconds":55,"cumulative_seconds":55}]'::jsonb,
+  'bbbbbbbb-0000-0000-0000-000000000003', 'aerobic_durability'
+)->>'credited_stimulus', 'nothing (correct — already counted)');
+
+select 'exposures after three finishes (want 1): ' || completed_exposures
+  from public.stimulus_requirements
+  where weekly_cycle_id = 'bbbbbbbb-0000-0000-0000-000000000003';
+select 'set_logs rows (want 1, replaced not appended): ' || count(*)
+  from public.set_logs l join public.session_blocks b on b.id = l.session_block_id
+  where b.session_id = 'bbbbbbbb-0000-0000-0000-000000000005';
+select 'reps recorded (want 12, the correction): ' || max(actual_reps)
+  from public.set_logs l join public.session_blocks b on b.id = l.session_block_id
+  where b.session_id = 'bbbbbbbb-0000-0000-0000-000000000005';
+select 'splits rows (want 1): ' || count(*)
+  from public.session_splits where session_id = 'bbbbbbbb-0000-0000-0000-000000000005';
+select 'rpe carried by the correction (want 9): ' || session_rpe
+  from public.workout_sessions where id = 'bbbbbbbb-0000-0000-0000-000000000005';
+select 'queue item state: ' || state
+  from public.session_queue_items where id = 'bbbbbbbb-0000-0000-0000-000000000004';
+SQL
+
+echo
+echo "--- and the failure that made 0022 necessary ---"
+# A log row naming an exercise that does not exist fails the foreign key. The
+# whole finish must roll back: before 0022 the session was already marked
+# completed by then, and the retry would report success and credit nothing.
+psql -X -A -t -d "$DB" <<'SQL'
+\set QUIET on
+insert into public.workout_sessions
+  (id, user_id, template_id, variant_code, snapshot_json, status, started_at)
+  select 'bbbbbbbb-0000-0000-0000-000000000006', id, 
+         (select id from content.workout_templates limit 1), 'green',
+         '{"primary_stimulus":"aerobic_durability"}'::jsonb, 'active', now()
+    from public.users where email = 'finisher@example.com';
+insert into public.session_blocks (session_id, block_order, block_type, prescribed_json)
+  values ('bbbbbbbb-0000-0000-0000-000000000006', 0, 'strength', '{}'::jsonb);
+\set QUIET off
+
+do $$
+begin
+  perform public.complete_workout_tx(
+    'bbbbbbbb-0000-0000-0000-000000000006', 1, 7, null, false,
+    '[]'::jsonb,
+    '[{"block_order":0,"exercise_id":"ex_does_not_exist","set_index":0,"actual_reps":10}]'::jsonb,
+    '[]'::jsonb, '[]'::jsonb,
+    'bbbbbbbb-0000-0000-0000-000000000003', 'aerobic_durability');
+  raise notice 'bad log insert was accepted: FAILED';
+exception when foreign_key_violation then
+  null;
+end $$;
+
+select 'session left un-completed after a failed write: ' || (
+  select case when status = 'active' then 'yes' else 'no — ' || status end
+  from public.workout_sessions where id = 'bbbbbbbb-0000-0000-0000-000000000006');
+select 'week not credited by the failed finish (want 1): ' || completed_exposures
+  from public.stimulus_requirements
+  where weekly_cycle_id = 'bbbbbbbb-0000-0000-0000-000000000003';
+SQL

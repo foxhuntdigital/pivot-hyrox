@@ -14,7 +14,7 @@ import assert from 'node:assert/strict';
 
 import {
   expired, finishRequestFor, hasPendingFinishOn, mergeQueued, pendingFinishOn,
-  type PendingFinish,
+  promoteProvisional, sendable, type PendingFinish,
 } from './outboxRules.ts';
 
 function entry(over: Partial<PendingFinish> = {}): PendingFinish {
@@ -158,5 +158,38 @@ describe('pendingFinishOn', () => {
 
   test('a finish from another day is not today\'s', () => {
     assert.equal(pendingFinishOn([entry()], '2026-08-29'), null);
+  });
+});
+
+describe('a finish written before the review', () => {
+  test('a provisional entry is not sendable', () => {
+    // Sending it while the athlete is still on the review screen completes the
+    // session at revision + 1, and the finish they then submit — carrying the
+    // same revision — comes back `replayed` with the RPE dropped.
+    assert.equal(sendable(entry({ provisional: true })), false);
+    assert.equal(sendable(entry()), true);
+  });
+
+  test('surviving a process releases it', () => {
+    // A provisional entry read back off disk means the app went away before the
+    // review. What was recorded at the last step is the whole of what is known,
+    // and it should reach the server rather than wait for a tap that is not coming.
+    const [promoted] = promoteProvisional([entry({ provisional: true })]);
+    assert.equal(sendable(promoted), true);
+  });
+
+  test('promotion leaves a finished entry alone', () => {
+    const original = entry({ session_rpe: 7 } as Partial<PendingFinish>);
+    assert.deepEqual(promoteProvisional([original]), [original]);
+  });
+
+  test('the review replaces the provisional entry rather than joining it', () => {
+    // Both carry the id minted when the player opened, which is what makes them
+    // one event. Two entries would be two attempts to record one workout.
+    const provisional = entry({ provisional: true, session_id: null });
+    const reviewed = entry({ provisional: false, session_id: null });
+    const queue = mergeQueued([provisional], reviewed);
+    assert.equal(queue.length, 1);
+    assert.equal(sendable(queue[0]), true);
   });
 });

@@ -19,6 +19,12 @@ import type { Split } from '@/state/splits';
 
 export interface StartRequest {
   template_id: string;
+  /**
+   * The session's identity, minted before this request was built
+   * (migration 0021). Every retry re-presents it, so the server resolves them
+   * all to one row instead of opening a second workout.
+   */
+  client_session_id?: string;
   variant_code?: VariantCode;
   available_minutes?: number;
   energy?: 'low' | 'normal' | 'high';
@@ -196,6 +202,31 @@ export async function abandonSession(sessionId: string): Promise<void> {
     // Best-effort. A row left open is repaired by the staleness bound on the
     // server's resume query, which is the backstop this is the tidy version of.
   }
+}
+
+/**
+ * A v4 uuid for a session's identity.
+ *
+ * Built from `Math.random` rather than a crypto source, and that is a
+ * deliberate limit rather than an oversight: `crypto.randomUUID` is absent from
+ * some React Native runtimes, this app carries no polyfill for it, and what the
+ * value has to be is *unique*, not *unguessable*. It is an idempotency key
+ * scoped to one athlete by a per-user index — never a secret, never a
+ * capability, and never the thing that decides whether a row may be read.
+ *
+ * The shape is a real v4 (version and variant nibbles set), because the column
+ * is `uuid` and Postgres will not take anything else.
+ */
+export function clientSessionId(): string {
+  const hex = '0123456789abcdef';
+  let out = '';
+  for (let i = 0; i < 36; i++) {
+    if (i === 8 || i === 13 || i === 18 || i === 23) { out += '-'; continue; }
+    if (i === 14) { out += '4'; continue; }
+    const n = Math.floor(Math.random() * 16);
+    out += i === 19 ? hex[(n & 0x3) | 0x8] : hex[n];
+  }
+  return out;
 }
 
 /**

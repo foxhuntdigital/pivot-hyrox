@@ -188,6 +188,15 @@ Deno.serve(async (req) => {
       const tpl = templateIndex.get(s.template_id);
       return {
         session_id: s.id,
+        /**
+         * The id the device that performed this session gave it.
+         *
+         * Sent so a client can recognise its own finished session in the week
+         * without having had to hear back from Start — which is exactly the
+         * case an offline session is in, and exactly why the optimistic
+         * "completed today" counter could never retire itself there.
+         */
+        client_session_id: s.client_session_id ?? null,
         template_id: s.template_id,
         name: (snapshot.name as string) ?? tpl?.name ?? s.template_id,
         stimulus: (snapshot.primary_stimulus as string) ?? null,

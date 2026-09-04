@@ -23,12 +23,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { completeSession, startSession } from './sessionRepo';
 import {
   blockedFinishes as blocked, expired, finishRequestFor, mergeQueued, MAX_ENTRIES,
-  type PendingFinish,
+  promoteProvisional, sendable, type PendingFinish,
 } from './outboxRules';
 
 export {
   blockedFinishes, finishRequestFor, hasPendingFinishOn, mergeQueued, pendingFinishOn,
-  type PendingFinish,
+  promoteProvisional, sendable, type PendingFinish,
 } from './outboxRules';
 
 const KEY = 'pivot.outbox.finishes.v1';
@@ -56,7 +56,10 @@ export async function loadOutbox(): Promise<PendingFinish[]> {
   try {
     const raw = await AsyncStorage.getItem(KEY);
     const parsed = raw ? JSON.parse(raw) : [];
-    cache = Array.isArray(parsed) ? parsed as PendingFinish[] : [];
+    // Promoted on the way in, and only here: this runs once per process, so a
+    // provisional entry read off disk is by definition one whose review screen
+    // the athlete never came back to.
+    cache = Array.isArray(parsed) ? promoteProvisional(parsed as PendingFinish[]) : [];
   } catch {
     // Unreadable storage is an empty queue, never a crash on launch. Losing a
     // pending finish is bad; failing to start the app is worse.
@@ -87,7 +90,9 @@ export async function enqueueFinish(
   entry: Omit<PendingFinish, 'attempts' | 'queued_at'>,
 ): Promise<void> {
   const entries = await loadOutbox();
-  await persist(mergeQueued(entries, { ...entry, attempts: 0, queued_at: new Date().toISOString() }));
+  await persist(mergeQueued(entries, {
+    ...entry, attempts: 0, queued_at: new Date().toISOString(),
+  }));
 }
 
 export interface FlushResult {
@@ -123,6 +128,10 @@ export async function flushOutbox(): Promise<FlushResult> {
 
     for (const entry of entries) {
       if (expired(entry, now)) continue;
+      // Queued at the last step and still waiting on the review. Held rather
+      // than sent, so the athlete's RPE is not lost to a revision the server
+      // has already moved past.
+      if (!sendable(entry)) { keep.push(entry); continue; }
 
       let sessionId = entry.session_id;
       let revision = entry.revision;

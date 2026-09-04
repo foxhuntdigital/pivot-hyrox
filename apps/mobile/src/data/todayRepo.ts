@@ -57,6 +57,13 @@ export interface ComparableSeries {
 /** A session the athlete finished inside the current week. */
 export interface CompletedThisWeek {
   session_id: string;
+  /**
+   * The id the device that performed it gave the session (migration 0021).
+   *
+   * Null for anything recorded before that existed, which is why every match on
+   * it is guarded — an old row must not answer to a null the client is holding.
+   */
+  client_session_id: string | null;
   template_id: string;
   /** The name as prescribed, taken from the session's own snapshot. */
   name: string;

@@ -254,8 +254,8 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
     db.from('recovery_checkins').select('*').eq('user_id', userId)
       .order('local_date', { ascending: false }).limit(14),
     db.from('workout_sessions')
-      .select('id, template_id, variant_code, started_at, ended_at, session_rpe, '
-        + 'ended_early, status, snapshot_json')
+      .select('id, client_session_id, template_id, variant_code, started_at, ended_at, '
+        + 'session_rpe, ended_early, status, snapshot_json')
       .eq('user_id', userId).eq('status', 'completed')
       .order('started_at', { ascending: false }).limit(20),
     db.from('equipment_profiles')

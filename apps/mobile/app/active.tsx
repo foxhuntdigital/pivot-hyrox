@@ -57,7 +57,9 @@ export default function ActiveScreen() {
 
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { state, dispatch, session, steps, guidance, discardSession } = useApp();
+  const {
+    state, dispatch, session, steps, guidance, discardSession, localDate,
+  } = useApp();
   const [endPrompt, setEndPrompt] = useState(false);
   const [showList, setShowList] = useState(false);
 
@@ -122,16 +124,16 @@ export default function ActiveScreen() {
       total_steps: steps.length,
     });
     if (isLast) {
-      dispatch({ type: 'next_step', total: steps.length });
+      dispatch({ type: 'next_step', total: steps.length, local_date: localDate });
       router.replace('/done');
     } else {
-      dispatch({ type: 'next_step', total: steps.length });
+      dispatch({ type: 'next_step', total: steps.length, local_date: localDate });
     }
   };
 
   const saveAndExit = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    dispatch({ type: 'end_and_save' });
+    dispatch({ type: 'end_and_save', local_date: localDate });
     setEndPrompt(false);
     router.replace('/done');
   };

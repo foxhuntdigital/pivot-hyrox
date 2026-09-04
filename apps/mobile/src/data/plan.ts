@@ -96,10 +96,11 @@ export interface WeekView {
    * The sessions finished on today's local date.
    *
    * Filtered by the server's own date rather than by a client flag: an app left
-   * open overnight still holds `completed_today`, and a screen that reads
+   * open overnight still holds its local marker, and a screen that reads
    * "you're done for today" from a workout finished yesterday is worse than one
    * that never said it. The server's `completed_on` is the local day the
-   * session was actually credited to.
+   * session was actually credited to — and the marker now carries a day of its
+   * own for the same reason.
    */
   completedToday: CompletedThisWeek[];
 }
@@ -191,22 +192,72 @@ function countStimuli(requirements: StimulusRequirement[]) {
  * waiting for the server: the athlete just finished one, and a counter that
  * does not move until a refetch lands reads as the app not having noticed.
  *
- * The optimism has to expire, though, and it did not. `completed_today` stayed
- * true for the life of the app, so once the refetch landed — with the server's
- * own count already incremented — the same session was counted twice and the
- * week read "2 / 7" for one workout. Matching the finished session against the
- * server's completed list is what retires it: the bump covers the gap and
- * nothing more.
+ * The optimism has to expire, though, and expiring it took three goes. It began
+ * as a bare flag that stayed true for the life of the app, so once the refetch
+ * landed the same session was counted twice and the week read "2 / 7" for one
+ * workout. Matching against the server's completed list fixed that, but only
+ * for a session the server had answered about — offline there was no id to
+ * match on, and the flag never retired at all. And matching alone still had
+ * nothing to say about a week rollover, which empties the list the match reads.
+ *
+ * So it takes both: the id the device minted, which exists whether or not the
+ * network did, and the day the finish belongs to.
  */
+/**
+ * A session this device finished that the server may not know about yet.
+ *
+ * Carries the day it was finished on as well as its id, because retiring it
+ * needs both answers: the server's week no longer holding it can mean the
+ * finish has not landed, or it can mean the week has rolled over and the
+ * session belongs to the last one.
+ */
+export interface FinishedHere {
+  client_session_id: string;
+  /** The athlete's local day, as it was when they finished. */
+  on: string;
+}
+
 export function planView(
   today: TodayPayload | null,
-  completedToday: boolean,
-  completedSessionId: string | null = null,
+  finishedHere: FinishedHere | null = null,
   performed: PerformedSession | null = null,
 ): PlanView {
-  const serverHasIt = completedSessionId !== null
-    && (today?.week?.completed ?? []).some(c => c.session_id === completedSessionId);
-  const pendingCompletion = completedToday && !serverHasIt;
+  /**
+   * Whether the week the server sent already contains the session this device
+   * finished — matched on the id the device itself minted.
+   *
+   * It used to match on the server's `session_id`, and that is why the optimism
+   * had two ways of never expiring. Offline there was no server id to hold, so
+   * the match could not succeed at all: the bump stayed, the server counted the
+   * session once the outbox drained, and one workout read as two indefinitely.
+   * And even with an id, a week rollover empties `week.completed`, so the match
+   * failed again and last week's session re-inflated into the new week.
+   *
+   * The client id exists from the moment the player opens, network or no
+   * network, and it is the same value the server stores — so this answers
+   * correctly in both cases. The null guard matters: sessions recorded before
+   * migration 0021 carry a null, and a null must never match a null.
+   */
+  const serverHasIt = finishedHere !== null
+    && (today?.week?.completed ?? [])
+      .some(c => c.client_session_id === finishedHere.client_session_id);
+
+  /**
+   * Whether the marker still describes today.
+   *
+   * The second half of retiring it, and the half that was missing. A rollover
+   * empties `week.completed`, so `serverHasIt` goes false again for a session
+   * that landed perfectly well last week — and the bump came back, crediting
+   * the new week with a workout done in the old one and naming it as though it
+   * had just been finished. A claim about Sunday stops being true on Monday.
+   *
+   * With no payload there is no day to check against, and the marker is the
+   * better of the two answers available.
+   */
+  const stillToday = finishedHere !== null
+    && (today?.date_local == null || finishedHere.on === today.date_local);
+
+  const pendingCompletion = stillToday && !serverHasIt;
   const bump = pendingCompletion ? 1 : 0;
   // Only meaningful while the finish is pending: once the server's week holds
   // the session, its own row is the better answer and this one is stale.

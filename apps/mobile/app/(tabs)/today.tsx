@@ -22,7 +22,7 @@ import { useApp } from '@/state/store';
 import { PHASE_LABEL, PHASE_MEANING, type PhaseView } from '@/data/plan';
 import { firstNameOf } from '@/data/profile';
 import { exerciseById } from '@/data/content';
-import { hoursToClock, LOW_SLEEP_HOURS } from '@/lib/format';
+import { hoursToClock, mmss, LOW_SLEEP_HOURS } from '@/lib/format';
 import { track } from '@/lib/analytics';
 
 function greeting(): string {
@@ -116,7 +116,8 @@ function StatCell({ label, children, last }: {
 export default function TodayScreen() {
   const router = useRouter();
   const {
-    state, session, readiness, sleep, plan, beginSession, todayError, refreshToday,
+    state, session, steps, readiness, sleep, plan, beginSession, discardSession,
+    todayError, refreshToday,
   } = useApp();
   const [sheetOpen, setSheetOpen] = useState(false);
   const scroller = useRef<ScrollView | null>(null);
@@ -294,6 +295,68 @@ export default function TodayScreen() {
         </View>
         <Rule />
 
+        {/* A session the last run did not finish.
+
+            The player's state used to live in a reducer and nowhere else, so a
+            backgrounded app reclaimed mid-workout took the step, the clock and
+            every load the athlete had typed with it. It is on disk now, and this
+            is where it is offered back — above the race, because a workout left
+            open is the most urgent thing on this screen. */}
+        {state.status !== 'ready' ? (
+          <View style={{
+            marginHorizontal: space.gutter, marginTop: 14,
+            backgroundColor: color.tint, borderWidth: 1, borderColor: color.tintBorder,
+            paddingHorizontal: 13, paddingVertical: 13,
+          }}>
+            <Label tone="redDark" size="sm" style={{ marginBottom: 5 }}>
+              {state.status === 'completed_pending_review'
+                ? 'Session finished'
+                : 'Session in progress'}
+            </Label>
+            <Text style={[t.rowTitle, { color: color.redDeep, marginBottom: 3 }]}>
+              {state.performed?.name ?? 'Your session'}
+            </Text>
+            <Text style={[t.bodySm, { color: color.redDeep }]}>
+              {state.status === 'completed_pending_review'
+                ? 'It is saved. Add how it felt to finish the record.'
+                : `Step ${Math.min(state.step_index + 1, steps.length || 1)}`
+                  + `${steps.length ? ` of ${steps.length}` : ''} · ${mmss(state.elapsed_seconds)}`}
+            </Text>
+            <View style={{ flexDirection: 'row', gap: 10, marginTop: 12 }}>
+              <Pressable
+                onPress={() => router.push(
+                  (state.status === 'completed_pending_review' ? '/done' : '/active') as never)}
+                accessibilityRole="button"
+                style={({ pressed }) => ({
+                  paddingHorizontal: 18, paddingVertical: 12,
+                  backgroundColor: pressed ? color.redPressed : color.red,
+                })}
+              >
+                <Text style={[t.button, { color: color.onDark }]}>
+                  {state.status === 'completed_pending_review' ? 'Finish' : 'Resume'}
+                </Text>
+              </Pressable>
+              {/* Only offered while the session is still open. Once it is
+                  finished the record is written and there is nothing here to
+                  throw away. */}
+              {state.status !== 'completed_pending_review' ? (
+                <Pressable
+                  onPress={discardSession}
+                  accessibilityRole="button"
+                  accessibilityLabel="Discard the unfinished session"
+                  style={({ pressed }) => ({
+                    paddingHorizontal: 18, paddingVertical: 12,
+                    borderWidth: 1, borderColor: color.tintBorder,
+                    opacity: pressed ? 0.6 : 1,
+                  })}
+                >
+                  <Text style={[t.button, { color: color.redDeep }]}>Discard</Text>
+                </Pressable>
+              ) : null}
+            </View>
+          </View>
+        ) : null}
+
         {/* Why the plan is missing, when it is.
             
             `todayError` was set and never rendered, so a failed fetch looked
@@ -428,7 +491,7 @@ export default function TodayScreen() {
             athlete has actually reported it. */}
         {/* Hidden once there is nothing left to offer: the athlete has both
             checked in and adapted, or the session is done. */}
-        {!state.completed_today && (!state.checkin || !state.adapted) && (
+        {!plan.pendingCompletion && (!state.checkin || !state.adapted) && (
           <InkPanel label={prompt.label} style={{ paddingHorizontal: space.gutter }}>
             <Text style={[t.body, { color: color.onDarkSoft, maxWidth: 320 }]}>
               {prompt.body}

@@ -32,19 +32,25 @@ import {
 import { saveCheckin, EMPTY_CHECKIN, type Checkin } from '../data/recoveryRepo';
 import { fetchProgressNarration } from '../data/coachRepo';
 import {
-  abandonSession, eventId, startSession, type StartRequest,
+  abandonSession, clientSessionId, eventId, startSession, type StartRequest,
 } from '../data/sessionRepo';
 import {
   blockedFinishes, enqueueFinish, flushOutbox, loadOutbox, pendingFinishOn,
   subscribeOutbox, type PendingFinish,
 } from '../data/outbox';
 import { recordAdaptation } from '../data/adaptRepo';
+import {
+  clearActiveSession, loadActiveSession, saveActiveSession, verdictFor,
+  SCHEMA_VERSION, type ActiveSessionRecord, type ActiveStatus,
+} from '../data/activeSession';
 import { fetchEquipment, saveEquipment } from '../data/equipmentRepo';
 import {
   fetchPreferences, savePreference, fetchWeaknesses, saveWeakness,
   type PreferenceRating, type Preferences,
 } from '../data/preferencesRepo';
-import { planView, type PerformedSession, type PlanView } from '../data/plan';
+import {
+  planView, type FinishedHere, type PerformedSession, type PlanView,
+} from '../data/plan';
 import {
   track, flushAnalytics, bucketSleep, bucketScale, elapsedMinutes,
 } from '../lib/analytics';
@@ -126,6 +132,29 @@ interface State {
    */
   session_id: string | null;
   session_revision: number;
+  /**
+   * The session's own id, minted when the player opens rather than granted by
+   * the server (migration 0021).
+   *
+   * The difference is the whole of what it fixes. `session_id` arrives only if
+   * Start reached the server, so offline it is null for the length of the
+   * workout — which left the finished session with nothing the app could
+   * recognise it by when the week eventually came back holding it. This exists
+   * from the first tap, network or no network.
+   */
+  client_session_id: string | null;
+
+  /**
+   * The id every finish for this session carries, minted when the player opens.
+   *
+   * It used to be minted inside `finishSession`, which was fine while a finish
+   * happened exactly once. It no longer does: the finish is written to the
+   * outbox as soon as the last step ends, and written again after the athlete
+   * gives an RPE. Those two are the same event and must carry the same id —
+   * `mergeQueued` replaces on it, and the server's replay guard reads it — or
+   * one workout is queued as two.
+   */
+  finish_event_id: string | null;
 
   /** Set when the athlete accepts an adaptation, overriding the engine's pick. */
   override_template_id: string | null;
@@ -153,11 +182,17 @@ interface State {
   step_seconds: number[];
   session_rpe: number | null;
   ended_early: boolean;
-  /** Completed sessions this week, appended on finish. */
-  completed_today: boolean;
+
   /**
-   * The server row for the session just finished, held so the optimistic
-   * "completed today" can retire the moment the server's week contains it.
+   * The session finished on this device, held so the optimistic "completed
+   * today" can retire the moment the server's week contains it.
+   *
+   * This is the whole of what is left of the optimistic layer, and it is not
+   * removable. There is a window — between the outbox dropping a finish it has
+   * successfully sent and the refetched payload coming back holding it — where
+   * neither source knows about the session. Without something bridging it the
+   * week's counter drops by one and Today's "you're done" state flicks off and
+   * back on, at exactly the moment the athlete is looking at the screen.
    *
    * Without it `completed_today` was a bare flag that outlived its own refetch:
    * the week's counter added one on top of a server count that had already
@@ -165,7 +200,18 @@ interface State {
    * as "Completed today" — an athlete who finished Long Hybrid 60 was shown a
    * Threshold session, ticked, that they had never seen.
    */
-  completed_session_id: string | null;
+  completed_client_id: string | null;
+  /**
+   * The local day that marker belongs to.
+   *
+   * Without it the marker outlived its own week. `serverHasIt` retires it by
+   * finding the session in `week.completed` — but a week rollover empties that
+   * list, so the match failed again and a session finished last Sunday
+   * re-inflated into Monday's count, named as though it had just happened. The
+   * marker is a claim about a particular day, and it stops being true when that
+   * day ends.
+   */
+  completed_on: string | null;
   /**
    * The session the player was opened on, kept until the next one opens.
    *
@@ -214,6 +260,8 @@ const initialState: State = {
 
   session_id: null,
   session_revision: 0,
+  client_session_id: null,
+  finish_event_id: null,
 
   override_template_id: null,
   override_variant: null,
@@ -227,8 +275,8 @@ const initialState: State = {
   entries: {},
   session_rpe: null,
   ended_early: false,
-  completed_today: false,
-  completed_session_id: null,
+  completed_client_id: null,
+  completed_on: null,
   performed: null,
 
   open_metric: 'running',
@@ -283,12 +331,16 @@ type Action =
   | { type: 'set_travel'; travel: State['travel'] }
   | { type: 'set_checkin'; checkin: Checkin }
   | { type: 'restore'; snapshot: Restorable }
-  | { type: 'start_workout'; performed: PerformedSession | null }
+  | {
+      type: 'start_workout'; performed: PerformedSession | null;
+      finish_event_id: string; client_session_id: string;
+    }
+  | { type: 'restore_session'; record: ActiveSessionRecord }
   | { type: 'session_opened'; session_id: string; revision: number }
-  | { type: 'next_step'; total: number }
+  | { type: 'next_step'; total: number; local_date: string }
   | { type: 'tick' }
   | { type: 'toggle_pause' }
-  | { type: 'end_and_save' }
+  | { type: 'end_and_save'; local_date: string }
   | { type: 'end_and_discard' }
   | { type: 'set_rpe'; rpe: number }
   | { type: 'back_to_today' }
@@ -388,6 +440,8 @@ function reducer(s: State, a: Action): State {
         // Cleared here rather than on finish: the id belongs to the session
         // being performed, and a new one starts without the last one's row.
         session_id: null, session_revision: 0,
+        client_session_id: a.client_session_id,
+        finish_event_id: a.finish_event_id,
         // Replaced here for the same reason, and for the same reason not
         // cleared on finish: the finished session still has to be nameable
         // after the override that chose it is spent.
@@ -395,6 +449,55 @@ function reducer(s: State, a: Action): State {
       };
     case 'session_opened':
       return { ...s, session_id: a.session_id, session_revision: a.revision };
+
+    /**
+     * Puts back the session the process died in the middle of.
+     *
+     * Refused unless the player is idle: the restore is asynchronous, and an
+     * athlete quick enough to tap Start before it lands must not have their new
+     * session overwritten by the old one.
+     *
+     * The override is set from the record rather than left alone, and that is
+     * the point of restoring at all. Without it the player would rebuild its
+     * steps from whatever the plan recommends *now* — which after a day's
+     * rollover, or a check-in, is a different workout — and the athlete would
+     * be returned to a session they had never started, holding the numbers they
+     * typed into the one they had.
+     */
+    case 'restore_session': {
+      if (s.status !== 'ready') return s;
+      const r = a.record;
+      return {
+        ...s,
+        status: r.status,
+        step_index: r.step_index,
+        elapsed_seconds: r.elapsed_seconds,
+        step_seconds: r.step_seconds,
+        entries: r.entries,
+        session_rpe: r.session_rpe,
+        ended_early: r.ended_early,
+        session_id: r.session_id,
+        session_revision: r.session_revision,
+        client_session_id: r.client_session_id,
+        finish_event_id: r.finish_event_id,
+        performed: {
+          template_id: r.template_id,
+          name: r.name,
+          estimated_minutes: r.estimated_minutes,
+        },
+        override_template_id: r.template_id,
+        override_variant: r.variant,
+        /**
+         * Forced, because this is not a new recommendation being made — it is
+         * an existing one being redisplayed. The guardrails had their say when
+         * the session opened; re-running them against inputs that have moved
+         * since would refuse the session and silently drop the athlete into
+         * whatever the engine likes better, mid-workout.
+         */
+        override_forced: true,
+        adapted: false,
+      };
+    }
     case 'tick': {
       if (s.status !== 'active_block') return s;
       // The tick lands on whichever step is open, so a paused clock stops
@@ -407,7 +510,7 @@ function reducer(s: State, a: Action): State {
       return s.step_index >= a.total - 1
         ? {
             ...s, status: 'completed_pending_review',
-            completed_today: true, completed_session_id: s.session_id,
+            completed_client_id: s.client_session_id, completed_on: a.local_date,
           }
         : { ...s, step_index: s.step_index + 1 };
     case 'toggle_pause':
@@ -415,7 +518,7 @@ function reducer(s: State, a: Action): State {
     case 'end_and_save':
       return {
         ...s, status: 'completed_pending_review', ended_early: true,
-        completed_today: true, completed_session_id: s.session_id,
+        completed_client_id: s.client_session_id, completed_on: a.local_date,
       };
     case 'end_and_discard':
       // Abandoned, not completed: nothing is logged and the stimulus stays open.
@@ -617,6 +720,12 @@ interface Store {
   todayError: string | null;
   /** Re-fetches today's decision — after completing a session, or on pull. */
   refreshToday(): void;
+  /**
+   * The athlete's local day: the server's answer when it has given one, the
+   * device's own calendar until then. Anything filing a record under a date
+   * should read it from here rather than deriving its own.
+   */
+  localDate: string;
 }
 
 /**
@@ -872,6 +981,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const stepsRef = useRef<Step[]>([]);
 
   /**
+   * When the current session opened, as the stored record reports it.
+   *
+   * Kept in a ref rather than in state because nothing renders it: it exists so
+   * a restored session keeps its original start time instead of being re-dated
+   * to the moment it was read back off disk.
+   */
+  const startedAtRef = useRef<string | null>(null);
+
+  /**
    * The whole decision, not just the two fields the server needs. §16's workout
    * events want the family and the estimated duration, which `sessionRef`
    * deliberately does not carry — it is spread straight into the start request,
@@ -912,6 +1030,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const openSession = useCallback((started: EngineDecision | null) => {
     dispatch({
       type: 'start_workout',
+      // Both minted here, once, before anything is sent. The session's identity
+      // does not wait on a server that may never answer.
+      finish_event_id: eventId(),
+      client_session_id: clientSessionId(),
       performed: started?.kind === 'session'
         ? {
             template_id: started.template.id,
@@ -920,6 +1042,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           }
         : null,
     });
+
+    startedAtRef.current = new Date().toISOString();
 
     if (started?.kind === 'session') {
       track({
@@ -949,6 +1073,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     // override already folded in.
     startSession({
       ...adaptInputs(),
+      client_session_id: stateRef.current.client_session_id ?? undefined,
       template_id: started.template.id,
       variant_code: started.variant.variant_code,
     }).then(result => {
@@ -978,27 +1103,29 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
    */
   const beginSession = useCallback(() => openSession(decisionRef.current), [openSession]);
 
-  const finishSession = useCallback(() => {
-    const s = stateRef.current;
-    const performed = stepsRef.current;
-    dispatch({ type: 'back_to_today' });
-
-    const finished = decisionRef.current;
-    if (finished?.kind === 'session') {
-      track({
-        name: 'workout_completed',
-        family: finished.template.workout_family,
-        variant: finished.variant.variant_code,
-        actual_minutes: elapsedMinutes(s.elapsed_seconds),
-        session_rpe: s.session_rpe,
-        ended_early: s.ended_early,
-      });
-    }
-    // Finishing is the likeliest moment for the athlete to put the phone down,
-    // and a queued event in a killed process never happened.
-    flushAnalytics();
-
+  /**
+   * Writes the session to the outbox exactly as it currently stands.
+   *
+   * Called twice for one workout, on purpose. Once the moment the last step
+   * ends, because at that point the athlete has done the training and
+   * everything needed to record it is known — and the review screen that
+   * follows is an unbounded wait during which the app may be backgrounded and
+   * killed. Once again when they submit the review, now carrying the RPE.
+   *
+   * Both carry `finish_event_id`, so the second replaces the first in the queue
+   * rather than joining it, and a server that has already accepted the first
+   * treats the second as the correction it is. This is what closed the window
+   * where a workout the UI had already called "completed" existed nowhere but
+   * in memory.
+   */
+  const queueFinish = useCallback(async (s: State, opts: {
+    /** False for the write made at the last step, before the review. */
+    final: boolean;
+  }) => {
     if (authStatusRef.current !== 'signed_in') return;
+
+    const performed = stepsRef.current;
+    const finished = decisionRef.current;
 
     /**
      * Steps the athlete actually reached. Ending early stops the count where
@@ -1021,19 +1148,26 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
      * session on the retry instead, so the finish has somewhere to attach.
      */
     const chosen = finished?.kind === 'session' ? finished : null;
-    enqueueFinish({
-      client_event_id: eventId(),
+    await enqueueFinish({
+      client_event_id: s.finish_event_id ?? eventId(),
+      // Held back until the review is submitted, or until a launch proves the
+      // athlete never came back to it.
+      provisional: !opts.final,
       local_date: todayRef.current?.date_local ?? localToday(),
-      template_id: chosen?.template.id ?? '',
-      name: chosen?.template.name ?? '',
+      template_id: chosen?.template.id ?? s.performed?.template_id ?? '',
+      name: chosen?.template.name ?? s.performed?.name ?? '',
       // Carried so a finish that outlives the process can still be named and
       // totalled by the screens, not just replayed to the server.
-      estimated_minutes: chosen?.estimated_minutes,
+      estimated_minutes: chosen?.estimated_minutes ?? s.performed?.estimated_minutes,
       session_id: s.session_id,
       revision: s.session_revision,
       start: {
         ...adaptInputs(),
-        template_id: chosen?.template.id ?? '',
+        // The retry re-presents the session's identity, so an outbox flush that
+        // has to open the row resolves to the one this workout already has
+        // rather than creating a second.
+        client_session_id: s.client_session_id ?? undefined,
+        template_id: chosen?.template.id ?? s.performed?.template_id ?? '',
         variant_code: chosen?.variant.variant_code,
       },
       finish: {
@@ -1042,13 +1176,53 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         ...actuals,
         splits,
       },
-    }).then(() => flushOutbox()).then(result => {
-      // Refreshed on any successful send, not only on this one: a flush may
-      // have cleared an older finish too, and the week's counters moved for
-      // whichever of them landed.
-      if (result.sent > 0) refreshToday();
     });
-  }, [refreshToday, adaptInputs]);
+
+    if (!opts.final) return;
+    const result = await flushOutbox();
+    // Refreshed on any successful send, not only on this one: a flush may
+    // have cleared an older finish too, and the week's counters moved for
+    // whichever of them landed.
+    if (result.sent > 0) refreshToday();
+  }, [adaptInputs, refreshToday]);
+
+  /**
+   * Records the finish the moment the session completes locally.
+   *
+   * The finish used to be written only when the athlete tapped through the
+   * review screen. Between the last step and that tap the UI already said
+   * "completed" while the workout existed in RAM alone — so an app backgrounded
+   * on the summary and reclaimed by the OS lost a workout it had already
+   * congratulated the athlete for.
+   */
+  useEffect(() => {
+    if (state.status !== 'completed_pending_review') return;
+    queueFinish(stateRef.current, { final: false });
+  }, [state.status, queueFinish]);
+
+  const finishSession = useCallback(() => {
+    const s = stateRef.current;
+    dispatch({ type: 'back_to_today' });
+
+    const finished = decisionRef.current;
+    if (finished?.kind === 'session') {
+      track({
+        name: 'workout_completed',
+        family: finished.template.workout_family,
+        variant: finished.variant.variant_code,
+        actual_minutes: elapsedMinutes(s.elapsed_seconds),
+        session_rpe: s.session_rpe,
+        ended_early: s.ended_early,
+      });
+    }
+    // Finishing is the likeliest moment for the athlete to put the phone down,
+    // and a queued event in a killed process never happened.
+    flushAnalytics();
+
+    // The finish is already on disk from the last step; this rewrites it with
+    // the RPE the athlete just gave and sends it.
+    queueFinish(s, { final: true });
+  }, [queueFinish]);
 
   /**
    * Discards the session, and says so to the server.
@@ -1206,18 +1380,28 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
    * session can be re-ranked without a round trip, and because both sides are
    * the same code fed the same inputs, the two agree.
    */
+  /**
+   * The athlete's day, as everything that has to file something under a date
+   * should read it.
+   *
+   * The server's answer when there is one — it is computed from the stored
+   * timezone and it is what every row is filed against — and the device's own
+   * calendar until then. Resolved once here rather than re-derived at each call
+   * site, which is how three of them ended up on UTC.
+   */
+  const localDate = today?.date_local ?? localToday();
+
   const plan = useMemo(
     /**
      * A finish still sitting in the outbox counts as completed.
      *
-     * `completed_today` is a reducer flag and dies with the process, which is
-     * precisely how a finished session came back as un-finished after a
-     * restart. The queue is on disk, so it can answer the same question across
-     * launches — and it stops answering it the moment the server confirms,
-     * because the entry is then gone.
+     * The reducer's own marker dies with the process, which is precisely how a
+     * finished session came back as un-finished after a restart. The queue is
+     * on disk, so it can answer the same question across launches — and it
+     * stops answering it the moment the server confirms, because the entry is
+     * then gone.
      */
     () => {
-      const localDate = today?.date_local ?? localToday();
       /**
        * What was performed, preferring this run's own record and falling back
        * to the queued finish — which is the only one of the two that survives a
@@ -1231,15 +1415,115 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
             estimated_minutes: queued.estimated_minutes ?? 0,
           }
         : null);
-      return planView(
-        today,
-        state.completed_today || queued !== null,
-        state.completed_session_id,
-        performed,
-      );
+
+      /**
+       * The session finished here, from this run if it happened in this run and
+       * from the queue if it did not.
+       *
+       * Both name the same thing by the same id, so which one answers does not
+       * change what is counted — it only changes whether the answer survives a
+       * restart. The reducer's copy is preferred because it outlives the queue
+       * entry by the length of one refetch, which is the gap it exists to cover.
+       */
+      const finishedHere: FinishedHere | null = state.completed_client_id
+        ? { client_session_id: state.completed_client_id, on: state.completed_on ?? localDate }
+        : (queued?.start.client_session_id
+          ? { client_session_id: queued.start.client_session_id, on: queued.local_date }
+          : null);
+
+      return planView(today, finishedHere, performed);
     },
-    [today, state.completed_today, state.completed_session_id, state.performed,
+    [today, localDate, state.completed_client_id, state.completed_on, state.performed,
      pendingFinishes]);
+
+  /**
+   * Keeps the stored session in step with the one being performed.
+   *
+   * Two triggers rather than one. Structural changes — a step advanced, a load
+   * typed, a pause, the server row arriving — are written immediately, because
+   * each is something the athlete did that a crash would otherwise erase. The
+   * clock is written every five seconds instead: `tick` fires once a second and
+   * moves both `elapsed_seconds` and the current step's entry in
+   * `step_seconds`, so persisting on it directly would mean a write per second
+   * for the length of a workout. Five seconds of a stopwatch is the most this
+   * can lose, which is a fair trade for not hammering storage all session.
+   *
+   * `ready` is the absence of a session, so it clears rather than writes — which
+   * is what retires the record after a finish or a discard, both of which land
+   * there.
+   */
+  const persistActive = useCallback(() => {
+    const s = stateRef.current;
+    if (s.status === 'ready') { clearActiveSession(); return; }
+
+    const live = decisionRef.current;
+    const template_id = s.performed?.template_id ?? (live?.kind === 'session' ? live.template.id : null);
+    const variant = live?.kind === 'session' ? live.variant.variant_code : s.override_variant;
+    // Nothing identifying the session means nothing worth restoring: the player
+    // could not rebuild its steps from it.
+    if (!template_id || !variant || !s.finish_event_id || !s.client_session_id) return;
+
+    saveActiveSession({
+      version: SCHEMA_VERSION,
+      template_id,
+      variant,
+      name: s.performed?.name ?? (live?.kind === 'session' ? live.template.name : ''),
+      estimated_minutes: s.performed?.estimated_minutes
+        ?? (live?.kind === 'session' ? live.estimated_minutes : 0),
+      status: s.status as ActiveStatus,
+      step_index: s.step_index,
+      elapsed_seconds: s.elapsed_seconds,
+      step_seconds: s.step_seconds,
+      entries: s.entries,
+      session_rpe: s.session_rpe,
+      ended_early: s.ended_early,
+      session_id: s.session_id,
+      session_revision: s.session_revision,
+      client_session_id: s.client_session_id,
+      finish_event_id: s.finish_event_id,
+      local_date: todayRef.current?.date_local ?? localToday(),
+      started_at: startedAtRef.current ?? new Date().toISOString(),
+      saved_at: new Date().toISOString(),
+    });
+  }, []);
+
+  useEffect(() => { persistActive(); }, [
+    persistActive, state.status, state.step_index, state.entries,
+    state.session_id, state.session_revision, state.session_rpe, state.ended_early,
+    state.performed,
+  ]);
+
+  useEffect(() => {
+    if (state.status !== 'active_block') return;
+    if (state.elapsed_seconds % 5 !== 0) return;
+    persistActive();
+  }, [persistActive, state.status, state.elapsed_seconds]);
+
+  /**
+   * Puts back a session the last run did not finish.
+   *
+   * Runs once, on mount. A record past its window is dropped and its server row
+   * closed — the same tidy-up `discardSession` does, for the case where the app
+   * never got the chance. Nothing is lost by dropping it: a session that had
+   * reached the review screen already wrote its finish to the outbox, which
+   * replays on its own and does not depend on this at all.
+   */
+  useEffect(() => {
+    let cancelled = false;
+    loadActiveSession().then(record => {
+      if (cancelled || !record) return;
+      if (verdictFor(record, Date.now()) === 'discard') {
+        clearActiveSession();
+        if (record.session_id && authStatusRef.current === 'signed_in') {
+          abandonSession(record.session_id);
+        }
+        return;
+      }
+      startedAtRef.current = record.started_at;
+      dispatch({ type: 'restore_session', record });
+    });
+    return () => { cancelled = true; };
+  }, []);
 
   const pendingSync = useMemo(() => ({
     pending: pendingFinishes.length,
@@ -1541,6 +1825,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       startSupplemental,
       chooseVariant, pendingSync,
       profileError, refreshProfile, today, todayLoading, todayError, refreshToday,
+      localDate,
     }),
     [state, decision, session, steps, readiness, metricDetailView, plan, sleep, engineInput, commitProfile,
      commitCheckin, commitEquipment, reportSymptom,
@@ -1548,7 +1833,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
      beginSession, finishSession, discardSession, commitAdaptation, switchToQueued,
      startSupplemental,
      chooseVariant, pendingSync,
-     profileError, refreshProfile, today, todayLoading, todayError, refreshToday]);
+     profileError, refreshProfile, today, todayLoading, todayError, refreshToday,
+     localDate]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

@@ -45,6 +45,21 @@ export interface PendingFinish {
   attempts: number;
   queued_at: string;
   /**
+   * Written at the last step, before the athlete has given an RPE.
+   *
+   * A provisional entry is durable but not yet sendable, and the distinction
+   * matters because of how the server counts revisions. If it were sent while
+   * the athlete was still on the review screen, the session would complete at
+   * revision + 1 — and the finish they then submitted, carrying the same
+   * revision, would come back `replayed` with their RPE silently dropped.
+   *
+   * So it waits. If the review happens, `mergeQueued` replaces it with the real
+   * finish and one send carries everything. If the process dies first, the entry
+   * survives on disk and `promoteProvisional` releases it on the next launch —
+   * a workout recorded without an RPE, which is the whole of what was known.
+   */
+  provisional?: boolean;
+  /**
    * Why this entry is not being retried, when something is stopping it.
    *
    * Only entitlement so far, and it is deliberately not an attempt count: a 402
@@ -90,6 +105,23 @@ export function expired(entry: PendingFinish, now: number): boolean {
   if (entry.blocked_reason) return false;
   const age = now - Date.parse(entry.queued_at);
   return Number.isFinite(age) && age > MAX_AGE_DAYS * 86_400_000;
+}
+
+/**
+ * Releases finishes that outlived the process that queued them.
+ *
+ * Called once per launch, on the entries as they come off disk. A provisional
+ * entry still sitting there means the app went away before the athlete finished
+ * the review — so the review is not coming, and what was recorded at the last
+ * step is the complete record of that workout.
+ */
+export function promoteProvisional(entries: PendingFinish[]): PendingFinish[] {
+  return entries.map(e => (e.provisional ? { ...e, provisional: false } : e));
+}
+
+/** Whether this entry is still waiting on a review before it can be sent. */
+export function sendable(entry: PendingFinish): boolean {
+  return !entry.provisional;
 }
 
 /** Finishes held back by something other than a failed send. */
