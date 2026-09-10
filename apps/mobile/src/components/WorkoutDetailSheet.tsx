@@ -12,14 +12,36 @@
  * gone rather than moved: the sentence it carried is above the button here, and
  * a second modal asking the same question after the athlete has read the whole
  * prescription would be a step that informs nobody.
+ *
+ * ── What is shown is what would be performed ──────────────────────────────
+ *
+ * This used to render `template.blocks` — the prescription as authored, out of
+ * the bundled library, with no engine anywhere near it. Every other surface
+ * that shows a workout shows the engine's answer: Today renders
+ * `session.blocks`, the Adapt sheet renders `decision.blocks`, and both have
+ * had equipment substitutions applied. This one did not, so it was the one
+ * screen in the app still describing the library instead of the athlete.
+ *
+ * That is the whole of the "I don't own a SkiErg and it gave me SkiErg
+ * intervals" report from beta. The session the athlete would actually have
+ * performed was correct — the engine had already swapped the erg out — but the
+ * screen they read before deciding showed the un-swapped version, so the app
+ * appeared to have ignored the equipment answers it had in fact honoured.
+ *
+ * The template now goes through the same `recommend` call `switchToQueued`
+ * makes, which means the preview is the session, not a description of it: the
+ * blocks, the length and the variant are what tapping the button will hand
+ * them, and any swap the engine made to get there is named rather than hidden.
  */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, ScrollView, Modal, Pressable } from 'react-native';
 
+import { recommend } from '@pivot/engine';
 import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton } from '@/components/primitives';
 import { FullWorkout } from '@/components/FullWorkout';
-import { templateById } from '@/data/content';
+import { EXERCISES, exerciseById, templateById } from '@/data/content';
+import { useApp } from '@/state/store';
 import type { QueuedSession } from '@/data/todayRepo';
 
 /** One key/value in the header strip. */
@@ -42,14 +64,33 @@ export function WorkoutDetailSheet({
   /** True when this is already today's session, which has nothing to switch to. */
   isToday: boolean;
 }) {
+  const { engineInput } = useApp();
   const template = queued ? templateById.get(queued.template_id) ?? null : null;
 
-  // The queue carries the duration; the bundled library carries everything
-  // else. A template the client does not hold still renders — name, stimulus
-  // and length are enough to choose from, and an empty sheet would be worse
-  // than a thin one.
-  const blocks = template?.blocks ?? [];
-  const minutes = queued?.estimated_minutes ?? template?.estimated_minutes ?? null;
+  /**
+   * The template as this athlete would perform it today.
+   *
+   * The same forced run `switchToQueued` makes, so what is read here and what
+   * the button hands over cannot disagree. A refusal is an answer too: it means
+   * the session cannot be built from what they have, which is worth saying
+   * plainly rather than showing a prescription they could not complete.
+   */
+  const resolved = useMemo(
+    () => (template
+      ? recommend({ ...engineInput, candidates: [template] }, EXERCISES)
+      : null),
+    [engineInput, template]);
+
+  const built = resolved?.kind === 'session' ? resolved : null;
+  const refused = resolved && resolved.kind !== 'session' ? resolved : null;
+
+  // The engine's blocks when it built the session; the library's only as a
+  // fallback for a template this client does not hold, where name, stimulus and
+  // length are still enough to choose from.
+  const blocks = built?.blocks ?? (template ? [] : []);
+  const swaps = built?.substitutions_applied ?? [];
+  const minutes = built?.estimated_minutes
+    ?? queued?.estimated_minutes ?? template?.estimated_minutes ?? null;
 
   return (
     <Modal
@@ -125,6 +166,36 @@ export function WorkoutDetailSheet({
             </View>
           ) : null}
 
+          {/* What the engine changed to fit the athlete's kit, said out loud.
+
+              A silent substitution is indistinguishable from a mistake. An
+              athlete who owns no SkiErg and reads "Row 500m" in a session
+              called "Ski 5x500" has no way to tell whether the app adapted or
+              simply mislabelled itself — so the swap is named, with the reason
+              the substitution graph gives for it. This is the one place the
+              adaptation is visible rather than merely correct. */}
+          {swaps.length ? (
+            <View style={{
+              marginHorizontal: space.gutter, marginBottom: 14,
+              backgroundColor: color.mist, borderWidth: 1, borderColor: color.mistEdge,
+              paddingHorizontal: 13, paddingVertical: 12,
+            }}>
+              <Label size="sm" style={{ paddingBottom: 6, color: color.ink }}>
+                {swaps.length === 1 ? 'Adapted to your kit' : `${swaps.length} swaps for your kit`}
+              </Label>
+              {swaps.map(sw => (
+                <Text
+                  key={`${sw.from}-${sw.to}`}
+                  style={[t.bodySm, { color: color.muted2 }]}
+                >
+                  {exerciseById.get(sw.from)?.name ?? sw.from}
+                  {' → '}
+                  {exerciseById.get(sw.to)?.name ?? sw.to}
+                </Text>
+              ))}
+            </View>
+          ) : null}
+
           {blocks.length ? (
             <FullWorkout
               blocks={blocks}
@@ -132,6 +203,27 @@ export function WorkoutDetailSheet({
               totalMinutes={minutes ?? 0}
               defaultOpen
             />
+          ) : refused ? (
+            /**
+             * The engine will not build this today.
+             *
+             * Equipment, impact or a recovery guardrail — `rationale` says
+             * which. Better stated than papered over with the authored
+             * prescription, which is what an athlete would otherwise read and
+             * then fail to complete.
+             */
+            <View style={{
+              marginHorizontal: space.gutter,
+              backgroundColor: color.tint, borderWidth: 1, borderColor: color.tintBorder,
+              paddingHorizontal: 13, paddingVertical: 12,
+            }}>
+              <Label tone="redDark" size="sm" style={{ paddingBottom: 6 }}>
+                Not one you can do today
+              </Label>
+              <Text style={[t.bodySm, { color: color.redDeep }]}>
+                {refused.guidance || refused.rationale}
+              </Text>
+            </View>
           ) : (
             <Text style={[t.bodySm, {
               paddingHorizontal: space.gutter, color: color.muted2,
