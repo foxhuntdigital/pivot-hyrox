@@ -75,6 +75,25 @@ export interface CompletedThisWeek {
   completed_on: string;
 }
 
+/**
+ * A bonus workout on offer — a full session from the same library, chosen for
+ * what the athlete said they like.
+ *
+ * Distinct from a supplemental, which is a 5-to-12-minute accessory bolted onto
+ * a finished session. These are whole sessions with their own Full / Express /
+ * Micro choice, takeable before the day's primary, instead of it, or three in a
+ * day.
+ */
+export interface Opportunity {
+  template_id: string;
+  name: string;
+  training_domain: string | null;
+  stimulus: string | null;
+  estimated_minutes: number | null;
+  /** A session on this template was completed this week. */
+  done: boolean;
+}
+
 /** One movement's history and suggestion, as `_shared/guidance.ts` sends it. */
 export interface ExerciseGuidance {
   exercise_id: string;
@@ -164,6 +183,8 @@ export interface TodayPayload {
     end_date: string | null;
     queue: QueuedSession[];
     completed: CompletedThisWeek[];
+    /** Bonus sessions on offer this week. Absent from older payloads. */
+    opportunities?: Opportunity[];
   } | null;
   /**
    * Seven-day volume — sessions and minutes actually trained. Deliberately not

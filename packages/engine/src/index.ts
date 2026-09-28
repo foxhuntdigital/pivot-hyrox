@@ -60,6 +60,10 @@ export function recommend(
   const recovery = effectiveRecovery(input);
   const exerciseIndex = new Map(
     exercises.map(e => [e.id, { equipment: e.equipment, impact_level: e.impact_level }]));
+  // Separate from the eligibility index above: that one answers "can this be
+  // performed", this one answers "is this the point of the session".
+  const roleIndex = new Map(
+    exercises.map(e => [e.id, { exercise_role_eligibility: e.exercise_role_eligibility }]));
 
   type Candidate = {
     template: WorkoutTemplate;
@@ -78,7 +82,7 @@ export function recommend(
     for (const variant of eligibleVariants(template, input, recovery)) {
       // A transformation that loses the primary stimulus is not a valid
       // adaptation, however well it scores (PRD §19.2).
-      const blocks = transformBlocks(template, variant, eligibility.swaps, recovery);
+      const blocks = transformBlocks(template, variant, eligibility.swaps, recovery, roleIndex);
       if (!preservesPrimaryStimulus(template, blocks)) continue;
 
       candidates.push({
@@ -103,7 +107,8 @@ export function recommend(
     || a.variant.variant_code.localeCompare(b.variant.variant_code));
 
   const best = candidates[0];
-  const blocks = transformBlocks(best.template, best.variant, best.swaps, recovery);
+  const blocks = transformBlocks(
+    best.template, best.variant, best.swaps, recovery, roleIndex);
   const codes = buildReasonCodes(best, input, recovery);
 
   return {

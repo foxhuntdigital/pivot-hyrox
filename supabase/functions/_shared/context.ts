@@ -130,6 +130,12 @@ export async function loadContent(db: SupabaseClient): Promise<{
     // load at all — and because dropping it here left the server reading a
     // narrower exercise than the engine's own gate does.
     movement_families: e.movement_families ?? [],
+    // Carried for the same reason `movement_families` is, and it was missing
+    // for the same reason: the engine reads it and the server was handing over
+    // a narrower exercise than the engine's own types describe. Micro's
+    // decision about what a session can lose is made from this.
+    exercise_role_eligibility: e.exercise_role_eligibility ?? [],
+    complexity_level: e.complexity_level ?? null,
     progression_class: e.progression_class ?? null,
     progression_tracks: e.progression_tracks ?? [],
   }));

@@ -369,13 +369,85 @@ export default function PlanScreen() {
         </Text>
       ) : null}
 
+      {/* Opportunities — bonus sessions, chosen for what the athlete likes.
+
+          Everywhere else in the app a stated preference cannot change what is
+          programmed: the week's exposure counts answer only to phase and load
+          capacity, and the scorer weights preference at 0.04, a tenth of the
+          urgency it would have to overcome to earn a third strength session.
+          This is where the answer lands.
+
+          Deliberately no counter. The app's founding rule is that a missed day
+          creates no backlog, and "1 of 3 taken" would reinstate exactly that.
+          They are available; nothing here is owed. */}
+      {plan.week.opportunities.length ? (
+        <View style={{ paddingTop: 30 }}>
+          <View style={{ paddingHorizontal: space.gutter, paddingBottom: 10 }}>
+            <Label tone="ink">Opportunities</Label>
+            <Text style={[t.bodySm, { color: color.muted2, paddingTop: 5 }]}>
+              Extra sessions you can take if you want them, picked from what you said you
+              like. Nothing here is owed — do one before your session, instead of it, or
+              not at all.
+            </Text>
+          </View>
+          <Rule />
+          {plan.week.opportunities.map(o => (
+            <Pressable
+              key={o.template_id}
+              onPress={() => setDetail({
+                // The detail sheet reads a queued row. An opportunity is not
+                // one, so it is described as the sheet expects: it renders the
+                // session through the engine either way, which is what makes
+                // the preview match what would actually be performed.
+                id: `opportunity:${o.template_id}`,
+                template_id: o.template_id,
+                name: o.name,
+                stimulus_type: o.stimulus ?? o.training_domain ?? '',
+                rank: 0,
+                state: 'queued',
+                estimated_minutes: o.estimated_minutes,
+              })}
+              accessibilityRole="button"
+              accessibilityLabel={`${o.name}${o.done ? ', done this week' : ''}`}
+              style={({ pressed }) => ({
+                flexDirection: 'row', alignItems: 'center', gap: 12,
+                paddingHorizontal: space.gutter, paddingVertical: 13,
+                borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
+                backgroundColor: pressed ? color.hover
+                  : o.done ? color.mist : 'transparent',
+              })}
+            >
+              <View style={{ flex: 1 }}>
+                <Text style={[t.rowTitle, { color: color.ink }]}>{o.name}</Text>
+                <Text style={[t.meta, { color: color.muted }]}>
+                  {(o.training_domain ?? o.stimulus ?? '').replace(/_/g, ' ')}
+                </Text>
+              </View>
+              {/* Done, stated once and quietly. Completing an opportunity moves
+                  no counter — the week's stimulus count is capped at its target
+                  — so without this the tab it was started from says nothing
+                  about it at all. */}
+              {o.done ? (
+                <Label size="sm" tone="muted">Done</Label>
+              ) : (
+                <Text style={[t.meta, {
+                  fontFamily: t.rowTitle.fontFamily, color: color.muted,
+                }]}>
+                  {o.estimated_minutes ? `${o.estimated_minutes} min` : ''}
+                </Text>
+              )}
+            </Pressable>
+          ))}
+        </View>
+      ) : null}
+
       <Text style={[t.bodySm, {
         paddingHorizontal: space.gutter, paddingTop: 18, color: color.muted2,
       }]}>
         Stimuli, not weekdays. A session landing a day late doesn't put you behind.
         {'\n\n'}
-        Feeling like something different from what's above? Ask Coach, and the session
-        adapts to what you're after today.
+        Want more than this? Ask Coach — it can build something for what you're after
+        today rather than adding to a list.
       </Text>
       </>
       )}

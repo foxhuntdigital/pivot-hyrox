@@ -600,6 +600,11 @@ for (const { meta, w, id, blocks } of accepted) {
     // edited pack would silently retire whatever the edit dropped.
     'content_eligible', null,
     w.workout_role ?? 'primary', w.supplemental_type ?? null, w.supplemental_load ?? null,
+    // technical_demand + load_demand (migration 0023). Newly imported content is
+    // ungraded: null reads as "do not constrain" everywhere, so the template is
+    // scheduled exactly as it was before grading existed and is picked up by the
+    // next grading pass — rather than by a number this importer invented.
+    null, null,
   ]));
 
   blocks.forEach((b, bi) => {

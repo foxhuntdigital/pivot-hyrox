@@ -113,12 +113,59 @@ describe('Planning a week', () => {
     ]);
   });
 
-  test('the most race-specific template is chosen first', () => {
+  test('specificity no longer decides what the week queues', () => {
+    /**
+     * This asserted the opposite until the pool sort was removed, and the
+     * reversal is deliberate.
+     *
+     * Ordering every pool by `hyrox_specificity` descending made one scalar the
+     * authority over what an athlete is given: it always reached for the hardest
+     * session available, which is the substance of the "beginners get advanced
+     * workouts" reports, and it is not a rule that survives the app having more
+     * than one sport.
+     *
+     * Specificity keeps its real job in `raceSpecificity`, where it is scored
+     * rather than sorted and ramps with race proximity.
+     */
     const items = plan([req('aerobic_durability', 1, 1)], [
-      template({ id: 'generic', hyrox_specificity: 2 }),
-      template({ id: 'specific', hyrox_specificity: 9 }),
+      template({ id: 'b_specific', hyrox_specificity: 9 }),
+      template({ id: 'a_generic', hyrox_specificity: 2 }),
     ]);
-    assert.equal(items[0].workout_template_id, 'specific');
+    assert.equal(items[0].workout_template_id, 'a_generic',
+      'the pool is ordered stably, not by specificity');
+  });
+
+  test('a truthful zero specificity is still reachable', () => {
+    /**
+     * The case that would have stranded the 48-workout strength expansion.
+     *
+     * A foundational barbell session has no race specificity and says so. Under
+     * a descending sort that is not "less specific", it is "last, always" — so
+     * every one of those templates would have been unreachable in every phase
+     * the moment it was imported. Fixing the sort is the right answer; inventing
+     * a 0.4 to make the planner behave would have corrupted the metadata to work
+     * around it.
+     */
+    const items = plan([req('aerobic_durability', 1, 1)], [
+      template({ id: 'a_general_strength', hyrox_specificity: 0 }),
+      template({ id: 'b_race_specific', hyrox_specificity: 1 }),
+    ]);
+    assert.equal(items[0].workout_template_id, 'a_general_strength');
+  });
+
+  test('the same week planned twice queues the same sessions', () => {
+    // With no ranking left in the pool, determinism is what stops a week
+    // reshuffling between two reads of the same plan.
+    const pool = [
+      template({ id: 'c', hyrox_specificity: 3 }),
+      template({ id: 'a', hyrox_specificity: 7 }),
+      template({ id: 'b', hyrox_specificity: 5 }),
+    ];
+    const first = plan([req('aerobic_durability', 2, 1)], pool);
+    const second = plan([req('aerobic_durability', 2, 1)], pool);
+    assert.deepEqual(
+      first.map(i => i.workout_template_id),
+      second.map(i => i.workout_template_id));
   });
 
   test('a week does not repeat a session while others are available', () => {

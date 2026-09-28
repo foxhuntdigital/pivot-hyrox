@@ -1,0 +1,1534 @@
+{
+ "meta": {
+  "changeset": "demand-library",
+  "version": "v1",
+  "sheet": "data/review/demand-library.v1.graded.csv",
+  "baseline": "data/review/demand-library.v1.json",
+  "applied": true,
+  "note": "APPLIED to data/adaptive_athlete_schema_and_seed.sql. Record of what was written.",
+  "counts": {
+   "rows_read": 240,
+   "templates_matched": 239,
+   "graded": 239,
+   "partially_graded": 0,
+   "missing_from_sheet": 0,
+   "field_updates": 0,
+   "templates_with_prescription_edits": 19,
+   "prescription_deltas_applicable": 21,
+   "prescription_deltas_blocked": 0,
+   "problems": 0,
+   "skipped_rows": 1
+  },
+  "grade_distribution": {
+   "technical_demand": {
+    "1": 7,
+    "2": 172,
+    "3": 60
+   },
+   "load_demand": {
+    "1": 6,
+    "2": 163,
+    "3": 70
+   }
+  },
+  "applied_by": "scripts/apply-demand-changeset.mjs"
+ },
+ "grades": [
+  {
+   "template_id": "run_recovery_run_01",
+   "technical_demand": 1,
+   "load_demand": 1
+  },
+  {
+   "template_id": "run_recovery_run_02",
+   "technical_demand": 1,
+   "load_demand": 1
+  },
+  {
+   "template_id": "run_recovery_run_03",
+   "technical_demand": 1,
+   "load_demand": 1
+  },
+  {
+   "template_id": "wo_recovery_spin_mobility",
+   "technical_demand": 1,
+   "load_demand": 1
+  },
+  {
+   "template_id": "run_easy_base_03",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_ski_row_aerobic_brick",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_incline_hills_02",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_incline_hills_03",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_incline_hills_01",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_run_ski_carry_builder",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_long_hybrid_60",
+   "technical_demand": 3,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_long_hybrid_75",
+   "technical_demand": 3,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_long_erg_engine_60",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_long_aerobic_01",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_long_aerobic_03",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_long_aerobic_02",
+   "technical_demand": 3,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_low_impact_run_substitute_02",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_low_impact_run_substitute_01",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_low_impact_run_substitute_03",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_micro_run_01",
+   "technical_demand": 1,
+   "load_demand": 1
+  },
+  {
+   "template_id": "wo_micro_engine_12",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_micro_row_engine_12",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_micro_run_02",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_micro_run_03",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_progression_01",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_progression_03",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_progression_02",
+   "technical_demand": 3,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_return_to_run_03",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_row_technique_plus_aerobic_base_30",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_row_zone_2_45",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_row_rate_ladder_20_24",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_run_walk_rebuild",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_zone_2_run_30",
+   "technical_demand": 1,
+   "load_demand": 1
+  },
+  {
+   "template_id": "wo_zone_2_run_45",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_technique_mechanics_01",
+   "technical_demand": 3,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_technique_mechanics_03",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_technique_mechanics_02",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_ski_zone_2_30",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_micro",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_base",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_technique",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_durability",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_farmer_carry_technique",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_farmer_carry_base",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_farmer_carry_durability",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_rowerg_micro",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_rowerg_strength_power",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_rowerg_technique",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_rowerg_base",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_rowerg_durability",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sandbag_lunge_technique",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sandbag_lunge_base",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sandbag_lunge_durability",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_skierg_strength_power",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_skierg_technique",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_skierg_durability",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sled_pull_technique",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sled_pull_base",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sled_pull_durability",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sled_push_technique",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sled_push_base",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sled_push_durability",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_wall_ball_technique",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_wall_ball_base",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_wall_ball_durability",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_treadmill_control_01",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_treadmill_control_03",
+   "technical_demand": 3,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_treadmill_control_02",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_ski_row_threshold_alternator",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_row_10x250_speed",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_row_8x500_threshold",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_row_descending_ladder_2k_500",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_tempo_3x6",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_short_intervals_02",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_short_intervals_03",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_short_intervals_01",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_ski_10x250",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_ski_5x500",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_threshold",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_farmer_carry_threshold",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_rowerg_threshold",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sandbag_lunge_threshold",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_skierg_threshold",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sled_pull_threshold",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sled_push_threshold",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_wall_ball_threshold",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_tempo_03",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_tempo_01",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_tempo_02",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_threshold_02",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_threshold_01",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_threshold_03",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_strength_power",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_farmer_carry_micro",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_farmer_carry_strength_power",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sandbag_lunge_strength_power",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sled_pull_micro",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sled_pull_strength_power",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sled_push_micro",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sled_push_strength_power",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_wall_ball_strength_power",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_micro_strength_legs_15",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_micro_upper_15",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_lower_05",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_lower_06",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_lower_08",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_power_04",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_lower_04",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_power_01",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_lower_01",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_lower_02",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_lower_03",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_lower_07",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_hyrox_legs_b",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_hyrox_legs_a",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_recovery_01",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_recovery_03",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_recovery_02",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_recovery_04",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_hyrox_pull_a",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_upper_08",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_power_05",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_upper_03",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_upper_04",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_upper_06",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_upper_01",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_upper_02",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_upper_05",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_upper_07",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_hyrox_push_a",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_power_03",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_power_06",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_total_05",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_total_06",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_total_09",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_total_10",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_total_04",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_total_07",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_total_08",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_power_02",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_total_01",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_total_02",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_total_03",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_hyrox_row_benchmark_1000",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_benchmark_01",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_benchmark_03",
+   "technical_demand": 1,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_hyrox_row_under_fatigue_benchmark",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_benchmark_02",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_compromised_run_03",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_compromised_run_01",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_compromised_run_02",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_hyrox_density_emom_20",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_row_density_emom_20",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_ski_wall_ball_ladder",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_box_carry_engine",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_burpee_run_builder",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_ski_carry_burpee",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_ski_sled_combo",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_treadmill_incline_hybrid",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_carry_lunge_chipper",
+   "technical_demand": 3,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_compromised_run_wall_ball",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_run_farmer_lunge",
+   "technical_demand": 3,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_run_ski_wall_ball",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_run_sled_wall_ball",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_sled_sandwich",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_row_plus_farmer_carry_engine",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_row_plus_sandbag_lunge_engine",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_row_burpee_compromised_engine",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_row_sled_sandwich",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_compromised_run_plus_row",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_run_row_wall_ball_builder",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_micro_hyrox_18",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_micro_hyrox_row_18",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_1k_repeats_01",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_1k_repeats_02",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_mixed_race_pace_01",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_mixed_race_pace_02",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_mixed_race_pace_03",
+   "technical_demand": 3,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_row_5x1000_race_builder",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_1k_repeat_builder",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_run_to_station_01",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_run_to_station_02",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_half_hyrox_simulation",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_benchmark",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_density",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_race_specific",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_hybrid_a",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_compromised",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_hybrid_b",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_farmer_carry_benchmark",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_farmer_carry_density",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_farmer_carry_race_specific",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_farmer_carry_hybrid_a",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_farmer_carry_hybrid_b",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_farmer_carry_compromised",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_rowerg_benchmark",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_rowerg_density",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_rowerg_hybrid_a",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_rowerg_hybrid_b",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_rowerg_race_specific",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_rowerg_compromised",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sandbag_lunge_benchmark",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sandbag_lunge_micro",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sandbag_lunge_density",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sandbag_lunge_race_specific",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sandbag_lunge_hybrid_a",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sandbag_lunge_hybrid_b",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sandbag_lunge_compromised",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_skierg_benchmark",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_skierg_density",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_skierg_hybrid_a",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_skierg_hybrid_b",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_skierg_race_specific",
+   "technical_demand": 3,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_skierg_compromised",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sled_pull_benchmark",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sled_pull_density",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sled_pull_race_specific",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sled_pull_hybrid_a",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sled_pull_hybrid_b",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sled_pull_compromised",
+   "technical_demand": 3,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sled_push_benchmark",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_sled_push_density",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sled_push_race_specific",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sled_push_hybrid_a",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sled_push_hybrid_b",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sled_push_compromised",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_station_to_run_03",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_station_to_run_01",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_station_to_run_02",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_wall_ball_benchmark",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_wall_ball_micro",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_wall_ball_density",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_wall_ball_hybrid_a",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_wall_ball_race_specific",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_wall_ball_hybrid_b",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "mx_wall_ball_compromised",
+   "technical_demand": 3,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_taper_sharpen_03",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_taper_sharpen_01",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_taper_sharpen_02",
+   "technical_demand": 3,
+   "load_demand": 3
+  }
+ ],
+ "field_updates": [],
+ "prescription_edits": [
+  {
+   "template_id": "run_incline_hills_03",
+   "deltas": [
+    {
+     "change": "item.intensity_note",
+     "block_order": 1,
+     "sequence_order": 1,
+     "from": "@ - % incline RPE",
+     "to": "7% incline",
+     "applicable": true,
+     "table": "block_exercises",
+     "column": "intensity_note"
+    }
+   ]
+  },
+  {
+   "template_id": "run_long_aerobic_03",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 120,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    },
+    {
+     "change": "block.rest_seconds",
+     "block_order": 2,
+     "from": null,
+     "to": 60,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "run_low_impact_run_substitute_02",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 60,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "run_low_impact_run_substitute_03",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 60,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "run_micro_run_03",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 60,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_technique",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 60,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "mx_farmer_carry_technique",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 60,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "mx_farmer_carry_base",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 60,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "mx_rowerg_technique",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 60,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "mx_sandbag_lunge_technique",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 60,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "mx_sandbag_lunge_base",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 60,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "mx_skierg_technique",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 60,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "mx_sled_pull_technique",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 45,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "mx_sled_pull_base",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 45,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "mx_sled_push_technique",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 45,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "mx_sled_push_base",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 45,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "mx_wall_ball_technique",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 30,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "mx_wall_ball_base",
+   "deltas": [
+    {
+     "change": "block.rest_seconds",
+     "block_order": 1,
+     "from": null,
+     "to": 45,
+     "applicable": true,
+     "table": "workout_blocks",
+     "column": "rest_seconds"
+    }
+   ]
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_strength_power",
+   "deltas": [
+    {
+     "change": "item.exercise",
+     "block_order": 1,
+     "sequence_order": 2,
+     "from": "Burpee Broad Jump",
+     "to": "Air Squat",
+     "applicable": true,
+     "table": "block_exercises",
+     "column": "exercise_id",
+     "exercise_id": "ex_air_squat"
+    },
+    {
+     "change": "item.quantity",
+     "block_order": 1,
+     "sequence_order": 2,
+     "from": "5 reps",
+     "to": "15 reps",
+     "applicable": true,
+     "table": "block_exercises",
+     "column": "quantity + quantity_unit"
+    }
+   ]
+  }
+ ],
+ "missing_from_sheet": [],
+ "problems": [],
+ "skipped_rows": [
+  {
+   "reason": "no template_id",
+   "cells": {
+    "training_domain": "hybrid"
+   }
+  }
+ ]
+}

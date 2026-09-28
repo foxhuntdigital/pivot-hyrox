@@ -193,6 +193,11 @@ const templates = schedulable.map(t => ({
   // row missing either rather than guessing at it.
   supplemental_type: t.supplemental_type ?? null,
   supplemental_load: t.supplemental_load ?? null,
+  // Demand (migration 0023), authored per template. Null means ungraded, which
+  // guardrails.ts and rank.ts both read as "do not constrain" — so an ungraded
+  // template is scheduled exactly as it was before grading began.
+  technical_demand: t.technical_demand ?? null,
+  load_demand: t.load_demand ?? null,
   tags: tagsByWorkout[t.id] ?? [],
   variants: variantsByWorkout[t.id] ?? [],
   blocks: (blocksByWorkout[t.id] ?? []).sort((a, b) => a.block_order - b.block_order),

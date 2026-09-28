@@ -17,7 +17,7 @@
  */
 import type { StimulusRequirement } from '@pivot/engine';
 import type {
-  CompletedThisWeek, PhaseSummary, QueuedSession, TodayPayload,
+  CompletedThisWeek, Opportunity, PhaseSummary, QueuedSession, TodayPayload,
 } from './todayRepo';
 
 /**
@@ -103,6 +103,14 @@ export interface WeekView {
    * own for the same reason.
    */
   completedToday: CompletedThisWeek[];
+  /**
+   * Bonus sessions the athlete may take, beyond what the week asks.
+   *
+   * Deliberately carries no count of how many are left. The app's founding rule
+   * is that a missed day creates no backlog, and "1 of 3 taken" would reinstate
+   * exactly that — an athlete who took none would have failed at something.
+   */
+  opportunities: Opportunity[];
 }
 
 /**
@@ -269,16 +277,42 @@ export function planView(
       pendingSession,
       race: null,
       phase: null,
-      week: { done: bump, target: 0, queue: [], completed: [], completedToday: [] },
+      week: {
+        done: bump, target: 0, queue: [], completed: [], completedToday: [],
+        opportunities: [],
+      },
       training7d: null,
       shape: { days_trained: 0, days_remaining: 0, queue_remaining: 0 },
     };
   }
 
   const { done, target } = countStimuli(today.stimulus_requirements ?? []);
-  // Sessions already performed drop out of what is still to come.
+
+  /**
+   * Stimuli the week no longer owes anything toward.
+   *
+   * A session performed off the queue still credits its stimulus — a strength
+   * session is a strength session whichever list it was started from — but it
+   * claims no queue item, because claiming matches on template. So the two
+   * could disagree: the counter read "8 / 8" while two strength sessions sat in
+   * "up next", both of them for a requirement that was already met.
+   *
+   * Rare while everything came from the queue. Routine now that bonus workouts
+   * are offered, since taking one is exactly the case that credits a stimulus
+   * without touching the queue. Filtered at read time rather than written to
+   * the rows: the requirement being met is the fact, and a later reshape or a
+   * corrected finish should be free to change the answer.
+   */
+  const satisfied = new Set(
+    (today.stimulus_requirements ?? [])
+      .filter(r => r.completed_exposures >= r.target_exposures)
+      .map(r => r.stimulus_type));
+
+  // Sessions already performed, and stimuli already met, drop out of what is
+  // still to come.
   const queue = (today.week?.queue ?? []).filter(
-    q => q.state !== 'completed' && q.state !== 'skipped');
+    q => q.state !== 'completed' && q.state !== 'skipped'
+      && !satisfied.has(q.stimulus_type));
 
   return {
     pendingCompletion,
@@ -304,6 +338,7 @@ export function planView(
       completed: today.week?.completed ?? [],
       completedToday: (today.week?.completed ?? [])
         .filter(c => c.completed_on === today.date_local),
+      opportunities: today.week?.opportunities ?? [],
     },
     training7d: today.training_7d ?? null,
     shape: {

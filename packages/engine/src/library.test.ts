@@ -182,3 +182,29 @@ describe('Library invariants', () => {
       `${broke.length} of ${ALL.length} template(s) threw when recommended`);
   });
 });
+
+describe('demand coverage (product signoff, 27 Sep 2026)', () => {
+  /**
+   * The capacity scale is 1-4 on both axes and stays that way — that was signed
+   * off. What is missing is content at the top of it.
+   *
+   * All 239 graded primary templates sit at 1-3, so a `technical_capacity: 4`
+   * athlete has no ceiling to reach and the `load_fit` penalty can never fire
+   * above capacity 3. The scale is not wrong; the library has not caught up to
+   * it. Recorded here as a coverage floor rather than left as a note, so it is
+   * visible in CI like every other content gap.
+   */
+  const graded = TEMPLATES.filter(t =>
+    (t.workout_role ?? 'primary') === 'primary'
+    && t.technical_demand != null && t.load_demand != null);
+
+  test('the graded pool covers the whole capacity scale', () => {
+    assert.ok(graded.length > 0, 'nothing is graded at all');
+    const technical = new Set(graded.map(t => t.technical_demand));
+    const load = new Set(graded.map(t => t.load_demand));
+    assert.ok(technical.has(4),
+      `no template is graded technical_demand 4 (found ${[...technical].sort().join(', ')})`);
+    assert.ok(load.has(4),
+      `no template is graded load_demand 4 (found ${[...load].sort().join(', ')})`);
+  });
+});

@@ -288,7 +288,8 @@
       ],
       "complexity_level": "basic",
       "exercise_role_eligibility": [
-        "finisher"
+        "finisher",
+        "power"
       ],
       "progression_class": "variable_complex",
       "progression_tracks": [
@@ -7570,6 +7571,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 1,
+      "load_demand": 1,
       "tags": [
         "run",
         "zone2",
@@ -7642,6 +7645,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "run",
         "zone2"
@@ -7713,6 +7718,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "run",
         "return_to_run",
@@ -7793,6 +7800,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "run",
         "threshold"
@@ -7864,6 +7873,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "run",
         "race_pace",
@@ -7936,6 +7947,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "ski",
         "zone2",
@@ -8008,6 +8021,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [
         "ski",
         "intervals",
@@ -8080,6 +8095,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [
         "ski",
         "threshold",
@@ -8152,6 +8169,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "strength",
         "legs",
@@ -8285,6 +8304,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "strength",
         "legs",
@@ -8411,6 +8432,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "strength",
         "push",
@@ -8551,6 +8574,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "strength",
         "pull",
@@ -8677,6 +8702,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "hybrid",
         "hyrox",
@@ -8773,6 +8800,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "hybrid",
         "hyrox",
@@ -8853,6 +8882,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [
         "hybrid",
         "hyrox",
@@ -8941,6 +8972,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9021,6 +9054,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 2,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9117,6 +9152,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 2,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9221,6 +9258,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 2,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9325,6 +9364,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9405,6 +9446,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9493,6 +9536,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 2,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9581,6 +9626,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9669,6 +9716,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9757,6 +9806,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9845,6 +9896,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "hybrid",
         "hyrox",
@@ -9933,6 +9986,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "hybrid",
         "hyrox",
@@ -10021,6 +10076,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [
         "emom",
         "hyrox",
@@ -10125,6 +10182,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "micro",
         "ski",
@@ -10205,6 +10264,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "micro",
         "hyrox",
@@ -10293,6 +10354,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 1,
+      "load_demand": 1,
       "tags": [
         "recovery",
         "mobility",
@@ -10373,6 +10436,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [
         "simulation",
         "benchmark",
@@ -10501,6 +10566,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -10569,6 +10636,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -10637,6 +10706,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -10729,6 +10800,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -10797,6 +10870,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -10865,6 +10940,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -10933,6 +11010,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -11025,6 +11104,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -11093,6 +11174,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -11169,6 +11252,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -11253,6 +11338,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -11329,6 +11416,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -11405,6 +11494,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -11481,6 +11572,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -11557,6 +11650,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -11641,6 +11736,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -11717,6 +11814,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -11809,6 +11908,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -11885,6 +11986,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -11969,6 +12072,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -12045,6 +12150,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -12129,6 +12236,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -12217,6 +12326,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 1,
+      "load_demand": 1,
       "tags": [],
       "variants": [
         {
@@ -12285,6 +12396,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -12353,6 +12466,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -12421,6 +12536,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -12509,6 +12626,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -12577,6 +12696,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -12701,6 +12822,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -12917,6 +13040,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -12985,6 +13110,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -13153,6 +13280,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -13221,6 +13350,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -13329,6 +13460,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -13437,6 +13570,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 1,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -13505,6 +13640,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 1,
+      "load_demand": 1,
       "tags": [],
       "variants": [
         {
@@ -13573,6 +13710,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -13681,6 +13820,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -13789,6 +13930,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -13822,7 +13965,7 @@
           "instructions": "Hold a repeatable effort",
           "rounds": null,
           "duration_minutes": 50,
-          "rest_seconds": null,
+          "rest_seconds": 120,
           "exercises": [
             {
               "exercise_id": "ex_run",
@@ -13842,7 +13985,7 @@
           "instructions": "Hold a repeatable effort",
           "rounds": null,
           "duration_minutes": 15,
-          "rest_seconds": null,
+          "rest_seconds": 60,
           "exercises": [
             {
               "exercise_id": "ex_run",
@@ -13897,6 +14040,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -14005,6 +14150,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -14133,6 +14280,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -14241,6 +14390,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -14309,6 +14460,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -14350,7 +14503,7 @@
               "prescription_type": "duration",
               "quantity": 4,
               "quantity_unit": "min",
-              "intensity_note": "@ - % incline RPE"
+              "intensity_note": "7% incline"
             },
             {
               "exercise_id": "ex_run",
@@ -14385,6 +14538,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -14461,6 +14616,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -14537,6 +14694,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -14613,6 +14772,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -14689,6 +14850,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -14765,6 +14928,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -14841,6 +15006,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -14917,6 +15084,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -14993,6 +15162,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -15026,7 +15197,7 @@
           "instructions": "Complete every movement, then repeat",
           "rounds": 3,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 60,
           "exercises": [
             {
               "exercise_id": "ex_spin_bike",
@@ -15077,6 +15248,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -15110,7 +15283,7 @@
           "instructions": "Complete every movement, then repeat",
           "rounds": 3,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 60,
           "exercises": [
             {
               "exercise_id": "ex_run",
@@ -15161,6 +15334,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 1,
+      "load_demand": 1,
       "tags": [],
       "variants": [
         {
@@ -15229,6 +15404,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 1,
+      "load_demand": 1,
       "tags": [],
       "variants": [
         {
@@ -15305,6 +15482,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -15381,6 +15560,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -15449,6 +15630,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -15525,6 +15708,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -15601,6 +15786,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -15669,6 +15856,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -15745,6 +15934,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -15829,6 +16020,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -15905,6 +16098,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -15973,6 +16168,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -16017,10 +16214,10 @@
               "intensity_note": null
             },
             {
-              "exercise_id": "ex_burpee_broad_jump",
+              "exercise_id": "ex_air_squat",
               "sequence_order": 2,
               "prescription_type": "reps",
-              "quantity": 5,
+              "quantity": 15,
               "quantity_unit": "reps",
               "intensity_note": null
             }
@@ -16049,6 +16246,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -16082,7 +16281,7 @@
           "instructions": null,
           "rounds": 8,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 60,
           "exercises": [
             {
               "exercise_id": "ex_burpee_broad_jump",
@@ -16117,6 +16316,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -16185,6 +16386,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -16218,7 +16421,7 @@
           "instructions": null,
           "rounds": 6,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 60,
           "exercises": [
             {
               "exercise_id": "ex_farmer_carry",
@@ -16253,6 +16456,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -16321,6 +16526,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -16397,6 +16604,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -16481,6 +16690,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -16549,6 +16760,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -16625,6 +16838,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -16709,6 +16924,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -16785,6 +17002,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -16853,6 +17072,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -16921,6 +17142,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -16954,7 +17177,7 @@
           "instructions": null,
           "rounds": 8,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 60,
           "exercises": [
             {
               "exercise_id": "ex_farmer_carry",
@@ -16989,6 +17212,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -17057,6 +17282,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -17125,6 +17352,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -17193,6 +17422,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -17269,6 +17500,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -17361,6 +17594,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -17429,6 +17664,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -17505,6 +17742,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -17589,6 +17828,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -17665,6 +17906,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -17733,6 +17976,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -17801,6 +18046,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -17834,7 +18081,7 @@
           "instructions": null,
           "rounds": null,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 60,
           "exercises": [
             {
               "exercise_id": "ex_rowerg",
@@ -17913,6 +18160,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -17981,6 +18230,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -18014,7 +18265,7 @@
           "instructions": null,
           "rounds": 5,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 60,
           "exercises": [
             {
               "exercise_id": "ex_sandbag_walking_lunge",
@@ -18049,6 +18300,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -18117,6 +18370,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -18193,6 +18448,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -18277,6 +18534,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -18345,6 +18604,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -18421,6 +18682,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -18505,6 +18768,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -18581,6 +18846,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -18649,6 +18916,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -18717,6 +18986,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -18750,7 +19021,7 @@
           "instructions": null,
           "rounds": 6,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 60,
           "exercises": [
             {
               "exercise_id": "ex_sandbag_walking_lunge",
@@ -18785,6 +19056,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -18853,6 +19126,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -18921,6 +19196,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -18997,6 +19274,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -19081,6 +19360,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -19149,6 +19430,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -19225,6 +19508,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -19309,6 +19594,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -19377,6 +19664,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -19445,6 +19734,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -19478,7 +19769,7 @@
           "instructions": null,
           "rounds": 6,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 60,
           "exercises": [
             {
               "exercise_id": "ex_skierg",
@@ -19513,6 +19804,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -19581,6 +19874,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -19614,7 +19909,7 @@
           "instructions": null,
           "rounds": 10,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 45,
           "exercises": [
             {
               "exercise_id": "ex_sled_pull",
@@ -19649,6 +19944,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -19717,6 +20014,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -19793,6 +20092,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -19869,6 +20170,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -19937,6 +20240,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -20013,6 +20318,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -20097,6 +20404,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -20165,6 +20474,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -20233,6 +20544,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -20301,6 +20614,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -20334,7 +20649,7 @@
           "instructions": null,
           "rounds": 8,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 45,
           "exercises": [
             {
               "exercise_id": "ex_sled_pull",
@@ -20369,6 +20684,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -20445,6 +20762,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -20478,7 +20797,7 @@
           "instructions": null,
           "rounds": 10,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 45,
           "exercises": [
             {
               "exercise_id": "ex_sled_push",
@@ -20513,6 +20832,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -20581,6 +20902,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -20657,6 +20980,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -20733,6 +21058,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -20801,6 +21128,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -20877,6 +21206,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -20961,6 +21292,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -21029,6 +21362,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -21097,6 +21432,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -21165,6 +21502,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -21198,7 +21537,7 @@
           "instructions": null,
           "rounds": 8,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 45,
           "exercises": [
             {
               "exercise_id": "ex_sled_push",
@@ -21233,6 +21572,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -21309,6 +21650,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -21342,7 +21685,7 @@
           "instructions": null,
           "rounds": 10,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 45,
           "exercises": [
             {
               "exercise_id": "ex_wall_ball",
@@ -21377,6 +21720,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -21445,6 +21790,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -21521,6 +21868,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -21605,6 +21954,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -21673,6 +22024,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -21749,6 +22102,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -21833,6 +22188,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -21909,6 +22266,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -21977,6 +22336,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -22045,6 +22406,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -22078,7 +22441,7 @@
           "instructions": null,
           "rounds": 8,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 30,
           "exercises": [
             {
               "exercise_id": "ex_wall_ball",
@@ -22113,6 +22476,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -22181,6 +22546,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -22289,6 +22656,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -22397,6 +22766,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -22505,6 +22876,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -22601,6 +22974,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -22634,7 +23009,7 @@
           "instructions": "Surges evenly spaced within the 30 min total.",
           "rounds": 6,
           "duration_minutes": null,
-          "rest_seconds": null,
+          "rest_seconds": 60,
           "exercises": [
             {
               "exercise_id": "ex_skierg",
@@ -22677,6 +23052,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -22785,6 +23162,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -22853,6 +23232,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -22961,6 +23342,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -23069,6 +23452,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -23177,6 +23562,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -23305,6 +23692,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -23433,6 +23822,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -23533,6 +23924,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -23641,6 +24034,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -23749,6 +24144,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -23857,6 +24254,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -23965,6 +24364,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 3,
       "tags": [],
       "variants": [
         {
@@ -24073,6 +24474,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 3,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -24169,6 +24572,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -24304,6 +24709,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -24439,6 +24846,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -24574,6 +24983,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -24709,6 +25120,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -24844,6 +25257,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -24979,6 +25394,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -25114,6 +25531,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -25249,6 +25668,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -25384,6 +25805,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -25519,6 +25942,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -25654,6 +26079,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -25789,6 +26216,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -25924,6 +26353,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -26059,6 +26490,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -26194,6 +26627,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -26329,6 +26764,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -26464,6 +26901,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -26599,6 +27038,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -26734,6 +27175,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -26869,6 +27312,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -27004,6 +27449,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -27139,6 +27586,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -27274,6 +27723,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -27409,6 +27860,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -27544,6 +27997,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -27679,6 +28134,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -27799,6 +28256,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -27919,6 +28378,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -28039,6 +28500,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -28159,6 +28622,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -28279,6 +28744,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -28399,6 +28866,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -28519,6 +28988,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -28639,6 +29110,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -28759,6 +29232,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [],
       "variants": [
         {
@@ -28879,6 +29354,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "micro",
         "strength"
@@ -28987,6 +29464,8 @@
       "workout_role": "primary",
       "supplemental_type": null,
       "supplemental_load": null,
+      "technical_demand": 2,
+      "load_demand": 2,
       "tags": [
         "micro",
         "strength"
@@ -29095,6 +29574,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "core",
       "supplemental_load": "minimal",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -29200,6 +29681,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "core",
       "supplemental_load": "low",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -29305,6 +29788,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "core",
       "supplemental_load": "low",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -29410,6 +29895,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "core",
       "supplemental_load": "moderate",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -29515,6 +30002,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "core",
       "supplemental_load": "low",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -29620,6 +30109,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "core",
       "supplemental_load": "moderate",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -29725,6 +30216,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "metcon",
       "supplemental_load": "moderate",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -29801,6 +30294,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "metcon",
       "supplemental_load": "low",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -29877,6 +30372,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "metcon",
       "supplemental_load": "moderate",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -29961,6 +30458,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "metcon",
       "supplemental_load": "moderate",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -30037,6 +30536,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "metcon",
       "supplemental_load": "low",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -30113,6 +30614,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "metcon",
       "supplemental_load": "moderate",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -30197,6 +30700,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "recovery",
       "supplemental_load": "minimal",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -30289,6 +30794,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "recovery",
       "supplemental_load": "minimal",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -30381,6 +30888,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "recovery",
       "supplemental_load": "minimal",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -30481,6 +30990,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "recovery",
       "supplemental_load": "minimal",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -30573,6 +31084,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "recovery",
       "supplemental_load": "minimal",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -30673,6 +31186,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "recovery",
       "supplemental_load": "minimal",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -30765,6 +31280,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "recovery",
       "supplemental_load": "minimal",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -30857,6 +31374,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "recovery",
       "supplemental_load": "minimal",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -30949,6 +31468,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "boxing",
       "supplemental_load": "minimal",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -31077,6 +31598,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "boxing",
       "supplemental_load": "minimal",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -31205,6 +31728,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "boxing",
       "supplemental_load": "low",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -31333,6 +31858,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "boxing",
       "supplemental_load": "minimal",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -31461,6 +31988,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "boxing",
       "supplemental_load": "low",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -31589,6 +32118,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "boxing",
       "supplemental_load": "low",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -31737,6 +32268,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "boxing",
       "supplemental_load": "low",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -31865,6 +32398,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "boxing",
       "supplemental_load": "low",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -32013,6 +32548,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "boxing",
       "supplemental_load": "low",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -32141,6 +32678,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "boxing",
       "supplemental_load": "moderate",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -32289,6 +32828,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "boxing",
       "supplemental_load": "moderate",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -32437,6 +32978,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "boxing",
       "supplemental_load": "moderate",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -32585,6 +33128,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "boxing",
       "supplemental_load": "minimal",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {
@@ -32713,6 +33258,8 @@
       "workout_role": "supplemental",
       "supplemental_type": "boxing",
       "supplemental_load": "low",
+      "technical_demand": null,
+      "load_demand": null,
       "tags": [],
       "variants": [
         {

@@ -140,7 +140,7 @@ export function planWeekQueue(args: {
     t => checkEligibility(t, planningInput, exerciseIndex, 'okay').eligible);
 
   /**
-   * Candidates for one stimulus, most race-specific first.
+   * Candidates for one stimulus.
    *
    * Uses the engine's own matcher rather than comparing `primary_goal` itself.
    * The two had drifted into being separate implementations of the same
@@ -148,12 +148,44 @@ export function planWeekQueue(args: {
    * this would have gone on queueing the week from what sessions were CALLED
    * while today's decision scored them by what they ARE. The week and the day
    * would have disagreed about what counts as a strength session.
+   *
+   * ── Why this no longer sorts by specificity ─────────────────────────────
+   *
+   * It used to order every pool by `hyrox_specificity` descending and take the
+   * top, which made one scalar the primary authority over what an athlete is
+   * given. Three things were wrong with that.
+   *
+   * It always reached for the hardest thing available. With nothing else
+   * distinguishing 239 templates, "most race-specific" was the only ordering
+   * on offer, and a beginner got the same peak-specificity session as a
+   * competitive athlete — the substance of the "beginners get advanced
+   * workouts" reports from beta.
+   *
+   * It silently disqualified honest metadata. General strength carries a
+   * truthful 0.0: a foundational barbell session has no race specificity, and
+   * saying so is correct. Under a descending sort that value is not "less
+   * specific", it is "last, always" — so 48 authored strength sessions would
+   * have been unreachable in every phase the moment they were imported. The
+   * fix belongs here rather than in the content: inventing a 0.4 to make the
+   * planner behave would have corrupted the metadata to work around the sort.
+   *
+   * And it does not survive the app having more than one sport. A field named
+   * for HYROX cannot decide what a 5K athlete is given, and PIVOT is adding
+   * 5K, 10K and half-marathon programming.
+   *
+   * Specificity keeps its real job in `raceSpecificity`, where it is scored
+   * rather than sorted and ramps with race proximity — so it speaks loudest
+   * exactly when the plan needs specificity, and says nothing in a foundation
+   * block where it should not.
+   *
+   * What replaces it here is deliberately weak: a stable alphabetical order,
+   * so the pool is deterministic and nothing pretends to rank it. Real
+   * ordering arrives with archetype rotation, which orders by what the week
+   * needs next rather than by one number on the template.
    */
   const poolFor = (stimulus: string) => eligible
     .filter(t => matchesStimulus(t, stimulus))
-    .sort((a, b) =>
-      (b.hyrox_specificity ?? 0) - (a.hyrox_specificity ?? 0) ||
-      a.id.localeCompare(b.id));
+    .sort((a, b) => a.id.localeCompare(b.id));
 
   const needs = requirements
     .map(r => ({
