@@ -12,6 +12,15 @@ export type ExperienceLevel = (typeof EXPERIENCE_LEVELS)[number];
 export interface AthleteProfile {
   display_name: string;
   experience_level: ExperienceLevel;
+  /**
+   * What the athlete can absorb and how technical a session they can perform
+   * well, 1-4 each (migration 0023). Null until they have answered.
+   *
+   * `experience_level` above is retained as context and is no longer read by
+   * anything that decides programming.
+   */
+  load_capacity: number | null;
+  technical_capacity: number | null;
   /** ISO `YYYY-MM-DD`, or null when not recorded. Month precision in the UI. */
   postpartum_birth_date: string | null;
   /**
@@ -126,6 +135,8 @@ export function preGeneratesVariants(v: number): boolean {
 export const EMPTY_PROFILE: AthleteProfile = {
   display_name: '',
   experience_level: 'intermediate',
+  load_capacity: null,
+  technical_capacity: null,
   postpartum_birth_date: null,
   schedule_predictability: DEFAULT_PREDICTABILITY,
   considerations: [],

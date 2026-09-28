@@ -61,6 +61,11 @@ Deno.serve(async (req) => {
       available_minutes: body.available_minutes ?? 45,
       available_equipment: available_equipment.length ? available_equipment : ['bodyweight'],
       low_impact_required: Boolean(body.low_impact),
+      // Capacity describes the athlete; a template's `load_demand` and
+      // `technical_demand` describe the workout. Null on either side constrains
+      // nothing (migration 0023).
+      load_capacity: state.profile?.load_capacity ?? null,
+      technical_capacity: state.profile?.technical_capacity ?? null,
       symptom_flags: body.symptom_flags ?? [],
       considerations: state.profile?.considerations ?? [],
       candidates: forced ? [forced] : content.candidates,

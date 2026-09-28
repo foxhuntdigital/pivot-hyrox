@@ -134,10 +134,25 @@ describe('planPhases', () => {
 });
 
 describe('stimuliFor', () => {
-  test('a build week is the base five stimuli', () => {
+  test('a build week is the signed-off reference week', () => {
+    /**
+     * Product/programming signoff, 27 Sep 2026. The numbers before this were
+     * hardcoded literals citing a `WEEK_STIMULI` constant that does not exist
+     * anywhere in the repository — every plan PIVOT had generated came from
+     * them, and nobody could say who chose them.
+     */
     const stimuli = stimuliFor('build');
-    assert.equal(stimuli.length, 5);
-    assert.equal(stimuli.find(s => s.stimulus_type === 'threshold')?.target_exposures, 2);
+    const got = Object.fromEntries(stimuli.map(s => [s.stimulus_type, s.target_exposures]));
+    assert.deepEqual(got, {
+      aerobic_durability: 2, threshold: 1, strength: 2, race_specific: 1,
+    }, 'six exposures; recovery is available rather than owed');
+    assert.equal(stimuli.reduce((n, s) => n + s.target_exposures, 0), 6);
+  });
+
+  test('recovery is not owed in a normal week', () => {
+    // A target of zero writes no requirement row at all, which is the
+    // difference between a session being available and being outstanding.
+    assert.equal(stimuliFor('build').find(s => s.stimulus_type === 'recovery'), undefined);
   });
 
   test('foundation trades race-specific work for aerobic volume', () => {
@@ -247,5 +262,86 @@ describe('planBlockPhases', () => {
       planBlockPhases(START, MIN_BLOCK_WEEKS).map(p => [p.phase_type, p.weeks]),
       [['foundation', 1], ['build', 1], ['specific', 1], ['peak', 1]],
     );
+  });
+});
+
+describe('load capacity sizes the week (migration 0023)', () => {
+  const total = (phase: PhaseType, cap: number | null) =>
+    stimuliFor(phase, cap).reduce((n, s) => n + s.target_exposures, 0);
+
+  const get = (phase: PhaseType, cap: number | null, stim: string) =>
+    stimuliFor(phase, cap).find(s => s.stimulus_type === stim)?.target_exposures ?? 0;
+
+  test('an athlete who has not answered gets the week they get today', () => {
+    // Every athlete onboarded before this existed carries null. None of their
+    // plans may change as a side effect of shipping the question.
+    for (const phase of ['foundation', 'build', 'specific', 'peak', 'taper', 'race'] as PhaseType[]) {
+      assert.equal(total(phase, null), total(phase, 2),
+        `${phase}: null must match the base week`);
+    }
+  });
+
+  test('a rebuilding athlete gets less of the hard work', () => {
+    assert.equal(get('build', 1, 'threshold'), 1);
+    assert.equal(get('build', 1, 'strength'), 1);
+    assert.ok(total('build', 1) < total('build', 2));
+  });
+
+  test('higher capacity does not add sessions', () => {
+    /**
+     * Signed off explicitly: capacity above the reference raises eligible
+     * demand, dose and progression — not weekly frequency. A competitive
+     * athlete is not someone who trains more often, but someone who can absorb
+     * harder sessions within the same frequency.
+     *
+     * An earlier engineering placeholder took the capacity-4 build week to ten
+     * exposures. This is the test that stops that coming back.
+     */
+    for (const cap of [2, 3, 4]) {
+      assert.equal(total('build', cap), 6, `capacity ${cap}`);
+    }
+  });
+
+  test('a taper is a taper for everybody', () => {
+    // The one thing this must never produce is a bigger taper for a fitter
+    // athlete. A capacity bonus is a claim about what they could take, not an
+    // instruction to give it to them in the week before a race.
+    const base = stimuliFor('taper', 2);
+    for (const cap of [3, 4]) {
+      assert.deepEqual(stimuliFor('taper', cap), base, `capacity ${cap}`);
+    }
+  });
+
+  test('race week still contains the race', () => {
+    // A capacity table that caps `race_specific` removes the event from the
+    // plan of the athlete who entered it.
+    for (const cap of [1, 2, 3, 4]) {
+      assert.ok(get('race', cap, 'race_specific') >= 1, `capacity ${cap}`);
+    }
+  });
+
+  test('recovery is never capped away', () => {
+    // Recovery is the easy work. Taking it from the athlete who needs it most
+    // makes a shorter week a worse one rather than a gentler one.
+    for (const phase of ['build', 'taper', 'race'] as PhaseType[]) {
+      assert.equal(get(phase, 1, 'recovery'), get(phase, 2, 'recovery'), phase);
+    }
+  });
+
+  test('a reduction holds in every phase, including peak', () => {
+    // Periodisation must not be able to override a capacity limit upward. A
+    // rebuilding athlete reaching peak week is still a rebuilding athlete.
+    for (const phase of ['foundation', 'build', 'specific', 'peak'] as PhaseType[]) {
+      assert.ok(get(phase, 1, 'strength') <= 1, `${phase} strength`);
+    }
+  });
+
+  test('capacity 1 takes one strength exposure off the build week', () => {
+    assert.equal(total('build', 1), 5);
+    assert.equal(get('build', 1, 'strength'), 1);
+    // And nothing else moves.
+    for (const s of ['aerobic_durability', 'threshold', 'race_specific']) {
+      assert.equal(get('build', 1, s), get('build', 2, s), s);
+    }
   });
 });

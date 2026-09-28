@@ -295,6 +295,40 @@ export default function TodayScreen() {
         </View>
         <Rule />
 
+        {/* The two capacity questions, for an athlete who predates them.
+
+            Null capacity is safe — every rule reads it as "not known" and they
+            get the base week, which is what they have now — so this is an offer
+            rather than a gate. Trapping someone behind a questionnaire to reach
+            a plan they already have would be a worse failure than the one it
+            fixes. */}
+        {state.profile.load_capacity == null && plan.phase ? (
+          <View style={{
+            marginHorizontal: space.gutter, marginTop: 14,
+            backgroundColor: color.mist, borderWidth: 1, borderColor: color.mistEdge,
+            paddingHorizontal: 13, paddingVertical: 13,
+          }}>
+            <Label size="sm" style={{ marginBottom: 5, color: color.ink }}>
+              Two questions we didn't ask
+            </Label>
+            <Text style={[t.bodySm, { color: color.muted2 }]}>
+              Your plan is sized for the middle because we never asked what you can take.
+              Two taps rebuilds the weeks ahead around your answer.
+            </Text>
+            <Pressable
+              onPress={() => router.push('/capacity' as never)}
+              accessibilityRole="button"
+              style={({ pressed }) => ({
+                alignSelf: 'flex-start', marginTop: 12,
+                paddingHorizontal: 18, paddingVertical: 12,
+                backgroundColor: pressed ? color.redPressed : color.red,
+              })}
+            >
+              <Text style={[t.button, { color: color.onDark }]}>Size my training</Text>
+            </Pressable>
+          </View>
+        ) : null}
+
         {/* A session the last run did not finish.
 
             The player's state used to live in a reducer and nowhere else, so a

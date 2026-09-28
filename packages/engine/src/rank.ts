@@ -50,6 +50,43 @@ export const WEIGHTS = {
   preference: 0.04,
 } as const;
 
+/**
+ * How hard a session above the athlete's capacity is pushed down the ranking.
+ *
+ * Per level of excess, subtracted from the total. At 0.25 a session two levels
+ * above an athlete loses half a point against a weighted sum whose positive
+ * dimensions total 1.0 — enough that it is chosen only when the alternative is
+ * nothing at all, which is exactly the intent. It is a strong preference, not a
+ * rule.
+ */
+export const LOAD_OVERREACH_PENALTY = 0.25;
+
+/**
+ * The cost of asking an athlete to absorb more than they can.
+ *
+ * Zero, always, unless the template is graded *and* the athlete has answered.
+ * That is what lets this ship against an ungraded library without changing a
+ * single existing recommendation: every score is what it was until the content
+ * team grades the template it belongs to.
+ *
+ * A penalty rather than a filter, and the difference is the whole reason
+ * `load_demand` and `technical_demand` are separate fields. Too much load means
+ * a hard session the athlete may not finish — their call to make, and one the
+ * plan should discourage rather than forbid, particularly in a library thin
+ * enough that forbidding would empty the week. Too much *technique* is a
+ * safety question and is filtered in `checkEligibility` instead.
+ *
+ * Subtracted from the total rather than folded into `WEIGHTS`, which sum to
+ * exactly 1.0. Adding a weighted dimension would rescale every other one and
+ * silently move every recommendation the engine has ever made.
+ */
+export function loadFit(template: WorkoutTemplate, input: EngineInput): number {
+  const demand = template.load_demand;
+  const capacity = input.load_capacity;
+  if (demand == null || capacity == null) return 0;
+  return -Math.max(0, demand - capacity) * LOAD_OVERREACH_PENALTY;
+}
+
 /** Intensity cost of a template, 0..1, read from its authored RPE target. */
 export function intensityCost(template: WorkoutTemplate): number {
   const target = template.intensity_target ?? '';
@@ -343,8 +380,11 @@ export function score(
     preference: preference(template, input),
   };
 
-  const total = (Object.keys(WEIGHTS) as (keyof typeof WEIGHTS)[])
-    .reduce((sum, k) => sum + parts[k] * WEIGHTS[k], 0);
+  // Zero or negative, and outside the weighted sum on purpose — see `loadFit`.
+  const load_fit = loadFit(template, input);
 
-  return { ...parts, total };
+  const total = (Object.keys(WEIGHTS) as (keyof typeof WEIGHTS)[])
+    .reduce((sum, k) => sum + parts[k] * WEIGHTS[k], 0) + load_fit;
+
+  return { ...parts, load_fit, total };
 }

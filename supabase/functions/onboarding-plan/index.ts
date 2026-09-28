@@ -43,6 +43,17 @@ interface PlanRequest {
   profile?: {
     typical_session_minutes?: number;
     schedule_predictability?: number;
+    /**
+     * The athlete's own estimate of what they can absorb and how technical a
+     * session they can perform well, 1-4 each (migration 0023).
+     *
+     * Replaces `experience_level` and `training_age_years` as the programming
+     * signal. Those measured race history, which is a poor proxy for either —
+     * eight years under a barbell and no race entries is high load capacity and
+     * low race skill, and one "beginner" label cannot say that.
+     */
+    load_capacity?: number;
+    technical_capacity?: number;
     impact_tolerance?: 'low' | 'normal' | 'high';
     considerations?: string[];
   };
@@ -64,6 +75,20 @@ Deno.serve(async (req) => {
     const today = localDate(user.timezone);
 
     const body = await req.json().catch(() => null) as PlanRequest | null;
+
+    /**
+     * What the athlete says they can absorb, sizing the very first week.
+     *
+     * This is the one lever that does not wait on the content library. Choosing
+     * *which* template fills an exposure needs `load_demand` on the templates
+     * and grading is still under way — but how many exposures a week is due
+     * does not, so a rebuilding athlete gets a shorter week from their first
+     * plan rather than from whenever grading finishes.
+     *
+     * Null for a client that does not send it, and null is the base week, which
+     * is exactly what every athlete gets today.
+     */
+    const loadCapacity = body?.profile?.load_capacity ?? null;
     const race = body?.race ?? null;
     const block = body?.block ?? null;
 
@@ -112,6 +137,19 @@ Deno.serve(async (req) => {
         patch.schedule_predictability = p;
       }
       if (body.profile.impact_tolerance) patch.impact_tolerance = body.profile.impact_tolerance;
+      for (const key of ['load_capacity', 'technical_capacity'] as const) {
+        const v = body.profile[key];
+        if (v == null) continue;
+        if (!Number.isInteger(v) || v < 1 || v > 4) {
+          throw new HttpError(400, `profile.${key} must be an integer 1-4`);
+        }
+        patch[key] = v;
+      }
+      // Written from a questionnaire, so it is a stated value until something
+      // observes otherwise.
+      if (body.profile.load_capacity != null || body.profile.technical_capacity != null) {
+        patch.capacity_source = 'stated';
+      }
       if (body.profile.considerations) patch.considerations = body.profile.considerations;
 
       const { error } = await db.from('athlete_profiles')
@@ -247,7 +285,7 @@ Deno.serve(async (req) => {
 
     const phaseTypeById = new Map(phaseRows.map(r => [r.id, r.phase_type]));
     const requirements = cycles.flatMap(cycle =>
-      stimuliFor(phaseTypeById.get(cycle.phase_id) as PhaseType).map(s => ({
+      stimuliFor(phaseTypeById.get(cycle.phase_id) as PhaseType, loadCapacity).map(s => ({
         weekly_cycle_id: cycle.id,
         stimulus_type: s.stimulus_type,
         target_exposures: s.target_exposures,
@@ -352,6 +390,10 @@ async function planFirstWeek(
 ) {
   if (!first) return;
 
+  // Same value the cycles above were sized with; read from the body again
+  // rather than threaded through, so the two cannot drift apart.
+  const loadCapacity = body?.profile?.load_capacity ?? null;
+
   try {
     /**
      * What the athlete answered a moment ago, read back from their own rows.
@@ -381,7 +423,7 @@ async function planFirstWeek(
     await ensureWeekQueue({
       db,
       cycleId: first.id,
-      requirements: stimuliFor(firstPhase.phase_type).map(s => ({
+      requirements: stimuliFor(firstPhase.phase_type, loadCapacity).map(s => ({
         stimulus_type: s.stimulus_type,
         target_exposures: s.target_exposures,
         priority: s.priority,

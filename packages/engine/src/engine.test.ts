@@ -671,3 +671,248 @@ describe('Athlete override', () => {
     assert.ok(d.kind === 'session' && !d.reason_codes.includes('ATHLETE_OVERRIDE'));
   });
 });
+
+describe('capacity and demand (migration 0023)', () => {
+  /** The first primary template, with grades applied on top. */
+  function graded(over: Partial<WorkoutTemplate> = {}): WorkoutTemplate {
+    const base = TEMPLATES.find(t => (t.workout_role ?? 'primary') === 'primary')!;
+    return { ...base, ...over };
+  }
+
+  test('an ungraded template is unaffected by capacity', () => {
+    // The whole point of null-means-unknown. This asserted it of the entire
+    // fixture library while the library was ungraded; all 239 primaries now
+    // carry grades, so the premise had to move onto a template that states its
+    // own ungradedness. Supplementals and retired templates are still null in
+    // the fixture, and any pack imported from here arrives null too.
+    const ungraded = graded({
+      id: 'tpl_ungraded', technical_demand: null, load_demand: null,
+    });
+    const withCapacity = recommend(
+      baseInput({ candidates: [ungraded], load_capacity: 1, technical_capacity: 1 }),
+      EXERCISES);
+    const without = recommend(baseInput({ candidates: [ungraded] }), EXERCISES);
+    assert.equal(withCapacity.kind, 'session');
+    assert.equal(without.kind, 'session');
+    assert.equal(
+      (withCapacity as { template: WorkoutTemplate }).template.id,
+      (without as { template: WorkoutTemplate }).template.id,
+      'the lowest possible capacity does not exclude an ungraded template');
+  });
+
+  test('technical demand above capacity is refused outright', () => {
+    // A safety constraint, not advice: a complex movement under fatigue,
+    // performed by someone who cannot hold the position, is how people get hurt.
+    const hard = graded({ id: 'tpl_technical', technical_demand: 4 });
+    const d = recommend(
+      baseInput({ candidates: [hard], technical_capacity: 2 }), EXERCISES);
+    assert.equal(d.kind, 'no_session');
+  });
+
+  test('an athlete override does not lift the technical constraint', () => {
+    // The override exists for coaching advice about how hard today should be.
+    // This is not advice — it sits with equipment, impact and postpartum.
+    const hard = graded({ id: 'tpl_technical', technical_demand: 4 });
+    const d = recommend(
+      baseInput({ candidates: [hard], technical_capacity: 1, athlete_override: true }),
+      EXERCISES);
+    assert.equal(d.kind, 'no_session');
+  });
+
+  test('technical demand at capacity is allowed', () => {
+    const ok = graded({ id: 'tpl_technical', technical_demand: 2 });
+    const d = recommend(
+      baseInput({ candidates: [ok], technical_capacity: 2 }), EXERCISES);
+    assert.equal(d.kind, 'session');
+  });
+
+  test('load demand above capacity is penalised, not forbidden', () => {
+    // Too much load means a hard session the athlete may not finish — their
+    // call to make. With nothing else on offer it must still be selectable, or
+    // a thin library leaves the week empty.
+    const heavy = graded({ id: 'tpl_load', load_demand: 4 });
+    const d = recommend(
+      baseInput({ candidates: [heavy], load_capacity: 1 }), EXERCISES);
+    assert.equal(d.kind, 'session', 'still offered when it is the only option');
+  });
+
+  test('a session within capacity outranks one above it', () => {
+    const heavy = graded({ id: 'tpl_heavy', load_demand: 4 });
+    const light = graded({ id: 'tpl_light', load_demand: 1 });
+    const d = recommend(
+      baseInput({ candidates: [heavy, light], load_capacity: 1 }), EXERCISES);
+    assert.equal(d.kind, 'session');
+    assert.equal((d as { template: WorkoutTemplate }).template.id, 'tpl_light');
+  });
+
+  test('the two axes are not collapsed into one level', () => {
+    /**
+     * The CrossFit convert: eight years under a barbell, first race in March.
+     * Large capacity for work, no race-specific skill. One "level" is half
+     * right about this athlete and wholly wrong as an instruction, which is why
+     * there are two fields.
+     */
+    const skilled = graded({ id: 'tpl_skill', technical_demand: 4, load_demand: 1 });
+    const grinding = graded({ id: 'tpl_grind', technical_demand: 1, load_demand: 4 });
+    const d = recommend(
+      baseInput({
+        candidates: [skilled, grinding],
+        load_capacity: 4, technical_capacity: 1,
+      }), EXERCISES);
+    assert.equal(d.kind, 'session');
+    assert.equal(
+      (d as { template: WorkoutTemplate }).template.id, 'tpl_grind',
+      'the technical session is refused; the demanding one is well within them');
+  });
+});
+
+describe('what Micro is allowed to drop', () => {
+  /**
+   * The live bug this replaced: Micro decided from a hardcoded list of six
+   * exercise ids against a library of 245 movements. Anything unnamed counted
+   * as the stimulus, so a Micro strength session kept Face Pull and Hammer Curl
+   * at full count and scaled the squat down around them — compressing the one
+   * high-value dose the variant exists to protect.
+   */
+  const roles = (m: Record<string, string[]>) =>
+    new Map(Object.entries(m).map(([id, r]) => [id, { exercise_role_eligibility: r }]));
+
+  function block(ids: string[]) {
+    return {
+      block_type: 'main', block_order: 0, rounds: 1,
+      exercises: ids.map((exercise_id, i) => ({
+        exercise_id, sequence_order: i, prescription_type: 'sets_reps',
+        quantity: 4, quantity_unit: 'reps', sets: 4,
+      })),
+    } as any;
+  }
+  const tpl = (ids: string[]) => ({
+    id: 't', name: 'T', estimated_minutes: 60, blocks: [block(ids)], variants: [],
+  } as any);
+  const micro = { variant_code: 'red', volume_multiplier: 0.4 } as any;
+  const kept = (b: any[]) => b[0].exercises.map((e: any) => e.exercise_id);
+
+  test('a supporting movement is dropped', () => {
+    const out = transformBlocks(
+      tpl(['ex_squat', 'ex_face_pull']), micro, [], 'good',
+      roles({ ex_squat: ['primary_strength'], ex_face_pull: ['accessory'] }));
+    assert.deepEqual(kept(out), ['ex_squat']);
+  });
+
+  test('an anchor eligible as accessory is NOT dropped', () => {
+    /**
+     * The dangerous direction. `exercise_role_eligibility` lists roles a
+     * movement *can* serve, not the one it serves here — and three anchors in
+     * the incoming strength expansion are eligible as both secondary_strength
+     * and accessory. A naive "is it eligible as accessory" test would delete
+     * the session's anchor and call it a fix.
+     */
+    const out = transformBlocks(
+      tpl(['ex_anchor']), micro, [], 'good',
+      roles({ ex_anchor: ['secondary_strength', 'accessory'] }));
+    assert.deepEqual(kept(out), ['ex_anchor']);
+  });
+
+  test('a movement with no role data is kept', () => {
+    // Unknown is not accessory. Twenty-five exercises still lack the ontology
+    // and must not be silently deleted from a session because of it.
+    const out = transformBlocks(
+      tpl(['ex_squat', 'ex_unknown']), micro, [], 'good',
+      roles({ ex_squat: ['primary_strength'] }));
+    assert.deepEqual(kept(out), ['ex_squat', 'ex_unknown']);
+  });
+
+  test('a block is never emptied', () => {
+    // Every movement reading as supporting means the roles are wrong, and an
+    // empty session is a worse answer than an uncompressed one.
+    const out = transformBlocks(
+      tpl(['ex_a', 'ex_b']), micro, [], 'good',
+      roles({ ex_a: ['accessory'], ex_b: ['primer'] }));
+    assert.deepEqual(kept(out), ['ex_a', 'ex_b']);
+  });
+
+  test('with no role index nothing is dropped', () => {
+    // A caller without role data gets volume scaling and every movement, which
+    // is the conservative failure rather than a session stripped to nothing.
+    const out = transformBlocks(tpl(['ex_squat', 'ex_face_pull']), micro, [], 'good');
+    assert.deepEqual(kept(out), ['ex_squat', 'ex_face_pull']);
+  });
+
+  test('Full and Express drop nothing', () => {
+    for (const v of [{ variant_code: 'green', volume_multiplier: 1 },
+                     { variant_code: 'yellow', volume_multiplier: 0.7 }] as any[]) {
+      const out = transformBlocks(
+        tpl(['ex_squat', 'ex_face_pull']), v, [], 'good',
+        roles({ ex_squat: ['primary_strength'], ex_face_pull: ['accessory'] }));
+      assert.deepEqual(kept(out), ['ex_squat', 'ex_face_pull'], v.variant_code);
+    }
+  });
+
+  test('the six ids the old list named are still dropped', () => {
+    // The replacement must not quietly change what it already got right: every
+    // one of the original six is accessory or primer with no stimulus role.
+    const old = ['ex_pallof_press', 'ex_side_plank', 'ex_glute_bridge',
+      'ex_landmine_rotation', 'ex_mobility_flow', 'ex_breathing_core_reset'];
+    const index = new Map(EXERCISES.map(e =>
+      [e.id, { exercise_role_eligibility: e.exercise_role_eligibility }]));
+    const out = transformBlocks(
+      tpl(['ex_back_squat', ...old]), micro, [], 'good', index);
+    assert.deepEqual(kept(out), ['ex_back_squat']);
+  });
+});
+
+describe('Micro: carries stay, finishers go', () => {
+  const roles = (m: Record<string, string[]>) =>
+    new Map(Object.entries(m).map(([id, r]) => [id, { exercise_role_eligibility: r }]));
+  const tpl = (ids: string[]) => ({
+    id: 't', name: 'T', estimated_minutes: 60, variants: [],
+    blocks: [{
+      block_type: 'main', block_order: 0, rounds: 1,
+      exercises: ids.map((exercise_id, i) => ({
+        exercise_id, sequence_order: i, prescription_type: 'sets_reps',
+        quantity: 4, quantity_unit: 'reps', sets: 4,
+      })),
+    }],
+  } as any);
+  const micro = { variant_code: 'red', volume_multiplier: 0.4 } as any;
+  const kept = (b: any[]) => b[0].exercises.map((e: any) => e.exercise_id);
+
+  test('a pure finisher is dropped', () => {
+    const out = transformBlocks(tpl(['ex_squat', 'ex_fin']), micro, [], 'good',
+      roles({ ex_squat: ['primary_strength'], ex_fin: ['finisher'] }));
+    assert.deepEqual(kept(out), ['ex_squat']);
+  });
+
+  test('a loaded carry is kept', () => {
+    // A carry is real work and belongs in a twenty-minute session.
+    const out = transformBlocks(tpl(['ex_squat', 'ex_carry']), micro, [], 'good',
+      roles({ ex_squat: ['primary_strength'], ex_carry: ['trunk_carry'] }));
+    assert.deepEqual(kept(out), ['ex_squat', 'ex_carry']);
+  });
+
+  test('a carry that is also a finisher is kept', () => {
+    // `ex_sandbag_carry` is both, and carries stay — so trunk_carry outranks
+    // finisher.
+    const out = transformBlocks(tpl(['ex_squat', 'ex_sandbag_carry']), micro, [], 'good',
+      roles({ ex_squat: ['primary_strength'], ex_sandbag_carry: ['trunk_carry', 'finisher'] }));
+    assert.deepEqual(kept(out), ['ex_squat', 'ex_sandbag_carry']);
+  });
+
+  test('core work typed as trunk_carry is still dropped', () => {
+    /**
+     * `ex_pallof_press` is `['trunk_carry', 'accessory']` — anti-rotation core
+     * work, not a loaded carry, and one of the six the old list named. Keeping
+     * it because the ontology also calls it trunk_carry would be a regression
+     * dressed as a generalisation, which is why `accessory` outranks the carry.
+     */
+    const out = transformBlocks(tpl(['ex_squat', 'ex_pallof_press']), micro, [], 'good',
+      roles({ ex_squat: ['primary_strength'], ex_pallof_press: ['trunk_carry', 'accessory'] }));
+    assert.deepEqual(kept(out), ['ex_squat']);
+  });
+
+  test('a finisher that also carries stimulus is kept', () => {
+    const out = transformBlocks(tpl(['ex_sled_push']), micro, [], 'good',
+      roles({ ex_sled_push: ['finisher', 'power'] }));
+    assert.deepEqual(kept(out), ['ex_sled_push']);
+  });
+});

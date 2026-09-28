@@ -1,0 +1,3672 @@
+{
+ "meta": {
+  "export": "demand-calibration",
+  "version": "v1",
+  "purpose": "Human rubric calibration for technical_demand and load_demand (1-4). Both fields are intentionally empty and must be filled in by a person.",
+  "source": "data/adaptive_athlete_schema_and_seed.sql (read-only)",
+  "schema": "supabase/migrations/0023_capacity_and_demand.sql",
+  "full_library_sheet": "data/review/demand-library.v1.csv — same columns, all 239 eligible primaries. Grades entered here transfer by template_id.",
+  "grading_fields": {
+   "technical_demand": {
+    "type": "integer",
+    "scale": "1-4",
+    "populated": false,
+    "means": "How much skill this session assumes.",
+    "consequence": "Matched as a HARD constraint once set — technical demand above an athlete's capacity makes the session ineligible, not merely disfavoured. Grading one point too high silently removes a session from a library that is already thin in some domains; one point too low is a safety question."
+   },
+   "load_demand": {
+    "type": "integer",
+    "scale": "1-4",
+    "populated": false,
+    "means": "How much this session costs to absorb: volume, intensity, recovery required.",
+    "consequence": "Read when the planner filters the candidate pool."
+   },
+   "null_semantics": "Empty = ungraded. Every matching rule reads null as \"do not constrain\", so an ungraded template behaves exactly as it does today."
+  },
+  "columns": {
+   "identity": [
+    "template_id"
+   ],
+   "editable": [
+    "name",
+    "training_domain",
+    "workout_family",
+    "session_type",
+    "primary_goal",
+    "secondary_goal",
+    "stimulus",
+    "estimated_minutes",
+    "intensity_target",
+    "impact_level",
+    "hyrox_specificity",
+    "postpartum_friendly",
+    "requires_running",
+    "requires_ski",
+    "description",
+    "coaching_notes",
+    "technical_demand",
+    "load_demand"
+   ],
+   "reference_read_only": [
+    "ref_prescription",
+    "ref_block_count",
+    "ref_exercise_count",
+    "ref_variants"
+   ],
+   "note": "Columns prefixed ref_ are flattened from workout_blocks, block_exercises and workout_variants for reading. Edits to them cannot be imported — changing a prescription means editing a content pack and going through scripts/prepare-pack.mjs and scripts/import-workouts.mjs, which enforce the explicit-unit rule and semantic dedup that this sheet does not."
+  },
+  "selected": 20,
+  "eligible_primary_population": 239,
+  "population_by_domain": {
+   "aerobic": 64,
+   "threshold": 24,
+   "hybrid": 96,
+   "strength": 42,
+   "recovery": 4,
+   "muscular_endurance": 9
+  },
+  "sample_by_domain": {
+   "recovery": 2,
+   "muscular_endurance": 2,
+   "threshold": 3,
+   "strength": 4,
+   "aerobic": 4,
+   "hybrid": 5
+  },
+  "coverage": {
+   "estimated_minutes": [
+    10,
+    75
+   ],
+   "intensity_targets": [
+    "RPE 2-3",
+    "RPE 4-6",
+    "RPE 7-8",
+    "RPE 7",
+    "RPE 6-8",
+    "RPE 6",
+    "RPE 5-6",
+    "RPE 3-4",
+    "RPE 3-6",
+    "RPE 8-9",
+    "RPE 6-7"
+   ],
+   "impact_levels": [
+    "low",
+    "medium",
+    "high"
+   ],
+   "blocks_per_session": [
+    1,
+    6
+   ],
+   "prescription_types": [
+    "duration",
+    "distance",
+    "reps",
+    "sets_reps"
+   ],
+   "complexity_levels": [
+    null,
+    "basic",
+    "intermediate",
+    "advanced"
+   ],
+   "quantity_units": [
+    "min",
+    "ft",
+    "steps",
+    "reps",
+    "m",
+    "x10",
+    "x8/leg",
+    "x15",
+    "x6",
+    "x8",
+    "x5",
+    "x10-12",
+    "x10/side",
+    "AMRAP-2",
+    "s"
+   ]
+  },
+  "sampling_frame": [
+   {
+    "template_id": "run_recovery_run_01",
+    "bucket": "easy",
+    "stresses": "Absolute floor: lowest intensity, one movement, no structure. Anchors 1/1.",
+    "training_domain": "recovery"
+   },
+   {
+    "template_id": "wo_recovery_spin_mobility",
+    "bucket": "easy",
+    "stresses": "Recovery that is still multi-modal — does \"recovery\" force technical_demand to 1?",
+    "training_domain": "recovery"
+   },
+   {
+    "template_id": "mx_sled_pull_micro",
+    "bucket": "easy",
+    "stresses": "Joint-shortest session (10 min), single station. Floor of the duration axis.",
+    "training_domain": "muscular_endurance"
+   },
+   {
+    "template_id": "mx_sandbag_lunge_strength_power",
+    "bucket": "demanding",
+    "stresses": "Intermediate movement at RPE 7-8 prescribed in \"steps\" — a unit with no load or time in it.",
+    "training_domain": "muscular_endurance"
+   },
+   {
+    "template_id": "mx_burpee_broad_jump_threshold",
+    "bucket": "demanding",
+    "stresses": "Short (18 min) but high-impact and intermediate-complexity. Duration pulls down, everything else pulls up.",
+    "training_domain": "threshold"
+   },
+   {
+    "template_id": "run_threshold_03",
+    "bucket": "demanding",
+    "stresses": "Longest threshold session, three blocks, duration and distance prescribed in the same workout.",
+    "training_domain": "threshold"
+   },
+   {
+    "template_id": "wo_row_descending_ladder_2k_500",
+    "bucket": "moderate",
+    "stresses": "RPE band spans 6-8 within one session — which end does a single load grade take?",
+    "training_domain": "threshold"
+   },
+   {
+    "template_id": "wo_micro_strength_legs_15",
+    "bucket": "moderate",
+    "stresses": "Strength stripped to 15 minutes. Tests whether session_type=strength carries a demand floor.",
+    "training_domain": "strength"
+   },
+   {
+    "template_id": "str_recovery_01",
+    "bucket": "moderate",
+    "stresses": "Forty minutes of maintenance strength at RPE 5-6 — long but deliberately undemanding.",
+    "training_domain": "strength"
+   },
+   {
+    "template_id": "str_lower_02",
+    "bucket": "technical",
+    "stresses": "Advanced-complexity movement, four modalities, and rep RANGES (x10-12) rather than fixed reps.",
+    "training_domain": "strength"
+   },
+   {
+    "template_id": "wo_hyrox_pull_a",
+    "bucket": "technical",
+    "stresses": "Advanced complexity plus an open-ended AMRAP-2 item — prescribed work with no fixed quantity.",
+    "training_domain": "strength"
+   },
+   {
+    "template_id": "run_micro_run_01",
+    "bucket": "easy",
+    "stresses": "Twelve easy minutes, one movement. The easy anchor for a non-recovery domain.",
+    "training_domain": "aerobic"
+   },
+   {
+    "template_id": "mx_burpee_broad_jump_technique",
+    "bucket": "technical",
+    "stresses": "DECOUPLING CASE: RPE 3-4 and 15 minutes, but high impact and intermediate complexity. Low load, high technique.",
+    "training_domain": "aerobic"
+   },
+   {
+    "template_id": "run_long_aerobic_02",
+    "bucket": "demanding",
+    "stresses": "DECOUPLING CASE: longest session in the library (75 min) at RPE 3-4 on one movement. High load, no technique.",
+    "training_domain": "aerobic"
+   },
+   {
+    "template_id": "run_treadmill_control_01",
+    "bucket": "moderate",
+    "stresses": "Six blocks — most structurally segmented session in the library — on a single trivial movement.",
+    "training_domain": "aerobic"
+   },
+   {
+    "template_id": "mx_sled_push_benchmark",
+    "bucket": "demanding",
+    "stresses": "DECOUPLING CASE: ten minutes at RPE 8-9. Shortest possible session, highest prescribed intensity.",
+    "training_domain": "hybrid"
+   },
+   {
+    "template_id": "run_taper_sharpen_03",
+    "bucket": "easy",
+    "stresses": "Twenty minutes across four blocks at RPE 3-6 — taper work that looks busier than it is.",
+    "training_domain": "hybrid"
+   },
+   {
+    "template_id": "wo_hyrox_density_emom_20",
+    "bucket": "technical",
+    "stresses": "Five exercises across four modalities in twenty minutes, on an EMOM clock.",
+    "training_domain": "hybrid"
+   },
+   {
+    "template_id": "wo_half_hyrox_simulation",
+    "bucket": "demanding",
+    "stresses": "Race simulation: 75 min, high impact, RPE 7. The intended ceiling of load.",
+    "training_domain": "hybrid"
+   },
+   {
+    "template_id": "run_mixed_race_pace_02",
+    "bucket": "technical",
+    "stresses": "Structural ceiling: six blocks, seven exercises, four modalities, 75 minutes.",
+    "training_domain": "hybrid"
+   }
+  ],
+  "caveats": [
+   "block_exercises.load_basis and .load_value are unpopulated across all 765 rows in the seed, so no absolute external load is available anywhere in the library. Load grading rests on prescribed volume, RPE and movement.",
+   "Four primary templates carry status=retired and were excluded from the sampling population."
+  ]
+ },
+ "workouts": [
+  {
+   "template_id": "run_recovery_run_01",
+   "name": "Recovery Jog 20",
+   "training_domain": "recovery",
+   "workout_family": "recovery",
+   "session_type": "recovery",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "recovery",
+   "secondary_goal": null,
+   "stimulus": "active_recovery",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 2-3",
+   "impact_level": "low",
+   "hyrox_specificity": 0.4,
+   "postpartum_friendly": true,
+   "requires_running": true,
+   "requires_ski": false,
+   "description": "Adaptive Athlete Authored v1 workout.",
+   "coaching_notes": null,
+   "tags": [],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 20,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive Athlete Authored v1"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 13,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first",
+     "provenance": "Adaptive Athlete Authored v1"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 8,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose; no intensity compensation",
+     "provenance": "Adaptive Athlete Authored v1"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": 20,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "duration",
+       "quantity": 20,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "very easy",
+       "side_note": null,
+       "reads_as": "Run — 20 min @ very easy"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous, 20 min\n    1. Run — 20 min @ very easy",
+   "technical_demand": 1,
+   "load_demand": 1
+  },
+  {
+   "template_id": "wo_recovery_spin_mobility",
+   "name": "Recovery Spin Mobility",
+   "training_domain": "recovery",
+   "workout_family": "recovery",
+   "session_type": "recovery",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "recovery",
+   "secondary_goal": "aerobic_maintenance",
+   "stimulus": "recovery",
+   "estimated_minutes": 30,
+   "intensity_target": "RPE 2-3",
+   "impact_level": "low",
+   "hyrox_specificity": 0.15,
+   "postpartum_friendly": true,
+   "requires_running": false,
+   "requires_ski": false,
+   "description": "Recovery session",
+   "coaching_notes": "Very easy",
+   "tags": [
+    "tag_recovery",
+    "tag_mobility",
+    "tag_postpartum"
+   ],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 45,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive version"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 30,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "reduce rounds/sets; preserve purpose",
+     "provenance": "Adaptive version"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 10,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose",
+     "provenance": "Adaptive version"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": "Recovery session",
+     "rounds": null,
+     "duration_minutes": 30,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_spin_bike",
+       "exercise_name": "Spin Bike",
+       "modality": "bike",
+       "movement_pattern": "cycling",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "bike"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "duration",
+       "quantity": 20,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "RPE 2-3",
+       "side_note": null,
+       "reads_as": "Spin Bike — 20 min @ RPE 2-3"
+      },
+      {
+       "sequence_order": 2,
+       "exercise_id": "ex_mobility_flow",
+       "exercise_name": "Mobility Flow",
+       "modality": "recovery",
+       "movement_pattern": "mobility",
+       "complexity_level": "basic",
+       "movement_families": [],
+       "training_qualities": [
+        "structural_resilience"
+       ],
+       "equipment": [
+        "bodyweight"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "easy",
+       "side_note": null,
+       "reads_as": "Mobility Flow — 10 min @ easy"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous, 30 min\n    1. Spin Bike — 20 min @ RPE 2-3\n    2. Mobility Flow — 10 min @ easy",
+   "technical_demand": 1,
+   "load_demand": 1
+  },
+  {
+   "template_id": "mx_sled_pull_micro",
+   "name": "Sled Pull — Micro",
+   "training_domain": "muscular_endurance",
+   "workout_family": "station_sled_pull",
+   "session_type": "strength_endurance",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "strength",
+   "secondary_goal": null,
+   "stimulus": "minimum_effective_dose",
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 4-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.6,
+   "postpartum_friendly": true,
+   "requires_running": false,
+   "requires_ski": false,
+   "description": "Adaptive Athlete Follow-up v2 workout.",
+   "coaching_notes": null,
+   "tags": [],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 10,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 10,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 8,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose; no intensity compensation",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": 10,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_sled_pull",
+       "exercise_name": "Sled Pull",
+       "modality": "strength_endurance",
+       "movement_pattern": "pull",
+       "complexity_level": "basic",
+       "movement_families": [
+        "sled_resisted_locomotion"
+       ],
+       "training_qualities": [
+        "strength_endurance",
+        "power"
+       ],
+       "equipment": [
+        "sled",
+        "rope"
+       ],
+       "exercise_impact_level": "medium",
+       "prescription_type": "distance",
+       "quantity": 20,
+       "quantity_unit": "ft",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "70% race load",
+       "side_note": null,
+       "reads_as": "Sled Pull — 20 ft @ 70% race load"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous, 10 min\n    1. Sled Pull — 20 ft @ 70% race load",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sandbag_lunge_strength_power",
+   "name": "Sandbag Lunge — Strength-Power",
+   "training_domain": "muscular_endurance",
+   "workout_family": "station_sandbag_lunge",
+   "session_type": "strength_endurance",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "strength",
+   "secondary_goal": null,
+   "stimulus": "force_power_reserve",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 7-8",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.63,
+   "postpartum_friendly": true,
+   "requires_running": false,
+   "requires_ski": false,
+   "description": "Adaptive Athlete Follow-up v2 workout.",
+   "coaching_notes": null,
+   "tags": [],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 20,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 13,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 8,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose; no intensity compensation",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "rounds",
+     "title": "Main",
+     "instructions": null,
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": 90,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_sandbag_walking_lunge",
+       "exercise_name": "Sandbag Walking Lunge",
+       "modality": "strength_endurance",
+       "movement_pattern": "lunge",
+       "complexity_level": "intermediate",
+       "movement_families": [
+        "lunge",
+        "carry"
+       ],
+       "training_qualities": [
+        "strength_endurance",
+        "functional_strength"
+       ],
+       "equipment": [
+        "sandbag"
+       ],
+       "exercise_impact_level": "medium",
+       "prescription_type": "reps",
+       "quantity": 20,
+       "quantity_unit": "steps",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "Sandbag Walking Lunge — 20 steps"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] rounds, 6 rounds, rest 90s\n    1. Sandbag Walking Lunge — 20 steps",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_threshold",
+   "name": "Burpee Broad Jump — Threshold",
+   "training_domain": "threshold",
+   "workout_family": "station_burpee_broad_jump",
+   "session_type": "conditioning",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "threshold",
+   "secondary_goal": null,
+   "stimulus": "sustainable_high_output",
+   "estimated_minutes": 18,
+   "intensity_target": "RPE 7",
+   "impact_level": "high",
+   "hyrox_specificity": 0.72,
+   "postpartum_friendly": true,
+   "requires_running": false,
+   "requires_ski": false,
+   "description": "Adaptive Athlete Follow-up v2 workout.",
+   "coaching_notes": null,
+   "tags": [],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 18,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 12,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 8,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose; no intensity compensation",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "rounds",
+     "title": "Main",
+     "instructions": null,
+     "rounds": 6,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_burpee_broad_jump",
+       "exercise_name": "Burpee Broad Jump",
+       "modality": "plyometric",
+       "movement_pattern": "full_body",
+       "complexity_level": "intermediate",
+       "movement_families": [
+        "jump_plyometric",
+        "ground_get_up",
+        "complex_total_body"
+       ],
+       "training_qualities": [
+        "plyometric_reactive",
+        "integrated_complex",
+        "strength_endurance"
+       ],
+       "equipment": [
+        "bodyweight"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "reps",
+       "quantity": 10,
+       "quantity_unit": "reps",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "Burpee Broad Jump — 10 reps"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] rounds, 6 rounds, rest 60s\n    1. Burpee Broad Jump — 10 reps",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_threshold_03",
+   "name": "Threshold 3x1 Mile",
+   "training_domain": "threshold",
+   "workout_family": "threshold",
+   "session_type": "run",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "threshold",
+   "secondary_goal": null,
+   "stimulus": "lactate_threshold",
+   "estimated_minutes": 55,
+   "intensity_target": "RPE 7",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.82,
+   "postpartum_friendly": true,
+   "requires_running": true,
+   "requires_ski": false,
+   "description": "Adaptive Athlete Follow-up v2 workout.",
+   "coaching_notes": null,
+   "tags": [],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 55,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 36,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 17,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose; no intensity compensation",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "duration",
+       "quantity": 12,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "easy",
+       "side_note": null,
+       "reads_as": "Run — 12 min @ easy"
+      }
+     ]
+    },
+    {
+     "block_order": 2,
+     "block_type": "rounds",
+     "title": "Main",
+     "instructions": "Recovery between rounds: easy",
+     "rounds": 3,
+     "duration_minutes": null,
+     "rest_seconds": 180,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "distance",
+       "quantity": 1609,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "threshold x3 with 180sec easy recovery",
+       "side_note": null,
+       "reads_as": "Run — 1609 m @ threshold x3 with 180sec easy recovery"
+      }
+     ]
+    },
+    {
+     "block_order": 3,
+     "block_type": "continuous",
+     "title": "Cool-down",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "duration",
+       "quantity": 6,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "easy cooldown",
+       "side_note": null,
+       "reads_as": "Run — 6 min @ easy cooldown"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous\n    1. Run — 12 min @ easy\nB2 [Main] rounds, 3 rounds, rest 180s\n    1. Run — 1609 m @ threshold x3 with 180sec easy recovery\nB3 [Cool-down] continuous\n    1. Run — 6 min @ easy cooldown",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_row_descending_ladder_2k_500",
+   "name": "Row Descending Ladder 2K-500",
+   "training_domain": "threshold",
+   "workout_family": "row_quality",
+   "session_type": "conditioning",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "threshold",
+   "secondary_goal": "row_efficiency",
+   "stimulus": "threshold",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 6-8",
+   "impact_level": "low",
+   "hyrox_specificity": 0.8,
+   "postpartum_friendly": true,
+   "requires_running": false,
+   "requires_ski": false,
+   "description": "RowErg expansion workout.",
+   "coaching_notes": "Use RPE and split consistency; technique takes priority over forcing pace.",
+   "tags": [],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 40,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive Athlete RowErg Expansion v1"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 26,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first",
+     "provenance": "Adaptive Athlete RowErg Expansion v1"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 12,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose; no intensity compensation",
+     "provenance": "Adaptive Athlete RowErg Expansion v1"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": "Complete listed prescription at repeatable effort.",
+     "rounds": null,
+     "duration_minutes": 40,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_rowerg",
+       "exercise_name": "RowErg",
+       "modality": "row",
+       "movement_pattern": "pull",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "row_erg"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "distance",
+       "quantity": 2000,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "RPE 6",
+       "side_note": null,
+       "reads_as": "RowErg — 2000 m @ RPE 6"
+      },
+      {
+       "sequence_order": 2,
+       "exercise_id": "ex_rowerg",
+       "exercise_name": "RowErg",
+       "modality": "row",
+       "movement_pattern": "pull",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "row_erg"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "distance",
+       "quantity": 1500,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "RPE 6-7",
+       "side_note": null,
+       "reads_as": "RowErg — 1500 m @ RPE 6-7"
+      },
+      {
+       "sequence_order": 3,
+       "exercise_id": "ex_rowerg",
+       "exercise_name": "RowErg",
+       "modality": "row",
+       "movement_pattern": "pull",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "row_erg"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "RPE 7",
+       "side_note": null,
+       "reads_as": "RowErg — 1000 m @ RPE 7"
+      },
+      {
+       "sequence_order": 4,
+       "exercise_id": "ex_rowerg",
+       "exercise_name": "RowErg",
+       "modality": "row",
+       "movement_pattern": "pull",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "row_erg"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "RPE 8",
+       "side_note": null,
+       "reads_as": "RowErg — 500 m @ RPE 8"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous, 40 min\n    1. RowErg — 2000 m @ RPE 6\n    2. RowErg — 1500 m @ RPE 6-7\n    3. RowErg — 1000 m @ RPE 7\n    4. RowErg — 500 m @ RPE 8",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_micro_strength_legs_15",
+   "name": "Micro Strength Legs 15",
+   "training_domain": "strength",
+   "workout_family": "micro",
+   "session_type": "strength",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "strength",
+   "secondary_goal": "time_crunched",
+   "stimulus": "strength_maintenance",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.4,
+   "postpartum_friendly": true,
+   "requires_running": false,
+   "requires_ski": false,
+   "description": "Short lower strength",
+   "coaching_notes": "Use on rough days, and through a taper. Two working sets per movement with real rest — keep the pattern, bank no fatigue.",
+   "tags": [
+    "tag_micro",
+    "tag_strength"
+   ],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 15,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "PIVOT Taper Micro Strength v1"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 10,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "already the minimum dose; drop the third movement before shortening rest",
+     "provenance": "PIVOT Taper Micro Strength v1"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 8,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "the first two movements only, at the same rest",
+     "provenance": "PIVOT Taper Micro Strength v1"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": "Two working sets per movement. Rest fully between sets; the clock is not part of the prescription.",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_goblet_squat",
+       "exercise_name": "Goblet Squat",
+       "modality": "strength",
+       "movement_pattern": "squat",
+       "complexity_level": "basic",
+       "movement_families": [
+        "squat"
+       ],
+       "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+       ],
+       "equipment": [
+        "db",
+        "kb"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "sets_reps",
+       "quantity": 2,
+       "quantity_unit": "x10",
+       "sets": 2,
+       "reps_min": 10,
+       "reps_max": 10,
+       "rest_seconds": 75,
+       "target_rpe": 6,
+       "intensity_note": "RPE 6",
+       "side_note": null,
+       "reads_as": "Goblet Squat — 2×10 @ RPE 6 rest 75s"
+      },
+      {
+       "sequence_order": 2,
+       "exercise_id": "ex_reverse_lunge",
+       "exercise_name": "Reverse Lunge",
+       "modality": "strength",
+       "movement_pattern": "lunge",
+       "complexity_level": "basic",
+       "movement_families": [
+        "lunge"
+       ],
+       "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+       ],
+       "equipment": [
+        "db"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "sets_reps",
+       "quantity": 2,
+       "quantity_unit": "x8/leg",
+       "sets": 2,
+       "reps_min": 8,
+       "reps_max": 8,
+       "rest_seconds": 60,
+       "target_rpe": 6,
+       "intensity_note": "RPE 6",
+       "side_note": null,
+       "reads_as": "Reverse Lunge — 2×8/leg @ RPE 6 rest 60s"
+      },
+      {
+       "sequence_order": 3,
+       "exercise_id": "ex_glute_bridge",
+       "exercise_name": "Glute Bridge",
+       "modality": "strength",
+       "movement_pattern": "hip_extension",
+       "complexity_level": "basic",
+       "movement_families": [
+        "hinge",
+        "accessory_isolation"
+       ],
+       "training_qualities": [
+        "structural_resilience",
+        "hypertrophy"
+       ],
+       "equipment": [
+        "bodyweight"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "sets_reps",
+       "quantity": 2,
+       "quantity_unit": "x15",
+       "sets": 2,
+       "reps_min": 15,
+       "reps_max": 15,
+       "rest_seconds": 60,
+       "target_rpe": 6,
+       "intensity_note": "RPE 6",
+       "side_note": null,
+       "reads_as": "Glute Bridge — 2×15 @ RPE 6 rest 60s"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous\n    1. Goblet Squat — 2×10 @ RPE 6 rest 75s\n    2. Reverse Lunge — 2×8/leg @ RPE 6 rest 60s\n    3. Glute Bridge — 2×15 @ RPE 6 rest 60s",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_recovery_01",
+   "name": "Recovery Strength — Lower",
+   "training_domain": "strength",
+   "workout_family": "strength_maintenance_lower",
+   "session_type": "strength",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "strength",
+   "secondary_goal": null,
+   "stimulus": "lower_body_strength",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 5-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.3,
+   "postpartum_friendly": true,
+   "requires_running": false,
+   "requires_ski": false,
+   "description": "Recovery Strength — Lower",
+   "coaching_notes": "Poor-recovery lower strength: preserve deliberate rest and strength structure; reduce volume/effort. Hard ceiling RPE 6.",
+   "tags": [],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 40,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "PIVOT Strength Library Expansion v1"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 26,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "drop accessory and trunk volume first; the anchor lifts keep their sets",
+     "provenance": "PIVOT Strength Library Expansion v1"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 12,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "the anchor lift only, at the prescribed load; no intensity compensation",
+     "provenance": "PIVOT Strength Library Expansion v1"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": "Poor-recovery lower strength: preserve deliberate rest and strength structure; reduce volume/effort. Hard ceiling RPE 6.",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_goblet_squat",
+       "exercise_name": "Goblet Squat",
+       "modality": "strength",
+       "movement_pattern": "squat",
+       "complexity_level": "basic",
+       "movement_families": [
+        "squat"
+       ],
+       "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+       ],
+       "equipment": [
+        "db",
+        "kb"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "sets_reps",
+       "quantity": 3,
+       "quantity_unit": "x6",
+       "sets": 3,
+       "reps_min": 6,
+       "reps_max": 6,
+       "rest_seconds": 150,
+       "target_rpe": 6,
+       "intensity_note": "RPE 6",
+       "side_note": null,
+       "reads_as": "Goblet Squat — 3×6 @ RPE 6 rest 150s"
+      },
+      {
+       "sequence_order": 2,
+       "exercise_id": "ex_hip_thrust",
+       "exercise_name": "Hip Thrust",
+       "modality": "barbell",
+       "movement_pattern": "hinge",
+       "complexity_level": "basic",
+       "movement_families": [
+        "hinge"
+       ],
+       "training_qualities": [
+        "absolute_strength",
+        "hypertrophy"
+       ],
+       "equipment": [
+        "barbell",
+        "db"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "sets_reps",
+       "quantity": 3,
+       "quantity_unit": "x8",
+       "sets": 3,
+       "reps_min": 8,
+       "reps_max": 8,
+       "rest_seconds": 120,
+       "target_rpe": 6,
+       "intensity_note": "RPE 6",
+       "side_note": null,
+       "reads_as": "Hip Thrust — 3×8 @ RPE 6 rest 120s"
+      },
+      {
+       "sequence_order": 3,
+       "exercise_id": "ex_reverse_lunge",
+       "exercise_name": "Reverse Lunge",
+       "modality": "strength",
+       "movement_pattern": "lunge",
+       "complexity_level": "basic",
+       "movement_families": [
+        "lunge"
+       ],
+       "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+       ],
+       "equipment": [
+        "db"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "sets_reps",
+       "quantity": 2,
+       "quantity_unit": "x8",
+       "sets": 2,
+       "reps_min": 8,
+       "reps_max": 8,
+       "rest_seconds": 120,
+       "target_rpe": 5.5,
+       "intensity_note": "RPE 5.5",
+       "side_note": null,
+       "reads_as": "Reverse Lunge — 2×8 @ RPE 5.5 rest 120s"
+      },
+      {
+       "sequence_order": 4,
+       "exercise_id": "ex_suitcase_carry",
+       "exercise_name": "Suitcase Carry",
+       "modality": "dumbbell",
+       "movement_pattern": "carry",
+       "complexity_level": "basic",
+       "movement_families": [
+        "carry",
+        "trunk"
+       ],
+       "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+       ],
+       "equipment": [
+        "db",
+        "kb"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "distance",
+       "quantity": 25,
+       "quantity_unit": "m",
+       "sets": 3,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": 90,
+       "target_rpe": 5.5,
+       "intensity_note": "RPE 5.5",
+       "side_note": null,
+       "reads_as": "Suitcase Carry — 25 m @ RPE 5.5 rest 90s"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous\n    1. Goblet Squat — 3×6 @ RPE 6 rest 150s\n    2. Hip Thrust — 3×8 @ RPE 6 rest 120s\n    3. Reverse Lunge — 2×8 @ RPE 5.5 rest 120s\n    4. Suitcase Carry — 25 m @ RPE 5.5 rest 90s",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "str_lower_02",
+   "name": "Lower Strength — Front Squat + Hinge",
+   "training_domain": "strength",
+   "workout_family": "strength_legs",
+   "session_type": "strength",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "strength",
+   "secondary_goal": null,
+   "stimulus": "bilateral_squat_strength",
+   "estimated_minutes": 60,
+   "intensity_target": "RPE 7-8",
+   "impact_level": "low",
+   "hyrox_specificity": 0.4,
+   "postpartum_friendly": true,
+   "requires_running": false,
+   "requires_ski": false,
+   "description": "Lower Strength — Front Squat + Hinge",
+   "coaching_notes": "True strength: explicit sets/reps, deliberate rest, measurable progression; no density clock.",
+   "tags": [],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 60,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "PIVOT Strength Library Expansion v1"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 39,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "drop accessory and trunk volume first; the anchor lifts keep their sets",
+     "provenance": "PIVOT Strength Library Expansion v1"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 18,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "the anchor lift only, at the prescribed load; no intensity compensation",
+     "provenance": "PIVOT Strength Library Expansion v1"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": "True strength: explicit sets/reps, deliberate rest, measurable progression; no density clock.",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_front_squat",
+       "exercise_name": "Front Squat",
+       "modality": "strength",
+       "movement_pattern": "squat",
+       "complexity_level": "advanced",
+       "movement_families": [
+        "squat"
+       ],
+       "training_qualities": [
+        "absolute_strength",
+        "functional_strength"
+       ],
+       "equipment": [
+        "barbell",
+        "rack"
+       ],
+       "exercise_impact_level": "medium",
+       "prescription_type": "sets_reps",
+       "quantity": 4,
+       "quantity_unit": "x5",
+       "sets": 4,
+       "reps_min": 5,
+       "reps_max": 5,
+       "rest_seconds": 180,
+       "target_rpe": 7.5,
+       "intensity_note": "RPE 7.5",
+       "side_note": null,
+       "reads_as": "Front Squat — 4×5 @ RPE 7.5 rest 180s"
+      },
+      {
+       "sequence_order": 2,
+       "exercise_id": "ex_hip_thrust",
+       "exercise_name": "Hip Thrust",
+       "modality": "barbell",
+       "movement_pattern": "hinge",
+       "complexity_level": "basic",
+       "movement_families": [
+        "hinge"
+       ],
+       "training_qualities": [
+        "absolute_strength",
+        "hypertrophy"
+       ],
+       "equipment": [
+        "barbell",
+        "db"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "sets_reps",
+       "quantity": 4,
+       "quantity_unit": "x8",
+       "sets": 4,
+       "reps_min": 8,
+       "reps_max": 8,
+       "rest_seconds": 150,
+       "target_rpe": 7,
+       "intensity_note": "RPE 7",
+       "side_note": null,
+       "reads_as": "Hip Thrust — 4×8 @ RPE 7 rest 150s"
+      },
+      {
+       "sequence_order": 3,
+       "exercise_id": "ex_reverse_lunge",
+       "exercise_name": "Reverse Lunge",
+       "modality": "strength",
+       "movement_pattern": "lunge",
+       "complexity_level": "basic",
+       "movement_families": [
+        "lunge"
+       ],
+       "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+       ],
+       "equipment": [
+        "db"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "sets_reps",
+       "quantity": 3,
+       "quantity_unit": "x8",
+       "sets": 3,
+       "reps_min": 8,
+       "reps_max": 8,
+       "rest_seconds": 120,
+       "target_rpe": 7,
+       "intensity_note": "RPE 7",
+       "side_note": null,
+       "reads_as": "Reverse Lunge — 3×8 @ RPE 7 rest 120s"
+      },
+      {
+       "sequence_order": 4,
+       "exercise_id": "ex_leg_curl",
+       "exercise_name": "Leg Curl",
+       "modality": "cable",
+       "movement_pattern": "accessory_isolation",
+       "complexity_level": "basic",
+       "movement_families": [
+        "accessory_isolation"
+       ],
+       "training_qualities": [
+        "hypertrophy",
+        "structural_resilience"
+       ],
+       "equipment": [
+        "machine"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "sets_reps",
+       "quantity": 3,
+       "quantity_unit": "x10-12",
+       "sets": 3,
+       "reps_min": 10,
+       "reps_max": 12,
+       "rest_seconds": 75,
+       "target_rpe": 7,
+       "intensity_note": "RPE 7",
+       "side_note": null,
+       "reads_as": "Leg Curl — 3×10-12 @ RPE 7 rest 75s"
+      },
+      {
+       "sequence_order": 5,
+       "exercise_id": "ex_suitcase_carry",
+       "exercise_name": "Suitcase Carry",
+       "modality": "dumbbell",
+       "movement_pattern": "carry",
+       "complexity_level": "basic",
+       "movement_families": [
+        "carry",
+        "trunk"
+       ],
+       "training_qualities": [
+        "functional_strength",
+        "structural_resilience"
+       ],
+       "equipment": [
+        "db",
+        "kb"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "distance",
+       "quantity": 30,
+       "quantity_unit": "m",
+       "sets": 3,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": 90,
+       "target_rpe": 7,
+       "intensity_note": "RPE 7",
+       "side_note": null,
+       "reads_as": "Suitcase Carry — 30 m @ RPE 7 rest 90s"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous\n    1. Front Squat — 4×5 @ RPE 7.5 rest 180s\n    2. Hip Thrust — 4×8 @ RPE 7 rest 150s\n    3. Reverse Lunge — 3×8 @ RPE 7 rest 120s\n    4. Leg Curl — 3×10-12 @ RPE 7 rest 75s\n    5. Suitcase Carry — 30 m @ RPE 7 rest 90s",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_hyrox_pull_a",
+   "name": "HYROX Pull A",
+   "training_domain": "strength",
+   "workout_family": "strength_pull",
+   "session_type": "strength",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "strength",
+   "secondary_goal": "grip_posterior",
+   "stimulus": "strength",
+   "estimated_minutes": 60,
+   "intensity_target": "RPE 7",
+   "impact_level": "low",
+   "hyrox_specificity": 0.7,
+   "postpartum_friendly": true,
+   "requires_running": false,
+   "requires_ski": false,
+   "description": "Posterior chain + grip",
+   "coaching_notes": "Submax deadlift",
+   "tags": [
+    "tag_strength",
+    "tag_pull",
+    "tag_carry",
+    "tag_hyrox"
+   ],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 60,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive version"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 39,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "reduce rounds/sets; preserve purpose",
+     "provenance": "Adaptive version"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 18,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose",
+     "provenance": "Adaptive version"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": "Posterior chain + grip",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_deadlift",
+       "exercise_name": "Deadlift",
+       "modality": "strength",
+       "movement_pattern": "hinge",
+       "complexity_level": "advanced",
+       "movement_families": [
+        "hinge"
+       ],
+       "training_qualities": [
+        "absolute_strength"
+       ],
+       "equipment": [
+        "barbell"
+       ],
+       "exercise_impact_level": "medium",
+       "prescription_type": "sets_reps",
+       "quantity": 4,
+       "quantity_unit": "x5",
+       "sets": 4,
+       "reps_min": 5,
+       "reps_max": 5,
+       "rest_seconds": 180,
+       "target_rpe": 7,
+       "intensity_note": "RPE 7",
+       "side_note": null,
+       "reads_as": "Deadlift — 4×5 @ RPE 7 rest 180s"
+      },
+      {
+       "sequence_order": 2,
+       "exercise_id": "ex_db_row",
+       "exercise_name": "DB Row",
+       "modality": "strength",
+       "movement_pattern": "horizontal_pull",
+       "complexity_level": "basic",
+       "movement_families": [
+        "horizontal_pull"
+       ],
+       "training_qualities": [
+        "functional_strength",
+        "hypertrophy"
+       ],
+       "equipment": [
+        "db"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "sets_reps",
+       "quantity": 3,
+       "quantity_unit": "x10/side",
+       "sets": 3,
+       "reps_min": 10,
+       "reps_max": 10,
+       "rest_seconds": 120,
+       "target_rpe": 7,
+       "intensity_note": "RPE 7",
+       "side_note": null,
+       "reads_as": "DB Row — 3×10/side @ RPE 7 rest 120s"
+      },
+      {
+       "sequence_order": 3,
+       "exercise_id": "ex_pull_up",
+       "exercise_name": "Pull-Up",
+       "modality": "strength",
+       "movement_pattern": "vertical_pull",
+       "complexity_level": "intermediate",
+       "movement_families": [
+        "vertical_pull"
+       ],
+       "training_qualities": [
+        "absolute_strength",
+        "functional_strength"
+       ],
+       "equipment": [
+        "rig"
+       ],
+       "exercise_impact_level": "medium",
+       "prescription_type": "sets_reps",
+       "quantity": 3,
+       "quantity_unit": "AMRAP-2",
+       "sets": 3,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": 120,
+       "target_rpe": null,
+       "intensity_note": "leave 2",
+       "side_note": null,
+       "reads_as": "Pull-Up — 3 AMRAP-2 @ leave 2 rest 120s"
+      },
+      {
+       "sequence_order": 4,
+       "exercise_id": "ex_farmer_carry",
+       "exercise_name": "Farmer Carry",
+       "modality": "strength_endurance",
+       "movement_pattern": "carry",
+       "complexity_level": "basic",
+       "movement_families": [
+        "carry"
+       ],
+       "training_qualities": [
+        "functional_strength",
+        "strength_endurance",
+        "structural_resilience"
+       ],
+       "equipment": [
+        "db",
+        "kb"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "quantity_unit": "ft",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "4 repeats",
+       "side_note": null,
+       "reads_as": "Farmer Carry — 100 ft @ 4 repeats"
+      },
+      {
+       "sequence_order": 5,
+       "exercise_id": "ex_sandbag_carry",
+       "exercise_name": "Sandbag Carry",
+       "modality": "strength_endurance",
+       "movement_pattern": "carry",
+       "complexity_level": "basic",
+       "movement_families": [
+        "carry"
+       ],
+       "training_qualities": [
+        "functional_strength",
+        "strength_endurance"
+       ],
+       "equipment": [
+        "sandbag"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "quantity_unit": "ft",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "3 repeats",
+       "side_note": null,
+       "reads_as": "Sandbag Carry — 100 ft @ 3 repeats"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous\n    1. Deadlift — 4×5 @ RPE 7 rest 180s\n    2. DB Row — 3×10/side @ RPE 7 rest 120s\n    3. Pull-Up — 3 AMRAP-2 @ leave 2 rest 120s\n    4. Farmer Carry — 100 ft @ 4 repeats\n    5. Sandbag Carry — 100 ft @ 3 repeats",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_micro_run_01",
+   "name": "Micro Easy 12",
+   "training_domain": "aerobic",
+   "workout_family": "micro",
+   "session_type": "conditioning",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "aerobic_durability",
+   "secondary_goal": null,
+   "stimulus": "minimum_effective_dose",
+   "estimated_minutes": 12,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.62,
+   "postpartum_friendly": true,
+   "requires_running": false,
+   "requires_ski": false,
+   "description": "Adaptive Athlete Running Expansion v1 workout.",
+   "coaching_notes": null,
+   "tags": [],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 12,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive Athlete Running Expansion v1"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 10,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first",
+     "provenance": "Adaptive Athlete Running Expansion v1"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 8,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose; no intensity compensation",
+     "provenance": "Adaptive Athlete Running Expansion v1"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": "Hold a repeatable effort",
+     "rounds": null,
+     "duration_minutes": 12,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_incline_walk",
+       "exercise_name": "Incline Walk",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "duration",
+       "quantity": 12,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "easy continuous run or run-walk",
+       "side_note": null,
+       "reads_as": "Incline Walk — 12 min @ easy continuous run or run-walk"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous, 12 min\n    1. Incline Walk — 12 min @ easy continuous run or run-walk",
+   "technical_demand": 1,
+   "load_demand": 1
+  },
+  {
+   "template_id": "mx_burpee_broad_jump_technique",
+   "name": "Burpee Broad Jump — Technique",
+   "training_domain": "aerobic",
+   "workout_family": "station_burpee_broad_jump",
+   "session_type": "conditioning",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "aerobic_durability",
+   "secondary_goal": null,
+   "stimulus": "skill_economy",
+   "estimated_minutes": 15,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "high",
+   "hyrox_specificity": 0.45,
+   "postpartum_friendly": true,
+   "requires_running": false,
+   "requires_ski": false,
+   "description": "Adaptive Athlete Follow-up v2 workout.",
+   "coaching_notes": null,
+   "tags": [],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 15,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 10,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 8,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose; no intensity compensation",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "rounds",
+     "title": "Main",
+     "instructions": null,
+     "rounds": 8,
+     "duration_minutes": null,
+     "rest_seconds": 60,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_burpee_broad_jump",
+       "exercise_name": "Burpee Broad Jump",
+       "modality": "plyometric",
+       "movement_pattern": "full_body",
+       "complexity_level": "intermediate",
+       "movement_families": [
+        "jump_plyometric",
+        "ground_get_up",
+        "complex_total_body"
+       ],
+       "training_qualities": [
+        "plyometric_reactive",
+        "integrated_complex",
+        "strength_endurance"
+       ],
+       "equipment": [
+        "bodyweight"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "reps",
+       "quantity": 5,
+       "quantity_unit": "reps",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "Burpee Broad Jump — 5 reps"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] rounds, 8 rounds, rest 60s\n    1. Burpee Broad Jump — 5 reps",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_long_aerobic_02",
+   "name": "Long Easy 75",
+   "training_domain": "aerobic",
+   "workout_family": "long_run",
+   "session_type": "run",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "aerobic_durability",
+   "secondary_goal": null,
+   "stimulus": "aerobic_durability",
+   "estimated_minutes": 75,
+   "intensity_target": "RPE 3-4",
+   "impact_level": "low",
+   "hyrox_specificity": 0.62,
+   "postpartum_friendly": true,
+   "requires_running": true,
+   "requires_ski": false,
+   "description": "Adaptive Athlete Authored v1 workout.",
+   "coaching_notes": null,
+   "tags": [],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 75,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive Athlete Authored v1"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 49,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first",
+     "provenance": "Adaptive Athlete Authored v1"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 23,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose; no intensity compensation",
+     "provenance": "Adaptive Athlete Authored v1"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": 75,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "duration",
+       "quantity": 75,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "easy",
+       "side_note": null,
+       "reads_as": "Run — 75 min @ easy"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous, 75 min\n    1. Run — 75 min @ easy",
+   "technical_demand": 3,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_treadmill_control_01",
+   "name": "Treadmill Pace Ladder",
+   "training_domain": "aerobic",
+   "workout_family": "treadmill",
+   "session_type": "run",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "aerobic_durability",
+   "secondary_goal": null,
+   "stimulus": "pace_control",
+   "estimated_minutes": 40,
+   "intensity_target": "RPE 3-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.82,
+   "postpartum_friendly": true,
+   "requires_running": true,
+   "requires_ski": false,
+   "description": "Adaptive Athlete Authored v1 workout.",
+   "coaching_notes": null,
+   "tags": [],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 40,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive Athlete Authored v1"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 26,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first",
+     "provenance": "Adaptive Athlete Authored v1"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 12,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose; no intensity compensation",
+     "provenance": "Adaptive Athlete Authored v1"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": 10,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "easy",
+       "side_note": null,
+       "reads_as": "Run — 10 min @ easy"
+      }
+     ]
+    },
+    {
+     "block_order": 2,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": 5,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "duration",
+       "quantity": 5,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "easy",
+       "side_note": null,
+       "reads_as": "Run — 5 min @ easy"
+      }
+     ]
+    },
+    {
+     "block_order": 3,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": 5,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "duration",
+       "quantity": 5,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "steady",
+       "side_note": null,
+       "reads_as": "Run — 5 min @ steady"
+      }
+     ]
+    },
+    {
+     "block_order": 4,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": 5,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "duration",
+       "quantity": 5,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "moderate",
+       "side_note": null,
+       "reads_as": "Run — 5 min @ moderate"
+      }
+     ]
+    },
+    {
+     "block_order": 5,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": 5,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "duration",
+       "quantity": 5,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "steady",
+       "side_note": null,
+       "reads_as": "Run — 5 min @ steady"
+      }
+     ]
+    },
+    {
+     "block_order": 6,
+     "block_type": "continuous",
+     "title": "Cool-down",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": 10,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "easy cooldown",
+       "side_note": null,
+       "reads_as": "Run — 10 min @ easy cooldown"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous, 10 min\n    1. Run — 10 min @ easy\nB2 [Main] continuous, 5 min\n    1. Run — 5 min @ easy\nB3 [Main] continuous, 5 min\n    1. Run — 5 min @ steady\nB4 [Main] continuous, 5 min\n    1. Run — 5 min @ moderate\nB5 [Main] continuous, 5 min\n    1. Run — 5 min @ steady\nB6 [Cool-down] continuous, 10 min\n    1. Run — 10 min @ easy cooldown",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "mx_sled_push_benchmark",
+   "name": "Sled Push — Benchmark",
+   "training_domain": "hybrid",
+   "workout_family": "station_sled_push",
+   "session_type": "strength_endurance",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "race_specific",
+   "secondary_goal": null,
+   "stimulus": "repeatable_test",
+   "estimated_minutes": 10,
+   "intensity_target": "RPE 8-9",
+   "impact_level": "low",
+   "hyrox_specificity": 0.99,
+   "postpartum_friendly": true,
+   "requires_running": false,
+   "requires_ski": false,
+   "description": "Adaptive Athlete Follow-up v2 workout.",
+   "coaching_notes": null,
+   "tags": [],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 10,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 10,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 8,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose; no intensity compensation",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_sled_push",
+       "exercise_name": "Sled Push",
+       "modality": "strength_endurance",
+       "movement_pattern": "push",
+       "complexity_level": "basic",
+       "movement_families": [
+        "sled_resisted_locomotion"
+       ],
+       "training_qualities": [
+        "strength_endurance",
+        "power"
+       ],
+       "equipment": [
+        "sled"
+       ],
+       "exercise_impact_level": "medium",
+       "prescription_type": "distance",
+       "quantity": 50,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "Sled Push — 50 m"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous\n    1. Sled Push — 50 m",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "run_taper_sharpen_03",
+   "name": "Pre-Race Primer 20",
+   "training_domain": "hybrid",
+   "workout_family": "taper",
+   "session_type": "run",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "race_specific",
+   "secondary_goal": null,
+   "stimulus": "race_sharpening",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 3-6",
+   "impact_level": "low",
+   "hyrox_specificity": 0.95,
+   "postpartum_friendly": true,
+   "requires_running": true,
+   "requires_ski": false,
+   "description": "Adaptive Athlete Follow-up v2 workout.",
+   "coaching_notes": null,
+   "tags": [],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 20,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 13,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 8,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose; no intensity compensation",
+     "provenance": "Adaptive Athlete Follow-up v2"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "duration",
+       "quantity": 10,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "easy",
+       "side_note": null,
+       "reads_as": "Run — 10 min @ easy"
+      }
+     ]
+    },
+    {
+     "block_order": 2,
+     "block_type": "rounds",
+     "title": "Main",
+     "instructions": null,
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "duration",
+       "quantity": 20,
+       "quantity_unit": "s",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "relaxed stride",
+       "side_note": null,
+       "reads_as": "Run — 20 s @ relaxed stride"
+      }
+     ]
+    },
+    {
+     "block_order": 3,
+     "block_type": "rounds",
+     "title": "Main",
+     "instructions": null,
+     "rounds": 2,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "duration",
+       "quantity": 1,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "race pace",
+       "side_note": null,
+       "reads_as": "Run — 1 min @ race pace"
+      }
+     ]
+    },
+    {
+     "block_order": 4,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "duration",
+       "quantity": 7,
+       "quantity_unit": "min",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "easy finish",
+       "side_note": null,
+       "reads_as": "Run — 7 min @ easy finish"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous\n    1. Run — 10 min @ easy\nB2 [Main] rounds, 4 rounds\n    1. Run — 20 s @ relaxed stride\nB3 [Main] rounds, 2 rounds\n    1. Run — 1 min @ race pace\nB4 [Main] continuous\n    1. Run — 7 min @ easy finish",
+   "technical_demand": 2,
+   "load_demand": 2
+  },
+  {
+   "template_id": "wo_hyrox_density_emom_20",
+   "name": "HYROX Density EMOM 20",
+   "training_domain": "hybrid",
+   "workout_family": "density",
+   "session_type": "hybrid",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "race_specific",
+   "secondary_goal": "transition_efficiency",
+   "stimulus": "station_durability",
+   "estimated_minutes": 20,
+   "intensity_target": "RPE 6",
+   "impact_level": "medium",
+   "hyrox_specificity": 0.9,
+   "postpartum_friendly": true,
+   "requires_running": false,
+   "requires_ski": true,
+   "description": "Five-station EMOM",
+   "coaching_notes": "Finish each minute with breathing room",
+   "tags": [
+    "tag_emom",
+    "tag_hyrox",
+    "tag_density"
+   ],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 45,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive version"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 30,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "reduce rounds/sets; preserve purpose",
+     "provenance": "Adaptive version"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 10,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose",
+     "provenance": "Adaptive version"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "rounds",
+     "title": "Main",
+     "instructions": "Five-station EMOM",
+     "rounds": 4,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_skierg",
+       "exercise_name": "SkiErg",
+       "modality": "ski",
+       "movement_pattern": "pull",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "ski"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "distance",
+       "quantity": 200,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "controlled",
+       "side_note": null,
+       "reads_as": "SkiErg — 200 m @ controlled"
+      },
+      {
+       "sequence_order": 2,
+       "exercise_id": "ex_wall_ball",
+       "exercise_name": "Wall Ball",
+       "modality": "strength_endurance",
+       "movement_pattern": "squat_push",
+       "complexity_level": "basic",
+       "movement_families": [
+        "complex_total_body"
+       ],
+       "training_qualities": [
+        "strength_endurance",
+        "power"
+       ],
+       "equipment": [
+        "wall_ball"
+       ],
+       "exercise_impact_level": "medium",
+       "prescription_type": "reps",
+       "quantity": 12,
+       "quantity_unit": "reps",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "smooth",
+       "side_note": null,
+       "reads_as": "Wall Ball — 12 reps @ smooth"
+      },
+      {
+       "sequence_order": 3,
+       "exercise_id": "ex_farmer_carry",
+       "exercise_name": "Farmer Carry",
+       "modality": "strength_endurance",
+       "movement_pattern": "carry",
+       "complexity_level": "basic",
+       "movement_families": [
+        "carry"
+       ],
+       "training_qualities": [
+        "functional_strength",
+        "strength_endurance",
+        "structural_resilience"
+       ],
+       "equipment": [
+        "db",
+        "kb"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "distance",
+       "quantity": 80,
+       "quantity_unit": "ft",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "moderate",
+       "side_note": null,
+       "reads_as": "Farmer Carry — 80 ft @ moderate"
+      },
+      {
+       "sequence_order": 4,
+       "exercise_id": "ex_burpee_broad_jump",
+       "exercise_name": "Burpee Broad Jump",
+       "modality": "plyometric",
+       "movement_pattern": "full_body",
+       "complexity_level": "intermediate",
+       "movement_families": [
+        "jump_plyometric",
+        "ground_get_up",
+        "complex_total_body"
+       ],
+       "training_qualities": [
+        "plyometric_reactive",
+        "integrated_complex",
+        "strength_endurance"
+       ],
+       "equipment": [
+        "bodyweight"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "reps",
+       "quantity": 8,
+       "quantity_unit": "reps",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "steady",
+       "side_note": null,
+       "reads_as": "Burpee Broad Jump — 8 reps @ steady"
+      },
+      {
+       "sequence_order": 5,
+       "exercise_id": "ex_air_squat",
+       "exercise_name": "Air Squat",
+       "modality": "bodyweight",
+       "movement_pattern": "squat",
+       "complexity_level": "basic",
+       "movement_families": [
+        "squat"
+       ],
+       "training_qualities": [
+        "functional_strength",
+        "strength_endurance"
+       ],
+       "equipment": [
+        "bodyweight"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "reps",
+       "quantity": 15,
+       "quantity_unit": "reps",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "easy",
+       "side_note": null,
+       "reads_as": "Air Squat — 15 reps @ easy"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] rounds, 4 rounds\n    1. SkiErg — 200 m @ controlled\n    2. Wall Ball — 12 reps @ smooth\n    3. Farmer Carry — 80 ft @ moderate\n    4. Burpee Broad Jump — 8 reps @ steady\n    5. Air Squat — 15 reps @ easy",
+   "technical_demand": 2,
+   "load_demand": 3
+  },
+  {
+   "template_id": "wo_half_hyrox_simulation",
+   "name": "Half HYROX Simulation",
+   "training_domain": "hybrid",
+   "workout_family": "simulation",
+   "session_type": "benchmark",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "race_specific",
+   "secondary_goal": "pacing",
+   "stimulus": "race_specific",
+   "estimated_minutes": 75,
+   "intensity_target": "RPE 7",
+   "impact_level": "high",
+   "hyrox_specificity": 1,
+   "postpartum_friendly": true,
+   "requires_running": true,
+   "requires_ski": true,
+   "description": "Half-race simulation",
+   "coaching_notes": "Pace, do not race",
+   "tags": [
+    "tag_simulation",
+    "tag_benchmark",
+    "tag_hyrox"
+   ],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 75,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive version"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 45,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "reduce rounds/sets; preserve purpose",
+     "provenance": "Adaptive version"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 20,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose",
+     "provenance": "Adaptive version"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": "Half-race simulation",
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "controlled",
+       "side_note": null,
+       "reads_as": "Run — 1000 m @ controlled"
+      },
+      {
+       "sequence_order": 2,
+       "exercise_id": "ex_skierg",
+       "exercise_name": "SkiErg",
+       "modality": "ski",
+       "movement_pattern": "pull",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "ski"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "steady",
+       "side_note": null,
+       "reads_as": "SkiErg — 500 m @ steady"
+      },
+      {
+       "sequence_order": 3,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "controlled",
+       "side_note": null,
+       "reads_as": "Run — 1000 m @ controlled"
+      },
+      {
+       "sequence_order": 4,
+       "exercise_id": "ex_sled_push",
+       "exercise_name": "Sled Push",
+       "modality": "strength_endurance",
+       "movement_pattern": "push",
+       "complexity_level": "basic",
+       "movement_families": [
+        "sled_resisted_locomotion"
+       ],
+       "training_qualities": [
+        "strength_endurance",
+        "power"
+       ],
+       "equipment": [
+        "sled"
+       ],
+       "exercise_impact_level": "medium",
+       "prescription_type": "distance",
+       "quantity": 80,
+       "quantity_unit": "ft",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "race-like",
+       "side_note": null,
+       "reads_as": "Sled Push — 80 ft @ race-like"
+      },
+      {
+       "sequence_order": 5,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "controlled",
+       "side_note": null,
+       "reads_as": "Run — 1000 m @ controlled"
+      },
+      {
+       "sequence_order": 6,
+       "exercise_id": "ex_sled_pull",
+       "exercise_name": "Sled Pull",
+       "modality": "strength_endurance",
+       "movement_pattern": "pull",
+       "complexity_level": "basic",
+       "movement_families": [
+        "sled_resisted_locomotion"
+       ],
+       "training_qualities": [
+        "strength_endurance",
+        "power"
+       ],
+       "equipment": [
+        "sled",
+        "rope"
+       ],
+       "exercise_impact_level": "medium",
+       "prescription_type": "distance",
+       "quantity": 80,
+       "quantity_unit": "ft",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "race-like",
+       "side_note": null,
+       "reads_as": "Sled Pull — 80 ft @ race-like"
+      },
+      {
+       "sequence_order": 7,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "controlled",
+       "side_note": null,
+       "reads_as": "Run — 1000 m @ controlled"
+      },
+      {
+       "sequence_order": 8,
+       "exercise_id": "ex_wall_ball",
+       "exercise_name": "Wall Ball",
+       "modality": "strength_endurance",
+       "movement_pattern": "squat_push",
+       "complexity_level": "basic",
+       "movement_families": [
+        "complex_total_body"
+       ],
+       "training_qualities": [
+        "strength_endurance",
+        "power"
+       ],
+       "equipment": [
+        "wall_ball"
+       ],
+       "exercise_impact_level": "medium",
+       "prescription_type": "reps",
+       "quantity": 50,
+       "quantity_unit": "reps",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": "manageable sets",
+       "side_note": null,
+       "reads_as": "Wall Ball — 50 reps @ manageable sets"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous\n    1. Run — 1000 m @ controlled\n    2. SkiErg — 500 m @ steady\n    3. Run — 1000 m @ controlled\n    4. Sled Push — 80 ft @ race-like\n    5. Run — 1000 m @ controlled\n    6. Sled Pull — 80 ft @ race-like\n    7. Run — 1000 m @ controlled\n    8. Wall Ball — 50 reps @ manageable sets",
+   "technical_demand": 3,
+   "load_demand": 3
+  },
+  {
+   "template_id": "run_mixed_race_pace_02",
+   "name": "HYROX Race-Pace 6K",
+   "training_domain": "hybrid",
+   "workout_family": "race_pace",
+   "session_type": "hybrid",
+   "workout_role": "primary",
+   "status": "content_eligible",
+   "primary_goal": "race_specific",
+   "secondary_goal": null,
+   "stimulus": "hyrox_race_pacing",
+   "estimated_minutes": 75,
+   "intensity_target": "RPE 6-7",
+   "impact_level": "medium",
+   "hyrox_specificity": 1,
+   "postpartum_friendly": true,
+   "requires_running": true,
+   "requires_ski": true,
+   "description": "Adaptive Athlete Authored v1 workout.",
+   "coaching_notes": null,
+   "tags": [],
+   "variants": [
+    {
+     "variant_code": "green",
+     "recovery_state": "good",
+     "time_budget_minutes": 75,
+     "volume_multiplier": 1,
+     "intensity_modifier": "full prescription",
+     "provenance": "Adaptive Athlete Authored v1"
+    },
+    {
+     "variant_code": "yellow",
+     "recovery_state": "okay",
+     "time_budget_minutes": 49,
+     "volume_multiplier": 0.65,
+     "intensity_modifier": "preserve the primary stimulus; reduce accessory volume first",
+     "provenance": "Adaptive Athlete Authored v1"
+    },
+    {
+     "variant_code": "red",
+     "recovery_state": "poor",
+     "time_budget_minutes": 23,
+     "volume_multiplier": 0.3,
+     "intensity_modifier": "minimum effective dose; no intensity compensation",
+     "provenance": "Adaptive Athlete Authored v1"
+    }
+   ],
+   "blocks": [
+    {
+     "block_order": 1,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "Run — 1000 m"
+      },
+      {
+       "sequence_order": 2,
+       "exercise_id": "ex_skierg",
+       "exercise_name": "SkiErg",
+       "modality": "ski",
+       "movement_pattern": "pull",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "ski"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "SkiErg — 500 m"
+      }
+     ]
+    },
+    {
+     "block_order": 2,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "Run — 1000 m"
+      },
+      {
+       "sequence_order": 2,
+       "exercise_id": "ex_sled_push",
+       "exercise_name": "Sled Push",
+       "modality": "strength_endurance",
+       "movement_pattern": "push",
+       "complexity_level": "basic",
+       "movement_families": [
+        "sled_resisted_locomotion"
+       ],
+       "training_qualities": [
+        "strength_endurance",
+        "power"
+       ],
+       "equipment": [
+        "sled"
+       ],
+       "exercise_impact_level": "medium",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "quantity_unit": "ft",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "Sled Push — 40 ft"
+      }
+     ]
+    },
+    {
+     "block_order": 3,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "Run — 1000 m"
+      },
+      {
+       "sequence_order": 2,
+       "exercise_id": "ex_sled_pull",
+       "exercise_name": "Sled Pull",
+       "modality": "strength_endurance",
+       "movement_pattern": "pull",
+       "complexity_level": "basic",
+       "movement_families": [
+        "sled_resisted_locomotion"
+       ],
+       "training_qualities": [
+        "strength_endurance",
+        "power"
+       ],
+       "equipment": [
+        "sled",
+        "rope"
+       ],
+       "exercise_impact_level": "medium",
+       "prescription_type": "distance",
+       "quantity": 40,
+       "quantity_unit": "ft",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "Sled Pull — 40 ft"
+      }
+     ]
+    },
+    {
+     "block_order": 4,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "Run — 1000 m"
+      },
+      {
+       "sequence_order": 2,
+       "exercise_id": "ex_rowerg",
+       "exercise_name": "RowErg",
+       "modality": "row",
+       "movement_pattern": "pull",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "row_erg"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "distance",
+       "quantity": 500,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "RowErg — 500 m"
+      }
+     ]
+    },
+    {
+     "block_order": 5,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "Run — 1000 m"
+      },
+      {
+       "sequence_order": 2,
+       "exercise_id": "ex_farmer_carry",
+       "exercise_name": "Farmer Carry",
+       "modality": "strength_endurance",
+       "movement_pattern": "carry",
+       "complexity_level": "basic",
+       "movement_families": [
+        "carry"
+       ],
+       "training_qualities": [
+        "functional_strength",
+        "strength_endurance",
+        "structural_resilience"
+       ],
+       "equipment": [
+        "db",
+        "kb"
+       ],
+       "exercise_impact_level": "low",
+       "prescription_type": "distance",
+       "quantity": 100,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "Farmer Carry — 100 m"
+      }
+     ]
+    },
+    {
+     "block_order": 6,
+     "block_type": "continuous",
+     "title": "Main",
+     "instructions": null,
+     "rounds": null,
+     "duration_minutes": null,
+     "rest_seconds": null,
+     "exercises": [
+      {
+       "sequence_order": 1,
+       "exercise_id": "ex_run",
+       "exercise_name": "Run",
+       "modality": "running",
+       "movement_pattern": "locomotion",
+       "complexity_level": null,
+       "movement_families": [],
+       "training_qualities": [],
+       "equipment": [
+        "treadmill",
+        "outdoor"
+       ],
+       "exercise_impact_level": "high",
+       "prescription_type": "distance",
+       "quantity": 1000,
+       "quantity_unit": "m",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "Run — 1000 m"
+      },
+      {
+       "sequence_order": 2,
+       "exercise_id": "ex_wall_ball",
+       "exercise_name": "Wall Ball",
+       "modality": "strength_endurance",
+       "movement_pattern": "squat_push",
+       "complexity_level": "basic",
+       "movement_families": [
+        "complex_total_body"
+       ],
+       "training_qualities": [
+        "strength_endurance",
+        "power"
+       ],
+       "equipment": [
+        "wall_ball"
+       ],
+       "exercise_impact_level": "medium",
+       "prescription_type": "reps",
+       "quantity": 20,
+       "quantity_unit": "reps",
+       "sets": null,
+       "reps_min": null,
+       "reps_max": null,
+       "rest_seconds": null,
+       "target_rpe": null,
+       "intensity_note": null,
+       "side_note": null,
+       "reads_as": "Wall Ball — 20 reps"
+      }
+     ]
+    }
+   ],
+   "prescription_summary": "B1 [Main] continuous\n    1. Run — 1000 m\n    2. SkiErg — 500 m\nB2 [Main] continuous\n    1. Run — 1000 m\n    2. Sled Push — 40 ft\nB3 [Main] continuous\n    1. Run — 1000 m\n    2. Sled Pull — 40 ft\nB4 [Main] continuous\n    1. Run — 1000 m\n    2. RowErg — 500 m\nB5 [Main] continuous\n    1. Run — 1000 m\n    2. Farmer Carry — 100 m\nB6 [Main] continuous\n    1. Run — 1000 m\n    2. Wall Ball — 20 reps",
+   "technical_demand": 3,
+   "load_demand": 3
+  }
+ ]
+}

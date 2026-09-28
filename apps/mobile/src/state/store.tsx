@@ -1333,6 +1333,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       sleep_hours: reportedSleep,
       available_minutes: state.available_minutes,
       available_equipment: noEquipment ? bodyweightDay(equipment) : equipment,
+      // The same capacities the server reads, so the local run and the server
+      // run answer from identical inputs — which is the whole reason one engine
+      // implementation is shared between them.
+      load_capacity: state.profile.load_capacity,
+      technical_capacity: state.profile.technical_capacity,
       low_impact_required: state.flags.includes('Need low impact'),
       // Both sources: what the athlete reported at check-in, which persists, and
       // the adapt sheet's flag, which does not. The check-in is why a symptom
@@ -1372,6 +1377,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     };
   }, [state.energy, state.flags, state.available_minutes, state.equipment,
       state.today_equipment, state.profile.considerations,
+      state.profile.load_capacity, state.profile.technical_capacity,
       state.checkin, today, planCandidates, preferences, weaknesses]);
 
   /**

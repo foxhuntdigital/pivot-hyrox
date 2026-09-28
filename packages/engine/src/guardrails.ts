@@ -228,6 +228,31 @@ export function checkEligibility(
     return { eligible: false, swaps: [], codes };
   }
 
+  /**
+   * Technique the athlete has not got is a hard stop, not a preference.
+   *
+   * The asymmetry with `load_demand` is deliberate and is the reason the two
+   * are separate fields at all. Too much load means an athlete finishes tired,
+   * or does not finish — an outcome they can judge for themselves, and which
+   * the scorer therefore only penalises. Too much technical demand means a
+   * heavy or complex movement performed by someone who cannot yet hold the
+   * position under fatigue, and that is how people get hurt. It filters.
+   *
+   * Not liftable by `athlete_override`. The override exists for coaching advice
+   * about how hard today should be, and this is not advice — it sits with
+   * equipment, impact and postpartum among the constraints that describe what
+   * can safely be performed at all.
+   *
+   * Null on either side means unknown and constrains nothing: an ungraded
+   * template, or an athlete who onboarded before the question existed, behaves
+   * exactly as it does today.
+   */
+  if (template.technical_demand != null
+      && input.technical_capacity != null
+      && template.technical_demand > input.technical_capacity) {
+    return { eligible: false, swaps: [], codes };
+  }
+
   // Intensity ceiling. Compression can shorten a session but must never be a
   // route to prescribing harder work than the athlete's state supports.
   //

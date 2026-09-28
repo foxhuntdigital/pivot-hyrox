@@ -99,11 +99,61 @@ export const MAX_BLOCK_WEEKS = 24;
  */
 const BASE_STIMULI: StimulusTarget[] = [
   { stimulus_type: 'aerobic_durability', target_exposures: 2, priority: 1 },
-  { stimulus_type: 'threshold', target_exposures: 2, priority: 1 },
+  { stimulus_type: 'threshold', target_exposures: 1, priority: 1 },
   { stimulus_type: 'strength', target_exposures: 2, priority: 2 },
   { stimulus_type: 'race_specific', target_exposures: 1, priority: 2 },
-  { stimulus_type: 'recovery', target_exposures: 1, priority: 3 },
+  /**
+   * Zero, and deliberately not absent.
+   *
+   * A target of zero writes no requirement row, so recovery is not something a
+   * normal week owes — it is available, not owed. The phase matrix brings it
+   * back where it is the point: taper and race week both raise it.
+   *
+   * Keeping the row here at zero rather than deleting it is what lets a phase
+   * raise it at all; `stimuliFor` maps over this list, so a stimulus absent
+   * from it cannot be reintroduced by any override.
+   */
+  { stimulus_type: 'recovery', target_exposures: 0, priority: 3 },
 ];
+
+/**
+ * The reference week per race goal (product/programming signoff, 27 Sep 2026).
+ *
+ * Only `hybrid_race` is reachable today: races carry no distance, so nothing
+ * resolves an athlete to 5K, 10K or half marathon yet. The three running weeks
+ * are recorded here rather than in a document because this is where they will
+ * be read from, and a signed-off number kept anywhere else is a number that
+ * gets re-guessed.
+ *
+ * One aerobic exposure in each running week is the long run. That protection is
+ * not expressible as a count — it is a property of which aerobic session gets
+ * picked — and belongs to the archetype work, not here.
+ */
+export const GOAL_BASE_STIMULI: Record<string, StimulusTarget[]> = {
+  hybrid_race: BASE_STIMULI,
+  '5k': [
+    { stimulus_type: 'aerobic_durability', target_exposures: 2, priority: 1 },
+    { stimulus_type: 'threshold', target_exposures: 1, priority: 1 },
+    { stimulus_type: 'strength', target_exposures: 2, priority: 2 },
+    { stimulus_type: 'race_specific', target_exposures: 1, priority: 2 },
+    { stimulus_type: 'recovery', target_exposures: 0, priority: 3 },
+  ],
+  '10k': [
+    { stimulus_type: 'aerobic_durability', target_exposures: 2, priority: 1 },
+    { stimulus_type: 'threshold', target_exposures: 1, priority: 1 },
+    { stimulus_type: 'strength', target_exposures: 2, priority: 2 },
+    { stimulus_type: 'race_specific', target_exposures: 1, priority: 2 },
+    { stimulus_type: 'recovery', target_exposures: 0, priority: 3 },
+  ],
+  half_marathon: [
+    // More aerobic, less strength — the trade the distance asks for.
+    { stimulus_type: 'aerobic_durability', target_exposures: 3, priority: 1 },
+    { stimulus_type: 'threshold', target_exposures: 1, priority: 1 },
+    { stimulus_type: 'strength', target_exposures: 1, priority: 2 },
+    { stimulus_type: 'race_specific', target_exposures: 1, priority: 2 },
+    { stimulus_type: 'recovery', target_exposures: 0, priority: 3 },
+  ],
+};
 
 /**
  * How each phase departs from the base week. Foundation trades race-specific
@@ -118,6 +168,57 @@ const PHASE_EMPHASIS: Record<PhaseType, Partial<Record<string, number>>> = {
   peak: { race_specific: 2, strength: 1, threshold: 2 },
   taper: { aerobic_durability: 1, threshold: 1, strength: 1, race_specific: 1, recovery: 2 },
   race: { aerobic_durability: 0, threshold: 0, strength: 0, race_specific: 1, recovery: 2 },
+};
+
+/**
+ * How much of the base week an athlete of each load capacity is given.
+ *
+ * This is the one place `load_capacity` changes the plan without waiting on
+ * anything else. Template selection needs `load_demand` on the templates, and
+ * content is still grading them — but *how many* exposures a week is due does
+ * not depend on grading at all, only on how much work the athlete can absorb.
+ * So a beginner gets a shorter, less intense week from their first plan rather
+ * than from whenever the library catches up.
+ *
+ * The shape of the reduction matters more than its size. What comes off first
+ * is race-specific work and threshold — the two hardest things in the week, and
+ * the two an athlete rebuilding a base has least use for. Aerobic volume and
+ * recovery are held: those are what actually builds someone at capacity 1, and
+ * cutting them would make a beginner's week both shorter and worse.
+ *
+ * PROVISIONAL. The counts below are a coaching judgement and are flagged for
+ * sign-off; the mechanism is what is being shipped, and the numbers are one
+ * table to change. Capacity 2 and 3 are deliberately identical to the base week
+ * so that this cannot quietly re-scale the plan of every athlete already on one
+ * — only the ends of the range move.
+ */
+/**
+ * How the reference week changes with an athlete's load capacity
+ * (product/programming signoff, 27 Sep 2026).
+ *
+ * Only capacity 1 moves it, and only by one strength exposure: a rebuilding
+ * athlete gets five where the reference week asks for six. Capacities 2, 3 and
+ * 4 all get the reference week unchanged.
+ *
+ * ── Why higher capacity does not add sessions ────────────────────────────
+ *
+ * The signoff is explicit that capacity above the reference raises *eligible
+ * demand, dose and progression* rather than weekly frequency. A competitive
+ * athlete is not someone who trains more often than an intermediate one; they
+ * are someone who can absorb harder sessions and a larger dose within the same
+ * frequency. That distinction is carried by `load_demand` selection and, for
+ * running, by the dose resolver — not here.
+ *
+ * An earlier engineering placeholder had capacity 4 adding an aerobic exposure
+ * and a second race-specific one, taking the build week to ten. That was a
+ * guess, it was wrong, and this replaces it.
+ */
+const CAPACITY_EXPOSURES: Record<number, Partial<Record<string, number>>> = {
+  // Building or rebuilding. One strength exposure comes off; nothing else moves.
+  1: { strength: 1 },
+  2: {},
+  3: {},
+  4: {},
 };
 
 /** Days between two ISO dates, positive when `to` is later. */
@@ -270,9 +371,47 @@ function shortRunwaySplit(totalWeeks: number): SplitEntry[] {
  * is not due this week and no row is written for it, rather than a row the
  * engine would read as an unmet requirement forever.
  */
-export function stimuliFor(phase: PhaseType): StimulusTarget[] {
+export function stimuliFor(
+  phase: PhaseType,
+  /**
+   * The athlete's load capacity, 1-4. Null for an athlete who has not answered
+   * — every athlete who onboarded before migration 0023 — and null means the
+   * base week, which is exactly what they get today.
+   */
+  loadCapacity: number | null = null,
+): StimulusTarget[] {
   const emphasis = PHASE_EMPHASIS[phase];
+  const capacity = loadCapacity != null ? CAPACITY_EXPOSURES[loadCapacity] ?? {} : {};
+
   return BASE_STIMULI
-    .map(s => ({ ...s, target_exposures: emphasis[s.stimulus_type] ?? s.target_exposures }))
+    .map(s => {
+      /**
+       * Capacity may always reduce. It may only add where the phase is silent.
+       *
+       * The asymmetry is the whole rule, and both halves of it are load-bearing.
+       *
+       * A capacity limit describes what this athlete can absorb, and that does
+       * not stop being true because the calendar reached a peak block. Letting
+       * the phase override a reduction is how a rebuilding athlete ends up with
+       * eight exposures and two race-specific sessions in peak week — which is
+       * the periodisation working exactly as designed on someone it will hurt.
+       * So a reduction holds in every phase.
+       *
+       * A capacity bonus is the opposite kind of claim: it says this athlete
+       * *could* take more, not that they should get more right now. Periodisation
+       * is allowed to veto that, and in a taper it must — a taper is a taper for
+       * everybody, and a competitive athlete getting a bigger one is the single
+       * thing this must never produce.
+       */
+      const base = s.target_exposures;
+      const phased = emphasis[s.stimulus_type];
+      const capped = capacity[s.stimulus_type];
+
+      let target = phased ?? base;
+      if (capped != null && capped < target) target = capped;
+      if (capped != null && capped > target && phased == null) target = capped;
+
+      return { ...s, target_exposures: target };
+    })
     .filter(s => s.target_exposures > 0);
 }

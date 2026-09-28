@@ -55,8 +55,17 @@ export interface OnboardingDraft {
   division: string | null;
   /** Length of the program when `plan_mode` is 'block'. */
   block_weeks: number;
-  experience_level: 'beginner' | 'intermediate' | 'advanced';
-  training_age_years: number | null;
+  /**
+   * What the athlete can absorb, and how technical a session they can perform
+   * well (1-4 each, migration 0023).
+   *
+   * These replace `experience_level` and `training_age_years` as the
+   * programming signal. Race history is kept elsewhere as context and must
+   * never determine eligibility or workout demand again — it measured the wrong
+   * thing, and it measured it about a different athlete than the one asking.
+   */
+  load_capacity: number | null;
+  technical_capacity: number | null;
   equipment: string[];
   typical_session_minutes: number;
   schedule_predictability: number;
@@ -89,8 +98,12 @@ const EMPTY_DRAFT: OnboardingDraft = {
   event_date: null,
   division: null,
   block_weeks: 12,
-  experience_level: 'intermediate',
-  training_age_years: null,
+  // Null rather than a middle default: an unanswered capacity must be
+  // distinguishable from a claimed one, or every athlete who skips the screen
+  // is silently recorded as intermediate and the plan cites an answer they
+  // never gave.
+  load_capacity: null,
+  technical_capacity: null,
   equipment: [],
   typical_session_minutes: 45,
   schedule_predictability: 0.5,
@@ -178,6 +191,11 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
         schedule_predictability: draft.schedule_predictability,
         impact_tolerance: draft.impact_tolerance,
         considerations: draft.considerations,
+        // Sent, unlike the two answers these replace. `load_capacity` sizes the
+        // very first week; `technical_capacity` gates what may be selected once
+        // templates carry a `technical_demand` to compare it against.
+        load_capacity: draft.load_capacity,
+        technical_capacity: draft.technical_capacity,
       },
     });
     setSummary(plan);

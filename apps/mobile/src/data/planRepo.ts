@@ -66,6 +66,10 @@ export type PlanRequest = PlanTarget & {
     schedule_predictability?: number;
     impact_tolerance?: 'low' | 'normal' | 'high';
     considerations?: string[];
+    /** 1-4. What the athlete can absorb; sizes the first week (migration 0023). */
+    load_capacity?: number | null;
+    /** 1-4. How technical a session they can perform well. */
+    technical_capacity?: number | null;
   };
 }
 

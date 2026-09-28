@@ -2,7 +2,7 @@
   "name": "pivot",
   "private": true,
   "version": "0.1.0",
-  "description": "Adaptive Athlete \u2014 training that adapts to the athlete's life without losing the training objective.",
+  "description": "Adaptive Athlete — training that adapts to the athlete's life without losing the training objective.",
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -28,6 +28,10 @@
     "seed:fixtures": "node scripts/build-fixtures.mjs",
     "seed:prepare": "node scripts/prepare-pack.mjs",
     "seed:sheets": "node scripts/export-authoring-sheet.mjs",
+    "seed:calibration": "node scripts/export-demand-calibration.mjs",
+    "seed:grading": "node scripts/export-demand-library.mjs",
+    "seed:exercises": "node scripts/export-exercise-library.mjs",
+    "seed:ingest": "node scripts/ingest-demand-sheet.mjs",
     "vocab:reconcile": "node scripts/reconcile-vocabulary.mjs",
     "vocab:apply": "node scripts/apply-vocabulary.mjs",
     "db:verify": "./scripts/verify-schema.sh",

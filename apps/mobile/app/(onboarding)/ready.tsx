@@ -25,6 +25,14 @@ function stimulusLabel(key: string): string {
   return key.replace(/_/g, ' ').replace(/^./, c => c.toUpperCase());
 }
 
+/** The chosen answer, as the athlete read it on the capacity step. */
+const CAPACITY_LABEL: Record<number, string> = {
+  1: 'Beginner', 2: 'Intermediate', 3: 'Advanced', 4: 'Competitive',
+};
+const TECHNICAL_LABEL: Record<number, string> = {
+  1: 'New to it', 2: 'Some experience', 3: 'Experienced', 4: 'Highly experienced',
+};
+
 export default function ReadyScreen() {
   const router = useRouter();
   const { draft, submit } = useOnboarding();
@@ -72,7 +80,8 @@ export default function ReadyScreen() {
                   ['Program length', `${draft.block_weeks} weeks`],
                 ] as [string, string][]),
             ['Goal', draft.goal_type.replace(/_/g, ' ')],
-            ['Experience', draft.experience_level],
+            ['Fitness', CAPACITY_LABEL[draft.load_capacity ?? 0] ?? 'Not set'],
+            ['Training experience', TECHNICAL_LABEL[draft.technical_capacity ?? 0] ?? 'Not set'],
             ['Session length', `${draft.typical_session_minutes} min`],
             ['Equipment', `${draft.equipment.length} selected`],
             ['Training around', draft.considerations.length

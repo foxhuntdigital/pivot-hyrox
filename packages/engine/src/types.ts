@@ -153,6 +153,39 @@ export interface WorkoutTemplate {
   stimulus?: string | null;
   secondary_goal?: string | null;
   /**
+   * How much work this session costs to absorb — volume, intensity, and the
+   * recovery it demands afterwards (1-4, migration 0023).
+   *
+   * Null means ungraded, and every rule that reads it treats null as "do not
+   * constrain". The library is being graded template by template, so an
+   * ungraded one behaves exactly as it does today and starts being matched the
+   * moment it is graded rather than on a flag day.
+   */
+  /**
+   * What kind of session this is within its domain (migration 0024) —
+   * `foundational`, `athletic`, `complex` or `mixed` for strength today.
+   *
+   * A rotation and programming axis, never an eligibility gate: it may change
+   * which of the eligible templates is chosen and must never change whether one
+   * is eligible. `technical_demand` and `load_demand` are the envelope, and
+   * archetype cuts across them — complex and mixed carry identical technical
+   * spreads — so treating it as difficulty would duplicate the concept and get
+   * it wrong.
+   *
+   * Null means no rotation preference, which is every template written before
+   * this existed.
+   */
+  workout_archetype?: string | null;
+  load_demand?: number | null;
+  /**
+   * How much skill this session assumes (1-4, migration 0023).
+   *
+   * Separate from `load_demand` because the two fail differently, and matched
+   * differently for the same reason: too much load makes an athlete tired, too
+   * much technique under fatigue hurts them.
+   */
+  technical_demand?: number | null;
+  /**
    * Physiological domain (migration 0013). Becomes the planner-facing match key
    * once the coverage gate proves there is enough true-strength content to
    * survive the switch; until then `matchesStimulus` still reads `primary_goal`
@@ -226,6 +259,29 @@ export interface EngineInput {
   available_minutes: number;
   /** Equipment ids currently available. */
   available_equipment: string[];
+
+  /**
+   * How much training this athlete can absorb (1-4), from what they said at
+   * onboarding. Null for an athlete who has not answered.
+   *
+   * Capacity describes the athlete; `load_demand` describes the workout. The
+   * pair is the whole of the match, and keeping them named apart is what stops
+   * the two collapsing into one "level" that answers neither question — an
+   * athlete with eight years under a barbell and no race experience has high
+   * capacity for load and low capacity for race-specific skill, and one number
+   * cannot say that.
+   */
+  load_capacity?: number | null;
+  /**
+   * How complex a movement this athlete can perform well (1-4). Null when
+   * unanswered.
+   *
+   * A broad prior taken from a questionnaire, and explicitly not final truth —
+   * which is why it is used to *exclude* rather than to rank. Where it is
+   * wrong it is wrong in one direction at a time, and observed performance is
+   * meant to refine it later.
+   */
+  technical_capacity?: number | null;
 
   low_impact_required: boolean;
   /** Free-text-free flags from the adapt sheet. */
@@ -309,6 +365,12 @@ export interface ScoreBreakdown {
   time_fit: number;
   equipment_fit: number;
   preference: number;
+  /**
+   * The load-overreach penalty, 0 or negative. Outside the weighted dimensions
+   * above because it is subtracted from the total rather than scaled into it.
+   * Zero whenever the template is ungraded or the athlete has not answered.
+   */
+  load_fit: number;
   total: number;
 }
 

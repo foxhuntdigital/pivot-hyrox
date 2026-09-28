@@ -1,0 +1,145 @@
+template_id,name,training_domain,workout_family,session_type,primary_goal,secondary_goal,stimulus,estimated_minutes,intensity_target,impact_level,hyrox_specificity,postpartum_friendly,requires_running,requires_ski,description,coaching_notes,ref_prescription,technical_demand,load_demand,ref_block_count,ref_exercise_count,ref_variants
+run_recovery_run_01,Recovery Jog 20,recovery,recovery,recovery,recovery,,active_recovery,20,RPE 2-3,low,0.4,TRUE,TRUE,FALSE,Adaptive Athlete Authored v1 workout.,,"B1 [Main] continuous, 20 min
+    1. Run — 20 min @ very easy",1,1,1,1,"green: 20min ×1 — full prescription
+yellow: 13min ×0.65 — preserve the primary stimulus; reduce accessory volume first
+red: 8min ×0.3 — minimum effective dose; no intensity compensation"
+wo_recovery_spin_mobility,Recovery Spin Mobility,recovery,recovery,recovery,recovery,aerobic_maintenance,recovery,30,RPE 2-3,low,0.15,TRUE,FALSE,FALSE,Recovery session,Very easy,"B1 [Main] continuous, 30 min
+    1. Spin Bike — 20 min @ RPE 2-3
+    2. Mobility Flow — 10 min @ easy",1,1,1,2,"green: 45min ×1 — full prescription
+yellow: 30min ×0.65 — reduce rounds/sets; preserve purpose
+red: 10min ×0.3 — minimum effective dose"
+mx_sled_pull_micro,Sled Pull — Micro,muscular_endurance,station_sled_pull,strength_endurance,strength,,minimum_effective_dose,10,RPE 4-6,low,0.6,TRUE,FALSE,FALSE,Adaptive Athlete Follow-up v2 workout.,,"B1 [Main] continuous, 10 min
+    1. Sled Pull — 20 ft @ 70% race load",2,3,1,1,"green: 10min ×1 — full prescription
+yellow: 10min ×0.65 — preserve the primary stimulus; reduce accessory volume first
+red: 8min ×0.3 — minimum effective dose; no intensity compensation"
+mx_sandbag_lunge_strength_power,Sandbag Lunge — Strength-Power,muscular_endurance,station_sandbag_lunge,strength_endurance,strength,,force_power_reserve,20,RPE 7-8,medium,0.63,TRUE,FALSE,FALSE,Adaptive Athlete Follow-up v2 workout.,,"B1 [Main] rounds, 6 rounds, rest 90s
+    1. Sandbag Walking Lunge — 20 steps",2,3,1,1,"green: 20min ×1 — full prescription
+yellow: 13min ×0.65 — preserve the primary stimulus; reduce accessory volume first
+red: 8min ×0.3 — minimum effective dose; no intensity compensation"
+mx_burpee_broad_jump_threshold,Burpee Broad Jump — Threshold,threshold,station_burpee_broad_jump,conditioning,threshold,,sustainable_high_output,18,RPE 7,high,0.72,TRUE,FALSE,FALSE,Adaptive Athlete Follow-up v2 workout.,,"B1 [Main] rounds, 6 rounds, rest 60s
+    1. Burpee Broad Jump — 10 reps",2,2,1,1,"green: 18min ×1 — full prescription
+yellow: 12min ×0.65 — preserve the primary stimulus; reduce accessory volume first
+red: 8min ×0.3 — minimum effective dose; no intensity compensation"
+run_threshold_03,Threshold 3x1 Mile,threshold,threshold,run,threshold,,lactate_threshold,55,RPE 7,medium,0.82,TRUE,TRUE,FALSE,Adaptive Athlete Follow-up v2 workout.,,"B1 [Main] continuous
+    1. Run — 12 min @ easy
+B2 [Main] rounds, 3 rounds, rest 180s
+    1. Run — 1609 m @ threshold x3 with 180sec easy recovery
+B3 [Cool-down] continuous
+    1. Run — 6 min @ easy cooldown",3,3,3,3,"green: 55min ×1 — full prescription
+yellow: 36min ×0.65 — preserve the primary stimulus; reduce accessory volume first
+red: 17min ×0.3 — minimum effective dose; no intensity compensation"
+wo_row_descending_ladder_2k_500,Row Descending Ladder 2K-500,threshold,row_quality,conditioning,threshold,row_efficiency,threshold,40,RPE 6-8,low,0.8,TRUE,FALSE,FALSE,RowErg expansion workout.,Use RPE and split consistency; technique takes priority over forcing pace.,"B1 [Main] continuous, 40 min
+    1. RowErg — 2000 m @ RPE 6
+    2. RowErg — 1500 m @ RPE 6-7
+    3. RowErg — 1000 m @ RPE 7
+    4. RowErg — 500 m @ RPE 8",3,3,1,4,"green: 40min ×1 — full prescription
+yellow: 26min ×0.65 — preserve the primary stimulus; reduce accessory volume first
+red: 12min ×0.3 — minimum effective dose; no intensity compensation"
+wo_micro_strength_legs_15,Micro Strength Legs 15,strength,micro,strength,strength,time_crunched,strength_maintenance,15,RPE 6,low,0.4,TRUE,FALSE,FALSE,Short lower strength,"Use on rough days, and through a taper. Two working sets per movement with real rest — keep the pattern, bank no fatigue.","B1 [Main] continuous
+    1. Goblet Squat — 2×10 @ RPE 6 rest 75s
+    2. Reverse Lunge — 2×8/leg @ RPE 6 rest 60s
+    3. Glute Bridge — 2×15 @ RPE 6 rest 60s",2,2,1,3,"green: 15min ×1 — full prescription
+yellow: 10min ×0.65 — already the minimum dose; drop the third movement before shortening rest
+red: 8min ×0.3 — the first two movements only, at the same rest"
+str_recovery_01,Recovery Strength — Lower,strength,strength_maintenance_lower,strength,strength,,lower_body_strength,40,RPE 5-6,low,0.3,TRUE,FALSE,FALSE,Recovery Strength — Lower,Poor-recovery lower strength: preserve deliberate rest and strength structure; reduce volume/effort. Hard ceiling RPE 6.,"B1 [Main] continuous
+    1. Goblet Squat — 3×6 @ RPE 6 rest 150s
+    2. Hip Thrust — 3×8 @ RPE 6 rest 120s
+    3. Reverse Lunge — 2×8 @ RPE 5.5 rest 120s
+    4. Suitcase Carry — 25 m @ RPE 5.5 rest 90s",2,2,1,4,"green: 40min ×1 — full prescription
+yellow: 26min ×0.65 — drop accessory and trunk volume first; the anchor lifts keep their sets
+red: 12min ×0.3 — the anchor lift only, at the prescribed load; no intensity compensation"
+str_lower_02,Lower Strength — Front Squat + Hinge,strength,strength_legs,strength,strength,,bilateral_squat_strength,60,RPE 7-8,low,0.4,TRUE,FALSE,FALSE,Lower Strength — Front Squat + Hinge,"True strength: explicit sets/reps, deliberate rest, measurable progression; no density clock.","B1 [Main] continuous
+    1. Front Squat — 4×5 @ RPE 7.5 rest 180s
+    2. Hip Thrust — 4×8 @ RPE 7 rest 150s
+    3. Reverse Lunge — 3×8 @ RPE 7 rest 120s
+    4. Leg Curl — 3×10-12 @ RPE 7 rest 75s
+    5. Suitcase Carry — 30 m @ RPE 7 rest 90s",2,2,1,5,"green: 60min ×1 — full prescription
+yellow: 39min ×0.65 — drop accessory and trunk volume first; the anchor lifts keep their sets
+red: 18min ×0.3 — the anchor lift only, at the prescribed load; no intensity compensation"
+wo_hyrox_pull_a,HYROX Pull A,strength,strength_pull,strength,strength,grip_posterior,strength,60,RPE 7,low,0.7,TRUE,FALSE,FALSE,Posterior chain + grip,Submax deadlift,"B1 [Main] continuous
+    1. Deadlift — 4×5 @ RPE 7 rest 180s
+    2. DB Row — 3×10/side @ RPE 7 rest 120s
+    3. Pull-Up — 3 AMRAP-2 @ leave 2 rest 120s
+    4. Farmer Carry — 100 ft @ 4 repeats
+    5. Sandbag Carry — 100 ft @ 3 repeats",2,2,1,5,"green: 60min ×1 — full prescription
+yellow: 39min ×0.65 — reduce rounds/sets; preserve purpose
+red: 18min ×0.3 — minimum effective dose"
+run_micro_run_01,Micro Easy 12,aerobic,micro,conditioning,aerobic_durability,,minimum_effective_dose,12,RPE 3-4,low,0.62,TRUE,FALSE,FALSE,Adaptive Athlete Running Expansion v1 workout.,,"B1 [Main] continuous, 12 min
+    1. Incline Walk — 12 min @ easy continuous run or run-walk",1,1,1,1,"green: 12min ×1 — full prescription
+yellow: 10min ×0.65 — preserve the primary stimulus; reduce accessory volume first
+red: 8min ×0.3 — minimum effective dose; no intensity compensation"
+mx_burpee_broad_jump_technique,Burpee Broad Jump — Technique,aerobic,station_burpee_broad_jump,conditioning,aerobic_durability,,skill_economy,15,RPE 3-4,high,0.45,TRUE,FALSE,FALSE,Adaptive Athlete Follow-up v2 workout.,,"B1 [Main] rounds, 8 rounds, rest 60s
+    1. Burpee Broad Jump — 5 reps",2,2,1,1,"green: 15min ×1 — full prescription
+yellow: 10min ×0.65 — preserve the primary stimulus; reduce accessory volume first
+red: 8min ×0.3 — minimum effective dose; no intensity compensation"
+run_long_aerobic_02,Long Easy 75,aerobic,long_run,run,aerobic_durability,,aerobic_durability,75,RPE 3-4,low,0.62,TRUE,TRUE,FALSE,Adaptive Athlete Authored v1 workout.,,"B1 [Main] continuous, 75 min
+    1. Run — 75 min @ easy",3,2,1,1,"green: 75min ×1 — full prescription
+yellow: 49min ×0.65 — preserve the primary stimulus; reduce accessory volume first
+red: 23min ×0.3 — minimum effective dose; no intensity compensation"
+run_treadmill_control_01,Treadmill Pace Ladder,aerobic,treadmill,run,aerobic_durability,,pace_control,40,RPE 3-6,low,0.82,TRUE,TRUE,FALSE,Adaptive Athlete Authored v1 workout.,,"B1 [Main] continuous, 10 min
+    1. Run — 10 min @ easy
+B2 [Main] continuous, 5 min
+    1. Run — 5 min @ easy
+B3 [Main] continuous, 5 min
+    1. Run — 5 min @ steady
+B4 [Main] continuous, 5 min
+    1. Run — 5 min @ moderate
+B5 [Main] continuous, 5 min
+    1. Run — 5 min @ steady
+B6 [Cool-down] continuous, 10 min
+    1. Run — 10 min @ easy cooldown",3,3,6,6,"green: 40min ×1 — full prescription
+yellow: 26min ×0.65 — preserve the primary stimulus; reduce accessory volume first
+red: 12min ×0.3 — minimum effective dose; no intensity compensation"
+mx_sled_push_benchmark,Sled Push — Benchmark,hybrid,station_sled_push,strength_endurance,race_specific,,repeatable_test,10,RPE 8-9,low,0.99,TRUE,FALSE,FALSE,Adaptive Athlete Follow-up v2 workout.,,"B1 [Main] continuous
+    1. Sled Push — 50 m",2,2,1,1,"green: 10min ×1 — full prescription
+yellow: 10min ×0.65 — preserve the primary stimulus; reduce accessory volume first
+red: 8min ×0.3 — minimum effective dose; no intensity compensation"
+run_taper_sharpen_03,Pre-Race Primer 20,hybrid,taper,run,race_specific,,race_sharpening,20,RPE 3-6,low,0.95,TRUE,TRUE,FALSE,Adaptive Athlete Follow-up v2 workout.,,"B1 [Main] continuous
+    1. Run — 10 min @ easy
+B2 [Main] rounds, 4 rounds
+    1. Run — 20 s @ relaxed stride
+B3 [Main] rounds, 2 rounds
+    1. Run — 1 min @ race pace
+B4 [Main] continuous
+    1. Run — 7 min @ easy finish",2,2,4,4,"green: 20min ×1 — full prescription
+yellow: 13min ×0.65 — preserve the primary stimulus; reduce accessory volume first
+red: 8min ×0.3 — minimum effective dose; no intensity compensation"
+wo_hyrox_density_emom_20,HYROX Density EMOM 20,hybrid,density,hybrid,race_specific,transition_efficiency,station_durability,20,RPE 6,medium,0.9,TRUE,FALSE,TRUE,Five-station EMOM,Finish each minute with breathing room,"B1 [Main] rounds, 4 rounds
+    1. SkiErg — 200 m @ controlled
+    2. Wall Ball — 12 reps @ smooth
+    3. Farmer Carry — 80 ft @ moderate
+    4. Burpee Broad Jump — 8 reps @ steady
+    5. Air Squat — 15 reps @ easy",2,3,1,5,"green: 45min ×1 — full prescription
+yellow: 30min ×0.65 — reduce rounds/sets; preserve purpose
+red: 10min ×0.3 — minimum effective dose"
+wo_half_hyrox_simulation,Half HYROX Simulation,hybrid,simulation,benchmark,race_specific,pacing,race_specific,75,RPE 7,high,1,TRUE,TRUE,TRUE,Half-race simulation,"Pace, do not race","B1 [Main] continuous
+    1. Run — 1000 m @ controlled
+    2. SkiErg — 500 m @ steady
+    3. Run — 1000 m @ controlled
+    4. Sled Push — 80 ft @ race-like
+    5. Run — 1000 m @ controlled
+    6. Sled Pull — 80 ft @ race-like
+    7. Run — 1000 m @ controlled
+    8. Wall Ball — 50 reps @ manageable sets",3,3,1,8,"green: 75min ×1 — full prescription
+yellow: 45min ×0.65 — reduce rounds/sets; preserve purpose
+red: 20min ×0.3 — minimum effective dose"
+run_mixed_race_pace_02,HYROX Race-Pace 6K,hybrid,race_pace,hybrid,race_specific,,hyrox_race_pacing,75,RPE 6-7,medium,1,TRUE,TRUE,TRUE,Adaptive Athlete Authored v1 workout.,,"B1 [Main] continuous
+    1. Run — 1000 m
+    2. SkiErg — 500 m
+B2 [Main] continuous
+    1. Run — 1000 m
+    2. Sled Push — 40 ft
+B3 [Main] continuous
+    1. Run — 1000 m
+    2. Sled Pull — 40 ft
+B4 [Main] continuous
+    1. Run — 1000 m
+    2. RowErg — 500 m
+B5 [Main] continuous
+    1. Run — 1000 m
+    2. Farmer Carry — 100 m
+B6 [Main] continuous
+    1. Run — 1000 m
+    2. Wall Ball — 20 reps",3,3,6,12,"green: 75min ×1 — full prescription
+yellow: 49min ×0.65 — preserve the primary stimulus; reduce accessory volume first
+red: 23min ×0.3 — minimum effective dose; no intensity compensation"

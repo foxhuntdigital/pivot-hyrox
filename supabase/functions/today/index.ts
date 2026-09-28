@@ -19,6 +19,8 @@ import { guidanceFor } from '../_shared/guidance.ts';
 import { performanceTrend } from '../_shared/trends.ts';
 import { daysAgo, sessionMinutes } from '../_shared/readiness-history.ts';
 import { ensureWeekQueue } from '../_shared/queue.ts';
+import { pickOpportunities } from '../_shared/opportunities.ts';
+import { checkEligibility } from '../../../packages/engine/src/guardrails.ts';
 
 Deno.serve(async (req) => {
   const origin = req.headers.get('Origin');
@@ -62,6 +64,11 @@ Deno.serve(async (req) => {
       available_minutes: state.profile?.typical_session_minutes ?? 45,
       available_equipment: state.available_equipment,
       low_impact_required: state.profile?.impact_tolerance === 'low',
+      // Capacity describes the athlete; a template's `load_demand` and
+      // `technical_demand` describe the workout. Null on either side constrains
+      // nothing (migration 0023).
+      load_capacity: state.profile?.load_capacity ?? null,
+      technical_capacity: state.profile?.technical_capacity ?? null,
       symptom_flags: Object.keys(checkin?.symptom_json ?? {}),
       considerations: state.profile?.considerations ?? [],
       candidates: content.candidates,
@@ -210,6 +217,33 @@ Deno.serve(async (req) => {
     });
 
     /**
+     * Bonus workouts, from the same library, chosen for what the athlete likes.
+     *
+     * Eligibility first and always: the per-day and per-minute limits were
+     * dropped deliberately — an athlete who wants three full sessions in a day
+     * may have them — but equipment they do not own, impact they cannot take
+     * and technical demand above their capacity are not limits of that kind.
+     * Offering past them would be the SkiErg bug with a friendlier label.
+     *
+     * Planned against a neutral recovery for the same reason the week is: this
+     * is a standing menu for the week, not a judgement about this morning, and
+     * a list that emptied itself after one bad night would read as broken.
+     */
+    const exerciseIndex = new Map(content.exercises.map(e =>
+      [e.id, { equipment: e.equipment, impact_level: e.impact_level }]));
+    const offerable = content.candidates.filter(t =>
+      checkEligibility(t, { ...input, recent_sessions: [] }, exerciseIndex, 'okay').eligible);
+
+    const opportunities = pickOpportunities({
+      templates: offerable,
+      queuedTemplateIds: new Set(queueItems.map((q: any) => q.workout_template_id)),
+      completedTemplateIds: new Set(
+        state.completed_this_week.map((sess: any) => sess.template_id)),
+      preferred: state.preferred_families,
+      avoided: state.avoided_families,
+    });
+
+    /**
      * The last seven days of training, as volume rather than as a load score.
      *
      * Deliberately not an intensity-weighted figure: the app has no defended
@@ -282,6 +316,8 @@ Deno.serve(async (req) => {
         end_date: state.weekEnd,
         queue: queueRows,
         completed: completedRows,
+        /** Bonus sessions on offer. Opportunities, never obligations. */
+        opportunities,
       },
       /** Seven-day volume. See the note where it is computed. */
       training_7d,
