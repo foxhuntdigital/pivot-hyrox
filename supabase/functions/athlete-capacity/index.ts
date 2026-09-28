@@ -28,6 +28,7 @@ import {
   clientFor, corsHeaders, HttpError, json, requireUser,
 } from '../_shared/context.ts';
 import { stimuliFor, type PhaseType } from '../_shared/periodization.ts';
+import { effectiveLoadCapacity } from '../_shared/rebuilding.ts';
 
 interface CapacityBody {
   /** 1-4. What the athlete can absorb. */
@@ -75,6 +76,20 @@ Deno.serve(async (req) => {
     if (saveError) throw new HttpError(500, `Could not save capacity: ${saveError.message}`);
 
     /**
+     * A rebuild in progress still caps what the new capacity may ask for.
+     *
+     * An athlete raising their stated capacity while rebuilding is describing
+     * what they are working back towards, not what they can take this week —
+     * and the ceiling is the whole mechanism for keeping those apart.
+     */
+    const { data: current } = await db
+      .from('athlete_profiles')
+      .select('rebuilding_load_ceiling')
+      .eq('user_id', user.id)
+      .maybeSingle();
+    const sizing = effectiveLoadCapacity(load, current?.rebuilding_load_ceiling) ?? load;
+
+    /**
      * The weeks ahead, re-sized.
      *
      * `status` on a cycle is the marker for whether it has been entered:
@@ -91,7 +106,7 @@ Deno.serve(async (req) => {
       const pending = (phase.weekly_cycles ?? []).filter((c: any) => c.status === 'pending');
       if (!pending.length) continue;
 
-      const targets = stimuliFor(phase.phase_type as PhaseType, load);
+      const targets = stimuliFor(phase.phase_type as PhaseType, sizing);
 
       for (const cycle of pending) {
         /**

@@ -184,7 +184,7 @@ Deno.serve(async (req) => {
       // Capacity describes the athlete; a template's `load_demand` and
       // `technical_demand` describe the workout. Null on either side constrains
       // nothing (migration 0023).
-      load_capacity: state.profile?.load_capacity ?? null,
+      load_capacity: state.effective_load_capacity,
       technical_capacity: state.profile?.technical_capacity ?? null,
       symptom_flags: body.symptom_flags ?? [],
       considerations: state.profile?.considerations ?? [],

@@ -22,6 +22,7 @@ import {
   blockEndDate, clampBlockWeeks, MAX_BLOCK_WEEKS, MIN_BLOCK_WEEKS, planBlockPhases,
   planPhases, stimuliFor, weeksUntil, type PhaseType,
 } from '../_shared/periodization.ts';
+import { effectiveLoadCapacity, startingCeiling } from '../_shared/rebuilding.ts';
 
 interface PlanRequest {
   /** A plan counted back from an event. Mutually exclusive with `block`. */
@@ -54,12 +55,34 @@ interface PlanRequest {
      */
     load_capacity?: number;
     technical_capacity?: number;
+    /**
+     * The athlete reports the return from injury currently requires reduced
+     * training. Distinct from the `considerations` entry: reporting the history
+     * imposes nothing, and only this creates a rebuilding ceiling.
+     */
+    rebuilding?: boolean;
     impact_tolerance?: 'low' | 'normal' | 'high';
     considerations?: string[];
   };
 }
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * The capacity the first plan is sized by.
+ *
+ * The stated capacity, capped by a rebuilding ceiling when the athlete has said
+ * the return currently requires reduced training. Never the raw answer: an
+ * athlete rebuilding at onboarding should get the reduced week from their very
+ * first plan rather than from whenever they next touch their profile.
+ */
+function sizingCapacity(body: PlanRequest | null): number | null {
+  const stated = body?.profile?.load_capacity ?? null;
+  if (stated == null) return null;
+  return body?.profile?.rebuilding
+    ? effectiveLoadCapacity(stated, startingCeiling(stated))
+    : stated;
+}
 
 Deno.serve(async (req) => {
   const origin = req.headers.get('Origin');
@@ -88,7 +111,7 @@ Deno.serve(async (req) => {
      * Null for a client that does not send it, and null is the base week, which
      * is exactly what every athlete gets today.
      */
-    const loadCapacity = body?.profile?.load_capacity ?? null;
+    const loadCapacity = sizingCapacity(body);
     const race = body?.race ?? null;
     const block = body?.block ?? null;
 
@@ -149,6 +172,19 @@ Deno.serve(async (req) => {
       // observes otherwise.
       if (body.profile.load_capacity != null || body.profile.technical_capacity != null) {
         patch.capacity_source = 'stated';
+      }
+
+      /**
+       * A rebuild opens only when the athlete says the return currently
+       * requires reduced training.
+       *
+       * Reporting the injury alone imposes nothing: someone who has fully
+       * rebuilt and is simply describing their history should not be handed a
+       * smaller week for it (product signoff, 28 Sep 2026).
+       */
+      if (body.profile.rebuilding && body.profile.load_capacity != null) {
+        patch.rebuilding_load_ceiling = startingCeiling(body.profile.load_capacity);
+        patch.rebuilding_ceiling_set_at = new Date().toISOString();
       }
       if (body.profile.considerations) patch.considerations = body.profile.considerations;
 
@@ -392,7 +428,7 @@ async function planFirstWeek(
 
   // Same value the cycles above were sized with; read from the body again
   // rather than threaded through, so the two cannot drift apart.
-  const loadCapacity = body?.profile?.load_capacity ?? null;
+  const loadCapacity = sizingCapacity(body);
 
   try {
     /**

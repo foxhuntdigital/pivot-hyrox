@@ -10,6 +10,7 @@ import type {
   CompletedSession, Exercise, StimulusRequirement, Substitution, WorkoutTemplate,
 } from '../../../packages/engine/src/index.ts';
 import { capabilityState } from './evidence.ts';
+import { effectiveLoadCapacity } from './rebuilding.ts';
 
 export function corsHeaders(origin: string | null) {
   return {
@@ -384,6 +385,17 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
     session_rpe: s.session_rpe,
   }));
 
+  /**
+   * What the planner should use, with any rebuilding ceiling already applied.
+   *
+   * Resolved once here rather than at each call site, because a ceiling that
+   * one caller forgets to apply is a ceiling that does not exist: six functions
+   * build an `EngineInput`, and the athlete would get a reduced week from some
+   * of them and a full one from the others.
+   */
+  const effective_load_capacity = effectiveLoadCapacity(
+    profile?.load_capacity, profile?.rebuilding_load_ceiling);
+
   const defaultProfile = (equipRes.data ?? []).find((p: any) => p.is_default)
     ?? (equipRes.data ?? [])[0];
   const available_equipment: string[] =
@@ -444,6 +456,7 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
   return {
     profile, race, daysToRace, currentPhase, currentCycle, checkin, checkins, queue,
     stimulus_requirements, recent_sessions, available_equipment,
+    effective_load_capacity,
     phaseSequence, programTotalWeeks, programWeek, weekInPhase, weekStart, weekEnd,
     completed_this_week, sessionRows,
     preferred_families, avoided_families, capability_needs, perceived_weaknesses,
