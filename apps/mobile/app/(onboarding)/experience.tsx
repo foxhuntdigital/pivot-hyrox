@@ -107,7 +107,7 @@ export default function ExperienceScreen() {
         options={FITNESS.map(o => ({ value: o.value, label: o.label }))}
         value={draft.load_capacity}
         onChange={load_capacity => update({ load_capacity })}
-        columns
+        columns={2}
       />
       <Detail options={FITNESS} value={draft.load_capacity} />
 
@@ -116,7 +116,7 @@ export default function ExperienceScreen() {
         options={TECHNICAL.map(o => ({ value: o.value, label: o.label }))}
         value={draft.technical_capacity}
         onChange={technical_capacity => update({ technical_capacity })}
-        columns
+        columns={2}
       />
       <Detail options={TECHNICAL} value={draft.technical_capacity} />
 

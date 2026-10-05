@@ -15,19 +15,50 @@ import { Label } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
 import { useOnboarding, type Goal, type Sport } from '@/state/onboarding';
 
+/**
+ * Describes the two questions rather than promising what they do.
+ *
+ * The line this replaces — "your answer decides how much of your training is
+ * general fitness versus race-day practice" — was a precise claim about an
+ * input that reaches nothing. `goal_type` is stored on the race, shown back on
+ * Today, and read by neither periodization nor the engine, so the screen was
+ * describing an effect that does not happen. Overstating a control that does
+ * nothing is the exact pattern the beta reports were about, and this one was
+ * more specific than the experience questions ever were.
+ *
+ * If the primary outcome is wired up later, this can promise something again.
+ * Until then it says what the two questions are and nothing more.
+ */
+const DESCRIPTION = "The sport you're training for, and what you want out of it.";
+
 const SPORTS: { value: Sport; label: string; detail: string }[] = [
   {
     value: 'hyrox',
     label: 'HYROX',
-    detail: 'Built around the eight stations and the runs between them. This is what the plan '
-      + 'library does best.',
+    detail: 'Eight stations, eight runs, and the work that holds them together. The plan counts '
+      + 'back from your race date.',
   },
   {
     value: 'hybrid',
     label: 'General hybrid fitness',
-    detail: 'Strength and engine on one plan, with no entry assumed. It is built from the same '
-      + 'HYROX library — running, sled and compromised strength — so expect that shape of week. '
-      + 'Dedicated running and triathlon plans are still on the way.',
+    /**
+     * Deliberately does not name HYROX.
+     *
+     * The previous version said this was "built from the same HYROX library",
+     * which is true and was the wrong thing to say: an athlete who has just
+     * declined HYROX is being told they are getting it anyway, and the option
+     * reads as a consolation prize rather than a choice. It also leaked the
+     * shape of the content library into a question about the athlete.
+     *
+     * What they are owed is what the training will feel like, which this says
+     * plainly — and the running note stays, because someone who picked this
+     * while actually wanting a 5K plan should know one is coming. "Triathlon"
+     * was carried over from older copy and is gone: nothing has been scoped for
+     * it, and a roadmap promise nobody made is worse than no promise at all.
+     */
+    detail: 'Strength and conditioning on one plan, with no race required. Running, carries, '
+      + 'sled work and lifting on tired legs — the same training, just not pointed at a start '
+      + 'line. Dedicated running plans are on the way.',
   },
 ];
 
@@ -60,7 +91,7 @@ export default function GoalScreen() {
     <OnboardingStep
       step={1}
       title="What are you training for?"
-      description="Your answer decides how much of your training is general fitness versus race-day practice."
+      description={DESCRIPTION}
       onContinue={() => router.push('/race' as never)}
     >
       <ChipRow

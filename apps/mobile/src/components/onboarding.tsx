@@ -196,8 +196,32 @@ export function ChipRow<T extends string | number>({
   options: { value: T; label: string }[];
   value: T | null;
   onChange: (v: T) => void;
-  columns?: boolean;
+  /**
+   * How the chips share the row.
+   *
+   * `true` divides the row equally between every option, which is right for
+   * two or three short labels and wrong for anything longer: four chips on a
+   * 402pt screen get 84pt each, and a word like "Intermediate" needs 78pt
+   * before padding — so React Native, with no space to break at, breaks the
+   * word itself and renders "Intermediat / e".
+   *
+   * A number says how many fit on a line instead, and the rest wrap. That is a
+   * judgement about the labels rather than about any particular phone: four
+   * across is too tight for these words on every iPhone including a Pro Max,
+   * and two across clears them with room to spare down to an SE.
+   */
+  columns?: boolean | number;
 }) {
+  /** Chips per line, when the caller has said. */
+  const perRow = typeof columns === 'number' && columns > 0 ? columns : null;
+  /**
+   * Percentage basis rather than `flex: 1`, because `flex` distributes the
+   * whole row between however many chips there are and cannot wrap. Two points
+   * are left per chip for the row's 8pt gap.
+   */
+  const chipStyle = perRow
+    ? { flexGrow: 1, flexBasis: `${100 / perRow - 2}%` as `${number}%` }
+    : undefined;
   return (
     <View style={{ paddingBottom: 20 }}>
       {label ? (
@@ -215,7 +239,8 @@ export function ChipRow<T extends string | number>({
             active={value === o.value}
             onPress={() => onChange(o.value)}
             size="sm"
-            flex={columns}
+            flex={columns === true}
+            style={chipStyle}
           />
         ))}
       </View>

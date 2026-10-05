@@ -115,7 +115,7 @@ export default function CapacityScreen() {
           options={FITNESS.map(o => ({ value: o.value, label: o.label }))}
           value={load}
           onChange={setLoad}
-          columns
+          columns={2}
         />
         <Detail options={FITNESS} value={load} />
 
@@ -124,7 +124,7 @@ export default function CapacityScreen() {
           options={TECHNICAL.map(o => ({ value: o.value, label: o.label }))}
           value={technical}
           onChange={setTechnical}
-          columns
+          columns={2}
         />
         <Detail options={TECHNICAL} value={technical} />
 
