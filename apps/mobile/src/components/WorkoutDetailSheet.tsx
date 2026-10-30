@@ -36,7 +36,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, ScrollView, Modal, Pressable } from 'react-native';
 
-import { recommend } from '@pivot/engine';
+import { recommend, type EngineDecision } from '@pivot/engine';
 import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton } from '@/components/primitives';
 import { FullWorkout } from '@/components/FullWorkout';
@@ -55,7 +55,7 @@ function Fact({ label, value }: { label: string; value: string }) {
 }
 
 export function WorkoutDetailSheet({
-  queued, onClose, onDoToday, isToday,
+  queued, onClose, onDoToday, isToday, todaySession,
 }: {
   /** The row that was tapped. Null closes the sheet. */
   queued: QueuedSession | null;
@@ -63,9 +63,18 @@ export function WorkoutDetailSheet({
   onDoToday: (templateId: string, name: string) => void;
   /** True when this is already today's session, which has nothing to switch to. */
   isToday: boolean;
+  /**
+   * Today's decision, as the Today tab shows it. Read as-is for today's own
+   * session rather than rebuilt from the library: an adapted or Coach-built
+   * session is not what the template alone would produce, and this sheet should
+   * show what Start will actually begin.
+   */
+  todaySession?: EngineDecision | null;
 }) {
   const { engineInput } = useApp();
-  const template = queued ? templateById.get(queued.template_id) ?? null : null;
+  const today = isToday && todaySession?.kind === 'session' ? todaySession : null;
+  const template = today?.template
+    ?? (queued ? templateById.get(queued.template_id) ?? null : null);
 
   /**
    * The template as this athlete would perform it today.
@@ -76,10 +85,10 @@ export function WorkoutDetailSheet({
    * plainly rather than showing a prescription they could not complete.
    */
   const resolved = useMemo(
-    () => (template
+    () => today ?? (template
       ? recommend({ ...engineInput, candidates: [template] }, EXERCISES)
       : null),
-    [engineInput, template]);
+    [today, engineInput, template]);
 
   const built = resolved?.kind === 'session' ? resolved : null;
   const refused = resolved && resolved.kind !== 'session' ? resolved : null;
