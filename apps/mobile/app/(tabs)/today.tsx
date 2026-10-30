@@ -206,14 +206,44 @@ export default function TodayScreen() {
   const isLowSleep = sleep.hours !== null && sleep.hours < LOW_SLEEP_HOURS;
 
   /**
+   * Whether today's training is already done.
+   *
+   * Two sources, because they cover different moments. `pendingCompletion` is
+   * the gap between finishing and the refetch landing, when the server has not
+   * heard yet; `completedToday` is the server's own record, filtered to today's
+   * local date so an app left open overnight does not keep saying "done".
+   */
+  const finishedToday = plan.pendingCompletion || plan.week.completedToday.length > 0;
+
+  /**
    * What the daily panel says, and where its buttons go.
    *
    * No check-in yet → it is the way into one, named for what it collects.
    * Checked in → it becomes the adapt offer, and quotes the night back only
    * because the athlete reported it.
+   *
+   * Once today's training is done there is nothing left to adapt, but the
+   * check-in still counts: sleep and energy feed readiness and its history
+   * whether or not they changed today's session. So a finished day keeps the
+   * way into the check-in and drops the adapt offer.
    */
   const openCheckin = () => router.push('/checkin');
-  const prompt = !state.checkin
+  const prompt: {
+    label: string;
+    body: string;
+    primary: string;
+    onPrimary: () => void;
+    secondary?: string;
+    onSecondary?: () => void;
+  } = finishedToday
+    ? {
+        label: 'Recovery',
+        body: "Session done. Tell me how you slept and how you're feeling, and "
+          + 'your readiness stays accurate for the days ahead.',
+        primary: 'Check in',
+        onPrimary: openCheckin,
+      }
+    : !state.checkin
     ? {
         label: 'Recovery',
         body: "Tell me how you slept and how you're feeling. It takes about twenty "
@@ -254,15 +284,6 @@ export default function TodayScreen() {
     lastSession ? `your last session (${lastSession.name})` : null,
   ].filter((s): s is string => s !== null);
 
-  /**
-   * Whether today's training is already done.
-   *
-   * Two sources, because they cover different moments. `pendingCompletion` is
-   * the gap between finishing and the refetch landing, when the server has not
-   * heard yet; `completedToday` is the server's own record, filtered to today's
-   * local date so an app left open overnight does not keep saying "done".
-   */
-  const finishedToday = plan.pendingCompletion || plan.week.completedToday.length > 0;
   /**
    * The fallback is `pendingSession` rather than the engine's current answer.
    *
@@ -524,8 +545,9 @@ export default function TodayScreen() {
             offers to adapt when there is, and only mentions the night when the
             athlete has actually reported it. */}
         {/* Hidden once there is nothing left to offer: the athlete has both
-            checked in and adapted, or the session is done. */}
-        {!plan.pendingCompletion && (!state.checkin || !state.adapted) && (
+            checked in and adapted, or the session is done and they have
+            checked in. */}
+        {(finishedToday ? !state.checkin : !state.checkin || !state.adapted) && (
           <InkPanel label={prompt.label} style={{ paddingHorizontal: space.gutter }}>
             <Text style={[t.body, { color: color.onDarkSoft, maxWidth: 320 }]}>
               {prompt.body}
@@ -540,13 +562,15 @@ export default function TodayScreen() {
                 onPress={prompt.onPrimary}
                 style={{ flex: 1, paddingHorizontal: 12 }}
               />
-              <ActionButton
-                label={prompt.secondary}
-                variant="outlineDark"
-                arrow={null}
-                onPress={prompt.onSecondary}
-                style={{ flex: 1, paddingHorizontal: 12 }}
-              />
+              {prompt.secondary ? (
+                <ActionButton
+                  label={prompt.secondary}
+                  variant="outlineDark"
+                  arrow={null}
+                  onPress={prompt.onSecondary}
+                  style={{ flex: 1, paddingHorizontal: 12 }}
+                />
+              ) : null}
             </View>
           </InkPanel>
         )}
