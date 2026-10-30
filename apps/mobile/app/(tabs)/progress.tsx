@@ -65,7 +65,7 @@ export default function ProgressScreen() {
   /**
    * Whether the screen has enough behind it to rank anything.
    *
-   * "Biggest opportunity" is a comparison, and a comparison needs something to
+   * "Biggest gap" is a comparison, and a comparison needs something to
    * compare. It used to appear as soon as a single component was measured —
    * which for a brand-new athlete is `consistency`, scored 0 against a week
    * they have not had yet — and named that the thing to work on. Half the
@@ -349,7 +349,7 @@ export default function ProgressScreen() {
 
       {lowest && canRank && (
         <InkPanel
-          label="Biggest opportunity"
+          label="Biggest gap"
           style={{ margin: 20, marginHorizontal: space.gutter }}
         >
           <Text style={[t.h4, { fontSize: 18, color: color.onDark }]}>

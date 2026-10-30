@@ -641,7 +641,13 @@ function dayLabel(iso: string): string {
   return `${months[Number(m[2]) - 1]} ${Number(m[3])}`;
 }
 
-/** F03 variant — the limiter question, ranked from the readiness components. */
+/**
+ * F03 variant — the biggest-gap question, ranked from the readiness components.
+ *
+ * Athletes see "biggest gap", never "limiter" (coaching jargon) or "weakness"
+ * (readiness measures what training covers, not ability; "weakness" belongs to
+ * the performance evidence on Progress).
+ */
 function weaknessAnswer(ctx: CoachContext): CoachAnswer {
   // Only measured components can be ranked. An athlete who has logged nothing
   // does not have aerobic as their weakness — they have it as an unknown, and
@@ -652,7 +658,7 @@ function weaknessAnswer(ctx: CoachContext): CoachAnswer {
 
   if (entries.length < 2) {
     return {
-      text: "I can't rank your limiters yet. Readiness is scored from what you've logged, and "
+      text: "I can't name your biggest gap yet. Readiness is scored from what you've logged, and "
         + `${entries.length ? 'only one component has' : 'no components have'} enough behind `
         + 'them to compare. A couple of weeks of logged sessions is what makes this answerable.',
       chips: chipsFor(ctx, ['Readiness components', 'Building baseline']),
@@ -673,12 +679,12 @@ function weaknessAnswer(ctx: CoachContext): CoachAnswer {
   const defines = (k: string) => FALLBACK_DETAIL[k as ComponentKey] ?? '';
 
   return {
-    text: `${label(lowKey)} at ${lowValue} out of 100 is your lowest readiness component. `
+    text: `${label(lowKey)} at ${lowValue} out of 100 is your biggest gap. `
       + `${defines(lowKey)} ${label(highKey)} at ${highValue} is your strongest — ahead of `
       + 'what your goal requires, so it is being maintained rather than built.',
     chips: chipsFor(ctx, ['Readiness components', ctx.plan.race?.name ?? 'No race set']),
     why: [
-      { k: label(lowKey), v: defines(lowKey) || 'Lowest readiness component.' },
+      { k: label(lowKey), v: defines(lowKey) || 'Your biggest gap.' },
       { k: label(highKey), v: defines(highKey) || 'Highest readiness component.' },
       {
         k: 'Ranking order',
