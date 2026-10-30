@@ -35,7 +35,7 @@ import {
   abandonSession, clientSessionId, eventId, startSession, type StartRequest,
 } from '../data/sessionRepo';
 import {
-  blockedFinishes, enqueueFinish, flushOutbox, loadOutbox, pendingFinishOn,
+  blockedFinishes, enqueueFinish, finishRevision, flushOutbox, loadOutbox, pendingFinishOn,
   subscribeOutbox, type PendingFinish,
 } from '../data/outbox';
 import { recordAdaptation } from '../data/adaptRepo';
@@ -1170,7 +1170,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       // totalled by the screens, not just replayed to the server.
       estimated_minutes: chosen?.estimated_minutes ?? s.performed?.estimated_minutes,
       session_id: s.session_id,
-      revision: s.session_revision,
+      // One ahead for the final finish, so it is not mistaken for a replay of
+      // a provisional one already sent (see `finishRevision`).
+      revision: finishRevision(s.session_revision, opts.final ?? false),
       start: {
         ...adaptInputs(),
         // The retry re-presents the session's identity, so an outbox flush that
