@@ -280,3 +280,37 @@ describe('Variety across a week', () => {
     assert.equal(rotateFamilies(pool, 0), pool);
   });
 });
+
+describe('Variety by kind of session', () => {
+  // Station sessions sort ahead of runs by id, and there are more station
+  // families than a week has exposures: family variety alone fills the week
+  // with stations.
+  const pool = [
+    template({ id: 'mx_bbj_base', workout_family: 'station_bbj', session_type: 'strength_endurance' }),
+    template({ id: 'mx_carry_base', workout_family: 'station_carry', session_type: 'strength_endurance' }),
+    template({ id: 'mx_row_base', workout_family: 'station_row', session_type: 'conditioning' }),
+    template({ id: 'mx_ski_base', workout_family: 'station_ski', session_type: 'conditioning' }),
+    template({ id: 'run_easy', workout_family: 'run_base', session_type: 'run' }),
+    template({ id: 'run_long', workout_family: 'run_long', session_type: 'run' }),
+  ] as WorkoutTemplate[];
+
+  test('three aerobic exposures are three kinds of session, not three stations', () => {
+    const items = plan([req('aerobic_durability', 3, 1)], pool);
+    assert.deepEqual(items.map(i => i.workout_template_id), ['mx_bbj_base', 'mx_row_base', 'run_easy']);
+  });
+
+  test('a kind repeats only once every kind has been used', () => {
+    const items = plan([req('aerobic_durability', 4, 1)], pool);
+    assert.deepEqual(items.map(i => i.workout_template_id),
+      ['mx_bbj_base', 'mx_row_base', 'run_easy', 'mx_carry_base']);
+  });
+
+  test('each kind turns its own families from week to week', () => {
+    // A one-place turn of the whole family list would change which station
+    // came first and never which run did.
+    const runs = (rotation: number) => rotateFamilies(pool, rotation)
+      .filter(t => t.session_type === 'run').map(t => t.id);
+    assert.deepEqual(runs(0), ['run_easy', 'run_long']);
+    assert.deepEqual(runs(1), ['run_long', 'run_easy']);
+  });
+});

@@ -223,7 +223,27 @@ export function planWeekQueue(args: {
   const familiesUsed = new Set<string>((args.alreadyPlanned ?? [])
     .map(id => byId.get(id)?.workout_family)
     .filter((f): f is string => !!f));
+  /**
+   * How many of each kind of session the week holds: run, conditioning,
+   * strength endurance, strength, hybrid (`session_type`).
+   *
+   * Family alone still let a week be all stations, because station ids sort
+   * ahead of runs and there are enough station families to fill one: an
+   * aerobic need would take a carry, a row and a lunge before it ever reached
+   * a run. Taking the kind of session the week has least of first means three
+   * aerobic exposures are a run, an erg and a station, not three stations.
+   */
+  const typesUsed = new Map<string, number>();
+  const countType = (t: WorkoutTemplate) =>
+    typesUsed.set(sessionKind(t), (typesUsed.get(sessionKind(t)) ?? 0) + 1);
+  for (const id of args.alreadyPlanned ?? []) {
+    const t = byId.get(id);
+    if (t) countType(t);
+  }
   const tiers = [...new Set(needs.map(n => n.priority))].sort((a, b) => a - b);
+  /** Lower is preferred. Ties keep pool order, which `reduce` preserves. */
+  const preference = (t: WorkoutTemplate) =>
+    (typesUsed.get(sessionKind(t)) ?? 0) * 2 + (familiesUsed.has(t.workout_family) ? 1 : 0);
 
   for (const tier of tiers) {
     const inTier = needs.filter(n => n.priority === tier);
@@ -232,14 +252,17 @@ export function planWeekQueue(args: {
     while (inTier.some(n => n.taken < n.remaining)) {
       for (const need of inTier) {
         if (need.taken >= need.remaining) continue;
-        // A new family first, then a new template, and only then a repeat: a
-        // week asking for three of a stimulus the library has two of repeats
-        // one rather than dropping the exposure.
-        const pick = need.pool.find(t => !used.has(t.id) && !familiesUsed.has(t.workout_family))
-          ?? need.pool.find(t => !used.has(t.id))
-          ?? need.pool[need.taken % need.pool.length];
+        // The kind of session the week has least of, then a family it does
+        // not hold, then pool order; and only once every template is used, a
+        // repeat. A week asking for three of a stimulus the library has two of
+        // repeats one rather than dropping the exposure.
+        const fresh = need.pool.filter(t => !used.has(t.id));
+        const pick = fresh.length
+          ? fresh.reduce((best, t) => (preference(t) < preference(best) ? t : best))
+          : need.pool[need.taken % need.pool.length];
         used.add(pick.id);
         familiesUsed.add(pick.workout_family);
+        countType(pick);
         need.taken += 1;
         items.push({
           workout_template_id: pick.id,
@@ -253,18 +276,35 @@ export function planWeekQueue(args: {
   return items;
 }
 
+/** The kind of session a template is, for variety. Unlabelled ones share a kind. */
+const sessionKind = (t: WorkoutTemplate): string => t.session_type ?? 'other';
+
 /**
- * The pool with its families taken in a turned order: family `rotation` (mod
- * the number of families) first, the rest following, each family's templates
- * in their existing order. Week one keeps the stable order, and each week
- * after starts one family further on.
+ * The pool in the order a given week tries it.
+ *
+ * Turned twice: the kinds of session (run, conditioning, strength...) start
+ * `rotation` places on, and inside each kind its families do too, so every
+ * kind's first choice moves each week. Turning the whole list of families
+ * once was not enough: with dozens of station families ahead of the runs, a
+ * one-place turn changed which station came first and never which run did.
+ *
+ * Rotation 0 is the pool as given. Each family's templates keep their order.
  */
-export function rotateFamilies<T extends { workout_family: string }>(pool: T[], rotation: number): T[] {
-  const families = [...new Set(pool.map(t => t.workout_family))];
-  if (families.length < 2 || rotation % families.length === 0) return pool;
-  const start = rotation % families.length;
-  const order = [...families.slice(start), ...families.slice(0, start)];
-  return order.flatMap(f => pool.filter(t => t.workout_family === f));
+export function rotateFamilies<T extends { workout_family: string; session_type?: string | null }>(
+  pool: T[], rotation: number,
+): T[] {
+  if (rotation <= 0) return pool;
+  const turn = <X>(xs: X[]) => {
+    const k = rotation % xs.length;
+    return k ? [...xs.slice(k), ...xs.slice(0, k)] : xs;
+  };
+  const kindOf = (t: T) => t.session_type ?? 'other';
+  const kinds = turn([...new Set(pool.map(kindOf))]);
+  return kinds.flatMap(kind => {
+    const ofKind = pool.filter(t => kindOf(t) === kind);
+    return turn([...new Set(ofKind.map(t => t.workout_family))])
+      .flatMap(f => ofKind.filter(t => t.workout_family === f));
+  });
 }
 
 /* ------------------------------------------------ replanning a week ----- */
