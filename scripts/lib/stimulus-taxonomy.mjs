@@ -135,37 +135,34 @@ const DIRECT = {
   mixed_dumbbell_strength:            ['strength', 'specified'],
   mixed_athletic_total_strength:      ['strength', 'specified'],
   mixed_complex_total_strength:       ['strength', 'specified'],
-  // The 24-session muscular endurance expansion. These roll up to `strength`
-  // because the pack authored that goal and because loaded, submaximal
-  // resistance work is the closest of the five. They do NOT count as the
-  // week's strength exposures: training_domain is muscular_endurance, and
-  // matchesStimulus reads the domain first (DOMAIN_TO_GOAL in rank.ts maps it
-  // to no goal), exactly as for the station strength-endurance sessions already
-  // in the library. The roll-up is what makes them importable and visible to
-  // the muscular endurance capability; it does not make them strength days.
-  repeatable_muscular_output:         ['strength', 'specified'],
-  lower_body_fatigue_resistance:      ['strength', 'specified'],
-  upper_body_fatigue_resistance:      ['strength', 'specified'],
-  ballistic_muscular_endurance:       ['strength', 'specified'],
-  bodyweight_muscular_endurance:      ['strength', 'specified'],
-  push_pull_fatigue_resistance:       ['strength', 'specified'],
-  loaded_lower_endurance:             ['strength', 'specified'],
-  full_body_muscular_endurance:       ['strength', 'specified'],
-  descending_rep_endurance:           ['strength', 'specified'],
-  lower_body_volume_tolerance:        ['strength', 'specified'],
-  upper_body_volume_tolerance:        ['strength', 'specified'],
-  kettlebell_muscular_endurance:      ['strength', 'specified'],
-  bodyweight_work_capacity:           ['strength', 'specified'],
-  complex_muscular_endurance:         ['strength', 'specified'],
-  grip_trunk_leg_endurance:           ['strength', 'specified'],
-  benchmark_total_body_endurance:     ['strength', 'specified'],
-  benchmark_loaded_endurance:         ['strength', 'specified'],
-  benchmark_volume_endurance:         ['strength', 'specified'],
-  benchmark_carry_endurance:          ['strength', 'specified'],
-  benchmark_dumbbell_endurance:       ['strength', 'specified'],
-  benchmark_bodyweight_endurance:     ['strength', 'specified'],
-  benchmark_upper_body_endurance:     ['strength', 'specified'],
-  benchmark_power_endurance:          ['strength', 'specified'],
+  // The 24-session muscular endurance expansion rolls up to `threshold`:
+  // sustained submaximal output under accumulating fatigue, scored by how long
+  // the output holds rather than by the load. The pack authored `strength`;
+  // threshold is the programming ruling, and it agrees with how the engine
+  // reads the muscular_endurance domain (DOMAIN_TO_GOAL in rank.ts, 2.2.0).
+  repeatable_muscular_output:         ['threshold', 'specified'],
+  lower_body_fatigue_resistance:      ['threshold', 'specified'],
+  upper_body_fatigue_resistance:      ['threshold', 'specified'],
+  ballistic_muscular_endurance:       ['threshold', 'specified'],
+  bodyweight_muscular_endurance:      ['threshold', 'specified'],
+  push_pull_fatigue_resistance:       ['threshold', 'specified'],
+  loaded_lower_endurance:             ['threshold', 'specified'],
+  full_body_muscular_endurance:       ['threshold', 'specified'],
+  descending_rep_endurance:           ['threshold', 'specified'],
+  lower_body_volume_tolerance:        ['threshold', 'specified'],
+  upper_body_volume_tolerance:        ['threshold', 'specified'],
+  kettlebell_muscular_endurance:      ['threshold', 'specified'],
+  bodyweight_work_capacity:           ['threshold', 'specified'],
+  complex_muscular_endurance:         ['threshold', 'specified'],
+  grip_trunk_leg_endurance:           ['threshold', 'specified'],
+  benchmark_total_body_endurance:     ['threshold', 'specified'],
+  benchmark_loaded_endurance:         ['threshold', 'specified'],
+  benchmark_volume_endurance:         ['threshold', 'specified'],
+  benchmark_carry_endurance:          ['threshold', 'specified'],
+  benchmark_dumbbell_endurance:       ['threshold', 'specified'],
+  benchmark_bodyweight_endurance:     ['threshold', 'specified'],
+  benchmark_upper_body_endurance:     ['threshold', 'specified'],
+  benchmark_power_endurance:          ['threshold', 'specified'],
 
   // → race_specific
   race_pacing:                ['race_specific', 'specified'],
@@ -455,6 +452,22 @@ export function resolveClassification(primaryGoal, ctx = {}) {
       session_type: 'conditioning',
       basis: 'labelled strength but carries no external load',
       ambiguous: true,
+    };
+  }
+
+  // Threshold reached through loaded resistance alone — an EMOM, a metcon, a
+  // chipper with no erg or run in it. The planner asks for it as threshold, but
+  // what the session IS is muscular endurance, and the domain says what it is:
+  // filed under `threshold` it would also answer a running-speed deficit
+  // (CAPABILITY_TARGETS.running_threshold reads the domain), which a goblet
+  // squat EMOM does not address. The engine maps this domain back to the
+  // threshold goal (DOMAIN_TO_GOAL in rank.ts), so it is still scheduled as one.
+  if (primaryGoal === 'threshold' && loaded && !engine && !requiresRunning) {
+    return {
+      training_domain: 'muscular_endurance',
+      session_type: 'strength_endurance',
+      basis: 'threshold through loaded resistance alone, no engine work',
+      ambiguous: false,
     };
   }
 

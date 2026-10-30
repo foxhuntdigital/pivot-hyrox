@@ -11,18 +11,6 @@
  "enforced_by": "scripts/ci.mjs, run by .github/workflows/test.yml",
  "expected_failures": [
   {
-   "id": "packages/engine/src/coverage.test.ts :: dumbbell-only coverage (expansion spec, QA acceptance test) > db · good recovery · threshold · 6+ sessions at every time budget",
-   "kind": "content_debt",
-   "reason": "threshold coverage, db profile, good and okay recovery",
-   "removed_when": "Six distinct threshold sessions are reachable with dumbbells and nothing else. Today there are four: the rest of the threshold library needs an erg, a treadmill or somewhere to run. Authoring two dumbbell-reachable threshold sessions closes both cells."
-  },
-  {
-   "id": "packages/engine/src/coverage.test.ts :: dumbbell-only coverage (expansion spec, QA acceptance test) > db · okay recovery · threshold · 6+ sessions at every time budget",
-   "kind": "content_debt",
-   "reason": "threshold coverage, db profile, good and okay recovery",
-   "removed_when": "Six distinct threshold sessions are reachable with dumbbells and nothing else. Today there are four: the rest of the threshold library needs an erg, a treadmill or somewhere to run. Authoring two dumbbell-reachable threshold sessions closes both cells."
-  },
-  {
    "id": "packages/engine/src/coverage.test.ts :: dumbbell-only coverage (expansion spec, QA acceptance test) > db · good recovery · recovery · 3+ sessions at every time budget",
    "kind": "content_debt",
    "reason": "recovery coverage, db and db+outdoor profiles, all readiness states",

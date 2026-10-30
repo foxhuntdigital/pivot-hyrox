@@ -133,13 +133,13 @@ export function stimulusUrgency(
  * the domain directly would have silently emptied both goals. Measured before
  * the switch, that flip regressed 18 of 32 coverage cells and fixed none.
  *
- * `muscular_endurance` is deliberately absent. It is the honest home for the
- * eleven templates that carried load with no working sets — Sled Push
- * Strength-Power, Farmer Carry Micro, the sessions that used to satisfy the
- * week's strength exposures — and the planner has never asked for muscular
- * endurance. Mapping it to a goal to keep those counts up would be reinstating
- * the mislabel this release exists to remove. Measured both ways: identical
- * coverage, so the truthful reading costs nothing.
+ * `muscular_endurance` serves `threshold` (ENGINE 2.2.0, a programming
+ * ruling). Sustained submaximal output under accumulating fatigue is the
+ * threshold side of the spectrum, not the strength side: these sessions are
+ * scored by how long the output holds, not by the load. It is deliberately
+ * NOT `strength` — that is the mislabel 2.0.0 removed, when sessions that
+ * carried load with no working sets were satisfying the week's strength
+ * exposures.
  */
 const DOMAIN_TO_GOAL: Record<string, string> = {
   strength: 'strength',
@@ -147,6 +147,7 @@ const DOMAIN_TO_GOAL: Record<string, string> = {
   threshold: 'threshold',
   recovery: 'recovery',
   hybrid: 'race_specific',
+  muscular_endurance: 'threshold',
 };
 
 /**
@@ -252,7 +253,7 @@ const CAPABILITY_TARGETS: Record<string, { families: RegExp[]; domains: string[]
     domains: ['aerobic'],
   },
   muscular_endurance: {
-    families: [/^(density|micro|compromised)/], domains: ['muscular_endurance'],
+    families: [/^(density|micro|compromised|muscular_endurance)/], domains: ['muscular_endurance'],
   },
   loaded_movement: {
     families: [/^station_(farmer_carry|sled_push|sled_pull|sandbag_lunge)/],

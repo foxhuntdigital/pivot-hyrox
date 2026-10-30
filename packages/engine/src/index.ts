@@ -17,6 +17,10 @@ import { score } from './rank.ts';
 import { transformBlocks, preservesPrimaryStimulus } from './transform.ts';
 
 /**
+ * 2.2.0: the muscular_endurance training domain serves the threshold goal in
+ * `matchesStimulus`, so the same template can now fill a threshold exposure
+ * that 2.1.0 would never have offered it for.
+ *
  * 2.1.0: `perceived_weakness` joins as a ninth dimension and every weight moves
  * again, so a 2.1.0 score is not numerically comparable with a 2.0.0 one — and
  * replay stays version-aware rather than pretending otherwise. The alternative
@@ -27,7 +31,7 @@ import { transformBlocks, preservesPrimaryStimulus } from './transform.ts';
  * 2.0.0: `capability_need` joined the scoring dimensions and `matchesStimulus`
  * moved onto `training_domain`.
  */
-export const ENGINE_VERSION = '2.1.0';
+export const ENGINE_VERSION = '2.2.0';
 
 export * from './types.ts';
 export * from './guardrails.ts';

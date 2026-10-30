@@ -8,7 +8,7 @@
 import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { planWeekQueue, rotateFamilies, type WeekRequirement } from './queue.ts';
+import { planWeekQueue, rotateFamilies, slotArchetype, type WeekRequirement } from './queue.ts';
 import type { EngineInput, Exercise, WorkoutTemplate } from '../../../packages/engine/src/index.ts';
 
 const EXERCISES: Exercise[] = [
@@ -331,9 +331,12 @@ describe('Strength slots by archetype', () => {
     strength('d_athletic_bound', 'strength_power', 'athletic'),
     strength('e_squat', 'strength_legs', 'foundational'),
     strength('f_total', 'strength_total', 'foundational'),
+    strength('g_offset_complex', 'strength_legs', 'complex'),
   ] as WorkoutTemplate[];
-  const week = (phase: string, n = 2) => plan([req('strength', n, 1)], pool,
-    { phase_type: phase as EngineInput['phase_type'] }).map(i => i.workout_template_id);
+  const week = (phase: string, n = 2, rotation = 0) => planWeekQueue({
+    requirements: [req('strength', n, 1)], templates: pool, exercises: EXERCISES,
+    input: { ...INPUT, phase_type: phase as EngineInput['phase_type'] }, rotation,
+  }).map(i => i.workout_template_id);
 
   test('a foundation week fills every strength slot with foundational work', () => {
     assert.deepEqual(week('foundation'), ['e_squat', 'f_total']);
@@ -344,11 +347,38 @@ describe('Strength slots by archetype', () => {
     assert.deepEqual(week('peak'), ['e_squat', 'd_athletic_bound']);
   });
 
+  test('complex is a design that takes its turn, not a level the plan never reaches', () => {
+    assert.equal(week('build', 2, 0)[1], 'c_power_jump');
+    assert.equal(week('build', 2, 1)[1], 'g_offset_complex');
+    assert.equal(week('build', 2, 2)[1], 'c_power_jump');
+    assert.equal(week('specific', 3, 1)[1], 'g_offset_complex');
+    // The first slot never rotates away from foundational work.
+    for (const w of [0, 1, 2, 3]) assert.equal(slotArchetype('build', 0, w), 'foundational');
+    // Phases that do not list complex never ask for it.
+    for (const w of [0, 1]) {
+      assert.notEqual(slotArchetype('peak', 1, w), 'complex');
+      assert.notEqual(slotArchetype('foundation', 1, w), 'complex');
+    }
+  });
+
+  test('a micro dose does not fill a planned threshold slot while full work can', () => {
+    const t = (id: string, stimulus: string) => template({
+      id, workout_family: 'station_farmer_carry', primary_goal: 'threshold',
+      training_domain: 'muscular_endurance', session_type: 'strength_endurance', stimulus,
+    } as Partial<WorkoutTemplate>);
+    // The micro sorts first, so only the dose rule keeps it out.
+    const pool = [t('a_carry_micro', 'minimum_effective_dose'), t('b_carry_emom', 'threshold')];
+    assert.deepEqual(plan([req('threshold', 1, 1)], pool).map(i => i.workout_template_id), ['b_carry_emom']);
+    // Two exposures and one full session: the micro is what is left.
+    assert.deepEqual(plan([req('threshold', 2, 1)], pool).map(i => i.workout_template_id),
+      ['b_carry_emom', 'a_carry_micro']);
+  });
+
   test('a reduced dose fills a planned slot only when nothing full can', () => {
     assert.ok(!week('foundation', 2).some(id => id === 'a_recovery_lower' || id === 'b_micro_legs'));
-    // Four slots, four full sessions: still none reduced.
-    assert.ok(!week('foundation', 4).some(id => id === 'a_recovery_lower' || id === 'b_micro_legs'));
-    // Five slots and only four full sessions: the reduced ones are what is left.
-    assert.ok(week('foundation', 5).some(id => id === 'a_recovery_lower' || id === 'b_micro_legs'));
+    // Five slots, five full sessions: still none reduced.
+    assert.ok(!week('foundation', 5).some(id => id === 'a_recovery_lower' || id === 'b_micro_legs'));
+    // Six slots and only five full sessions: the reduced ones are what is left.
+    assert.ok(week('foundation', 6).some(id => id === 'a_recovery_lower' || id === 'b_micro_legs'));
   });
 });
