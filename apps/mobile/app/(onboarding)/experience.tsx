@@ -38,33 +38,9 @@ import { useRouter } from 'expo-router';
 import { OnboardingStep, ChipRow, MultiChipRow } from '@/components/onboarding';
 import { color, space, type as t } from '@/theme/tokens';
 import { useOnboarding } from '@/state/onboarding';
-import { CONSIDERATION_CHOICES } from '@/data/profile';
-
-/**
- * How much work the athlete can absorb. Sizes the week from the first plan.
- *
- * Phrased as where they are rather than what they have done, because the two
- * come apart: an athlete six weeks back from injury has years of history and is
- * rebuilding a base, and the honest answer to this question is the first one.
- */
-const FITNESS = [
-  { value: 1, label: 'Beginner', detail: "I'm building or rebuilding my fitness base." },
-  { value: 2, label: 'Intermediate', detail: 'I train consistently and handle challenging workouts comfortably.' },
-  { value: 3, label: 'Advanced', detail: 'I have a strong fitness base and regularly train hard.' },
-  { value: 4, label: 'Competitive', detail: 'I train seriously for performance and competition.' },
-];
-
-/**
- * How technical a session they can perform well. A broad prior, and explicitly
- * not final truth — it excludes work that would be unsafe rather than ranking
- * what they get, and domain-specific familiarity is meant to refine it later.
- */
-const TECHNICAL = [
-  { value: 1, label: 'New to it', detail: "I'm still learning how to train for performance." },
-  { value: 2, label: 'Some experience', detail: 'I’m comfortable with common strength, conditioning and endurance workouts.' },
-  { value: 3, label: 'Experienced', detail: 'I’ve trained seriously across strength and/or endurance for several years.' },
-  { value: 4, label: 'Highly experienced', detail: 'I’m comfortable with advanced programming, technical movements and demanding training.' },
-];
+import {
+  CONSIDERATION_CHOICES, LOAD_CAPACITY_CHOICES, TECHNICAL_CAPACITY_CHOICES,
+} from '@/data/profile';
 
 /** The chosen option's own sentence, so a four-way choice is not four labels. */
 function Detail({ options, value }: {
@@ -104,21 +80,21 @@ export default function ExperienceScreen() {
     >
       <ChipRow
         label="How would you describe your fitness right now?"
-        options={FITNESS.map(o => ({ value: o.value, label: o.label }))}
+        options={LOAD_CAPACITY_CHOICES.map(o => ({ value: o.value, label: o.label }))}
         value={draft.load_capacity}
         onChange={load_capacity => update({ load_capacity })}
         columns={2}
       />
-      <Detail options={FITNESS} value={draft.load_capacity} />
+      <Detail options={LOAD_CAPACITY_CHOICES} value={draft.load_capacity} />
 
       <ChipRow
         label="How experienced are you with structured performance training?"
-        options={TECHNICAL.map(o => ({ value: o.value, label: o.label }))}
+        options={TECHNICAL_CAPACITY_CHOICES.map(o => ({ value: o.value, label: o.label }))}
         value={draft.technical_capacity}
         onChange={technical_capacity => update({ technical_capacity })}
         columns={2}
       />
-      <Detail options={TECHNICAL} value={draft.technical_capacity} />
+      <Detail options={TECHNICAL_CAPACITY_CHOICES} value={draft.technical_capacity} />
 
       <MultiChipRow
         label="Anything to train around?"

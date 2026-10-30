@@ -5,7 +5,8 @@
  * Onboarding writes these two answers as part of building the first plan. This
  * exists for everyone who onboarded before the questions did: they carry a null
  * capacity, which every rule reads as "unknown, do not constrain", so they are
- * currently getting the base week whether or not it suits them.
+ * currently getting the base week whether or not it suits them. Profile uses it
+ * too, so an athlete can change either answer later.
  *
  * ── Why this re-sizes rather than only saving ─────────────────────────────
  *

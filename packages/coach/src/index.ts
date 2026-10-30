@@ -10,6 +10,7 @@
 export const COACH_VERSION = '0.1.0';
 
 export * from './types.ts';
+export { athleteCapacity } from './athlete.ts';
 export * from './generated.ts';
 export { route, trimDecision } from './tools.ts';
 export { runCoachTurn, classify, CLASSIFIER_MODEL, COMPOSER_MODEL } from './turn.ts';

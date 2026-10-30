@@ -122,7 +122,7 @@ const services = {
 
 const context = {
   request_id: 'eval',
-  athlete: { athlete_id: 'eval', timezone: 'America/New_York', units: 'metric', experience_level: 'intermediate', flags: [] },
+  athlete: { athlete_id: 'eval', timezone: 'America/New_York', units: 'metric', fitness: 'Intermediate', training_experience: 'Some experience', flags: [] },
   active_race: { name: 'Boston HYROX', date: '2026-10-10', division: 'Elite 15-39', days_remaining: 58 },
   program: { phase: 'build', week: 7, stimuli: input.stimulus_requirements },
   today: { date_local: '2026-08-19', available_time_minutes: 60, reported_energy: 'normal', equipment_count: input.available_equipment.length },
