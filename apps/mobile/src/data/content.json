@@ -667,7 +667,7 @@
     },
     {
       "id": "ex_trx_push_up",
-      "name": "TRX Push-Up",
+      "name": "Suspension Trainer Push-Up",
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [
@@ -1359,7 +1359,7 @@
     },
     {
       "id": "ex_trx_row",
-      "name": "TRX Row",
+      "name": "Suspension Trainer Row",
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [
@@ -33514,7 +33514,7 @@
     {
       "exercise_id": "ex_trx_row",
       "substitute_exercise_id": "ex_db_row",
-      "reason": "no TRX; loaded pull",
+      "reason": "no suspension trainer; loaded pull",
       "priority": 1
     },
     {
@@ -33604,7 +33604,7 @@
     {
       "exercise_id": "ex_trx_push_up",
       "substitute_exercise_id": "ex_push_up",
-      "reason": "no TRX; same pattern unloaded",
+      "reason": "no suspension trainer; same pattern unloaded",
       "priority": 1
     },
     {
@@ -33779,7 +33779,7 @@
     },
     {
       "id": "trx",
-      "name": "TRX",
+      "name": "Suspension Trainer",
       "category": "strength",
       "selection_tier": "athlete_selectable"
     },
