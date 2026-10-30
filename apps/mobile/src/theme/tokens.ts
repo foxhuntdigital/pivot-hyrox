@@ -16,7 +16,12 @@ export const color = {
   // Ink
   ink: '#201e1d',         // primary text + 2px structural rules
   inkPressed: '#2f2c2b',  // pressed state on dark
-  muted: '#7d7979',       // micro-labels, secondary meta
+  /**
+   * Micro-labels and secondary meta. Was #7d7979, which measured 3.8:1 on
+   * paper: under the 4.5:1 that text this small needs. It now matches
+   * `muted2` (5.8:1); the two names stay so every call site keeps its intent.
+   */
+  muted: '#605d5d',
   muted2: '#605d5d',      // body copy, descriptions
   muted3: '#9b9797',      // disabled / on-dark secondary
 
@@ -54,6 +59,38 @@ export const color = {
   tint: '#fff2ef',        // "adapted" callout background
   tintBorder: '#ffc4b8',
 } as const;
+
+/**
+ * The kind of session, as a colour (redesign plan, design system).
+ *
+ * Used on tiles, tags, dots and the session-shape graphic only, never for
+ * text on its own: every place that shows one of these also names the kind
+ * in words, because erg and station sit close in lightness. Each clears 4.5:1
+ * on paper, so a tag's label can be set in it.
+ *
+ * Strength is ink on purpose: the heaviest work wears the heaviest colour.
+ * Recovery is the secondary grey, so an easy day reads as quiet.
+ */
+export const kindColor = {
+  run: '#24548a',       // 6.9:1
+  erg: '#1f6f69',       // 5.3:1
+  station: '#9a5a0b',   // 4.9:1
+  strength: '#201e1d',  // 14.9:1
+  hybrid: '#6b3f78',    // 7.2:1
+  recovery: '#605d5d',  // 5.8:1
+} as const;
+
+export type SessionKind = keyof typeof kindColor;
+
+/** The word every kind colour is shown with. */
+export const kindLabel: Record<SessionKind, string> = {
+  run: 'Run',
+  erg: 'Erg',
+  station: 'Station',
+  strength: 'Strength',
+  hybrid: 'Hybrid',
+  recovery: 'Recovery',
+};
 
 /** Archivo weights, mapped to the loaded font families. */
 export const font = {

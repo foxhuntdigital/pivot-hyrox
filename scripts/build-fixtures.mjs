@@ -82,6 +82,12 @@ const exercises = tables.exercises.map(e => ({
   impact_level: e.impact_level,
   postpartum_friendly: e.postpartum_friendly === 1,
   equipment: equipByExercise[e.id] ?? [],
+  // How the work is performed (running, row, ski, bike, strength_endurance…)
+  // and the library's own grouping (cardio, hyrox, strength…). The client
+  // reads these to tell a run from an erg from a station when it draws a
+  // session, which it could not do from the exercise id alone.
+  category: e.category ?? null,
+  modality: e.modality ?? null,
   // Ontology (addendum §3). The engine does not rank on these yet; the library
   // QA gates read them, and the progression service will branch on
   // progression_class.

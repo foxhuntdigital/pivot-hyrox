@@ -39,6 +39,10 @@ export interface Exercise {
   postpartum_friendly: boolean;
   /** Equipment ids that can satisfy this exercise. Empty = needs nothing. */
   equipment: string[];
+  /** The library's grouping: cardio, hyrox, strength, power, conditioning… */
+  category?: string | null;
+  /** How the work is performed: running, row, ski, bike, strength_endurance… */
+  modality?: string | null;
 
   /**
    * Ontology (Strength addendum §3). Multi-valued because a Bulgarian split
