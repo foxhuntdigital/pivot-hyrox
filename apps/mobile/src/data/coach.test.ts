@@ -73,3 +73,38 @@ describe('Coach intent', () => {
     assert.equal(classify('what is the capital of France').intent, null);
   });
 });
+
+/**
+ * Questions from a beta session that came back with answers to something
+ * else. Each is pinned with the athlete's own wording.
+ */
+describe('Coach intent: the beta transcript', () => {
+  test('wanting to use a piece of kit is a search, not a travel week', () => {
+    const { intent, signals } = classify('I want to do kettlebell exercises today');
+    assert.equal(intent, 'build');
+    assert.ok(signals.equipment?.includes('kb'));
+  });
+
+  test('asking for an EMOM searches for EMOM work', () => {
+    const { intent, signals } = classify('Do you have a EMOM workout I can do today');
+    assert.equal(intent, 'build');
+    assert.deepEqual(signals.keywords, ['emom']);
+  });
+
+  test('asking for a leg workout searches for leg work', () => {
+    const { intent, signals } = classify('What about a leg workout');
+    assert.equal(intent, 'build');
+    assert.ok(signals.keywords?.includes('leg'));
+  });
+
+  test('saying a session is already done is about the log', () => {
+    assert.equal(classify('But I already did the 1km repeats').intent, 'logged');
+    assert.equal(classify('But I already did the 1km repeats. I did that workout today').intent, 'logged');
+    assert.equal(classify("I've done today's session").intent, 'logged');
+  });
+
+  test('travel still wins when the athlete is travelling', () => {
+    assert.equal(classify("I'd like to train at the hotel with dumbbells").intent, 'travel');
+    assert.equal(classify('I only have dumbbells this week').intent, 'travel');
+  });
+});

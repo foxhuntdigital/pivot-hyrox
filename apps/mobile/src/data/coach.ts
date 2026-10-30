@@ -23,7 +23,8 @@ export type CoachIntent =
   | 'build'
   | 'travel'
   | 'plan'
-  | 'safety';
+  | 'safety'
+  | 'logged';
 
 /** The structured signals Coach is allowed to extract from free text. */
 export interface CoachSignals {
@@ -56,6 +57,7 @@ export const INTENT_TITLE: Record<CoachIntent, string> = {
   travel: 'Travel week adjustments',
   plan: 'Weekly plan change',
   safety: 'What I can and cannot do',
+  logged: "Today's training",
 };
 
 /**
@@ -86,6 +88,7 @@ export const INTENT_UTTERANCE: Record<CoachIntent, string> = {
   travel: "I'm travelling with a treadmill and dumbbells",
   plan: 'I can only train four days this week',
   safety: 'My knee has a sharp pain when I run — what should I do?',
+  logged: 'I already did today\'s workout',
 };
 
 /**
@@ -138,9 +141,9 @@ const EQUIPMENT_TERMS: [RegExp, string[]][] = [
 /** Content search terms Coach will accept for workout discovery. */
 const CONTENT_TERMS = [
   'sled', 'run', 'running', 'ski', 'row', 'rowing', 'wall ball', 'burpee', 'carry',
-  'lunge', 'strength', 'legs', 'upper', 'pull', 'push', 'threshold', 'tempo',
-  'interval', 'repeat', 'hybrid', 'recovery', 'mobility', 'bike', 'compromised',
-  'station', 'micro', 'engine', 'simulation', 'density',
+  'lunge', 'strength', 'leg', 'lower', 'upper', 'core', 'squat', 'hinge', 'pull', 'push',
+  'threshold', 'tempo', 'interval', 'repeat', 'hybrid', 'recovery', 'mobility', 'bike',
+  'compromised', 'station', 'micro', 'engine', 'simulation', 'density', 'emom', 'chipper',
 ];
 
 const NUMBER_WORDS: Record<string, number> = {
@@ -182,6 +185,21 @@ const BUILD_RE =
  */
 const DISCOVERY_RE =
   /\b(are there|is there|do you have|have you got|what|which|any)\b[^?]*\b(workouts?|sessions?)\b/;
+
+/**
+ * Wanting to train a particular way today: "I want to do kettlebell exercises",
+ * "can I do something for legs". With equipment or a kind of work named, this
+ * is a request for a session, not a statement about what kit the week has.
+ */
+const WANT_RE =
+  /\bi('d| would)? (really )?(want|like|wanna|feel like)( to)? (do|try|train|work on|hit)\b|\bcan i (do|try|train)\b|\blet'?s (do|try|train)\b|\bhow about\b|\bwhat about\b/;
+
+/**
+ * Telling Coach a session is already done. Answered from the log, which is
+ * the only thing that can say whether it counted.
+ */
+const LOGGED_RE =
+  /\balready (did|done|finished|completed|trained|ran)\b|\bi('ve| have)? (just )?(did|done|finished|completed) (it|that|this|today'?s?|the|my)\b/;
 
 const PROGRESS_RE =
   /faster|slower|improv\w*|progress\w*|trend\w*|getting better|any better|pace (going|trending)|am i (fitter|fit)/;
@@ -254,6 +272,11 @@ export function classify(raw: string): Classified {
 
   if (SAFETY_RE.test(text) && !low_impact) return { intent: 'safety', signals: {} };
 
+  // Before anything that would plan or build: "but I already did the 1km
+  // repeats" is about what happened, and building another session in reply to
+  // it is the answer to a question nobody asked.
+  if (LOGGED_RE.test(text)) return { intent: 'logged', signals: {} };
+
   if (PLAN_RE.test(text) && (days !== undefined || /week/.test(text))) {
     return { intent: 'plan', signals: { days: days ?? 4 } };
   }
@@ -263,6 +286,13 @@ export function classify(raw: string): Classified {
   // replacing it. Tested before travel so "any strength workouts with
   // dumbbells" is answered with strength sessions instead of a travel plan.
   if (DISCOVERY_RE.test(text)) {
+    return { intent: 'build', signals: { keywords, equipment, time_limit } };
+  }
+
+  // Wanting a kind of work, or work with a piece of kit, is a search. Tested
+  // before travel so "I want to do kettlebell exercises today" finds kettlebell
+  // sessions rather than re-planning the week around having only a kettlebell.
+  if (WANT_RE.test(text) && (keywords || equipment) && !TRAVEL_RE.test(text)) {
     return { intent: 'build', signals: { keywords, equipment, time_limit } };
   }
 
