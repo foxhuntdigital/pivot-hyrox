@@ -111,6 +111,12 @@ export interface WeekView {
    * exactly that — an athlete who took none would have failed at something.
    */
   opportunities: Opportunity[];
+  /**
+   * Sessions dropped from this week (with Coach, or by a reshape). Kept so the
+   * week can show them faintly: a week that loses a session should still look
+   * like it lost one, rather than like it was always five.
+   */
+  skipped: QueuedSession[];
 }
 
 /**
@@ -279,7 +285,7 @@ export function planView(
       phase: null,
       week: {
         done: bump, target: 0, queue: [], completed: [], completedToday: [],
-        opportunities: [],
+        opportunities: [], skipped: [],
       },
       training7d: null,
       shape: { days_trained: 0, days_remaining: 0, queue_remaining: 0 },
@@ -339,6 +345,7 @@ export function planView(
       completedToday: (today.week?.completed ?? [])
         .filter(c => c.completed_on === today.date_local),
       opportunities: today.week?.opportunities ?? [],
+      skipped: (today.week?.queue ?? []).filter(q => q.state === 'skipped'),
     },
     training7d: today.training_7d ?? null,
     shape: {
