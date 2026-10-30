@@ -22,7 +22,7 @@ import {
 } from '@pivot/engine';
 import { EXERCISES, TEMPLATES, SUBSTITUTIONS, exerciseById } from '../data/content';
 import { metricDetail, type MetricDetail } from '../data/metrics';
-import { EMPTY_PROFILE, type AthleteProfile, type ExperienceLevel } from '../data/profile';
+import { EMPTY_PROFILE, type AthleteProfile } from '../data/profile';
 import { fetchProfile, saveProfile } from '../data/profileRepo';
 import {
   fetchToday,
@@ -315,7 +315,6 @@ export function snapshot(s: State): Restorable {
 
 type Action =
   | { type: 'set_name'; name: string }
-  | { type: 'set_experience'; level: ExperienceLevel }
   | { type: 'set_postpartum_date'; date: string | null }
   | { type: 'set_predictability'; value: number }
   | { type: 'hydrate_profile'; profile: AthleteProfile }
@@ -352,8 +351,6 @@ function reducer(s: State, a: Action): State {
   switch (a.type) {
     case 'set_name':
       return { ...s, profile: { ...s.profile, display_name: a.name } };
-    case 'set_experience':
-      return { ...s, profile: { ...s.profile, experience_level: a.level } };
     case 'set_postpartum_date':
       return { ...s, profile: { ...s.profile, postpartum_birth_date: a.date } };
     case 'set_predictability':

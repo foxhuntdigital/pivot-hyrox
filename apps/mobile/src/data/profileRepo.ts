@@ -7,19 +7,18 @@
 import { supabase } from '@/lib/supabase';
 import { postgrestError } from './postgrest';
 import {
-  clampPredictability, clampSessionMinutes, isExperienceLevel, readConsiderations,
-  type AthleteProfile, type ExperienceLevel,
+  clampPredictability, clampSessionMinutes, readConsiderations,
+  type AthleteProfile,
 } from './profile';
 
 // One string literal, not a concatenation: supabase-js infers the row type from
 // the literal, and a computed string degrades it to an error type.
 // eslint-disable-next-line max-len
-const COLUMNS = 'user_id, display_name, experience_level, postpartum_birth_date, schedule_predictability, considerations, typical_session_minutes, load_capacity, technical_capacity';
+const COLUMNS = 'user_id, display_name, postpartum_birth_date, schedule_predictability, considerations, typical_session_minutes, load_capacity, technical_capacity';
 
 interface Row {
   user_id: string;
   display_name: string | null;
-  experience_level: string;
   load_capacity: number | null;
   technical_capacity: number | null;
   postpartum_birth_date: string | null;
@@ -33,9 +32,6 @@ function toProfile(row: Row, fallbackName: string): AthleteProfile {
     display_name: row.display_name?.trim() || fallbackName,
     load_capacity: row.load_capacity ?? null,
     technical_capacity: row.technical_capacity ?? null,
-    experience_level: isExperienceLevel(row.experience_level)
-      ? (row.experience_level as ExperienceLevel)
-      : 'intermediate',
     postpartum_birth_date: row.postpartum_birth_date,
     schedule_predictability: clampPredictability(row.schedule_predictability),
     considerations: readConsiderations(row.considerations),

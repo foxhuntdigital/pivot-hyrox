@@ -25,9 +25,9 @@ import { GoalSettings } from '@/components/GoalSettings';
 import { useDialog } from '@/components/Dialog';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import {
-  CONSIDERATION_CHOICES, EXPERIENCE_LEVELS, PREDICTABILITY_CHOICES, descriptorOf, initialsOf, levelLabel,
-  monthsPostpartum, nearestPredictability, parseISODate, postpartumPhrase,
-  preGeneratesVariants, SESSION_MINUTES, toISODate,
+  CONSIDERATION_CHOICES, LOAD_CAPACITY_CHOICES, PREDICTABILITY_CHOICES, TECHNICAL_CAPACITY_CHOICES,
+  capacityLabel, descriptorOf, initialsOf, monthsPostpartum, nearestPredictability, parseISODate,
+  postpartumPhrase, preGeneratesVariants, SESSION_MINUTES, toISODate,
 } from '@/data/profile';
 import { EQUIPMENT_CHOICES } from '@/data/content';
 
@@ -181,6 +181,8 @@ export default function ProfileScreen() {
   const tour = useTour();
   const router = useRouter();
   const { profile } = state;
+  const loadLabel = capacityLabel(LOAD_CAPACITY_CHOICES, profile.load_capacity);
+  const technicalLabel = capacityLabel(TECHNICAL_CAPACITY_CHOICES, profile.technical_capacity);
 
   const [signingOut, setSigningOut] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -386,7 +388,7 @@ export default function ProfileScreen() {
       ) : null}
 
       {/* ── About you ────────────────────────────────────
-          Name, level and postpartum are one disclosure: they are the fields
+          Name, fitness and postpartum are one disclosure: they are the fields
           that describe the athlete rather than the training, and all three are
           already summarised in the header above. */}
       <Section
@@ -416,24 +418,26 @@ export default function ProfileScreen() {
           }}
         />
 
-        <FieldLabel>Fitness level</FieldLabel>
-        <View style={{ flexDirection: 'row', gap: 6 }}>
-          {EXPERIENCE_LEVELS.map(level => (
-            <Chip
-              key={level} flex size="sm" label={levelLabel(level)}
-              active={profile.experience_level === level}
-              onPress={() => {
-                dispatch({ type: 'set_experience', level });
-                commitProfile({ experience_level: level });
-              }}
-              style={{ paddingVertical: 13 }}
-            />
-          ))}
-        </View>
-        <Text style={[t.meta, { paddingTop: 10, color: color.muted }]}>
-          Sets the starting point for progression. Session difficulty still follows
-          your readiness and the day's stimulus.
-        </Text>
+        {/* The two capacity answers that size the plan. Edited on their own
+            screen rather than as chips here, because a change rebuilds the
+            weeks ahead and the athlete should see that before it happens. */}
+        <FieldLabel>Fitness and experience</FieldLabel>
+        {loadLabel && technicalLabel ? (
+          <Text style={[t.bodySm, { color: color.ink }]}>
+            {loadLabel} · {technicalLabel}
+          </Text>
+        ) : (
+          <Text style={[t.bodySm, { color: color.muted2 }]}>
+            Not answered yet, so your plan is sized for the middle.
+          </Text>
+        )}
+        <ActionButton
+          label={loadLabel && technicalLabel ? 'Change' : 'Answer two questions'}
+          variant="outline"
+          arrow={null}
+          onPress={() => router.push('/capacity' as never)}
+          style={{ marginTop: 10 }}
+        />
 
         <FieldLabel>Postpartum</FieldLabel>
         {birth ? (

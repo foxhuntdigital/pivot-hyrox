@@ -6,18 +6,14 @@
  * constraint is carried by `considerations`, which the athlete sets explicitly.
  * Elapsed time is not consent, so no threshold here lifts a guardrail.
  */
-export const EXPERIENCE_LEVELS = ['beginner', 'intermediate', 'advanced'] as const;
-export type ExperienceLevel = (typeof EXPERIENCE_LEVELS)[number];
-
 export interface AthleteProfile {
   display_name: string;
-  experience_level: ExperienceLevel;
   /**
    * What the athlete can absorb and how technical a session they can perform
    * well, 1-4 each (migration 0023). Null until they have answered.
    *
-   * `experience_level` above is retained as context and is no longer read by
-   * anything that decides programming.
+   * These replace the old `experience_level` column, which the app no longer
+   * reads or writes. It stays in the table as a record of earlier answers.
    */
   load_capacity: number | null;
   technical_capacity: number | null;
@@ -134,7 +130,6 @@ export function preGeneratesVariants(v: number): boolean {
  */
 export const EMPTY_PROFILE: AthleteProfile = {
   display_name: '',
-  experience_level: 'intermediate',
   load_capacity: null,
   technical_capacity: null,
   postpartum_birth_date: null,
@@ -143,8 +138,40 @@ export const EMPTY_PROFILE: AthleteProfile = {
   typical_session_minutes: DEFAULT_SESSION_MINUTES,
 };
 
-export function isExperienceLevel(v: unknown): v is ExperienceLevel {
-  return typeof v === 'string' && (EXPERIENCE_LEVELS as readonly string[]).includes(v);
+/**
+ * How much work the athlete can absorb. Sizes the week from the first plan.
+ *
+ * Phrased as where they are rather than what they have done, because the two
+ * come apart: an athlete six weeks back from injury has years of history and is
+ * rebuilding a base, and the honest answer to this question is the first one.
+ *
+ * Shared by onboarding, the capacity screen and Profile, so the label an
+ * athlete picked is the label they see everywhere.
+ */
+export const LOAD_CAPACITY_CHOICES = [
+  { value: 1, label: 'Beginner', detail: "I'm building or rebuilding my fitness base." },
+  { value: 2, label: 'Intermediate', detail: 'I train consistently and handle challenging workouts comfortably.' },
+  { value: 3, label: 'Advanced', detail: 'I have a strong fitness base and regularly train hard.' },
+  { value: 4, label: 'Competitive', detail: 'I train seriously for performance and competition.' },
+];
+
+/**
+ * How technical a session they can perform well. A broad prior, and explicitly
+ * not final truth: it excludes work that would be unsafe rather than ranking
+ * what they get, and domain-specific familiarity is meant to refine it later.
+ */
+export const TECHNICAL_CAPACITY_CHOICES = [
+  { value: 1, label: 'New to it', detail: "I'm still learning how to train for performance." },
+  { value: 2, label: 'Some experience', detail: 'I’m comfortable with common strength, conditioning and endurance workouts.' },
+  { value: 3, label: 'Experienced', detail: 'I’ve trained seriously across strength and/or endurance for several years.' },
+  { value: 4, label: 'Highly experienced', detail: 'I’m comfortable with advanced programming, technical movements and demanding training.' },
+];
+
+/** The picked option's label, or null when the athlete has not answered. */
+export function capacityLabel(
+  choices: { value: number; label: string }[], value: number | null,
+): string | null {
+  return choices.find(c => c.value === value)?.label ?? null;
 }
 
 /**
@@ -192,13 +219,9 @@ export function initialsOf(name: string): string {
   return letters.toUpperCase();
 }
 
-export function levelLabel(level: ExperienceLevel): string {
-  return level[0].toUpperCase() + level.slice(1);
-}
-
 /** The line under the athlete's name — recomputed, never stored. */
 export function descriptorOf(profile: AthleteProfile, now: Date = new Date()): string {
-  return [levelLabel(profile.experience_level), 'Hybrid',
+  return [capacityLabel(LOAD_CAPACITY_CHOICES, profile.load_capacity), 'Hybrid',
     postpartumPhrase(profile.postpartum_birth_date, now)]
     .filter(Boolean).join(' · ');
 }

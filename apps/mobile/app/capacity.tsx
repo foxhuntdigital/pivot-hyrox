@@ -12,6 +12,9 @@
  * known", every rule ignores it, and the plan they have today is the plan they
  * keep until they answer.
  *
+ * Profile opens the same screen to change an answer, which is why it reads as
+ * an edit when both are already set.
+ *
  * Answering re-sizes the weeks they have not started. That is the whole point —
  * a question whose answer changes nothing is the thing this project exists to
  * stop shipping.
@@ -25,21 +28,8 @@ import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label } from '@/components/primitives';
 import { ChipRow } from '@/components/onboarding';
 import { saveCapacity } from '@/data/profileRepo';
+import { LOAD_CAPACITY_CHOICES, TECHNICAL_CAPACITY_CHOICES } from '@/data/profile';
 import { useApp } from '@/state/store';
-
-const FITNESS = [
-  { value: 1, label: 'Beginner', detail: "I'm building or rebuilding my fitness base." },
-  { value: 2, label: 'Intermediate', detail: 'I train consistently and handle challenging workouts comfortably.' },
-  { value: 3, label: 'Advanced', detail: 'I have a strong fitness base and regularly train hard.' },
-  { value: 4, label: 'Competitive', detail: 'I train seriously for performance and competition.' },
-];
-
-const TECHNICAL = [
-  { value: 1, label: 'New to it', detail: "I'm still learning how to train for performance." },
-  { value: 2, label: 'Some experience', detail: 'I’m comfortable with common strength, conditioning and endurance workouts.' },
-  { value: 3, label: 'Experienced', detail: 'I’ve trained seriously across strength and/or endurance for several years.' },
-  { value: 4, label: 'Highly experienced', detail: 'I’m comfortable with advanced programming, technical movements and demanding training.' },
-];
 
 function Detail({ options, value }: {
   options: { value: number; label: string; detail: string }[];
@@ -66,7 +56,13 @@ export default function CapacityScreen() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const ready = load != null && technical != null;
+  // Opened from Profile by an athlete who has already answered, this is an
+  // edit, not the catch-up prompt Today shows to those who never were asked.
+  const [editing] = useState(
+    state.profile.load_capacity != null && state.profile.technical_capacity != null);
+  const changed = load !== state.profile.load_capacity
+    || technical !== state.profile.technical_capacity;
+  const ready = load != null && technical != null && (!editing || changed);
 
   async function submit() {
     if (!ready || saving) return;
@@ -91,42 +87,45 @@ export default function CapacityScreen() {
         paddingTop: insets.top + 12, paddingBottom: 14, paddingHorizontal: space.gutter,
         flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
       }}>
-        <Label tone="ink">Sizing your training</Label>
+        <Label tone="ink">{editing ? 'Fitness and experience' : 'Sizing your training'}</Label>
         <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button">
-          <Label tone="muted">Not now</Label>
+          <Label tone="muted">{editing ? 'Cancel' : 'Not now'}</Label>
         </Pressable>
       </View>
       <Rule heavy />
 
       <ScrollView contentContainerStyle={{ paddingTop: 20, paddingBottom: insets.bottom + 30 }}>
         <Text style={[t.h3, { paddingHorizontal: space.gutter, color: color.ink }]}>
-          Two questions we didn't ask you
+          {editing ? 'Fitness and experience' : "Two questions we didn't ask you"}
         </Text>
         <Text style={[t.bodySm, {
           paddingHorizontal: space.gutter, paddingTop: 8, paddingBottom: 22, color: color.muted2,
         }]}>
-          They decide how much training a week holds. Your plan was built before we asked, so
-          it is currently sized for the middle. Answering rebuilds the weeks you haven't
-          started — this week is left as it is.
+          {editing
+            ? 'These decide how much training a week holds. Changing them rebuilds the weeks '
+              + "you haven't started. This week is left as it is."
+            : 'They decide how much training a week holds. Your plan was built before we asked, '
+              + "so it is currently sized for the middle. Answering rebuilds the weeks you haven't "
+              + 'started. This week is left as it is.'}
         </Text>
 
         <ChipRow
           label="How would you describe your fitness right now?"
-          options={FITNESS.map(o => ({ value: o.value, label: o.label }))}
+          options={LOAD_CAPACITY_CHOICES.map(o => ({ value: o.value, label: o.label }))}
           value={load}
           onChange={setLoad}
           columns={2}
         />
-        <Detail options={FITNESS} value={load} />
+        <Detail options={LOAD_CAPACITY_CHOICES} value={load} />
 
         <ChipRow
           label="How experienced are you with structured performance training?"
-          options={TECHNICAL.map(o => ({ value: o.value, label: o.label }))}
+          options={TECHNICAL_CAPACITY_CHOICES.map(o => ({ value: o.value, label: o.label }))}
           value={technical}
           onChange={setTechnical}
           columns={2}
         />
-        <Detail options={TECHNICAL} value={technical} />
+        <Detail options={TECHNICAL_CAPACITY_CHOICES} value={technical} />
 
         {error ? (
           <View style={{
@@ -155,7 +154,8 @@ export default function CapacityScreen() {
             ? <ActivityIndicator color={color.onDark} />
             : (
               <Text style={[t.button, { color: color.onDark }]}>
-                {ready ? 'Rebuild my plan' : 'Answer both to continue'}
+                {ready ? 'Rebuild my plan'
+                  : editing ? 'Change an answer to rebuild' : 'Answer both to continue'}
               </Text>
             )}
         </Pressable>

@@ -23,7 +23,7 @@ import {
   recommend, recoveryFromEnergy, type EngineInput,
 } from '../../../packages/engine/src/index.ts';
 import {
-  anthropicLlm, narrateProgress, runCoachTurn,
+  anthropicLlm, athleteCapacity, narrateProgress, runCoachTurn,
   type AnthropicResponse, type CoachContext, type CoachServices,
 } from '../../../packages/coach/src/index.ts';
 import {
@@ -338,7 +338,7 @@ Deno.serve(async (req) => {
         athlete_id: user.id,
         timezone: user.timezone,
         units: user.units,
-        experience_level: state.profile?.experience_level ?? null,
+        ...athleteCapacity(state.profile),
         // Return-to-training considerations are marked SENSITIVE in the schema
         // and must not go to the AI coach beyond the granted purpose (§13.2).
         // They already constrain the engine through `input.considerations`, so

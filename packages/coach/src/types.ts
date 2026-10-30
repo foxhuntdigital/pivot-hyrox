@@ -57,7 +57,12 @@ export interface CoachContext {
     athlete_id: string;
     timezone: string;
     units: string;
-    experience_level?: string | null;
+    /**
+     * The athlete's own capacity answers, as the labels they picked
+     * ("Intermediate", "Some experience"). Null when not answered.
+     */
+    fitness?: string | null;
+    training_experience?: string | null;
     flags?: string[];
   };
   active_race: { name: string; date: string; division: string; days_remaining: number | null } | null;
