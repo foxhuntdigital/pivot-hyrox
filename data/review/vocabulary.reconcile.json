@@ -7271,7 +7271,7 @@
       "review_status": "Review",
       "review_notes": "Advanced vocabulary; gate by athlete skill/readiness, not equipment alone.",
       "issues": [],
-      "note": "looks related to ex_push_up (Push-Up), ex_trx_push_up (TRX Push-Up) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
+      "note": "looks related to ex_push_up (Push-Up), ex_trx_push_up (Suspension Trainer Push-Up) — rule ALIAS_EXISTING, VARIANT_OF_EXISTING or NEW_CANONICAL"
     },
     {
       "row": 149,
@@ -10441,7 +10441,7 @@
     },
     {
       "id": "ex_trx_push_up",
-      "name": "TRX Push-Up",
+      "name": "Suspension Trainer Push-Up",
       "disposition": "KEEP_EXISTING",
       "referenced_by": 2,
       "reason": "referenced by 2 live reference(s)"
@@ -10525,7 +10525,7 @@
     },
     {
       "id": "ex_trx_row",
-      "name": "TRX Row",
+      "name": "Suspension Trainer Row",
       "disposition": "KEEP_EXISTING",
       "referenced_by": 6,
       "reason": "kept by product ruling"

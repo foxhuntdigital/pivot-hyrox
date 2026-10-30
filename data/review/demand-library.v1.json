@@ -18229,7 +18229,7 @@
       {
        "sequence_order": 4,
        "exercise_id": "ex_trx_push_up",
-       "exercise_name": "TRX Push-Up",
+       "exercise_name": "Suspension Trainer Push-Up",
        "modality": "strength",
        "movement_pattern": "horizontal_push",
        "complexity_level": "basic",
@@ -18254,7 +18254,7 @@
        "target_rpe": null,
        "intensity_note": "smooth",
        "side_note": null,
-       "reads_as": "TRX Push-Up — 3×12 @ smooth rest 75s"
+       "reads_as": "Suspension Trainer Push-Up — 3×12 @ smooth rest 75s"
       },
       {
        "sequence_order": 5,
@@ -18289,7 +18289,7 @@
      ]
     }
    ],
-   "prescription_summary": "B1 [Main] continuous\n    1. Push Press — 4×6 @ RPE 7 rest 150s\n    2. Incline DB Press — 3×10 @ RPE 7 rest 120s\n    3. Landmine Press — 3×10/side @ RPE 7 rest 90s\n    4. TRX Push-Up — 3×12 @ smooth rest 75s\n    5. Wall Ball — 4×15 @ RPE 6 rest 60s",
+   "prescription_summary": "B1 [Main] continuous\n    1. Push Press — 4×6 @ RPE 7 rest 150s\n    2. Incline DB Press — 3×10 @ RPE 7 rest 120s\n    3. Landmine Press — 3×10/side @ RPE 7 rest 90s\n    4. Suspension Trainer Push-Up — 3×12 @ smooth rest 75s\n    5. Wall Ball — 4×15 @ RPE 6 rest 60s",
    "technical_demand": 2,
    "load_demand": 2
   },
@@ -30951,7 +30951,7 @@
       {
        "sequence_order": 2,
        "exercise_id": "ex_trx_row",
-       "exercise_name": "TRX Row",
+       "exercise_name": "Suspension Trainer Row",
        "modality": "strength",
        "movement_pattern": "horizontal_pull",
        "complexity_level": "basic",
@@ -30976,12 +30976,12 @@
        "target_rpe": null,
        "intensity_note": null,
        "side_note": null,
-       "reads_as": "TRX Row — 10 reps"
+       "reads_as": "Suspension Trainer Row — 10 reps"
       }
      ]
     }
    ],
-   "prescription_summary": "B1 [Main] continuous, 15 min\n    1. Sled Pull — 40 ft\n    2. TRX Row — 10 reps",
+   "prescription_summary": "B1 [Main] continuous, 15 min\n    1. Sled Pull — 40 ft\n    2. Suspension Trainer Row — 10 reps",
    "technical_demand": 2,
    "load_demand": 2
   },

@@ -759,7 +759,7 @@ wo_hyrox_push_a,HYROX Push A,strength,strength_push,strength,strength,wall_ball,
     1. Push Press — 4×6 @ RPE 7 rest 150s
     2. Incline DB Press — 3×10 @ RPE 7 rest 120s
     3. Landmine Press — 3×10/side @ RPE 7 rest 90s
-    4. TRX Push-Up — 3×12 @ smooth rest 75s
+    4. Suspension Trainer Push-Up — 3×12 @ smooth rest 75s
     5. Wall Ball — 4×15 @ RPE 6 rest 60s",2,2,1,5,"green: 55min ×1 — full prescription
 yellow: 35min ×0.65 — reduce rounds/sets; preserve purpose
 red: 16min ×0.3 — minimum effective dose"
@@ -1272,7 +1272,7 @@ yellow: 10min ×0.65 — preserve the primary stimulus; reduce accessory volume 
 red: 8min ×0.3 — minimum effective dose; no intensity compensation"
 mx_sled_pull_density,Sled Pull — Density,hybrid,station_sled_pull,strength_endurance,race_specific,,work_density,15,RPE 6-7,low,0.88,TRUE,FALSE,FALSE,Adaptive Athlete Follow-up v2 workout.,,"B1 [Main] continuous, 15 min
     1. Sled Pull — 40 ft
-    2. TRX Row — 10 reps",2,2,1,2,"green: 15min ×1 — full prescription
+    2. Suspension Trainer Row — 10 reps",2,2,1,2,"green: 15min ×1 — full prescription
 yellow: 10min ×0.65 — preserve the primary stimulus; reduce accessory volume first
 red: 8min ×0.3 — minimum effective dose; no intensity compensation"
 mx_sled_pull_race_specific,Sled Pull — Race Specific,hybrid,station_sled_pull,strength_endurance,race_specific,,race_pacing,20,RPE 6-7,low,0.81,TRUE,FALSE,FALSE,Adaptive Athlete Follow-up v2 workout.,,"B1 [Main] rounds, 5 rounds

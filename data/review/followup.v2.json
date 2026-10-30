@@ -658,12 +658,12 @@
   "mx_sled_pull_density": {
    "decision": "create",
    "exercise": {
-    "name": "TRX Row",
+    "name": "Suspension Trainer Row",
     "canonical_name": "trx_row",
     "modality": "strength",
     "movement_pattern": "horizontal_pull",
     "equipment": [
-     "TRX"
+     "Suspension Trainer"
     ],
     "default_unit": "reps",
     "impact_level": "low",

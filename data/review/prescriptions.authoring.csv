@@ -9,7 +9,7 @@ rest_seconds,workout,position,exercise,prescription,target_rpe,block,id
 150,HYROX Push A,movement 1,Push Press,4 x 6,7,Main,wo_hyrox_push_a_b1_e1
 120,HYROX Push A,movement 2,Incline DB Press,3 x 10,7,Main,wo_hyrox_push_a_b1_e2
 90,HYROX Push A,movement 3,Landmine Press,3 x 10,7,Main,wo_hyrox_push_a_b1_e3
-75,HYROX Push A,movement 4,TRX Push-Up,3 x 12,,Main,wo_hyrox_push_a_b1_e4
+75,HYROX Push A,movement 4,Suspension Trainer Push-Up,3 x 12,,Main,wo_hyrox_push_a_b1_e4
 60,HYROX Push A,movement 5,Wall Ball,4 x 15,6,Main,wo_hyrox_push_a_b1_e5
 180,HYROX Pull A,movement 1,Deadlift,4 x 5,7,Main,wo_hyrox_pull_a_b1_e1
 120,HYROX Pull A,movement 2,DB Row,3 x 10,7,Main,wo_hyrox_pull_a_b1_e2

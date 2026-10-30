@@ -3776,8 +3776,8 @@
   },
   {
    "id": "ex_trx_row",
-   "name": "TRX Row",
-   "canonical_name": "TRX Row",
+   "name": "Suspension Trainer Row",
+   "canonical_name": "Suspension Trainer Row",
    "aliases": [],
    "category": "strength",
    "status": "content_eligible",
@@ -4348,8 +4348,8 @@
   },
   {
    "id": "ex_trx_push_up",
-   "name": "TRX Push-Up",
-   "canonical_name": "TRX Push-Up",
+   "name": "Suspension Trainer Push-Up",
+   "canonical_name": "Suspension Trainer Push-Up",
    "aliases": [],
    "category": "strength",
    "status": "content_eligible",
