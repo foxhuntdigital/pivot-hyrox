@@ -782,8 +782,14 @@ export default function TodayScreen() {
         <Text style={[t.bodySm, {
           paddingHorizontal: space.gutter, paddingTop: 14, color: color.muted2,
         }]}>
-          {factoredIn.length
-            ? `${factoredIn.join(' and ')} ${factoredIn.length > 1 ? 'are' : 'is'} `
+          {/* Once today is trained there are no options left to recalculate,
+              so the line looks forward: the session just done is one of the
+              recent sessions tomorrow's decision reads. */}
+          {finishedToday
+            ? 'Today\'s session is done, and tomorrow\'s options are built around it. '
+              + 'Nothing is marked missed.'
+            : factoredIn.length
+            ? `${capitalise(factoredIn.join(' and '))} ${factoredIn.length > 1 ? 'are' : 'is'} `
               + 'factored into today\'s options. Nothing is marked missed.'
             : 'Nothing is marked missed. Check in and today\'s options are '
               + 'recalculated from how you actually slept.'}
@@ -793,4 +799,9 @@ export default function TodayScreen() {
       <AdaptSheet visible={sheetOpen} onClose={() => setSheetOpen(false)} />
     </>
   );
+}
+
+/** Sentence case for a clause that may open the sentence or sit inside it. */
+function capitalise(text: string): string {
+  return text.charAt(0).toUpperCase() + text.slice(1);
 }
