@@ -293,12 +293,27 @@ export default function TodayScreen() {
    * was performed is the only thing that can name what was performed.
    */
   const pending = plan.pendingSession;
-  const doneNames = plan.week.completedToday.length
-    ? plan.week.completedToday.map(c => c.name)
-    : pending ? [pending.name] : [];
+  // Both, not either: `pending` is only set while the server is missing that
+  // session, so a second workout finished offline after a first one synced is
+  // still waiting and has to be named alongside it.
+  const doneNames = [
+    ...plan.week.completedToday.map(c => c.name),
+    ...(pending ? [pending.name] : []),
+  ];
   const doneMinutes = plan.week.completedToday.reduce(
     (n, c) => n + (c.estimated_minutes ?? 0), 0)
-    || pending?.estimated_minutes || 0;
+    + (pending?.estimated_minutes ?? 0);
+
+  /**
+   * Another session chosen after today's was finished.
+   *
+   * Finishing spends the override (`back_to_today`), so one standing after a
+   * finish is a session the athlete picked since, from Plan's "Do today". The
+   * finished card used to replace the session card outright, so that choice
+   * was applied and then never shown, with no Start to act on it.
+   */
+  const stacked = finishedToday && state.override_template_id != null
+    && session.kind === 'session';
 
   const start = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -581,8 +596,9 @@ export default function TodayScreen() {
 
         {finishedToday ? (
           /* Done for today. The Start button is withheld rather than offering a
-             second session under a heading the athlete has already satisfied —
-             and the card states what was logged instead of restating a plan. */
+             second session nobody asked for, and the card states what was
+             logged instead of restating a plan. A session the athlete has
+             chosen to add since is shown below it, with its own Start. */
           <View style={{ marginHorizontal: space.gutter, marginTop: 10 }}>
             <Slab>
             <View style={{ borderWidth: 2, borderColor: color.ink }}>
@@ -618,8 +634,11 @@ export default function TodayScreen() {
                 paddingHorizontal: 16, paddingVertical: 12,
               }}>
                 <Text style={[t.bodySm, { color: color.muted2 }]}>
-                  Today's stimulus is logged and the week keeps the rest of its
-                  sessions. Nothing else is asked of you today.
+                  {stacked
+                    ? 'Logged. The session you added is below; start it when you are ready.'
+                    : 'Today\'s stimulus is logged and the week keeps the rest of its '
+                      + 'sessions. Nothing else is asked of you today. To train again, '
+                      + 'pick a session from the week.'}
                 </Text>
               </View>
             </View>
@@ -631,7 +650,15 @@ export default function TodayScreen() {
               style={{ marginTop: 10 }}
             />
           </View>
-        ) : session.kind === 'session' ? (
+        ) : null}
+
+        {stacked ? (
+          <View style={{ paddingHorizontal: space.gutter, paddingTop: 22 }}>
+            <Label>Added today</Label>
+          </View>
+        ) : null}
+
+        {(!finishedToday || stacked) && (session.kind === 'session' ? (
           <>
             <TourSpot id="session" style={{
               margin: 10, marginHorizontal: space.gutter, marginBottom: 0,
@@ -749,7 +776,7 @@ export default function TodayScreen() {
               onPress={() => setSheetOpen(true)} style={{ marginTop: 10 }}
             />
           </View>
-        )}
+        ))}
 
         <View style={{ paddingHorizontal: space.gutter, paddingTop: 22, paddingBottom: 8 }}>
           <Rule heavy />
