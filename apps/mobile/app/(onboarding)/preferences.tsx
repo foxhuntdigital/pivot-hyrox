@@ -22,6 +22,7 @@ import { useRouter } from 'expo-router';
 import { OnboardingStep } from '@/components/onboarding';
 import { Chip, Label, Rule, SquareCheck } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
+import { canPickMore, needsWorkNote, toggleNeedsWork } from '@/state/needsWork';
 import {
   PREFERENCE_OPTIONS, WEAKNESS_OPTIONS, savePreference, saveWeakness,
   type PreferenceRating, type Preferences,
@@ -39,11 +40,14 @@ export default function PreferencesScreen() {
   const [chosen, setChosen] = useState<Preferences>({});
   const [weak, setWeak] = useState<string[]>([]);
 
+  // Up to three (`needsWork`): a fourth tap is refused rather than saved.
   const toggleWeak = (value: string) => {
-    const stated = !weak.includes(value);
-    setWeak(prev => (stated ? [...prev, value] : prev.filter(v => v !== value)));
-    saveWeakness(value, stated).catch(() => {});
+    const result = toggleNeedsWork(weak, value);
+    if (result.blocked) return;
+    setWeak(result.next);
+    saveWeakness(value, result.picked).catch(() => {});
   };
+  const morePickable = canPickMore(weak);
 
   const set = (value: string, rating: PreferenceRating) => {
     const next = chosen[value] === rating ? null : rating;
@@ -124,21 +128,24 @@ export default function PreferencesScreen() {
         paddingHorizontal: space.gutter, fontSize: 11.5, lineHeight: 17,
         color: color.muted, paddingBottom: 8,
       }]}>
-        Your read on yourself. Kept separate from what your training actually shows.
-        When the two disagree, PIVOT keeps both and says so.
+        Your read on yourself, up to three. Kept separate from what your training actually
+        shows. When the two disagree, PIVOT keeps both and says so.
       </Text>
 
       <View style={{ paddingHorizontal: space.gutter }}>
         {WEAKNESS_OPTIONS.map(option => {
           const on = weak.includes(option.value);
+          const disabled = !on && !morePickable;
           return (
             <Pressable
               key={option.value}
               onPress={() => toggleWeak(option.value)}
+              disabled={disabled}
               accessibilityRole="checkbox"
-              accessibilityState={{ checked: on }}
+              accessibilityState={{ checked: on, disabled }}
               accessibilityLabel={option.label}
               style={{
+                opacity: disabled ? 0.45 : 1,
                 flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
                 paddingVertical: 13,
                 borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
@@ -159,6 +166,9 @@ export default function PreferencesScreen() {
             </Pressable>
           );
         })}
+        <Text style={[t.meta, { fontSize: 11.5, color: color.muted2, marginTop: 10 }]}>
+          {needsWorkNote(weak)}
+        </Text>
       </View>
     </OnboardingStep>
   );
