@@ -10,7 +10,9 @@
  * without a database; `loadReadinessHistory` is the thin part that fetches
  * them.
  */
-import { HYROX_STATION_EXERCISES, type ReadinessInputs } from '../../../packages/engine/src/index.ts';
+import {
+  HYROX_STATION_EXERCISES, recoverySignal, type ReadinessInputs, type RecoveryCheckin,
+} from '../../../packages/engine/src/index.ts';
 
 /** Windows the model is defined over, in days. */
 export const WINDOWS = { aerobic: 14, threshold: 14, run: 7, stations: 21, strength: 28, observed: 30 } as const;
@@ -194,4 +196,73 @@ export async function loadReadinessHistory(db: any, userId: string, today: strin
     setLogs: (setRes.data ?? []).map(attach) as SetLogRow[],
     cardioLogs: (cardioRes.data ?? []).map(attach) as CardioLogRow[],
   };
+}
+
+/* --------------------------------------------- consistency and recovery --- */
+
+/** Completed weeks averaged into consistency (`stimulus_adherence_4w`). */
+export const CONSISTENCY_WEEKS = 4;
+
+/** Days of check-ins averaged into recovery. */
+export const RECOVERY_DAYS = 7;
+
+export interface WeekNeed { completed_exposures: number; target_exposures: number }
+
+/** One week's share of its training needs met, each need capped at full. Null when it set none. */
+export function weekAdherence(needs: WeekNeed[]): number | null {
+  const set = needs.filter(n => n.target_exposures > 0);
+  if (!set.length) return null;
+  return set.reduce((sum, n) => sum + Math.min(1, n.completed_exposures / n.target_exposures), 0)
+    / set.length;
+}
+
+/**
+ * Consistency over the last four completed weeks, as its name has always said.
+ *
+ * It used to read the current week alone, so it reset every Monday: a fully
+ * consistent athlete scored zero on the first morning of each week, and 15%
+ * of readiness went with it. The current week now counts only when there is
+ * no completed week to read, which is week one of a first block, so a new
+ * athlete still gets a reading from what they have done so far.
+ *
+ * Each week weighs the same, whatever it asked for: a deload week is as much
+ * a test of consistency as a heavy one.
+ */
+export function stimulusAdherence(args: {
+  /** Earlier weeks' needs, most recent first. */
+  previousWeeks: WeekNeed[][];
+  currentWeek: WeekNeed[];
+}): number {
+  const weeks = args.previousWeeks
+    .map(weekAdherence)
+    .filter((a): a is number => a !== null)
+    .slice(0, CONSISTENCY_WEEKS);
+  if (weeks.length) return weeks.reduce((sum, a) => sum + a, 0) / weeks.length;
+  return weekAdherence(args.currentWeek) ?? 0;
+}
+
+/**
+ * Recovery from the last week of check-ins, averaged.
+ *
+ * It used to read the most recent check-in however old it was, so a good night
+ * reported five days ago went on scoring as if it were last night. A week's
+ * average follows how the athlete has actually been without swinging on one
+ * bad night, and a check-in older than the window stops counting. With none
+ * inside it, the signal is 0, which the model reads as unmeasured rather than
+ * as poor (`observed.recovery`).
+ */
+export function recoveryOverDays(args: {
+  today: string;
+  checkins: (RecoveryCheckin & { local_date: string })[];
+  days?: number;
+}): number {
+  const days = args.days ?? RECOVERY_DAYS;
+  const signals = args.checkins
+    .filter(c => {
+      const age = daysAgo(args.today, `${c.local_date}T00:00:00Z`);
+      return age >= 0 && age < days;
+    })
+    .map(c => recoverySignal(c))
+    .filter((v): v is number => v !== null);
+  return signals.length ? signals.reduce((sum, v) => sum + v, 0) / signals.length : 0;
 }

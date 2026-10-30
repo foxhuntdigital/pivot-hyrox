@@ -6,10 +6,10 @@
  * the sentence and the number drift apart, which is the failure this whole
  * change exists to fix.
  */
-import { computeReadiness,
-  recoverySignal, type RecoveryCheckin,
-} from '../../../packages/engine/src/index.ts';
-import { loadReadinessHistory, readinessInputsFrom } from './readiness-history.ts';
+import { computeReadiness, type RecoveryCheckin } from '../../../packages/engine/src/index.ts';
+import {
+  loadReadinessHistory, readinessInputsFrom, recoveryOverDays, stimulusAdherence, type WeekNeed,
+} from './readiness-history.ts';
 import { comparableSeries, type ComparableSeries } from './comparable.ts';
 import { metricDetailFrom, type MetricDetail } from './metric-detail.ts';
 
@@ -37,6 +37,8 @@ export async function loadProgressSnapshot(args: {
   content: { templates: any[] };
   state: {
     stimulus_requirements: { completed_exposures: number; target_exposures: number }[];
+    /** Earlier weeks' needs, most recent first (`loadAthleteState`). */
+    previous_weeks_needs?: WeekNeed[][];
     checkin: unknown;
     checkins: { local_date: string; sleep_hours: number | null; energy: string | null }[];
     queue: { state: string }[];
@@ -57,15 +59,19 @@ export async function loadProgressSnapshot(args: {
     setLogs: history.setLogs,
     cardioLogs: history.cardioLogs,
     templates,
-    stimulus_adherence_4w: state.stimulus_requirements.length
-      ? state.stimulus_requirements.reduce((n, r) =>
-          n + Math.min(1, r.completed_exposures / r.target_exposures), 0)
-        / state.stimulus_requirements.length
-      : 0,
-    // What the athlete reported, rather than a flat 0.6 for having checked in
-    // at all. Null (no check-in) scores 0, and `confidence` is what tells the
-    // athlete that 15% of the score is resting on nothing.
-    recovery_signal: recoverySignal(state.checkin as RecoveryCheckin | null) ?? 0,
+    // The last four completed weeks, not this one alone, which reset the
+    // score every Monday (`stimulusAdherence`).
+    stimulus_adherence_4w: stimulusAdherence({
+      previousWeeks: state.previous_weeks_needs ?? [],
+      currentWeek: state.stimulus_requirements,
+    }),
+    // What the athlete reported over the last week, rather than whichever
+    // check-in happened to be latest. None in the window scores 0, which the
+    // model reads as unmeasured (`recoveryOverDays`).
+    recovery_signal: recoveryOverDays({
+      today,
+      checkins: state.checkins as (RecoveryCheckin & { local_date: string })[],
+    }),
   }));
 
   const metric_detail = metricDetailFrom({

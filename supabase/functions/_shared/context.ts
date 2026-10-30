@@ -11,6 +11,7 @@ import type {
 } from '../../../packages/engine/src/index.ts';
 import { capabilityState } from './evidence.ts';
 import { effectiveLoadCapacity } from './rebuilding.ts';
+import { CONSISTENCY_WEEKS } from './readiness-history.ts';
 
 export function corsHeaders(origin: string | null) {
   return {
@@ -283,7 +284,18 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
   const profile = profileRes.data;
   const race = raceRes.data;
   const checkins = checkinRes.data ?? [];
-  const checkin = checkins[0] ?? null;
+  /**
+   * Today's check-in, and only today's.
+   *
+   * This was the most recent one whatever its date, so a "slept 8 hours, high
+   * energy" reported days ago went on choosing today's session, and the start
+   * and adapt paths read the same stale night. An athlete who has not checked
+   * in today has no check-in today: every reader already treats null as
+   * "nothing reported" and falls back to a neutral day. The run of recent ones
+   * stays in `checkins` for what is about history, such as the week's
+   * recovery average.
+   */
+  const checkin = checkins.find((c: any) => c.local_date === today) ?? null;
 
   const daysToRace = race
     ? Math.round((Date.parse(race.event_date) - Date.parse(today)) / 86_400_000)
@@ -353,6 +365,25 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
     ? addDays(currentPhase.start_date, (weekInPhase - 1) * 7)
     : null;
   const weekEnd = weekStart ? addDays(weekStart, 6) : null;
+
+  /**
+   * The weeks before this one, most recent first, as the needs each set and
+   * met. Read across phases, so the first week of a new phase still sees the
+   * end of the last one. Consistency is measured over these
+   * (`stimulusAdherence`), not over the week in progress.
+   */
+  const allCycles = phases.flatMap((p: any) => (p.weekly_cycles ?? [])
+    .slice()
+    .sort((a: any, b: any) => a.week_index - b.week_index));
+  const currentAt = allCycles.indexOf(currentCycle);
+  const previous_weeks_needs: { completed_exposures: number; target_exposures: number }[][] =
+    currentAt > 0
+      ? allCycles.slice(Math.max(0, currentAt - CONSISTENCY_WEEKS), currentAt).reverse()
+        .map((c: any) => (c.stimulus_requirements ?? []).map((r: any) => ({
+          completed_exposures: r.completed_exposures,
+          target_exposures: r.target_exposures,
+        })))
+      : [];
 
   const stimulus_requirements: StimulusRequirement[] =
     (currentCycle?.stimulus_requirements ?? []).map((r: any) => ({
@@ -455,7 +486,7 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
 
   return {
     profile, race, daysToRace, currentPhase, currentCycle, checkin, checkins, queue,
-    stimulus_requirements, recent_sessions, available_equipment,
+    stimulus_requirements, previous_weeks_needs, recent_sessions, available_equipment,
     effective_load_capacity,
     phaseSequence, programTotalWeeks, programWeek, weekInPhase, weekStart, weekEnd,
     completed_this_week, sessionRows,

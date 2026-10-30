@@ -5,7 +5,9 @@
 import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { readinessInputsFrom, WINDOWS, type TemplateFacts } from './readiness-history.ts';
+import {
+  readinessInputsFrom, recoveryOverDays, stimulusAdherence, WINDOWS, type TemplateFacts,
+} from './readiness-history.ts';
 
 const TODAY = '2026-03-01';
 const at = (daysAgo: number, h = 9) =>
@@ -160,5 +162,82 @@ describe('Observed components', () => {
     assert.equal(facts({ hasCheckin: false }).recovery, false);
     assert.equal(facts({ hasStimulusTargets: true }).consistency, true);
     assert.equal(facts({ hasStimulusTargets: false }).consistency, false);
+  });
+});
+
+describe('Consistency over completed weeks', () => {
+  const need = (completed: number, target: number) =>
+    ({ completed_exposures: completed, target_exposures: target });
+  const fullWeek = [need(3, 3), need(1, 1), need(2, 2)];
+
+  test('Monday does not reset it: the week in progress is not counted', () => {
+    // A fully consistent athlete on the first morning of a new week.
+    const score = stimulusAdherence({
+      previousWeeks: [fullWeek, fullWeek],
+      currentWeek: [need(0, 3), need(0, 1), need(0, 2)],
+    });
+    assert.equal(score, 1);
+  });
+
+  test('averages up to four completed weeks, each weighing the same', () => {
+    const half = [need(1, 2), need(1, 2)];
+    const score = stimulusAdherence({
+      previousWeeks: [fullWeek, half, fullWeek, half, [need(0, 4)]],
+      currentWeek: [],
+    });
+    assert.equal(score, 0.75, 'the fifth week back is outside the window');
+  });
+
+  test('a need met more than asked counts as met, not extra', () => {
+    assert.equal(stimulusAdherence({ previousWeeks: [[need(5, 2), need(0, 2)]], currentWeek: [] }), 0.5);
+  });
+
+  test('week one reads the week in progress, with nothing completed to read', () => {
+    assert.equal(stimulusAdherence({ previousWeeks: [], currentWeek: [need(1, 2), need(2, 2)] }), 0.75);
+  });
+
+  test('a week that set no needs is skipped, not scored zero', () => {
+    assert.equal(stimulusAdherence({ previousWeeks: [[], fullWeek], currentWeek: [] }), 1);
+  });
+});
+
+describe('Recovery over the last week of check-ins', () => {
+  const day = (ago: number) => {
+    const d = new Date(Date.parse(`${TODAY}T00:00:00Z`) - ago * 86_400_000);
+    return d.toISOString().slice(0, 10);
+  };
+
+  test('a good night five days ago is not today: old check-ins stop counting', () => {
+    const score = recoveryOverDays({
+      today: TODAY,
+      checkins: [{ local_date: day(8), sleep_hours: 8, energy: 'high' }],
+    });
+    assert.equal(score, 0, 'outside the seven-day window, so unmeasured');
+  });
+
+  test('the week is averaged, so one bad night does not swing it', () => {
+    const score = recoveryOverDays({
+      today: TODAY,
+      checkins: [
+        { local_date: day(0), sleep_hours: 4, energy: 'low' },
+        { local_date: day(1), sleep_hours: 8, energy: 'high' },
+        { local_date: day(2), sleep_hours: 8, energy: 'high' },
+        { local_date: day(3), sleep_hours: 8, energy: 'high' },
+      ],
+    });
+    // Last night alone would read 0.25; the week reads 0.81.
+    assert.ok(score > 0.8 && score < 0.82, String(score));
+  });
+
+  test('no check-in in the window reads as unmeasured, not as poor', () => {
+    assert.equal(recoveryOverDays({ today: TODAY, checkins: [] }), 0);
+  });
+
+  test('a check-in dated after today is ignored', () => {
+    const score = recoveryOverDays({
+      today: TODAY,
+      checkins: [{ local_date: day(-1), sleep_hours: 8, energy: 'high' }],
+    });
+    assert.equal(score, 0);
   });
 });
