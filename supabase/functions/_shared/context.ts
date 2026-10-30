@@ -284,7 +284,18 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
   const profile = profileRes.data;
   const race = raceRes.data;
   const checkins = checkinRes.data ?? [];
-  const checkin = checkins[0] ?? null;
+  /**
+   * Today's check-in, and only today's.
+   *
+   * This was the most recent one whatever its date, so a "slept 8 hours, high
+   * energy" reported days ago went on choosing today's session, and the start
+   * and adapt paths read the same stale night. An athlete who has not checked
+   * in today has no check-in today: every reader already treats null as
+   * "nothing reported" and falls back to a neutral day. The run of recent ones
+   * stays in `checkins` for what is about history, such as the week's
+   * recovery average.
+   */
+  const checkin = checkins.find((c: any) => c.local_date === today) ?? null;
 
   const daysToRace = race
     ? Math.round((Date.parse(race.event_date) - Date.parse(today)) / 86_400_000)

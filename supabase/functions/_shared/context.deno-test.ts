@@ -187,4 +187,46 @@ describe('Athlete state derivations', () => {
     });
     assert.deepEqual(state.available_equipment, ['ski']);
   });
+
+  test('a check-in from an earlier day is not today\'s', async () => {
+    // A good night reported three days ago must not choose today's session.
+    const state = await load('2026-04-08', {
+      recovery_checkins: [{ local_date: '2026-04-05', sleep_hours: 8, energy: 'high' }],
+    });
+    assert.equal(state.checkin, null);
+    assert.equal(state.checkins.length, 1, 'still there for history');
+  });
+
+  test('today\'s check-in is the one read', async () => {
+    const state = await load('2026-04-08', {
+      recovery_checkins: [
+        { local_date: '2026-04-08', sleep_hours: 6, energy: 'low' },
+        { local_date: '2026-04-07', sleep_hours: 8, energy: 'high' },
+      ],
+    });
+    assert.equal(state.checkin?.energy, 'low');
+  });
+
+  test('previous weeks are read across phases, most recent first', async () => {
+    // Each week's need records its phase and week, so the order is checkable.
+    const withNeeds = program();
+    for (const phase of withNeeds.program_phases as any[]) {
+      for (const cycle of phase.weekly_cycles) {
+        cycle.stimulus_requirements = [{
+          stimulus_type: 'aerobic_durability', priority: 1,
+          completed_exposures: phase.phase_order * 10 + cycle.week_index, target_exposures: 100,
+        }];
+      }
+    }
+    // Build week 2: the week before is build week 1, then foundation 4, 3, 2.
+    const state = await loadAthleteState(stubDb({ programs: [withNeeds] }) as never, USER, '2026-04-08');
+    assert.deepEqual(
+      state.previous_weeks_needs.map(w => w[0].completed_exposures),
+      [21, 14, 13, 12]);
+  });
+
+  test('the first week of a program has no previous weeks', async () => {
+    const state = await load('2026-03-05');
+    assert.deepEqual(state.previous_weeks_needs, []);
+  });
 });
