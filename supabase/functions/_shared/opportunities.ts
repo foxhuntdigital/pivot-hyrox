@@ -144,7 +144,31 @@ export function pickOpportunities(args: {
   const taken = sorted.filter(t => completedTemplateIds.has(t.id));
   const rest = sorted.filter(t => !completedTemplateIds.has(t.id));
 
-  return [...taken, ...rest].slice(0, limit).map(t => ({
+  /**
+   * One per family before any family twice, and families the week already
+   * asks for last.
+   *
+   * The id tiebreak above is alphabetical, and every station session is
+   * `mx_…`, so the menu was a run of burpee broad jump variants beside a week
+   * that already held four of them. Ranking still decides first; variety only
+   * reorders within it.
+   */
+  const queuedFamilies = new Set(templates
+    .filter(t => queuedTemplateIds.has(t.id))
+    .map(t => t.workout_family));
+  const seen = new Set<string>(taken.map(t => t.workout_family));
+  const fresh: WorkoutTemplate[] = [];
+  const later: WorkoutTemplate[] = [];
+  const repeats: WorkoutTemplate[] = [];
+  for (const t of rest) {
+    if (seen.has(t.workout_family)) { repeats.push(t); continue; }
+    seen.add(t.workout_family);
+    (queuedFamilies.has(t.workout_family) ? later : fresh).push(t);
+  }
+  const varied = [...fresh, ...later, ...repeats]
+    .sort((a, b) => rank(b) - rank(a));   // stable: keeps the variety order inside a rank
+
+  return [...taken, ...varied].slice(0, limit).map(t => ({
     template_id: t.id,
     name: t.name,
     training_domain: t.training_domain ?? null,

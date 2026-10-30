@@ -198,6 +198,9 @@ const templates = schedulable.map(t => ({
   // template is scheduled exactly as it was before grading began.
   technical_demand: t.technical_demand ?? null,
   load_demand: t.load_demand ?? null,
+  // What kind of strength session (migration 0024), filled by
+  // apply-archetypes.mjs. Null outside strength: no rotation preference.
+  workout_archetype: t.workout_archetype ?? null,
   tags: tagsByWorkout[t.id] ?? [],
   variants: variantsByWorkout[t.id] ?? [],
   blocks: (blocksByWorkout[t.id] ?? []).sort((a, b) => a.block_order - b.block_order),

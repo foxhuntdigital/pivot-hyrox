@@ -23,7 +23,7 @@
     ["ex_db_row", "ex_trx_row", "no dumbbells; bodyweight pull", 2],
     ["ex_cable_row", "ex_db_row", "no cable; loaded pull", 1],
     ["ex_cable_row", "ex_trx_row", "no cable; bodyweight pull", 2],
-    ["ex_trx_row", "ex_db_row", "no TRX; loaded pull", 1],
+    ["ex_trx_row", "ex_db_row", "no suspension trainer; loaded pull", 1],
 
     ["ex_bulgarian_split_squat", "ex_reverse_lunge", "no bench; loaded single-leg", 1],
     ["ex_bulgarian_split_squat", "ex_step_up", "no bench or dumbbells; single-leg", 2],
@@ -41,7 +41,7 @@
     ["ex_sled_pull", "ex_trx_row", "no sled; horizontal pull", 3],
     ["ex_sled_push", "ex_step_up", "no sled; loaded leg drive", 2],
 
-    ["ex_trx_push_up", "ex_push_up", "no TRX; same pattern unloaded", 1],
+    ["ex_trx_push_up", "ex_push_up", "no suspension trainer; same pattern unloaded", 1],
     ["ex_pallof_press", "ex_landmine_rotation", "no cable or bands; loaded anti-rotation", 1],
     ["ex_pallof_press", "ex_side_plank", "no cable or bands; anti-rotation core", 2],
     ["ex_landmine_rotation", "ex_pallof_press", "no landmine; loaded anti-rotation", 1],

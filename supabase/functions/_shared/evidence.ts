@@ -25,7 +25,11 @@
  * them — which is what stops the plan chasing a single good Tuesday.
  */
 import { HYROX_STATION_EXERCISES } from '../../../packages/engine/src/index.ts';
-import { rangesOverlap, type Exposure, type ExerciseHistory } from './exercise-history.ts';
+import {
+  rangesOverlap, type Exposure, type ExerciseHistory, type SessionContext,
+} from './exercise-history.ts';
+import { bandOf as repeatBand, paceOf } from './comparable.ts';
+import type { CardioLogRow } from './readiness-history.ts';
 
 /** Which rules read the evidence. Stored on the row; see 0013's `rules_version`. */
 export const EVIDENCE_RULES_VERSION = '1.0.0';
@@ -48,9 +52,8 @@ export type Confidence = 'low' | 'medium' | 'high';
  *
  * Families that are absent are absent on purpose. A box jump is
  * `jump_plyometric` and a heavier box is not the progression, so a jump says
- * nothing this table can read; `running_threshold` and `aerobic_durability`
- * are read from cardio logs, not from sets, and are listed in the schema for
- * the services that will write them.
+ * nothing this table can read. `running_threshold` and `aerobic_durability`
+ * are read from cardio logs rather than sets (`cardioReadings`).
  */
 const CAPABILITY_BY_FAMILY: Record<string, CapabilityKey> = {
   squat: 'lower_body_strength',
@@ -178,13 +181,21 @@ export function evidenceFromSession(args: {
   /** The exposures logged in this session, and the history each sits in. */
   exposures: { exposure: Exposure; history: ExerciseHistory }[];
   ontology: Map<string, EvidenceOntology>;
+  /** This session's cardio readings, from `cardioReadings`. */
+  cardio?: CardioReading[];
 }): CapabilityEvidenceRow[] {
   const { sessionId, exposures, ontology } = args;
 
   const byCapability = new Map<CapabilityKey, {
-    readings: { direction: Direction; band: Band; comparable: number }[];
+    readings: Reading[];
     read_from: string[];
   }>();
+  const add = (key: CapabilityKey, reading: Reading, exerciseId: string) => {
+    const bucket = byCapability.get(key) ?? { readings: [], read_from: [] };
+    bucket.readings.push(reading);
+    bucket.read_from.push(exerciseId);
+    byCapability.set(key, bucket);
+  };
 
   for (const { exposure, history } of exposures) {
     if (exposure.session_id !== sessionId) continue;
@@ -192,11 +203,12 @@ export function evidenceFromSession(args: {
     if (!key) continue;
     const reading = readExposure(history, exposure);
     if (!reading) continue;
-    const bucket = byCapability.get(key) ?? { readings: [], read_from: [] };
-    bucket.readings.push(reading);
-    bucket.read_from.push(exposure.exercise_id);
-    byCapability.set(key, bucket);
+    add(key, { ...reading, confidence: confidenceOf(reading.comparable, exposure) }, exposure.exercise_id);
   }
+
+  // Cardio joins the same buckets, so a session that both lifted and rowed
+  // still writes one row per capability.
+  for (const c of args.cardio ?? []) add(c.capability_key, c.reading, c.exercise_id);
 
   const rows: CapabilityEvidenceRow[] = [];
   for (const [key, { readings, read_from }] of byCapability) {
@@ -206,14 +218,13 @@ export function evidenceFromSession(args: {
     // among small moves does not become the session's headline.
     const band: Band = direction === 'neutral' ? 'small'
       : readings.map(r => r.band).sort(byCaution)[0];
-    const comparable = Math.min(...readings.map(r => r.comparable));
-    const exposure = exposures.find(e => e.exposure.exercise_id === read_from[0])!.exposure;
-
     rows.push({
       capability_key: key,
       direction,
       magnitude_band: band,
-      confidence_band: confidenceOf(comparable, exposure),
+      // The least trusted reading behind the row, as `capabilityState` does
+      // across rows: a confident reading does not vouch for a shaky one.
+      confidence_band: readings.map(r => r.confidence).sort(byTrust)[0],
       source_session_id: sessionId,
       rules_version: EVIDENCE_RULES_VERSION,
       read_from,
@@ -221,6 +232,139 @@ export function evidenceFromSession(args: {
   }
   return rows;
 }
+
+/** One reading of one movement, before readings are combined into a row. */
+interface Reading {
+  direction: Direction;
+  band: Band;
+  comparable: number;
+  confidence: Confidence;
+}
+
+/* ------------------------------------------------------------ cardio ----- */
+
+/** A pace change smaller than this is timing noise, and reads as neutral. */
+const PACE_DEADBAND_PCT = 1;
+
+/** Repeat distances at or under this are speed work; longer is endurance. */
+const THRESHOLD_MAX_METERS = 2000;
+
+/** A completed session as the cardio reader needs it. */
+export interface CardioSession {
+  id: string;
+  started_at: string | null;
+  session_rpe?: number | null;
+  /** Full or reduced dose, as `reducedByVariant` reads it. */
+  context: SessionContext;
+}
+
+/** One capability reading from this session's cardio. */
+export interface CardioReading {
+  capability_key: CapabilityKey;
+  exercise_id: string;
+  reading: Reading;
+}
+
+/**
+ * Which capability a cardio effort speaks to.
+ *
+ * Stations first, as with sets: a faster SkiErg is progress at the race. A run
+ * is speed work at a short repeat distance and endurance at a long one, which
+ * is the distinction the two capabilities draw. Other cardio, such as the bike,
+ * is aerobic. Anything else says nothing.
+ */
+export function cardioCapabilityFor(
+  exerciseId: string, modality: string | null | undefined, band: number,
+): CapabilityKey | null {
+  if (STATIONS.has(exerciseId)) return 'station_proficiency';
+  if (exerciseId === 'ex_run') {
+    return band <= THRESHOLD_MAX_METERS ? 'running_threshold' : 'aerobic_durability';
+  }
+  if (modality === 'running' || modality === 'bike') return 'aerobic_durability';
+  return null;
+}
+
+/**
+ * What this session's cardio showed, against the last comparable session.
+ *
+ * Comparable means what the pace trend means (`comparable.ts`): the same
+ * exercise, at the same repeat-distance band, and an effort within one RPE
+ * point where both sessions recorded one, since pace at a different effort is
+ * a different measurement. Each session's pace at a band is the median of its
+ * efforts there, so one blown interval is not the session.
+ *
+ * The rules the strength reader follows apply here too. A reduced session says
+ * nothing about capability, and is never the baseline either; a first session
+ * at a distance is a baseline, not a result.
+ */
+export function cardioReadings(args: {
+  sessionId: string;
+  sessions: CardioSession[];
+  cardioLogs: CardioLogRow[];
+  /** Exercise modality from the library, by exercise id. */
+  modality: Map<string, string | null>;
+}): CardioReading[] {
+  const { sessionId, sessions, cardioLogs, modality } = args;
+  const byId = new Map(sessions.map(s => [s.id, s]));
+  const current = byId.get(sessionId);
+  if (!current || current.context === 'reduced') return [];
+
+  // session → "exercise:band" → paces
+  const paces = new Map<string, Map<string, number[]>>();
+  for (const log of cardioLogs) {
+    const session = byId.get(log.session_id);
+    if (!session || session.context === 'reduced') continue;
+    const pace = paceOf(log);
+    const band = log.distance_meters ? repeatBand(log.distance_meters) : null;
+    if (!pace || pace <= 0 || band === null) continue;
+    const key = `${log.exercise_id}:${band}`;
+    const forSession = paces.get(log.session_id) ?? new Map<string, number[]>();
+    forSession.set(key, [...(forSession.get(key) ?? []), pace]);
+    paces.set(log.session_id, forSession);
+  }
+
+  const out: CardioReading[] = [];
+  for (const [key, mine] of paces.get(sessionId) ?? []) {
+    const [exerciseId, bandText] = key.split(':');
+    const band = Number(bandText);
+    const capability = cardioCapabilityFor(exerciseId, modality.get(exerciseId), band);
+    if (!capability) continue;
+
+    const sameEffort = (other: CardioSession) =>
+      current.session_rpe == null || other.session_rpe == null
+      || Math.abs(current.session_rpe - other.session_rpe) <= 1;
+
+    const prior = [...paces.entries()]
+      .filter(([id, groups]) => id !== sessionId && groups.has(key))
+      .map(([id, groups]) => ({ session: byId.get(id)!, pace: median(groups.get(key)!) }))
+      .filter(p => (p.session.started_at ?? '') < (current.started_at ?? '')
+        && sameEffort(p.session))
+      .sort((a, b) => (b.session.started_at ?? '').localeCompare(a.session.started_at ?? ''));
+    if (!prior.length) continue;   // A first session at a distance is a baseline.
+
+    // Faster is better, so the change is measured from the old pace down.
+    const changePct = ((prior[0].pace - median(mine)) / prior[0].pace) * 100;
+    const direction: Direction = Math.abs(changePct) < PACE_DEADBAND_PCT ? 'neutral'
+      : changePct > 0 ? 'positive' : 'negative';
+    const comparable = prior.length + 1;
+    out.push({
+      capability_key: capability,
+      exercise_id: exerciseId,
+      reading: {
+        direction,
+        band: bandOf(changePct),
+        comparable,
+        confidence: comparable >= 5 ? 'high' : comparable >= 3 ? 'medium' : 'low',
+      },
+    });
+  }
+  return out;
+}
+
+const median = (xs: number[]) => {
+  const v = [...xs].sort((a, b) => a - b);
+  return v.length % 2 ? v[(v.length - 1) / 2] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2;
+};
 
 const CAUTION: Band[] = ['small', 'moderate', 'large'];
 const byCaution = (a: Band, b: Band) => CAUTION.indexOf(a) - CAUTION.indexOf(b);

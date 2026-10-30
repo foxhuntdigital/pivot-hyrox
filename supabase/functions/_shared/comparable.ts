@@ -61,7 +61,7 @@ const median = (xs: number[]) => {
   return s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2;
 };
 
-const paceOf = (c: CardioLogRow): number | null => {
+export const paceOf = (c: CardioLogRow): number | null => {
   if (c.pace_seconds_per_km && c.pace_seconds_per_km > 0) return c.pace_seconds_per_km;
   if (c.distance_meters && c.duration_seconds && c.distance_meters > 0) {
     return c.duration_seconds / (c.distance_meters / 1000);
@@ -69,8 +69,12 @@ const paceOf = (c: CardioLogRow): number | null => {
   return null;
 };
 
-/** The band a logged distance belongs to, or null when it sits between bands. */
-function bandOf(meters: number): number | null {
+/**
+ * The band a logged distance belongs to, or null when it sits between bands.
+ * Shared with capability evidence, so a pace reading and a pace trend agree on
+ * which efforts are the same distance.
+ */
+export function bandOf(meters: number): number | null {
   for (const band of BANDS) {
     if (Math.abs(meters - band) <= band * DISTANCE_TOLERANCE) return band;
   }

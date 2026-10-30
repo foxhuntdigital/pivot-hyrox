@@ -702,9 +702,23 @@ function weaknessAnswer(ctx: CoachContext): CoachAnswer {
  * rank what it finds; it never composes a session out of nothing, and it never
  * replaces today's plan without the athlete asking (brief §5.4).
  */
+/** Templates finished today, including one still waiting to sync. */
+function doneToday(ctx: CoachContext): { template_id: string; name: string }[] {
+  return [
+    ...ctx.plan.week.completedToday,
+    ...(ctx.plan.pendingSession ? [ctx.plan.pendingSession] : []),
+  ];
+}
+
 function buildAnswer_(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
   const terms = sig.keywords ?? [];
-  const excluded = new Set(sig.exclude_template_ids ?? []);
+  // A session already finished today is never offered back as something to
+  // do: an athlete who has run the 1 km repeats and asks for a leg workout
+  // was being handed the 1 km repeats.
+  const excluded = new Set([
+    ...(sig.exclude_template_ids ?? []),
+    ...doneToday(ctx).map(d => d.template_id),
+  ]);
 
   /**
    * Equipment named in the question narrows the search rather than describing
@@ -719,14 +733,24 @@ function buildAnswer_(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
     ? { ...ctx.engineInput, available_equipment: equipment }
     : ctx.engineInput;
 
+  /**
+   * Named kit is something to use, not only something allowed. "I want to do
+   * kettlebell exercises" was answered with whatever the engine liked best
+   * among sessions that merely did not need anything else, which is how it
+   * came back with burpees. A template counts as using the kit when its
+   * exercises take it, and fits better the more of the session does; one
+   * named for the kit ("Kettlebell EMOM") fits best of all.
+   */
+  const kitIds = (equipment ?? []).filter(id => id !== 'bodyweight');
   const scored = TEMPLATES
     .filter(t => !excluded.has(t.id))
-    .map(t => ({ t, hits: matchScore(t, terms) }))
-    // With no search terms — "what can I do with dumbbells?" — the equipment is
-    // the whole question, so everything is a candidate and the engine's own
-    // eligibility does the filtering.
+    .map(t => ({ t, hits: matchScore(t, terms), kitUse: kitUse(t, kitIds) }))
+    // With no search terms, "what can I do with dumbbells?", the equipment is
+    // the whole question, so every session that uses it is a candidate and the
+    // engine's own eligibility does the rest.
     .filter(x => (terms.length ? x.hits > 0 : true))
-    .sort((a, b) => b.hits - a.hits);
+    .filter(x => (kitIds.length ? x.kitUse > 0 : true))
+    .sort((a, b) => b.hits - a.hits || b.kitUse - a.kitUse);
 
   const chips = chipsFor(ctx, [
     kit.length ? kit.join(' · ') : 'Equipment profile',
@@ -754,6 +778,9 @@ function buildAnswer_(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
   // stimulus urgency pick it — an answer to a question the athlete didn't ask.
   const best = scored[0].hits;
   const candidates = scored.filter(x => x.hits === best).slice(0, 6).map(x => x.t);
+  // Nothing named to search by: say so in the answer, rather than presenting
+  // the engine's pick as the match for a question it could not read.
+  const unsearched = !terms.length && !kitIds.length;
   const minutes = sig.time_limit ?? input.available_minutes;
   const found = recommend({ ...input, candidates, available_minutes: minutes }, EXERCISES);
 
@@ -795,10 +822,15 @@ function buildAnswer_(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
     : '';
 
   return {
-    text: `${found.template.name} fits — ${found.estimated_minutes} minutes at `
+    text: (unsearched
+      ? `I couldn't pick out a kind of workout from that, so here's the best fit for today: `
+        + `${found.template.name}, ${found.estimated_minutes} minutes at `
+      : `${found.template.name} fits: ${found.estimated_minutes} minutes at `)
       + `${VARIANT_LABEL[found.variant.variant_code]}, targeting `
       + `${stimulusLabel(found.primary_stimulus)}.${short} It won't touch today's plan unless `
-      + 'you tell me to use it.',
+      + 'you tell me to use it.'
+      + (unsearched ? ' Name a type (legs, EMOM, sled, strength) or the kit you want to use and '
+        + "I'll search for that." : ''),
     chips,
     card: workoutCard(found, 'Built for today'),
     why: evidence(ctx, found),
@@ -809,6 +841,27 @@ function buildAnswer_(sig: CoachSignals, ctx: CoachContext): CoachAnswer {
     commit: commitFor(found, sig),
     offered_template_id: found.template.id,
   };
+}
+
+/**
+ * How much of the template is done with the named kit: the share of its
+ * exercises that take it, plus one when the session is named for it. Zero
+ * means it does not use the kit at all.
+ */
+function kitUse(t: WorkoutTemplate, kitIds: string[]): number {
+  if (!kitIds.length) return 0;
+  const all = t.blocks.flatMap(b => b.exercises);
+  const using = all.filter(e =>
+    (exerciseById.get(e.exercise_id)?.equipment ?? []).some(id => kitIds.includes(id))).length;
+  if (!using) return 0;
+  // Singular, so "Kettlebells" finds "8-Minute Kettlebell EMOM", and the
+  // short form the library also writes ("KB Ballistic").
+  const text = ` ${t.name} ${t.description} `.toLowerCase();
+  const named = kitIds.some(id => {
+    const name = (equipmentName.get(id) ?? id).toLowerCase().replace(/s$/, '');
+    return text.includes(name) || text.includes(` ${id} `);
+  });
+  return using / all.length + (named ? 1 : 0);
 }
 
 function matchScore(t: WorkoutTemplate, terms: string[]): number {
@@ -1173,6 +1226,43 @@ function safetyAnswer(ctx: CoachContext): CoachAnswer {
 }
 
 /** brief §9.2 — say what Coach answers from rather than refusing. */
+/**
+ * "I already did that." Answered from the log, which is what decides whether
+ * a session counted: either it is there, and Coach says so and what is left,
+ * or it is not, and Coach says how a session gets recorded.
+ */
+function loggedAnswer(ctx: CoachContext): CoachAnswer {
+  const done = doneToday(ctx);
+  if (done.length) {
+    const names = done.map(d => d.name).join(' and ');
+    const remaining = ctx.plan.week.queue.length;
+    return {
+      text: `Yes, ${names} is logged for today${ctx.plan.pendingSession ? ' (still syncing)' : ''}, `
+        + 'and the week has counted it. '
+        + (remaining
+          ? `You have ${remaining} session${remaining === 1 ? '' : 's'} left this week. `
+          : '')
+        + 'If you want to train again today, tell me what kind of work you are after and I will '
+        + 'find something that is not a repeat.',
+      chips: chipsFor(ctx),
+      actions: [
+        { id: 'ask_build', label: 'Find me another session', primary: true },
+        { id: 'see_plan', label: 'See the week' },
+      ],
+    };
+  }
+  return {
+    text: "I don't see a finished session logged for today. A workout counts once you finish it "
+      + 'in the player and save it from the summary. If you did it without the app, it is not '
+      + 'in your log, so the week still shows it as open.',
+    chips: chipsFor(ctx),
+    actions: [
+      { id: 'see_today', label: "See today's session", primary: true },
+      { id: 'see_plan', label: 'See the week' },
+    ],
+  };
+}
+
 function fallbackAnswer(ctx: CoachContext): CoachAnswer {
   return {
     text: 'I answer from your plan and your logged training, so I need the question to land on one '
@@ -1200,6 +1290,7 @@ export function buildAnswer(
     case 'travel': return travelAnswer(signals, ctx);
     case 'plan': return planAnswer(signals, ctx);
     case 'safety': return safetyAnswer(ctx);
+    case 'logged': return loggedAnswer(ctx);
     default: return fallbackAnswer(ctx);
   }
 }

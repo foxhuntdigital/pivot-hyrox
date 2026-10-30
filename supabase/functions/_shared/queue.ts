@@ -126,8 +126,20 @@ export function planWeekQueue(args: {
   exercises: Exercise[];
   /** Planning context: the athlete's equipment, considerations and phase. */
   input: EngineInput;
+  /**
+   * Templates the week already holds. Counted as used, so a replan reaches for
+   * something different before it repeats a session the athlete still has.
+   */
+  alreadyPlanned?: string[];
+  /**
+   * Which week of the block this is. Turns the order families are tried in, so
+   * consecutive weeks do not open on the same sessions; the same week always
+   * plans the same way.
+   */
+  rotation?: number;
 }): PlannedQueueItem[] {
   const { requirements, templates, exercises, input } = args;
+  const rotation = Math.max(0, Math.floor(args.rotation ?? 0));
 
   const exerciseIndex = new Map(
     exercises.map(e => [e.id, { equipment: e.equipment, impact_level: e.impact_level }]));
@@ -183,9 +195,9 @@ export function planWeekQueue(args: {
    * ordering arrives with archetype rotation, which orders by what the week
    * needs next rather than by one number on the template.
    */
-  const poolFor = (stimulus: string) => eligible
+  const poolFor = (stimulus: string) => rotateFamilies(eligible
     .filter(t => matchesStimulus(t, stimulus))
-    .sort((a, b) => a.id.localeCompare(b.id));
+    .sort((a, b) => a.id.localeCompare(b.id)), rotation);
 
   const needs = requirements
     .map(r => ({
@@ -198,8 +210,63 @@ export function planWeekQueue(args: {
     .filter(n => n.remaining > 0 && n.pool.length > 0);
 
   const items: PlannedQueueItem[] = [];
-  const used = new Set<string>();
+  const used = new Set<string>(args.alreadyPlanned ?? []);
+  /**
+   * Families the week already holds.
+   *
+   * Without this the alphabetical pool decided the week: every station session
+   * is `mx_…`, burpee broad jump sorts first among them, and a week asking for
+   * three aerobic exposures and a threshold one got four burpee sessions. A
+   * family is now used once before any family is used twice.
+   */
+  const byId = new Map(templates.map(t => [t.id, t]));
+  const familiesUsed = new Set<string>((args.alreadyPlanned ?? [])
+    .map(id => byId.get(id)?.workout_family)
+    .filter((f): f is string => !!f));
+  /**
+   * How many of each kind of session the week holds: run, conditioning,
+   * strength endurance, strength, hybrid (`session_type`).
+   *
+   * Family alone still let a week be all stations, because station ids sort
+   * ahead of runs and there are enough station families to fill one: an
+   * aerobic need would take a carry, a row and a lunge before it ever reached
+   * a run. Taking the kind of session the week has least of first means three
+   * aerobic exposures are a run, an erg and a station, not three stations.
+   */
+  const typesUsed = new Map<string, number>();
+  const countType = (t: WorkoutTemplate) =>
+    typesUsed.set(sessionKind(t), (typesUsed.get(sessionKind(t)) ?? 0) + 1);
+  for (const id of args.alreadyPlanned ?? []) {
+    const t = byId.get(id);
+    if (t) countType(t);
+  }
   const tiers = [...new Set(needs.map(n => n.priority))].sort((a, b) => a - b);
+  /**
+   * The strength slots already filled, so the next one knows which archetype
+   * the phase wants of it. A replan counts what the week still holds.
+   */
+  let strengthSlot = (args.alreadyPlanned ?? [])
+    .filter(id => byId.get(id)?.training_domain === 'strength').length;
+  const slots = STRENGTH_SLOTS[input.phase_type] ?? STRENGTH_SLOTS.build;
+
+  /**
+   * Lower is preferred. Ties keep pool order, which `reduce` preserves.
+   *
+   * For a strength exposure, two things come before variety. A maintenance or
+   * micro session is a reduced dose (maintenance is filed apart so finishing
+   * one earns no heavier prescription), and it fills a planned slot only when
+   * nothing full can. Then the archetype the phase wants for this slot, so
+   * rotation cannot trade a foundation block's overload for whichever strength
+   * family came round that week.
+   */
+  const preference = (t: WorkoutTemplate, stimulus: string) => {
+    const variety = (typesUsed.get(sessionKind(t)) ?? 0) * 2 + (familiesUsed.has(t.workout_family) ? 1 : 0);
+    if (stimulus !== 'strength') return variety;
+    const want = slots[Math.min(strengthSlot, slots.length - 1)];
+    const archetypeMiss = t.workout_archetype === want ? 0 : t.workout_archetype ? 1 : 2;
+    const reduced = REDUCED_FAMILY.test(t.workout_family) ? 1 : 0;
+    return reduced * 1000 + archetypeMiss * 100 + variety;
+  };
 
   for (const tier of tiers) {
     const inTier = needs.filter(n => n.priority === tier);
@@ -208,11 +275,19 @@ export function planWeekQueue(args: {
     while (inTier.some(n => n.taken < n.remaining)) {
       for (const need of inTier) {
         if (need.taken >= need.remaining) continue;
-        // A different template each time while the pool allows it; a week
-        // asking for three of a stimulus the library has two of repeats the
-        // best one rather than dropping the exposure.
-        const pick = need.pool.find(t => !used.has(t.id)) ?? need.pool[need.taken % need.pool.length];
+        // The kind of session the week has least of, then a family it does
+        // not hold, then pool order; and only once every template is used, a
+        // repeat. A week asking for three of a stimulus the library has two of
+        // repeats one rather than dropping the exposure.
+        const fresh = need.pool.filter(t => !used.has(t.id));
+        const pick = fresh.length
+          ? fresh.reduce((best, t) =>
+            (preference(t, need.stimulus) < preference(best, need.stimulus) ? t : best))
+          : need.pool[need.taken % need.pool.length];
         used.add(pick.id);
+        familiesUsed.add(pick.workout_family);
+        countType(pick);
+        if (need.stimulus === 'strength') strengthSlot += 1;
         need.taken += 1;
         items.push({
           workout_template_id: pick.id,
@@ -224,6 +299,162 @@ export function planWeekQueue(args: {
   }
 
   return items;
+}
+
+/**
+ * Which kind of strength session each of a week's strength exposures should
+ * be, by phase (`workout_archetype`, migration 0024). The last entry repeats
+ * for any further slots.
+ *
+ * The first slot is always foundational: it is the repeatable overload the
+ * rest of the block progresses, and a week that rotates it away has skipped
+ * the work the athlete most needed. Later slots move toward athletic work as
+ * the race nears, and back to foundational for the taper.
+ *
+ * A programming call, written down here so it can be changed in one place.
+ */
+const STRENGTH_SLOTS: Record<string, string[]> = {
+  foundation: ['foundational', 'foundational'],
+  build: ['foundational', 'mixed'],
+  specific: ['foundational', 'mixed', 'athletic'],
+  peak: ['foundational', 'athletic'],
+  taper: ['foundational'],
+  race: ['foundational'],
+};
+
+/**
+ * Reduced doses: maintenance strength for depleted days, and the short micro
+ * sessions for days with no time. Both are real answers on the day; neither
+ * is the planned exposure while a full session can be.
+ */
+const REDUCED_FAMILY = /^(strength_maintenance|micro$)/;
+
+/** The kind of session a template is, for variety. Unlabelled ones share a kind. */
+const sessionKind = (t: WorkoutTemplate): string => t.session_type ?? 'other';
+
+/**
+ * The pool in the order a given week tries it.
+ *
+ * Turned three times: the kinds of session (run, conditioning, strength...)
+ * start `rotation` places on, inside each kind its families do too, and inside
+ * each family its sessions, so every kind's first choice moves each week and a
+ * family with one obvious first session does not serve it every week. Turning the whole list of families
+ * once was not enough: with dozens of station families ahead of the runs, a
+ * one-place turn changed which station came first and never which run did.
+ *
+ * Rotation 0 is the pool as given.
+ */
+export function rotateFamilies<T extends { workout_family: string; session_type?: string | null }>(
+  pool: T[], rotation: number,
+): T[] {
+  if (rotation <= 0) return pool;
+  const turn = <X>(xs: X[]) => {
+    const k = rotation % xs.length;
+    return k ? [...xs.slice(k), ...xs.slice(0, k)] : xs;
+  };
+  const kindOf = (t: T) => t.session_type ?? 'other';
+  const kinds = turn([...new Set(pool.map(kindOf))]);
+  return kinds.flatMap(kind => {
+    const ofKind = pool.filter(t => kindOf(t) === kind);
+    return turn([...new Set(ofKind.map(t => t.workout_family))])
+      .flatMap(f => turn(ofKind.filter(t => t.workout_family === f)));
+  });
+}
+
+/* ------------------------------------------------ replanning a week ----- */
+
+/** What a replan does to the week, before any of it is written. */
+export interface WeekReplan {
+  /** Open sessions the athlete can no longer be offered. */
+  expire: string[];
+  /** Sessions that take their place, and any need that can now be met. */
+  add: PlannedQueueItem[];
+}
+
+/**
+ * Replans the open part of a week after the athlete's circumstances change,
+ * such as a mid-week change to their equipment.
+ *
+ * Replaces only what is no longer possible rather than planning the week
+ * afresh, because the rest of the week is something the athlete may already
+ * have arranged around, or reordered with Coach:
+ *
+ *   * Started, completed and skipped sessions are never touched. The first two
+ *     are what happened; the third is a choice the athlete made, and a replan
+ *     that brought a dropped session back would undo it.
+ *   * An open session that is still eligible stays, at its rank.
+ *   * An open session that is not is expired, never deleted, so the record of
+ *     what the week was survives (as `reshape-week` treats a drop).
+ *   * The gap is refilled from what the week still needs: its targets, less
+ *     what was completed and what is still in it. A replacement takes the rank
+ *     of the session it replaces, so the order of the week, and what a
+ *     compressed week cuts first, is unchanged. A need nothing could fill
+ *     before (no barbell for the strength work, say) is filled now if it can
+ *     be, at the end of the week.
+ *
+ * Eligibility is judged as `planWeekQueue` judges it: a neutral day, with no
+ * recent sessions, so the same session is either plannable in both or neither.
+ */
+export function replanWeekQueue(args: {
+  items: QueueItem[];
+  requirements: WeekRequirement[];
+  templates: WorkoutTemplate[];
+  exercises: Exercise[];
+  input: EngineInput;
+  /** The week's `rotation`, as `planWeekQueue` takes it. */
+  rotation?: number;
+}): WeekReplan {
+  const { items, requirements, templates, exercises, input } = args;
+
+  const templateIndex = new Map(templates.map(t => [t.id, t]));
+  const exerciseIndex = new Map(
+    exercises.map(e => [e.id, { equipment: e.equipment, impact_level: e.impact_level }]));
+  const planningInput: EngineInput = { ...input, recent_sessions: [] };
+
+  const stillPossible = (q: QueueItem): boolean => {
+    const t = templateIndex.get(q.workout_template_id);
+    return t != null && checkEligibility(t, planningInput, exerciseIndex, 'okay').eligible;
+  };
+
+  const expired = items
+    .filter(q => CLAIMABLE_STATES.includes(q.state) && !stillPossible(q))
+    .sort((a, b) => a.rank - b.rank);
+  const expiredIds = new Set(expired.map(q => q.id));
+
+  // Everything the week still accounts for, by stimulus. Completed sessions
+  // are already in `completed_exposures`, so only what is yet to happen is
+  // counted here, plus what the athlete chose to drop.
+  const remaining = items.filter(q => !expiredIds.has(q.id)
+    && ['queued', 'recommended', 'in_progress', 'skipped'].includes(q.state));
+  const accounted = new Map<string, number>();
+  for (const q of remaining) {
+    accounted.set(q.stimulus_type, (accounted.get(q.stimulus_type) ?? 0) + 1);
+  }
+
+  const planned = planWeekQueue({
+    requirements: requirements.map(r => ({
+      ...r,
+      completed_exposures: (r.completed_exposures ?? 0) + (accounted.get(r.stimulus_type) ?? 0),
+    })),
+    templates,
+    exercises,
+    input,
+    alreadyPlanned: remaining.map(q => q.workout_template_id),
+    rotation: args.rotation,
+  });
+
+  // Replacements step into the ranks they replace, matched by stimulus;
+  // anything new goes after the last session the week holds.
+  const freed = [...expired];
+  let next = Math.max(-1, ...items.filter(q => !expiredIds.has(q.id)).map(q => q.rank),
+    ...expired.map(q => q.rank)) + 1;
+  const add = planned.map(p => {
+    const i = freed.findIndex(q => q.stimulus_type === p.stimulus_type);
+    const rank = i >= 0 ? freed.splice(i, 1)[0].rank : next++;
+    return { ...p, rank };
+  });
+
+  return { expire: expired.map(q => q.id), add };
 }
 
 /**
@@ -247,6 +478,8 @@ export async function ensureWeekQueue(args: {
   templates: WorkoutTemplate[];
   exercises: Exercise[];
   input: EngineInput;
+  /** Which week of the block this is (`planWeekQueue`). */
+  rotation?: number;
 }): Promise<PlannedQueueItem[]> {
   const { db, cycleId, ...plan } = args;
 

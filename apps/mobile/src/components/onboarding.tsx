@@ -5,14 +5,14 @@
  * footer are identical, so they live here rather than being re-typed and
  * drifting apart.
  */
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, Text, View, Pressable, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ActionButton, Chip, Label, Rule } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
-import { toISODate } from '@/data/profile';
 import { useSession } from '@/state/session';
+import { daysInMonth, readDateChoice, tapDateChip } from '@/state/dateChoice';
 
 /** D02–D08 inclusive: the steps an athlete actually walks through. */
 export const TOTAL_STEPS = 8;
@@ -288,11 +288,6 @@ const MONTHS = [
   'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
 ];
 
-/** Days in a month, so February never offers a 30th. */
-function daysInMonth(year: number, month1to12: number): number {
-  return new Date(Date.UTC(year, month1to12, 0)).getUTCDate();
-}
-
 /**
  * Year/month/day chosen from chips.
  *
@@ -309,21 +304,15 @@ export function DateChooser({
   onChange: (iso: string) => void;
   minDate: string;
 }) {
-  const today = new Date(`${minDate}T00:00:00Z`);
-  const thisYear = today.getUTCFullYear();
-  const years = [thisYear, thisYear + 1];
+  // The year an athlete taps before choosing a month. There is no date to save
+  // yet, so without this the tap had nowhere to go and the chip snapped back.
+  const [heldYear, setHeldYear] = useState<number | null>(null);
+  const { years, year, month, day } = readDateChoice(value, heldYear, minDate);
 
-  const parsed = value ? new Date(`${value}T00:00:00Z`) : null;
-  const year = parsed?.getUTCFullYear() ?? thisYear;
-  const month = parsed ? parsed.getUTCMonth() + 1 : null;
-  const day = parsed?.getUTCDate() ?? null;
-
-  function set(y: number, m: number | null, d: number | null) {
-    if (m == null) return;
-    // Clamp rather than reject: moving from the 31st to February should land on
-    // the 28th, not silently clear the answer.
-    const maxDay = daysInMonth(y, m);
-    onChange(toISODate(y, m, Math.min(d ?? 1, maxDay)));
+  function tap(chip: { year: number } | { month: number } | { day: number }) {
+    const next = tapDateChip({ value, heldYear }, minDate, chip);
+    setHeldYear(next.heldYear);
+    if (next.value && next.value !== value) onChange(next.value);
   }
 
   return (
@@ -332,13 +321,13 @@ export function DateChooser({
         label="Year"
         options={years.map(y => ({ value: y, label: String(y) }))}
         value={year}
-        onChange={y => set(y, month, day)}
+        onChange={y => tap({ year: y })}
       />
       <ChipRow
         label="Month"
         options={MONTHS.map((m, i) => ({ value: i + 1, label: m }))}
         value={month}
-        onChange={m => set(year, m, day)}
+        onChange={m => tap({ month: m })}
       />
       {month ? (
         <ChipRow
@@ -347,7 +336,7 @@ export function DateChooser({
             value: i + 1, label: String(i + 1),
           }))}
           value={day}
-          onChange={d => set(year, month, d)}
+          onChange={d => tap({ day: d })}
         />
       ) : null}
     </View>

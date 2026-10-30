@@ -13,8 +13,10 @@
  * no state in which the session reads as completed and the week disagrees.
  */
 import { ENGINE_VERSION } from '../../../packages/engine/src/index.ts';
-import { exerciseHistory, loadPerformanceLogs } from '../_shared/exercise-history.ts';
-import { evidenceFromSession } from '../_shared/evidence.ts';
+import {
+  exerciseHistory, loadPerformanceLogs, reducedByVariant,
+} from '../_shared/exercise-history.ts';
+import { cardioReadings, evidenceFromSession } from '../_shared/evidence.ts';
 import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, localDate,
   requireEntitlement, requireUser,
@@ -255,19 +257,31 @@ async function writeCapabilityEvidence(
       .order('started_at', { ascending: false }).limit(40);
     if (!sessions?.length) return;
 
-    const { setLogs } = await loadPerformanceLogs(db, sessions.map((s: any) => s.id));
-    if (!setLogs.length) return;
+    // Sets and cardio both, because a run-only session has no sets and is
+    // still the evidence Running speed and Aerobic endurance are read from.
+    const { setLogs, cardioLogs } = await loadPerformanceLogs(db, sessions.map((s: any) => s.id));
+    if (!setLogs.length && !cardioLogs.length) return;
 
     const histories = exerciseHistory({ today, sessions, setLogs });
     const exposures = [...histories.values()].flatMap(history =>
       history.exposures.map(exposure => ({ exposure, history })));
 
     const { data: exercises } = await db.schema('content')
-      .from('exercises').select('id, movement_families');
+      .from('exercises').select('id, movement_families, modality');
     const ontology = new Map<string, { movement_families?: string[] | null }>(
       (exercises ?? []).map((e: any) => [e.id, { movement_families: e.movement_families }]));
 
-    const rows = evidenceFromSession({ sessionId, exposures, ontology });
+    const cardio = cardioReadings({
+      sessionId,
+      sessions: sessions.map((s: any) => ({
+        id: s.id, started_at: s.started_at, session_rpe: s.session_rpe,
+        context: reducedByVariant(s),
+      })),
+      cardioLogs,
+      modality: new Map((exercises ?? []).map((e: any) => [e.id, e.modality ?? null])),
+    });
+
+    const rows = evidenceFromSession({ sessionId, exposures, ontology, cardio });
 
     await db.from('athlete_capability_evidence').delete().eq('source_session_id', sessionId);
     if (!rows.length) return;

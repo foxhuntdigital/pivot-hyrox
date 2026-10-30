@@ -130,3 +130,29 @@ describe('what it refuses to invent', () => {
     assert.equal(offered[0].training_domain, null);
   });
 });
+
+describe('variety on the menu', () => {
+  const fam = (id: string, family: string) => ({ ...tpl(id, 'hybrid'), workout_family: family });
+  // Burpee variants sort first by id, as the station sessions do.
+  const STATIONS = [
+    fam('mx_bbj_compromised', 'station_bbj'), fam('mx_bbj_density', 'station_bbj'),
+    fam('mx_bbj_hybrid', 'station_bbj'), fam('mx_farmer_hybrid', 'station_farmer'),
+    fam('mx_ski_hybrid', 'station_ski'),
+  ];
+
+  test('one per family before any family twice', () => {
+    assert.deepEqual(ids(pick({ templates: STATIONS })),
+      ['mx_bbj_compromised', 'mx_farmer_hybrid', 'mx_ski_hybrid']);
+  });
+
+  test("families the week already asks for come after the ones it doesn't", () => {
+    const templates = [...STATIONS, fam('mx_bbj_base', 'station_bbj')];
+    assert.deepEqual(ids(pick({ templates, queuedTemplateIds: new Set(['mx_bbj_base']) })),
+      ['mx_farmer_hybrid', 'mx_ski_hybrid', 'mx_bbj_compromised']);
+  });
+
+  test('preference still outranks variety', () => {
+    const templates = [...STATIONS, { ...fam('zz_strength', 'strength_a'), training_domain: 'strength' }];
+    assert.equal(ids(pick({ templates, preferred: ['strength'] }))[0], 'zz_strength');
+  });
+});

@@ -167,6 +167,16 @@ drift — edit the stimulus and re-run. A few stimuli resolve on the session rat
 than the name: `power_endurance` is threshold work on an erg and strength work on
 a heavy sled, so the roll-up reads the exercises' modalities.
 
+Strength templates also carry a **`workout_archetype`** (migration 0024):
+`foundational`, `athletic`, `complex` or `mixed`. It is derived by
+`scripts/apply-archetypes.mjs` (`npm run seed:archetypes`) from each exercise's
+authored `methodology_bucket`, with the opening lift weighted as the session's
+anchor, and written to `data/review/archetype.report.csv`. A ruling the rule
+gets wrong goes in `data/archetype-overrides.json`. The week planner reads it
+to fill each strength slot with the kind the phase wants (`STRENGTH_SLOTS` in
+`supabase/functions/_shared/queue.ts`): the first slot is always foundational.
+Re-run it after an import, then `seed:build` and `seed:fixtures`.
+
 Some authored values describe the **dose** rather than the goal.
 `minimum_effective_dose` is what a Micro variant *is*, not what it trains — a
 Micro threshold session is still threshold, a Micro aerobic session is still

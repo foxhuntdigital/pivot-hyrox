@@ -398,7 +398,10 @@ async function saveEquipment(
     if (error || !data) throw new HttpError(500, `Could not create equipment profile: ${error?.message}`);
     profileId = data.id;
   } else {
-    await db.from('equipment_profile_items').delete().eq('profile_id', profileId);
+    // Checked, because a failed clear followed by the insert below would leave
+    // the old selection mixed into the new one.
+    const { error } = await db.from('equipment_profile_items').delete().eq('profile_id', profileId);
+    if (error) throw new HttpError(500, `Could not clear equipment: ${error.message}`);
   }
 
   if (equipment.length === 0) return;

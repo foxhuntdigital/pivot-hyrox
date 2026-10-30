@@ -149,6 +149,26 @@ export function finishRequestFor(
 }
 
 /**
+ * The revision a queued finish is stored at.
+ *
+ * A finish is queued twice: provisionally at the last step, with no RPE, and
+ * again from the review screen with it. Normally the second replaces the first
+ * before anything is sent. But a provisional entry that outlives its process is
+ * promoted and sent on the next launch, and the athlete can still come back to
+ * the review afterwards. Queued at the same revision, that second finish
+ * reached the server as a replay of the first and was answered from the stored
+ * row, so the RPE they then gave was silently dropped.
+ *
+ * The final finish is therefore one revision ahead of the provisional one.
+ * Revisions only have to rise, so where the provisional entry never left the
+ * device this skips a number and changes nothing; where it did, the server
+ * applies the final finish as the correction its replay guard allows for.
+ */
+export function finishRevision(sessionRevision: number, final: boolean): number {
+  return sessionRevision + (final ? 1 : 0);
+}
+
+/**
  * The finish for `localDate` still waiting to be sent, if there is one.
  *
  * The most recently queued wins: two sessions on one day are queued in order,

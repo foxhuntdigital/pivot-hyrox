@@ -24,6 +24,7 @@
     "seed:import": "node scripts/import-workouts.mjs",
     "seed:rules": "node scripts/import-programming-rules.mjs",
     "seed:taxonomy": "node scripts/apply-taxonomy.mjs",
+    "seed:archetypes": "node scripts/apply-archetypes.mjs",
     "seed:prescriptions": "node scripts/apply-prescriptions.mjs",
     "seed:fixtures": "node scripts/build-fixtures.mjs",
     "seed:prepare": "node scripts/prepare-pack.mjs",

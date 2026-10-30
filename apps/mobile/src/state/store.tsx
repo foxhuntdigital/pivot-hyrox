@@ -35,7 +35,7 @@ import {
   abandonSession, clientSessionId, eventId, startSession, type StartRequest,
 } from '../data/sessionRepo';
 import {
-  blockedFinishes, enqueueFinish, flushOutbox, loadOutbox, pendingFinishOn,
+  blockedFinishes, enqueueFinish, finishRevision, flushOutbox, loadOutbox, pendingFinishOn,
   subscribeOutbox, type PendingFinish,
 } from '../data/outbox';
 import { recordAdaptation } from '../data/adaptRepo';
@@ -44,6 +44,7 @@ import {
   SCHEMA_VERSION, type ActiveSessionRecord, type ActiveStatus,
 } from '../data/activeSession';
 import { fetchEquipment, saveEquipment } from '../data/equipmentRepo';
+import { replanWeek } from '../data/weekRepo';
 import {
   fetchPreferences, savePreference, fetchWeaknesses, saveWeakness,
   type PreferenceRating, type Preferences,
@@ -931,6 +932,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
    * Writes the whole equipment set through after a toggle. Debounced by a beat
    * so a run of taps is one write rather than one per chip — the athlete
    * usually changes several at once.
+   *
+   * Once saved, the rest of this week is replanned against it, so Plan stops
+   * listing sessions that need kit the athlete has just removed. Only after a
+   * successful save: the server plans from what is stored, not from this list.
    */
   const equipmentTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const commitEquipment = useCallback((equipment: string[]) => {
@@ -938,10 +943,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (equipmentTimer.current) clearTimeout(equipmentTimer.current);
     equipmentTimer.current = setTimeout(() => {
       setProfileError(null);
-      saveEquipment(equipment).catch(e =>
-        setProfileError({ kind: 'save', message: messageOf(e, 'Could not save your equipment.') }));
+      saveEquipment(equipment)
+        .then(async () => {
+          const result = await replanWeek();
+          if (result && (result.expired > 0 || result.added > 0)) refreshToday();
+        })
+        .catch(e =>
+          setProfileError({ kind: 'save', message: messageOf(e, 'Could not save your equipment.') }));
     }, 600);
-  }, []);
+  }, [refreshToday]);
 
   useEffect(() => () => {
     if (equipmentTimer.current) clearTimeout(equipmentTimer.current);
@@ -1160,7 +1170,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       // totalled by the screens, not just replayed to the server.
       estimated_minutes: chosen?.estimated_minutes ?? s.performed?.estimated_minutes,
       session_id: s.session_id,
-      revision: s.session_revision,
+      // One ahead for the final finish, so it is not mistaken for a replay of
+      // a provisional one already sent (see `finishRevision`).
+      revision: finishRevision(s.session_revision, opts.final ?? false),
       start: {
         ...adaptInputs(),
         // The retry re-presents the session's identity, so an outbox flush that

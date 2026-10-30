@@ -13,8 +13,8 @@ import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-  expired, finishRequestFor, hasPendingFinishOn, mergeQueued, pendingFinishOn,
-  promoteProvisional, sendable, type PendingFinish,
+  expired, finishRequestFor, finishRevision, hasPendingFinishOn, mergeQueued,
+  pendingFinishOn, promoteProvisional, sendable, type PendingFinish,
 } from './outboxRules.ts';
 
 function entry(over: Partial<PendingFinish> = {}): PendingFinish {
@@ -121,6 +121,37 @@ describe('finishRequestFor', () => {
     const req = finishRequestFor(e, 'sess_1', 0);
     assert.equal(req.session_rpe, 9);
     assert.equal(req.ended_early, true);
+  });
+});
+
+describe('finishRevision', () => {
+  /**
+   * `complete_workout_tx` answers a finish from the stored row, ignoring what
+   * it carries, when the session is completed at that revision or beyond.
+   */
+  const isReplay = (stored: { completed: boolean; revision: number }, sent: number) =>
+    stored.completed && stored.revision >= sent;
+
+  test('an RPE given after the provisional finish was sent is not a replay', () => {
+    // Started at revision 3. The provisional finish (no RPE) is promoted on a
+    // relaunch and sent; the athlete then returns to the review and submits.
+    const provisional = entry({ revision: finishRevision(3, false), finish: { session_rpe: null, ended_early: false } });
+    const sentFirst = finishRequestFor(provisional, 'sess_1', provisional.revision);
+    const server = { completed: true, revision: sentFirst.revision };
+
+    const final = entry({ revision: finishRevision(3, true), finish: { session_rpe: 7, ended_early: false } });
+    const sentSecond = finishRequestFor(final, 'sess_1', final.revision);
+
+    assert.equal(isReplay(server, sentSecond.revision), false,
+      'the final finish must reach the row, or its RPE is dropped');
+    assert.equal(sentSecond.session_rpe, 7);
+  });
+
+  test('a final finish that replaced its provisional entry is not stale', () => {
+    // The usual path: nothing was sent before the review. The session is still
+    // at its start revision, which the final finish is ahead of.
+    const final = finishRequestFor(entry({ revision: finishRevision(3, true) }), 'sess_1', finishRevision(3, true));
+    assert.ok(final.revision > 3);
   });
 });
 

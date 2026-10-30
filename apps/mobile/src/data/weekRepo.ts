@@ -39,3 +39,29 @@ export async function reshapeWeek(request: ReshapeRequest): Promise<ReshapeResul
     return null;
   }
 }
+
+export interface ReplanResult {
+  expired: number;
+  added: number;
+}
+
+/**
+ * Brings this week's queue in line with the athlete's saved equipment, after
+ * they change it.
+ *
+ * Fire-and-forget, unlike a reshape: the athlete asked to change their
+ * equipment, not their week, so a failure here costs them nothing they agreed
+ * to. Today and Start already read the current equipment; this only stops Plan
+ * listing sessions planned around kit they no longer have. Null when there is
+ * nothing to write to, or when the call failed.
+ */
+export async function replanWeek(): Promise<ReplanResult | null> {
+  if (!supabase) return null;
+  try {
+    const { data, error } = await supabase.functions.invoke('replan-week', { method: 'POST' });
+    if (error || !data) return null;
+    return { expired: data.expired ?? 0, added: data.added ?? 0 };
+  } catch {
+    return null;
+  }
+}

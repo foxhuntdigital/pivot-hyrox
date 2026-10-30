@@ -163,7 +163,11 @@ export function Chip({
         style,
       ]}
     >
-      <Text style={[textStyle, { color: active ? color.onDark : color.ink }]}>{label}</Text>
+      {/* Centred so a label that wraps onto a second line, which a two-column
+          grid allows on narrow screens or large text, stays balanced. */}
+      <Text style={[textStyle, { color: active ? color.onDark : color.ink, textAlign: 'center' }]}>
+        {label}
+      </Text>
     </Pressable>
   );
 }

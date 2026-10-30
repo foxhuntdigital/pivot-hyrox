@@ -83,6 +83,8 @@ export default function PlanScreen() {
         note: 'Today',
         minutes: session.estimated_minutes,
         done: false,
+        /** Today's still to do, so it can be read in full like anything queued. */
+        open: true,
       }
     : null;
 
@@ -129,6 +131,25 @@ export default function PlanScreen() {
         .find(q => q.template_id === todayTemplateId)
     : undefined;
   const upNext = plan.week.queue.filter(q => q.id !== claimedToday?.id);
+
+  /**
+   * Today's session in the shape the detail sheet reads. The queue item it
+   * claims supplies the stimulus where there is one; a session the queue does
+   * not hold (an off-plan pick, or one Coach built) still opens, named by its
+   * own goal.
+   */
+  const openToday = () => {
+    if (session.kind !== 'session') return;
+    setDetail({
+      id: claimedToday?.id ?? 'today',
+      template_id: session.template.id,
+      name: session.template.name,
+      stimulus_type: claimedToday?.stimulus_type ?? session.template.primary_goal ?? '',
+      rank: claimedToday?.rank ?? 0,
+      state: claimedToday?.state ?? 'queued',
+      estimated_minutes: session.estimated_minutes,
+    });
+  };
 
   /**
    * Makes a queued session today's.
@@ -280,10 +301,21 @@ export default function PlanScreen() {
 
       <View style={{ paddingHorizontal: space.gutter }}>
         {rows.length ? rows.map(row => (
-          <View key={row.key} style={{
-            flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 13,
-            borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
-          }}>
+          <Pressable
+            key={row.key}
+            // Only today's open session reads in full; a finished row is a
+            // record, and has no workout left to choose.
+            disabled={!('open' in row && row.open)}
+            onPress={openToday}
+            accessibilityRole={'open' in row && row.open ? 'button' : undefined}
+            accessibilityLabel={'open' in row && row.open
+              ? `${row.name}, today's session. View the workout.` : undefined}
+            style={({ pressed }) => ({
+              flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 13,
+              borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
+              backgroundColor: pressed ? color.hover : 'transparent',
+            })}
+          >
             <View style={{ width: 22 }}><SquareCheck on={row.done} /></View>
             <View style={{ flex: 1 }}>
               <Text style={[t.rowTitle, { color: row.done ? color.ink : color.muted2 }]}>
@@ -294,7 +326,7 @@ export default function PlanScreen() {
             <Text style={[t.meta, { fontFamily: t.rowTitle.fontFamily, color: color.muted }]}>
               {row.minutes ? `${row.minutes} min` : ''}
             </Text>
-          </View>
+          </Pressable>
         )) : (
           <Text style={[t.bodySm, { color: color.muted2, paddingVertical: 10 }]}>
             Nothing completed yet this week.
@@ -458,6 +490,7 @@ export default function PlanScreen() {
     <WorkoutDetailSheet
       queued={detail}
       isToday={detail?.template_id === todayTemplateId}
+      todaySession={session}
       onClose={() => setDetail(null)}
       onDoToday={chooseQueued}
     />
