@@ -80,3 +80,26 @@ export function localToday(now: Date = new Date()): string {
   const day = String(now.getDate()).padStart(2, '0');
   return `${now.getFullYear()}-${month}-${day}`;
 }
+
+/**
+ * A change over time, said with an arrow rather than a sign: "↑ 15 from 47,
+ * 4 weeks ago". A plus sign read as arithmetic in testing; an arrow reads as
+ * direction. `bad` says whether to show it as a warning, from which way is
+ * good — a faster pace is a smaller number.
+ */
+export function deltaWords(args: {
+  now: number;
+  from: number;
+  since: string;
+  goodWhen?: 'up' | 'down';
+  unit?: string;
+}): { text: string; bad: boolean } {
+  const { now, from, since, goodWhen = 'up', unit = '' } = args;
+  const diff = Math.round((now - from) * 10) / 10;
+  if (diff === 0) return { text: `Level with ${since}`, bad: false };
+  const arrow = diff > 0 ? '↑' : '↓';
+  return {
+    text: `${arrow} ${Math.abs(diff)}${unit} from ${from}${unit}, ${since}`,
+    bad: (diff > 0) !== (goodWhen === 'up'),
+  };
+}

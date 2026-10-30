@@ -9,6 +9,8 @@
         "treadmill",
         "outdoor"
       ],
+      "category": "cardio",
+      "modality": "running",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -27,6 +29,8 @@
       "equipment": [
         "treadmill"
       ],
+      "category": "cardio",
+      "modality": "running",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -45,6 +49,8 @@
       "equipment": [
         "ski"
       ],
+      "category": "cardio",
+      "modality": "ski",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -63,6 +69,8 @@
       "equipment": [
         "bike"
       ],
+      "category": "cardio",
+      "modality": "bike",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -81,6 +89,8 @@
       "equipment": [
         "row_erg"
       ],
+      "category": "cardio",
+      "modality": "row",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -99,6 +109,8 @@
       "equipment": [
         "sled"
       ],
+      "category": "hyrox",
+      "modality": "strength_endurance",
       "movement_families": [
         "sled_resisted_locomotion"
       ],
@@ -133,6 +145,8 @@
         "sled",
         "rope"
       ],
+      "category": "hyrox",
+      "modality": "strength_endurance",
       "movement_families": [
         "sled_resisted_locomotion"
       ],
@@ -166,6 +180,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "hyrox",
+      "modality": "plyometric",
       "movement_families": [
         "jump_plyometric",
         "ground_get_up",
@@ -206,6 +222,8 @@
         "db",
         "kb"
       ],
+      "category": "hyrox",
+      "modality": "strength_endurance",
       "movement_families": [
         "carry"
       ],
@@ -240,6 +258,8 @@
       "equipment": [
         "sandbag"
       ],
+      "category": "hyrox",
+      "modality": "strength_endurance",
       "movement_families": [
         "lunge",
         "carry"
@@ -275,6 +295,8 @@
       "equipment": [
         "wall_ball"
       ],
+      "category": "hyrox",
+      "modality": "strength_endurance",
       "movement_families": [
         "complex_total_body"
       ],
@@ -309,6 +331,8 @@
         "barbell",
         "rack"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "squat"
       ],
@@ -342,6 +366,8 @@
         "barbell",
         "rack"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "squat"
       ],
@@ -376,6 +402,8 @@
         "db",
         "kb"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "squat"
       ],
@@ -409,6 +437,8 @@
       "equipment": [
         "barbell"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "hinge"
       ],
@@ -441,6 +471,8 @@
         "barbell",
         "db"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "hinge"
       ],
@@ -474,6 +506,8 @@
         "db",
         "bench"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "lunge"
       ],
@@ -508,6 +542,8 @@
       "equipment": [
         "db"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "lunge"
       ],
@@ -541,6 +577,8 @@
       "equipment": [
         "db"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "lunge"
       ],
@@ -573,6 +611,8 @@
       "equipment": [
         "barbell"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "vertical_push",
         "olympic_explosive"
@@ -609,6 +649,8 @@
         "db",
         "bench"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "horizontal_push"
       ],
@@ -641,6 +683,8 @@
       "equipment": [
         "landmine"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "vertical_push"
       ],
@@ -673,6 +717,8 @@
       "equipment": [
         "trx"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "horizontal_push"
       ],
@@ -706,6 +752,8 @@
       "equipment": [
         "db"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "horizontal_pull"
       ],
@@ -738,6 +786,8 @@
       "equipment": [
         "rig"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "vertical_pull"
       ],
@@ -770,6 +820,8 @@
       "equipment": [
         "cable"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "horizontal_pull"
       ],
@@ -802,6 +854,8 @@
       "equipment": [
         "kb"
       ],
+      "category": "conditioning",
+      "modality": "power",
       "movement_families": [
         "hinge"
       ],
@@ -837,6 +891,8 @@
       "equipment": [
         "box"
       ],
+      "category": "conditioning",
+      "modality": "strength_endurance",
       "movement_families": [
         "lunge"
       ],
@@ -870,6 +926,8 @@
       "equipment": [
         "box"
       ],
+      "category": "conditioning",
+      "modality": "power",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -904,6 +962,8 @@
       "equipment": [
         "sandbag"
       ],
+      "category": "conditioning",
+      "modality": "strength_endurance",
       "movement_families": [
         "carry"
       ],
@@ -936,6 +996,8 @@
       "equipment": [
         "sandbag"
       ],
+      "category": "conditioning",
+      "modality": "strength_endurance",
       "movement_families": [
         "carry",
         "trunk"
@@ -969,6 +1031,8 @@
       "equipment": [
         "landmine"
       ],
+      "category": "core",
+      "modality": "strength",
       "movement_families": [
         "rotation"
       ],
@@ -1003,6 +1067,8 @@
         "cable",
         "bands"
       ],
+      "category": "core",
+      "modality": "strength",
       "movement_families": [
         "trunk",
         "rotation"
@@ -1037,6 +1103,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "core",
+      "modality": "isometric",
       "movement_families": [
         "trunk"
       ],
@@ -1068,6 +1136,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "core",
+      "modality": "strength",
       "movement_families": [
         "hinge",
         "accessory_isolation"
@@ -1103,6 +1173,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "strength",
+      "modality": "bodyweight",
       "movement_families": [
         "squat"
       ],
@@ -1137,6 +1209,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "strength",
+      "modality": "bodyweight",
       "movement_families": [
         "horizontal_push"
       ],
@@ -1172,6 +1246,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "conditioning",
+      "modality": "bodyweight",
       "movement_families": [
         "complex_total_body",
         "trunk"
@@ -1208,6 +1284,8 @@
       "equipment": [
         "box"
       ],
+      "category": "conditioning",
+      "modality": "bodyweight",
       "movement_families": [
         "lunge"
       ],
@@ -1240,6 +1318,8 @@
       "equipment": [
         "jump_rope"
       ],
+      "category": "conditioning",
+      "modality": "plyometric",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -1272,6 +1352,8 @@
       "equipment": [
         "bag"
       ],
+      "category": "conditioning",
+      "modality": "boxing",
       "movement_families": [],
       "training_qualities": [
         "strength_endurance"
@@ -1296,6 +1378,8 @@
       "equipment": [
         "reformer"
       ],
+      "category": "recovery",
+      "modality": "recovery",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -1314,6 +1398,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "recovery",
+      "modality": "recovery",
       "movement_families": [],
       "training_qualities": [
         "structural_resilience"
@@ -1338,6 +1424,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "recovery",
+      "modality": "recovery",
       "movement_families": [
         "trunk"
       ],
@@ -1365,6 +1453,8 @@
       "equipment": [
         "trx"
       ],
+      "category": "strength",
+      "modality": "strength",
       "movement_families": [
         "horizontal_pull"
       ],
@@ -1398,6 +1488,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "cardio",
+      "modality": "run_skill",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -1418,6 +1510,8 @@
       "equipment": [
         "barbell"
       ],
+      "category": "strength",
+      "modality": "barbell",
       "movement_families": [
         "horizontal_push"
       ],
@@ -1450,6 +1544,8 @@
         "db",
         "bench"
       ],
+      "category": "strength",
+      "modality": "dumbbell",
       "movement_families": [
         "horizontal_push"
       ],
@@ -1483,6 +1579,8 @@
         "barbell",
         "db"
       ],
+      "category": "strength",
+      "modality": "barbell",
       "movement_families": [
         "vertical_push"
       ],
@@ -1514,6 +1612,8 @@
       "equipment": [
         "db"
       ],
+      "category": "strength",
+      "modality": "dumbbell",
       "movement_families": [
         "vertical_push"
       ],
@@ -1547,6 +1647,8 @@
         "machine",
         "bench"
       ],
+      "category": "strength",
+      "modality": "dumbbell",
       "movement_families": [
         "horizontal_pull"
       ],
@@ -1579,6 +1681,8 @@
         "cable",
         "machine"
       ],
+      "category": "strength",
+      "modality": "cable",
       "movement_families": [
         "vertical_pull"
       ],
@@ -1611,6 +1715,8 @@
         "db",
         "kb"
       ],
+      "category": "strength",
+      "modality": "dumbbell",
       "movement_families": [
         "carry",
         "trunk"
@@ -1645,6 +1751,8 @@
         "barbell",
         "db"
       ],
+      "category": "strength",
+      "modality": "barbell",
       "movement_families": [
         "hinge"
       ],
@@ -1678,6 +1786,8 @@
         "barbell",
         "bench"
       ],
+      "category": "strength",
+      "modality": "barbell",
       "movement_families": [
         "horizontal_push"
       ],
@@ -1709,6 +1819,8 @@
       "equipment": [
         "db"
       ],
+      "category": "strength",
+      "modality": "dumbbell",
       "movement_families": [
         "horizontal_push"
       ],
@@ -1740,6 +1852,8 @@
       "equipment": [
         "barbell"
       ],
+      "category": "strength",
+      "modality": "barbell",
       "movement_families": [
         "horizontal_pull"
       ],
@@ -1771,6 +1885,8 @@
       "equipment": [
         "db"
       ],
+      "category": "accessory",
+      "modality": "dumbbell",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -1801,6 +1917,8 @@
       "equipment": [
         "db"
       ],
+      "category": "accessory",
+      "modality": "dumbbell",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -1831,6 +1949,8 @@
       "equipment": [
         "cable"
       ],
+      "category": "accessory",
+      "modality": "cable",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -1861,6 +1981,8 @@
         "db",
         "bench"
       ],
+      "category": "accessory",
+      "modality": "dumbbell",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -1890,6 +2012,8 @@
       "equipment": [
         "cable"
       ],
+      "category": "accessory",
+      "modality": "cable",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -1920,6 +2044,8 @@
         "db",
         "cable"
       ],
+      "category": "accessory",
+      "modality": "dumbbell",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -1951,6 +2077,8 @@
         "db",
         "bench"
       ],
+      "category": "accessory",
+      "modality": "barbell",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -1980,6 +2108,8 @@
       "equipment": [
         "db"
       ],
+      "category": "accessory",
+      "modality": "dumbbell",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -2012,6 +2142,8 @@
         "cable",
         "machine"
       ],
+      "category": "accessory",
+      "modality": "dumbbell",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -2043,6 +2175,8 @@
         "cable",
         "bands"
       ],
+      "category": "accessory",
+      "modality": "cable",
       "movement_families": [
         "horizontal_pull",
         "accessory_isolation"
@@ -2075,6 +2209,8 @@
         "cable",
         "machine"
       ],
+      "category": "accessory",
+      "modality": "cable",
       "movement_families": [
         "horizontal_push",
         "accessory_isolation"
@@ -2105,6 +2241,8 @@
       "equipment": [
         "machine"
       ],
+      "category": "accessory",
+      "modality": "cable",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -2135,6 +2273,8 @@
       "equipment": [
         "machine"
       ],
+      "category": "accessory",
+      "modality": "cable",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -2167,6 +2307,8 @@
         "barbell",
         "db"
       ],
+      "category": "accessory",
+      "modality": "barbell",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -2198,6 +2340,8 @@
         "machine",
         "db"
       ],
+      "category": "accessory",
+      "modality": "dumbbell",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -2230,6 +2374,8 @@
         "machine",
         "bands"
       ],
+      "category": "accessory",
+      "modality": "cable",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -2261,6 +2407,8 @@
         "bands",
         "cable"
       ],
+      "category": "accessory",
+      "modality": "cable",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -2293,6 +2441,8 @@
         "bands",
         "cable"
       ],
+      "category": "accessory",
+      "modality": "cable",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -2323,6 +2473,8 @@
       "equipment": [
         "back_extension"
       ],
+      "category": "strength",
+      "modality": "mixed",
       "movement_families": [
         "hinge",
         "trunk"
@@ -2356,6 +2508,8 @@
         "cable",
         "bands"
       ],
+      "category": "accessory",
+      "modality": "cable",
       "movement_families": [
         "vertical_pull",
         "accessory_isolation"
@@ -2388,6 +2542,8 @@
         "cable",
         "bench"
       ],
+      "category": "accessory",
+      "modality": "dumbbell",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -2420,6 +2576,8 @@
         "kb",
         "barbell"
       ],
+      "category": "power",
+      "modality": "barbell",
       "movement_families": [
         "lunge"
       ],
@@ -2454,6 +2612,8 @@
         "db",
         "kb"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "squat",
         "lunge"
@@ -2490,6 +2650,8 @@
         "db",
         "kb"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "squat"
       ],
@@ -2526,6 +2688,8 @@
         "trx",
         "rack"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "squat"
       ],
@@ -2558,6 +2722,8 @@
         "bodyweight",
         "box"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "squat"
       ],
@@ -2589,6 +2755,8 @@
         "bodyweight",
         "db"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "squat",
         "lunge"
@@ -2623,6 +2791,8 @@
         "bodyweight",
         "db"
       ],
+      "category": "strength",
+      "modality": "dumbbell",
       "movement_families": [
         "hinge"
       ],
@@ -2654,6 +2824,8 @@
         "barbell",
         "db"
       ],
+      "category": "power",
+      "modality": "barbell",
       "movement_families": [
         "vertical_push",
         "trunk"
@@ -2688,6 +2860,8 @@
         "kb",
         "cable"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "vertical_push",
         "trunk"
@@ -2721,6 +2895,8 @@
         "db",
         "kb"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "vertical_push",
         "trunk"
@@ -2752,6 +2928,8 @@
       "equipment": [
         "kb"
       ],
+      "category": "power",
+      "modality": "kettlebell",
       "movement_families": [
         "vertical_push"
       ],
@@ -2785,6 +2963,8 @@
       "equipment": [
         "db"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "olympic_explosive",
         "hinge"
@@ -2819,6 +2999,8 @@
       "equipment": [
         "db"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "olympic_explosive",
         "hinge"
@@ -2853,6 +3035,8 @@
       "equipment": [
         "db"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "olympic_explosive",
         "hinge"
@@ -2885,6 +3069,8 @@
       "equipment": [
         "db"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "olympic_explosive",
         "hinge"
@@ -2916,6 +3102,8 @@
       "equipment": [
         "barbell"
       ],
+      "category": "power",
+      "modality": "barbell",
       "movement_families": [
         "olympic_explosive",
         "hinge"
@@ -2949,6 +3137,8 @@
       "equipment": [
         "barbell"
       ],
+      "category": "power",
+      "modality": "barbell",
       "movement_families": [
         "olympic_explosive",
         "hinge"
@@ -2982,6 +3172,8 @@
       "equipment": [
         "barbell"
       ],
+      "category": "power",
+      "modality": "barbell",
       "movement_families": [
         "olympic_explosive",
         "hinge"
@@ -3015,6 +3207,8 @@
       "equipment": [
         "barbell"
       ],
+      "category": "power",
+      "modality": "barbell",
       "movement_families": [
         "olympic_explosive",
         "hinge"
@@ -3048,6 +3242,8 @@
       "equipment": [
         "barbell"
       ],
+      "category": "power",
+      "modality": "barbell",
       "movement_families": [
         "olympic_explosive",
         "hinge"
@@ -3081,6 +3277,8 @@
       "equipment": [
         "db"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "olympic_explosive",
         "hinge"
@@ -3116,6 +3314,8 @@
       "equipment": [
         "kb"
       ],
+      "category": "power",
+      "modality": "kettlebell",
       "movement_families": [
         "olympic_explosive",
         "hinge"
@@ -3150,6 +3350,8 @@
       "equipment": [
         "kb"
       ],
+      "category": "power",
+      "modality": "kettlebell",
       "movement_families": [
         "olympic_explosive",
         "hinge"
@@ -3185,6 +3387,8 @@
       "equipment": [
         "barbell"
       ],
+      "category": "power",
+      "modality": "barbell",
       "movement_families": [
         "squat",
         "trunk"
@@ -3220,6 +3424,8 @@
         "kb",
         "db"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "ground_get_up",
         "trunk"
@@ -3254,6 +3460,8 @@
       "equipment": [
         "sandbag"
       ],
+      "category": "power",
+      "modality": "sandbag",
       "movement_families": [
         "ground_get_up",
         "hinge"
@@ -3287,6 +3495,8 @@
       "equipment": [
         "sandbag"
       ],
+      "category": "power",
+      "modality": "sandbag",
       "movement_families": [
         "squat",
         "carry"
@@ -3321,6 +3531,8 @@
         "kb",
         "barbell"
       ],
+      "category": "power",
+      "modality": "barbell",
       "movement_families": [
         "carry",
         "trunk"
@@ -3354,6 +3566,8 @@
         "db",
         "kb"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "carry",
         "trunk"
@@ -3387,6 +3601,8 @@
       "equipment": [
         "barbell"
       ],
+      "category": "power",
+      "modality": "barbell",
       "movement_families": [
         "carry",
         "trunk"
@@ -3419,6 +3635,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -3448,6 +3666,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -3478,6 +3698,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -3509,6 +3731,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -3541,6 +3765,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -3570,6 +3796,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -3601,6 +3829,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "jump_plyometric",
         "squat"
@@ -3633,6 +3863,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -3664,6 +3896,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -3697,6 +3931,8 @@
       "equipment": [
         "hurdle"
       ],
+      "category": "power",
+      "modality": "mixed",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -3727,6 +3963,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -3760,6 +3998,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -3792,6 +4032,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -3823,6 +4065,8 @@
       "equipment": [
         "hurdle"
       ],
+      "category": "power",
+      "modality": "mixed",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -3854,6 +4098,8 @@
       "equipment": [
         "box"
       ],
+      "category": "power",
+      "modality": "mixed",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -3886,6 +4132,8 @@
       "equipment": [
         "box"
       ],
+      "category": "power",
+      "modality": "mixed",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -3918,6 +4166,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "strength",
+      "modality": "bodyweight",
       "movement_families": [
         "trunk"
       ],
@@ -3948,6 +4198,8 @@
       "equipment": [
         "db"
       ],
+      "category": "strength",
+      "modality": "dumbbell",
       "movement_families": [
         "trunk"
       ],
@@ -3978,6 +4230,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "strength",
+      "modality": "bodyweight",
       "movement_families": [
         "trunk"
       ],
@@ -4008,6 +4262,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "trunk"
       ],
@@ -4039,6 +4295,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "strength",
+      "modality": "bodyweight",
       "movement_families": [
         "trunk"
       ],
@@ -4070,6 +4328,8 @@
         "plate",
         "sandbag"
       ],
+      "category": "strength",
+      "modality": "sandbag",
       "movement_families": [
         "trunk"
       ],
@@ -4101,6 +4361,8 @@
         "trx",
         "sliders"
       ],
+      "category": "power",
+      "modality": "mixed",
       "movement_families": [
         "trunk"
       ],
@@ -4131,6 +4393,8 @@
       "equipment": [
         "ab_wheel"
       ],
+      "category": "power",
+      "modality": "mixed",
       "movement_families": [
         "trunk"
       ],
@@ -4162,6 +4426,8 @@
       "equipment": [
         "stability_ball"
       ],
+      "category": "power",
+      "modality": "mixed",
       "movement_families": [
         "trunk"
       ],
@@ -4191,6 +4457,8 @@
       "equipment": [
         "bench"
       ],
+      "category": "power",
+      "modality": "mixed",
       "movement_families": [
         "trunk"
       ],
@@ -4222,6 +4490,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "strength",
+      "modality": "bodyweight",
       "movement_families": [
         "trunk"
       ],
@@ -4253,6 +4523,8 @@
         "db",
         "bench"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "trunk",
         "horizontal_pull"
@@ -4286,6 +4558,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "strength",
+      "modality": "bodyweight",
       "movement_families": [
         "trunk",
         "ground_get_up"
@@ -4316,6 +4590,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "trunk",
         "ground_get_up"
@@ -4348,6 +4624,8 @@
       "equipment": [
         "db"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "trunk",
         "horizontal_pull"
@@ -4381,6 +4659,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "strength",
+      "modality": "bodyweight",
       "movement_families": [
         "trunk"
       ],
@@ -4410,6 +4690,8 @@
       "equipment": [
         "cable"
       ],
+      "category": "strength",
+      "modality": "cable",
       "movement_families": [
         "trunk"
       ],
@@ -4440,6 +4722,8 @@
       "equipment": [
         "rig"
       ],
+      "category": "power",
+      "modality": "mixed",
       "movement_families": [
         "trunk"
       ],
@@ -4470,6 +4754,8 @@
       "equipment": [
         "rig"
       ],
+      "category": "power",
+      "modality": "mixed",
       "movement_families": [
         "trunk"
       ],
@@ -4501,6 +4787,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "power",
+      "modality": "bodyweight",
       "movement_families": [
         "trunk"
       ],
@@ -4529,6 +4817,8 @@
       "equipment": [
         "cable"
       ],
+      "category": "power",
+      "modality": "cable",
       "movement_families": [
         "trunk",
         "rotation"
@@ -4561,6 +4851,8 @@
       "equipment": [
         "cable"
       ],
+      "category": "power",
+      "modality": "cable",
       "movement_families": [
         "trunk",
         "rotation"
@@ -4593,6 +4885,8 @@
       "equipment": [
         "back_extension"
       ],
+      "category": "strength",
+      "modality": "mixed",
       "movement_families": [
         "trunk",
         "hinge"
@@ -4624,6 +4918,8 @@
       "equipment": [
         "reverse_hyper"
       ],
+      "category": "strength",
+      "modality": "mixed",
       "movement_families": [
         "hinge",
         "trunk"
@@ -4655,6 +4951,8 @@
       "equipment": [
         "barbell"
       ],
+      "category": "conditioning",
+      "modality": "barbell",
       "movement_families": [
         "complex_total_body",
         "squat",
@@ -4690,6 +4988,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "complex_total_body",
         "squat",
@@ -4725,6 +5025,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "complex_total_body",
         "squat",
@@ -4760,6 +5062,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "complex_total_body",
         "horizontal_push",
@@ -4795,6 +5099,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "complex_total_body",
         "ground_get_up",
@@ -4830,6 +5136,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "horizontal_pull",
         "trunk"
@@ -4864,6 +5172,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "complex_total_body",
         "horizontal_pull",
@@ -4899,6 +5209,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "complex_total_body",
         "olympic_explosive",
@@ -4935,6 +5247,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "complex_total_body",
         "olympic_explosive",
@@ -4970,6 +5284,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "complex_total_body",
         "olympic_explosive",
@@ -5007,6 +5323,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "complex_total_body",
         "hinge",
@@ -5043,6 +5361,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "complex_total_body",
         "olympic_explosive",
@@ -5080,6 +5400,8 @@
         "db",
         "kb"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "complex_total_body",
         "lunge",
@@ -5114,6 +5436,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "complex_total_body",
         "ground_get_up",
@@ -5149,6 +5473,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "complex_total_body",
         "ground_get_up"
@@ -5183,6 +5509,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "conditioning",
+      "modality": "bodyweight",
       "movement_families": [
         "ground_get_up",
         "trunk"
@@ -5216,6 +5544,8 @@
         "kb",
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "ground_get_up",
         "carry",
@@ -5252,6 +5582,8 @@
       "equipment": [
         "sandbag"
       ],
+      "category": "conditioning",
+      "modality": "sandbag",
       "movement_families": [
         "complex_total_body",
         "hinge",
@@ -5287,6 +5619,8 @@
       "equipment": [
         "sandbag"
       ],
+      "category": "conditioning",
+      "modality": "sandbag",
       "movement_families": [
         "complex_total_body",
         "ground_get_up",
@@ -5320,6 +5654,8 @@
       "equipment": [
         "sandbag"
       ],
+      "category": "conditioning",
+      "modality": "sandbag",
       "movement_families": [
         "ground_get_up",
         "trunk"
@@ -5355,6 +5691,8 @@
       "equipment": [
         "medicine_ball"
       ],
+      "category": "conditioning",
+      "modality": "mixed",
       "movement_families": [
         "trunk",
         "complex_total_body"
@@ -5390,6 +5728,8 @@
         "medicine_ball",
         "wall"
       ],
+      "category": "conditioning",
+      "modality": "mixed",
       "movement_families": [
         "rotation",
         "trunk"
@@ -5425,6 +5765,8 @@
         "medicine_ball",
         "wall"
       ],
+      "category": "conditioning",
+      "modality": "mixed",
       "movement_families": [
         "rotation",
         "trunk"
@@ -5460,6 +5802,8 @@
         "medicine_ball",
         "wall"
       ],
+      "category": "conditioning",
+      "modality": "mixed",
       "movement_families": [
         "rotation",
         "horizontal_push"
@@ -5494,6 +5838,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "conditioning",
+      "modality": "bodyweight",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -5527,6 +5873,8 @@
         "bodyweight",
         "outdoor"
       ],
+      "category": "conditioning",
+      "modality": "bodyweight",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -5559,6 +5907,8 @@
       "equipment": [
         "box"
       ],
+      "category": "conditioning",
+      "modality": "mixed",
       "movement_families": [
         "jump_plyometric"
       ],
@@ -5590,6 +5940,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "hinge",
         "horizontal_pull"
@@ -5622,6 +5974,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "squat",
         "vertical_push",
@@ -5654,6 +6008,8 @@
       "equipment": [
         "kb"
       ],
+      "category": "conditioning",
+      "modality": "kettlebell",
       "movement_families": [
         "olympic_explosive",
         "vertical_push",
@@ -5690,6 +6046,8 @@
       "equipment": [
         "kb"
       ],
+      "category": "conditioning",
+      "modality": "kettlebell",
       "movement_families": [
         "olympic_explosive",
         "lunge"
@@ -5723,6 +6081,8 @@
       "equipment": [
         "kb"
       ],
+      "category": "conditioning",
+      "modality": "kettlebell",
       "movement_families": [
         "hinge",
         "squat",
@@ -5758,6 +6118,8 @@
       "equipment": [
         "landmine"
       ],
+      "category": "conditioning",
+      "modality": "mixed",
       "movement_families": [
         "squat",
         "vertical_push",
@@ -5791,6 +6153,8 @@
       "equipment": [
         "landmine"
       ],
+      "category": "conditioning",
+      "modality": "mixed",
       "movement_families": [
         "lunge",
         "vertical_push",
@@ -5825,6 +6189,8 @@
       "equipment": [
         "cable"
       ],
+      "category": "conditioning",
+      "modality": "cable",
       "movement_families": [
         "rotation",
         "horizontal_push",
@@ -5859,6 +6225,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "conditioning",
+      "modality": "bodyweight",
       "movement_families": [
         "trunk"
       ],
@@ -5889,6 +6257,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "conditioning",
+      "modality": "bodyweight",
       "movement_families": [
         "trunk",
         "ground_get_up"
@@ -5920,6 +6290,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "conditioning",
+      "modality": "bodyweight",
       "movement_families": [
         "trunk",
         "rotation",
@@ -5955,6 +6327,8 @@
         "db",
         "kb"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "carry",
         "trunk"
@@ -5988,6 +6362,8 @@
         "db",
         "kb"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "carry",
         "trunk"
@@ -6020,6 +6396,8 @@
         "db",
         "kb"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "carry",
         "trunk"
@@ -6051,6 +6429,8 @@
       "equipment": [
         "db"
       ],
+      "category": "strength",
+      "modality": "dumbbell",
       "movement_families": [
         "vertical_push"
       ],
@@ -6084,6 +6464,8 @@
         "barbell",
         "machine"
       ],
+      "category": "accessory",
+      "modality": "barbell",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -6113,6 +6495,8 @@
       "equipment": [
         "cable"
       ],
+      "category": "accessory",
+      "modality": "cable",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -6145,6 +6529,8 @@
         "bodyweight",
         "nordic_anchor"
       ],
+      "category": "accessory",
+      "modality": "bodyweight",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -6177,6 +6563,8 @@
         "bodyweight",
         "db"
       ],
+      "category": "accessory",
+      "modality": "dumbbell",
       "movement_families": [
         "accessory_isolation"
       ],
@@ -6207,6 +6595,8 @@
       "equipment": [
         "cable"
       ],
+      "category": "power",
+      "modality": "cable",
       "movement_families": [
         "horizontal_push",
         "trunk"
@@ -6240,6 +6630,8 @@
         "kb",
         "db"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "ground_get_up",
         "trunk"
@@ -6273,6 +6665,8 @@
         "db",
         "kb"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "carry",
         "trunk"
@@ -6306,6 +6700,8 @@
       "equipment": [
         "db"
       ],
+      "category": "strength",
+      "modality": "dumbbell",
       "movement_families": [
         "squat"
       ],
@@ -6337,6 +6733,8 @@
       "equipment": [
         "trap_bar"
       ],
+      "category": "strength",
+      "modality": "barbell",
       "movement_families": [
         "hinge"
       ],
@@ -6369,6 +6767,8 @@
         "barbell",
         "trx"
       ],
+      "category": "strength",
+      "modality": "barbell",
       "movement_families": [
         "horizontal_pull"
       ],
@@ -6400,6 +6800,8 @@
         "db",
         "barbell"
       ],
+      "category": "strength",
+      "modality": "barbell",
       "movement_families": [
         "lunge"
       ],
@@ -6433,6 +6835,8 @@
         "box",
         "db"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "lunge"
       ],
@@ -6465,6 +6869,8 @@
         "box",
         "db"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "lunge"
       ],
@@ -6499,6 +6905,8 @@
         "kb",
         "barbell"
       ],
+      "category": "power",
+      "modality": "barbell",
       "movement_families": [
         "hinge"
       ],
@@ -6532,6 +6940,8 @@
         "db",
         "barbell"
       ],
+      "category": "strength",
+      "modality": "barbell",
       "movement_families": [
         "hinge"
       ],
@@ -6563,6 +6973,8 @@
       "equipment": [
         "landmine"
       ],
+      "category": "power",
+      "modality": "mixed",
       "movement_families": [
         "vertical_push",
         "rotation"
@@ -6598,6 +7010,8 @@
       "equipment": [
         "kb"
       ],
+      "category": "power",
+      "modality": "kettlebell",
       "movement_families": [
         "hinge",
         "olympic_explosive"
@@ -6634,6 +7048,8 @@
         "cable",
         "bands"
       ],
+      "category": "strength",
+      "modality": "cable",
       "movement_families": [
         "trunk",
         "rotation"
@@ -6666,6 +7082,8 @@
         "cable",
         "bands"
       ],
+      "category": "power",
+      "modality": "cable",
       "movement_families": [
         "trunk",
         "rotation"
@@ -6698,6 +7116,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "strength",
+      "modality": "bodyweight",
       "movement_families": [
         "hinge",
         "trunk"
@@ -6729,6 +7149,8 @@
       "equipment": [
         "db"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "ground_get_up",
         "trunk",
@@ -6764,6 +7186,8 @@
       "equipment": [
         "sled"
       ],
+      "category": "conditioning",
+      "modality": "sled",
       "movement_families": [
         "sled_resisted_locomotion"
       ],
@@ -6795,6 +7219,8 @@
       "equipment": [
         "sled"
       ],
+      "category": "conditioning",
+      "modality": "sled",
       "movement_families": [
         "sled_resisted_locomotion"
       ],
@@ -6828,6 +7254,8 @@
         "kb",
         "barbell"
       ],
+      "category": "conditioning",
+      "modality": "barbell",
       "movement_families": [
         "lunge",
         "trunk"
@@ -6864,6 +7292,8 @@
         "kb",
         "barbell"
       ],
+      "category": "conditioning",
+      "modality": "barbell",
       "movement_families": [
         "lunge",
         "carry"
@@ -6898,6 +7328,8 @@
         "db",
         "kb"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "lunge",
         "trunk"
@@ -6932,6 +7364,8 @@
         "db",
         "kb"
       ],
+      "category": "conditioning",
+      "modality": "dumbbell",
       "movement_families": [
         "hinge",
         "trunk"
@@ -6965,6 +7399,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "conditioning",
+      "modality": "bodyweight",
       "movement_families": [
         "horizontal_push",
         "trunk"
@@ -6997,6 +7433,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "conditioning",
+      "modality": "bodyweight",
       "movement_families": [
         "ground_get_up",
         "trunk"
@@ -7030,6 +7468,8 @@
       "equipment": [
         "cable"
       ],
+      "category": "strength",
+      "modality": "cable",
       "movement_families": [
         "horizontal_pull"
       ],
@@ -7060,6 +7500,8 @@
       "equipment": [
         "cable"
       ],
+      "category": "power",
+      "modality": "cable",
       "movement_families": [
         "horizontal_pull",
         "trunk"
@@ -7092,6 +7534,8 @@
       "equipment": [
         "bodyweight"
       ],
+      "category": "conditioning",
+      "modality": "bodyweight",
       "movement_families": [
         "horizontal_push",
         "ground_get_up"
@@ -7123,6 +7567,8 @@
       "equipment": [
         "sandbag"
       ],
+      "category": "power",
+      "modality": "sandbag",
       "movement_families": [
         "carry",
         "trunk"
@@ -7156,6 +7602,8 @@
         "db",
         "box"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "lunge"
       ],
@@ -7188,6 +7636,8 @@
         "box",
         "db"
       ],
+      "category": "power",
+      "modality": "dumbbell",
       "movement_families": [
         "lunge"
       ],
@@ -7220,6 +7670,8 @@
       "equipment": [
         "cable"
       ],
+      "category": "power",
+      "modality": "cable",
       "movement_families": [
         "horizontal_pull",
         "trunk"
@@ -7250,6 +7702,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7266,6 +7720,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7282,6 +7738,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7298,6 +7756,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7314,6 +7774,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7330,6 +7792,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7346,6 +7810,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7362,6 +7828,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7378,6 +7846,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7394,6 +7864,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7410,6 +7882,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7426,6 +7900,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7442,6 +7918,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7458,6 +7936,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7474,6 +7954,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7490,6 +7972,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7506,6 +7990,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7522,6 +8008,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "mobility",
+      "modality": "mobility",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
@@ -7538,6 +8026,8 @@
       "impact_level": "low",
       "postpartum_friendly": true,
       "equipment": [],
+      "category": "conditioning",
+      "modality": "boxing",
       "movement_families": [],
       "training_qualities": [],
       "movement_characters": [],
