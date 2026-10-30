@@ -126,6 +126,11 @@ export function planWeekQueue(args: {
   exercises: Exercise[];
   /** Planning context: the athlete's equipment, considerations and phase. */
   input: EngineInput;
+  /**
+   * Templates the week already holds. Counted as used, so a replan reaches for
+   * something different before it repeats a session the athlete still has.
+   */
+  alreadyPlanned?: string[];
 }): PlannedQueueItem[] {
   const { requirements, templates, exercises, input } = args;
 
@@ -198,7 +203,7 @@ export function planWeekQueue(args: {
     .filter(n => n.remaining > 0 && n.pool.length > 0);
 
   const items: PlannedQueueItem[] = [];
-  const used = new Set<string>();
+  const used = new Set<string>(args.alreadyPlanned ?? []);
   const tiers = [...new Set(needs.map(n => n.priority))].sort((a, b) => a - b);
 
   for (const tier of tiers) {
@@ -224,6 +229,99 @@ export function planWeekQueue(args: {
   }
 
   return items;
+}
+
+/* ------------------------------------------------ replanning a week ----- */
+
+/** What a replan does to the week, before any of it is written. */
+export interface WeekReplan {
+  /** Open sessions the athlete can no longer be offered. */
+  expire: string[];
+  /** Sessions that take their place, and any need that can now be met. */
+  add: PlannedQueueItem[];
+}
+
+/**
+ * Replans the open part of a week after the athlete's circumstances change,
+ * such as a mid-week change to their equipment.
+ *
+ * Replaces only what is no longer possible rather than planning the week
+ * afresh, because the rest of the week is something the athlete may already
+ * have arranged around, or reordered with Coach:
+ *
+ *   * Started, completed and skipped sessions are never touched. The first two
+ *     are what happened; the third is a choice the athlete made, and a replan
+ *     that brought a dropped session back would undo it.
+ *   * An open session that is still eligible stays, at its rank.
+ *   * An open session that is not is expired, never deleted, so the record of
+ *     what the week was survives (as `reshape-week` treats a drop).
+ *   * The gap is refilled from what the week still needs: its targets, less
+ *     what was completed and what is still in it. A replacement takes the rank
+ *     of the session it replaces, so the order of the week, and what a
+ *     compressed week cuts first, is unchanged. A need nothing could fill
+ *     before (no barbell for the strength work, say) is filled now if it can
+ *     be, at the end of the week.
+ *
+ * Eligibility is judged as `planWeekQueue` judges it: a neutral day, with no
+ * recent sessions, so the same session is either plannable in both or neither.
+ */
+export function replanWeekQueue(args: {
+  items: QueueItem[];
+  requirements: WeekRequirement[];
+  templates: WorkoutTemplate[];
+  exercises: Exercise[];
+  input: EngineInput;
+}): WeekReplan {
+  const { items, requirements, templates, exercises, input } = args;
+
+  const templateIndex = new Map(templates.map(t => [t.id, t]));
+  const exerciseIndex = new Map(
+    exercises.map(e => [e.id, { equipment: e.equipment, impact_level: e.impact_level }]));
+  const planningInput: EngineInput = { ...input, recent_sessions: [] };
+
+  const stillPossible = (q: QueueItem): boolean => {
+    const t = templateIndex.get(q.workout_template_id);
+    return t != null && checkEligibility(t, planningInput, exerciseIndex, 'okay').eligible;
+  };
+
+  const expired = items
+    .filter(q => CLAIMABLE_STATES.includes(q.state) && !stillPossible(q))
+    .sort((a, b) => a.rank - b.rank);
+  const expiredIds = new Set(expired.map(q => q.id));
+
+  // Everything the week still accounts for, by stimulus. Completed sessions
+  // are already in `completed_exposures`, so only what is yet to happen is
+  // counted here, plus what the athlete chose to drop.
+  const remaining = items.filter(q => !expiredIds.has(q.id)
+    && ['queued', 'recommended', 'in_progress', 'skipped'].includes(q.state));
+  const accounted = new Map<string, number>();
+  for (const q of remaining) {
+    accounted.set(q.stimulus_type, (accounted.get(q.stimulus_type) ?? 0) + 1);
+  }
+
+  const planned = planWeekQueue({
+    requirements: requirements.map(r => ({
+      ...r,
+      completed_exposures: (r.completed_exposures ?? 0) + (accounted.get(r.stimulus_type) ?? 0),
+    })),
+    templates,
+    exercises,
+    input,
+    alreadyPlanned: remaining.map(q => q.workout_template_id),
+  });
+
+  // Replacements step into the ranks they replace, matched by stimulus;
+  // anything new goes after the last session the week holds.
+  const freed = [...expired];
+  let next = Math.max(-1, ...items.filter(q => !expiredIds.has(q.id)).map(q => q.rank),
+    ...expired.map(q => q.rank)) + 1;
+  const add = planned.map(p => {
+    const i = freed.findIndex(q => q.stimulus_type === p.stimulus_type);
+    const rank = i >= 0 ? freed.splice(i, 1)[0].rank : next++;
+    return { ...p, rank };
+  });
+
+  return { expire: expired.map(q => q.id), add };
 }
 
 /**
