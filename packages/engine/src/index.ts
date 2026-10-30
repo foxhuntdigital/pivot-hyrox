@@ -17,9 +17,10 @@ import { score } from './rank.ts';
 import { transformBlocks, preservesPrimaryStimulus } from './transform.ts';
 
 /**
- * 2.2.0: the muscular_endurance training domain serves the threshold goal in
- * `matchesStimulus`, so the same template can now fill a threshold exposure
- * that 2.1.0 would never have offered it for.
+ * 2.2.0: the muscular_endurance training domain serves its template's own
+ * `primary_goal` in `matchesStimulus` (threshold for EMOMs and metcons,
+ * strength for the station Strength-Power sessions), where 2.1.0 served no goal
+ * at all. A template can now fill an exposure 2.1.0 would never have offered.
  *
  * 2.1.0: `perceived_weakness` joins as a ninth dimension and every weight moves
  * again, so a 2.1.0 score is not numerically comparable with a 2.0.0 one — and

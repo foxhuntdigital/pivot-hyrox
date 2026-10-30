@@ -138,8 +138,8 @@ const DIRECT = {
   // The 24-session muscular endurance expansion rolls up to `threshold`:
   // sustained submaximal output under accumulating fatigue, scored by how long
   // the output holds rather than by the load. The pack authored `strength`;
-  // threshold is the programming ruling, and it agrees with how the engine
-  // reads the muscular_endurance domain (DOMAIN_TO_GOAL in rank.ts, 2.2.0).
+  // threshold is the programming ruling. The muscular_endurance domain defers
+  // to this goal in the engine (GOAL_FROM_TEMPLATE in rank.ts, 2.2.0).
   repeatable_muscular_output:         ['threshold', 'specified'],
   lower_body_fatigue_resistance:      ['threshold', 'specified'],
   upper_body_fatigue_resistance:      ['threshold', 'specified'],
@@ -220,8 +220,15 @@ const ENGINE_MODALITIES = new Set(['running', 'row', 'ski', 'bike']);
  * report how each call was made instead of asserting a bare answer.
  */
 const CONTEXTUAL = {
-  /** Erg intervals are threshold work; a heavy sled or carry is strength. */
+  /**
+   * Erg intervals are threshold work; a heavy sled or carry is strength. A
+   * loaded session in a muscular endurance format (an EMOM, metcon or hero
+   * benchmark) is held for time rather than for load, so it is threshold too.
+   */
   power_endurance(ctx) {
+    if (/^muscular_endurance/.test(ctx.family ?? '')) {
+      return ['threshold', 'muscular endurance format: output held for time'];
+    }
     if (ctx.modalities.some(m => LOADED_MODALITIES.has(m)) && !ctx.modalities.some(m => ENGINE_MODALITIES.has(m))) {
       return ['strength', 'loaded modality, no engine work'];
     }
@@ -460,8 +467,8 @@ export function resolveClassification(primaryGoal, ctx = {}) {
   // what the session IS is muscular endurance, and the domain says what it is:
   // filed under `threshold` it would also answer a running-speed deficit
   // (CAPABILITY_TARGETS.running_threshold reads the domain), which a goblet
-  // squat EMOM does not address. The engine maps this domain back to the
-  // threshold goal (DOMAIN_TO_GOAL in rank.ts), so it is still scheduled as one.
+  // squat EMOM does not address. The engine reads this domain's goal from the
+  // template (GOAL_FROM_TEMPLATE in rank.ts), so it is still scheduled as one.
   if (primaryGoal === 'threshold' && loaded && !engine && !requiresRunning) {
     return {
       training_domain: 'muscular_endurance',

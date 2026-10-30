@@ -297,7 +297,7 @@
 "me_emom_05","EMOM — Bodyweight Density 24","muscular_endurance_emom","threshold","muscular_endurance","strength_endurance","threshold through loaded resistance alone, no engine work",""
 "me_emom_06","EMOM — Dumbbell Push-Pull 24","muscular_endurance_emom","threshold","muscular_endurance","strength_endurance","threshold through loaded resistance alone, no engine work",""
 "me_emom_07","EMOM — Squat + Carry 20","muscular_endurance_emom","threshold","muscular_endurance","strength_endurance","threshold through loaded resistance alone, no engine work",""
-"me_emom_08","EMOM — Power Endurance 18","muscular_endurance_emom","strength","muscular_endurance","strength_endurance","carries load but prescribes no working sets with rest",""
+"me_emom_08","EMOM — Power Endurance 18","muscular_endurance_emom","threshold","muscular_endurance","strength_endurance","threshold through loaded resistance alone, no engine work",""
 "me_metcon_01","Metcon — Dumbbell 5s","muscular_endurance_metcon","threshold","muscular_endurance","strength_endurance","threshold through loaded resistance alone, no engine work",""
 "me_metcon_02","Metcon — 12-10-8-6","muscular_endurance_metcon","threshold","muscular_endurance","strength_endurance","threshold through loaded resistance alone, no engine work",""
 "me_metcon_03","Metcon — Lower Body Chipper","muscular_endurance_metcon","threshold","muscular_endurance","strength_endurance","threshold through loaded resistance alone, no engine work",""

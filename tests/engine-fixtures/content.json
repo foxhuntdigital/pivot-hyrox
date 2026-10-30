@@ -41858,7 +41858,7 @@
       "id": "me_emom_08",
       "name": "EMOM — Power Endurance 18",
       "workout_family": "muscular_endurance_emom",
-      "primary_goal": "strength",
+      "primary_goal": "threshold",
       "stimulus": "power_endurance",
       "secondary_goal": null,
       "estimated_minutes": 18,
