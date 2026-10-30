@@ -31,7 +31,7 @@ function Bullets({ items }: { items: string[] }) {
     <View style={{ paddingHorizontal: space.gutter, paddingBottom: 18 }}>
       {items.map(item => (
         <View key={item} style={{ flexDirection: 'row', paddingBottom: 8 }}>
-          <Text style={[t.bodySm, { color: color.muted, width: 16 }]}>—</Text>
+          <Text style={[t.bodySm, { color: color.muted, width: 16 }]}>•</Text>
           <Text style={[t.bodySm, { color: color.muted2, flex: 1 }]}>{item}</Text>
         </View>
       ))}

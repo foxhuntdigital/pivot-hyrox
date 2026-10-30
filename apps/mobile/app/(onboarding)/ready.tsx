@@ -72,7 +72,7 @@ export default function ReadyScreen() {
             ...(draft.plan_mode === 'race'
               ? [
                   ['Race', draft.event_name.trim() || 'My race'],
-                  ['Date', draft.event_date ?? '—'],
+                  ['Date', draft.event_date ?? 'Not set'],
                   ['Division', draft.division ?? 'Not set'],
                 ] as [string, string][]
               : [

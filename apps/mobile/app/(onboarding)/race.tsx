@@ -146,7 +146,7 @@ export default function RaceScreen() {
           />
 
           <Runway title={`${draft.block_weeks} weeks to build`}>
-            {'Foundation, build, specific work and a peak — the same progression a '
+            {'Foundation, build, specific work and a peak: the same progression a '
             + 'race plan runs, without the taper and race week. Add a race any time '
             + 'on Profile and the weeks ahead are rebuilt around the date.'}
           </Runway>
