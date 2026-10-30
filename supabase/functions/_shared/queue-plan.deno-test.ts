@@ -274,9 +274,11 @@ describe('Variety across a week', () => {
     assert.deepEqual(week(1), week(1));
   });
 
-  test('rotating keeps each family\'s sessions together and in order', () => {
+  test('rotating keeps each family\'s sessions together, and turns them too', () => {
+    // A family with one obvious first session would otherwise serve it every
+    // week it comes round.
     assert.deepEqual(rotateFamilies(pool, 1).map(t => t.id),
-      ['mx_farmer_base', 'run_easy', 'mx_bbj_base', 'mx_bbj_durability', 'mx_bbj_micro']);
+      ['mx_farmer_base', 'run_easy', 'mx_bbj_durability', 'mx_bbj_micro', 'mx_bbj_base']);
     assert.equal(rotateFamilies(pool, 0), pool);
   });
 });
@@ -312,5 +314,41 @@ describe('Variety by kind of session', () => {
       .filter(t => t.session_type === 'run').map(t => t.id);
     assert.deepEqual(runs(0), ['run_easy', 'run_long']);
     assert.deepEqual(runs(1), ['run_long', 'run_easy']);
+  });
+});
+
+describe('Strength slots by archetype', () => {
+  const strength = (id: string, family: string, archetype: string | null) => template({
+    id, workout_family: family, primary_goal: 'strength', training_domain: 'strength',
+    session_type: 'strength', workout_archetype: archetype,
+  } as Partial<WorkoutTemplate>);
+  // Sorted so rotation and variety, left alone, would reach the reduced and
+  // the athletic sessions first.
+  const pool = [
+    strength('a_recovery_lower', 'strength_maintenance_lower', 'foundational'),
+    strength('b_micro_legs', 'micro', 'foundational'),
+    strength('c_power_jump', 'strength_legs', 'mixed'),
+    strength('d_athletic_bound', 'strength_power', 'athletic'),
+    strength('e_squat', 'strength_legs', 'foundational'),
+    strength('f_total', 'strength_total', 'foundational'),
+  ] as WorkoutTemplate[];
+  const week = (phase: string, n = 2) => plan([req('strength', n, 1)], pool,
+    { phase_type: phase as EngineInput['phase_type'] }).map(i => i.workout_template_id);
+
+  test('a foundation week fills every strength slot with foundational work', () => {
+    assert.deepEqual(week('foundation'), ['e_squat', 'f_total']);
+  });
+
+  test('later phases keep the first slot foundational and vary the second', () => {
+    assert.deepEqual(week('build'), ['e_squat', 'c_power_jump']);
+    assert.deepEqual(week('peak'), ['e_squat', 'd_athletic_bound']);
+  });
+
+  test('a reduced dose fills a planned slot only when nothing full can', () => {
+    assert.ok(!week('foundation', 2).some(id => id === 'a_recovery_lower' || id === 'b_micro_legs'));
+    // Four slots, four full sessions: still none reduced.
+    assert.ok(!week('foundation', 4).some(id => id === 'a_recovery_lower' || id === 'b_micro_legs'));
+    // Five slots and only four full sessions: the reduced ones are what is left.
+    assert.ok(week('foundation', 5).some(id => id === 'a_recovery_lower' || id === 'b_micro_legs'));
   });
 });

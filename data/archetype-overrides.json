@@ -1,0 +1,4 @@
+{
+  "note": "Rulings that replace the derived workout_archetype for a strength template (scripts/apply-archetypes.mjs). Key by template id; give the archetype and the reason. Empty means every strength template is labelled by the rule.",
+  "overrides": {}
+}

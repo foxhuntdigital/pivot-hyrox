@@ -605,6 +605,9 @@ for (const { meta, w, id, blocks } of accepted) {
     // scheduled exactly as it was before grading existed and is picked up by the
     // next grading pass — rather than by a number this importer invented.
     null, null,
+    // workout_archetype (migration 0024). Derived from the session's exercises
+    // by apply-archetypes.mjs, never asserted by a pack.
+    null,
   ]));
 
   blocks.forEach((b, bi) => {
