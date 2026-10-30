@@ -14,7 +14,7 @@ import { Label } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
 import { useOnboarding } from '@/state/onboarding';
 import { fetchEquipment, type EquipmentOption } from '@/data/planRepo';
-import { COMMON_EQUIPMENT, EQUIPMENT, visibleEquipment } from '@/data/content';
+import { EQUIPMENT, visibleEquipment } from '@/data/content';
 
 /** Readable headings for the category keys the library uses. */
 const CATEGORY_LABEL: Record<string, string> = {
@@ -37,16 +37,13 @@ export default function EquipmentScreen() {
     let cancelled = false;
     function apply(source: EquipmentOption[]) {
       // Filtered here rather than at each call site so the fetched catalogue and
-      // the bundled fallback offer the same thing, and so the default selection
-      // below can never pre-select something the athlete cannot see.
-      const list = visibleEquipment(source);
-      setOptions(list);
-      // Pre-select a sensible default the first time rather than starting
-      // empty, which reads as "you own nothing".
-      if (draft.equipment.length === 0 && list.length > 0) {
-        const ids = new Set(list.map(o => o.id));
-        update({ equipment: COMMON_EQUIPMENT.filter(id => ids.has(id)) });
-      }
+      // the bundled fallback offer the same thing.
+      //
+      // Nothing is pre-selected. Sessions are only built from equipment the
+      // athlete has, so a suggested gym accepted without reading becomes a plan
+      // full of kit they do not own. Filling in an empty answer on load also
+      // overwrote a deliberate "nothing" whenever the athlete came back here.
+      setOptions(visibleEquipment(source));
     }
     fetchEquipment()
       .then(list => {
