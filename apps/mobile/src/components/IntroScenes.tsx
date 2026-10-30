@@ -148,7 +148,7 @@ export function SceneVariants({ reduced }: { reduced: boolean }) {
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
           <View style={{ width: 14, height: 8, backgroundColor: color.red }} />
           <Text style={[t.bodySm, { color: color.muted2, flex: 1 }]}>
-            The red is the stimulus — the work the session exists to deliver. It is
+            The red is the stimulus: the work the session exists to deliver. It is
             the same in all three. What gets cut is volume, never the point.
           </Text>
         </View>
@@ -221,7 +221,7 @@ export function SceneCoach({ reduced }: { reduced: boolean }) {
         <Label size="sm" style={{ marginBottom: 5 }}>Coach</Label>
         <Text style={[t.body, { color: color.muted2 }]}>
           Not that one. I've swapped today's run for the Express row and left
-          your threshold session on Thursday — the week keeps its stimuli either way.
+          your threshold session on Thursday. The week keeps its stimuli either way.
         </Text>
       </Rise>
 

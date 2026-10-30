@@ -137,7 +137,7 @@ export default function EquipmentScreen() {
         }}>
           <Text style={[t.bodySm, { color: color.muted2 }]}>
             We couldn't refresh this just now, so this is the built-in list. Everything here
-            still works — you can fine-tune it later on Profile.
+            still works, and you can fine-tune it later on Profile.
           </Text>
         </View>
       ) : null}

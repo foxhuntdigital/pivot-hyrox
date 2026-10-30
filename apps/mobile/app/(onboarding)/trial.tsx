@@ -93,7 +93,7 @@ export default function TrialScreen() {
       const result = await RevenueCatUI.presentPaywall();
       if (result === PAYWALL_RESULT.PURCHASED || result === PAYWALL_RESULT.RESTORED) {
         if (await settleFromServer()) return;
-        setError('Purchase received. Waiting for it to be confirmed — try again in a moment.');
+        setError('Purchase received. Waiting for it to be confirmed. Try again in a moment.');
       } else if (result === PAYWALL_RESULT.ERROR) {
         setError('The store could not be reached. Nothing has been charged.');
       }
@@ -112,7 +112,7 @@ export default function TrialScreen() {
     if (r.ok) { proceed(); return; }
     if (r.reason === 'cancelled') return;
     setError(r.reason === 'pending'
-      ? 'Purchase found. Waiting for it to be confirmed — try again in a moment.'
+      ? 'Purchase found. Waiting for it to be confirmed. Try again in a moment.'
       : 'No previous purchase found on this Apple ID.');
   }
 
@@ -146,7 +146,7 @@ export default function TrialScreen() {
         <View style={{ paddingHorizontal: space.gutter, paddingTop: 22 }}>
           <Text style={[t.h1, { color: color.ink }]}>Start your trial</Text>
           <Text style={[t.bodySm, { color: color.muted2, paddingTop: 10 }]}>
-            Long enough to see the plan adapt around a real week — a missed day, a
+            Long enough to see the plan adapt around a real week: a missed day, a
             short day, a day you feel strong.
           </Text>
         </View>
@@ -176,7 +176,7 @@ export default function TrialScreen() {
           </Text>
           {isTestStore ? (
             <Text style={[t.meta, { color: color.redDark, marginTop: 10 }]}>
-              Test store build — purchases are simulated and nothing is charged.
+              Test store build. Purchases are simulated and nothing is charged.
             </Text>
           ) : null}
         </View>

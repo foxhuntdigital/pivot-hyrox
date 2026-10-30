@@ -98,7 +98,7 @@ export default function ExperienceScreen() {
     <OnboardingStep
       step={3}
       title="Where are you starting from?"
-      description="These two size your training. They are a starting point, not a verdict — the plan adjusts as it sees what you actually do."
+      description="These two size your training. They are a starting point, not a verdict. The plan adjusts as it sees what you actually do."
       onBack={() => router.back()}
       onContinue={() => router.push('/equipment' as never)}
     >
@@ -133,7 +133,7 @@ export default function ExperienceScreen() {
         paddingHorizontal: 13, paddingVertical: 12,
       }}>
         <Text style={[t.bodySm, { color: color.muted2 }]}>
-          These constrain programming only — they are never shown in feeds, shared, or used for
+          These constrain programming only. They are never shown in feeds, shared, or used for
           recommendations outside your plan. You can change them any time on Profile.
         </Text>
       </View>

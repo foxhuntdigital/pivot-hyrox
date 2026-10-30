@@ -57,7 +57,7 @@ const SPORTS: { value: Sport; label: string; detail: string }[] = [
      * it, and a roadmap promise nobody made is worse than no promise at all.
      */
     detail: 'Strength and conditioning on one plan, with no race required. Running, carries, '
-      + 'sled work and lifting on tired legs — the same training, just not pointed at a start '
+      + 'sled work and lifting on tired legs: the same training, just not pointed at a start '
       + 'line. Dedicated running plans are on the way.',
   },
 ];

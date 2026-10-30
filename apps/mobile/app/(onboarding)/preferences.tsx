@@ -64,7 +64,7 @@ export default function PreferencesScreen() {
     <OnboardingStep
       step={7}
       title="What you enjoy, and what needs work"
-      description="Two different questions. Neither overrules recovery, your equipment, or what your race needs — they order the sessions your plan already allows."
+      description="Two different questions. Neither overrules recovery, your equipment, or what your race needs. They order the sessions your plan already allows."
       onBack={() => router.back()}
       onContinue={() => router.push('/ready' as never)}
       continueLabel={stated || weak.length ? 'Continue' : 'Skip for now'}
@@ -124,8 +124,8 @@ export default function PreferencesScreen() {
         paddingHorizontal: space.gutter, fontSize: 11.5, lineHeight: 17,
         color: color.muted, paddingBottom: 8,
       }]}>
-        Your read on yourself. Kept separate from what your training actually shows —
-        when the two disagree, PIVOT keeps both and says so.
+        Your read on yourself. Kept separate from what your training actually shows.
+        When the two disagree, PIVOT keeps both and says so.
       </Text>
 
       <View style={{ paddingHorizontal: space.gutter }}>
