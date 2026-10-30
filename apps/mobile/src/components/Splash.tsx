@@ -1,54 +1,37 @@
 /**
  * Cold-launch splash.
  *
- * Three lanes run straight up the page from the bottom edge, turn right at the
- * crown and wrap round into the bowl of a large P. The frame then splits down
- * the middle lane and opens onto the app — so the seam follows the mark rather
- * than the page, and the two doors are not the same width.
+ * A red runner comes up the middle of three lanes, makes one hard right-angle
+ * turn at the top (the pivot), and runs out along the straight. Its tail
+ * follows it round, so what the run leaves behind is the app header's mark: the
+ * red square at the corner and PIVOT ENGINE along the straight. The ink ground
+ * then wipes up off the screen like a lane being run, and the mark shrinks into
+ * the header, where it sits on every screen. The splash ends where the app
+ * begins.
  *
- * ── The palette is the app icon's ────────────────────────────────────────────
+ * It is drawn in the app's own system (ink, paper, one red, Archivo, square
+ * corners, flat colour) rather than the app icon's, so the first thing an
+ * athlete sees is the same product they then use.
  *
- * The icon is a monogram cut from three materials on a cool charcoal: a glossy
- * vermilion, a frosted face carrying fine engraved line work, and a granular
- * teal, with a cyan light-leak running the seam between them. Three materials
- * and three lanes was too close to ignore, so each lane is one of them and the
- * drawing head is the light-leak.
+ * Every part is a plain View or Text, so it needs no native module. Layout and
+ * timing live in `splashLayout.ts`, which is tested.
  *
- * The ground is `app.json`'s own `adaptiveIcon.backgroundColor`, not a sampled
- * approximation, so three things that must agree do: the icon on the home
- * screen, the native splash painted before any JavaScript runs, and this. The
- * launch reads as one surface from the tap onward, and the doors then part on a
- * dark frame to show a light app — which is a reveal rather than the seamless
- * paper-on-paper it used to be.
+ * ── The native hand-over ─────────────────────────────────────────────────────
  *
- * `react-native-svg` is not a dependency and adding one would mean a native
- * rebuild, which this project cannot currently do, so every part of the mark is
- * a plain View:
- *
- *   - each lane's fill is a stack of flat strips sampled from a two-stop ramp at
- *     the strip's own y. The ramp is a function of absolute y, not of distance
- *     along the stroke, so the stem, the corner and the bend share one
- *     continuous fill and meet without a seam. The strips are fine enough that
- *     the banding sits under the eye rather than in front of it, and the whole
- *     static stack is flattened to a single layer so that the count costs
- *     nothing to animate;
- *   - the bend is a fan of rotated rectangles, cut wide enough that no gap opens
- *     between them and then trimmed back to true circles by a paper ring outside
- *     it and a paper disc inside it;
- *   - the corner is a mitre, and a mitre is only nested squares: lane i owns
- *     everything at least i lanes in from both outer edges, so painting the
- *     three outermost-first cuts both diagonals without a rotated view;
- *   - the run up is a paper cover sliding off (a pure transform, so no layout
- *     runs per frame) and the bend is a rotating clip — the fan clipped to its
- *     right half, rotated inside a second clip pinned to the same half, so the
- *     arc sweeps in from the crown round to the foot.
+ * The native splash paints `NATIVE_GROUND` before any JavaScript runs, and that
+ * colour is baked into the binary. So this starts on it and fades to ink in the
+ * first 300 ms instead of cutting. When the native splash is next rebuilt with
+ * ink, the fade becomes a no-op.
  */
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { AccessibilityInfo, StyleSheet, View, useWindowDimensions } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  AccessibilityInfo, type LayoutChangeEvent, StyleSheet, View, useWindowDimensions,
+} from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, {
   Easing,
-  type SharedValue,
   interpolate,
+  interpolateColor,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
@@ -56,457 +39,57 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-/** Run the straight, wrap the bend, hold a beat, then open. */
-const STEM_MS = 680;
-/** The lanes leave in echelon, outside first — the outer one has furthest to go. */
-const LANE_LAG = 40;
-const RUN_MS = STEM_MS + 2 * LANE_LAG;
-const SWEEP_AT = RUN_MS;
-const SWEEP_MS = 640;
-const HOLD_MS = 240;
-const SPLIT_MS = 600;
+import { color, font, space } from '@/theme/tokens';
+import {
+  DRAWN_AT, SQUARE, T, WORD_SIZE, WORD_TRACKING, splashLayout,
+} from './splashLayout';
 
-/** The straight is taken at a constant speed; the bend carries its own momentum. */
-const EASE_SWEEP = Easing.out(Easing.cubic);
-/** Doors take a beat before they commit, then clear the frame quickly. */
-const EASE_DOOR = Easing.bezier(0.7, 0, 0.3, 1);
+/** `app.json`'s expo-splash-screen background, painted natively before JS. */
+const NATIVE_GROUND = '#1F252C';
 
 /**
- * The flat charcoal, for the covers and trims that must match the ground.
- *
- * Taken from `app.json`'s `adaptiveIcon.backgroundColor` rather than sampled by
- * eye, so the splash and the Android icon cannot drift apart — and so the
- * native splash, which paints this same value before any JavaScript runs, hands
- * over to a screen of exactly its own colour.
+ * The header row (see `(tabs)/_layout.tsx`): 10 px of padding under the safe
+ * area, and a row as tall as the 11 px eyebrow's line.
  */
-const GROUND = '#1F252C';
+const HEADER_PAD = 10;
+const HEADER_ROW = 15;
 
 /**
- * Sampled from the app icon, so the first thing the athlete sees is the thing
- * they tapped.
- *
- * The icon is a monogram cut from three materials on a cool charcoal: a glossy
- * vermilion, a frosted pale face carrying fine engraved line work, and a
- * granular teal — with a cyan light-leak running the seam between them. Three
- * materials for three lanes is not a coincidence worth ignoring, so the lanes
- * stop being three tones of one red and become the icon's own three.
- *
- * The charcoal is deliberately not neutral. It carries a blue bias, which is
- * what stops the teal reading as grubby against it and what makes the vermilion
- * look lit rather than printed.
+ * Used until the wordmark has been measured. Close enough that the runner's
+ * path is right if the font is slow, and replaced by the measured width before
+ * the word is revealed.
  */
-const ICON = {
-  groundTop: '#252b33',
-  groundFoot: '#171c22',
-  /** The light-leak along the icon's seam. The brightest thing in the mark. */
-  glow: '#4ff7ea',
-} as const;
+const WORD_W_ESTIMATE = 196;
 
-/**
- * A lane per material, outside first — the order they sit in the icon, read
- * left to right. Every lane runs from `head` at the crown to `tail` at the
- * bottom of the screen, so the mark still reads as light gathering at the front
- * of the run; what changed is that the three are now different materials rather
- * than three temperatures of one.
- *
- * The materials were once also given a grain — an engraved lift on the frosted
- * lane, a speckle on the teal — modulating the strips that were being painted
- * anyway. It cost no views and it still read as noise: at this size the only
- * way to see a texture is to put contrast between neighbouring strips, which is
- * indistinguishable from banding on a gradient. So the colours are the icon's
- * three materials and the surfaces are smooth.
- */
-const LANES = [
-  /** The icon's glossy vermilion face. */
-  { head: '#e04a24', tail: '#7c2410' },
-  /** The frosted face. */
-  { head: '#e4eef0', tail: '#7f969b' },
-  /** The teal. */
-  { head: '#46b5a8', tail: '#164e49' },
-] as const;
+/** A sprinter's acceleration up the lane; the turn carries its momentum out. */
+const EASE_UP = Easing.inOut(Easing.quad);
+const EASE_OUT = Easing.out(Easing.cubic);
+const EASE_WIPE = Easing.bezierFn(0.7, 0, 0.3, 1);
 
-/**
- * Strips in a lane's gradient over the full drop, and segments per half-bend.
- *
- * Both are higher than the eye strictly needs because neither is paid for per
- * frame: the strips and the fan are static, and each is flattened to one layer
- * before anything moves. Banding and faceting are what a hand-built gradient
- * shows first, so the resolution goes where it is visible and the cost does not
- * follow it.
- */
-const RAMP_STEPS = 64;
-const ARC_SEGS = 36;
-
-/** Where each lane's cover starts and finishes, as a fraction of `RUN_MS`. */
-const LANE_IN = LANES.map((_, i) => (i * LANE_LAG) / RUN_MS);
-const LANE_OUT = LANES.map((_, i) => (i * LANE_LAG + STEM_MS) / RUN_MS);
-
-function mix(a: string, b: string, t: number) {
-  const ca = parseInt(a.slice(1), 16);
-  const cb = parseInt(b.slice(1), 16);
-  const ch = (shift: number) => {
-    const va = (ca >> shift) & 255;
-    return Math.round(va + (((cb >> shift) & 255) - va) * t);
-  };
-  return `rgb(${ch(16)},${ch(8)},${ch(0)})`;
-}
-
-type Glyph = ReturnType<typeof useGlyph>;
-
-/**
- * The P as three lanes: a stem `L` wide, and a half-annulus of the same width
- * whose centre sits on the stem's right edge. Putting the centre there is what
- * keeps the letter honest — the counter is bounded on the left by the stem
- * itself, and the corner square at the crown falls exactly against the bend, so
- * the mitre and the arc bands line up lane for lane with nothing to erase.
- */
-function useGlyph(W: number, H: number) {
-  return useMemo(() => {
-    // Even, so the middle lane's centreline — where the frame splits — lands on
-    // a whole pixel.
-    const laneW = Math.max(6, 2 * Math.round((W * 0.056) / 2));
-    const L = 3 * laneW;
-    const ro = Math.round(W * 0.316);
-    const ri = ro - L;
-    const span = L + ro;
-
-    // Optically centred, not box-centred. The bowl carries a counter and the
-    // stem does not, so the head's weight sits left of the middle of its box —
-    // centre the box and the mark reads as leaning left of the page. `bias` is
-    // the gap between the two, measured off the head alone: the descender runs
-    // to the bottom edge and would otherwise drag the whole balance onto the
-    // stem. Nudging right by it puts the weight, rather than the box, on centre.
-    const headA = L * 2 * ro;
-    const bowlA = (Math.PI / 2) * (ro * ro - ri * ri);
-    const bowlX = L + ((4 / (3 * Math.PI)) * (ro ** 3 - ri ** 3)) / (ro * ro - ri * ri);
-    const bias = span / 2 - (headA * (L / 2) + bowlA * bowlX) / (headA + bowlA);
-
-    const sx = Math.round((W - span) / 2 + bias);
-    const bx = sx + L;
-    // The frame splits down the middle lane's spine, wherever that lands.
-    const cx = sx + L / 2;
-    const top = Math.round(H * 0.17);
-    const by = top + ro;
-    const drop = H - top;
-
-    // Absolute y, so a strip in the stem and a segment of the bend at the same
-    // height are the same colour and the two meet without a seam.
-    const tone = (lane: number, y: number) =>
-      mix(LANES[lane].head, LANES[lane].tail, Math.min(1, Math.max(0, (y - top) / drop)));
-
-    return { W, H, laneW, L, cx, sx, bx, ro, ri, top, by, drop, tone };
-  }, [W, H]);
+/** 0 → 1 across [a, b] of the timeline, clamped. */
+function seg(t: number, [a, b]: readonly [number, number]) {
+  'worklet';
+  return Math.min(1, Math.max(0, (t - a) / (b - a)));
 }
 
 /**
- * `lane`'s gradient painted into a rect. The ramp is sampled against absolute y
- * rather than distance along the stroke, so any two rects that abut anywhere in
- * the mark meet without a seam.
- */
-/**
- * The charcoal the mark sits on, with the icon's own falloff.
- *
- * Painted inside `Mark` rather than on the doors: both doors draw a full-width
- * copy of the mark and shift it, so a ground painted here registers across the
- * seam and the two halves cannot disagree about where the light is.
- */
-function Ground({ g }: { g: Glyph }) {
-  const steps = 12;
-  return (
-    <View style={{ position: 'absolute', left: 0, top: 0, width: g.W, height: g.H }}>
-      {Array.from({ length: steps }, (_, k) => (
-        <View
-          key={k}
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: (k * g.H) / steps,
-            height: g.H / steps + 1,
-            backgroundColor: mix(ICON.groundTop, ICON.groundFoot, (k + 0.5) / steps),
-          }}
-        />
-      ))}
-    </View>
-  );
-}
-
-function Ramp({ g, lane, x, y, w, h }: { g: Glyph; lane: number; x: number; y: number; w: number; h: number }) {
-  const steps = Math.max(1, Math.round((h / g.drop) * RAMP_STEPS));
-  const band = h / steps;
-  return (
-    <View style={{ position: 'absolute', left: x, top: y, width: w, height: h, overflow: 'hidden' }}>
-      {Array.from({ length: steps }, (_, k) => (
-        <View
-          key={k}
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: k * band,
-            // A hair of overlap: adjacent strips must not leave a sub-pixel seam.
-            height: band + 1,
-            backgroundColor: g.tone(lane, y + (k + 0.5) * band),
-          }}
-        />
-      ))}
-    </View>
-  );
-}
-
-/**
- * The paper that hides a lane until it has been run. It covers everything above
- * its own bottom edge, so sliding that edge from the bottom of the view up to
- * the crown lays the lane down behind it — including the lane's share of the
- * mitre, which is why the covers are painted last.
- */
-function Cover({ g, lane, stem }: { g: Glyph; lane: number; stem: SharedValue<number> }) {
-  const a = LANE_IN[lane];
-  const b = LANE_OUT[lane];
-  const slide = useAnimatedStyle(() => ({
-    transform: [{ translateY: interpolate(stem.value, [a, b], [g.H, g.top], 'clamp') }],
-  }));
-  const head = useAnimatedStyle(() => ({
-    opacity: interpolate(stem.value, [a, a + (b - a) * 0.04, a + (b - a) * 0.92, b], [0, 1, 1, 0], 'clamp'),
-  }));
-
-  return (
-    <Animated.View
-      style={[
-        {
-          position: 'absolute',
-          left: g.sx + lane * g.laneW,
-          width: g.laneW,
-          top: -2 * g.H,
-          height: 2 * g.H,
-          backgroundColor: GROUND,
-        },
-        slide,
-      ]}
-    >
-      <Animated.View
-        style={[
-          { position: 'absolute', bottom: 0, left: 0, width: g.laneW, height: 2, backgroundColor: ICON.glow },
-          head,
-        ]}
-      />
-    </Animated.View>
-  );
-}
-
-/**
- * The turn at the crown. Coming up the stem the outside of a right-hander is the
- * left edge; going out along the bend it is the top edge. Lane i therefore owns
- * every point at least i lanes in from *both*, which is exactly the square
- * anchored at the corner's inner corner — so three nested squares painted
- * outermost-first cut the mitre's diagonals for free, with no rotated view and
- * nothing to erase.
- *
- * It is static, and sits under the covers rather than over them: each lane then
- * uncovers its own stepped share of the corner as it arrives, so the fan opens
- * in echelon with the run instead of needing a reveal of its own.
- */
-function Mitre({ g }: { g: Glyph }) {
-  return (
-    <>
-      {LANES.map((_, lane) => {
-        const d = g.L - lane * g.laneW;
-        return (
-          <Ramp
-            key={lane}
-            g={g}
-            lane={lane}
-            x={g.sx + lane * g.laneW}
-            y={g.top + lane * g.laneW}
-            w={d}
-            h={d}
-          />
-        );
-      })}
-    </>
-  );
-}
-
-/**
- * The bend, in art-local coordinates centred on (ro, ro). Each lane is a fan of
- * rectangles set tangent to its own centreline and cut to the chord that
- * circumscribes its outer radius, so the fan never gaps; the paper ring and disc
- * then trim both edges back to true circles.
- */
-function Bend({ g }: { g: Glyph }) {
-  const trim = Math.max(8, g.laneW);
-  return (
-    <>
-      {LANES.map((_, lane) => {
-        const rOut = g.ro - lane * g.laneW;
-        const rc = rOut - g.laneW / 2;
-        const chord = 2 * rOut * Math.tan(Math.PI / (2 * ARC_SEGS)) + 1;
-        return Array.from({ length: ARC_SEGS }, (_, k) => {
-          // 0 at the crown, π at the foot, so the ramp reads off the segment's
-          // own y and picks up exactly where the stem left it.
-          const th = (Math.PI * (k + 0.5)) / ARC_SEGS;
-          return (
-            <View
-              key={`${lane}-${k}`}
-              style={{
-                position: 'absolute',
-                left: g.ro - chord / 2,
-                top: g.ro - g.laneW / 2 - 0.5,
-                width: chord,
-                height: g.laneW + 1,
-                backgroundColor: g.tone(lane, g.by - rc * Math.cos(th)),
-                // Rotate about the circle's centre, then step out to the lane's
-                // centreline: the segment lands on the arc already tangent to it.
-                transform: [{ rotate: `${(th * 180) / Math.PI}deg` }, { translateY: -rc }],
-              }}
-            />
-          );
-        });
-      })}
-      <View
-        style={{
-          position: 'absolute',
-          left: -trim,
-          top: -trim,
-          width: 2 * (g.ro + trim),
-          height: 2 * (g.ro + trim),
-          borderRadius: g.ro + trim,
-          borderWidth: trim,
-          borderColor: GROUND,
-        }}
-      />
-      <View
-        style={{
-          position: 'absolute',
-          left: g.ro - g.ri,
-          top: g.ro - g.ri,
-          width: 2 * g.ri,
-          height: 2 * g.ri,
-          borderRadius: g.ri,
-          backgroundColor: GROUND,
-        }}
-      />
-    </>
-  );
-}
-
-/**
- * The rotating reveal: the fan clipped to the half right of the bend's centre,
- * rotated inside a second clip pinned to the same half. At -180° the two regions
- * do not overlap and nothing shows; at 0° they coincide and all of it does, so
- * the arc sweeps in from the crown round to the foot.
- */
-function Sweep({ g, sweep, children }: { g: Glyph; sweep: SharedValue<number>; children: React.ReactNode }) {
-  const rot = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${interpolate(sweep.value, [0, 1], [-180, 0])}deg` }],
-  }));
-  const d = 2 * g.ro;
-  return (
-    <View style={{ position: 'absolute', left: g.bx, top: g.by - g.ro, width: g.ro, height: d, overflow: 'hidden' }}>
-      <Animated.View style={[{ position: 'absolute', left: -g.ro, top: 0, width: d, height: d }, rot]}>
-        <View style={{ position: 'absolute', left: g.ro, top: 0, width: g.ro, height: d, overflow: 'hidden' }}>
-          {/* The fan is ARC_SEGS × 3 static views under a view that rotates
-              every frame of the sweep, so it is cached for the same reason. */}
-          <View
-            shouldRasterizeIOS
-            renderToHardwareTextureAndroid
-            style={{ position: 'absolute', left: -g.ro, top: 0, width: d, height: d }}
-          >
-            {children}
-          </View>
-        </View>
-      </Animated.View>
-    </View>
-  );
-}
-
-/** The drawing head carries on round the bend, across all three lanes. */
-function BendHead({ g, sweep }: { g: Glyph; sweep: SharedValue<number> }) {
-  const spin = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${interpolate(sweep.value, [0, 1], [0, 180])}deg` }],
-  }));
-  const fade = useAnimatedStyle(() => ({
-    opacity: interpolate(sweep.value, [0, 0.06, 0.9, 1], [0, 1, 1, 0]),
-  }));
-  return (
-    <Animated.View
-      style={[{ position: 'absolute', left: g.bx - g.ro, top: g.by - g.ro, width: 2 * g.ro, height: 2 * g.ro }, spin]}
-    >
-      <Animated.View
-        style={[
-          { position: 'absolute', left: g.ro - 1, top: 0, width: 2, height: g.L, backgroundColor: ICON.glow },
-          fade,
-        ]}
-      />
-    </Animated.View>
-  );
-}
-
-/**
- * One full-width copy of the mark. Two are rendered — one per door — both
- * reading the same shared values, so the halves stay in step as they part. The
- * bend lies wholly right of the split, so the left door does not draw it.
- */
-function Mark({
-  g,
-  stem,
-  sweep,
-  bend,
-}: {
-  g: Glyph;
-  stem: SharedValue<number>;
-  sweep: SharedValue<number>;
-  bend: boolean;
-}) {
-  return (
-    <View style={{ position: 'absolute', left: 0, top: 0, width: g.W, height: g.H }}>
-      {/*
-        Everything that never changes after layout, drawn once and cached as a
-        single layer. The ground, the three ramps and the mitre are around 150
-        views; without this the doors ask the compositor to move all of them
-        every frame of the split, which is what made a pure-transform animation
-        drop frames. Rasterising is safe precisely because these are only ever
-        translated — a cached layer that gets scaled would go soft, and none of
-        this does.
-      */}
-      <View
-        shouldRasterizeIOS
-        renderToHardwareTextureAndroid
-        style={{ position: 'absolute', left: 0, top: 0, width: g.W, height: g.H }}
-      >
-        <Ground g={g} />
-        {LANES.map((_, lane) => (
-          <Ramp key={lane} g={g} lane={lane} x={g.sx + lane * g.laneW} y={g.top} w={g.laneW} h={g.drop} />
-        ))}
-        <Mitre g={g} />
-      </View>
-      {LANES.map((_, lane) => (
-        <Cover key={lane} g={g} lane={lane} stem={stem} />
-      ))}
-      {bend && (
-        <>
-          <Sweep g={g} sweep={sweep}>
-            <Bend g={g} />
-          </Sweep>
-          <BendHead g={g} sweep={sweep} />
-        </>
-      )}
-    </View>
-  );
-}
-
-/**
- * `ready` is the app behind the splash, not the animation: the lanes always
- * finish drawing, but the doors wait for fonts and the session so they never
- * open onto a spinner.
+ * `ready` is the app behind the splash, not the animation: the run always
+ * finishes, but the hand-off waits for fonts and the session so it never
+ * reveals a spinner.
  */
 export function Splash({ ready, onDone }: { ready: boolean; onDone: () => void }) {
   const { width: W, height: H } = useWindowDimensions();
-  const g = useGlyph(W, H);
+  const insets = useSafeAreaInsets();
 
-  const stem = useSharedValue(0);
-  const sweep = useSharedValue(0);
-  const split = useSharedValue(0);
+  const [wordW, setWordW] = useState<number | null>(null);
+  const L = splashLayout({
+    W, H, wordW: wordW ?? WORD_W_ESTIMATE,
+    gutter: space.gutter, headerTop: insets.top + HEADER_PAD, headerRowH: HEADER_ROW,
+  });
+
+  /** Milliseconds along the run, driven linearly; each part eases its own segment. */
+  const clock = useSharedValue(0);
+  const wipe = useSharedValue(0);
 
   const [drawn, setDrawn] = useState(false);
   const [reduced, setReduced] = useState<boolean | null>(null);
@@ -524,53 +107,164 @@ export function Splash({ ready, onDone }: { ready: boolean; onDone: () => void }
 
   useEffect(() => {
     if (reduced === null) return;
-    // Reduce Motion still gets the mark, just not the run: the P is already
-    // drawn and the splash dissolves instead of sliding apart.
+    // Reduce Motion still gets the mark, just not the run: the lock-up is
+    // already drawn, and the splash dissolves rather than wiping.
     if (reduced) {
-      stem.value = 1;
-      sweep.value = 1;
+      clock.value = DRAWN_AT;
       setDrawn(true);
       return;
     }
-    stem.value = withTiming(1, { duration: RUN_MS, easing: Easing.linear });
-    sweep.value = withDelay(SWEEP_AT, withTiming(1, { duration: SWEEP_MS, easing: EASE_SWEEP }));
-    const t = setTimeout(() => setDrawn(true), SWEEP_AT + SWEEP_MS);
+    clock.value = withTiming(DRAWN_AT, { duration: DRAWN_AT, easing: Easing.linear });
+    const t = setTimeout(() => setDrawn(true), DRAWN_AT);
     return () => clearTimeout(t);
-  }, [reduced, stem, sweep]);
+  }, [reduced, clock]);
 
   useEffect(() => {
     if (!drawn || !ready || opened.current) return;
     opened.current = true;
     const finish = () => done.current();
-    split.value = withDelay(
-      reduced ? 0 : HOLD_MS,
-      withTiming(1, { duration: reduced ? 240 : SPLIT_MS, easing: reduced ? Easing.linear : EASE_DOOR }, (f) => {
-        'worklet';
-        if (f) runOnJS(finish)();
-      }),
+    wipe.value = withDelay(
+      reduced ? 0 : T.hold,
+      // Linear: the parts read the wipe through their own easing below.
+      withTiming(1, { duration: reduced ? T.reducedFade : T.handOff, easing: Easing.linear },
+        (f) => {
+          'worklet';
+          if (f) runOnJS(finish)();
+        }),
     );
-  }, [drawn, ready, reduced, split]);
+  }, [drawn, ready, reduced, wipe]);
 
   const slide = reduced ? 0 : 1;
-  const root = useAnimatedStyle(() => ({ opacity: slide === 0 ? 1 - split.value : 1 }));
-  const left = useAnimatedStyle(() => ({ transform: [{ translateX: -split.value * g.cx * slide }] }));
-  const right = useAnimatedStyle(() => ({ transform: [{ translateX: split.value * (g.W - g.cx) * slide }] }));
+  const { sqX, sqY, wordX, runEnd, lineXs, linesTop, handOff } = L;
+  const laneH = H - linesTop;
+
+  const nativeGround = useAnimatedStyle(() => ({
+    opacity: 1 - seg(clock.value, T.groundFade),
+  }));
+
+  // The ground leaves upward from the bottom edge: the app is revealed from the
+  // foot first and the header last, by which time the mark has arrived there.
+  const ground = useAnimatedStyle(() => ({
+    opacity: slide === 0 ? 1 - wipe.value : 1,
+    transform: [{ translateY: -EASE_WIPE(wipe.value) * H * slide }],
+  }));
+
+  const lines = useAnimatedStyle(() => ({
+    opacity: 1 - seg(clock.value, T.linesOut),
+    transform: [{ translateY: (1 - EASE_OUT(seg(clock.value, T.lines))) * laneH }],
+  }));
+
+  // The stem runs from the head down to the tail; both travel up the lane.
+  const stem = useAnimatedStyle(() => {
+    const head = H + (sqY - H) * EASE_UP(seg(clock.value, T.headUp));
+    const tail = H + (sqY - H) * EASE_UP(seg(clock.value, T.tailUp));
+    return { top: head, height: Math.max(0, tail - head) };
+  });
+
+  // The straight along the top: the head runs out to the end of the word, the
+  // tail follows from the corner, and the word is left in its wake.
+  const run = useAnimatedStyle(() => {
+    const head = sqX + SQUARE + (runEnd - sqX - SQUARE) * EASE_OUT(seg(clock.value, T.headOut));
+    const tail = sqX + SQUARE + (runEnd - sqX - SQUARE) * EASE_OUT(seg(clock.value, T.tailOut));
+    return { left: tail, width: Math.max(0, head - tail) };
+  });
+
+  // The square appears as the head reaches the corner and stays.
+  const square = useAnimatedStyle(() => ({
+    opacity: clock.value >= T.headUp[1] ? 1 : 0,
+  }));
+
+  const wordReveal = useAnimatedStyle(() => {
+    const tail = sqX + SQUARE + (runEnd - sqX - SQUARE) * EASE_OUT(seg(clock.value, T.tailOut));
+    return { width: Math.max(0, tail - wordX) };
+  });
+
+  // The mark rides up into the header at half size, arriving just as the
+  // ground's rising edge passes it. Until then it is over ink; after, it is on
+  // the app's paper over the header's own identical mark, so it turns to ink
+  // and gives way to it.
+  const lockUp = useAnimatedStyle(() => {
+    const e = EASE_WIPE(wipe.value);
+    const p = slide === 0 ? 0 : Math.min(1, e / handOff.landAt);
+    return {
+      opacity: slide === 0
+        ? 1 - wipe.value
+        : interpolate(e, [handOff.landAt, 1], [1, 0], 'clamp'),
+      transform: [
+        { translateX: handOff.dx * p },
+        { translateY: handOff.dy * p },
+        { scale: 1 + (handOff.scale - 1) * p },
+      ],
+    };
+  });
+  const wordColour = useAnimatedStyle(() => ({
+    color: interpolateColor(
+      slide === 0 ? 0 : EASE_WIPE(wipe.value),
+      [handOff.landAt - 0.02, handOff.landAt],
+      [color.paper, color.ink],
+    ),
+  }));
+
+  function measure(e: LayoutChangeEvent) {
+    const w = Math.ceil(e.nativeEvent.layout.width);
+    if (w > 0 && w !== wordW) setWordW(w);
+  }
 
   return (
-    <Animated.View style={[StyleSheet.absoluteFill, root]}>
-      <Animated.View style={[styles.door, { left: 0, width: g.cx, height: g.H }, left]}>
-        <Mark g={g} stem={stem} sweep={sweep} bend={false} />
-      </Animated.View>
-      <Animated.View style={[styles.door, { left: g.cx, width: g.W - g.cx, height: g.H }, right]}>
-        {/* Shifted back by the seam so the two copies register as one mark. */}
-        <View style={{ position: 'absolute', left: -g.cx, top: 0, width: g.W, height: g.H }}>
-          <Mark g={g} stem={stem} sweep={sweep} bend />
+    <View style={StyleSheet.absoluteFill} pointerEvents="none">
+      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: color.ink }, ground]}>
+        <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: NATIVE_GROUND }, nativeGround]} />
+
+        <View style={{ position: 'absolute', left: 0, top: linesTop, width: W, height: laneH, overflow: 'hidden' }}>
+          <Animated.View style={[StyleSheet.absoluteFill, lines]}>
+            {lineXs.map(x => (
+              <View key={x} style={[styles.line, { left: x, height: laneH }]} />
+            ))}
+          </Animated.View>
         </View>
+
+        <Animated.View style={[styles.red, { left: sqX, width: SQUARE }, stem]} />
+        <Animated.View style={[styles.red, { top: sqY, height: SQUARE }, run]} />
       </Animated.View>
-    </Animated.View>
+
+      <Animated.View
+        style={[{ position: 'absolute', left: sqX, top: sqY, width: L.lockW, height: SQUARE }, lockUp]}
+      >
+        <Animated.View style={[styles.red, { left: 0, top: 0, width: SQUARE, height: SQUARE }, square]} />
+        <Animated.View
+          style={[{ position: 'absolute', left: wordX - sqX, top: 0, height: SQUARE, overflow: 'hidden' }, wordReveal]}
+        >
+          {/* Its own width, so the narrowing clip reveals it rather than
+              squeezing it onto a second line. */}
+          <Animated.Text
+            style={[styles.word, { position: 'absolute', left: 0, top: 0, width: (wordW ?? WORD_W_ESTIMATE) + 4 }, wordColour]}
+          >
+            PIVOT ENGINE
+          </Animated.Text>
+        </Animated.View>
+      </Animated.View>
+
+      {/* Measured off-screen at full width, so the reveal's clip never
+          truncates the measurement. */}
+      <Animated.Text
+        onLayout={measure}
+        style={[styles.word, { position: 'absolute', left: -9999, top: 0, opacity: 0 }]}
+      >
+        PIVOT ENGINE
+      </Animated.Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  door: { position: 'absolute', top: 0, overflow: 'hidden', backgroundColor: GROUND },
+  line: { position: 'absolute', top: 0, width: 2, backgroundColor: 'rgba(243,242,242,0.16)' },
+  red: { position: 'absolute', backgroundColor: color.red },
+  word: {
+    fontFamily: font.extrabold,
+    fontSize: WORD_SIZE,
+    letterSpacing: WORD_TRACKING,
+    lineHeight: SQUARE,
+    includeFontPadding: false,
+    color: color.paper,
+  },
 });
