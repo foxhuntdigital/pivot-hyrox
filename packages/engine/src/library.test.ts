@@ -26,6 +26,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 import { recommend } from './index.ts';
+import { matchesStimulus } from './rank.ts';
 import type { EngineInput, WorkoutTemplate } from './types.ts';
 
 const fixture = JSON.parse(readFileSync(
@@ -180,6 +181,34 @@ describe('Library invariants', () => {
 
     assert.deepEqual(broke, [],
       `${broke.length} of ${ALL.length} template(s) threw when recommended`);
+  });
+});
+
+describe('muscular endurance serves the goal each session was written for (ENGINE 2.2.0)', () => {
+  const byId = (id: string) => {
+    const t = ALL.find(x => x.id === id);
+    assert.ok(t, `${id} is not in the library`);
+    return t!;
+  };
+
+  test('EMOMs, metcons and benchmarks are threshold work, never strength', () => {
+    for (const id of ['me_emom_01', 'me_emom_08', 'me_metcon_02', 'me_hero_08']) {
+      const t = byId(id);
+      assert.equal(t.training_domain, 'muscular_endurance', id);
+      assert.ok(matchesStimulus(t, 'threshold'), `${id} should fill a threshold exposure`);
+      assert.ok(!matchesStimulus(t, 'strength'), `${id} must not fill a strength exposure`);
+    }
+  });
+
+  test('the station Strength-Power sessions serve strength without claiming the strength domain', () => {
+    const ids = ['sled_push', 'sled_pull', 'farmer_carry', 'sandbag_lunge', 'wall_ball', 'burpee_broad_jump']
+      .map(s => `mx_${s}_strength_power`);
+    for (const id of ids) {
+      const t = byId(id);
+      assert.equal(t.training_domain, 'muscular_endurance', id);
+      assert.ok(matchesStimulus(t, 'strength'), `${id} should fill a strength exposure`);
+      assert.ok(!matchesStimulus(t, 'threshold'), `${id} must not fill a threshold exposure`);
+    }
   });
 });
 

@@ -1,4 +1,49 @@
 {
   "note": "Rulings that replace the derived workout_archetype for a strength template (scripts/apply-archetypes.mjs). Key by template id; give the archetype and the reason. Empty means every strength template is labelled by the rule.",
-  "overrides": {}
+  "overrides": {
+    "str_athletic_06": {
+      "workout_archetype": "athletic",
+      "reason": "Authored as athletic by the strength expansion pack (data/source/PIVOT_strength_expansion_48_v1.csv). The rule reads its foundational anchor as mixed; the pack's ruling is kept."
+    },
+    "str_athletic_09": {
+      "workout_archetype": "athletic",
+      "reason": "Authored as athletic by the strength expansion pack (data/source/PIVOT_strength_expansion_48_v1.csv). The rule reads its foundational anchor as mixed; the pack's ruling is kept."
+    },
+    "str_athletic_10": {
+      "workout_archetype": "athletic",
+      "reason": "Authored as athletic by the strength expansion pack (data/source/PIVOT_strength_expansion_48_v1.csv). The rule reads its foundational anchor as mixed; the pack's ruling is kept."
+    },
+    "str_complex_01": {
+      "workout_archetype": "complex",
+      "reason": "Authored as complex by the strength expansion pack (data/source/PIVOT_strength_expansion_48_v1.csv). The rule reads its foundational anchor as mixed; the pack's ruling is kept."
+    },
+    "str_complex_02": {
+      "workout_archetype": "complex",
+      "reason": "Authored as complex by the strength expansion pack (data/source/PIVOT_strength_expansion_48_v1.csv). The rule reads its foundational anchor as mixed; the pack's ruling is kept."
+    },
+    "str_complex_05": {
+      "workout_archetype": "complex",
+      "reason": "Authored as complex by the strength expansion pack (data/source/PIVOT_strength_expansion_48_v1.csv). The rule reads its foundational anchor as mixed; the pack's ruling is kept."
+    },
+    "str_complex_06": {
+      "workout_archetype": "complex",
+      "reason": "Authored as complex by the strength expansion pack (data/source/PIVOT_strength_expansion_48_v1.csv). The rule reads its foundational anchor as mixed; the pack's ruling is kept."
+    },
+    "str_complex_07": {
+      "workout_archetype": "complex",
+      "reason": "Authored as complex by the strength expansion pack (data/source/PIVOT_strength_expansion_48_v1.csv). The rule reads its foundational anchor as mixed; the pack's ruling is kept."
+    },
+    "str_complex_09": {
+      "workout_archetype": "complex",
+      "reason": "Authored as complex by the strength expansion pack (data/source/PIVOT_strength_expansion_48_v1.csv). The rule reads its foundational anchor as mixed; the pack's ruling is kept."
+    },
+    "str_complex_10": {
+      "workout_archetype": "complex",
+      "reason": "Authored as complex by the strength expansion pack (data/source/PIVOT_strength_expansion_48_v1.csv). The rule reads its foundational anchor as mixed; the pack's ruling is kept."
+    },
+    "str_complex_12": {
+      "workout_archetype": "complex",
+      "reason": "Authored as complex by the strength expansion pack (data/source/PIVOT_strength_expansion_48_v1.csv). The rule reads its foundational anchor as mixed; the pack's ruling is kept."
+    }
+  }
 }

@@ -247,24 +247,27 @@ export function planWeekQueue(args: {
    */
   let strengthSlot = (args.alreadyPlanned ?? [])
     .filter(id => byId.get(id)?.training_domain === 'strength').length;
-  const slots = STRENGTH_SLOTS[input.phase_type] ?? STRENGTH_SLOTS.build;
 
   /**
    * Lower is preferred. Ties keep pool order, which `reduce` preserves.
    *
-   * For a strength exposure, two things come before variety. A maintenance or
-   * micro session is a reduced dose (maintenance is filed apart so finishing
-   * one earns no heavier prescription), and it fills a planned slot only when
-   * nothing full can. Then the archetype the phase wants for this slot, so
-   * rotation cannot trade a foundation block's overload for whichever strength
-   * family came round that week.
+   * A reduced dose comes before everything: a maintenance or micro session
+   * fills a planned slot only when nothing full can, whatever the goal. It
+   * used to apply to strength alone, which was enough while strength was the
+   * only goal with micro sessions in its pool; since the muscular endurance
+   * domain serves threshold, the station micro sessions are threshold
+   * candidates too, and a Farmer Carry Micro is not a week's threshold work.
+   *
+   * For a strength exposure, the archetype the phase wants for this slot comes
+   * next, so rotation cannot trade a foundation block's overload for whichever
+   * strength family came round that week.
    */
   const preference = (t: WorkoutTemplate, stimulus: string) => {
     const variety = (typesUsed.get(sessionKind(t)) ?? 0) * 2 + (familiesUsed.has(t.workout_family) ? 1 : 0);
-    if (stimulus !== 'strength') return variety;
-    const want = slots[Math.min(strengthSlot, slots.length - 1)];
+    const reduced = isReducedDose(t) ? 1 : 0;
+    if (stimulus !== 'strength') return reduced * 1000 + variety;
+    const want = slotArchetype(input.phase_type, strengthSlot, rotation);
     const archetypeMiss = t.workout_archetype === want ? 0 : t.workout_archetype ? 1 : 2;
-    const reduced = REDUCED_FAMILY.test(t.workout_family) ? 1 : 0;
     return reduced * 1000 + archetypeMiss * 100 + variety;
   };
 
@@ -311,16 +314,29 @@ export function planWeekQueue(args: {
  * the work the athlete most needed. Later slots move toward athletic work as
  * the race nears, and back to foundational for the taper.
  *
+ * Athletic, complex and mixed are session designs, not difficulty levels:
+ * difficulty is technical_demand and load_demand, checked elsewhere. A slot
+ * that lists several designs takes them in turn, one per week of the block,
+ * so a build block alternates mixed and complex rather than never reaching
+ * the complex sessions at all.
+ *
  * A programming call, written down here so it can be changed in one place.
  */
-const STRENGTH_SLOTS: Record<string, string[]> = {
+const STRENGTH_SLOTS: Record<string, (string | string[])[]> = {
   foundation: ['foundational', 'foundational'],
-  build: ['foundational', 'mixed'],
-  specific: ['foundational', 'mixed', 'athletic'],
+  build: ['foundational', ['mixed', 'complex']],
+  specific: ['foundational', ['mixed', 'complex'], 'athletic'],
   peak: ['foundational', 'athletic'],
   taper: ['foundational'],
   race: ['foundational'],
 };
+
+/** The design a slot asks for this week. */
+export function slotArchetype(phase: string, slot: number, week: number): string {
+  const slots = STRENGTH_SLOTS[phase] ?? STRENGTH_SLOTS.build;
+  const entry = slots[Math.min(slot, slots.length - 1)];
+  return Array.isArray(entry) ? entry[week % entry.length] : entry;
+}
 
 /**
  * Reduced doses: maintenance strength for depleted days, and the short micro
@@ -328,6 +344,14 @@ const STRENGTH_SLOTS: Record<string, string[]> = {
  * is the planned exposure while a full session can be.
  */
 const REDUCED_FAMILY = /^(strength_maintenance|micro$)/;
+
+/**
+ * A reduced dose by family, or by what the session says it is: the station
+ * micro sessions live in their station's family and name themselves
+ * `minimum_effective_dose`, the dose rather than a goal.
+ */
+const isReducedDose = (t: WorkoutTemplate): boolean =>
+  REDUCED_FAMILY.test(t.workout_family) || t.stimulus === 'minimum_effective_dose';
 
 /** The kind of session a template is, for variety. Unlabelled ones share a kind. */
 const sessionKind = (t: WorkoutTemplate): string => t.session_type ?? 'other';

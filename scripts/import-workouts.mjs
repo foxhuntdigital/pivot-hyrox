@@ -584,7 +584,13 @@ for (const { meta, w, id, blocks } of accepted) {
   emitted.workout_templates.push(row('workout_templates', [
     id, w.name, w.workout_family, derivedGoal,
     w.stimulus, w.secondary_goal ?? null, w.estimated_minutes, w.intensity_target,
-    w.impact_level, w.hyrox_specificity, true,
+    // postpartum_friendly is a hard eligibility gate (checkEligibility), so an
+    // authored value is kept. A pack that says nothing still gets the old
+    // stamp; that blanket true is the open question in
+    // data/review/postpartum.review.json, and changing it for every existing
+    // pack is that review's ruling to make, not this importer's.
+    w.impact_level, w.hyrox_specificity,
+    typeof w.postpartum_friendly === 'boolean' ? w.postpartum_friendly : true,
     allItems.some(i => i.exercise_id === 'ex_run'),
     allItems.some(i => i.exercise_id === 'ex_skierg'),
     w.description ?? meta.default_description ?? `${meta.pack ?? 'Imported'} workout.`,

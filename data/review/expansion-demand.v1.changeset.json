@@ -1,0 +1,377 @@
+{
+  "meta": {
+    "changeset": "expansion-demand",
+    "version": "v1",
+    "sheets": [
+      "PIVOT_strength_expansion_48_v1.csv",
+      "PIVOT_muscular_endurance_expansion_24_v1.csv"
+    ],
+    "note": "Demand grades authored with the strength and muscular endurance expansions. Applied by scripts/apply-demand-changeset.mjs --changeset data/review/expansion-demand.v1.changeset.json."
+  },
+  "grades": [
+    {
+      "template_id": "str_pull_new_01",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_pull_new_02",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_pull_new_03",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_pull_new_04",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_pull_new_05",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_pull_new_06",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_pull_new_07",
+      "technical_demand": 2,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_pull_new_08",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_pull_new_09",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_pull_new_10",
+      "technical_demand": 2,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_pull_new_11",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_pull_new_12",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_athletic_01",
+      "technical_demand": 2,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_athletic_02",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_athletic_03",
+      "technical_demand": 3,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_athletic_04",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_athletic_05",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_athletic_06",
+      "technical_demand": 3,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_athletic_07",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_athletic_08",
+      "technical_demand": 3,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_athletic_09",
+      "technical_demand": 3,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_athletic_10",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_athletic_11",
+      "technical_demand": 3,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_athletic_12",
+      "technical_demand": 3,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_complex_01",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_complex_02",
+      "technical_demand": 3,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_complex_03",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_complex_04",
+      "technical_demand": 3,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_complex_05",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_complex_06",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_complex_07",
+      "technical_demand": 3,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_complex_08",
+      "technical_demand": 3,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_complex_09",
+      "technical_demand": 3,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_complex_10",
+      "technical_demand": 3,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_complex_11",
+      "technical_demand": 4,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_complex_12",
+      "technical_demand": 3,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_mixed_01",
+      "technical_demand": 2,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_mixed_02",
+      "technical_demand": 3,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_mixed_03",
+      "technical_demand": 3,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_mixed_04",
+      "technical_demand": 3,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_mixed_05",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_mixed_06",
+      "technical_demand": 3,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_mixed_07",
+      "technical_demand": 3,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_mixed_08",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_mixed_09",
+      "technical_demand": 3,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_mixed_10",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "str_mixed_11",
+      "technical_demand": 3,
+      "load_demand": 3
+    },
+    {
+      "template_id": "str_mixed_12",
+      "technical_demand": 4,
+      "load_demand": 3
+    },
+    {
+      "template_id": "me_emom_01",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "me_emom_02",
+      "technical_demand": 2,
+      "load_demand": 3
+    },
+    {
+      "template_id": "me_emom_03",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "me_emom_04",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "me_emom_05",
+      "technical_demand": 1,
+      "load_demand": 2
+    },
+    {
+      "template_id": "me_emom_06",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "me_emom_07",
+      "technical_demand": 2,
+      "load_demand": 2
+    },
+    {
+      "template_id": "me_emom_08",
+      "technical_demand": 3,
+      "load_demand": 3
+    },
+    {
+      "template_id": "me_metcon_01",
+      "technical_demand": 2,
+      "load_demand": 3
+    },
+    {
+      "template_id": "me_metcon_02",
+      "technical_demand": 2,
+      "load_demand": 3
+    },
+    {
+      "template_id": "me_metcon_03",
+      "technical_demand": 2,
+      "load_demand": 3
+    },
+    {
+      "template_id": "me_metcon_04",
+      "technical_demand": 2,
+      "load_demand": 3
+    },
+    {
+      "template_id": "me_metcon_05",
+      "technical_demand": 2,
+      "load_demand": 3
+    },
+    {
+      "template_id": "me_metcon_06",
+      "technical_demand": 1,
+      "load_demand": 2
+    },
+    {
+      "template_id": "me_metcon_07",
+      "technical_demand": 3,
+      "load_demand": 3
+    },
+    {
+      "template_id": "me_metcon_08",
+      "technical_demand": 2,
+      "load_demand": 3
+    },
+    {
+      "template_id": "me_hero_01",
+      "technical_demand": 2,
+      "load_demand": 4
+    },
+    {
+      "template_id": "me_hero_02",
+      "technical_demand": 2,
+      "load_demand": 4
+    },
+    {
+      "template_id": "me_hero_03",
+      "technical_demand": 2,
+      "load_demand": 4
+    },
+    {
+      "template_id": "me_hero_04",
+      "technical_demand": 2,
+      "load_demand": 4
+    },
+    {
+      "template_id": "me_hero_05",
+      "technical_demand": 3,
+      "load_demand": 4
+    },
+    {
+      "template_id": "me_hero_06",
+      "technical_demand": 1,
+      "load_demand": 3
+    },
+    {
+      "template_id": "me_hero_07",
+      "technical_demand": 2,
+      "load_demand": 4
+    },
+    {
+      "template_id": "me_hero_08",
+      "technical_demand": 3,
+      "load_demand": 4
+    }
+  ],
+  "field_updates": [],
+  "prescription_edits": [],
+  "missing_from_sheet": [],
+  "problems": []
+}

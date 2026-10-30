@@ -133,13 +133,15 @@ export function stimulusUrgency(
  * the domain directly would have silently emptied both goals. Measured before
  * the switch, that flip regressed 18 of 32 coverage cells and fixed none.
  *
- * `muscular_endurance` is deliberately absent. It is the honest home for the
- * eleven templates that carried load with no working sets — Sled Push
- * Strength-Power, Farmer Carry Micro, the sessions that used to satisfy the
- * week's strength exposures — and the planner has never asked for muscular
- * endurance. Mapping it to a goal to keep those counts up would be reinstating
- * the mislabel this release exists to remove. Measured both ways: identical
- * coverage, so the truthful reading costs nothing.
+ * `muscular_endurance` is deliberately absent: it is the one domain that does
+ * not decide the goal, and defers to the template's own `primary_goal`
+ * (ENGINE 2.2.0, a programming ruling). The domain says what a session is —
+ * loaded work with no working sets — and that covers two different jobs. An
+ * EMOM, metcon or carry held at threshold is sustained output under fatigue
+ * and serves `threshold`. The station Strength-Power sessions (heavy sled
+ * push and pull, heavy carries) serve `strength`. Neither is mapped by
+ * relabelling the domain, so the strength domain still means working sets,
+ * which is what the true-strength gate in coverage.test.ts checks.
  */
 const DOMAIN_TO_GOAL: Record<string, string> = {
   strength: 'strength',
@@ -148,6 +150,9 @@ const DOMAIN_TO_GOAL: Record<string, string> = {
   recovery: 'recovery',
   hybrid: 'race_specific',
 };
+
+/** Domains whose sessions serve different goals; the template's own goal decides. */
+const GOAL_FROM_TEMPLATE = new Set(['muscular_endurance']);
 
 /**
  * Whether a template serves the stimulus the week is asking for.
@@ -167,7 +172,9 @@ const DOMAIN_TO_GOAL: Record<string, string> = {
  */
 export function matchesStimulus(template: WorkoutTemplate, stimulusType: string): boolean {
   const domain = template.training_domain ?? null;
-  const goal = domain ? (DOMAIN_TO_GOAL[domain] ?? null) : template.primary_goal;
+  const goal = !domain ? template.primary_goal
+    : GOAL_FROM_TEMPLATE.has(domain) ? template.primary_goal
+    : (DOMAIN_TO_GOAL[domain] ?? null);
 
   return goal === stimulusType
     || template.stimulus === stimulusType
@@ -252,7 +259,7 @@ const CAPABILITY_TARGETS: Record<string, { families: RegExp[]; domains: string[]
     domains: ['aerobic'],
   },
   muscular_endurance: {
-    families: [/^(density|micro|compromised)/], domains: ['muscular_endurance'],
+    families: [/^(density|micro|compromised|muscular_endurance)/], domains: ['muscular_endurance'],
   },
   loaded_movement: {
     families: [/^station_(farmer_carry|sled_push|sled_pull|sandbag_lunge)/],

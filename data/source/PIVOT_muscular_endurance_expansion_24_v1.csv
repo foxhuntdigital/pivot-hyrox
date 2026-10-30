@@ -1,0 +1,154 @@
+template_id,name,training_domain,workout_family,session_type,primary_goal,secondary_goal,stimulus,estimated_minutes,intensity_target,impact_level,hyrox_specificity,postpartum_friendly,requires_running,requires_ski,description,coaching_notes,ref_prescription,technical_demand,load_demand,ref_block_count,ref_exercise_count,ref_variants,workout_format
+me_emom_01,EMOM — Dumbbell Base 20,muscular_endurance,muscular_endurance_emom,muscular_endurance,strength,,repeatable_muscular_output,20,RPE 6-7,low,0.0,False,False,False,Accessible full-body EMOM that builds repeatable muscular output without race-style modality integration.,Choose loads that preserve 15-25s rest each minute. Do not chase failure.,"B1 [Main] EMOM, 20 min (5 rounds)
+    Min 1. Goblet Squat — 10 reps
+    Min 2. Push-Up — 8-12 reps
+    Min 3. DB Row — 8/side
+    Min 4. Farmer Carry — 30-40 m
+    Complete the work in ~35-45s; use the remainder of each minute as rest.",2,2,1,4,,emom
+me_emom_02,EMOM — Lower Body 24,muscular_endurance,muscular_endurance_emom,muscular_endurance,strength,,lower_body_fatigue_resistance,24,RPE 7,moderate,0.0,False,False,False,"Lower-body muscular endurance using simple squat, lunge and step patterns with controlled clock pressure.",Local leg fatigue is intended; movement breakdown is not. Scale reps before load.,"B1 [Main] EMOM, 24 min (6 rounds)
+    Min 1. Goblet Squat — 12 reps
+    Min 2. Reverse Lunge — 10 total
+    Min 3. Step-Up — 10 total
+    Min 4. Front Plank — 35s
+    Preserve smooth reps and finish each work minute with recoverable time remaining.",2,3,1,4,,emom
+me_emom_03,EMOM — Upper Body 24,muscular_endurance,muscular_endurance_emom,muscular_endurance,strength,,upper_body_fatigue_resistance,24,RPE 7,low,0.0,False,False,False,Push-pull upper-body endurance with enough rest to sustain quality across six cycles.,Avoid early failure. Reps should remain within 1-3 reps of the opening round.,"B1 [Main] EMOM, 24 min (6 rounds)
+    Min 1. DB Bench Press — 10 reps
+    Min 2. DB Row — 10/side
+    Min 3. Push-Up — 8-12 reps
+    Min 4. Farmer Carry — 30 m
+    Use loads that keep every minute repeatable.",2,2,1,4,,emom
+me_emom_04,EMOM — Kettlebell Work Capacity 20,muscular_endurance,muscular_endurance_emom,muscular_endurance,strength,,ballistic_muscular_endurance,20,RPE 7,moderate,0.0,False,False,False,Kettlebell muscular endurance centered on repeatable ballistic and squat output.,"The clock creates repeatability, not urgency. Reduce reps if rest disappears.","B1 [Main] EMOM, 20 min (5 rounds)
+    Min 1. Kettlebell Swing — 12 reps
+    Min 2. Goblet Squat — 10 reps
+    Min 3. Half-Kneeling 1-Arm Press — 6/side
+    Min 4. Suitcase Carry — 25 m/side
+    Maintain crisp swing mechanics and unbroken submaximal sets.",2,2,1,4,,emom
+me_emom_05,EMOM — Bodyweight Density 24,muscular_endurance,muscular_endurance_emom,muscular_endurance,strength,,bodyweight_muscular_endurance,24,RPE 6-7,moderate,0.0,False,False,False,Equipment-free muscular endurance with simple patterns and sustainable repetition.,Leave reps in reserve every minute. Shorten the crawl or reduce reps before form degrades.,"B1 [Main] EMOM, 24 min (6 rounds)
+    Min 1. Air Squat — 15 reps
+    Min 2. Push-Up — 8-12 reps
+    Min 3. Walking Lunge — 12 total
+    Min 4. Bear Crawl — 20-30s
+    Keep all sets submaximal and technically consistent.",1,2,1,4,,emom
+me_emom_06,EMOM — Dumbbell Push-Pull 24,muscular_endurance,muscular_endurance_emom,muscular_endurance,strength,,push_pull_fatigue_resistance,24,RPE 7,low,0.0,False,False,False,Repeatable dumbbell push-pull endurance with trunk and grip support.,Do not turn this into a max-rep test. The final round should resemble the first.,"B1 [Main] EMOM, 24 min (6 rounds)
+    Min 1. DB Floor Press — 10 reps
+    Min 2. DB Row — 8/side
+    Min 3. 1-Arm DB Overhead Press — 6/side
+    Min 4. Suitcase Carry — 25 m/side
+    Select loads that remain stable through all six rounds.",2,2,1,4,,emom
+me_emom_07,EMOM — Squat + Carry 20,muscular_endurance,muscular_endurance_emom,muscular_endurance,strength,,loaded_lower_endurance,20,RPE 7,low,0.0,False,False,False,"Simple loaded muscular endurance emphasizing legs, trunk and grip.",Use moderate loads. Continuous high-quality accumulation is the target.,"B1 [Main] EMOM, 20 min (5 rounds)
+    Min 1. DB Front-Rack Squat — 10 reps
+    Min 2. Farmer Carry — 35 m
+    Min 3. Reverse Lunge — 10 total
+    Min 4. Pallof Press — 8/side
+    Finish work with enough time to reset before the next minute.",2,2,1,4,,emom
+me_emom_08,EMOM — Power Endurance 18,muscular_endurance,muscular_endurance_emom,muscular_endurance,strength,,power_endurance,18,RPE 7-8,moderate,0.0,False,False,False,Shorter technical EMOM for athletes who can sustain power-oriented dumbbell work without losing mechanics.,"Power quality governs loading. This is muscular endurance, not a conditioning sprint.","B1 [Main] EMOM, 18 min (6 rounds)
+    Min 1. DB Hang Clean — 6 reps
+    Min 2. Push Press — 6 reps
+    Min 3. Goblet Squat — 10 reps
+    Keep every set crisp; stop adding load once rep speed meaningfully drops.",3,3,1,3,,emom
+me_metcon_01,Metcon — Dumbbell 5s,muscular_endurance,muscular_endurance_metcon,muscular_endurance,strength,,full_body_muscular_endurance,24,RPE 7-8,moderate,0.0,False,False,False,"Full-body dumbbell metcon where local muscular fatigue, not running or transitions, is the primary limiter.",Use one sustainable loading strategy. Avoid failure and keep round times within ~15%.,"B1 [Main] rounds, 5 rounds
+    1. DB Front-Rack Squat — 10 reps
+    2. DB Bench Press — 10 reps
+    3. DB Row — 10/side
+    4. Farmer Carry — 40 m
+    Rest 60s after each round.",2,3,1,4,,metcon
+me_metcon_02,Metcon — 12-10-8-6,muscular_endurance,muscular_endurance_metcon,muscular_endurance,strength,,descending_rep_endurance,22,RPE 7-8,moderate,0.0,False,False,False,Descending-rep muscular endurance with simple loaded and bodyweight patterns.,"Break sets before failure. The ladder should feel progressively more sustainable, not frantic.","B1 [Main] descending ladder, 12-10-8-6 reps
+    1. Goblet Squat
+    2. Push-Up
+    3. DB Row — each side
+    After each round: Suitcase Carry — 20 m/side
+    Rest as needed to preserve clean sets.",2,3,1,4,,metcon
+me_metcon_03,Metcon — Lower Body Chipper,muscular_endurance,muscular_endurance_metcon,muscular_endurance,strength,,lower_body_volume_tolerance,28,RPE 7-8,moderate,0.0,False,False,False,"Lower-body chipper built around accumulated squat, lunge and step volume rather than race integration.",Use manageable chunks from the start. Do not save all breaks for late-stage failure.,"B1 [Main] chipper, complete in order
+    1. Goblet Squat — 40 reps
+    2. Walking Lunge — 40 total
+    3. Step-Up — 30 total
+    4. Air Squat — 40 reps
+    5. Farmer Carry — 100 m
+    Partition each movement as needed; quality remains the constraint.",2,3,1,5,,metcon
+me_metcon_04,Metcon — Upper Body Chipper,muscular_endurance,muscular_endurance_metcon,muscular_endurance,strength,,upper_body_volume_tolerance,26,RPE 7-8,low,0.0,False,False,False,Upper-body push-pull volume challenge emphasizing sustainable muscular output.,Submaximal chunks are the intended strategy. Keep shoulder mechanics clean.,"B1 [Main] chipper, complete in order
+    1. DB Bench Press — 40 reps
+    2. DB Row — 30/side
+    3. Push-Up — 30 reps
+    4. Inverted Row — 30 reps
+    5. Farmer Carry — 80 m
+    Partition from the beginning to avoid muscular failure.",2,3,1,5,,metcon
+me_metcon_05,Metcon — Kettlebell Ladder,muscular_endurance,muscular_endurance_metcon,muscular_endurance,strength,,kettlebell_muscular_endurance,24,RPE 7-8,moderate,0.0,False,False,False,"Kettlebell ladder combining ballistic, squat and press endurance without cardio-machine dependence.",Do not sacrifice ballistic mechanics to finish a rung unbroken.,"B1 [Main] ascending ladder, 4-6-8-10-12 reps
+    1. Kettlebell Swing
+    2. Goblet Squat
+    3. Half-Kneeling 1-Arm Press — reps split evenly per side
+    After each rung: Suitcase Carry — 20 m/side
+    Rest 30-60s between rungs as needed.",2,3,1,4,,metcon
+me_metcon_06,Metcon — Bodyweight 20,muscular_endurance,muscular_endurance_metcon,muscular_endurance,strength,,bodyweight_work_capacity,20,RPE 7,moderate,0.0,False,False,False,Minimal-equipment muscular endurance using a repeatable bodyweight circuit.,"Score completed rounds plus reps, but pacing and repeatability take priority over speed.","B1 [Main] AMRAP, 20 min
+    1. Air Squat — 15 reps
+    2. Push-Up — 10 reps
+    3. Reverse Lunge — 12 total
+    4. Bear Crawl — 20s
+    5. Front Plank — 30s
+    Move steadily; stop sets before failure.",1,2,1,5,,metcon
+me_metcon_07,Metcon — Dumbbell Complex Endurance,muscular_endurance,muscular_endurance_metcon,muscular_endurance,strength,,complex_muscular_endurance,25,RPE 7-8,moderate,0.0,False,False,False,Technical dumbbell muscular endurance using integrated movements at deliberately submaximal loads.,"Load for clean movement combinations, not maximal strength. Preserve the same movement standard each round.","B1 [Main] rounds, 5 rounds
+    1. DB Clean + Front Squat — 6 reps
+    2. DB Row — 8/side
+    3. DB Front Squat + Press — 6 reps
+    4. Suitcase Carry — 25 m/side
+    Rest 75s after each round.",3,3,1,4,,metcon
+me_metcon_08,Metcon — Carry Builder,muscular_endurance,muscular_endurance_metcon,muscular_endurance,strength,,grip_trunk_leg_endurance,24,RPE 7-8,low,0.0,False,False,False,"Carry-dominant muscular endurance emphasizing grip, trunk and leg fatigue resistance.",Carry posture and grip quality govern load. Avoid racing the transitions.,"B1 [Main] rounds, 6 rounds
+    1. Farmer Carry — 50 m
+    2. Goblet Squat — 12 reps
+    3. DB Row — 8/side
+    4. Reverse Lunge — 10 total
+    Rest 45-60s after each round.",2,3,1,4,,metcon
+me_hero_01,PIVOT Hero — Atlas,muscular_endurance,muscular_endurance_hero,muscular_endurance,strength,,benchmark_total_body_endurance,40,RPE 8,moderate,0.0,False,False,False,Long-form PIVOT benchmark for total-body muscular endurance using common dumbbell and bodyweight movements.,Benchmark consistency matters more than maximal pace. Use the same movement standards on retest.,"B1 [Main] 5 rounds for quality time
+    1. Goblet Squat — 20 reps
+    2. Push-Up — 15 reps
+    3. DB Row — 12/side
+    4. Walking Lunge — 20 total
+    5. Farmer Carry — 60 m
+    Record total time and loading for future comparison.",2,4,1,5,,hero
+me_hero_02,PIVOT Hero — Forge,muscular_endurance,muscular_endurance_hero,muscular_endurance,strength,,benchmark_loaded_endurance,36,RPE 8,moderate,0.0,False,False,False,"Loaded benchmark emphasizing repeated squat, press, pull and carry output.",Choose loads that permit all six rounds without technical failure.,"B1 [Main] 6 rounds
+    1. DB Front-Rack Squat — 12 reps
+    2. DB Bench Press — 10 reps
+    3. DB Row — 10/side
+    4. Farmer Carry — 50 m
+    Rest only as needed; record total time and loads.",2,4,1,4,,hero
+me_hero_03,PIVOT Hero — Long Haul,muscular_endurance,muscular_endurance_hero,muscular_endurance,strength,,benchmark_volume_endurance,45,RPE 8,moderate,0.0,False,False,False,High-volume benchmark designed to test sustained muscular output with minimal equipment.,"Plan breaks before failure. This is a volume benchmark, not a test of reckless unbroken sets.","B1 [Main] chipper
+    1. Air Squat — 100 reps
+    2. Push-Up — 60 reps
+    3. Walking Lunge — 80 total
+    4. DB Row — 50/side
+    5. Step-Up — 60 total
+    6. Farmer Carry — 200 m
+    Partition movements as needed; record total time.",2,4,1,6,,hero
+me_hero_04,PIVOT Hero — Iron Mile,muscular_endurance,muscular_endurance_hero,muscular_endurance,strength,,benchmark_carry_endurance,38,RPE 8,low,0.0,False,False,False,"Carry-centered PIVOT benchmark for grip, trunk and lower-body muscular endurance; no running required.",Maintain carry posture and repeatable chunks. Grip failure should not force unsafe movement.,"B1 [Main] 4 rounds
+    1. Farmer Carry — 100 m
+    2. Goblet Squat — 20 reps
+    3. Reverse Lunge — 20 total
+    4. Push-Up — 15 reps
+    5. DB Row — 12/side
+    Record total time and loads.",2,4,1,5,,hero
+me_hero_05,PIVOT Hero — Anvil,muscular_endurance,muscular_endurance_hero,muscular_endurance,strength,,benchmark_dumbbell_endurance,35,RPE 8,moderate,0.0,False,False,False,Technical dumbbell benchmark combining integrated movements with foundational muscular endurance.,Use a load that preserves integrated-movement quality for the entire benchmark.,"B1 [Main] 5 rounds
+    1. DB Clean + Front Squat — 8 reps
+    2. DB Floor Press — 12 reps
+    3. DB Romanian Deadlift + Row — 8 reps
+    4. Reverse Lunge — 16 total
+    5. Suitcase Carry — 30 m/side
+    Record total time and dumbbell load.",3,4,1,5,,hero
+me_hero_06,PIVOT Hero — Groundwork,muscular_endurance,muscular_endurance_hero,muscular_endurance,strength,,benchmark_bodyweight_endurance,32,RPE 8,moderate,0.0,False,False,False,Equipment-free benchmark for repeatable bodyweight muscular endurance.,Scale reps before movement quality changes. Retests should use the same scaling.,"B1 [Main] 8 rounds
+    1. Air Squat — 20 reps
+    2. Push-Up — 10 reps
+    3. Walking Lunge — 16 total
+    4. Bear Crawl — 20s
+    5. Front Plank — 30s
+    Record total time; preserve movement standards.",1,3,1,5,,hero
+me_hero_07,PIVOT Hero — Stronghold,muscular_endurance,muscular_endurance_hero,muscular_endurance,strength,,benchmark_upper_body_endurance,36,RPE 8,low,0.0,False,False,False,"Upper-body benchmark with sustained push, pull, grip and trunk output.",Keep pushing and pulling volume balanced. Avoid muscular failure early.,"B1 [Main] 6 rounds
+    1. DB Bench Press — 12 reps
+    2. DB Row — 12/side
+    3. Push-Up — 10 reps
+    4. Inverted Row — 10 reps
+    5. Suitcase Carry — 30 m/side
+    Record total time and loads.",2,4,1,5,,hero
+me_hero_08,PIVOT Hero — Redline,muscular_endurance,muscular_endurance_hero,muscular_endurance,strength,,benchmark_power_endurance,30,RPE 8-9,moderate,0.0,False,False,False,High-demand PIVOT benchmark for athletes with established dumbbell power-movement competency.,Technical quality is the stop rule. This benchmark is not appropriate outside the athlete's technical-capacity envelope.,"B1 [Main] 10 rounds
+    1. DB Hang Clean — 6 reps
+    2. Push Press — 6 reps
+    3. Goblet Squat — 10 reps
+    4. Farmer Carry — 30 m
+    Rest only as needed to preserve power mechanics; record total time and load.",3,4,1,4,,hero

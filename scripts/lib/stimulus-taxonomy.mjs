@@ -83,6 +83,86 @@ const DIRECT = {
   unilateral_total_strength:    ['strength', 'specified'],
   unilateral_power_strength:    ['strength', 'specified'],
   loaded_carry_strength:        ['strength', 'specified'],
+  // The 48-session strength expansion (data/strength-expansion-48-v1.json)
+  // names each session's stimulus for the pattern or tool it is organised
+  // around. All are working sets of resistance training, and the pack authored
+  // primary_goal strength for every one; the distinction each draws is which
+  // pattern leads, which the planner has never asked.
+  vertical_pull_strength:             ['strength', 'specified'],
+  horizontal_pull_strength:           ['strength', 'specified'],
+  vertical_horizontal_pull_strength:  ['strength', 'specified'],
+  upper_back_strength:                ['strength', 'specified'],
+  dumbbell_pull_strength:             ['strength', 'specified'],
+  cable_pull_strength:                ['strength', 'specified'],
+  hinge_pull_strength:                ['strength', 'specified'],
+  unilateral_pull_strength:           ['strength', 'specified'],
+  pull_carry_strength:                ['strength', 'specified'],
+  posterior_chain_pull_strength:      ['strength', 'specified'],
+  upper_back_hypertrophy_strength:    ['strength', 'specified'],
+  pull_arm_strength:                  ['strength', 'specified'],
+  explosive_lower_strength:           ['strength', 'specified'],
+  lateral_lower_strength:             ['strength', 'specified'],
+  hinge_power_strength:               ['strength', 'specified'],
+  landing_unilateral_strength:        ['strength', 'specified'],
+  upper_push_power_strength:          ['strength', 'specified'],
+  upper_pull_power_strength:          ['strength', 'specified'],
+  rotational_upper_strength:          ['strength', 'specified'],
+  overhead_athletic_strength:         ['strength', 'specified'],
+  dumbbell_power_strength:            ['strength', 'specified'],
+  kettlebell_power_strength:          ['strength', 'specified'],
+  multiplanar_strength:               ['strength', 'specified'],
+  offset_lower_strength:              ['strength', 'specified'],
+  front_rack_complex_strength:        ['strength', 'specified'],
+  integrated_hinge_strength:          ['strength', 'specified'],
+  landmine_lower_complex_strength:    ['strength', 'specified'],
+  contralateral_upper_strength:       ['strength', 'specified'],
+  integrated_press_strength:          ['strength', 'specified'],
+  integrated_pull_strength:           ['strength', 'specified'],
+  rotational_complex_strength:        ['strength', 'specified'],
+  dumbbell_complex_strength:          ['strength', 'specified'],
+  sandbag_complex_strength:           ['strength', 'specified'],
+  advanced_unilateral_strength:       ['strength', 'specified'],
+  landmine_total_strength:            ['strength', 'specified'],
+  mixed_lower_strength:               ['strength', 'specified'],
+  mixed_unilateral_strength:          ['strength', 'specified'],
+  mixed_hinge_power_strength:         ['strength', 'specified'],
+  mixed_multiplanar_lower_strength:   ['strength', 'specified'],
+  mixed_upper_strength:               ['strength', 'specified'],
+  mixed_upper_contralateral_strength: ['strength', 'specified'],
+  mixed_overhead_rotational_strength: ['strength', 'specified'],
+  mixed_pull_strength:                ['strength', 'specified'],
+  mixed_total_power_strength:         ['strength', 'specified'],
+  mixed_dumbbell_strength:            ['strength', 'specified'],
+  mixed_athletic_total_strength:      ['strength', 'specified'],
+  mixed_complex_total_strength:       ['strength', 'specified'],
+  // The 24-session muscular endurance expansion rolls up to `threshold`:
+  // sustained submaximal output under accumulating fatigue, scored by how long
+  // the output holds rather than by the load. The pack authored `strength`;
+  // threshold is the programming ruling. The muscular_endurance domain defers
+  // to this goal in the engine (GOAL_FROM_TEMPLATE in rank.ts, 2.2.0).
+  repeatable_muscular_output:         ['threshold', 'specified'],
+  lower_body_fatigue_resistance:      ['threshold', 'specified'],
+  upper_body_fatigue_resistance:      ['threshold', 'specified'],
+  ballistic_muscular_endurance:       ['threshold', 'specified'],
+  bodyweight_muscular_endurance:      ['threshold', 'specified'],
+  push_pull_fatigue_resistance:       ['threshold', 'specified'],
+  loaded_lower_endurance:             ['threshold', 'specified'],
+  full_body_muscular_endurance:       ['threshold', 'specified'],
+  descending_rep_endurance:           ['threshold', 'specified'],
+  lower_body_volume_tolerance:        ['threshold', 'specified'],
+  upper_body_volume_tolerance:        ['threshold', 'specified'],
+  kettlebell_muscular_endurance:      ['threshold', 'specified'],
+  bodyweight_work_capacity:           ['threshold', 'specified'],
+  complex_muscular_endurance:         ['threshold', 'specified'],
+  grip_trunk_leg_endurance:           ['threshold', 'specified'],
+  benchmark_total_body_endurance:     ['threshold', 'specified'],
+  benchmark_loaded_endurance:         ['threshold', 'specified'],
+  benchmark_volume_endurance:         ['threshold', 'specified'],
+  benchmark_carry_endurance:          ['threshold', 'specified'],
+  benchmark_dumbbell_endurance:       ['threshold', 'specified'],
+  benchmark_bodyweight_endurance:     ['threshold', 'specified'],
+  benchmark_upper_body_endurance:     ['threshold', 'specified'],
+  benchmark_power_endurance:          ['threshold', 'specified'],
 
   // → race_specific
   race_pacing:                ['race_specific', 'specified'],
@@ -140,8 +220,15 @@ const ENGINE_MODALITIES = new Set(['running', 'row', 'ski', 'bike']);
  * report how each call was made instead of asserting a bare answer.
  */
 const CONTEXTUAL = {
-  /** Erg intervals are threshold work; a heavy sled or carry is strength. */
+  /**
+   * Erg intervals are threshold work; a heavy sled or carry is strength. A
+   * loaded session in a muscular endurance format (an EMOM, metcon or hero
+   * benchmark) is held for time rather than for load, so it is threshold too.
+   */
   power_endurance(ctx) {
+    if (/^muscular_endurance/.test(ctx.family ?? '')) {
+      return ['threshold', 'muscular endurance format: output held for time'];
+    }
     if (ctx.modalities.some(m => LOADED_MODALITIES.has(m)) && !ctx.modalities.some(m => ENGINE_MODALITIES.has(m))) {
       return ['strength', 'loaded modality, no engine work'];
     }
@@ -372,6 +459,22 @@ export function resolveClassification(primaryGoal, ctx = {}) {
       session_type: 'conditioning',
       basis: 'labelled strength but carries no external load',
       ambiguous: true,
+    };
+  }
+
+  // Threshold reached through loaded resistance alone — an EMOM, a metcon, a
+  // chipper with no erg or run in it. The planner asks for it as threshold, but
+  // what the session IS is muscular endurance, and the domain says what it is:
+  // filed under `threshold` it would also answer a running-speed deficit
+  // (CAPABILITY_TARGETS.running_threshold reads the domain), which a goblet
+  // squat EMOM does not address. The engine reads this domain's goal from the
+  // template (GOAL_FROM_TEMPLATE in rank.ts), so it is still scheduled as one.
+  if (primaryGoal === 'threshold' && loaded && !engine && !requiresRunning) {
+    return {
+      training_domain: 'muscular_endurance',
+      session_type: 'strength_endurance',
+      basis: 'threshold through loaded resistance alone, no engine work',
+      ambiguous: false,
     };
   }
 

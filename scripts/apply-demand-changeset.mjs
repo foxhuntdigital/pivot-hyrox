@@ -24,12 +24,18 @@
  * Every rule that reads these treats null as "unknown, do not constrain", so a
  * supplemental or retired template keeps behaving exactly as it does today.
  *
- *   node scripts/apply-demand-changeset.mjs [--dry-run]
+ *   node scripts/apply-demand-changeset.mjs [--dry-run] [--changeset <path>]
+ *
+ * `--changeset` names another reviewed changeset in the same shape, such as the
+ * grades authored with a content pack (data/review/expansion-demand.v1.changeset.json).
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const SEED = new URL('../data/adaptive_athlete_schema_and_seed.sql', import.meta.url);
-const CHANGESET = new URL('../data/review/demand-library.v1.changeset.json', import.meta.url);
+const changesetArg = process.argv[process.argv.indexOf('--changeset') + 1];
+const CHANGESET = process.argv.includes('--changeset')
+  ? new URL(changesetArg, `file://${process.cwd()}/`)
+  : new URL('../data/review/demand-library.v1.changeset.json', import.meta.url);
 const dryRun = process.argv.includes('--dry-run');
 
 const NEW_COLUMNS = ['technical_demand', 'load_demand'];
