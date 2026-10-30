@@ -36274,7 +36274,7 @@
       "supplemental_load": null,
       "technical_demand": 3,
       "load_demand": 2,
-      "workout_archetype": "mixed",
+      "workout_archetype": "athletic",
       "tags": [],
       "variants": [
         {
@@ -36733,7 +36733,7 @@
       "supplemental_load": null,
       "technical_demand": 3,
       "load_demand": 3,
-      "workout_archetype": "mixed",
+      "workout_archetype": "athletic",
       "tags": [],
       "variants": [
         {
@@ -36886,7 +36886,7 @@
       "supplemental_load": null,
       "technical_demand": 2,
       "load_demand": 2,
-      "workout_archetype": "mixed",
+      "workout_archetype": "athletic",
       "tags": [],
       "variants": [
         {
@@ -37360,7 +37360,7 @@
       "supplemental_load": null,
       "technical_demand": 2,
       "load_demand": 2,
-      "workout_archetype": "mixed",
+      "workout_archetype": "complex",
       "tags": [],
       "variants": [
         {
@@ -37513,7 +37513,7 @@
       "supplemental_load": null,
       "technical_demand": 3,
       "load_demand": 3,
-      "workout_archetype": "mixed",
+      "workout_archetype": "complex",
       "tags": [],
       "variants": [
         {
@@ -37972,7 +37972,7 @@
       "supplemental_load": null,
       "technical_demand": 2,
       "load_demand": 2,
-      "workout_archetype": "mixed",
+      "workout_archetype": "complex",
       "tags": [],
       "variants": [
         {
@@ -38125,7 +38125,7 @@
       "supplemental_load": null,
       "technical_demand": 2,
       "load_demand": 2,
-      "workout_archetype": "mixed",
+      "workout_archetype": "complex",
       "tags": [],
       "variants": [
         {
@@ -38278,7 +38278,7 @@
       "supplemental_load": null,
       "technical_demand": 3,
       "load_demand": 2,
-      "workout_archetype": "foundational",
+      "workout_archetype": "complex",
       "tags": [],
       "variants": [
         {
@@ -38584,7 +38584,7 @@
       "supplemental_load": null,
       "technical_demand": 3,
       "load_demand": 3,
-      "workout_archetype": "mixed",
+      "workout_archetype": "complex",
       "tags": [],
       "variants": [
         {
@@ -38737,7 +38737,7 @@
       "supplemental_load": null,
       "technical_demand": 3,
       "load_demand": 3,
-      "workout_archetype": "mixed",
+      "workout_archetype": "complex",
       "tags": [],
       "variants": [
         {
@@ -39043,7 +39043,7 @@
       "supplemental_load": null,
       "technical_demand": 3,
       "load_demand": 3,
-      "workout_archetype": "mixed",
+      "workout_archetype": "complex",
       "tags": [],
       "variants": [
         {
