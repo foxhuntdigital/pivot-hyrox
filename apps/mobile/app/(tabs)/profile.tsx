@@ -10,14 +10,15 @@
  * write follows. A failed write surfaces as a banner rather than snapping the
  * field back to its old value under the athlete's cursor.
  */
-import React, { useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { View, Text, ScrollView, Pressable, TextInput } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 
 import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label, Chip, SquareCheck, ActionButton } from '@/components/primitives';
 import { useApp } from '@/state/store';
 import { PREFERENCE_OPTIONS, WEAKNESS_OPTIONS } from '@/data/preferencesRepo';
+import { canPickMore, needsWorkNote, toggleNeedsWork } from '@/state/needsWork';
 import { useSession } from '@/state/session';
 import { useTour } from '@/state/tour';
 import { GoalSettings } from '@/components/GoalSettings';
@@ -191,6 +192,28 @@ export default function ProfileScreen() {
   });
   const toggle = (k: keyof typeof open) => setOpen(o => ({ ...o, [k]: !o[k] }));
 
+  /**
+   * Arriving from Progress's "You said this needs work" opens that section and
+   * scrolls to it, so the answer can be changed where it was questioned. The
+   * section's offset is measured on layout; the scroll waits for it.
+   */
+  const params = useLocalSearchParams<{ open?: string }>();
+  const scroller = useRef<ScrollView>(null);
+  const needsWorkY = useRef<number | null>(null);
+  // Once per arrival, not on every later layout change while the param stands.
+  const pendingScroll = useRef(false);
+  const scrollToNeedsWork = () => {
+    if (!pendingScroll.current || needsWorkY.current === null) return;
+    pendingScroll.current = false;
+    scroller.current?.scrollTo({ y: needsWorkY.current, animated: true });
+  };
+  useFocusEffect(useCallback(() => {
+    if (params.open !== 'weaknesses') return;
+    pendingScroll.current = true;
+    setOpen(o => ({ ...o, weaknesses: true }));
+    scrollToNeedsWork();
+  }, [params.open]));
+
   const now = new Date();
   const birth = profile.postpartum_birth_date
     ? parseISODate(profile.postpartum_birth_date) : null;
@@ -292,6 +315,7 @@ export default function ProfileScreen() {
 
   return (
     <ScrollView
+      ref={scroller}
       contentContainerStyle={{ paddingBottom: 30 }}
       // Name and birth date open a keyboard; dragging puts it away, and a tap
       // on a section header or a chip fires first time rather than being
@@ -674,6 +698,7 @@ export default function ProfileScreen() {
       </Section>
 
       {/* ── Perceived weaknesses ─────────────────────────── */}
+      <View onLayout={e => { needsWorkY.current = e.nativeEvent.layout.y; scrollToNeedsWork(); }} />
       <Section
         title="What needs work"
         open={open.weaknesses}
@@ -685,14 +710,22 @@ export default function ProfileScreen() {
         <View style={{ paddingHorizontal: space.gutter }}>
           {WEAKNESS_OPTIONS.map(option => {
             const on = weaknesses.includes(option.value);
+            // Up to three (`needsWork`). Removing is always allowed, so an
+            // athlete over the cap from before it existed can get under it.
+            const disabled = !on && !canPickMore(weaknesses);
             return (
               <Pressable
                 key={option.value}
-                onPress={() => setWeakness(option.value, !on)}
+                onPress={() => {
+                  const result = toggleNeedsWork(weaknesses, option.value);
+                  if (!result.blocked) setWeakness(option.value, result.picked);
+                }}
+                disabled={disabled}
                 accessibilityRole="checkbox"
-                accessibilityState={{ checked: on }}
+                accessibilityState={{ checked: on, disabled }}
                 accessibilityLabel={option.label}
                 style={{
+                  opacity: disabled ? 0.45 : 1,
                   flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
                   paddingVertical: 13,
                   borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
@@ -714,7 +747,12 @@ export default function ProfileScreen() {
             );
           })}
           <Text style={[t.meta, {
-            fontSize: 11.5, lineHeight: 17, color: color.muted, marginTop: 12,
+            fontSize: 12, lineHeight: 17, color: color.ink, marginTop: 12,
+          }]}>
+            {needsWorkNote(weaknesses)}
+          </Text>
+          <Text style={[t.meta, {
+            fontSize: 11.5, lineHeight: 17, color: color.muted, marginTop: 6,
           }]}>
             Your own read, kept separate from what your training shows. Where the two
             disagree PIVOT holds both rather than deciding you are wrong about

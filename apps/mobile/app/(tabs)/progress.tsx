@@ -288,10 +288,19 @@ export default function ProgressScreen() {
                 <Text style={[t.rowTitle, { fontSize: 13.5, color: color.ink }]}>{label}</Text>
                 {/* The athlete's own read, beside the evidence rather than
                     merged into it. Where the two disagree, both stand. */}
+                {/* Tappable: the answer is changed where it was given, on
+                    Profile, which opens at that section. */}
                 {flagged ? (
-                  <Text style={[t.meta, { color: color.muted, marginTop: 1 }]}>
-                    you flagged this
-                  </Text>
+                  <Pressable
+                    onPress={() => router.push('/profile?open=weaknesses' as never)}
+                    accessibilityRole="link"
+                    accessibilityLabel={`You said ${label} needs work. Change on Profile.`}
+                    hitSlop={8}
+                  >
+                    <Text style={[t.meta, { color: color.muted2, marginTop: 1, textDecorationLine: 'underline' }]}>
+                      You said this needs work
+                    </Text>
+                  </Pressable>
                 ) : null}
               </View>
               <Text style={[t.bodySm, {
