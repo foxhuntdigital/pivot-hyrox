@@ -11,6 +11,7 @@ import type {
 } from '../../../packages/engine/src/index.ts';
 import { capabilityState } from './evidence.ts';
 import { effectiveLoadCapacity } from './rebuilding.ts';
+import { CONSISTENCY_WEEKS } from './readiness-history.ts';
 
 export function corsHeaders(origin: string | null) {
   return {
@@ -354,6 +355,25 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
     : null;
   const weekEnd = weekStart ? addDays(weekStart, 6) : null;
 
+  /**
+   * The weeks before this one, most recent first, as the needs each set and
+   * met. Read across phases, so the first week of a new phase still sees the
+   * end of the last one. Consistency is measured over these
+   * (`stimulusAdherence`), not over the week in progress.
+   */
+  const allCycles = phases.flatMap((p: any) => (p.weekly_cycles ?? [])
+    .slice()
+    .sort((a: any, b: any) => a.week_index - b.week_index));
+  const currentAt = allCycles.indexOf(currentCycle);
+  const previous_weeks_needs: { completed_exposures: number; target_exposures: number }[][] =
+    currentAt > 0
+      ? allCycles.slice(Math.max(0, currentAt - CONSISTENCY_WEEKS), currentAt).reverse()
+        .map((c: any) => (c.stimulus_requirements ?? []).map((r: any) => ({
+          completed_exposures: r.completed_exposures,
+          target_exposures: r.target_exposures,
+        })))
+      : [];
+
   const stimulus_requirements: StimulusRequirement[] =
     (currentCycle?.stimulus_requirements ?? []).map((r: any) => ({
       stimulus_type: r.stimulus_type,
@@ -455,7 +475,7 @@ export async function loadAthleteState(db: SupabaseClient, userId: string, today
 
   return {
     profile, race, daysToRace, currentPhase, currentCycle, checkin, checkins, queue,
-    stimulus_requirements, recent_sessions, available_equipment,
+    stimulus_requirements, previous_weeks_needs, recent_sessions, available_equipment,
     effective_load_capacity,
     phaseSequence, programTotalWeeks, programWeek, weekInPhase, weekStart, weekEnd,
     completed_this_week, sessionRows,
