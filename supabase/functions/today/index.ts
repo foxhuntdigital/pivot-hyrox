@@ -102,6 +102,9 @@ Deno.serve(async (req) => {
         templates: content.templates,
         exercises: content.exercises,
         input,
+        // Which week of the block, so consecutive weeks open on different
+        // families of session.
+        rotation: (state.programWeek ?? 1) - 1,
       });
       if (planned.length) {
         // Re-read so the payload carries the rows' real ids: the client sends

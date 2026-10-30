@@ -8,7 +8,7 @@
 import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { planWeekQueue, type WeekRequirement } from './queue.ts';
+import { planWeekQueue, rotateFamilies, type WeekRequirement } from './queue.ts';
 import type { EngineInput, Exercise, WorkoutTemplate } from '../../../packages/engine/src/index.ts';
 
 const EXERCISES: Exercise[] = [
@@ -222,5 +222,61 @@ describe('Planning a week', () => {
   test('a week with nothing eligible plans nothing', () => {
     const items = plan([req('strength', 2, 1)], [template({ id: 'run' })]);
     assert.deepEqual(items, []);
+  });
+});
+
+describe('Variety across a week', () => {
+  // Three families, the first with three sessions. Alphabetical order alone
+  // fills a three-session need from the first family.
+  const pool = [
+    template({ id: 'mx_bbj_base', workout_family: 'station_bbj' }),
+    template({ id: 'mx_bbj_durability', workout_family: 'station_bbj' }),
+    template({ id: 'mx_bbj_micro', workout_family: 'station_bbj' }),
+    template({ id: 'mx_farmer_base', workout_family: 'station_farmer' }),
+    template({ id: 'run_easy', workout_family: 'run_base' }),
+  ];
+
+  test('a family is used once before any family is used twice', () => {
+    // The beta week: three aerobic exposures, all filled with burpee broad
+    // jump variants because their ids sort first.
+    const items = plan([req('aerobic_durability', 3, 1)], pool);
+    assert.deepEqual(items.map(i => i.workout_template_id),
+      ['mx_bbj_base', 'mx_farmer_base', 'run_easy']);
+  });
+
+  test('variety spans stimuli, not just one need', () => {
+    const items = plan(
+      [req('aerobic_durability', 1, 1), req('threshold', 1, 1)],
+      [
+        template({ id: 'mx_bbj_base', workout_family: 'station_bbj' }),
+        template({ id: 'mx_bbj_threshold', workout_family: 'station_bbj', primary_goal: 'threshold' }),
+        template({ id: 'mx_ski_threshold', workout_family: 'station_ski', primary_goal: 'threshold' }),
+      ],
+    );
+    assert.deepEqual(items.map(i => i.workout_template_id), ['mx_bbj_base', 'mx_ski_threshold']);
+  });
+
+  test('a single family still fills the week rather than dropping exposures', () => {
+    const items = plan([req('aerobic_durability', 3, 1)], pool.slice(0, 3));
+    assert.equal(items.length, 3);
+    assert.equal(new Set(items.map(i => i.workout_template_id)).size, 3);
+  });
+
+  test('later weeks open on a different family, and a week replans the same way', () => {
+    const week = (rotation: number) => planWeekQueue({
+      requirements: [req('aerobic_durability', 1, 1)], templates: pool,
+      exercises: EXERCISES, input: INPUT, rotation,
+    }).map(i => i.workout_template_id);
+    assert.deepEqual(week(0), ['mx_bbj_base']);
+    assert.deepEqual(week(1), ['mx_farmer_base']);
+    assert.deepEqual(week(2), ['run_easy']);
+    assert.deepEqual(week(3), ['mx_bbj_base'], 'the rotation wraps');
+    assert.deepEqual(week(1), week(1));
+  });
+
+  test('rotating keeps each family\'s sessions together and in order', () => {
+    assert.deepEqual(rotateFamilies(pool, 1).map(t => t.id),
+      ['mx_farmer_base', 'run_easy', 'mx_bbj_base', 'mx_bbj_durability', 'mx_bbj_micro']);
+    assert.equal(rotateFamilies(pool, 0), pool);
   });
 });

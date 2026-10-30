@@ -75,6 +75,7 @@ Deno.serve(async (req) => {
       templates: content.templates,
       exercises: content.exercises,
       input,
+      rotation: (state.programWeek ?? 1) - 1,
     });
 
     // Additions first. If the second write fails the week briefly holds both

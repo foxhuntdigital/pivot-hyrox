@@ -131,8 +131,15 @@ export function planWeekQueue(args: {
    * something different before it repeats a session the athlete still has.
    */
   alreadyPlanned?: string[];
+  /**
+   * Which week of the block this is. Turns the order families are tried in, so
+   * consecutive weeks do not open on the same sessions; the same week always
+   * plans the same way.
+   */
+  rotation?: number;
 }): PlannedQueueItem[] {
   const { requirements, templates, exercises, input } = args;
+  const rotation = Math.max(0, Math.floor(args.rotation ?? 0));
 
   const exerciseIndex = new Map(
     exercises.map(e => [e.id, { equipment: e.equipment, impact_level: e.impact_level }]));
@@ -188,9 +195,9 @@ export function planWeekQueue(args: {
    * ordering arrives with archetype rotation, which orders by what the week
    * needs next rather than by one number on the template.
    */
-  const poolFor = (stimulus: string) => eligible
+  const poolFor = (stimulus: string) => rotateFamilies(eligible
     .filter(t => matchesStimulus(t, stimulus))
-    .sort((a, b) => a.id.localeCompare(b.id));
+    .sort((a, b) => a.id.localeCompare(b.id)), rotation);
 
   const needs = requirements
     .map(r => ({
@@ -204,6 +211,18 @@ export function planWeekQueue(args: {
 
   const items: PlannedQueueItem[] = [];
   const used = new Set<string>(args.alreadyPlanned ?? []);
+  /**
+   * Families the week already holds.
+   *
+   * Without this the alphabetical pool decided the week: every station session
+   * is `mx_…`, burpee broad jump sorts first among them, and a week asking for
+   * three aerobic exposures and a threshold one got four burpee sessions. A
+   * family is now used once before any family is used twice.
+   */
+  const byId = new Map(templates.map(t => [t.id, t]));
+  const familiesUsed = new Set<string>((args.alreadyPlanned ?? [])
+    .map(id => byId.get(id)?.workout_family)
+    .filter((f): f is string => !!f));
   const tiers = [...new Set(needs.map(n => n.priority))].sort((a, b) => a - b);
 
   for (const tier of tiers) {
@@ -213,11 +232,14 @@ export function planWeekQueue(args: {
     while (inTier.some(n => n.taken < n.remaining)) {
       for (const need of inTier) {
         if (need.taken >= need.remaining) continue;
-        // A different template each time while the pool allows it; a week
-        // asking for three of a stimulus the library has two of repeats the
-        // best one rather than dropping the exposure.
-        const pick = need.pool.find(t => !used.has(t.id)) ?? need.pool[need.taken % need.pool.length];
+        // A new family first, then a new template, and only then a repeat: a
+        // week asking for three of a stimulus the library has two of repeats
+        // one rather than dropping the exposure.
+        const pick = need.pool.find(t => !used.has(t.id) && !familiesUsed.has(t.workout_family))
+          ?? need.pool.find(t => !used.has(t.id))
+          ?? need.pool[need.taken % need.pool.length];
         used.add(pick.id);
+        familiesUsed.add(pick.workout_family);
         need.taken += 1;
         items.push({
           workout_template_id: pick.id,
@@ -229,6 +251,20 @@ export function planWeekQueue(args: {
   }
 
   return items;
+}
+
+/**
+ * The pool with its families taken in a turned order: family `rotation` (mod
+ * the number of families) first, the rest following, each family's templates
+ * in their existing order. Week one keeps the stable order, and each week
+ * after starts one family further on.
+ */
+export function rotateFamilies<T extends { workout_family: string }>(pool: T[], rotation: number): T[] {
+  const families = [...new Set(pool.map(t => t.workout_family))];
+  if (families.length < 2 || rotation % families.length === 0) return pool;
+  const start = rotation % families.length;
+  const order = [...families.slice(start), ...families.slice(0, start)];
+  return order.flatMap(f => pool.filter(t => t.workout_family === f));
 }
 
 /* ------------------------------------------------ replanning a week ----- */
@@ -271,6 +307,8 @@ export function replanWeekQueue(args: {
   templates: WorkoutTemplate[];
   exercises: Exercise[];
   input: EngineInput;
+  /** The week's `rotation`, as `planWeekQueue` takes it. */
+  rotation?: number;
 }): WeekReplan {
   const { items, requirements, templates, exercises, input } = args;
 
@@ -308,6 +346,7 @@ export function replanWeekQueue(args: {
     exercises,
     input,
     alreadyPlanned: remaining.map(q => q.workout_template_id),
+    rotation: args.rotation,
   });
 
   // Replacements step into the ranks they replace, matched by stimulus;
@@ -345,6 +384,8 @@ export async function ensureWeekQueue(args: {
   templates: WorkoutTemplate[];
   exercises: Exercise[];
   input: EngineInput;
+  /** Which week of the block this is (`planWeekQueue`). */
+  rotation?: number;
 }): Promise<PlannedQueueItem[]> {
   const { db, cycleId, ...plan } = args;
 

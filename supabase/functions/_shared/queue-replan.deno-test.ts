@@ -166,4 +166,19 @@ describe('Replanning a week after an equipment change', () => {
     );
     assert.deepEqual(r.add, []);
   });
+
+  test('a replacement comes from a family the week does not already hold', () => {
+    // Both lift templates are one family; the sled is gone, and the week
+    // already has a lift. With another family available, it goes there.
+    const templates = [
+      ...TEMPLATES.map(t => ({ ...t, workout_family: t.id.split('_')[0] })),
+      { ...template('row_a', 'strength', 'ex_squat'), workout_family: 'row' },
+    ];
+    const r = replanWeekQueue({
+      items: [item('q1', 'lift_a', 'strength', 0), item('q2', 'sled_a', 'strength', 1)],
+      requirements: [req('strength', 2)],
+      templates, exercises: EXERCISES, input: INPUT,
+    });
+    assert.deepEqual(r.add.map(a => a.workout_template_id), ['row_a']);
+  });
 });
