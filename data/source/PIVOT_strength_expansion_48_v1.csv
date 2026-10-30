@@ -1,0 +1,352 @@
+template_id,name,training_domain,workout_family,session_type,primary_goal,secondary_goal,stimulus,estimated_minutes,intensity_target,impact_level,hyrox_specificity,postpartum_friendly,requires_running,requires_ski,description,coaching_notes,ref_prescription,technical_demand,load_demand,ref_block_count,ref_exercise_count,ref_variants,strength_archetype,ref_exercise_ids
+str_pull_new_01,Pull Strength — Vertical Foundation,strength,strength_pull,strength,strength,,vertical_pull_strength,55,RPE 7,low,0.0,False,False,False,"Repeatable vertical-pull strength with upper-back, arm and grip development.",Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Pull-Up — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. Chest-Supported Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. Lat Pulldown — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. Face Pull — 3×10-15 @ RPE 7 rest 60-75s
+    5. Incline DB Curl — 3×10-15 @ RPE 7 rest 60-75s
+    6. Farmer Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",2,2,1,6,,foundational,ex_pull_up|ex_chest_supported_row|ex_lat_pulldown|ex_face_pull|ex_incline_db_curl|ex_farmer_carry
+str_pull_new_02,Pull Strength — Barbell Row Foundation,strength,strength_pull,strength,strength,,horizontal_pull_strength,55,RPE 7,low,0.0,False,False,False,"Barbell-row anchor with balanced vertical pulling, rear-delt and grip work.",Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Barbell Row — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. Lat Pulldown — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. Chest-Supported Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. Rear-Delt Fly — 3×10-15 @ RPE 7 rest 60-75s
+    5. Hammer Curl — 3×10-15 @ RPE 7 rest 60-75s
+    6. Suitcase Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",2,2,1,6,,foundational,ex_barbell_row|ex_lat_pulldown|ex_chest_supported_row|ex_rear_delt_fly|ex_hammer_curl|ex_suitcase_carry
+str_pull_new_03,Pull Strength — Pull-Up + Dumbbell Row,strength,strength_pull,strength,strength,,vertical_horizontal_pull_strength,55,RPE 7,low,0.0,False,False,False,Pull-up progression paired with unilateral rowing and foundational accessories.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Pull-Up — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. DB Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. Straight-Arm Pulldown — 3×10-15 @ RPE 7 rest 60-75s
+    4. Face Pull — 3×10-15 @ RPE 7 rest 60-75s
+    5. DB Curl — 3×10-15 @ RPE 7 rest 60-75s
+    6. Farmer Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",2,2,1,6,,foundational,ex_pull_up|ex_db_row|ex_straight_arm_pulldown|ex_face_pull|ex_db_curl|ex_farmer_carry
+str_pull_new_04,Pull Strength — Lat + Upper Back,strength,strength_pull,strength,strength,,upper_back_strength,50,RPE 7,low,0.0,False,False,False,Stable lat and upper-back volume with low-complexity accessory work.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Lat Pulldown — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    2. Chest-Supported Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. Cable Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. Rear-Delt Fly — 3×10-15 @ RPE 7 rest 60-75s
+    5. Cable Curl — 3×10-15 @ RPE 7 rest 60-75s
+    6. Pallof Press — 3×8-12/side or 25-35 s @ controlled rest 60-75s",2,2,1,6,,foundational,ex_lat_pulldown|ex_chest_supported_row|ex_cable_row|ex_rear_delt_fly|ex_cable_curl|ex_pallof_press
+str_pull_new_05,Pull Strength — Dumbbell Back,strength,strength_pull,strength,strength,,dumbbell_pull_strength,50,RPE 7,low,0.0,False,False,False,Dumbbell-dominant pulling with a hinge anchor and unilateral carry.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. DB Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    2. Chest-Supported Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. Romanian Deadlift — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    4. Rear-Delt Fly — 3×10-15 @ RPE 7 rest 60-75s
+    5. Hammer Curl — 3×10-15 @ RPE 7 rest 60-75s
+    6. Suitcase Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",2,2,1,6,,foundational,ex_db_row|ex_chest_supported_row|ex_romanian_deadlift|ex_rear_delt_fly|ex_hammer_curl|ex_suitcase_carry
+str_pull_new_06,Pull Strength — Cable Back,strength,strength_pull,strength,strength,,cable_pull_strength,50,RPE 7,low,0.0,False,False,False,Cable-based back session emphasizing controlled pulling volume and scapular strength.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Cable Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    2. Lat Pulldown — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. Single-Arm Cable Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. Straight-Arm Pulldown — 3×10-15 @ RPE 7 rest 60-75s
+    5. Face Pull — 3×10-15 @ RPE 7 rest 60-75s
+    6. Cable Curl — 3×10-15 @ RPE 7 rest 60-75s",2,2,1,6,,foundational,ex_cable_row|ex_lat_pulldown|ex_single_arm_cable_row|ex_straight_arm_pulldown|ex_face_pull|ex_cable_curl
+str_pull_new_07,Pull Strength — Deadlift + Back,strength,strength_pull,strength,strength,,hinge_pull_strength,60,RPE 7-8,low,0.0,False,False,False,Heavy hinge anchor followed by repeatable vertical and horizontal pulling.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Deadlift — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. Pull-Up — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Barbell Row — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    4. Chest-Supported Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    5. Face Pull — 3×10-15 @ RPE 7 rest 60-75s
+    6. Hammer Curl — 3×10-15 @ RPE 7 rest 60-75s",2,3,1,6,,foundational,ex_deadlift|ex_pull_up|ex_barbell_row|ex_chest_supported_row|ex_face_pull|ex_hammer_curl
+str_pull_new_08,Pull Strength — Unilateral Row,strength,strength_pull,strength,strength,,unilateral_pull_strength,50,RPE 7,low,0.0,False,False,False,Unilateral pulling emphasis with trunk and grip demand kept foundational.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. DB Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    2. Single-Arm Cable Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. Lat Pulldown — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. Rear-Delt Fly — 3×10-15 @ RPE 7 rest 60-75s
+    5. Incline DB Curl — 3×10-15 @ RPE 7 rest 60-75s
+    6. Suitcase Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",2,2,1,6,,foundational,ex_db_row|ex_single_arm_cable_row|ex_lat_pulldown|ex_rear_delt_fly|ex_incline_db_curl|ex_suitcase_carry
+str_pull_new_09,Pull Strength — Carry + Back,strength,strength_pull,strength,strength,,pull_carry_strength,55,RPE 7,low,0.0,False,False,False,Back strength paired with repeatable loaded-carry and grip exposure.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Chest-Supported Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    2. Pull-Up — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Cable Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. Farmer Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    5. Suitcase Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    6. Hammer Curl — 3×10-15 @ RPE 7 rest 60-75s",2,2,1,6,,foundational,ex_chest_supported_row|ex_pull_up|ex_cable_row|ex_farmer_carry|ex_suitcase_carry|ex_hammer_curl
+str_pull_new_10,Pull Strength — Posterior Chain,strength,strength_pull,strength,strength,,posterior_chain_pull_strength,60,RPE 7-8,low,0.0,False,False,False,Posterior-chain strength with substantial horizontal and vertical pulling.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Romanian Deadlift — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. Barbell Row — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Lat Pulldown — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. Back Extension — 3×10-15 @ RPE 7 rest 60-75s
+    5. Face Pull — 3×10-15 @ RPE 7 rest 60-75s
+    6. DB Curl — 3×10-15 @ RPE 7 rest 60-75s",2,3,1,6,,foundational,ex_romanian_deadlift|ex_barbell_row|ex_lat_pulldown|ex_back_extension|ex_face_pull|ex_db_curl
+str_pull_new_11,Pull Strength — Upper-Back Volume,strength,strength_pull,strength,strength,,upper_back_hypertrophy_strength,55,RPE 7,low,0.0,False,False,False,"Higher-volume foundational pulling for lats, mid-back, rear delts and elbow flexors.",Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Chest-Supported Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    2. Lat Pulldown — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. Cable Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. Straight-Arm Pulldown — 3×10-15 @ RPE 7 rest 60-75s
+    5. Rear-Delt Fly — 3×10-15 @ RPE 7 rest 60-75s
+    6. Preacher Curl — 3×10-15 @ RPE 7 rest 60-75s
+    7. Face Pull — 3×10-15 @ RPE 7 rest 60-75s",2,2,1,7,,foundational,ex_chest_supported_row|ex_lat_pulldown|ex_cable_row|ex_straight_arm_pulldown|ex_rear_delt_fly|ex_preacher_curl|ex_face_pull
+str_pull_new_12,Pull Strength — Back + Arms,strength,strength_pull,strength,strength,,pull_arm_strength,50,RPE 7,low,0.0,False,False,False,Foundational back strength with deliberate biceps and grip accessory volume.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Pull-Up — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. DB Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. Cable Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. Face Pull — 3×10-15 @ RPE 7 rest 60-75s
+    5. Incline DB Curl — 3×10-15 @ RPE 7 rest 60-75s
+    6. Hammer Curl — 3×10-15 @ RPE 7 rest 60-75s
+    7. Farmer Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",2,2,1,7,,foundational,ex_pull_up|ex_db_row|ex_cable_row|ex_face_pull|ex_incline_db_curl|ex_hammer_curl|ex_farmer_carry
+str_athletic_01,Athletic Strength — Jump + Squat,strength,strength_legs,strength,strength,,explosive_lower_strength,60,RPE 7-8,moderate,0.0,False,False,False,Explosive lower-body strength combining a squat anchor with jumping and unilateral athletic development.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Countermovement Jump — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    2. Back Squat — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Romanian Deadlift — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    4. DB Step-Up to Knee Drive — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    5. Lateral Bound — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    6. Copenhagen Plank — 3×8-12/side or 25-35 s @ controlled rest 60-75s",2,3,1,6,,athletic,ex_countermovement_jump|ex_back_squat|ex_romanian_deadlift|ex_db_step_up_to_knee_drive|ex_skater_jump_lateral_bound|ex_copenhagen_plank
+str_athletic_02,Athletic Strength — Lateral Force,strength,strength_legs,strength,strength,,lateral_lower_strength,55,RPE 7,moderate,0.0,False,False,False,Frontal-plane and unilateral strength around a repeatable front-squat anchor.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Lateral Pogo — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    2. Front Squat — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Lateral Lunge — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    4. Lateral Step-Up to Balance — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    5. Single-Leg RDL — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    6. Suitcase Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",2,2,1,6,,athletic,ex_lateral_pogo|ex_front_squat|ex_lateral_lunge|ex_lateral_step_up_to_balance|ex_single_leg_rdl|ex_suitcase_carry
+str_athletic_03,Athletic Strength — Hinge Power,strength,strength_legs,strength,strength,,hinge_power_strength,60,RPE 7-8,moderate,0.0,False,False,False,Hinge-dominant force production with ballistic and horizontal power exposure.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. DB Jump Shrug — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    2. Trap-Bar Deadlift — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Single-Leg RDL — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    4. Repeated Broad Jump — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    5. Walking Lunge — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    6. Farmer Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",3,3,1,6,,athletic,ex_db_jump_shrug|ex_trap_bar_deadlift|ex_single_leg_rdl|ex_repeated_broad_jump|ex_walking_lunge|ex_farmer_carry
+str_athletic_04,Athletic Strength — Landing + Unilateral,strength,strength_legs,strength,strength,,landing_unilateral_strength,55,RPE 7,moderate,0.0,False,False,False,Unilateral strength with controlled landing mechanics and single-leg power.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Jump-and-Stick Landing — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    2. Bulgarian Split Squat — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. DB Step-Up to Knee Drive — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    4. Single-Leg Hop-and-Stick — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    5. Hip Thrust — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    6. Copenhagen Plank — 3×8-12/side or 25-35 s @ controlled rest 60-75s",2,2,1,6,,athletic,ex_jump_and_stick_landing|ex_bulgarian_split_squat|ex_db_step_up_to_knee_drive|ex_single_leg_hop_and_stick|ex_hip_thrust|ex_copenhagen_plank
+str_athletic_05,Athletic Strength — Push Power,strength,strength_push,strength,strength,,upper_push_power_strength,55,RPE 7,moderate,0.0,False,False,False,Upper-body force and power with unilateral and rotational pressing.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Push Press — 4×3-5 @ RPE 6-7 rest 90-150s
+    2. Bench Press — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Single-Arm Cable Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    4. Half-Kneeling 1-Arm Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    5. Landmine Rotational Press — 4×3-5 @ RPE 6-7 rest 90-150s
+    6. Farmer Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",2,2,1,6,,athletic,ex_push_press|ex_bench_press|ex_single_arm_cable_press|ex_half_kneeling_1_arm_press|ex_landmine_rotational_press|ex_farmer_carry
+str_athletic_06,Athletic Strength — Pull Power,strength,strength_pull,strength,strength,,upper_pull_power_strength,55,RPE 7,moderate,0.0,False,False,False,Dynamic pulling paired with stable pull-up and row strength anchors.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. DB High Pull — 4×3-5 @ RPE 6-7 rest 90-150s
+    2. Pull-Up — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Barbell Row — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    4. Split-Stance Cable Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    5. Bird Dog Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    6. Suitcase Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",3,2,1,6,,athletic,ex_db_high_pull|ex_pull_up|ex_barbell_row|ex_split_stance_cable_row|ex_bird_dog_row|ex_suitcase_carry
+str_athletic_07,Athletic Strength — Rotational Upper,strength,strength_total,strength,strength,,rotational_upper_strength,55,RPE 7,moderate,0.0,False,False,False,Upper-body strength expressed through rotational and split-position patterns.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Landmine Rotational Press — 4×3-5 @ RPE 6-7 rest 90-150s
+    2. DB Bench Press — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. Half-Kneeling Cable Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    4. Cable Chop — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    5. Waiter Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    6. Face Pull — 3×10-15 @ RPE 7 rest 60-75s",2,2,1,6,,athletic,ex_landmine_rotational_press|ex_db_bench_press|ex_half_kneeling_cable_row|ex_cable_chop|ex_overhead_waiter_carry|ex_face_pull
+str_athletic_08,Athletic Strength — Overhead Athlete,strength,strength_push,strength,strength,,overhead_athletic_strength,55,RPE 7,moderate,0.0,False,False,False,"Overhead strength with power, stability and positional control.",Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Push Press — 4×3-5 @ RPE 6-7 rest 90-150s
+    2. Strict Overhead Press — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Bottoms-Up KB Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    4. Tall-Kneeling Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    5. Waiter Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    6. Hanging Knee Raise — 3×8-12/side or 25-35 s @ controlled rest 60-75s",3,2,1,6,,athletic,ex_push_press|ex_strict_overhead_press|ex_bottoms_up_kb_press|ex_tall_kneeling_press|ex_overhead_waiter_carry|ex_hanging_knee_raise
+str_athletic_09,Athletic Strength — Clean + Carry,strength,strength_total,strength,strength,,total_body_power_strength,60,RPE 7-8,moderate,0.0,False,False,False,"Total-body power session anchored by clean, squat and upper-body strength.",Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Hang Power Clean — 4×3-5 @ RPE 6-7 rest 90-150s
+    2. Front Squat — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. DB Bench Press — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. Front-Rack Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    5. Lateral Bound — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    6. Pull-Up — 4×5-6 @ RPE 7-7.5 rest 150-180s",3,3,1,6,,athletic,ex_hang_power_clean|ex_front_squat|ex_db_bench_press|ex_front_rack_carry|ex_skater_jump_lateral_bound|ex_pull_up
+str_athletic_10,Athletic Strength — Dumbbell Power,strength,strength_total,strength,strength,,dumbbell_power_strength,55,RPE 7,moderate,0.0,False,False,False,Accessible dumbbell athletic strength with a power primer and repeatable strength work.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. DB Hang Clean — 4×3-5 @ RPE 6-7 rest 90-150s
+    2. DB Front-Rack Squat — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. DB Bench Press — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. DB Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    5. DB Step-Up to Knee Drive — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    6. Suitcase Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",2,2,1,6,,athletic,ex_db_hang_clean|ex_db_front_rack_squat|ex_db_bench_press|ex_db_row|ex_db_step_up_to_knee_drive|ex_suitcase_carry
+str_athletic_11,Athletic Strength — Kettlebell Force,strength,strength_total,strength,strength,,kettlebell_power_strength,55,RPE 7,moderate,0.0,False,False,False,Kettlebell-based power and multiplanar strength without turning into conditioning.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Kettlebell Swing — 4×3-5 @ RPE 6-7 rest 90-150s
+    2. Goblet Squat — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. KB Clean — 4×3-5 @ RPE 6-7 rest 90-150s
+    4. Half-Kneeling 1-Arm Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    5. Single-Arm Front-Rack Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    6. Cossack Squat — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s",3,2,1,6,,athletic,ex_kettlebell_swing|ex_goblet_squat|ex_kb_clean|ex_half_kneeling_1_arm_press|ex_single_arm_front_rack_carry|ex_cossack_squat
+str_athletic_12,Athletic Strength — Multiplanar Total,strength,strength_total,strength,strength,,multiplanar_strength,60,RPE 7-8,moderate,0.0,False,False,False,"Total-body strength across sagittal, frontal and rotational planes.",Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Broad Jump — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    2. Front Squat — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Lateral Lunge — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    4. Single-Arm Cable Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    5. Split-Stance Cable Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    6. Landmine Rotation — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    7. Farmer Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",3,3,1,7,,athletic,ex_broad_jump|ex_front_squat|ex_lateral_lunge|ex_single_arm_cable_press|ex_split_stance_cable_row|ex_landmine_rotation|ex_farmer_carry
+str_complex_01,Complex Strength — Offset Lower,strength,strength_legs,strength,strength,,offset_lower_strength,55,RPE 7,low,0.0,False,False,False,Foundational squat strength with offset and contralateral loading challenges.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Front Squat — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. Offset Front-Rack Reverse Lunge — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    3. Contralateral Single-Leg RDL — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    4. Front-Rack March — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    5. Pallof Press — 3×8-12/side or 25-35 s @ controlled rest 60-75s
+    6. Standing Calf Raise — 3×10-15 @ RPE 7 rest 60-75s",2,2,1,6,,complex,ex_front_squat|ex_offset_front_rack_reverse_lunge|ex_contralateral_single_leg_rdl|ex_front_rack_march|ex_pallof_press|ex_standing_calf_raise
+str_complex_02,Complex Strength — Front-Rack Locomotion,strength,strength_legs,strength,strength,,front_rack_complex_strength,60,RPE 7-8,low,0.0,False,False,False,Lower-body strength with front-rack locomotion and integrated squat complexity.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Back Squat — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. Front-Rack Walking Lunge — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    3. DB Clean + Front Squat — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    4. Front-Rack March — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    5. Copenhagen Plank — 3×8-12/side or 25-35 s @ controlled rest 60-75s
+    6. Tibialis Raise — 3×10-15 @ RPE 7 rest 60-75s",3,3,1,6,,complex,ex_back_squat|ex_front_rack_walking_lunge|ex_db_clean_front_squat|ex_front_rack_march|ex_copenhagen_plank|ex_tibialis_raise
+str_complex_03,Complex Strength — Hinge + Row Integration,strength,strength_legs,strength,strength,,integrated_hinge_strength,55,RPE 7,low,0.0,False,False,False,"Posterior-chain strength with integrated pulling, contralateral loading and resisted locomotion.",Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Romanian Deadlift — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. DB Romanian Deadlift + Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    3. Contralateral Single-Leg RDL — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    4. Backward Sled Drag — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    5. Suitcase March — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    6. Side Plank — 3×8-12/side or 25-35 s @ controlled rest 60-75s",2,2,1,6,,complex,ex_romanian_deadlift|ex_db_romanian_deadlift_row|ex_contralateral_single_leg_rdl|ex_backward_sled_drag|ex_suitcase_march|ex_side_plank
+str_complex_04,Complex Strength — Landmine Lower,strength,strength_legs,strength,strength,,landmine_lower_complex_strength,55,RPE 7,low,0.0,False,False,False,Lower-body strength challenged through landmine integration and multiplanar resisted work.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Front Squat — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. Landmine Reverse Lunge to Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    3. Landmine Squat to Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    4. Lateral Sled Drag — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    5. Front-Rack March — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    6. Pallof Hold — 3×8-12/side or 25-35 s @ controlled rest 60-75s",3,2,1,6,,complex,ex_front_squat|ex_landmine_reverse_lunge_to_press|ex_landmine_squat_to_press|ex_lateral_sled_drag|ex_front_rack_march|ex_pallof_hold
+str_complex_05,Complex Strength — Contralateral Upper,strength,strength_push,strength,strength,,contralateral_upper_strength,55,RPE 7,low,0.0,False,False,False,Stable bench strength surrounded by contralateral and integrated upper-body work.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Bench Press — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. Renegade Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    3. Single-Arm Cable Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    4. Half-Kneeling Cable Chop to Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    5. Suitcase March — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    6. Rear-Delt Fly — 3×10-15 @ RPE 7 rest 60-75s",2,2,1,6,,complex,ex_bench_press|ex_renegade_row|ex_single_arm_cable_press|ex_half_kneeling_cable_chop_to_press|ex_suitcase_march|ex_rear_delt_fly
+str_complex_06,Complex Strength — Press + Locomotion,strength,strength_push,strength,strength,,integrated_press_strength,55,RPE 7,low,0.0,False,False,False,"Overhead strength with integrated pressing, locomotion and trunk control.",Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Strict Overhead Press — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. Front-Rack Reverse Lunge + Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    3. Push-Up + Shoulder Tap — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    4. Overhead March — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    5. Cable Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    6. Face Pull — 3×10-15 @ RPE 7 rest 60-75s",2,2,1,6,,complex,ex_strict_overhead_press|ex_front_rack_reverse_lunge_press|ex_push_up_shoulder_tap|ex_overhead_march|ex_cable_row|ex_face_pull
+str_complex_07,Complex Strength — Renegade Upper,strength,strength_pull,strength,strength,,integrated_pull_strength,55,RPE 7,low,0.0,False,False,False,Pull strength combined with anti-rotation and ground-based integrated patterns.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Pull-Up — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. Renegade Row + Push-Up — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    3. Single-Arm Cable Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. Bear Crawl + DB Drag — 3×8-12/side or 25-35 s @ controlled rest 60-75s
+    5. DB Curl — 3×10-15 @ RPE 7 rest 60-75s
+    6. Pallof Hold — 3×8-12/side or 25-35 s @ controlled rest 60-75s",3,2,1,6,,complex,ex_pull_up|ex_renegade_row_push_up|ex_single_arm_cable_row|ex_bear_crawl_db_drag|ex_db_curl|ex_pallof_hold
+str_complex_08,Complex Strength — Rotation + Press,strength,strength_total,strength,strength,,rotational_complex_strength,55,RPE 7,low,0.0,False,False,False,"Strength expressed through rotation, offset loading and contralateral control.",Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. DB Bench Press — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    2. Half-Kneeling Cable Chop to Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    3. Rotational Med-Ball Throw — 4×3-5 @ RPE 6-7 rest 90-150s
+    4. Offset Front-Rack Reverse Lunge — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    5. Cable Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    6. Suitcase March — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",3,2,1,6,,complex,ex_db_bench_press|ex_half_kneeling_cable_chop_to_press|ex_rotational_med_ball_throw|ex_offset_front_rack_reverse_lunge|ex_cable_row|ex_suitcase_march
+str_complex_09,Complex Strength — DB Integration,strength,strength_total,strength,strength,,dumbbell_complex_strength,60,RPE 7-8,low,0.0,False,False,False,Dumbbell total-body strength using integrated combinations without density-style conditioning.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. DB Clean + Front Squat — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    2. DB Bench Press — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. DB Romanian Deadlift + Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    4. Front-Rack Reverse Lunge + Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    5. Farmer Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    6. Dead Bug — 3×8-12/side or 25-35 s @ controlled rest 60-75s",3,3,1,6,,complex,ex_db_clean_front_squat|ex_db_bench_press|ex_db_romanian_deadlift_row|ex_front_rack_reverse_lunge_press|ex_farmer_carry|ex_dead_bug
+str_complex_10,Complex Strength — Sandbag Integration,strength,strength_total,strength,strength,,sandbag_complex_strength,60,RPE 7-8,low,0.0,False,False,False,Total-body strength with awkward-object loading and stable upper-body anchors.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Sandbag Ground-to-Shoulder + Squat — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    2. Bench Press — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Sandbag Clean + Bear-Hug Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    4. Pull-Up — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    5. Sandbag Get-Up — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    6. Pallof Press — 3×8-12/side or 25-35 s @ controlled rest 60-75s",3,3,1,6,,complex,ex_sandbag_ground_to_shoulder_squat|ex_bench_press|ex_sandbag_clean_bear_hug_carry|ex_pull_up|ex_sandbag_get_up|ex_pallof_press
+str_complex_11,Complex Strength — Advanced Unilateral,strength,strength_total,strength,strength,,advanced_unilateral_strength,60,RPE 7-8,low,0.0,False,False,False,High-skill unilateral strength requiring established competency under offset and overhead loading.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Front Squat — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. DB Snatch + Overhead Reverse Lunge — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    3. Contralateral Single-Leg RDL — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    4. Single-Arm KB Clean + Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    5. Renegade Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    6. Overhead March — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",4,3,1,6,,complex,ex_front_squat|ex_db_snatch_overhead_reverse_lunge|ex_contralateral_single_leg_rdl|ex_single_arm_kb_clean_press|ex_renegade_row|ex_overhead_march
+str_complex_12,Complex Strength — Landmine Total,strength,strength_total,strength,strength,,landmine_total_strength,60,RPE 7-8,low,0.0,False,False,False,Total-body strength integrating landmine patterns with a heavy hinge anchor.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Trap-Bar Deadlift — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. Landmine Squat to Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    3. Landmine Reverse Lunge to Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    4. Half-Kneeling Cable Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    5. Lateral Sled Drag — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    6. Pallof Press — 3×8-12/side or 25-35 s @ controlled rest 60-75s",3,3,1,6,,complex,ex_trap_bar_deadlift|ex_landmine_squat_to_press|ex_landmine_reverse_lunge_to_press|ex_half_kneeling_cable_row|ex_lateral_sled_drag|ex_pallof_press
+str_mixed_01,PIVOT Strength — Lower Power + Control,strength,strength_legs,strength,strength,,mixed_lower_strength,60,RPE 7-8,moderate,0.0,False,False,False,"Mixed lower-body session blending repeatable strength, athletic power and offset control.",Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Countermovement Jump — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    2. Back Squat — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Romanian Deadlift — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    4. Lateral Lunge — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    5. Offset Front-Rack Reverse Lunge — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    6. Copenhagen Plank — 3×8-12/side or 25-35 s @ controlled rest 60-75s
+    7. Suitcase Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",2,3,1,7,,mixed,ex_countermovement_jump|ex_back_squat|ex_romanian_deadlift|ex_lateral_lunge|ex_offset_front_rack_reverse_lunge|ex_copenhagen_plank|ex_suitcase_carry
+str_mixed_02,PIVOT Strength — Lower Unilateral,strength,strength_legs,strength,strength,,mixed_unilateral_strength,60,RPE 7-8,moderate,0.0,False,False,False,"Mixed unilateral lower-body strength with landing, foundational loading and contralateral development.",Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Single-Leg Hop-and-Stick — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    2. Front Squat — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Bulgarian Split Squat — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. DB Step-Up to Knee Drive — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    5. Contralateral Single-Leg RDL — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    6. Front-Rack March — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    7. Standing Calf Raise — 3×10-15 @ RPE 7 rest 60-75s",3,3,1,7,,mixed,ex_single_leg_hop_and_stick|ex_front_squat|ex_bulgarian_split_squat|ex_db_step_up_to_knee_drive|ex_contralateral_single_leg_rdl|ex_front_rack_march|ex_standing_calf_raise
+str_mixed_03,PIVOT Strength — Hinge + Explode,strength,strength_legs,strength,strength,,mixed_hinge_power_strength,60,RPE 7-8,moderate,0.0,False,False,False,Heavy hinge strength with explosive and integrated unilateral work.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. DB Jump Shrug — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    2. Deadlift — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Walking Lunge — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    4. Single-Leg RDL — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    5. DB Romanian Deadlift + Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    6. Lateral Bound — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    7. Pallof Press — 3×8-12/side or 25-35 s @ controlled rest 60-75s",3,3,1,7,,mixed,ex_db_jump_shrug|ex_deadlift|ex_walking_lunge|ex_single_leg_rdl|ex_db_romanian_deadlift_row|ex_skater_jump_lateral_bound|ex_pallof_press
+str_mixed_04,PIVOT Strength — Multiplanar Lower,strength,strength_legs,strength,strength,,mixed_multiplanar_lower_strength,60,RPE 7-8,moderate,0.0,False,False,False,"Lower-body strength spanning power, frontal-plane development and complex resisted loading.",Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Broad Jump — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    2. Front Squat — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Lateral Lunge — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    4. Hip Thrust — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    5. Offset Front-Rack Reverse Lunge — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    6. Lateral Sled Drag — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    7. Copenhagen Plank — 3×8-12/side or 25-35 s @ controlled rest 60-75s",3,3,1,7,,mixed,ex_broad_jump|ex_front_squat|ex_lateral_lunge|ex_hip_thrust|ex_offset_front_rack_reverse_lunge|ex_lateral_sled_drag|ex_copenhagen_plank
+str_mixed_05,PIVOT Strength — Upper Power + Pull,strength,strength_push,strength,strength,,mixed_upper_strength,60,RPE 7,moderate,0.0,False,False,False,Upper-body mixed strength combining foundational push/pull anchors with athletic and integrated work.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Push Press — 4×3-5 @ RPE 6-7 rest 90-150s
+    2. Bench Press — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Pull-Up — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    4. Half-Kneeling Cable Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    5. Half-Kneeling Cable Chop to Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    6. Face Pull — 3×10-15 @ RPE 7 rest 60-75s
+    7. Farmer Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",2,2,1,7,,mixed,ex_push_press|ex_bench_press|ex_pull_up|ex_half_kneeling_cable_row|ex_half_kneeling_cable_chop_to_press|ex_face_pull|ex_farmer_carry
+str_mixed_06,PIVOT Strength — Upper Contralateral,strength,strength_pull,strength,strength,,mixed_upper_contralateral_strength,55,RPE 7,moderate,0.0,False,False,False,"Upper-body mixed session emphasizing pulling strength, dynamic force and contralateral control.",Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. DB High Pull — 4×3-5 @ RPE 6-7 rest 90-150s
+    2. Chest-Supported Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. DB Bench Press — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. Single-Arm Cable Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    5. Renegade Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    6. Suitcase March — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    7. Rear-Delt Fly — 3×10-15 @ RPE 7 rest 60-75s",3,2,1,7,,mixed,ex_db_high_pull|ex_chest_supported_row|ex_db_bench_press|ex_single_arm_cable_press|ex_renegade_row|ex_suitcase_march|ex_rear_delt_fly
+str_mixed_07,PIVOT Strength — Overhead + Rotation,strength,strength_push,strength,strength,,mixed_overhead_rotational_strength,60,RPE 7-8,moderate,0.0,False,False,False,Overhead strength mixed with rotational power and integrated trunk demand.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Push Press — 4×3-5 @ RPE 6-7 rest 90-150s
+    2. Strict Overhead Press — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Barbell Row — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    4. Landmine Rotational Press — 4×3-5 @ RPE 6-7 rest 90-150s
+    5. Half-Kneeling Cable Chop to Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    6. Overhead March — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    7. Hanging Knee Raise — 3×8-12/side or 25-35 s @ controlled rest 60-75s",3,3,1,7,,mixed,ex_push_press|ex_strict_overhead_press|ex_barbell_row|ex_landmine_rotational_press|ex_half_kneeling_cable_chop_to_press|ex_overhead_march|ex_hanging_knee_raise
+str_mixed_08,PIVOT Strength — Back + Athletic Core,strength,strength_pull,strength,strength,,mixed_pull_strength,55,RPE 7,moderate,0.0,False,False,False,Foundational back strength with athletic pulling positions and integrated trunk work.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Pull-Up — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    2. DB Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. Split-Stance Cable Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    4. Bird Dog Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    5. Bear Crawl + DB Drag — 3×8-12/side or 25-35 s @ controlled rest 60-75s
+    6. Hammer Curl — 3×10-15 @ RPE 7 rest 60-75s
+    7. Suitcase Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",2,2,1,7,,mixed,ex_pull_up|ex_db_row|ex_split_stance_cable_row|ex_bird_dog_row|ex_bear_crawl_db_drag|ex_hammer_curl|ex_suitcase_carry
+str_mixed_09,PIVOT Strength — Total Power,strength,strength_total,strength,strength,,mixed_total_power_strength,65,RPE 7-8,moderate,0.0,False,False,False,"Total-body mixed strength anchored by squat, press and pull with explosive and offset development.",Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Hang Power Clean — 4×3-5 @ RPE 6-7 rest 90-150s
+    2. Front Squat — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. Bench Press — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    4. Pull-Up — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    5. Lateral Bound — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    6. Offset Front-Rack Reverse Lunge — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    7. Farmer Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",3,3,1,7,,mixed,ex_hang_power_clean|ex_front_squat|ex_bench_press|ex_pull_up|ex_skater_jump_lateral_bound|ex_offset_front_rack_reverse_lunge|ex_farmer_carry
+str_mixed_10,PIVOT Strength — Dumbbell Total,strength,strength_total,strength,strength,,mixed_dumbbell_strength,60,RPE 7,moderate,0.0,False,False,False,"Accessible dumbbell mixed strength spanning power, repeatable anchors and integrated patterns.",Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. DB Hang Clean — 4×3-5 @ RPE 6-7 rest 90-150s
+    2. DB Front-Rack Squat — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    3. DB Bench Press — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. DB Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    5. DB Step-Up to Knee Drive — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    6. DB Romanian Deadlift + Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    7. Suitcase Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",2,2,1,7,,mixed,ex_db_hang_clean|ex_db_front_rack_squat|ex_db_bench_press|ex_db_row|ex_db_step_up_to_knee_drive|ex_db_romanian_deadlift_row|ex_suitcase_carry
+str_mixed_11,PIVOT Strength — Athletic Total,strength,strength_total,strength,strength,,mixed_athletic_total_strength,65,RPE 7-8,moderate,0.0,False,False,False,Total-body mixed strength with a heavy hinge anchor and broad athletic development.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Box Jump — 3×3-5 @ crisp quality, RPE 5-6 rest 75-90s
+    2. Trap-Bar Deadlift — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. DB Bench Press — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. Chest-Supported Row — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    5. Single-Arm Front-Rack Carry — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s
+    6. Landmine Rotation — 3×6-8/side as applicable @ RPE 6.5-7 rest 90s
+    7. Renegade Row — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s",3,3,1,7,,mixed,ex_box_jump|ex_trap_bar_deadlift|ex_db_bench_press|ex_chest_supported_row|ex_single_arm_front_rack_carry|ex_landmine_rotation|ex_renegade_row
+str_mixed_12,PIVOT Strength — Complex Total,strength,strength_total,strength,strength,,mixed_complex_total_strength,65,RPE 7-8,moderate,0.0,False,False,False,Advanced mixed strength retaining major foundational anchors while adding power and complex unilateral loading.,Preserve movement quality and prescribed rest. Do not convert strength work into density conditioning.,"B1 [Main] continuous
+    1. Power Clean — 4×3-5 @ RPE 6-7 rest 90-150s
+    2. Back Squat — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    3. DB Bench Press — 3×8-10/side as applicable @ RPE 7 rest 90-120s
+    4. Pull-Up — 4×5-6 @ RPE 7-7.5 rest 150-180s
+    5. Landmine Reverse Lunge to Press — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    6. Contralateral Single-Leg RDL — 3×6-8/side as applicable @ RPE 6.5-7 rest 90-120s
+    7. Overhead March — 3×25-40 m/side as applicable @ RPE 6-7 rest 75-90s",4,3,1,7,,mixed,ex_power_clean|ex_back_squat|ex_db_bench_press|ex_pull_up|ex_landmine_reverse_lunge_to_press|ex_contralateral_single_leg_rdl|ex_overhead_march

@@ -1,0 +1,1930 @@
+{
+  "meta": {
+    "pack": "PIVOT Muscular Endurance Expansion v1",
+    "workout_count": 24,
+    "format": "canonical-v1",
+    "source": "data/source/PIVOT_muscular_endurance_expansion_24_v1.csv",
+    "converted_by": "scripts/convert-expansion-csv.mjs",
+    "express_rule": "fewer rounds at the same per-round dose; never a faster clock",
+    "micro_rule": "two rounds of the first two movements; no intensity compensation"
+  },
+  "workouts": [
+    {
+      "id": "me_emom_01",
+      "name": "EMOM — Dumbbell Base 20",
+      "workout_family": "muscular_endurance_emom",
+      "stimulus": "repeatable_muscular_output",
+      "secondary_goal": null,
+      "estimated_minutes": 20,
+      "intensity_target": "RPE 6-7",
+      "impact_level": "low",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Accessible full-body EMOM that builds repeatable muscular output without race-style modality integration.",
+      "coaching_notes": "Choose loads that preserve 15-25s rest each minute. Do not chase failure.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "emom",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 5,
+          "duration_minutes": 20,
+          "rest_seconds": null,
+          "instructions": "Every minute on the minute: one movement per minute, in order. Complete the work in ~35-45s; use the remainder of each minute as rest.",
+          "items": [
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 6-7",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "exercise": "Push-Up",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 6-7 · 8-12 reps",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 8,
+              "unit": "reps",
+              "intensity": "RPE 6-7",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "exercise": "Farmer Carry",
+              "prescription_type": "distance",
+              "quantity": 35,
+              "unit": "m",
+              "intensity": "RPE 6-7 · 30-40 m",
+              "side_note": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_emom_02",
+      "name": "EMOM — Lower Body 24",
+      "workout_family": "muscular_endurance_emom",
+      "stimulus": "lower_body_fatigue_resistance",
+      "secondary_goal": null,
+      "estimated_minutes": 24,
+      "intensity_target": "RPE 7",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Lower-body muscular endurance using simple squat, lunge and step patterns with controlled clock pressure.",
+      "coaching_notes": "Local leg fatigue is intended; movement breakdown is not. Scale reps before load.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "emom",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 6,
+          "duration_minutes": 24,
+          "rest_seconds": null,
+          "instructions": "Every minute on the minute: one movement per minute, in order. Preserve smooth reps and finish each work minute with recoverable time remaining.",
+          "items": [
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_reverse_lunge",
+              "exercise": "Reverse Lunge",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": "total, alternating sides"
+            },
+            {
+              "exercise_id": "ex_step_up",
+              "exercise": "Step-Up",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": "total, alternating sides"
+            },
+            {
+              "exercise_id": "ex_front_plank",
+              "exercise": "Front Plank",
+              "prescription_type": "duration",
+              "quantity": 35,
+              "unit": "s",
+              "intensity": "RPE 7",
+              "side_note": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_emom_03",
+      "name": "EMOM — Upper Body 24",
+      "workout_family": "muscular_endurance_emom",
+      "stimulus": "upper_body_fatigue_resistance",
+      "secondary_goal": null,
+      "estimated_minutes": 24,
+      "intensity_target": "RPE 7",
+      "impact_level": "low",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Push-pull upper-body endurance with enough rest to sustain quality across six cycles.",
+      "coaching_notes": "Avoid early failure. Reps should remain within 1-3 reps of the opening round.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "emom",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 6,
+          "duration_minutes": 24,
+          "rest_seconds": null,
+          "instructions": "Every minute on the minute: one movement per minute, in order. Use loads that keep every minute repeatable.",
+          "items": [
+            {
+              "exercise_id": "ex_db_bench_press",
+              "exercise": "DB Bench Press",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "exercise": "Push-Up",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7 · 8-12 reps",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "exercise": "Farmer Carry",
+              "prescription_type": "distance",
+              "quantity": 30,
+              "unit": "m",
+              "intensity": "RPE 7",
+              "side_note": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_emom_04",
+      "name": "EMOM — Kettlebell Work Capacity 20",
+      "workout_family": "muscular_endurance_emom",
+      "stimulus": "ballistic_muscular_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 20,
+      "intensity_target": "RPE 7",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Kettlebell muscular endurance centered on repeatable ballistic and squat output.",
+      "coaching_notes": "The clock creates repeatability, not urgency. Reduce reps if rest disappears.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "emom",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 5,
+          "duration_minutes": 20,
+          "rest_seconds": null,
+          "instructions": "Every minute on the minute: one movement per minute, in order. Maintain crisp swing mechanics and unbroken submaximal sets.",
+          "items": [
+            {
+              "exercise_id": "ex_kettlebell_swing",
+              "exercise": "Kettlebell Swing",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_half_kneeling_1_arm_press",
+              "exercise": "Half-Kneeling 1-Arm Press",
+              "prescription_type": "reps",
+              "quantity": 6,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "exercise": "Suitcase Carry",
+              "prescription_type": "distance",
+              "quantity": 25,
+              "unit": "m",
+              "intensity": "RPE 7",
+              "side_note": "per side"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_emom_05",
+      "name": "EMOM — Bodyweight Density 24",
+      "workout_family": "muscular_endurance_emom",
+      "stimulus": "bodyweight_muscular_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 24,
+      "intensity_target": "RPE 6-7",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Equipment-free muscular endurance with simple patterns and sustainable repetition.",
+      "coaching_notes": "Leave reps in reserve every minute. Shorten the crawl or reduce reps before form degrades.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "emom",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 6,
+          "duration_minutes": 24,
+          "rest_seconds": null,
+          "instructions": "Every minute on the minute: one movement per minute, in order. Keep all sets submaximal and technically consistent.",
+          "items": [
+            {
+              "exercise_id": "ex_air_squat",
+              "exercise": "Air Squat",
+              "prescription_type": "reps",
+              "quantity": 15,
+              "unit": "reps",
+              "intensity": "RPE 6-7",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "exercise": "Push-Up",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 6-7 · 8-12 reps",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_walking_lunge",
+              "exercise": "Walking Lunge",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 6-7",
+              "side_note": "total, alternating sides"
+            },
+            {
+              "exercise_id": "ex_bear_crawl",
+              "exercise": "Bear Crawl",
+              "prescription_type": "duration",
+              "quantity": 25,
+              "unit": "s",
+              "intensity": "RPE 6-7 · 20-30 s",
+              "side_note": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_emom_06",
+      "name": "EMOM — Dumbbell Push-Pull 24",
+      "workout_family": "muscular_endurance_emom",
+      "stimulus": "push_pull_fatigue_resistance",
+      "secondary_goal": null,
+      "estimated_minutes": 24,
+      "intensity_target": "RPE 7",
+      "impact_level": "low",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Repeatable dumbbell push-pull endurance with trunk and grip support.",
+      "coaching_notes": "Do not turn this into a max-rep test. The final round should resemble the first.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "emom",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 6,
+          "duration_minutes": 24,
+          "rest_seconds": null,
+          "instructions": "Every minute on the minute: one movement per minute, in order. Select loads that remain stable through all six rounds.",
+          "items": [
+            {
+              "exercise_id": "ex_db_floor_press",
+              "exercise": "DB Floor Press",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 8,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_1_arm_db_overhead_press",
+              "exercise": "1-Arm DB Overhead Press",
+              "prescription_type": "reps",
+              "quantity": 6,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "exercise": "Suitcase Carry",
+              "prescription_type": "distance",
+              "quantity": 25,
+              "unit": "m",
+              "intensity": "RPE 7",
+              "side_note": "per side"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_emom_07",
+      "name": "EMOM — Squat + Carry 20",
+      "workout_family": "muscular_endurance_emom",
+      "stimulus": "loaded_lower_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 20,
+      "intensity_target": "RPE 7",
+      "impact_level": "low",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Simple loaded muscular endurance emphasizing legs, trunk and grip.",
+      "coaching_notes": "Use moderate loads. Continuous high-quality accumulation is the target.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "emom",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 5,
+          "duration_minutes": 20,
+          "rest_seconds": null,
+          "instructions": "Every minute on the minute: one movement per minute, in order. Finish work with enough time to reset before the next minute.",
+          "items": [
+            {
+              "exercise_id": "ex_db_front_rack_squat",
+              "exercise": "DB Front-Rack Squat",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "exercise": "Farmer Carry",
+              "prescription_type": "distance",
+              "quantity": 35,
+              "unit": "m",
+              "intensity": "RPE 7",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_reverse_lunge",
+              "exercise": "Reverse Lunge",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": "total, alternating sides"
+            },
+            {
+              "exercise_id": "ex_pallof_press",
+              "exercise": "Pallof Press",
+              "prescription_type": "reps",
+              "quantity": 8,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": "per side"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_emom_08",
+      "name": "EMOM — Power Endurance 18",
+      "workout_family": "muscular_endurance_emom",
+      "stimulus": "power_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 18,
+      "intensity_target": "RPE 7-8",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Shorter technical EMOM for athletes who can sustain power-oriented dumbbell work without losing mechanics.",
+      "coaching_notes": "Power quality governs loading. This is muscular endurance, not a conditioning sprint.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "emom",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 6,
+          "duration_minutes": 18,
+          "rest_seconds": null,
+          "instructions": "Every minute on the minute: one movement per minute, in order. Keep every set crisp; stop adding load once rep speed meaningfully drops.",
+          "items": [
+            {
+              "exercise_id": "ex_db_hang_clean",
+              "exercise": "DB Hang Clean",
+              "prescription_type": "reps",
+              "quantity": 6,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_push_press",
+              "exercise": "Push Press",
+              "prescription_type": "reps",
+              "quantity": 6,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_metcon_01",
+      "name": "Metcon — Dumbbell 5s",
+      "workout_family": "muscular_endurance_metcon",
+      "stimulus": "full_body_muscular_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 24,
+      "intensity_target": "RPE 7-8",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Full-body dumbbell metcon where local muscular fatigue, not running or transitions, is the primary limiter.",
+      "coaching_notes": "Use one sustainable loading strategy. Avoid failure and keep round times within ~15%.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "metcon",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 5,
+          "duration_minutes": null,
+          "rest_seconds": 60,
+          "instructions": "Rest 60s after each round.",
+          "items": [
+            {
+              "exercise_id": "ex_db_front_rack_squat",
+              "exercise": "DB Front-Rack Squat",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_bench_press",
+              "exercise": "DB Bench Press",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "exercise": "Farmer Carry",
+              "prescription_type": "distance",
+              "quantity": 40,
+              "unit": "m",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_metcon_02",
+      "name": "Metcon — 12-10-8-6",
+      "workout_family": "muscular_endurance_metcon",
+      "stimulus": "descending_rep_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 22,
+      "intensity_target": "RPE 7-8",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Descending-rep muscular endurance with simple loaded and bodyweight patterns.",
+      "coaching_notes": "Break sets before failure. The ladder should feel progressively more sustainable, not frantic.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "metcon",
+      "blocks": [
+        {
+          "block_type": "continuous",
+          "title": "Main",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "instructions": "Descending ladder, 12-10-8-6 reps. Rest as needed to preserve clean sets.",
+          "items": [
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "exercise": "Push-Up",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "exercise": "Suitcase Carry",
+              "prescription_type": "distance",
+              "quantity": 20,
+              "unit": "m",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "exercise": "Push-Up",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "exercise": "Suitcase Carry",
+              "prescription_type": "distance",
+              "quantity": 20,
+              "unit": "m",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 8,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "exercise": "Push-Up",
+              "prescription_type": "reps",
+              "quantity": 8,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 8,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "exercise": "Suitcase Carry",
+              "prescription_type": "distance",
+              "quantity": 20,
+              "unit": "m",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 6,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "exercise": "Push-Up",
+              "prescription_type": "reps",
+              "quantity": 6,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 6,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "exercise": "Suitcase Carry",
+              "prescription_type": "distance",
+              "quantity": 20,
+              "unit": "m",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_metcon_03",
+      "name": "Metcon — Lower Body Chipper",
+      "workout_family": "muscular_endurance_metcon",
+      "stimulus": "lower_body_volume_tolerance",
+      "secondary_goal": null,
+      "estimated_minutes": 28,
+      "intensity_target": "RPE 7-8",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Lower-body chipper built around accumulated squat, lunge and step volume rather than race integration.",
+      "coaching_notes": "Use manageable chunks from the start. Do not save all breaks for late-stage failure.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "metcon",
+      "blocks": [
+        {
+          "block_type": "continuous",
+          "title": "Main",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "instructions": "Complete in order. Partition each movement as needed; quality remains the constraint.",
+          "items": [
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 40,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_walking_lunge",
+              "exercise": "Walking Lunge",
+              "prescription_type": "reps",
+              "quantity": 40,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "total, alternating sides"
+            },
+            {
+              "exercise_id": "ex_step_up",
+              "exercise": "Step-Up",
+              "prescription_type": "reps",
+              "quantity": 30,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "total, alternating sides"
+            },
+            {
+              "exercise_id": "ex_air_squat",
+              "exercise": "Air Squat",
+              "prescription_type": "reps",
+              "quantity": 40,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "exercise": "Farmer Carry",
+              "prescription_type": "distance",
+              "quantity": 100,
+              "unit": "m",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_metcon_04",
+      "name": "Metcon — Upper Body Chipper",
+      "workout_family": "muscular_endurance_metcon",
+      "stimulus": "upper_body_volume_tolerance",
+      "secondary_goal": null,
+      "estimated_minutes": 26,
+      "intensity_target": "RPE 7-8",
+      "impact_level": "low",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Upper-body push-pull volume challenge emphasizing sustainable muscular output.",
+      "coaching_notes": "Submaximal chunks are the intended strategy. Keep shoulder mechanics clean.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "metcon",
+      "blocks": [
+        {
+          "block_type": "continuous",
+          "title": "Main",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "instructions": "Complete in order. Partition from the beginning to avoid muscular failure.",
+          "items": [
+            {
+              "exercise_id": "ex_db_bench_press",
+              "exercise": "DB Bench Press",
+              "prescription_type": "reps",
+              "quantity": 40,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 30,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "exercise": "Push-Up",
+              "prescription_type": "reps",
+              "quantity": 30,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_inverted_row",
+              "exercise": "Inverted Row",
+              "prescription_type": "reps",
+              "quantity": 30,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "exercise": "Farmer Carry",
+              "prescription_type": "distance",
+              "quantity": 80,
+              "unit": "m",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_metcon_05",
+      "name": "Metcon — Kettlebell Ladder",
+      "workout_family": "muscular_endurance_metcon",
+      "stimulus": "kettlebell_muscular_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 24,
+      "intensity_target": "RPE 7-8",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Kettlebell ladder combining ballistic, squat and press endurance without cardio-machine dependence.",
+      "coaching_notes": "Do not sacrifice ballistic mechanics to finish a rung unbroken.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "metcon",
+      "blocks": [
+        {
+          "block_type": "continuous",
+          "title": "Main",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "instructions": "Ascending ladder, 4-6-8-10-12 reps. Rest 30-60s between rungs as needed.",
+          "items": [
+            {
+              "exercise_id": "ex_kettlebell_swing",
+              "exercise": "Kettlebell Swing",
+              "prescription_type": "reps",
+              "quantity": 4,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 4,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_half_kneeling_1_arm_press",
+              "exercise": "Half-Kneeling 1-Arm Press",
+              "prescription_type": "reps",
+              "quantity": 4,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "split evenly between sides"
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "exercise": "Suitcase Carry",
+              "prescription_type": "distance",
+              "quantity": 20,
+              "unit": "m",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_kettlebell_swing",
+              "exercise": "Kettlebell Swing",
+              "prescription_type": "reps",
+              "quantity": 6,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 6,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_half_kneeling_1_arm_press",
+              "exercise": "Half-Kneeling 1-Arm Press",
+              "prescription_type": "reps",
+              "quantity": 6,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "split evenly between sides"
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "exercise": "Suitcase Carry",
+              "prescription_type": "distance",
+              "quantity": 20,
+              "unit": "m",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_kettlebell_swing",
+              "exercise": "Kettlebell Swing",
+              "prescription_type": "reps",
+              "quantity": 8,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 8,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_half_kneeling_1_arm_press",
+              "exercise": "Half-Kneeling 1-Arm Press",
+              "prescription_type": "reps",
+              "quantity": 8,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "split evenly between sides"
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "exercise": "Suitcase Carry",
+              "prescription_type": "distance",
+              "quantity": 20,
+              "unit": "m",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_kettlebell_swing",
+              "exercise": "Kettlebell Swing",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_half_kneeling_1_arm_press",
+              "exercise": "Half-Kneeling 1-Arm Press",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "split evenly between sides"
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "exercise": "Suitcase Carry",
+              "prescription_type": "distance",
+              "quantity": 20,
+              "unit": "m",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_kettlebell_swing",
+              "exercise": "Kettlebell Swing",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_half_kneeling_1_arm_press",
+              "exercise": "Half-Kneeling 1-Arm Press",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "split evenly between sides"
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "exercise": "Suitcase Carry",
+              "prescription_type": "distance",
+              "quantity": 20,
+              "unit": "m",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_metcon_06",
+      "name": "Metcon — Bodyweight 20",
+      "workout_family": "muscular_endurance_metcon",
+      "stimulus": "bodyweight_work_capacity",
+      "secondary_goal": null,
+      "estimated_minutes": 20,
+      "intensity_target": "RPE 7",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Minimal-equipment muscular endurance using a repeatable bodyweight circuit.",
+      "coaching_notes": "Score completed rounds plus reps, but pacing and repeatability take priority over speed.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "metcon",
+      "blocks": [
+        {
+          "block_type": "continuous",
+          "title": "Main",
+          "rounds": null,
+          "duration_minutes": 20,
+          "rest_seconds": null,
+          "instructions": "As many rounds as possible in 20 minutes. Move steadily; stop sets before failure.",
+          "items": [
+            {
+              "exercise_id": "ex_air_squat",
+              "exercise": "Air Squat",
+              "prescription_type": "reps",
+              "quantity": 15,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "exercise": "Push-Up",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_reverse_lunge",
+              "exercise": "Reverse Lunge",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 7",
+              "side_note": "total, alternating sides"
+            },
+            {
+              "exercise_id": "ex_bear_crawl",
+              "exercise": "Bear Crawl",
+              "prescription_type": "duration",
+              "quantity": 20,
+              "unit": "s",
+              "intensity": "RPE 7",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_front_plank",
+              "exercise": "Front Plank",
+              "prescription_type": "duration",
+              "quantity": 30,
+              "unit": "s",
+              "intensity": "RPE 7",
+              "side_note": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_metcon_07",
+      "name": "Metcon — Dumbbell Complex Endurance",
+      "workout_family": "muscular_endurance_metcon",
+      "stimulus": "complex_muscular_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 25,
+      "intensity_target": "RPE 7-8",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Technical dumbbell muscular endurance using integrated movements at deliberately submaximal loads.",
+      "coaching_notes": "Load for clean movement combinations, not maximal strength. Preserve the same movement standard each round.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "metcon",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 5,
+          "duration_minutes": null,
+          "rest_seconds": 75,
+          "instructions": "Rest 75s after each round.",
+          "items": [
+            {
+              "exercise_id": "ex_db_clean_front_squat",
+              "exercise": "DB Clean + Front Squat",
+              "prescription_type": "reps",
+              "quantity": 6,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 8,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_db_front_squat_press",
+              "exercise": "DB Front Squat + Press",
+              "prescription_type": "reps",
+              "quantity": 6,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "exercise": "Suitcase Carry",
+              "prescription_type": "distance",
+              "quantity": 25,
+              "unit": "m",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_metcon_08",
+      "name": "Metcon — Carry Builder",
+      "workout_family": "muscular_endurance_metcon",
+      "stimulus": "grip_trunk_leg_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 24,
+      "intensity_target": "RPE 7-8",
+      "impact_level": "low",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Carry-dominant muscular endurance emphasizing grip, trunk and leg fatigue resistance.",
+      "coaching_notes": "Carry posture and grip quality govern load. Avoid racing the transitions.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "metcon",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 6,
+          "duration_minutes": null,
+          "rest_seconds": 60,
+          "instructions": "Rest 45-60s after each round.",
+          "items": [
+            {
+              "exercise_id": "ex_farmer_carry",
+              "exercise": "Farmer Carry",
+              "prescription_type": "distance",
+              "quantity": 50,
+              "unit": "m",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 8,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_reverse_lunge",
+              "exercise": "Reverse Lunge",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 7-8",
+              "side_note": "total, alternating sides"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_hero_01",
+      "name": "PIVOT Hero — Atlas",
+      "workout_family": "muscular_endurance_hero",
+      "stimulus": "benchmark_total_body_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 40,
+      "intensity_target": "RPE 8",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Long-form PIVOT benchmark for total-body muscular endurance using common dumbbell and bodyweight movements.",
+      "coaching_notes": "Benchmark consistency matters more than maximal pace. Use the same movement standards on retest.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "hero",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 5,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "instructions": "Record total time and loading for future comparison.",
+          "items": [
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 20,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "exercise": "Push-Up",
+              "prescription_type": "reps",
+              "quantity": 15,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_walking_lunge",
+              "exercise": "Walking Lunge",
+              "prescription_type": "reps",
+              "quantity": 20,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": "total, alternating sides"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "exercise": "Farmer Carry",
+              "prescription_type": "distance",
+              "quantity": 60,
+              "unit": "m",
+              "intensity": "RPE 8",
+              "side_note": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_hero_02",
+      "name": "PIVOT Hero — Forge",
+      "workout_family": "muscular_endurance_hero",
+      "stimulus": "benchmark_loaded_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 36,
+      "intensity_target": "RPE 8",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Loaded benchmark emphasizing repeated squat, press, pull and carry output.",
+      "coaching_notes": "Choose loads that permit all six rounds without technical failure.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "hero",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 6,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "instructions": "Rest only as needed; record total time and loads.",
+          "items": [
+            {
+              "exercise_id": "ex_db_front_rack_squat",
+              "exercise": "DB Front-Rack Squat",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_bench_press",
+              "exercise": "DB Bench Press",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "exercise": "Farmer Carry",
+              "prescription_type": "distance",
+              "quantity": 50,
+              "unit": "m",
+              "intensity": "RPE 8",
+              "side_note": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_hero_03",
+      "name": "PIVOT Hero — Long Haul",
+      "workout_family": "muscular_endurance_hero",
+      "stimulus": "benchmark_volume_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 45,
+      "intensity_target": "RPE 8",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "High-volume benchmark designed to test sustained muscular output with minimal equipment.",
+      "coaching_notes": "Plan breaks before failure. This is a volume benchmark, not a test of reckless unbroken sets.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "hero",
+      "blocks": [
+        {
+          "block_type": "continuous",
+          "title": "Main",
+          "rounds": null,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "instructions": "Complete in order. Partition movements as needed; record total time.",
+          "items": [
+            {
+              "exercise_id": "ex_air_squat",
+              "exercise": "Air Squat",
+              "prescription_type": "reps",
+              "quantity": 100,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "exercise": "Push-Up",
+              "prescription_type": "reps",
+              "quantity": 60,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_walking_lunge",
+              "exercise": "Walking Lunge",
+              "prescription_type": "reps",
+              "quantity": 80,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": "total, alternating sides"
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 50,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_step_up",
+              "exercise": "Step-Up",
+              "prescription_type": "reps",
+              "quantity": 60,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": "total, alternating sides"
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "exercise": "Farmer Carry",
+              "prescription_type": "distance",
+              "quantity": 200,
+              "unit": "m",
+              "intensity": "RPE 8",
+              "side_note": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_hero_04",
+      "name": "PIVOT Hero — Iron Mile",
+      "workout_family": "muscular_endurance_hero",
+      "stimulus": "benchmark_carry_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 38,
+      "intensity_target": "RPE 8",
+      "impact_level": "low",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Carry-centered PIVOT benchmark for grip, trunk and lower-body muscular endurance; no running required.",
+      "coaching_notes": "Maintain carry posture and repeatable chunks. Grip failure should not force unsafe movement.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "hero",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 4,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "instructions": "Record total time and loads.",
+          "items": [
+            {
+              "exercise_id": "ex_farmer_carry",
+              "exercise": "Farmer Carry",
+              "prescription_type": "distance",
+              "quantity": 100,
+              "unit": "m",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 20,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_reverse_lunge",
+              "exercise": "Reverse Lunge",
+              "prescription_type": "reps",
+              "quantity": 20,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": "total, alternating sides"
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "exercise": "Push-Up",
+              "prescription_type": "reps",
+              "quantity": 15,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": "per side"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_hero_05",
+      "name": "PIVOT Hero — Anvil",
+      "workout_family": "muscular_endurance_hero",
+      "stimulus": "benchmark_dumbbell_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 35,
+      "intensity_target": "RPE 8",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Technical dumbbell benchmark combining integrated movements with foundational muscular endurance.",
+      "coaching_notes": "Use a load that preserves integrated-movement quality for the entire benchmark.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "hero",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 5,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "instructions": "Record total time and dumbbell load.",
+          "items": [
+            {
+              "exercise_id": "ex_db_clean_front_squat",
+              "exercise": "DB Clean + Front Squat",
+              "prescription_type": "reps",
+              "quantity": 8,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_floor_press",
+              "exercise": "DB Floor Press",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_romanian_deadlift_row",
+              "exercise": "DB Romanian Deadlift + Row",
+              "prescription_type": "reps",
+              "quantity": 8,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_reverse_lunge",
+              "exercise": "Reverse Lunge",
+              "prescription_type": "reps",
+              "quantity": 16,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": "total, alternating sides"
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "exercise": "Suitcase Carry",
+              "prescription_type": "distance",
+              "quantity": 30,
+              "unit": "m",
+              "intensity": "RPE 8",
+              "side_note": "per side"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_hero_06",
+      "name": "PIVOT Hero — Groundwork",
+      "workout_family": "muscular_endurance_hero",
+      "stimulus": "benchmark_bodyweight_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 32,
+      "intensity_target": "RPE 8",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Equipment-free benchmark for repeatable bodyweight muscular endurance.",
+      "coaching_notes": "Scale reps before movement quality changes. Retests should use the same scaling.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "hero",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 8,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "instructions": "Record total time; preserve movement standards.",
+          "items": [
+            {
+              "exercise_id": "ex_air_squat",
+              "exercise": "Air Squat",
+              "prescription_type": "reps",
+              "quantity": 20,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "exercise": "Push-Up",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_walking_lunge",
+              "exercise": "Walking Lunge",
+              "prescription_type": "reps",
+              "quantity": 16,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": "total, alternating sides"
+            },
+            {
+              "exercise_id": "ex_bear_crawl",
+              "exercise": "Bear Crawl",
+              "prescription_type": "duration",
+              "quantity": 20,
+              "unit": "s",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_front_plank",
+              "exercise": "Front Plank",
+              "prescription_type": "duration",
+              "quantity": 30,
+              "unit": "s",
+              "intensity": "RPE 8",
+              "side_note": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_hero_07",
+      "name": "PIVOT Hero — Stronghold",
+      "workout_family": "muscular_endurance_hero",
+      "stimulus": "benchmark_upper_body_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 36,
+      "intensity_target": "RPE 8",
+      "impact_level": "low",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "Upper-body benchmark with sustained push, pull, grip and trunk output.",
+      "coaching_notes": "Keep pushing and pulling volume balanced. Avoid muscular failure early.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "hero",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 6,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "instructions": "Record total time and loads.",
+          "items": [
+            {
+              "exercise_id": "ex_db_bench_press",
+              "exercise": "DB Bench Press",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_db_row",
+              "exercise": "DB Row",
+              "prescription_type": "reps",
+              "quantity": 12,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": "per side"
+            },
+            {
+              "exercise_id": "ex_push_up",
+              "exercise": "Push-Up",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_inverted_row",
+              "exercise": "Inverted Row",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 8",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_suitcase_carry",
+              "exercise": "Suitcase Carry",
+              "prescription_type": "distance",
+              "quantity": 30,
+              "unit": "m",
+              "intensity": "RPE 8",
+              "side_note": "per side"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "me_hero_08",
+      "name": "PIVOT Hero — Redline",
+      "workout_family": "muscular_endurance_hero",
+      "stimulus": "benchmark_power_endurance",
+      "secondary_goal": null,
+      "estimated_minutes": 30,
+      "intensity_target": "RPE 8-9",
+      "impact_level": "moderate",
+      "hyrox_specificity": 0,
+      "postpartum_friendly": false,
+      "description": "High-demand PIVOT benchmark for athletes with established dumbbell power-movement competency.",
+      "coaching_notes": "Technical quality is the stop rule. This benchmark is not appropriate outside the athlete's technical-capacity envelope.",
+      "authored_training_domain": "muscular_endurance",
+      "authored_session_type": "muscular_endurance",
+      "authored_primary_goal": "strength",
+      "authored_archetype": "hero",
+      "blocks": [
+        {
+          "block_type": "rounds",
+          "title": "Main",
+          "rounds": 10,
+          "duration_minutes": null,
+          "rest_seconds": null,
+          "instructions": "Rest only as needed to preserve power mechanics; record total time and load.",
+          "items": [
+            {
+              "exercise_id": "ex_db_hang_clean",
+              "exercise": "DB Hang Clean",
+              "prescription_type": "reps",
+              "quantity": 6,
+              "unit": "reps",
+              "intensity": "RPE 8-9",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_push_press",
+              "exercise": "Push Press",
+              "prescription_type": "reps",
+              "quantity": 6,
+              "unit": "reps",
+              "intensity": "RPE 8-9",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_goblet_squat",
+              "exercise": "Goblet Squat",
+              "prescription_type": "reps",
+              "quantity": 10,
+              "unit": "reps",
+              "intensity": "RPE 8-9",
+              "side_note": null
+            },
+            {
+              "exercise_id": "ex_farmer_carry",
+              "exercise": "Farmer Carry",
+              "prescription_type": "distance",
+              "quantity": 30,
+              "unit": "m",
+              "intensity": "RPE 8-9",
+              "side_note": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
