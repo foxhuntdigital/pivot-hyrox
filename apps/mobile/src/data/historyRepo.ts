@@ -4,6 +4,8 @@
  * Paginated by cursor rather than offset: sessions are appended over time, and
  * an offset would skip or repeat rows as new ones land at the top.
  */
+import type { WorkoutBlock } from '@pivot/engine';
+
 import { supabase } from '@/lib/supabase';
 
 export interface HistoryMovement {
@@ -22,10 +24,21 @@ export interface HistorySplit {
   seconds: number;
   cumulative_seconds: number;
   rest: boolean;
+  /** Which block and round this lap was. Absent on sessions read before they were sent. */
+  block_order?: number | null;
+  round?: number | null;
+  exercise_id?: string | null;
 }
 
 export interface HistorySession {
   id: string;
+  /** The template, for the session's type and effort targets. */
+  template_id?: string;
+  variant_code?: string | null;
+  /** What the plan expected it to take. */
+  planned_minutes?: number | null;
+  /** The blocks as prescribed on the day; the shape is drawn from these. */
+  blocks?: WorkoutBlock[];
   date: string;
   name: string;
   variant_label: string | null;
@@ -90,6 +103,25 @@ export async function fetchHistory(before?: string | null): Promise<HistoryResul
     }
     if (!data) return { status: 'error', message: 'The server returned no history.' };
     return { status: 'ok', page: data as HistoryPage };
+  } catch (e) {
+    return {
+      status: 'error',
+      message: e instanceof Error && e.message ? e.message : 'Could not reach the server.',
+    };
+  }
+}
+
+/** One session by id, for the calendar's "Open session". */
+export async function fetchHistorySession(
+  id: string,
+): Promise<{ status: 'ok'; session: HistorySession | null } | { status: 'unconfigured' }
+  | { status: 'error'; message: string }> {
+  if (!supabase) return { status: 'unconfigured' };
+  try {
+    const { data, error } = await supabase.functions.invoke(
+      `history?${new URLSearchParams({ id })}`, { method: 'GET' });
+    if (error) return { status: 'error', message: await functionMessage(error) ?? error.message };
+    return { status: 'ok', session: (data as HistoryPage | null)?.sessions[0] ?? null };
   } catch (e) {
     return {
       status: 'error',

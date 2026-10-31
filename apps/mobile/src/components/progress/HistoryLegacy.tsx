@@ -1,0 +1,339 @@
+/**
+ * Training history — every completed session, newest first.
+ *
+ * The record of what an athlete actually did, as opposed to Progress, which is
+ * six numbers derived from it. Each row shows the prescription next to the
+ * performance, because "500 m prescribed, 450 done" is the useful fact and
+ * either number alone is not.
+ *
+ * Read from `history`, which touches only stored sessions and their logs. It is
+ * the surface that survives a lapsed subscription, so it must never depend on
+ * the engine or on today's plan.
+ */
+import React, { useCallback, useEffect, useState } from 'react';
+import { View, Text, ScrollView, Pressable, ActivityIndicator } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { color, type as t, space } from '@/theme/tokens';
+import { Rule, Label } from '@/components/primitives';
+import { fetchHistory, type HistorySession } from '@/data/historyRepo';
+import { useApp } from '@/state/store';
+import { mmss } from '@/lib/format';
+
+/** "Thu 20 Feb" — the day an athlete recognises, not an ISO string. */
+function formatDate(iso: string): string {
+  const d = new Date(`${iso}T00:00:00Z`);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString('en-US',
+    { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+}
+
+/** Sessions grouped under the month they happened in. */
+function byMonth(sessions: HistorySession[]) {
+  const groups: { label: string; items: HistorySession[] }[] = [];
+  for (const s of sessions) {
+    const d = new Date(`${s.date}T00:00:00Z`);
+    const label = Number.isNaN(d.getTime())
+      ? 'Earlier'
+      : d.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+    const last = groups[groups.length - 1];
+    if (last?.label === label) last.items.push(s);
+    else groups.push({ label, items: [s] });
+  }
+  return groups;
+}
+
+/** Training history before the redesign. */
+export function HistoryLegacy() {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const { pendingSync } = useApp();
+  const [sessions, setSessions] = useState<HistorySession[] | null>(null);
+  const [cursor, setCursor] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [open, setOpen] = useState<string | null>(null);
+  /**
+   * Set when a read failed, and cleared only by one that succeeds.
+   *
+   * Kept separate from `sessions` so a failed *next page* cannot discard the
+   * pages already on screen: the athlete keeps what was read and is told the
+   * rest could not be.
+   */
+  const [error, setError] = useState<string | null>(null);
+
+  const load = useCallback(async (before?: string | null) => {
+    const result = await fetchHistory(before);
+    if (result.status === 'error') {
+      setError(result.message);
+      // Only the first page has nothing to fall back to. A failed continuation
+      // leaves the list as it stands.
+      if (!before) setSessions(prev => prev);
+      return;
+    }
+    setError(null);
+    if (result.status === 'unconfigured') { setSessions(prev => prev ?? []); return; }
+    const { page } = result;
+    setSessions(prev => (before ? [...(prev ?? []), ...page.sessions] : page.sessions));
+    setHasMore(page.has_more);
+    setCursor(page.next_before);
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  const retry = useCallback(() => {
+    setError(null);
+    setSessions(null);
+    load();
+  }, [load]);
+
+  const groups = byMonth(sessions ?? []);
+
+  return (
+    <View style={{ flex: 1, backgroundColor: color.paper }}>
+      <View style={{
+        paddingTop: insets.top + 12, paddingBottom: 14,
+        paddingHorizontal: space.gutter,
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+      }}>
+        <Label tone="ink">Training history</Label>
+        <Pressable onPress={() => router.back()} hitSlop={12} accessibilityRole="button">
+          <Label tone="muted">Close</Label>
+        </Pressable>
+      </View>
+      <Rule heavy />
+
+      {/* Sessions that were finished and could not be filed, said out loud.
+          These used to retry silently for a month and then be dropped, so an
+          athlete whose subscription lapsed mid-block watched real training
+          quietly fail to appear here with nothing anywhere explaining it. */}
+      {pendingSync.blocked > 0 ? (
+        <View style={{
+          marginHorizontal: space.gutter, marginTop: 16,
+          backgroundColor: color.tint,
+          borderWidth: 1, borderColor: color.tintBorder,
+          paddingHorizontal: 13, paddingVertical: 12,
+        }}>
+          <Label tone="redDark" size="sm" style={{ paddingBottom: 6 }}>
+            {pendingSync.blocked === 1
+              ? '1 session waiting'
+              : `${pendingSync.blocked} sessions waiting`}
+          </Label>
+          <Text style={[t.bodySm, { color: color.redDeep }]}>
+            {pendingSync.blocked === 1 ? 'It is' : 'They are'} saved on this device and will be
+            added here as soon as your subscription is active again. Nothing has been lost.
+          </Text>
+        </View>
+      ) : null}
+
+      {error && sessions === null ? (
+        /**
+         * A read that failed, said as a failure.
+         *
+         * The alternative — and what this screen used to do — was to render the
+         * empty state, which tells an athlete with years of training behind them
+         * that they have never finished a session. Nothing has been lost: the
+         * sessions are on the server and this device could not reach them.
+         */
+        <View style={{ padding: space.gutter, paddingTop: 40 }}>
+          <Text style={[t.h4, { color: color.ink, fontSize: 17 }]}>
+            Couldn't load your history
+          </Text>
+          <Text style={[t.bodySm, { color: color.muted2, marginTop: 8 }]}>
+            Your sessions are safe — this device just couldn't reach them. Check your
+            connection and try again.
+          </Text>
+          <Text style={[t.meta, { color: color.muted3, marginTop: 8 }]}>{error}</Text>
+          <Pressable
+            onPress={retry}
+            accessibilityRole="button"
+            style={({ pressed }) => ({
+              marginTop: 16, alignSelf: 'flex-start',
+              paddingHorizontal: 18, paddingVertical: 13,
+              backgroundColor: pressed ? color.redPressed : color.red,
+            })}
+          >
+            <Text style={[t.button, { color: color.onDark }]}>Try again</Text>
+          </Pressable>
+        </View>
+      ) : sessions === null ? (
+        <View style={{ paddingVertical: 60 }}><ActivityIndicator color={color.red} /></View>
+      ) : sessions.length === 0 ? (
+        <View style={{ padding: space.gutter, paddingTop: 40 }}>
+          <Text style={[t.h4, { color: color.ink, fontSize: 17 }]}>Nothing completed yet</Text>
+          <Text style={[t.bodySm, { color: color.muted2, marginTop: 8 }]}>
+            Sessions appear here once you finish them. Every one keeps the prescription
+            it was performed under, so this stays accurate even as the plan changes.
+          </Text>
+        </View>
+      ) : (
+        <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 30 }}>
+          {groups.map(group => (
+            <View key={group.label}>
+              <View style={{
+                paddingHorizontal: space.gutter, paddingTop: 18, paddingBottom: 8,
+              }}>
+                <Label>{group.label}</Label>
+              </View>
+              {group.items.map(s => {
+                const expanded = open === s.id;
+                return (
+                  <Pressable
+                    key={s.id}
+                    onPress={() => setOpen(expanded ? null : s.id)}
+                    accessibilityRole="button"
+                    accessibilityState={{ expanded }}
+                    accessibilityLabel={`${s.name}, ${formatDate(s.date)}`}
+                    style={({ pressed }) => ({
+                      paddingHorizontal: space.gutter, paddingVertical: 13,
+                      borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
+                      backgroundColor: pressed ? color.hover : 'transparent',
+                    })}
+                  >
+                    <View style={{
+                      flexDirection: 'row', alignItems: 'baseline',
+                      justifyContent: 'space-between',
+                    }}>
+                      <Text style={[t.rowTitle, { fontSize: 14, color: color.ink, flex: 1 }]}>
+                        {s.name}
+                      </Text>
+                      <Text style={[t.meta, { color: color.muted }]}>{formatDate(s.date)}</Text>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', gap: 12, marginTop: 5 }}>
+                      {s.variant_label ? (
+                        <Text style={[t.meta, { color: color.muted2 }]}>{s.variant_label}</Text>
+                      ) : null}
+                      {s.minutes != null ? (
+                        <Text style={[t.meta, { color: color.muted2 }]}>{s.minutes} min</Text>
+                      ) : null}
+                      {s.session_rpe != null ? (
+                        <Text style={[t.meta, { color: color.muted2 }]}>RPE {s.session_rpe}</Text>
+                      ) : null}
+                      {/* Ending early is a fact about the session, not a failure
+                          — the plan adapts rather than keeping score (PRD §2). */}
+                      {s.ended_early ? (
+                        <Text style={[t.meta, { color: color.redDark }]}>ended early</Text>
+                      ) : null}
+                      {/* An add-on, not another prescribed session. Understated
+                          on purpose: the week should not read as more planned
+                          training than it was. */}
+                      {s.supplemental ? (
+                        <Text style={[t.meta, { color: color.muted }]}>supplemental</Text>
+                      ) : null}
+                    </View>
+
+                    {/* A record, stated quietly and persistently. The
+                        celebration belongs on the completion screen; here it is
+                        a fact about the session, and it says what it beat
+                        because a record that cannot show its working is a
+                        claim. */}
+                    {s.records?.length ? (
+                      <View style={{ marginTop: 6 }}>
+                        {s.records.map(r => (
+                          <Text
+                            key={`${r.exercise}-${r.kind}`}
+                            style={[t.meta, { color: color.redDark }]}
+                          >
+                            PB · {r.exercise} {r.kind === 'load'
+                              ? `${r.value}${r.unit ? ` ${r.unit}` : ''}`
+                              : `${r.value} reps`} (was {r.previous})
+                          </Text>
+                        ))}
+                      </View>
+                    ) : null}
+
+                    {/* Splits, when the session recorded them.
+                        
+                        Above the movement totals on purpose: totals say what
+                        was covered, splits say how it went, and how it went is
+                        what an athlete opens an old session to remember. A
+                        session finished before splits existed simply has none —
+                        no empty table, no zeroes. */}
+                    {expanded && (s.splits?.length ?? 0) > 0 && (
+                      <View style={{
+                        marginTop: 11, paddingTop: 10,
+                        borderTopWidth: 1, borderTopColor: color.rule,
+                      }}>
+                        <Label style={{ paddingBottom: 4 }}>Splits</Label>
+                        {s.splits.map(sp => (
+                          <View key={sp.index} style={{
+                            flexDirection: 'row', alignItems: 'baseline', gap: 10,
+                            paddingVertical: 3,
+                          }}>
+                            <Text style={[t.meta, { width: 16, color: color.muted }]}>
+                              {sp.index + 1}
+                            </Text>
+                            <Text style={[t.bodySm, {
+                              flex: 1, color: sp.rest ? color.muted : color.muted2,
+                            }]}>
+                              {sp.rest ? 'Rest' : sp.label}
+                              {sp.prescribed && !sp.rest ? ` · ${sp.prescribed}` : ''}
+                            </Text>
+                            <Text style={[t.bodySm, {
+                              color: sp.rest ? color.muted : color.ink,
+                            }]}>
+                              {mmss(sp.seconds)}
+                            </Text>
+                            <Text style={[t.meta, {
+                              width: 44, textAlign: 'right', color: color.muted,
+                            }]}>
+                              {mmss(sp.cumulative_seconds)}
+                            </Text>
+                          </View>
+                        ))}
+                      </View>
+                    )}
+
+                    {expanded && s.movements.length > 0 && (
+                      <View style={{
+                        marginTop: 11, paddingTop: 10,
+                        borderTopWidth: 1, borderTopColor: color.rule,
+                      }}>
+                        {s.movements.map(m => (
+                          <View key={m.exercise_id} style={{
+                            flexDirection: 'row', justifyContent: 'space-between',
+                            paddingVertical: 3,
+                          }}>
+                            <Text style={[t.bodySm, { color: color.muted2, flex: 1 }]}>
+                              {m.exercise}
+                            </Text>
+                            <Text style={[t.bodySm, { color: color.ink }]}>
+                              {/* Prescribed only when it differs from what was
+                                  done, so a session performed as written reads
+                                  as one number rather than two identical ones. */}
+                              {m.actual && m.prescribed && m.actual !== m.prescribed
+                                ? `${m.prescribed} → ${m.actual}`
+                                : m.actual ?? m.prescribed ?? '—'}
+                            </Text>
+                          </View>
+                        ))}
+                      </View>
+                    )}
+                  </Pressable>
+                );
+              })}
+            </View>
+          ))}
+
+          {hasMore ? (
+            <Pressable
+              onPress={async () => {
+                setLoadingMore(true);
+                await load(cursor);
+                setLoadingMore(false);
+              }}
+              style={{ padding: 20, alignItems: 'center' }}
+              accessibilityRole="button"
+            >
+              {loadingMore
+                ? <ActivityIndicator color={color.red} />
+                : <Label tone="ink">Load earlier</Label>}
+            </Pressable>
+          ) : null}
+        </ScrollView>
+      )}
+    </View>
+  );
+}

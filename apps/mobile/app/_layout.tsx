@@ -128,6 +128,9 @@ export default function RootLayout() {
                 options={{ presentation: 'transparentModal', animation: 'slide_from_bottom' }}
               />
               <Stack.Screen name="history" options={{ animation: 'slide_from_right' }} />
+              <Stack.Screen name="readiness" options={{ animation: 'slide_from_right' }} />
+              <Stack.Screen name="capability/[key]" options={{ animation: 'slide_from_right' }} />
+              <Stack.Screen name="session/[id]" options={{ animation: 'slide_from_right' }} />
               <Stack.Screen name="active" options={{ animation: 'slide_from_bottom', gestureEnabled: false }} />
               <Stack.Screen name="done" options={{ animation: 'fade', gestureEnabled: false }} />
             </Stack>}
