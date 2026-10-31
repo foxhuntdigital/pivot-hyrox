@@ -33,7 +33,22 @@ export interface AthleteProfile {
   considerations: string[];
   /** The session length the plan is built around. */
   typical_session_minutes: number;
+  /**
+   * Whether running is fine or the athlete prefers low impact. Asked in
+   * onboarding and read by every planner call (`low_impact_required`).
+   */
+  impact_tolerance: ImpactTolerance;
 }
+
+export type ImpactTolerance = 'low' | 'normal' | 'high';
+
+/** The running answer, as onboarding asks it. `high` reads as running is fine. */
+export const IMPACT_CHOICES = [
+  { value: 'normal' as const, label: 'Running is fine',
+    detail: 'Sessions can include runs, jumps and other impact.' },
+  { value: 'low' as const, label: 'Prefer low impact',
+    detail: 'High-impact moves such as running and jumping are swapped for a lower-impact alternative. A session with no alternative is left out.' },
+];
 
 /**
  * The return-to-training considerations the app offers.
@@ -136,6 +151,7 @@ export const EMPTY_PROFILE: AthleteProfile = {
   schedule_predictability: DEFAULT_PREDICTABILITY,
   considerations: [],
   typical_session_minutes: DEFAULT_SESSION_MINUTES,
+  impact_tolerance: 'normal',
 };
 
 /**

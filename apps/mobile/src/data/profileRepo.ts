@@ -14,7 +14,7 @@ import {
 // One string literal, not a concatenation: supabase-js infers the row type from
 // the literal, and a computed string degrades it to an error type.
 // eslint-disable-next-line max-len
-const COLUMNS = 'user_id, display_name, postpartum_birth_date, schedule_predictability, considerations, typical_session_minutes, load_capacity, technical_capacity';
+const COLUMNS = 'user_id, display_name, postpartum_birth_date, schedule_predictability, considerations, typical_session_minutes, load_capacity, technical_capacity, impact_tolerance';
 
 interface Row {
   user_id: string;
@@ -25,6 +25,7 @@ interface Row {
   schedule_predictability: number | null;
   considerations: string[] | null;
   typical_session_minutes: number | null;
+  impact_tolerance: string | null;
 }
 
 function toProfile(row: Row, fallbackName: string): AthleteProfile {
@@ -36,6 +37,8 @@ function toProfile(row: Row, fallbackName: string): AthleteProfile {
     schedule_predictability: clampPredictability(row.schedule_predictability),
     considerations: readConsiderations(row.considerations),
     typical_session_minutes: clampSessionMinutes(row.typical_session_minutes),
+    impact_tolerance: row.impact_tolerance === 'low' || row.impact_tolerance === 'high'
+      ? row.impact_tolerance : 'normal',
   };
 }
 
