@@ -51,8 +51,8 @@ export const TOUR_STEPS: TourStep[] = [
   {
     id: 'stats',
     title: 'Where you stand',
-    body: 'Stimuli done this week, your readiness score, and last night\'s sleep. '
-      + 'Tap sleep to check in — the day\'s session is recalculated from it.',
+    body: 'Your check-in and your readiness. Tap the check-in to log or edit '
+      + 'last night: the day\'s session is recalculated from it.',
     prefer: 'below',
   },
   {

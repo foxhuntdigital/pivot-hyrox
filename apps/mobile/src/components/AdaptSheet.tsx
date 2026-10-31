@@ -16,6 +16,7 @@ import { useApp } from '@/state/store';
 import { DialogProvider, useDialog } from '@/components/Dialog';
 import { FullWorkout } from '@/components/FullWorkout';
 import { exerciseById } from '@/data/content';
+import { variantOverrideFailed, variantSource, variantStep } from '@/data/variantChoice';
 import { track, bucketMinutes } from '@/lib/analytics';
 
 const TIME_CHOICES = [15, 30, 45, 60, 90];
@@ -114,51 +115,32 @@ function AdaptSheetBody({ visible, onClose }: { visible: boolean; onClose: () =>
    * that does not work.
    */
   const accept = async (templateId: string, variant: VariantCode) => {
+    const label = VARIANT_LABEL[variant];
     const result = chooseVariant(templateId, variant);
-
-    if (!result.ok && result.reason === 'recovery') {
-      // Named from what the athlete actually told us. The copy used to cite
-      // "your check-in" unconditionally, which is a claim about evidence — and
-      // for someone who has not checked in, evidence that does not exist.
-      const source = state.checkin
-        ? 'your check-in'
-        : state.energy === 'low' ? 'the energy you reported' : 'what you have told me about today';
-      const proceed = await dialog.confirm({
-        eyebrow: 'Are you sure?',
-        title: `${VARIANT_LABEL[variant]} is more than today supports`,
-        body: `Based on ${source}, this asks for more than the version `
-          + 'recommended above. You can still do it — you know how you feel '
-          + 'better than I do. Ease off if it stops feeling right.',
-        confirmLabel: `Do the ${VARIANT_LABEL[variant]}`,
-        cancelLabel: 'Keep the suggestion',
-      });
-      if (!proceed) return;
-
-      const overridden = chooseVariant(templateId, variant, { override: true });
-      if (!overridden.ok) {
-        // The classification said this would build. Reaching here means the
-        // inputs moved between the two calls, so it is reported rather than
-        // silently swallowed into a closed sheet.
-        await dialog.alert({
-          eyebrow: 'Not available',
-          title: `${VARIANT_LABEL[variant]} could not be applied`,
-          body: 'Something about today changed while you were deciding. Try again.',
-        });
+    if (!result.ok) {
+      const step = variantStep(result, label,
+        variantSource({ checkedIn: !!state.checkin, energy: state.energy }));
+      if (step.kind === 'alert') {
+        await dialog.alert({ eyebrow: step.eyebrow, title: step.title, body: step.body });
         return;
       }
-    } else if (!result.ok) {
-      await dialog.alert({
-        eyebrow: 'Not available',
-        title: `${VARIANT_LABEL[variant]} isn't available today`,
-        body: result.reason === 'symptom'
-          ? 'You reported a symptom that training hard through would not be '
-            + 'reasonable. This one is not something to push past — rest today, '
-            + 'and get it looked at if it persists.'
-          : 'That version cannot be built from the equipment and constraints you '
-            + 'have reported today. The one recommended above is the longest this '
-            + 'can build from what you have.',
-      });
-      return;
+      if (step.kind === 'confirm') {
+        const proceed = await dialog.confirm({
+          eyebrow: step.eyebrow, title: step.title, body: step.body,
+          confirmLabel: step.confirmLabel, cancelLabel: step.cancelLabel,
+        });
+        if (!proceed) return;
+        if (!chooseVariant(templateId, variant, { override: true }).ok) {
+          // The classification said this would build. Reaching here means the
+          // inputs moved between the two calls, so it is reported rather than
+          // silently swallowed into a closed sheet.
+          const failed = variantOverrideFailed(label);
+          if (failed.kind === 'alert') {
+            await dialog.alert({ eyebrow: failed.eyebrow, title: failed.title, body: failed.body });
+          }
+          return;
+        }
+      }
     }
 
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
