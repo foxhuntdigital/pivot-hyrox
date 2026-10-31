@@ -9,7 +9,7 @@ import assert from 'node:assert/strict';
 
 import type { Exposure, ExerciseHistory } from './exercise-history.ts';
 import {
-  capabilityDetails, highlightsFrom, sessionIndex, trendFrom, weekOf,
+  capabilityDetails, cardioBaselines, highlightsFrom, sessionIndex, trendFrom, weekOf,
 } from './progress-view.ts';
 
 const exposure = (over: Partial<Exposure>): Exposure => ({
@@ -129,5 +129,25 @@ describe('Progress view', () => {
     assert.deepEqual(some.lift?.points.map(p => p.load), [100, 105]);
     assert.equal(some.record?.exercise, 'Back squat');
     assert.equal(some.record?.previous, 100);
+  });
+  test('a first full cardio session is a baseline, so the tracker can say so', () => {
+    const run = (id: string, day: string, variant = 'green') =>
+      ({ id, template_id: 't', variant_code: variant, started_at: `${day}T09:00:00Z`, ended_at: null });
+    const lap = (session_id: string, meters: number) =>
+      ({ session_id, exercise_id: 'ex_run', distance_meters: meters, duration_seconds: meters * 0.28 });
+    const baselines = cardioBaselines({
+      // The reduced session is earlier, and never a baseline.
+      sessions: [run('micro', '2026-10-20', 'red'), run('a', '2026-10-29'), run('b', '2026-10-30')],
+      cardioLogs: [lap('micro', 1000), lap('a', 1000), lap('b', 1000), lap('b', 5000)],
+      modality: new Map([['ex_run', 'running']]),
+    });
+    assert.deepEqual(baselines.get('running_threshold'), { date: '2026-10-29', session_id: 'a' });
+    assert.deepEqual(baselines.get('aerobic_durability'), { date: '2026-10-30', session_id: 'b' });
+
+    const detail = capabilityDetails({
+      histories: new Map(), ontology: ONTOLOGY, exerciseNames: NAMES, sessionNames: new Map([['a', 'Tempo 3x6']]),
+      evidence: [], cardio: baselines,
+    }).running_threshold;
+    assert.deepEqual(detail.baseline, { date: '2026-10-29', session_id: 'a', session_name: 'Tempo 3x6' });
   });
 });
