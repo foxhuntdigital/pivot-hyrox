@@ -13,6 +13,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { VARIANT_LABEL, supplementalOffer } from '@pivot/engine';
 import { color, type as t, space } from '@/theme/tokens';
 import { Rule, Label, ActionButton, InkPanel, Chip } from '@/components/primitives';
+import { FinishWeek } from '@/components/FinishWeek';
+import { lookOf } from '@/components/plan/weekData';
 import { useApp } from '@/state/store';
 import { TEMPLATES, EXERCISES } from '@/data/content';
 import { mmss } from '@/lib/format';
@@ -20,7 +22,12 @@ import { buildSplits, splitTotals, fastestAndSlowest } from '@/state/splits';
 import { recordsIn } from '@/state/records';
 import { LOW_SLEEP_HOURS } from '@/lib/format';
 
-const RPE_CHOICES = [5, 6, 7, 8, 9];
+const RPE_CHOICES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+/** The word for an effort, shown under the scale so a number means something. */
+function rpeWord(rpe: number): string {
+  return rpe <= 3 ? 'Easy' : rpe <= 6 ? 'Moderate' : rpe <= 8 ? 'Hard' : 'Max';
+}
 
 /**
  * One correction. Empty means "the clock was right", never zero — a blank
@@ -100,6 +107,15 @@ export default function DoneScreen() {
    */
   const [correctionsOpen, setCorrectionsOpen] = React.useState(false);
 
+  /**
+   * Set when Done is tapped with no RPE. The first tap brings the scale into
+   * view and says why it matters; the next one finishes without it. A rating
+   * is asked for, never required: an athlete who cannot say still finished.
+   */
+  const [nudged, setNudged] = React.useState(false);
+  const scroller = React.useRef<ScrollView>(null);
+  const rpeY = React.useRef(0);
+
   if (session.kind !== 'session') {
     router.replace('/today');
     return null;
@@ -138,7 +154,6 @@ export default function DoneScreen() {
 
   // `plan.week` already counts the session just finished — the store adds it
   // the moment the workout completes rather than waiting for a refetch.
-  const { done: weekDone, target: weekTarget } = plan.week;
 
   /**
    * The coach note reflects what actually happened. It reads from logged
@@ -233,6 +248,11 @@ export default function DoneScreen() {
     // RPE is captured on this screen, so the finish is written here rather
     // than when the last block ended — the record carries what the athlete
     // actually reported.
+    if (state.session_rpe == null && !nudged) {
+      setNudged(true);
+      scroller.current?.scrollTo({ y: Math.max(0, rpeY.current - 16), animated: true });
+      return;
+    }
     finishSession();
     router.replace('/today');
   };
@@ -249,6 +269,7 @@ export default function DoneScreen() {
 
   return (
     <ScrollView
+      ref={scroller}
       style={{ backgroundColor: color.paper }}
       contentContainerStyle={{ paddingTop: insets.top + 22, paddingBottom: 40 }}
       // The split corrections open a numeric pad, which has no return key.
@@ -264,7 +285,9 @@ export default function DoneScreen() {
         }}>
           <Text style={{ fontSize: 22, color: color.onDark, fontFamily: t.h1.fontFamily }}>✓</Text>
         </View>
-        <Text style={[t.h1, { marginTop: 16, color: color.ink }]}>Strong session.</Text>
+        <Text style={[t.h1, { marginTop: 16, color: color.ink }]}>
+          {state.ended_early ? 'Session logged.' : 'Strong session.'}
+        </Text>
         <Text style={[t.body, { color: color.muted2, marginTop: 6 }]}>
           {session.template.name} · {VARIANT_LABEL[session.variant.variant_code]}
         </Text>
@@ -297,6 +320,51 @@ export default function DoneScreen() {
           ))}
         </View>
       ) : null}
+
+      {/* The week, with today's tile filling in: finishing a session shown as
+          progress on the week the athlete has been looking at all along. */}
+      <View style={{ paddingHorizontal: space.gutter, paddingTop: 18 }}>
+        <FinishWeek
+          kind={lookOf(session.template.id, session.blocks)?.kind ?? 'hybrid'}
+          extra={(session.template.workout_role ?? 'primary') === 'supplemental'}
+        />
+      </View>
+
+      {/* How hard it was, straight after the result rather than under the
+          splits. It sets tomorrow's load and decides which sessions compare,
+          so it is the one thing on this screen worth asking for every time. */}
+      <View
+        onLayout={e => { rpeY.current = e.nativeEvent.layout.y; }}
+        style={{
+          marginHorizontal: space.gutter, marginTop: 14, padding: 14, gap: 10,
+          borderWidth: 2, borderColor: nudged && state.session_rpe == null ? color.red : color.ink,
+        }}
+      >
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>
+          <Label tone="ink">How hard was that?</Label>
+          <Text style={[t.rowTitle, { fontSize: 13, color: state.session_rpe == null ? color.muted : color.ink }]}>
+            {state.session_rpe == null ? 'RPE 1 to 10' : `RPE ${state.session_rpe} · ${rpeWord(state.session_rpe)}`}
+          </Text>
+        </View>
+        {[RPE_CHOICES.slice(0, 5), RPE_CHOICES.slice(5)].map((row, r) => (
+          <View key={r} style={{ flexDirection: 'row', gap: 6 }}>
+            {row.map(v => (
+              <Chip
+                key={v} flex size="lg" label={String(v)}
+                active={state.session_rpe === v}
+                accessibilityLabel={`RPE ${v}, ${rpeWord(v)}`}
+                onPress={() => dispatch({ type: 'set_rpe', rpe: v })}
+              />
+            ))}
+          </View>
+        ))}
+        <Text style={[t.meta, { color: color.muted }]}>1 to 3 easy · 4 to 6 moderate · 7 to 8 hard · 9 to 10 max</Text>
+        <Text style={[t.bodySm, { color: nudged && state.session_rpe == null ? color.redDark : color.muted2 }]}>
+          {nudged && state.session_rpe == null
+            ? "Tap how hard it felt. It sets tomorrow's load and which sessions this one is compared with."
+            : "Sets tomorrow's load and which sessions this one is compared with."}
+        </Text>
+      </View>
 
       <View style={{ paddingHorizontal: space.gutter, paddingTop: 18 }}>
         <Rule heavy />
@@ -490,22 +558,6 @@ export default function DoneScreen() {
         </>
       ) : null}
 
-      <Label style={{ paddingHorizontal: space.gutter, paddingTop: 18, paddingBottom: 6 }}>
-        How hard was that?
-      </Label>
-      <View style={{ flexDirection: 'row', gap: 6, paddingHorizontal: space.gutter }}>
-        {RPE_CHOICES.map(v => (
-          <Chip
-            key={v} flex size="lg" label={String(v)}
-            active={state.session_rpe === v}
-            onPress={() => dispatch({ type: 'set_rpe', rpe: v })}
-          />
-        ))}
-      </View>
-      <Text style={[t.meta, { paddingHorizontal: space.gutter, paddingTop: 8, color: color.muted }]}>
-        RPE · shapes tomorrow's load
-      </Text>
-
       <InkPanel
         label="Coach"
         style={{ margin: 18, marginHorizontal: space.gutter, marginBottom: 0 }}
@@ -519,7 +571,6 @@ export default function DoneScreen() {
       <View style={{ paddingHorizontal: space.gutter, paddingTop: 6 }}>
         {[
           { k: 'Stimulus logged', v: session.primary_stimulus.replace(/_/g, ' ') },
-          { k: 'Week', v: `${weekDone} of ${weekTarget} stimuli` },
           // The race row states the countdown. It used to assert "On track"
           // alongside it, which nothing measured.
           ...(plan.race ? [{
@@ -598,7 +649,8 @@ export default function DoneScreen() {
       ) : null}
 
       <ActionButton
-        label="Done" onPress={finish}
+        label={nudged && state.session_rpe == null ? 'Finish without rating' : 'Done'}
+        onPress={finish}
         style={{ margin: 20, marginHorizontal: space.gutter, marginTop: 20 }}
       />
     </ScrollView>
