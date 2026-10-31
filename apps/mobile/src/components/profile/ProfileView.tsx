@@ -14,7 +14,6 @@ import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { color, space, type as t } from '@/theme/tokens';
 import { Label } from '@/components/primitives';
 import { Chevron } from '@/components/system';
-import { EQUIPMENT_CHOICES } from '@/data/content';
 import { phaseTitle } from '@/data/plan';
 import { PREFERENCE_OPTIONS, WEAKNESS_OPTIONS } from '@/data/preferencesRepo';
 import {
@@ -30,6 +29,7 @@ import { useProgress } from '@/state/progress';
 import { useSession } from '@/state/session';
 import { useApp } from '@/state/store';
 import { useTour } from '@/state/tour';
+import { useEquipmentCatalogue } from '@/state/equipmentCatalogue';
 import { ProfileError } from './ProfileError';
 
 const DIVISION: Record<string, string> = { open: 'Open', pro: 'Pro', doubles: 'Doubles', relay: 'Relay' };
@@ -47,6 +47,7 @@ export function ProfileView({ footer }: { footer?: React.ReactNode }) {
   const { email, status } = useSession();
   const tour = useTour();
   const { data } = useProgress();
+  const { choices: equipmentChoices } = useEquipmentCatalogue();
   const { profile } = state;
   const now = new Date();
 
@@ -63,7 +64,7 @@ export function ProfileView({ footer }: { footer?: React.ReactNode }) {
 
   const groups: { title: string; note: string; lock?: boolean; rows: Row[] }[] = [
     { title: 'Your training', note: 'Shapes every session', rows: [
-      { label: 'Equipment', value: equipmentSummary(state.equipment, EQUIPMENT_CHOICES), onPress: go('equipment') },
+      { label: 'Equipment', value: equipmentSummary(state.equipment, equipmentChoices), onPress: go('equipment') },
       { label: 'Session length', value: lengthSummary(profile.typical_session_minutes), onPress: go('length') },
       { label: 'Your week', value: weekSummary(predictability.label, preGeneratesVariants(profile.schedule_predictability)), onPress: go('week') },
       { label: 'Running', value: IMPACT_CHOICES.find(c => c.value === profile.impact_tolerance)?.label ?? 'Running is fine', onPress: go('running') },

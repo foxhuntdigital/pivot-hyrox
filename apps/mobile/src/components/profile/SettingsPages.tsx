@@ -20,7 +20,6 @@ import { ChipRow, DateChooser } from '@/components/onboarding';
 import { useDialog } from '@/components/Dialog';
 import { Stepper } from '@/components/profile/ProfileLegacy';
 import { ProfileError } from '@/components/profile/ProfileError';
-import { EQUIPMENT_CHOICES } from '@/data/content';
 import { saveEquipment } from '@/data/equipmentRepo';
 import { createPlan, updateRaceDetails, type PlanTarget } from '@/data/planRepo';
 import { PREFERENCE_OPTIONS, WEAKNESS_OPTIONS } from '@/data/preferencesRepo';
@@ -41,6 +40,7 @@ import { canPickMore, needsWorkNote, toggleNeedsWork } from '@/state/needsWork';
 import { useProgress } from '@/state/progress';
 import { useSession } from '@/state/session';
 import { useApp } from '@/state/store';
+import { useEquipmentCatalogue } from '@/state/equipmentCatalogue';
 
 export const PAGES = ['equipment', 'length', 'week', 'running', 'enjoy', 'needs-work', 'health', 'name', 'account', 'goal'] as const;
 export type Page = (typeof PAGES)[number];
@@ -128,13 +128,17 @@ function EquipmentPage() {
   const left = useSessionsLeft();
   const [draft, setDraft] = useState<string[]>(state.equipment);
   const changed = changedIds(state.equipment, draft);
-  const groups = useMemo(() => equipmentGroups(EQUIPMENT_CHOICES), []);
+  const { choices, offline } = useEquipmentCatalogue();
+  const groups = useMemo(() => equipmentGroups(choices), [choices]);
   const { busy, error, run } = useApplyAndReplan();
 
   return (
     <>
       <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
         <Title title="Equipment" intro="What you can use this week. Sessions only use what's ticked." />
+        {offline ? (
+          <Note>Showing the equipment list saved in the app, because the latest one could not be loaded.</Note>
+        ) : null}
         {groups.map(g => (
           <View key={g.title} style={{ marginTop: 16 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: space.gutter, paddingBottom: 8, borderBottomWidth: 2, borderBottomColor: color.ink }}>

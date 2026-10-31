@@ -15,7 +15,7 @@ import { color, space, type as t } from '@/theme/tokens';
 import { useOnboarding } from '@/state/onboarding';
 // Shared with the Profile screen, which edits the same column: one list of
 // answers means the chip picked here is the chip shown there.
-import { PREDICTABILITY_CHOICES, preGeneratesVariants } from '@/data/profile';
+import { IMPACT_CHOICES, PREDICTABILITY_CHOICES, preGeneratesVariants } from '@/data/profile';
 
 /** Mirrors the adapt sheet's time options (PRD §6.3) so the two agree. */
 const MINUTES = [
@@ -26,10 +26,6 @@ const MINUTES = [
   { value: 90, label: '90 min +' },
 ];
 
-const IMPACT = [
-  { value: 'normal' as const, label: 'Running is fine' },
-  { value: 'low' as const, label: 'Prefer low impact' },
-];
 
 export default function AvailabilityScreen() {
   const router = useRouter();
@@ -59,7 +55,7 @@ export default function AvailabilityScreen() {
 
       <ChipRow
         label="Impact"
-        options={IMPACT}
+        options={IMPACT_CHOICES.map(c => ({ value: c.value, label: c.label }))}
         value={draft.impact_tolerance}
         onChange={impact_tolerance => update({ impact_tolerance })}
       />
