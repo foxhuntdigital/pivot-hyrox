@@ -191,7 +191,10 @@ for (const eq of plan.new_equipment) {
   if (existingEquipment.has(eq.id)) continue;
   const meta = equipmentTiers.get(eq.id);
   if (!meta) throw new Error(`no tier ruling for equipment "${eq.id}"`);
-  const name = eq.id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  // Sentence case, as every hand-named item is ("Cable machine", "Pull-up
+  // rig"). Title-casing the id gave "Trap Bar" beside them.
+  const words = eq.id.replace(/_/g, ' ');
+  const name = words.charAt(0).toUpperCase() + words.slice(1);
   newEquipmentRows.push(
     `INSERT INTO "equipment" VALUES('${eq.id}',${lit(name)},${lit(meta.category)},${lit(meta.tier)});`);
   written.equipment.push({ id: eq.id, name, tier: meta.tier, uses: eq.uses });

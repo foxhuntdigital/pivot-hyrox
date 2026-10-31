@@ -44687,7 +44687,7 @@
     },
     {
       "id": "trx",
-      "name": "Suspension Trainer",
+      "name": "Suspension trainer",
       "category": "strength",
       "selection_tier": "athlete_selectable"
     },
@@ -44729,7 +44729,7 @@
     },
     {
       "id": "trap_bar",
-      "name": "Trap Bar",
+      "name": "Trap bar",
       "category": "strength",
       "selection_tier": "athlete_selectable"
     },
@@ -44741,7 +44741,7 @@
     },
     {
       "id": "back_extension",
-      "name": "Back Extension",
+      "name": "Back extension",
       "category": "strength",
       "selection_tier": "specialized"
     },
@@ -44765,25 +44765,25 @@
     },
     {
       "id": "ab_wheel",
-      "name": "Ab Wheel",
+      "name": "Ab wheel",
       "category": "strength",
       "selection_tier": "specialized"
     },
     {
       "id": "stability_ball",
-      "name": "Stability Ball",
+      "name": "Stability ball",
       "category": "strength",
       "selection_tier": "specialized"
     },
     {
       "id": "reverse_hyper",
-      "name": "Reverse Hyper",
+      "name": "Reverse hyper",
       "category": "strength",
       "selection_tier": "specialized"
     },
     {
       "id": "medicine_ball",
-      "name": "Medicine Ball",
+      "name": "Medicine ball",
       "category": "strength",
       "selection_tier": "athlete_selectable"
     },
@@ -44795,7 +44795,7 @@
     },
     {
       "id": "nordic_anchor",
-      "name": "Nordic Anchor",
+      "name": "Nordic anchor",
       "category": "strength",
       "selection_tier": "specialized"
     }

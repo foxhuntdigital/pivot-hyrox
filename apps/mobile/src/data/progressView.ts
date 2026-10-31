@@ -326,11 +326,35 @@ export interface SplitLike {
   block_order?: number | null;
   round?: number | null;
   exercise_id?: string | null;
+  /** What the step asked for, as the player showed it: "1000 m", "1 km", "15 reps". */
+  prescribed?: string | null;
+}
+
+/** Metres in a prescription like "1000 m" or "1.5 km"; null for anything else. */
+export function metresOf(prescribed: string | null | undefined): number | null {
+  const m = /^\s*(\d+(?:\.\d+)?)\s*(km|m)\b/i.exec(prescribed ?? '');
+  if (!m) return null;
+  const n = Number(m[1]) * (m[2].toLowerCase() === 'km' ? 1000 : 1);
+  return n > 0 ? n : null;
+}
+
+/**
+ * Pace in the units athletes use: per km for running, per 500 m for an erg.
+ * Null without a distance or a time to divide.
+ */
+export function paceText(seconds: number, metres: number | null, per: 'km' | '500m'): string | null {
+  if (!metres || seconds <= 0) return null;
+  const unit = per === 'km' ? 1000 : 500;
+  return `${mmss((seconds / metres) * unit)} /${per === 'km' ? 'km' : '500 m'}`;
 }
 
 export interface RoundTable {
   columns: string[];
-  rows: { round: number; cells: Record<string, number>; total: number }[];
+  /**
+   * `metres` holds a cell's distance when every lap in it named one, so its
+   * pace can be shown; a cell with any lap that did not stays without.
+   */
+  rows: { round: number; cells: Record<string, number>; metres: Record<string, number | null>; total: number }[];
   /** One sentence on where the time went between the first and last round. */
   summary: string | null;
 }
@@ -361,15 +385,20 @@ export function roundTable(splits: SplitLike[], columnOf: (s: SplitLike) => stri
 
   const columns: string[] = [];
   const byRound = new Map<number, Record<string, number>>();
+  const metresByRound = new Map<number, Record<string, number | null>>();
   for (const lap of best) {
     const col = columnOf(lap);
     if (!columns.includes(col)) columns.push(col);
     const cells = byRound.get(lap.round!) ?? {};
     cells[col] = (cells[col] ?? 0) + lap.seconds;
     byRound.set(lap.round!, cells);
+    const dist = metresByRound.get(lap.round!) ?? {};
+    const m = metresOf(lap.prescribed);
+    dist[col] = col in dist ? (dist[col] != null && m != null ? dist[col]! + m : null) : m;
+    metresByRound.set(lap.round!, dist);
   }
   const rows = [...byRound.entries()].sort(([a], [b]) => a - b).map(([round, cells]) => ({
-    round, cells, total: Object.values(cells).reduce((a, b) => a + b, 0),
+    round, cells, metres: metresByRound.get(round) ?? {}, total: Object.values(cells).reduce((a, b) => a + b, 0),
   }));
 
   let summary: string | null = null;
