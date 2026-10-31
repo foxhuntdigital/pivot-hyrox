@@ -100,7 +100,11 @@ export const HYROX_STATION_EXERCISES = [
   'ex_rowerg', 'ex_farmer_carry', 'ex_sandbag_walking_lunge', 'ex_wall_ball',
 ] as const;
 
-const COMPONENT_WEIGHTS = {
+/**
+ * Each component's share of the score. Exported so the Readiness page states
+ * the same shares the score is built from, rather than a copy that can drift.
+ */
+export const COMPONENT_WEIGHTS = {
   aerobic: 0.2,
   running: 0.2,
   strength: 0.15,
@@ -110,6 +114,18 @@ const COMPONENT_WEIGHTS = {
 } as const;
 
 export type ComponentKey = keyof typeof COMPONENT_WEIGHTS;
+
+/**
+ * Full marks for each input. The model scores linearly up to these and no
+ * further; the Readiness page shows every input against its target.
+ */
+export const READINESS_TARGETS = {
+  aerobic_minutes_14d: 300,
+  threshold_sessions_14d: 4,
+  run_sessions_7d: 3,
+  longest_run_km: 12,
+  stations_covered_21d: HYROX_STATION_EXERCISES.length,
+} as const;
 
 export interface ReadinessResult {
   /**
@@ -127,12 +143,12 @@ export interface ReadinessResult {
 export function computeReadiness(i: ReadinessInputs): ReadinessResult {
   const components = {
     // 300 min of easy aerobic work over two weeks is a full score.
-    aerobic: clamp01(i.aerobic_minutes_14d / 300) * 0.7
-           + clamp01(i.threshold_sessions_14d / 4) * 0.3,
-    running: clamp01(i.run_sessions_7d / 3) * 0.6
-           + clamp01(i.longest_run_km / 12) * 0.4,
+    aerobic: clamp01(i.aerobic_minutes_14d / READINESS_TARGETS.aerobic_minutes_14d) * 0.7
+           + clamp01(i.threshold_sessions_14d / READINESS_TARGETS.threshold_sessions_14d) * 0.3,
+    running: clamp01(i.run_sessions_7d / READINESS_TARGETS.run_sessions_7d) * 0.6
+           + clamp01(i.longest_run_km / READINESS_TARGETS.longest_run_km) * 0.4,
     strength: clamp01(i.strength_completion_rate),
-    stations: clamp01(i.stations_covered_21d / 8),
+    stations: clamp01(i.stations_covered_21d / READINESS_TARGETS.stations_covered_21d),
     consistency: clamp01(i.stimulus_adherence_4w),
     recovery: clamp01(i.recovery_signal),
   };

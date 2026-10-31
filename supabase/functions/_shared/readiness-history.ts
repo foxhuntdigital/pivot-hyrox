@@ -56,6 +56,28 @@ export function sessionMinutes(s: SessionRow, facts: TemplateFacts | undefined):
 }
 
 /**
+ * The race stations trained in the stations window, as exercise ids.
+ *
+ * Readiness scores only the count; the Readiness page names which ones, so the
+ * athlete can see what is missing rather than just how many.
+ */
+export function stationsCovered(args: {
+  today: string;
+  sessions: SessionRow[];
+  setLogs: SetLogRow[];
+  cardioLogs: CardioLogRow[];
+}): Set<string> {
+  const sessionById = new Map(args.sessions.map(s => [s.id, s]));
+  const stations = new Set<string>();
+  for (const l of [...args.setLogs, ...args.cardioLogs]) {
+    const s = sessionById.get(l.session_id);
+    if (!s || daysAgo(args.today, s.started_at) >= WINDOWS.stations) continue;
+    if (STATIONS.has(l.exercise_id)) stations.add(l.exercise_id);
+  }
+  return stations;
+}
+
+/**
  * Computes the readiness inputs from history.
  *
  * `stimulus_adherence_4w` and `recovery_signal` are passed through rather than
@@ -115,12 +137,7 @@ export function readinessInputsFrom(args: {
   }
   const strength_completion_rate = prescribedSets ? completion / prescribedSets : 0;
 
-  const stations = new Set<string>();
-  for (const l of [...setLogs, ...cardioLogs]) {
-    const s = sessionById.get(l.session_id);
-    if (!s || !within(s, WINDOWS.stations)) continue;
-    if (STATIONS.has(l.exercise_id)) stations.add(l.exercise_id);
-  }
+  const stations = stationsCovered({ today, sessions, setLogs, cardioLogs });
 
   // Confidence is about how much real training we have seen, so it counts
   // distinct days trained rather than sessions — two sessions in a day is one

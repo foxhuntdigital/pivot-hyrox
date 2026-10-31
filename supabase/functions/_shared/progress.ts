@@ -6,9 +6,12 @@
  * the sentence and the number drift apart, which is the failure this whole
  * change exists to fix.
  */
-import { computeReadiness, type RecoveryCheckin } from '../../../packages/engine/src/index.ts';
 import {
-  loadReadinessHistory, readinessInputsFrom, recoveryOverDays, stimulusAdherence, type WeekNeed,
+  computeReadiness, READINESS_MODEL_VERSION, type ReadinessInputs, type RecoveryCheckin,
+} from '../../../packages/engine/src/index.ts';
+import {
+  loadReadinessHistory, readinessInputsFrom, recoveryOverDays, stationsCovered, stimulusAdherence,
+  type WeekNeed,
 } from './readiness-history.ts';
 import { comparableSeries, type ComparableSeries } from './comparable.ts';
 import { metricDetailFrom, type MetricDetail } from './metric-detail.ts';
@@ -28,6 +31,10 @@ export interface ProgressSnapshot {
    * it are the same evidence.
    */
   comparable: ComparableSeries | null;
+  /** What the score was computed from, so Readiness can show each input against its target. */
+  inputs: ReadinessInputs;
+  /** The race stations trained in the stations window, as exercise ids. */
+  stations_covered: string[];
 }
 
 export async function loadProgressSnapshot(args: {
@@ -53,7 +60,7 @@ export async function loadProgressSnapshot(args: {
     estimated_minutes: t.estimated_minutes,
   }]));
 
-  const readiness = computeReadiness(readinessInputsFrom({
+  const inputs = readinessInputsFrom({
     today,
     sessions: history.sessions,
     setLogs: history.setLogs,
@@ -72,7 +79,8 @@ export async function loadProgressSnapshot(args: {
       today,
       checkins: state.checkins as (RecoveryCheckin & { local_date: string })[],
     }),
-  }));
+  });
+  const readiness = computeReadiness(inputs);
 
   const metric_detail = metricDetailFrom({
     today,
@@ -105,5 +113,41 @@ export async function loadProgressSnapshot(args: {
     cardioLogs: history.cardioLogs,
   });
 
-  return { readiness, metric_detail, lowest, comparable };
+  const stations_covered = [...stationsCovered({
+    today, sessions: history.sessions, setLogs: history.setLogs, cardioLogs: history.cardioLogs,
+  })];
+
+  await saveReadinessSnapshot(db, userId, today, readiness);
+
+  return { readiness, metric_detail, lowest, comparable, inputs, stations_covered };
+}
+
+/**
+ * Keeps one readiness row per day, so Progress can draw the line over time.
+ *
+ * `readiness_snapshots` existed from the start with nothing writing to it.
+ * Written here because every caller that computes readiness (Today, Coach,
+ * Progress) comes through this function: the first one of the day creates the
+ * row and later ones refresh it, so the stored value is the day's latest.
+ *
+ * A failed write costs one point on a chart, never the screen that asked for
+ * readiness, so the error is dropped. No score, no row: an athlete with nothing
+ * measured has no point to plot, which is not the same as a zero.
+ */
+export async function saveReadinessSnapshot(
+  db: any, userId: string, today: string, readiness: ReturnType<typeof computeReadiness>,
+): Promise<void> {
+  if (readiness.overall === null) return;
+  try {
+    await db.from('readiness_snapshots').upsert({
+      user_id: userId,
+      local_date: today,
+      overall: readiness.overall,
+      components_json: { components: readiness.components, observed: readiness.observed },
+      confidence: readiness.confidence,
+      model_version: READINESS_MODEL_VERSION,
+    }, { onConflict: 'user_id,local_date' });
+  } catch {
+    // See above: the chart loses a point, nothing else.
+  }
 }
