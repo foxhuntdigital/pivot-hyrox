@@ -26,13 +26,12 @@ import { AdaptSheet } from '@/components/AdaptSheet';
 import { useDialog } from '@/components/Dialog';
 import { TourSpot } from '@/components/Tour';
 import { Chevron, SessionShape, TypeTag } from '@/components/system';
+import { SessionRows } from '@/components/SessionRows';
 import { lookOf, useWeek } from '@/components/plan/weekData';
 import { useTour } from '@/state/tour';
 import { useApp } from '@/state/store';
-import { blockLabel, formatPrescription } from '@/state/steps';
 import { PHASE_MEANING, phaseTitle } from '@/data/plan';
-import { exerciseById } from '@/data/content';
-import { movementKind, type ShapeBar } from '@/data/sessionShape';
+import type { ShapeBar } from '@/data/sessionShape';
 import { displayName, feelOf } from '@/data/planWeek';
 import { LENGTH_NAME, checkinLine, readinessLine } from '@/data/todayView';
 import { variantOverrideFailed, variantSource, variantStep, type VariantStep } from '@/data/variantChoice';
@@ -541,33 +540,7 @@ function SessionCard({ onStart, onAdapt, onLength }: {
 
         {/* What it asks for, in numbers. */}
         <View style={{ paddingHorizontal: 14, paddingTop: 14, paddingBottom: 4 }}>
-          {session.blocks.map((b, bi) => (
-            <View key={b.id ?? bi} style={{ paddingBottom: 6 }}>
-              <Label tone="ink" style={{ paddingBottom: 6 }}>
-                {[b.rounds && b.rounds > 1 ? `${b.rounds} rounds` : b.duration_minutes ? `${b.duration_minutes} min` : null,
-                  blockLabel(b)].filter(Boolean).join(' · ')}
-              </Label>
-              {b.exercises.map((e, ei) => {
-                const ex = exerciseById.get(e.exercise_id);
-                const mk = movementKind(ex);
-                return (
-                  <View key={`${e.exercise_id}-${ei}`} style={{
-                    flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 8,
-                    borderBottomWidth: 1, borderBottomColor: color.ruleFaint,
-                  }}>
-                    <View style={{ width: 8, height: 8, backgroundColor: kindColor[mk ?? kind] }} />
-                    <Text style={[t.rowTitle, { width: 78, color: color.ink }]}>{formatPrescription(e)}</Text>
-                    <View style={{ flex: 1 }}>
-                      <Text style={[t.body, { fontSize: 14, color: color.ink }]}>{ex?.name ?? e.exercise_id}</Text>
-                      {e.intensity_note ? (
-                        <Text style={[t.meta, { color: color.muted2 }]}>{e.intensity_note}</Text>
-                      ) : null}
-                    </View>
-                  </View>
-                );
-              })}
-            </View>
-          ))}
+          <SessionRows blocks={session.blocks} kind={kind} />
         </View>
 
         <TourSpot id="actions" style={{ flexDirection: 'row', gap: 8, paddingHorizontal: 14, paddingTop: 10, paddingBottom: 14 }}>
