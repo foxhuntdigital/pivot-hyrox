@@ -17,7 +17,7 @@ import { loadProgressSnapshot } from '../_shared/progress.ts';
 import { exerciseHistory, EXPOSURE_WINDOW_DAYS, loadPerformanceLogs } from '../_shared/exercise-history.ts';
 import { daysAgo } from '../_shared/readiness-history.ts';
 import {
-  capabilityDetails, highlightsFrom, sessionIndex, trendFrom, type EvidenceRow, type IndexRow,
+  capabilityDetails, cardioBaselines, highlightsFrom, sessionIndex, trendFrom, type EvidenceRow, type IndexRow,
 } from '../_shared/progress-view.ts';
 
 /** Six months of daily readiness: a whole training block with room either side. */
@@ -40,7 +40,7 @@ Deno.serve(async (req) => {
       loadAthleteState(db, user.id, today),
       db.schema('content').from('workout_templates')
         .select('id, primary_goal, requires_running, estimated_minutes'),
-      db.schema('content').from('exercises').select('id, name, movement_families'),
+      db.schema('content').from('exercises').select('id, name, movement_families, modality'),
       db.from('workout_sessions')
         .select('id, template_id, variant_code, started_at, ended_at, session_rpe, ended_early, '
           + 'workout_role, name:snapshot_json->>name, local_date:snapshot_json->>started_local_date, '
@@ -70,7 +70,7 @@ Deno.serve(async (req) => {
 
     // Lifts are read over the same window the evidence rules use.
     const recent = rows.filter(r => daysAgo(today, r.started_at) < EXPOSURE_WINDOW_DAYS);
-    const { setLogs } = await loadPerformanceLogs(db, recent.map(r => r.id));
+    const { setLogs, cardioLogs } = await loadPerformanceLogs(db, recent.map(r => r.id));
     const histories = exerciseHistory({ today, sessions: recent as any, setLogs });
 
     const exercises = exercisesRes.data ?? [];
@@ -111,6 +111,10 @@ Deno.serve(async (req) => {
         perceived: state.perceived_weaknesses,
         detail: capabilityDetails({
           histories, ontology, exerciseNames, sessionNames,
+          cardio: cardioBaselines({
+            sessions: recent as any, cardioLogs,
+            modality: new Map(exercises.map((e: any) => [e.id, e.modality ?? null])),
+          }),
           evidence: (evidenceRes.data ?? []) as EvidenceRow[],
         }),
       },

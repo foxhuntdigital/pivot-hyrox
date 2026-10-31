@@ -10,9 +10,14 @@
  * confidence come from `capabilityState` and the evidence log; this file only
  * lays out what those rows, and the logs behind them, already say.
  */
-import { rangesOverlap, type Exposure, type ExerciseHistory } from './exercise-history.ts';
-import { capabilityFor, type CapabilityKey, type EvidenceOntology } from './evidence.ts';
-import type { ComparableSeries } from './comparable.ts';
+import {
+  rangesOverlap, reducedByVariant, type Exposure, type ExerciseHistory, type VariantSessionRow,
+} from './exercise-history.ts';
+import {
+  capabilityFor, cardioCapabilityFor, type CapabilityKey, type EvidenceOntology,
+} from './evidence.ts';
+import { bandOf as repeatBand, paceOf, type ComparableSeries } from './comparable.ts';
+import type { CardioLogRow } from './readiness-history.ts';
 import { personalRecordsIn } from './prs.ts';
 
 /* ------------------------------------------------------------ sessions --- */
@@ -190,6 +195,8 @@ export function capabilityDetails(args: {
   exerciseNames: Map<string, string>;
   sessionNames: Map<string, string>;
   evidence: EvidenceRow[];
+  /** First sessions read from cardio (`cardioBaselines`), for capabilities with no lifts. */
+  cardio?: Map<string, { date: string; session_id: string }>;
 }): Record<string, CapabilityDetail> {
   const { histories, ontology, exerciseNames, sessionNames, evidence } = args;
   const out: Record<string, CapabilityDetail> = {};
@@ -274,6 +281,44 @@ export function capabilityDetails(args: {
     }
   }
 
+  // A cardio baseline stands where no lift has set one, or where it came first.
+  for (const [key, first] of args.cardio ?? []) {
+    const detail = ensure(key);
+    if (detail.baseline && detail.baseline.date <= first.date) continue;
+    detail.baseline = { ...first, session_name: sessionNames.get(first.session_id) ?? '' };
+  }
+
+  return out;
+}
+
+/**
+ * The first session each cardio capability was measured from: its baseline.
+ *
+ * Read by the same rules as `cardioReadings` in `evidence.ts`: a full session
+ * (never a reduced dose) with a pace at a repeat distance, filed under the
+ * capability that distance speaks to. That session writes no evidence row,
+ * because there is nothing before it to compare with, which is why the app
+ * could not tell it had happened without this.
+ */
+export function cardioBaselines(args: {
+  sessions: VariantSessionRow[];
+  cardioLogs: CardioLogRow[];
+  modality: Map<string, string | null>;
+}): Map<string, { date: string; session_id: string }> {
+  const byId = new Map(args.sessions.map(s => [s.id, s]));
+  const out = new Map<string, { date: string; session_id: string }>();
+  for (const log of args.cardioLogs) {
+    const session = byId.get(log.session_id);
+    if (!session?.started_at || reducedByVariant(session) === 'reduced') continue;
+    const pace = paceOf(log);
+    const band = log.distance_meters ? repeatBand(log.distance_meters) : null;
+    if (!pace || pace <= 0 || band === null) continue;
+    const key = cardioCapabilityFor(log.exercise_id, args.modality.get(log.exercise_id), band);
+    if (!key) continue;
+    const date = session.started_at.slice(0, 10);
+    const known = out.get(key);
+    if (!known || date < known.date) out.set(key, { date, session_id: session.id });
+  }
   return out;
 }
 
