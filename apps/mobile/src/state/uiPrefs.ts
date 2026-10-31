@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export type Layout = 'new' | 'old';
 
 /** A redesigned tab's layout. New unless this device chose the old one. */
-export function useLayout(tab: 'plan' | 'today' | 'coach' | 'progress'): [Layout, (next: Layout) => void] {
+export function useLayout(tab: 'plan' | 'today' | 'coach' | 'progress' | 'profile'): [Layout, (next: Layout) => void] {
   const key = `pivot.ui.${tab}-layout`;
   const [layout, setLayout] = useState<Layout>('new');
 
