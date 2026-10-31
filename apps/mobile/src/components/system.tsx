@@ -76,12 +76,14 @@ export function TypeTag({ kind, size = 'sm', style }: {
  * Decorative to assistive technology: the session's name, kind and minutes
  * are always written beside it, and that is what a screen reader should read.
  */
-export function SessionShape({ bars, kind, height = 28, muted, style }: {
+export function SessionShape({ bars, kind, height = 28, muted, tint, style }: {
   bars: ShapeBar[];
   kind: SessionKind;
   height?: number;
   /** Drawn as an outline-weight grey, for a session that is not on offer. */
   muted?: boolean;
+  /** One colour for every bar, for a shape drawn on a dark card. */
+  tint?: string;
   style?: ViewStyle;
 }) {
   return (
@@ -100,8 +102,7 @@ export function SessionShape({ bars, kind, height = 28, muted, style }: {
             flexGrow: b.grow, flexShrink: 1, flexBasis: 0,
             height: `${Math.round(b.effort * 100)}%`,
             backgroundColor: b.effort === 0 ? 'transparent'
-              : muted ? color.chipBorder
-              : kindColor[b.kind ?? kind],
+              : tint ?? (muted ? color.chipBorder : kindColor[b.kind ?? kind]),
           }}
         />
       ))}

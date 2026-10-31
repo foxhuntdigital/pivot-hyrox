@@ -6,26 +6,25 @@
 import { useCallback, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const PLAN_KEY = 'pivot.ui.plan-layout';
+export type Layout = 'new' | 'old';
 
-export type PlanLayout = 'new' | 'old';
-
-/** The Plan tab's layout. New unless this device chose the old one. */
-export function usePlanLayout(): [PlanLayout, (next: PlanLayout) => void] {
-  const [layout, setLayout] = useState<PlanLayout>('new');
+/** A redesigned tab's layout. New unless this device chose the old one. */
+export function useLayout(tab: 'plan' | 'today' | 'coach'): [Layout, (next: Layout) => void] {
+  const key = `pivot.ui.${tab}-layout`;
+  const [layout, setLayout] = useState<Layout>('new');
 
   useEffect(() => {
     let alive = true;
-    AsyncStorage.getItem(PLAN_KEY)
+    AsyncStorage.getItem(key)
       .then(v => { if (alive && (v === 'old' || v === 'new')) setLayout(v); })
       .catch(() => { /* unreadable storage: keep the default */ });
     return () => { alive = false; };
-  }, []);
+  }, [key]);
 
-  const choose = useCallback((next: PlanLayout) => {
+  const choose = useCallback((next: Layout) => {
     setLayout(next);
-    AsyncStorage.setItem(PLAN_KEY, next).catch(() => { /* the choice still holds for this session */ });
-  }, []);
+    AsyncStorage.setItem(key, next).catch(() => { /* the choice still holds for this session */ });
+  }, [key]);
 
   return [layout, choose];
 }

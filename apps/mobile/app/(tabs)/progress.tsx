@@ -45,7 +45,7 @@ const DIRECTION_TREND: Record<string, string> = {
 
 
 export default function ProgressScreen() {
-  const { state, dispatch, readiness, metricDetail, capability, trend, weaknesses } = useApp();
+  const { state, dispatch, readiness, metricDetail, capability, trend, weaknesses, plan } = useApp();
   const router = useRouter();
 
   const entries = Object.entries(readiness.components) as [keyof typeof readiness.components, number][];
@@ -258,6 +258,34 @@ export default function ProgressScreen() {
           </Text>
         </InkPanel>
       )}
+
+      {/* ── The last seven days ───────────────────────────────────────
+          Moved here from Today, where it sat under the session (redesign
+          plan): volume as measured, not a load score, and Progress is where
+          an athlete looks back. */}
+      {plan.training7d ? (
+        <View style={{
+          flexDirection: 'row', marginHorizontal: space.gutter, marginTop: 22,
+          borderTopWidth: 1, borderBottomWidth: 1, borderColor: color.rule,
+        }}>
+          <View style={{ flex: 1, paddingVertical: 12, borderRightWidth: 1, borderRightColor: color.rule }}>
+            <Label size="sm">Trained, last 7 days</Label>
+            <Text style={[t.h4, { fontSize: 20, marginTop: 4, color: color.ink }]}>
+              {plan.training7d.sessions}
+              <Text style={[t.bodySm, { color: color.muted }]}>
+                {plan.training7d.sessions === 1 ? ' session' : ' sessions'}
+              </Text>
+            </Text>
+          </View>
+          <View style={{ flex: 1, paddingVertical: 12, paddingLeft: 14 }}>
+            <Label size="sm">Time, last 7 days</Label>
+            <Text style={[t.h4, { fontSize: 20, marginTop: 4, color: color.ink }]}>
+              {plan.training7d.minutes}
+              <Text style={[t.bodySm, { color: color.muted }]}> min</Text>
+            </Text>
+          </View>
+        </View>
+      ) : null}
 
       {/* ── What the training has shown ───────────────────────────────
           Bands, never numbers. The schema stores direction and confidence as

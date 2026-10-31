@@ -14,7 +14,7 @@
  * its warnings, the bonus sessions and their done state. The order still
  * follows the week's priority; the numbers in front of it are gone.
  */
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, Text, ScrollView, Pressable, useWindowDimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
@@ -26,37 +26,13 @@ import { WorkoutDetailSheet } from '@/components/WorkoutDetailSheet';
 import { Chevron, SessionShape, TypeTag } from '@/components/system';
 import { useApp } from '@/state/store';
 import { phaseTitle } from '@/data/plan';
-import { EXERCISES, TEMPLATES } from '@/data/content';
-import { rpeOf, sessionKind, sessionShape, type ShapeBar, type ShapeBlock } from '@/data/sessionShape';
+import type { ShapeBar } from '@/data/sessionShape';
+import { lookOf, useWeek } from './weekData';
 import {
-  buildWeek, displayName, doTodayStep, effortOf, feelOf, overrideFailed,
-  type DoTodayStep, type TemplateLook, type WeekTile,
+  displayName, doTodayStep, feelOf, overrideFailed,
+  type DoTodayStep, type WeekTile,
 } from '@/data/planWeek';
 import type { QueuedSession } from '@/data/todayRepo';
-
-const templateById = new Map(TEMPLATES.map(tpl => [tpl.id, tpl]));
-const exerciseIndex = new Map(EXERCISES.map(e => [e.id, e]));
-
-/** A template's shape, kind and effort, computed once per id for the life of the app. */
-const looks = new Map<string, (TemplateLook & { bars: ShapeBar[] }) | null>();
-function lookOf(templateId: string, blocks?: ShapeBlock[]) {
-  if (!blocks && looks.has(templateId)) return looks.get(templateId)!;
-  const tpl = templateById.get(templateId);
-  if (!tpl) { looks.set(templateId, null); return null; }
-  const bars = sessionShape(blocks ?? tpl.blocks, {
-    exercises: exerciseIndex, intensityTarget: tpl.intensity_target,
-  });
-  const look = {
-    bars,
-    kind: sessionKind(tpl, bars),
-    effort: effortOf(rpeOf(tpl.intensity_target)),
-    description: tpl.description ?? null,
-    supplemental: (tpl.workout_role ?? 'primary') === 'supplemental',
-    circuit: tpl.session_type === 'strength_endurance',
-  };
-  if (!blocks) looks.set(templateId, look);
-  return look;
-}
 
 const WEEK_INFO = [
   'Sessions, not weekdays. Your week is the training it needs, in priority order, '
@@ -86,35 +62,7 @@ export function PlanWeekView({ footer }: { footer?: React.ReactNode }) {
     && plan.phase.total_weeks > 0 && plan.phase.week >= plan.phase.total_weeks;
   const travelDays = state.travel?.days.length ?? 0;
 
-  /*
-   * Today's session and the queue item it claims, exactly as the old tab
-   * worked them out: a finished session pending on this device stands in for
-   * today until the server has it, and only the one queue item the server
-   * would claim for today is taken out of what is still to come.
-   */
-  const todayTemplateId = plan.pendingSession?.template_id
-    ?? (session.kind === 'session' ? session.template.id : null);
-  const claimedToday = todayTemplateId
-    ? [...plan.week.queue].sort((a, b) => a.rank - b.rank).find(q => q.template_id === todayTemplateId)
-    : undefined;
-  const upNext = plan.week.queue.filter(q => q.id !== claimedToday?.id);
-  const todayOpen = session.kind === 'session' && !plan.pendingCompletion && !plan.pendingSession;
-
-  const week = useMemo(() => buildWeek({
-    completed: plan.week.completed,
-    pendingSession: plan.pendingSession,
-    today: todayOpen && session.kind === 'session'
-      ? {
-          templateId: session.template.id, name: session.template.name,
-          minutes: session.estimated_minutes, queued: claimedToday ?? null,
-        }
-      : null,
-    upNext,
-    skipped: plan.week.skipped,
-    opportunities: plan.week.opportunities,
-    look: id => lookOf(id),
-  // claimedToday, upNext and todayOpen are all read off plan and session.
-  }), [plan, session]);
+  const { week, todayTemplateId, claimedToday } = useWeek();
 
   /** Today's shape is the session as adapted, not the template as written. */
   const barsFor = (tile: WeekTile): ShapeBar[] => {

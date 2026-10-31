@@ -30,6 +30,13 @@ export interface CoachMessage {
    * change is the prose around it.
    */
   remote?: RemoteAnswer;
+  /**
+   * The server Coach was asked and did not answer (offline, unconfigured, over
+   * its cap, or an error), so the on-phone answer is the one that stands.
+   * Shown as a "Quick answer" so the athlete knows the full Coach was not
+   * reached.
+   */
+  fallback?: boolean;
 }
 
 export interface CoachThread {
@@ -156,23 +163,37 @@ export function CoachProvider({ children }: { children: React.ReactNode }) {
       .slice(-2)
       .map(m => ({ role: 'user' as const, content: m.text! }));
 
+    const markFallback = () => setThreads(prev => prev.map(t => ({
+      ...t,
+      messages: t.messages.map(m => m.id === coach.id ? { ...m, fallback: true } : m),
+    })));
+
     askCoach({ message: utterance, threadId: remoteThreadId.current, history })
       .then(remote => {
         if (remote) {
           remoteThreadId.current = remote.thread_id ?? remoteThreadId.current;
-          setThreads(prev => prev.map(t => ({
-            ...t,
-            messages: t.messages.map(m => m.id === coach.id
-              ? {
-                  ...m,
-                  remote,
-                  intent: remote.intent ?? m.intent,
-                  signals: remote.intent ? { ...m.signals, ...remote.signals } : m.signals,
-                }
-              : m),
-          })));
+          setThreads(prev => prev.map(t => {
+            const latest = t.messages[t.messages.length - 1]?.id === coach.id;
+            return {
+              ...t,
+              // The model's reading of the question can differ from the local
+              // one; the title follows whichever the latest answer is about.
+              title: latest && remote.intent ? INTENT_TITLE[remote.intent] : t.title,
+              messages: t.messages.map(m => m.id === coach.id
+                ? {
+                    ...m,
+                    remote,
+                    intent: remote.intent ?? m.intent,
+                    signals: remote.intent ? { ...m.signals, ...remote.signals } : m.signals,
+                  }
+                : m),
+            };
+          }));
+        } else {
+          markFallback();
         }
       })
+      .catch(markFallback)
       .finally(() => {
         const wait = Math.max(0, MIN_PENDING_MS - (Date.now() - started));
         if (timer.current) clearTimeout(timer.current);
