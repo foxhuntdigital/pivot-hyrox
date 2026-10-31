@@ -289,31 +289,43 @@ export function mostRecentComparable(
  * almost always wants run paces too, and asking twice would be two round trips
  * for one question.
  */
+/** Ids per `.in()` filter; well under the gateway's URL limit at 36 characters each. */
+const ID_BATCH = 150;
+
 export async function loadPerformanceLogs(
   db: any, sessionIds: string[],
 ): Promise<{ setLogs: StrengthSetRow[]; cardioLogs: any[] }> {
   if (!sessionIds.length) return { setLogs: [], cardioLogs: [] };
 
-  const { data: blocks } = await db.from('session_blocks')
-    .select('id, session_id').in('session_id', sessionIds);
-  const blockToSession = new Map((blocks ?? []).map((b: any) => [b.id, b.session_id]));
+  /**
+   * Ids go in the query string, so a long history is read in batches. Progress
+   * asks for four months of sessions, and several hundred block ids in one URL
+   * runs past what the gateway accepts.
+   */
+  const batches = <T,>(ids: T[]) =>
+    Array.from({ length: Math.ceil(ids.length / ID_BATCH) }, (_, i) => ids.slice(i * ID_BATCH, (i + 1) * ID_BATCH));
+
+  const blockRows = (await Promise.all(batches(sessionIds).map(ids =>
+    db.from('session_blocks').select('id, session_id').in('session_id', ids))))
+    .flatMap((r: any) => r.data ?? []);
+  const blockToSession = new Map(blockRows.map((b: any) => [b.id, b.session_id]));
   const blockIds = [...blockToSession.keys()];
   if (!blockIds.length) return { setLogs: [], cardioLogs: [] };
 
   const [setRes, cardioRes] = await Promise.all([
-    db.from('set_logs')
+    Promise.all(batches(blockIds).map(ids => db.from('set_logs')
       .select('session_block_id, exercise_id, set_index, prescribed_reps, prescribed_reps_min, '
         + 'prescribed_reps_max, actual_reps, prescribed_load, actual_load, load_unit, rpe, source')
-      .in('session_block_id', blockIds),
-    db.from('cardio_logs')
+      .in('session_block_id', ids))),
+    Promise.all(batches(blockIds).map(ids => db.from('cardio_logs')
       .select('session_block_id, exercise_id, distance_meters, duration_seconds, '
         + 'pace_seconds_per_km, avg_hr')
-      .in('session_block_id', blockIds),
+      .in('session_block_id', ids))),
   ]);
 
   const attach = (r: any) => ({ ...r, session_id: blockToSession.get(r.session_block_id) });
   return {
-    setLogs: (setRes.data ?? []).map(attach) as StrengthSetRow[],
-    cardioLogs: (cardioRes.data ?? []).map(attach),
+    setLogs: setRes.flatMap((r: any) => r.data ?? []).map(attach) as StrengthSetRow[],
+    cardioLogs: cardioRes.flatMap((r: any) => r.data ?? []).map(attach),
   };
 }

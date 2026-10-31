@@ -18,7 +18,7 @@ import { Chevron, SessionShape, TypeTag } from '@/components/system';
 import { lookOf } from '@/components/plan/weekData';
 import { ReadinessChart, Sparkline } from '@/components/progress/charts';
 import {
-  CAPABILITIES, directionLabel, kindOf, readinessSpan, useProgressModel,
+  CAPABILITIES, capabilityOfExercise, directionLabel, kindOf, readinessSpan, useProgressModel,
 } from '@/components/progress/model';
 import type { IndexSession, ProgressPayload } from '@/data/progressRepo';
 import {
@@ -488,7 +488,8 @@ function Highlights({ p }: { p: ProgressPayload }) {
       value: fmtLoad(last, lift.unit),
       note: last === first ? `Level over ${lift.points.length} sessions`
         : `${last > first ? '↑' : '↓'} ${fmtLoad(Math.abs(last - first), lift.unit)} over ${lift.points.length} sessions`,
-      values: lift.points.map(x => x.load), to: 'lower_body_strength',
+      values: lift.points.map(x => x.load),
+      to: capabilityOfExercise(lift.exercise_id) ?? 'lower_body_strength',
     });
   }
 
