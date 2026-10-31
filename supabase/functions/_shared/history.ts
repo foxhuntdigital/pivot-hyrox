@@ -40,6 +40,9 @@ export interface SplitRow {
   seconds: number;
   cumulative_seconds: number;
   rest: boolean | null;
+  block_order?: number | null;
+  round?: number | null;
+  exercise_id?: string | null;
 }
 
 /** A lap as history renders it. */
@@ -51,10 +54,24 @@ export interface HistorySplit {
   seconds: number;
   cumulative_seconds: number;
   rest: boolean;
+  /** Which block and round of the session this lap was, so splits can be read by round. */
+  block_order: number | null;
+  round: number | null;
+  exercise_id: string | null;
 }
 
 export interface HistoryEntry {
   id: string;
+  /** For the session's type and its effort targets, from the bundled library. */
+  template_id: string;
+  variant_code: string | null;
+  /** What the plan expected it to take, from the snapshot. */
+  planned_minutes: number | null;
+  /**
+   * The blocks as prescribed on the day, from the snapshot. The app draws the
+   * session's shape from these, so a template edited since cannot redraw it.
+   */
+  blocks: unknown[];
   /** The athlete's own local date, taken from the snapshot, not the server. */
   date: string;
   name: string;
@@ -219,6 +236,10 @@ export function historyEntriesFrom(args: {
 
     return {
       id: s.id,
+      template_id: s.template_id,
+      variant_code: s.variant_code ?? snap?.variant ?? null,
+      planned_minutes: typeof snap?.estimated_minutes === 'number' ? snap.estimated_minutes : null,
+      blocks: Array.isArray(snap?.blocks) ? snap.blocks : [],
       // The snapshot recorded the athlete's own local date at the time; the
       // server's clock and today's timezone are both the wrong answer here.
       date: snap?.started_local_date ?? (s.started_at ?? '').slice(0, 10),
@@ -241,6 +262,9 @@ export function historyEntriesFrom(args: {
           seconds: l.seconds,
           cumulative_seconds: l.cumulative_seconds,
           rest: !!l.rest,
+          block_order: l.block_order ?? null,
+          round: l.round ?? null,
+          exercise_id: l.exercise_id ?? null,
         })),
       records: recordsBySession.get(s.id) ?? [],
       supplemental: (s.workout_role ?? 'primary') === 'supplemental',
@@ -266,7 +290,8 @@ export async function loadHistory(db: any, userId: string, opts: { limit: number
 
   const sessionIds = page.map(s => s.id);
   const { data: splitRows } = await db.from('session_splits')
-    .select('session_id, split_index, label, prescribed, kind, seconds, cumulative_seconds, rest')
+    .select('session_id, split_index, label, prescribed, kind, seconds, cumulative_seconds, rest, '
+      + 'block_order, round, exercise_id')
     .in('session_id', sessionIds);
   const splits: SplitRow[] = splitRows ?? [];
 

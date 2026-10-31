@@ -17,7 +17,6 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, ScrollView, Pressable, useWindowDimensions } from 'react-native';
 import { useRouter } from 'expo-router';
-import * as Haptics from 'expo-haptics';
 
 import { color, kindColor, kindLabel, space, type as t, type SessionKind } from '@/theme/tokens';
 import { InkPanel, Label } from '@/components/primitives';
@@ -28,9 +27,9 @@ import { useApp } from '@/state/store';
 import { phaseTitle } from '@/data/plan';
 import type { ShapeBar } from '@/data/sessionShape';
 import { lookOf, useWeek } from './weekData';
+import { useDoToday } from './useDoToday';
 import {
-  displayName, doTodayStep, feelOf, overrideFailed,
-  type DoTodayStep, type WeekTile,
+  displayName, feelOf, type WeekTile,
 } from '@/data/planWeek';
 import type { QueuedSession } from '@/data/todayRepo';
 
@@ -49,7 +48,7 @@ export function PlanWeekView({ footer }: { footer?: React.ReactNode }) {
   const router = useRouter();
   const dialog = useDialog();
   const { width } = useWindowDimensions();
-  const { state, session, plan, switchToQueued } = useApp();
+  const { state, session, plan } = useApp();
 
   const [open, setOpen] = useState<string | null>(null);
   const [detail, setDetail] = useState<QueuedSession | null>(null);
@@ -93,36 +92,11 @@ export function PlanWeekView({ footer }: { footer?: React.ReactNode }) {
     });
   };
 
-  const show = async (step: DoTodayStep): Promise<boolean> => {
-    if (step.kind === 'confirm') {
-      return dialog.confirm({
-        eyebrow: step.eyebrow, title: step.title, body: step.body,
-        confirmLabel: step.confirmLabel, cancelLabel: step.cancelLabel,
-      });
-    }
-    if (step.kind === 'alert') {
-      await dialog.alert({ eyebrow: step.eyebrow, title: step.title, body: step.body });
-      return false;
-    }
-    return true;
-  };
-
   /** Do today: the same switch and the same warnings as the old tab (doTodayStep). */
+  const doTodayFor = useDoToday();
   const doToday = async (templateId: string, name: string) => {
     setDetail(null);
-    const shown = displayName(name);
-    const first = switchToQueued(templateId);
-    if (!first.ok) {
-      const step = doTodayStep(first, shown);
-      const proceed = await show(step);
-      if (!proceed || step.kind !== 'confirm') return;
-      if (!switchToQueued(templateId, { override: true }).ok) {
-        await show(overrideFailed(shown));
-        return;
-      }
-    }
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    router.replace('/today' as never);
+    await doTodayFor(templateId, name);
   };
 
   // Six tiles to a row; more wrap. The card has a 2 px border and 14 px inside.

@@ -26,9 +26,22 @@ Deno.serve(async (req) => {
     const url = new URL(req.url);
     const limit = Math.min(MAX_LIMIT,
       Math.max(1, Number(url.searchParams.get('limit')) || DEFAULT_LIMIT));
-    const before = url.searchParams.get('before');
+    let before = url.searchParams.get('before');
 
-    const page = await loadHistory(db, user.id, { limit, before });
+    /**
+     * One session by id, for the calendar's "Open session". Read as the page
+     * that ends at it rather than alone, so its records are measured against
+     * the sessions before it, as they are in the list.
+     */
+    const id = url.searchParams.get('id');
+    if (id) {
+      const { data: one } = await db.from('workout_sessions')
+        .select('started_at').eq('user_id', user.id).eq('id', id).maybeSingle();
+      if (!one?.started_at) throw new HttpError(404, 'That session was not found.');
+      before = new Date(Date.parse(one.started_at) + 1).toISOString();
+    }
+
+    const page = await loadHistory(db, user.id, { limit: id ? MAX_LIMIT : limit, before });
 
     // Names only — the prescription comes from each session's own snapshot, so
     // a template edited since cannot rewrite what the athlete did.
@@ -47,6 +60,11 @@ Deno.serve(async (req) => {
       exerciseNames: new Map((exercises ?? []).map((e: any) => [e.id, e.name])),
       today: localDate(user.timezone),
     });
+
+    if (id) {
+      return json({ sessions: entries.filter(e => e.id === id), has_more: false, next_before: null },
+        200, origin);
+    }
 
     return json({
       sessions: entries,

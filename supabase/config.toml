@@ -58,6 +58,9 @@ verify_jwt = true
 [functions.today]
 verify_jwt = true
 
+[functions.progress]
+verify_jwt = true
+
 [functions.adapt]
 verify_jwt = true
 
