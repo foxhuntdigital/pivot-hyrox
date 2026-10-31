@@ -98,8 +98,17 @@ function useApplyAndReplan() {
       // stored plan to rebuild.
       if (status === 'signed_in') {
         await save();
-        await replanWeek();
+        const replanned = await replanWeek();
         refreshToday();
+        if (!replanned) {
+          // Saved, but the week was not rebuilt. Today and Start read the
+          // saved answer directly, so only Plan's list is behind; say so
+          // rather than closing as if the whole promise was kept.
+          local();
+          setError('Saved. The rest of this week could not be rebuilt just now, so Plan may still '
+            + 'list the old sessions. Today already uses your new answer.');
+          return;
+        }
       }
       local();
       router.back();
