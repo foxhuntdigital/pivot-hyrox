@@ -98,6 +98,28 @@ function strengthItem(line, where, refId) {
   throw new Error(`${where}: unreadable dose ${JSON.stringify(dose)} in ${JSON.stringify(line.trim())}`);
 }
 
+/**
+ * `impact_level` as Postgres will accept it.
+ *
+ * Both content.exercises and content.workout_templates constrain this to
+ * low/medium/high (migration 0001). The authoring sheets write "moderate",
+ * which SQLite accepts silently — it has no CHECK — so the value survives the
+ * dump, survives build-fixtures, and is only refused when the generated seed
+ * reaches the real database. Forty templates got that far once; mapping the
+ * synonym here and refusing anything else keeps the failure at the converter,
+ * where the row and its id are still in front of you.
+ */
+const IMPACT_SYNONYMS = { moderate: 'medium' };
+const IMPACT_LEVELS = new Set(['low', 'medium', 'high']);
+function impactLevel(value, id) {
+  const v = IMPACT_SYNONYMS[String(value).trim().toLowerCase()] ?? String(value).trim().toLowerCase();
+  if (!IMPACT_LEVELS.has(v)) {
+    throw new Error(`${id}: impact_level ${JSON.stringify(value)} is not one of `
+      + `${[...IMPACT_LEVELS].join('/')} — Postgres refuses it (migration 0001)`);
+  }
+  return v;
+}
+
 function strengthBlocks(row) {
   const [head, ...lines] = row.ref_prescription.split('\n');
   if (!/^B1 \[Main\] continuous$/.test(head.trim())) {
@@ -232,7 +254,7 @@ for (const path of paths) {
       secondary_goal: row.secondary_goal || null,
       estimated_minutes: Number(row.estimated_minutes),
       intensity_target: row.intensity_target,
-      impact_level: row.impact_level,
+      impact_level: impactLevel(row.impact_level, row.template_id),
       hyrox_specificity: Number(row.hyrox_specificity),
       postpartum_friendly: row.postpartum_friendly === 'True',
       description: row.description,
