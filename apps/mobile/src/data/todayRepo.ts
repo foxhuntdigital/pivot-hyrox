@@ -70,6 +70,8 @@ export interface CompletedThisWeek {
   stimulus: string | null;
   estimated_minutes: number | null;
   variant: string;
+  /** ISO time it finished. Absent from servers deployed before it was sent. */
+  finished_at?: string | null;
   session_rpe: number | null;
   ended_early: boolean;
   completed_on: string;

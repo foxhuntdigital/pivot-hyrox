@@ -216,6 +216,8 @@ Deno.serve(async (req) => {
         session_rpe: s.session_rpe,
         ended_early: s.ended_early,
         completed_on: (s.ended_at ?? s.started_at ?? '').slice(0, 10),
+        /** When it finished, so Today can list the day's sessions in order with their times. */
+        finished_at: s.ended_at ?? null,
       };
     });
 

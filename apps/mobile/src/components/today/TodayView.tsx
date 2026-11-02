@@ -103,12 +103,15 @@ export function TodayView({ footer }: { footer?: React.ReactNode }) {
   // What was performed names what was performed (the old screen's rule):
   // the live decision has already moved on to the next session by now.
   const pending = plan.pendingSession;
+  // Each one separately, in the order they were finished; the one finished on
+  // this device and not yet on the server goes last, as the most recent.
   const doneToday = [
-    ...plan.week.completedToday.map(c => ({ name: c.name, templateId: c.template_id, minutes: c.estimated_minutes })),
-    ...(pending ? [{ name: pending.name, templateId: pending.template_id, minutes: pending.estimated_minutes }] : []),
+    ...[...plan.week.completedToday]
+      .sort((a, b) => (a.finished_at ?? '').localeCompare(b.finished_at ?? ''))
+      .map(c => ({ key: c.session_id, name: c.name, templateId: c.template_id, minutes: c.estimated_minutes, at: c.finished_at ?? undefined })),
+    ...(pending ? [{ key: 'pending', name: pending.name, templateId: pending.template_id, minutes: pending.estimated_minutes, at: null as string | null | undefined }] : []),
   ];
   const doneMinutes = doneToday.reduce((n, d) => n + (d.minutes ?? 0), 0);
-  const doneShape = doneToday[0] ? lookOf(doneToday[0].templateId) : null;
 
   const lastSession = plan.week.completed[0];
   const factoredIn = [
@@ -306,34 +309,57 @@ export function TodayView({ footer }: { footer?: React.ReactNode }) {
           </Text>
         </View>
 
+        {/* Done for today: a light card under the ink hero, so the screen never
+            stacks two dark blocks. One row per session, each with its own type,
+            minutes and finish time, under the day's total; several sessions
+            are never merged into one name. */}
         {finishedToday ? (
-          <View style={{ marginHorizontal: space.gutter }}>
-            <View style={{ backgroundColor: color.ink, paddingHorizontal: 14, paddingTop: 14, paddingBottom: 16, gap: 10 }}>
-              <Label tone="salmon" size="sm">Done today</Label>
-              <View style={{ flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
-                <Text style={[t.h3, { flex: 1, fontSize: 24, lineHeight: 27, color: color.onDark }]}>
-                  {doneToday.map(d => displayName(d.name)).join(' · ') || 'Session logged'}
-                </Text>
-                {doneMinutes ? (
-                  <Text style={[t.h3, { fontSize: 24, lineHeight: 27, color: color.onDark }]}>
-                    {doneMinutes}<Text style={[t.labelSm, { color: color.muted3 }]}> MIN</Text>
-                  </Text>
-                ) : null}
+          <View style={{ marginHorizontal: space.gutter, borderWidth: 2, borderColor: color.ink, paddingHorizontal: 14, paddingTop: 14, paddingBottom: 16 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <View style={{ width: 18, height: 18, backgroundColor: color.red, alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ color: color.onDark, fontSize: 11, fontWeight: '900' }}>✓</Text>
               </View>
-              {doneShape ? (
-                <SessionShape bars={doneShape.bars} kind={doneShape.kind} height={44} tint={color.paper}
-                  style={{ borderBottomColor: color.ruleDark2 }} />
-              ) : null}
-              <Text style={[t.bodySm, { fontSize: 13, color: color.onDarkSoft }]}>
-                {stacked
-                  ? 'Logged. The session you added is below; start it when you are ready.'
-                  : "Counted for the week. Tomorrow's options are built around today."}
-              </Text>
-              {!stacked ? (
-                <ActionButton label="Train again" variant="outlineDark" arrow={null}
-                  onPress={() => router.replace('/plan' as never)} style={{ marginTop: 4 }} />
-              ) : null}
+              <Label tone="redDark">
+                {doneToday.length > 1 ? `Done today · ${doneToday.length} sessions` : 'Done today'}
+              </Label>
             </View>
+            {doneMinutes ? (
+              <Text style={[t.h2, { fontSize: 38, lineHeight: 44, marginTop: 4, color: color.ink }]}>
+                {doneMinutes}<Text style={[t.labelSm, { color: color.muted }]}> MIN</Text>
+              </Text>
+            ) : null}
+            {doneToday.length ? doneToday.map((d, i) => {
+              const look = lookOf(d.templateId);
+              return (
+                <View key={d.key} style={{ paddingVertical: 10, gap: 3, borderTopWidth: 1, borderTopColor: color.rule, marginTop: i === 0 ? 6 : 0 }}>
+                  {look ? <TypeTag kind={look.kind} /> : null}
+                  <View style={{ flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
+                    <Text style={[t.rowTitle, { flex: 1, fontSize: 16, fontFamily: t.eyebrow.fontFamily, color: color.ink }]}>
+                      {displayName(d.name)}
+                    </Text>
+                    {d.minutes ? (
+                      <Text style={[t.h4, { fontSize: 18, color: color.ink }]}>
+                        {d.minutes}<Text style={[t.labelSm, { color: color.muted }]}> MIN</Text>
+                      </Text>
+                    ) : null}
+                  </View>
+                  <Text style={[t.bodySm, { color: color.muted2 }]}>
+                    {[look ? feelOf(look.kind, look.effort, look.circuit) : null, finishTime(d.at)].filter(Boolean).join(' · ')}
+                  </Text>
+                </View>
+              );
+            }) : (
+              <Text style={[t.h3, { fontSize: 20, marginTop: 6, color: color.ink }]}>Session logged</Text>
+            )}
+            <Text style={[t.bodySm, { fontSize: 13, color: color.muted2, marginTop: 6 }]}>
+              {stacked
+                ? 'Logged. The session you added is below; start it when you are ready.'
+                : "Counted for the week. Tomorrow's options are built around today."}
+            </Text>
+            {!stacked ? (
+              <ActionButton label="Train again" variant="outline" arrow={null}
+                onPress={() => router.replace('/plan' as never)} style={{ marginTop: 12 }} />
+            ) : null}
           </View>
         ) : null}
 
@@ -621,3 +647,16 @@ const styles = {
   /** The countdown: Archivo Black, sized to read across a gym. */
   countdown: { fontFamily: t.hero.fontFamily, fontSize: 124, lineHeight: 120, letterSpacing: -7 },
 } as const;
+
+/**
+ * "Finished 11:05" in the phone's own clock. Null is a session finished here
+ * and not yet on the server ("Just now"); undefined is a server that does not
+ * send times yet, which says nothing rather than something untrue.
+ */
+function finishTime(iso: string | null | undefined): string {
+  if (iso === undefined) return '';
+  if (iso === null) return 'Just now';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '';
+  return `Finished ${d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
+}
