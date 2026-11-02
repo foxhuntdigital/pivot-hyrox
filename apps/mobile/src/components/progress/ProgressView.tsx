@@ -12,7 +12,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { View, Text, ScrollView, Pressable, ActivityIndicator } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 
-import { color, kindColor, numeralTrim, space, type as t, type SessionKind } from '@/theme/tokens';
+import { color, kindColor, kindLabel, numeralTrim, space, type as t, type SessionKind } from '@/theme/tokens';
 import { Label } from '@/components/primitives';
 import { Chevron, EffortMeter, TypeTag } from '@/components/system';
 import { lookOf } from '@/components/plan/weekData';
@@ -24,7 +24,7 @@ import {
 import type { IndexSession, ProgressPayload } from '@/data/progressRepo';
 import {
   AREAS, capabilityTile, changeText, hoursText, KIND_ORDER, monthGrid, monthName, monthSummary,
-  addDays, monthRange, readinessChange, shiftMonth, shortDate, weekday, weekOf, weeklyMinutes,
+  addDays, barLabel, monthRange, readinessChange, shiftMonth, shortDate, weekday, weekOf, weeklyMinutes,
   type CapabilityTile,
 } from '@/data/progressView';
 import { readinessLine } from '@/data/todayView';
@@ -342,51 +342,122 @@ function PickedSession({ s }: { s: IndexSession }) {
 
 /* ── training time ───────────────────────────────────────────────────── */
 
+/**
+ * Minutes trained each week, eight weeks at a time.
+ *
+ * Opens on the eight weeks ending this one; the arrows page back eight at a
+ * time, as far as the first week with training (or the program's start), and
+ * forward to this week. Each bar names its week and carries its minutes, so
+ * nothing has to be read off an axis, and tapping one opens that week's
+ * sessions and minutes by kind underneath.
+ */
 function TrainingTime({ p }: { p: ProgressPayload }) {
-  const weeks = useMemo(() => weeklyMinutes(p.sessions, p.today, kindOf), [p.sessions, p.today]);
+  const [page, setPage] = useState(0);
+  const [picked, setPicked] = useState<string | null>(null);
+  const end = addDays(p.today, -56 * page);
+  const weeks = useMemo(() => weeklyMinutes(p.sessions, end, kindOf), [p.sessions, end]);
+  const programStart = p.program.week ? addDays(weekOf(p.today), -7 * (p.program.week - 1)) : null;
+  const firstSession = p.sessions[p.sessions.length - 1]?.date ?? null;
+  const earliest = [programStart, firstSession && weekOf(firstSession)].filter(Boolean).sort()[0] as string | undefined;
+  const canBack = !!earliest && weeks[0].week > earliest;
   const best = Math.max(...weeks.map(w => w.total));
   const scale = Math.max(best, 60);
   const thisWeek = weeks[weeks.length - 1];
-  const empty = weeks.filter(w => w.total > 0).length <= 1;
+  const chosen = weeks.find(w => w.week === picked) ?? null;
+  const kinds = KIND_ORDER.filter(k => weeks.some(w => w.byKind.some(b => b.kind === k)));
+  const turn = (delta: number) => { setPicked(null); setPage(n => Math.max(0, n + delta)); };
+  const BAR = 110;
 
   return (
     <View style={card}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 }}>
         <Label tone="ink">Training time</Label>
-        <Text style={[t.bodySm, { color: color.muted2 }]}>
-          This week {hoursText(thisWeek.total)}{thisWeek.total ? ' so far' : ''}
+        <Text style={[t.bodySm, { color: color.muted2, flexShrink: 1, textAlign: 'right' }]}>
+          {page === 0 ? <>This week <Text style={{ color: color.ink, fontFamily: t.rowTitle.fontFamily }}>{hoursText(thisWeek.total)}</Text> · </> : null}
+          {best ? `best ${hoursText(best)}` : 'no training in these weeks'}
         </Text>
       </View>
-      <View
-        accessible
-        accessibilityRole="image"
-        accessibilityLabel={`Weekly training time over the last 8 weeks${best ? `, best week ${hoursText(best)}` : ''}`}
-        style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 6, height: 96, marginTop: 12 }}
-      >
-        {weeks.map(w => (
-          <View key={w.week} style={{ flex: 1, justifyContent: 'flex-end', height: '100%' }}>
-            {w.total === 0 ? (
-              <View style={{ height: 14, borderWidth: 1, borderColor: color.chipBorder, borderStyle: 'dashed' }} />
-            ) : w.byKind.slice().reverse().map(k => (
-              <View key={k.kind} style={{
-                height: Math.max(2, (k.minutes / scale) * 92), backgroundColor: kindColor[k.kind],
-                borderTopWidth: 1, borderTopColor: color.paper,
-              }} />
-            ))}
-          </View>
-        ))}
-      </View>
-      {empty ? (
-        <Text style={[t.bodySm, { color: color.muted2, marginTop: 8 }]}>
-          Weeks fill in as you train, one bar a week, coloured by the kind of session.
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 10 }}>
+        <Pressable onPress={canBack ? () => turn(1) : undefined} disabled={!canBack} hitSlop={8}
+          accessibilityRole="button" accessibilityLabel="Earlier eight weeks" accessibilityState={{ disabled: !canBack }}
+          style={{ width: 28, height: 28, alignItems: 'center', justifyContent: 'center', opacity: canBack ? 1 : 0.25 }}>
+          <Chevron dir="left" size={8} tint={color.ink} weight={1.8} />
+        </Pressable>
+        <Text style={[t.meta, { fontFamily: t.rowTitle.fontFamily, color: color.muted2 }]}>
+          {shortDate(weeks[0].week)} to {page === 0 ? 'this week' : shortDate(addDays(thisWeek.week, 6))}
         </Text>
-      ) : (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 6 }}>
-          <Text style={[t.meta, { color: color.muted }]}>8 weeks ago</Text>
-          <Text style={[t.meta, { color: color.muted }]}>Best week {hoursText(best)}</Text>
-          <Text style={[t.meta, { color: color.muted }]}>This week</Text>
+        <Pressable onPress={page > 0 ? () => turn(-1) : undefined} disabled={page === 0} hitSlop={8}
+          accessibilityRole="button" accessibilityLabel="Later eight weeks" accessibilityState={{ disabled: page === 0 }}
+          style={{ width: 28, height: 28, alignItems: 'center', justifyContent: 'center', opacity: page > 0 ? 1 : 0.25 }}>
+          <Chevron dir="right" size={8} tint={color.ink} weight={1.8} />
+        </Pressable>
+      </View>
+
+      <View style={{ flexDirection: 'row', gap: 6, marginTop: 6 }}>
+        {weeks.map((w, i) => {
+          const isThis = page === 0 && i === weeks.length - 1;
+          const selected = w.week === picked;
+          return (
+            <Pressable
+              key={w.week}
+              onPress={() => setPicked(selected ? null : w.week)}
+              accessibilityRole="button"
+              accessibilityState={{ selected }}
+              accessibilityLabel={`Week of ${shortDate(w.week)}: ${w.total ? hoursText(w.total) : 'no training'}`}
+              style={{ flex: 1, minWidth: 0 }}
+            >
+              <Text style={[t.meta, { fontSize: 10, textAlign: 'center', fontFamily: t.eyebrow.fontFamily, color: w.total ? color.ink : color.muted3 }]}>
+                {w.total ? barLabel(w.total) : '–'}
+              </Text>
+              <View style={{ height: BAR, justifyContent: 'flex-end', marginTop: 4 }}>
+                {w.total === 0 ? (
+                  <View style={{ height: 3, backgroundColor: selected ? color.red : color.rule }} />
+                ) : (
+                  <View style={{ height: Math.max(14, (w.total / scale) * BAR), borderWidth: selected ? 2 : 0, borderColor: color.red }}>
+                    {w.byKind.slice().reverse().map(k => (
+                      <View key={k.kind} style={{
+                        flex: k.minutes, backgroundColor: kindColor[k.kind],
+                        borderTopWidth: 1, borderTopColor: color.paper,
+                      }} />
+                    ))}
+                  </View>
+                )}
+              </View>
+              <Text numberOfLines={1} style={[t.meta, {
+                fontSize: 9, textAlign: 'center', marginTop: 6,
+                fontFamily: isThis ? t.eyebrow.fontFamily : t.rowTitle.fontFamily,
+                color: isThis ? color.ink : color.muted,
+              }]}>
+                {isThis ? 'This wk' : shortDate(w.week)}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
+
+      {chosen ? (
+        <View style={{ marginTop: 12, padding: 12, gap: 3, backgroundColor: color.card }}>
+          <Text style={[t.rowTitle, { fontSize: 13, color: color.ink }]}>
+            Week of {shortDate(chosen.week)} · {chosen.total ? hoursText(chosen.total) : 'no training'}
+            {chosen.sessions ? ` · ${chosen.sessions} ${chosen.sessions === 1 ? 'session' : 'sessions'}` : ''}
+          </Text>
+          {chosen.byKind.length ? (
+            <Text style={[t.bodySm, { color: color.ink }]}>
+              {chosen.byKind.map(k => `${kindLabel[k.kind]} ${hoursText(k.minutes)}`).join(' · ')}
+            </Text>
+          ) : null}
         </View>
-      )}
+      ) : null}
+
+      {kinds.length ? (
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginTop: 12 }}>
+          {kinds.map(k => <TypeTag key={k} kind={k} />)}
+        </View>
+      ) : null}
+      <Text style={[t.bodySm, { color: color.muted2, marginTop: 10 }]}>
+        Minutes trained each week, coloured by the kind of session. Tap a week to see it.
+      </Text>
     </View>
   );
 }

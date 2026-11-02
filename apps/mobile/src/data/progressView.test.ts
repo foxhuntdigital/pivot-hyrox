@@ -2,7 +2,7 @@ import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-  areaInputs, capabilityTile, monthRange, shiftMonth, changeText, gapReason, hoursText, metresOf, monthGrid, monthSummary, monthTotals,
+  areaInputs, capabilityTile, monthRange, shiftMonth, barLabel, changeText, gapReason, hoursText, metresOf, monthGrid, monthSummary, monthTotals,
   paceText, projectTo, readinessChange, roundTable, weekOf, weeklyMinutes, weeklyReadiness,
 } from './progressView.ts';
 import type { IndexSession, ReadinessInputs, TrendPoint } from './progressRepo.ts';
@@ -54,6 +54,9 @@ describe('Progress view', () => {
     assert.deepEqual(weeks.map(w => w.week), ['2026-10-12', '2026-10-19', '2026-10-26']);
     assert.deepEqual(weeks.map(w => w.total), [0, 30, 100]);
     assert.deepEqual(weeks[2].byKind.map(k => k.kind), ['run', 'strength']);
+    assert.deepEqual(weeks.map(w => w.sessions), [0, 1, 2]);
+    assert.equal(barLabel(42), '42');
+    assert.equal(barLabel(135), '2h15');
   });
 
   test('readiness change compares week averages, never single days', () => {

@@ -119,6 +119,8 @@ export const KIND_ORDER: SessionKind[] = ['run', 'erg', 'station', 'strength', '
 export interface WeekMinutes {
   week: string;
   total: number;
+  /** Sessions finished that week, counted whether or not their minutes are known. */
+  sessions: number;
   byKind: { kind: SessionKind; minutes: number }[];
 }
 
@@ -132,15 +134,24 @@ export function weeklyMinutes(
     const week = addDays(thisWeek, -7 * i);
     const end = addDays(week, 6);
     const totals = new Map<SessionKind, number>();
+    let count = 0;
     for (const s of sessions) {
-      if (s.date < week || s.date > end || !s.minutes) continue;
+      if (s.date < week || s.date > end) continue;
+      count++;
+      if (!s.minutes) continue;
       const k = kindOf(s);
       totals.set(k, (totals.get(k) ?? 0) + s.minutes);
     }
     const byKind = KIND_ORDER.filter(k => totals.has(k)).map(k => ({ kind: k, minutes: totals.get(k)! }));
-    out.push({ week, total: byKind.reduce((t, k) => t + k.minutes, 0), byKind });
+    out.push({ week, total: byKind.reduce((t, k) => t + k.minutes, 0), sessions: count, byKind });
   }
   return out;
+}
+
+/** A bar's minutes in the space above it: "42", "2h15". */
+export function barLabel(minutes: number): string {
+  const m = Math.round(minutes);
+  return m < 60 ? String(m) : `${Math.floor(m / 60)}h${String(m % 60).padStart(2, '0')}`;
 }
 
 /* ── readiness ──────────────────────────────────────────────────────────── */
