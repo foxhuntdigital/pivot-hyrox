@@ -77,14 +77,17 @@ export function TodayView({ footer }: { footer?: React.ReactNode }) {
   const goal = plan.race
     ? {
         label: [plan.race.name, plan.race.division].filter(Boolean).join(' · '),
-        value: plan.race.days_remaining ?? '—', unit: 'days',
+        value: plan.race.days_remaining ?? '—', unit: plan.race.days_remaining === 1 ? 'day' : 'days',
+        caption: 'to race day',
       }
     : plan.phase
       ? {
           label: `${plan.phase.total_weeks}-week block · no race entered`,
-          value: Math.max(0, plan.phase.total_weeks - plan.phase.week + 1), unit: 'weeks left',
+          value: Math.max(0, plan.phase.total_weeks - plan.phase.week + 1),
+          unit: plan.phase.total_weeks - plan.phase.week + 1 === 1 ? 'week' : 'weeks',
+          caption: 'left in the block',
         }
-      : { label: 'No race set', value: '—' as const, unit: 'days' };
+      : { label: 'No race set', value: '—' as const, unit: 'days', caption: 'Add a race to see a countdown' };
 
   const sleepClock = hoursToClock(sleep.hours);
   const isLowSleep = sleep.hours !== null && sleep.hours < LOW_SLEEP_HOURS;
@@ -206,43 +209,68 @@ export function TodayView({ footer }: { footer?: React.ReactNode }) {
           </Banner>
         ) : null}
 
-        {/* ── Where you are ───────────────────────────────────────────────── */}
+        {/* ── Where you are ───────────────────────────────────────────────────
+            The countdown is the hero: a full-width ink block with the number
+            large enough to read across a gym, its red offset echoing the old
+            layout's shadow. It sits apart from the session card below, so
+            "where you are in the block" and "what to do today" never compete. */}
         <TourSpot id="race">
-          <View style={{
-            paddingHorizontal: space.gutter, paddingTop: 18, paddingBottom: 16, gap: 10,
-            borderBottomWidth: 1, borderBottomColor: color.rule,
-          }}>
-            <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12 }}>
-              <View style={{ flex: 1, gap: 3 }}>
-                <Label>{goal.label}</Label>
-                <Text style={[t.rowTitle, { fontSize: 15, color: color.ink }]}>
-                  {plan.phase
-                    ? `${phaseTitle(plan.phase.type)} · week ${plan.phase.week} of ${plan.phase.total_weeks}`
-                    : 'Add a race to see a countdown'}
-                </Text>
+          <View style={{ backgroundColor: color.ink, paddingHorizontal: space.gutter, paddingTop: 20, paddingBottom: 22 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 12 }}>
+              <Label tone="salmon" style={{ flexShrink: 1 }}>{goal.label}</Label>
+              {plan.race?.event_date ? <Label tone="onDarkMuted">{raceDay(plan.race.event_date)}</Label> : null}
+            </View>
+            <View
+              accessible
+              accessibilityLabel={goal.value === '—' ? goal.caption : `${goal.value} ${goal.unit} ${goal.caption}`}
+              style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 12, marginTop: 6 }}
+            >
+              <View>
+                {/* The red copy behind is the offset; drawn as text rather than
+                    a text shadow, which Android will not render hard-edged. */}
+                <Text style={[styles.countdown, { position: 'absolute', left: 5, top: 5, color: color.red }]}>{goal.value}</Text>
+                <Text style={[styles.countdown, { color: color.onDark }]}>{goal.value}</Text>
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 6 }}>
-                <Text style={[t.countdown, numeralTrim.countdown, { fontSize: 46, lineHeight: 53, color: color.ink, paddingRight: 2 }]}>
-                  {goal.value}
-                </Text>
-                <Label>{goal.unit}</Label>
+              <View style={{ paddingBottom: 12, flexShrink: 1 }}>
+                {goal.value !== '—' ? (
+                  <Text style={[t.h4, { fontSize: 20, lineHeight: 22, color: color.onDark }]}>{goal.unit}</Text>
+                ) : null}
+                <Label tone="onDarkMuted" style={{ marginTop: 4 }}>{goal.caption}</Label>
               </View>
             </View>
-            {/* One program bar, the same one Plan draws. */}
-            {plan.phase && plan.phase.total_weeks > 0 ? (
-              <View style={{ flexDirection: 'row', gap: 3 }}
-                accessibilityLabel={`Week ${plan.phase.week} of ${plan.phase.total_weeks}`}>
-                {Array.from({ length: plan.phase.total_weeks }, (_, i) => (
-                  <View key={i} style={{
-                    flex: 1, height: 6,
-                    backgroundColor: i < plan.phase!.week - 1 ? color.ink
-                      : i === plan.phase!.week - 1 ? color.red : color.rule,
-                  }} />
-                ))}
-              </View>
-            ) : null}
-            {plan.phase && PHASE_MEANING[plan.phase.type] ? (
-              <Text style={[t.bodySm, { fontSize: 13, color: color.muted2 }]}>{PHASE_MEANING[plan.phase.type]}</Text>
+            {plan.phase ? (
+              <>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 18 }}>
+                  <Text style={[t.rowTitle, { fontFamily: t.eyebrow.fontFamily, fontSize: 15, color: color.onDark }]}>
+                    {phaseTitle(plan.phase.type)} phase
+                  </Text>
+                  <Text style={[t.bodySm, { fontFamily: t.rowTitle.fontFamily, color: color.onDarkSoft }]}>
+                    Week {plan.phase.week} of {plan.phase.total_weeks}
+                  </Text>
+                </View>
+                {/* One program bar, the same one Plan draws, in ink's colours. */}
+                {plan.phase.total_weeks > 0 ? (
+                  <View style={{ flexDirection: 'row', gap: 3, marginTop: 9 }}
+                    accessibilityLabel={`Week ${plan.phase.week} of ${plan.phase.total_weeks}`}>
+                    {Array.from({ length: plan.phase.total_weeks }, (_, i) => {
+                      const done = i < plan.phase!.week - 1;
+                      const now = i === plan.phase!.week - 1;
+                      return (
+                        <View key={i} style={{
+                          flex: 1, height: 7,
+                          backgroundColor: now ? color.red : done ? color.onDark : 'transparent',
+                          borderWidth: now || done ? 0 : 1, borderColor: color.muted2,
+                        }} />
+                      );
+                    })}
+                  </View>
+                ) : null}
+                {PHASE_MEANING[plan.phase.type] ? (
+                  <Text style={[t.bodySm, { fontSize: 13, color: color.onDarkSoft, marginTop: 12 }]}>
+                    {PHASE_MEANING[plan.phase.type]}
+                  </Text>
+                ) : null}
+              </>
             ) : null}
           </View>
         </TourSpot>
@@ -579,3 +607,17 @@ function Banner({ label, title, body, children }: {
 function capitalise(text: string): string {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
+
+/** "Sat 14 Mar", for the hero's race date. */
+function raceDay(iso: string): string {
+  const d = new Date(`${iso}T00:00:00Z`);
+  if (Number.isNaN(d.getTime())) return '';
+  const wd = d.toLocaleDateString('en-GB', { weekday: 'short', timeZone: 'UTC' });
+  const dm = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+  return `${wd} ${dm}`;
+}
+
+const styles = {
+  /** The countdown: Archivo Black, sized to read across a gym. */
+  countdown: { fontFamily: t.hero.fontFamily, fontSize: 124, lineHeight: 120, letterSpacing: -7 },
+} as const;
