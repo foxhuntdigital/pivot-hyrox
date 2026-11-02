@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { basedOnLine, followUpsFor, startersFor } from './coachHome.ts';
+import { BUILD_STARTERS, basedOnLine, followUpsFor, startersFor } from './coachHome.ts';
 
 const day = { sessionName: 'Long Hybrid 75', sessionMinutes: 75, checkedIn: true, lowSleep: false,
   finishedToday: false, hasRace: true };
@@ -37,4 +37,18 @@ test('evidence reads as one line of words, not a row of chips', () => {
   assert.equal(basedOnLine(["Today's plan"]), "Based on today's plan");
   assert.equal(basedOnLine(['build · week 8', 'Sleep 7:12']), 'Based on build · week 8 and sleep 7:12');
   assert.equal(basedOnLine([]), null);
+});
+
+test('a build suggestion appears only when it was checked to work', () => {
+  const quiet = { ...day, sessionName: null, sessionMinutes: null };
+  const builds = (x: typeof quiet & { buildStarter?: string | null }) =>
+    startersFor(x, 6).filter(s => s.label.startsWith('Build me')).map(s => s.label);
+  assert.deepEqual(builds(quiet), []);
+  assert.deepEqual(builds({ ...quiet, buildStarter: null }), []);
+  assert.deepEqual(builds({ ...quiet, buildStarter: 'Build me a 30-minute station workout' }),
+    ['Build me a 30-minute station workout']);
+});
+
+test("no build suggestion names equipment, so the athlete's own kit decides", () => {
+  for (const s of BUILD_STARTERS) assert.doesNotMatch(s, /sled|ski ?erg|rower|dumbbell|kettlebell|barbell|treadmill/i);
 });

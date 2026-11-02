@@ -19,7 +19,7 @@
  * Home leads with the one insight worth acting on, a compact line of where the
  * athlete is, starters that follow their day, and recent threads.
  */
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 
 import { color, kindColor, space, type as t } from '@/theme/tokens';
@@ -33,9 +33,9 @@ import { PlanChangeReview } from '@/components/coach/PlanChangeReview';
 import { lookOf } from '@/components/plan/weekData';
 import { useApp } from '@/state/store';
 import type { CoachMessage } from '@/state/coach';
-import type { CoachAction, CoachAnswer, CoachCard } from '@/state/coachAnswer';
-import { relativeAge } from '@/data/coach';
-import { basedOnLine, followUpsFor, startersFor } from '@/data/coachHome';
+import { buildAnswer, type CoachAction, type CoachAnswer, type CoachCard } from '@/state/coachAnswer';
+import { classify, relativeAge } from '@/data/coach';
+import { BUILD_STARTERS, basedOnLine, followUpsFor, startersFor } from '@/data/coachHome';
 import { phaseTitle } from '@/data/plan';
 import { displayName, feelOf } from '@/data/planWeek';
 import { readinessLine } from '@/data/todayView';
@@ -45,12 +45,18 @@ import { useCoachController } from './useCoachController';
 export function CoachView({ footer }: { footer?: React.ReactNode }) {
   const { plan, readiness, session, state, sleep } = useApp();
   const {
-    coach, scroller, answers, insight, onAction, onCommittedPrimary, onUndo,
+    coach, scroller, ctx, answers, insight, onAction, onCommittedPrimary, onUndo,
     applyProposal, reviewAnswer, lift,
   } = useCoachController();
   const [basedOpen, setBasedOpen] = useState<Record<string, boolean>>({});
 
   const finishedToday = plan.pendingCompletion || plan.week.completedToday.length > 0;
+  /** The first build request that really produces a workout for this athlete. */
+  const buildStarter = useMemo(() => BUILD_STARTERS.find(text => {
+    const { intent, signals } = classify(text);
+    return buildAnswer(intent, signals, ctx).card?.kind === 'workout';
+  }) ?? null, [ctx]);
+
   const starters = startersFor({
     sessionName: session.kind === 'session' ? displayName(session.template.name) : null,
     sessionMinutes: session.kind === 'session' ? session.estimated_minutes : null,
@@ -58,6 +64,7 @@ export function CoachView({ footer }: { footer?: React.ReactNode }) {
     lowSleep: sleep.hours !== null && sleep.hours < LOW_SLEEP_HOURS,
     finishedToday,
     hasRace: plan.race !== null,
+    buildStarter,
   });
 
   const messages = coach.thread?.messages ?? [];
