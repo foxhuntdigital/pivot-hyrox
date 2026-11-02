@@ -24,11 +24,11 @@ import { saveEquipment } from '@/data/equipmentRepo';
 import { createPlan, updateRaceDetails, type PlanTarget } from '@/data/planRepo';
 import { PREFERENCE_OPTIONS, WEAKNESS_OPTIONS } from '@/data/preferencesRepo';
 import {
-  CONSIDERATION_CHOICES, IMPACT_CHOICES, PREDICTABILITY_CHOICES, SESSION_MINUTES, monthsPostpartum,
+  CONSIDERATION_CHOICES, IMPACT_CHOICES, LOAD_CAPACITY_CHOICES, PREDICTABILITY_CHOICES, TECHNICAL_CAPACITY_CHOICES, SESSION_MINUTES, monthsPostpartum,
   nearestPredictability, parseISODate, postpartumPhrase, preGeneratesVariants, toISODate,
   type ImpactTolerance,
 } from '@/data/profile';
-import { saveProfile } from '@/data/profileRepo';
+import { saveCapacity, saveProfile } from '@/data/profileRepo';
 import {
   changedIds, changesTitle, equipmentGroups, goalChange, rebuildConsequence, weeksUntil,
   type GoalDraft,
@@ -42,7 +42,7 @@ import { useSession } from '@/state/session';
 import { useApp } from '@/state/store';
 import { useEquipmentCatalogue } from '@/state/equipmentCatalogue';
 
-export const PAGES = ['equipment', 'length', 'week', 'running', 'enjoy', 'needs-work', 'health', 'name', 'account', 'goal'] as const;
+export const PAGES = ['equipment', 'length', 'week', 'running', 'fitness', 'enjoy', 'needs-work', 'health', 'name', 'account', 'goal'] as const;
 export type Page = (typeof PAGES)[number];
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -52,13 +52,13 @@ const RATINGS = [
   { key: 'rather_not' as const, label: 'Rather not' },
 ];
 
-export function SettingsPage({ page }: { page: Page }) {
+export function SettingsPage({ page, backTo = 'Profile' }: { page: Page; backTo?: string }) {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const Body = BODIES[page];
   return (
     <View style={{ flex: 1, backgroundColor: color.paper, paddingTop: insets.top }}>
-      <SubpageHeader backTo="Profile" onBack={() => router.back()} />
+      <SubpageHeader backTo={backTo} onBack={() => router.back()} />
       <Body />
     </View>
   );
@@ -237,6 +237,89 @@ function RunningPage() {
         onConfirm={() => run(() => saveProfile({ impact_tolerance: draft }),
           () => dispatch({ type: 'hydrate_profile', profile: { ...state.profile, impact_tolerance: draft } }))}
         onDiscard={() => setDraft(saved)}
+      />
+    </>
+  );
+}
+
+/* ── fitness and experience (draft) ────────────────────────────────────── */
+
+/**
+ * The two capacity answers that size every week (migration 0023).
+ *
+ * The same draft as Equipment and Running, with one difference in what saving
+ * does: it rebuilds the weeks not yet started (`athlete-capacity`), and this
+ * week is left as it is. Today's "Two questions we didn't ask" card opens this
+ * page too, for athletes who onboarded before the questions existed; for them
+ * nothing is saved until both are answered.
+ */
+function FitnessPage() {
+  const router = useRouter();
+  const { state, commitProfile, refreshToday } = useApp();
+  const saved = { load: state.profile.load_capacity, technical: state.profile.technical_capacity };
+  const [load, setLoad] = useState<number | null>(saved.load);
+  const [technical, setTechnical] = useState<number | null>(saved.technical);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const firstTime = saved.load == null || saved.technical == null;
+  const answered = load != null && technical != null;
+  const changes = (load !== saved.load ? 1 : 0) + (technical !== saved.technical ? 1 : 0);
+
+  const save = async () => {
+    if (!answered) return;
+    setBusy(true);
+    setError(null);
+    const result = await saveCapacity(load!, technical!);
+    setBusy(false);
+    if (!result.ok) { setError(result.message); return; }
+    commitProfile({ load_capacity: load, technical_capacity: technical });
+    refreshToday();
+    router.back();
+  };
+
+  const question = (label: string, changed: boolean) => (
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: space.gutter, marginTop: 18, marginBottom: 10 }}>
+      <Label tone="ink" style={{ flexShrink: 1 }}>{label}</Label>
+      {changed ? <View style={{ width: 7, height: 7, borderRadius: 4, backgroundColor: color.red }} /> : null}
+    </View>
+  );
+  const detail = (options: { value: number; detail: string }[], value: number | null) => {
+    const chosen = options.find(o => o.value === value);
+    return chosen ? (
+      <Text style={[t.bodySm, { paddingHorizontal: space.gutter, color: color.muted2, marginTop: -10 }]}>{chosen.detail}</Text>
+    ) : null;
+  };
+
+  return (
+    <>
+      <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
+        <Title
+          title="Fitness and experience"
+          intro={firstTime
+            ? 'Your plan was built before we asked, so it is sized for the middle. Answer both to size it to you.'
+            : 'These decide how much training a week holds.'}
+        />
+        {question('How would you describe your fitness right now?', !firstTime && load !== saved.load)}
+        <ChipRow options={LOAD_CAPACITY_CHOICES.map(o => ({ value: o.value, label: o.label }))}
+          value={load} onChange={setLoad} columns={2} />
+        {detail(LOAD_CAPACITY_CHOICES, load)}
+        {question('How experienced are you with structured performance training?', !firstTime && technical !== saved.technical)}
+        <ChipRow options={TECHNICAL_CAPACITY_CHOICES.map(o => ({ value: o.value, label: o.label }))}
+          value={technical} onChange={setTechnical} columns={2} />
+        {detail(TECHNICAL_CAPACITY_CHOICES, technical)}
+        {error ? <Text style={[t.bodySm, { color: color.redDeep, marginHorizontal: space.gutter, marginTop: 14 }]}>Not saved. {error}</Text> : null}
+      </ScrollView>
+      <DraftSaveBar
+        changes={answered ? changes : 0}
+        consequence="The weeks you haven't started are rebuilt around your answers. This week stays as it is."
+        idleNote={answered
+          ? 'Nothing is saved until you confirm.'
+          : 'Answer both to size your plan. Until then it stays sized for the middle.'}
+        confirmLabel="Save and rebuild the weeks ahead"
+        busy={busy}
+        onConfirm={save}
+        onDiscard={() => { setLoad(saved.load); setTechnical(saved.technical); }}
       />
     </>
   );
@@ -657,7 +740,7 @@ function ProfileErrorTop() {
 }
 
 const BODIES: Record<Page, () => React.ReactElement> = {
-  equipment: EquipmentPage, running: RunningPage, goal: GoalPage,
+  equipment: EquipmentPage, running: RunningPage, fitness: FitnessPage, goal: GoalPage,
   length: LengthPage, week: WeekPage, enjoy: EnjoyPage, 'needs-work': NeedsWorkPage,
   health: HealthPage, name: NamePage, account: AccountPage,
 };

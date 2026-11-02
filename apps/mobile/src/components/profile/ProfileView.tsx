@@ -71,7 +71,7 @@ export function ProfileView({ footer }: { footer?: React.ReactNode }) {
       { label: 'Fitness and experience',
         value: fitnessSummary(capacityLabel(LOAD_CAPACITY_CHOICES, profile.load_capacity),
           capacityLabel(TECHNICAL_CAPACITY_CHOICES, profile.technical_capacity)),
-        onPress: () => router.push('/capacity' as never) },
+        onPress: go('fitness') },
     ] },
     { title: 'What you like', note: 'Ranks sessions, never overrules', rows: [
       { label: 'What you enjoy', value: enjoySummary(preferences, PREFERENCE_OPTIONS), onPress: go('enjoy') },
