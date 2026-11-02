@@ -21,7 +21,7 @@ import { bestLine, entryLook } from '@/components/progress/HistoryView';
 import { EXERCISES } from '@/data/content';
 import { fetchHistorySession, type HistorySession } from '@/data/historyRepo';
 import { displayName } from '@/data/planWeek';
-import { mmss, roundTable, shortDate, weekday, type SplitLike } from '@/data/progressView';
+import { metresOf, mmss, paceText, roundTable, shortDate, weekday, type SplitLike } from '@/data/progressView';
 import { movementKind } from '@/data/sessionShape';
 import { localToday } from '@/lib/format';
 import { rememberedSession, rememberSessions, useProgress } from '@/state/progress';
@@ -37,6 +37,11 @@ function columnOf(s: SplitLike): string {
   if (kind === 'station') return 'Stations';
   return 'Other';
 }
+
+/** Runs read per km; ergs per 500 m, the split every erg monitor shows. */
+const paceUnit = (column: string): 'km' | '500m' => (column === 'Run' ? 'km' : '500m');
+/** Pace means something for running and the ergs; a sled's metres are not a pace. */
+const PACED = new Set(['Run', 'Ski', 'Row', 'Erg']);
 
 const rpeWord = (n: number) => (n <= 3 ? 'Easy' : n <= 6 ? 'Moderate' : n <= 8 ? 'Hard' : 'Max');
 
@@ -160,11 +165,17 @@ function Body({ s }: { s: HistorySession }) {
               <View key={r.round} style={{ paddingVertical: 8, borderTopWidth: 1, borderTopColor: color.rule, gap: 6 }}>
                 <View style={{ flexDirection: 'row' }}>
                   <Text style={[t.rowTitle, { width: 30, fontSize: 13, color: color.muted }]}>R{r.round}</Text>
-                  {table.columns.map(c => (
-                    <Text key={c} style={[t.bodySm, { flex: 1, fontSize: 13, color: color.ink }]}>
-                      {r.cells[c] != null ? mmss(r.cells[c]) : '—'}
-                    </Text>
-                  ))}
+                  {table.columns.map(c => {
+                    const pace = r.cells[c] != null && PACED.has(c) ? paceText(r.cells[c], r.metres[c] ?? null, paceUnit(c)) : null;
+                    return (
+                      <View key={c} style={{ flex: 1 }}>
+                        <Text style={[t.bodySm, { fontSize: 13, color: color.ink }]}>
+                          {r.cells[c] != null ? mmss(r.cells[c]) : '—'}
+                        </Text>
+                        {pace ? <Text style={[t.meta, { fontSize: 10.5, color: color.muted2 }]}>{pace}</Text> : null}
+                      </View>
+                    );
+                  })}
                   <Text style={[t.rowTitle, { width: 52, textAlign: 'right', fontSize: 13, color: color.ink }]}>{mmss(r.total)}</Text>
                 </View>
                 <View style={{ height: 5, backgroundColor: color.paperEdge }}>
@@ -184,7 +195,30 @@ function Body({ s }: { s: HistorySession }) {
         <Text style={[t.meta, { color: color.muted2, marginHorizontal: space.gutter, marginTop: 18 }]}>
           Splits weren't recorded for this session.
         </Text>
-      ) : null}
+      ) : (
+        /* No repeated rounds: the work laps in order, each with its pace where
+           it was a run or an erg over a set distance. */
+        <>
+          <View style={{ marginHorizontal: space.gutter, marginTop: 24, paddingBottom: 8, borderBottomWidth: 2, borderBottomColor: color.ink }}>
+            <Label tone="ink">Splits</Label>
+          </View>
+          {s.splits.filter(x => !x.rest).map(x => {
+            const col = columnOf(x);
+            const pace = PACED.has(col)
+              ? paceText(x.seconds, metresOf(x.prescribed), paceUnit(col)) : null;
+            return (
+              <View key={x.index} style={{ flexDirection: 'row', alignItems: 'baseline', gap: 10, marginHorizontal: space.gutter, paddingVertical: 9, borderBottomWidth: 1, borderBottomColor: color.rule }}>
+                <View style={{ flex: 1 }}>
+                  <Text style={[t.rowTitle, { fontSize: 13, color: color.ink }]}>{x.label}</Text>
+                  {x.prescribed ? <Text style={[t.meta, { color: color.muted2 }]}>{x.prescribed}</Text> : null}
+                </View>
+                {pace ? <Text style={[t.meta, { color: color.muted2 }]}>{pace}</Text> : null}
+                <Text style={[t.rowTitle, { fontSize: 13, color: color.ink, minWidth: 44, textAlign: 'right' }]}>{mmss(x.seconds)}</Text>
+              </View>
+            );
+          })}
+        </>
+      )}
 
       {moves.length ? (
         <>

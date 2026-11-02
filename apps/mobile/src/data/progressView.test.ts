@@ -2,8 +2,8 @@ import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-  areaInputs, capabilityTile, changeText, gapReason, hoursText, monthGrid, monthSummary, monthTotals,
-  projectTo, readinessChange, roundTable, weekOf, weeklyMinutes, weeklyReadiness,
+  areaInputs, capabilityTile, changeText, gapReason, hoursText, metresOf, monthGrid, monthSummary, monthTotals,
+  paceText, projectTo, readinessChange, roundTable, weekOf, weeklyMinutes, weeklyReadiness,
 } from './progressView.ts';
 import type { IndexSession, ReadinessInputs, TrendPoint } from './progressRepo.ts';
 
@@ -120,5 +120,24 @@ describe('Progress view', () => {
 
   test('weeks start on Monday', () => {
     assert.equal(weekOf('2026-11-01'), '2026-10-26');
+  });
+  test('split pace reads in the units athletes use', () => {
+    assert.equal(metresOf('1000 m'), 1000);
+    assert.equal(metresOf('1.5 km'), 1500);
+    assert.equal(metresOf('15 reps'), null);
+    assert.equal(metresOf('100 ft'), null);
+    assert.equal(paceText(292, 1000, 'km'), '4:52 /km');
+    assert.equal(paceText(121, 500, '500m'), '2:01 /500 m');
+    assert.equal(paceText(120, null, 'km'), null);
+  });
+
+  test('a round cell keeps its distance only when every lap in it has one', () => {
+    const lap = (round: number, label: string, seconds: number, prescribed: string) =>
+      ({ label, seconds, rest: false, block_order: 2, round, prescribed });
+    const table = roundTable([
+      lap(1, 'Run', 292, '1000 m'), lap(1, 'Ski', 121, '500 m'), lap(1, 'Wall balls', 90, '20 reps'),
+      lap(2, 'Run', 300, '1000 m'), lap(2, 'Ski', 125, '500 m'), lap(2, 'Wall balls', 95, '20 reps'),
+    ], x => (x.label === 'Wall balls' ? 'Stations' : x.label))!;
+    assert.deepEqual(table.rows[0].metres, { Run: 1000, Ski: 500, Stations: null });
   });
 });
