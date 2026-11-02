@@ -436,7 +436,7 @@ export function ProfileLegacy({ footer }: { footer?: React.ReactNode }) {
           label={loadLabel && technicalLabel ? 'Change' : 'Answer two questions'}
           variant="outline"
           arrow={null}
-          onPress={() => router.push('/capacity' as never)}
+          onPress={() => router.push('/settings/fitness' as never)}
           style={{ marginTop: 10 }}
         />
 
