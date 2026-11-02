@@ -82,6 +82,25 @@ export function monthGrid(month: string, sessions: IndexSession[], today: string
   return cells;
 }
 
+/** The month `delta` months from `month`, both "YYYY-MM". */
+export function shiftMonth(month: string, delta: number): string {
+  const n = Number(month.slice(0, 4)) * 12 + Number(month.slice(5, 7)) - 1 + delta;
+  return `${Math.floor(n / 12)}-${String((n % 12) + 1).padStart(2, '0')}`;
+}
+
+/**
+ * The months the calendar can show: from the earlier of the first session and
+ * the program's start, up to this month. Nothing later: no session is in the
+ * future, and an empty month ahead says nothing.
+ */
+export function monthRange(sessions: { date: string }[], today: string, programStart: string | null):
+  { first: string; last: string } {
+  const last = today.slice(0, 7);
+  const starts = [last, programStart?.slice(0, 7), sessions[sessions.length - 1]?.date.slice(0, 7)]
+    .filter((m): m is string => !!m);
+  return { first: starts.sort()[0], last };
+}
+
 /** "19 sessions · 15 h 40", over the month's sessions. */
 export function monthSummary(month: string, sessions: IndexSession[]): { count: number; minutes: number; text: string } {
   const inMonth = sessions.filter(s => s.date.startsWith(month));

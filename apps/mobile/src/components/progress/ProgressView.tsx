@@ -24,7 +24,8 @@ import {
 import type { IndexSession, ProgressPayload } from '@/data/progressRepo';
 import {
   AREAS, capabilityTile, changeText, hoursText, KIND_ORDER, monthGrid, monthName, monthSummary,
-  readinessChange, shortDate, weekday, weeklyMinutes, type CapabilityTile,
+  addDays, monthRange, readinessChange, shiftMonth, shortDate, weekday, weekOf, weeklyMinutes,
+  type CapabilityTile,
 } from '@/data/progressView';
 import { readinessLine } from '@/data/todayView';
 import { track } from '@/lib/analytics';
@@ -182,10 +183,16 @@ function ReadinessCard({ p }: { p: ProgressPayload }) {
 
 function CalendarCard({ p }: { p: ProgressPayload }) {
   const router = useRouter();
-  const month = p.today.slice(0, 7);
+  const programStart = p.program.week ? addDays(weekOf(p.today), -7 * (p.program.week - 1)) : null;
+  const range = monthRange(p.sessions, p.today, programStart);
+  const [month, setMonth] = useState(range.last);
   const cells = useMemo(() => monthGrid(month, p.sessions, p.today), [month, p.sessions, p.today]);
   const summary = monthSummary(month, p.sessions);
   const [picked, setPicked] = useState<string | null>(null);
+  const go = (delta: number) => { setPicked(null); setMonth(m => shiftMonth(m, delta)); };
+  const canBack = month > range.first;
+  const canForward = month < range.last;
+  const title = `${monthName(month)}${month.slice(0, 4) !== p.today.slice(0, 4) ? ` ${month.slice(0, 4)}` : ''}`;
   const day = cells.find(c => c.date === picked);
   const first = p.sessions[p.sessions.length - 1];
   const firstWeek = first && Date.parse(p.today) - Date.parse(first.date) < 7 * 86_400_000;
@@ -194,10 +201,34 @@ function CalendarCard({ p }: { p: ProgressPayload }) {
   return (
     <View style={card}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <View style={{ gap: 3 }}>
-          <Label tone="ink">{monthName(month)}</Label>
+        <View style={{ gap: 3, flexShrink: 1 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginLeft: -8 }}>
+            <Pressable
+              onPress={canBack ? () => go(-1) : undefined}
+              disabled={!canBack}
+              accessibilityRole="button"
+              accessibilityLabel={`Previous month, ${monthName(shiftMonth(month, -1))}`}
+              accessibilityState={{ disabled: !canBack }}
+              hitSlop={8}
+              style={{ width: 28, height: 28, alignItems: 'center', justifyContent: 'center', opacity: canBack ? 1 : 0.25 }}
+            >
+              <Chevron dir="left" size={8} tint={color.ink} weight={1.8} />
+            </Pressable>
+            <Label tone="ink" style={{ minWidth: 92, textAlign: 'center' }}>{title}</Label>
+            <Pressable
+              onPress={canForward ? () => go(1) : undefined}
+              disabled={!canForward}
+              accessibilityRole="button"
+              accessibilityLabel={`Next month, ${monthName(shiftMonth(month, 1))}`}
+              accessibilityState={{ disabled: !canForward }}
+              hitSlop={8}
+              style={{ width: 28, height: 28, alignItems: 'center', justifyContent: 'center', opacity: canForward ? 1 : 0.25 }}
+            >
+              <Chevron dir="right" size={8} tint={color.ink} weight={1.8} />
+            </Pressable>
+          </View>
           <Text style={[t.bodySm, { color: color.muted2 }]}>
-            {summary.text}{firstWeek && summary.count ? ' · your first week' : ''}
+            {summary.text}{firstWeek && summary.count && month === range.last ? ' · your first week' : ''}
           </Text>
         </View>
         <Pressable

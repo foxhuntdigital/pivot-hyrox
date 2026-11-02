@@ -2,7 +2,7 @@ import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-  areaInputs, capabilityTile, changeText, gapReason, hoursText, metresOf, monthGrid, monthSummary, monthTotals,
+  areaInputs, capabilityTile, monthRange, shiftMonth, changeText, gapReason, hoursText, metresOf, monthGrid, monthSummary, monthTotals,
   paceText, projectTo, readinessChange, roundTable, weekOf, weeklyMinutes, weeklyReadiness,
 } from './progressView.ts';
 import type { IndexSession, ReadinessInputs, TrendPoint } from './progressRepo.ts';
@@ -139,5 +139,14 @@ describe('Progress view', () => {
       lap(2, 'Run', 300, '1000 m'), lap(2, 'Ski', 125, '500 m'), lap(2, 'Wall balls', 95, '20 reps'),
     ], x => (x.label === 'Wall balls' ? 'Stations' : x.label))!;
     assert.deepEqual(table.rows[0].metres, { Run: 1000, Ski: 500, Stations: null });
+  });
+  test('months step across years, and the calendar spans first session to now', () => {
+    assert.equal(shiftMonth('2026-11', -1), '2026-10');
+    assert.equal(shiftMonth('2026-01', -1), '2025-12');
+    assert.equal(shiftMonth('2026-12', 1), '2027-01');
+    assert.deepEqual(monthRange([s('2026-11-01', 30), s('2026-09-07', 30)], '2026-11-02', null),
+      { first: '2026-09', last: '2026-11' });
+    assert.deepEqual(monthRange([], '2026-11-02', '2026-10-26'), { first: '2026-10', last: '2026-11' });
+    assert.deepEqual(monthRange([], '2026-11-02', null), { first: '2026-11', last: '2026-11' });
   });
 });
