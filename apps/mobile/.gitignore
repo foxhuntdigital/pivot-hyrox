@@ -37,5 +37,6 @@ yarn-error.*
 *.tsbuildinfo
 
 # generated native folders
-/ios
 /android
+
+# /ios is tracked on purpose — ios/.gitignore excludes Pods/ and build/
