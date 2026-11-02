@@ -14,8 +14,9 @@ import { useFocusEffect, useRouter } from 'expo-router';
 
 import { color, kindColor, numeralTrim, space, type as t, type SessionKind } from '@/theme/tokens';
 import { Label } from '@/components/primitives';
-import { Chevron, SessionShape, TypeTag } from '@/components/system';
+import { Chevron, EffortMeter, TypeTag } from '@/components/system';
 import { lookOf } from '@/components/plan/weekData';
+import { effortOf } from '@/data/planWeek';
 import { ReadinessChart, Sparkline } from '@/components/progress/charts';
 import {
   CAPABILITIES, capabilityOfExercise, directionLabel, kindOf, readinessSpan, useProgressModel,
@@ -292,11 +293,15 @@ function PickedSession({ s }: { s: IndexSession }) {
       style={({ pressed }) => ({ gap: 8, backgroundColor: pressed ? color.hover : 'transparent' })}
     >
       <TypeTag kind={kind} />
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', gap: 10 }}>
-        <Text style={[t.rowTitle, { flex: 1, fontSize: 15, color: color.ink }]}>{s.name}</Text>
-        <Text style={[t.meta, { color: color.muted2 }]}>{directionLabel(s)}</Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+        <View style={{ flex: 1, gap: 2 }}>
+          <Text style={[t.rowTitle, { fontSize: 15, color: color.ink }]}>{s.name}</Text>
+          <Text style={[t.meta, { color: color.muted2 }]}>{directionLabel(s)}</Text>
+        </View>
+        {look || s.rpe != null ? (
+          <EffortMeter effort={s.rpe != null ? effortOf(s.rpe) : look!.effort} kind={kind} />
+        ) : null}
       </View>
-      {look ? <SessionShape bars={look.bars} kind={kind} height={30} /> : null}
       <Text style={[t.rowTitle, { fontSize: 13, color: color.ink, textDecorationLine: 'underline' }]}>
         Open session
       </Text>

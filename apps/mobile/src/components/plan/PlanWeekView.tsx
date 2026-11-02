@@ -22,7 +22,7 @@ import { color, kindColor, kindLabel, space, type as t, type SessionKind } from 
 import { InkPanel, Label } from '@/components/primitives';
 import { useDialog } from '@/components/Dialog';
 import { WorkoutDetailSheet } from '@/components/WorkoutDetailSheet';
-import { Chevron, SessionShape, TypeTag } from '@/components/system';
+import { Chevron, EffortMeter, SessionShape, TypeTag } from '@/components/system';
 import { useApp } from '@/state/store';
 import { phaseTitle } from '@/data/plan';
 import type { ShapeBar } from '@/data/sessionShape';
@@ -289,7 +289,7 @@ export function PlanWeekView({ footer }: { footer?: React.ReactNode }) {
                           .filter(Boolean).join(' · ')}
                     </Text>
                   </View>
-                  {look ? <SessionShape bars={look.bars} kind={look.kind} height={16} muted={o.done} /> : null}
+                  {look ? <EffortMeter effort={look.effort} kind={look.kind} muted={o.done} /> : null}
                 </Pressable>
               );
             })}
@@ -441,8 +441,7 @@ function SessionRow({ tile, bars, open, onToggle, onRead, onDoToday, onHistory }
             {tile.subline}
           </Text>
         </View>
-        <SessionShape bars={bars} kind={tile.kind} height={22} muted={done || skipped}
-          style={{ width: 74, borderBottomWidth: 0 }} />
+        <EffortMeter effort={tile.effort} kind={tile.kind} muted={done || skipped} />
         <Chevron dir={open ? 'up' : 'down'} size={7} />
       </Pressable>
 

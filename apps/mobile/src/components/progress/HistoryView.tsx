@@ -15,11 +15,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { color, kindColor, kindLabel, space, type as t, type SessionKind } from '@/theme/tokens';
 import { Label } from '@/components/primitives';
-import { Chevron, SessionShape, SubpageHeader, TypeTag } from '@/components/system';
+import { Chevron, EffortMeter, SubpageHeader, TypeTag } from '@/components/system';
 import { lookOf } from '@/components/plan/weekData';
 import { kindOf, useProgressModel } from '@/components/progress/model';
 import { fetchHistory, type HistorySession } from '@/data/historyRepo';
-import { displayName } from '@/data/planWeek';
+import { displayName, effortOf } from '@/data/planWeek';
 import { monthName, monthTotals, shortDate, weekday } from '@/data/progressView';
 import { rememberSessions } from '@/state/progress';
 import { useApp } from '@/state/store';
@@ -238,7 +238,7 @@ function Row({ s, today }: { s: HistorySession; today: string }) {
       <View style={{ flex: 1, gap: 5 }}>
         <TypeTag kind={kind} />
         <Text style={[t.rowTitle, { fontSize: 14.5, color: color.ink }]} numberOfLines={2}>{displayName(s.name)}</Text>
-        {look ? <SessionShape bars={look.bars} kind={kind} height={18} /> : null}
+
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
           {meta ? <Text style={[t.meta, { color: color.muted2 }]}>{meta}</Text> : null}
           {s.ended_early ? <Text style={[t.meta, { fontFamily: t.eyebrow.fontFamily, color: color.redDark }]}>Ended early</Text> : null}
@@ -250,6 +250,9 @@ function Row({ s, today }: { s: HistorySession; today: string }) {
           </Text>
         ) : null}
       </View>
+      {look || s.session_rpe != null ? (
+        <EffortMeter effort={s.session_rpe != null ? effortOf(s.session_rpe) : look!.effort} kind={kind} />
+      ) : null}
       <Chevron dir="right" />
     </Pressable>
   );
