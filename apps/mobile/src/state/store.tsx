@@ -1035,12 +1035,23 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
    * the ref would start the wrong thing, or nothing at all.
    */
   const openSession = useCallback((started: EngineDecision | null) => {
+    // Both minted here, once, before anything is sent. The session's identity
+    // does not wait on a server that may never answer.
+    //
+    // Held in a local as well as dispatched, because the Start request below
+    // goes out in this same call. It used to read the id back from
+    // `stateRef`, which still holds the *previous* render: the dispatch has
+    // not been applied yet. So Start presented the last session's id (or none
+    // at all on a first session), the server resumed that session's row, and
+    // the new workout was finished onto it: replayed as a duplicate and
+    // dropped, or written over the earlier session. On Today it showed as
+    // one session counted twice, because the local finish never matched the
+    // server's row.
+    const id = clientSessionId();
     dispatch({
       type: 'start_workout',
-      // Both minted here, once, before anything is sent. The session's identity
-      // does not wait on a server that may never answer.
       finish_event_id: eventId(),
-      client_session_id: clientSessionId(),
+      client_session_id: id,
       performed: started?.kind === 'session'
         ? {
             template_id: started.template.id,
@@ -1080,7 +1091,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     // override already folded in.
     startSession({
       ...adaptInputs(),
-      client_session_id: stateRef.current.client_session_id ?? undefined,
+      client_session_id: id,
       template_id: started.template.id,
       variant_code: started.variant.variant_code,
     }).then(result => {

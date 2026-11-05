@@ -24,6 +24,13 @@ export function startersFor(day: {
   lowSleep: boolean;
   finishedToday: boolean;
   hasRace: boolean;
+  /**
+   * A "Build me…" request already checked to produce a workout for this
+   * athlete (`BUILD_STARTERS`, tested against the coach's own build), or null
+   * when none does. A suggested question the coach cannot answer is worse
+   * than no suggestion.
+   */
+  buildStarter?: string | null;
 }, max = 4): Starter[] {
   const out: string[] = [];
   if (day.finishedToday) {
@@ -35,10 +42,24 @@ export function startersFor(day: {
   }
   out.push("What's my biggest gap right now?");
   out.push('Am I getting faster?');
-  out.push('Build me a 30-minute sled + run workout');
+  if (day.buildStarter) out.push(day.buildStarter);
   out.push(day.hasRace ? 'I can only train four days this week' : "I'm travelling this week");
   return [...new Set(out)].slice(0, max).map(label => ({ label }));
 }
+
+/**
+ * Build requests to suggest, best first. None names equipment: naming kit
+ * tells the coach that is all the athlete has ("a sled + run workout" was
+ * built on a sled alone, and running needs somewhere to run), so these leave
+ * the athlete's own equipment in charge. The first one the coach can actually
+ * answer is the one shown.
+ */
+export const BUILD_STARTERS = [
+  'Build me a 30-minute station + run workout',
+  'Build me a 30-minute station workout',
+  'Build me a 30-minute strength workout',
+  'Build me a 30-minute engine workout',
+];
 
 /** The follow-ups a thread offers under its latest answer, as the actions they map to. */
 export type FollowUp = { label: string; action: 'ask_weakness' | 'ask_explain' | 'ask_adapt' | 'ask_low_impact' | 'ask_build' };

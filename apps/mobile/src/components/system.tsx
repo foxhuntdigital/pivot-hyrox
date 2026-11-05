@@ -110,6 +110,38 @@ export function SessionShape({ bars, kind, height = 28, muted, tint, style }: {
   );
 }
 
+/**
+ * How hard a session is, as three steps: easy, moderate, hard.
+ *
+ * Used in lists, where the session shape is too small to read: one fact a row
+ * can carry at a glance, so the hard days stand out down a week. Drawn in the
+ * session's type colour, grey once done; the word is in its accessibility
+ * label, since the bars alone could be read as a signal-strength icon.
+ */
+export function EffortMeter({ effort, kind, muted, style }: {
+  effort: 1 | 2 | 3;
+  kind: SessionKind;
+  muted?: boolean;
+  style?: ViewStyle;
+}) {
+  const c = muted ? color.chipBorder : kindColor[kind];
+  const word = ['Easy', 'Moderate', 'Hard'][effort - 1];
+  return (
+    <View
+      accessible
+      accessibilityLabel={`${word} effort`}
+      style={[{ flexDirection: 'row', alignItems: 'flex-end', gap: 3, height: 18 }, style]}
+    >
+      {[8, 13, 18].map((h, i) => (
+        <View key={i} style={{
+          width: 7, height: h, borderWidth: 1.5, borderColor: c,
+          backgroundColor: i < effort ? c : 'transparent',
+        }} />
+      ))}
+    </View>
+  );
+}
+
 /* ── chevrons and rows ────────────────────────────────────────────────────── */
 
 /**

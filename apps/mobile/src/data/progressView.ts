@@ -82,6 +82,25 @@ export function monthGrid(month: string, sessions: IndexSession[], today: string
   return cells;
 }
 
+/** The month `delta` months from `month`, both "YYYY-MM". */
+export function shiftMonth(month: string, delta: number): string {
+  const n = Number(month.slice(0, 4)) * 12 + Number(month.slice(5, 7)) - 1 + delta;
+  return `${Math.floor(n / 12)}-${String((n % 12) + 1).padStart(2, '0')}`;
+}
+
+/**
+ * The months the calendar can show: from the earlier of the first session and
+ * the program's start, up to this month. Nothing later: no session is in the
+ * future, and an empty month ahead says nothing.
+ */
+export function monthRange(sessions: { date: string }[], today: string, programStart: string | null):
+  { first: string; last: string } {
+  const last = today.slice(0, 7);
+  const starts = [last, programStart?.slice(0, 7), sessions[sessions.length - 1]?.date.slice(0, 7)]
+    .filter((m): m is string => !!m);
+  return { first: starts.sort()[0], last };
+}
+
 /** "19 sessions · 15 h 40", over the month's sessions. */
 export function monthSummary(month: string, sessions: IndexSession[]): { count: number; minutes: number; text: string } {
   const inMonth = sessions.filter(s => s.date.startsWith(month));
@@ -100,6 +119,8 @@ export const KIND_ORDER: SessionKind[] = ['run', 'erg', 'station', 'strength', '
 export interface WeekMinutes {
   week: string;
   total: number;
+  /** Sessions finished that week, counted whether or not their minutes are known. */
+  sessions: number;
   byKind: { kind: SessionKind; minutes: number }[];
 }
 
@@ -113,15 +134,24 @@ export function weeklyMinutes(
     const week = addDays(thisWeek, -7 * i);
     const end = addDays(week, 6);
     const totals = new Map<SessionKind, number>();
+    let count = 0;
     for (const s of sessions) {
-      if (s.date < week || s.date > end || !s.minutes) continue;
+      if (s.date < week || s.date > end) continue;
+      count++;
+      if (!s.minutes) continue;
       const k = kindOf(s);
       totals.set(k, (totals.get(k) ?? 0) + s.minutes);
     }
     const byKind = KIND_ORDER.filter(k => totals.has(k)).map(k => ({ kind: k, minutes: totals.get(k)! }));
-    out.push({ week, total: byKind.reduce((t, k) => t + k.minutes, 0), byKind });
+    out.push({ week, total: byKind.reduce((t, k) => t + k.minutes, 0), sessions: count, byKind });
   }
   return out;
+}
+
+/** A bar's minutes in the space above it: "42", "2h15". */
+export function barLabel(minutes: number): string {
+  const m = Math.round(minutes);
+  return m < 60 ? String(m) : `${Math.floor(m / 60)}h${String(m % 60).padStart(2, '0')}`;
 }
 
 /* ── readiness ──────────────────────────────────────────────────────────── */
