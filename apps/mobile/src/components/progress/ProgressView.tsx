@@ -36,7 +36,7 @@ const card = {
   borderWidth: 1, borderColor: color.rule, backgroundColor: color.paper, padding: 14,
 } as const;
 
-export function ProgressView({ footer }: { footer?: React.ReactNode }) {
+export function ProgressView() {
   const { payload, status, message, refresh } = useProgressModel();
 
   const confidence = payload?.readiness.confidence ?? null;
@@ -83,7 +83,6 @@ export function ProgressView({ footer }: { footer?: React.ReactNode }) {
           <Highlights p={payload} />
         </>
       )}
-      {footer}
     </ScrollView>
   );
 }

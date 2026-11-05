@@ -44,7 +44,7 @@ const WEEK_INFO = [
     + 'rather than adding to a list.',
 ].join('\n\n');
 
-export function PlanWeekView({ footer }: { footer?: React.ReactNode }) {
+export function PlanWeekView() {
   const router = useRouter();
   const dialog = useDialog();
   const { width } = useWindowDimensions();
@@ -325,7 +325,6 @@ export function PlanWeekView({ footer }: { footer?: React.ReactNode }) {
       </View>
       </>
       )}
-      {footer}
     </ScrollView>
 
     <WorkoutDetailSheet

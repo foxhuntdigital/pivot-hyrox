@@ -1,10 +1,9 @@
 /**
- * Coach, redesigned: the same cards as the rest of the app, one live set of
- * actions at a time.
+ * Coach: the same cards as the rest of the app, one live set of actions at a
+ * time.
  *
- * Behaviour is unchanged and shared with the old layout (`useCoachController`):
- * what each action commits, undo, plan changes and the keyboard. What changes
- * is how a thread reads.
+ * What each action commits, undo, plan changes and the keyboard all live in
+ * `useCoachController`; this file is only how a thread reads.
  *
  *   - A workout answer is drawn like Today's session: type tag, shape graphic,
  *     quantities, plain wording instead of "FULL".
@@ -42,7 +41,7 @@ import { readinessLine } from '@/data/todayView';
 import { LOW_SLEEP_HOURS } from '@/lib/format';
 import { useCoachController } from './useCoachController';
 
-export function CoachView({ footer }: { footer?: React.ReactNode }) {
+export function CoachView() {
   const { plan, readiness, session, state, sleep } = useApp();
   const {
     coach, scroller, ctx, answers, insight, onAction, onCommittedPrimary, onUndo,
@@ -225,8 +224,7 @@ export function CoachView({ footer }: { footer?: React.ReactNode }) {
               </View>
             </>
           ) : null}
-          {footer}
-        </ScrollView>
+          </ScrollView>
       )}
 
       {/* The next questions worth asking, above the composer. */}

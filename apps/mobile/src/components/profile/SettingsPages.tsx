@@ -18,7 +18,6 @@ import { ActionButton, Chip, Label, SquareCheck } from '@/components/primitives'
 import { DraftSaveBar, SubpageHeader } from '@/components/system';
 import { ChipRow, DateChooser } from '@/components/onboarding';
 import { useDialog } from '@/components/Dialog';
-import { Stepper } from '@/components/profile/ProfileLegacy';
 import { ProfileError } from '@/components/profile/ProfileError';
 import { saveEquipment } from '@/data/equipmentRepo';
 import { createPlan, updateRaceDetails, type PlanTarget } from '@/data/planRepo';
@@ -744,3 +743,48 @@ const BODIES: Record<Page, () => React.ReactElement> = {
   length: LengthPage, week: WeekPage, enjoy: EnjoyPage, 'needs-work': NeedsWorkPage,
   health: HealthPage, name: NamePage, account: AccountPage,
 };
+
+/** `‹ value ›` — a flat stepper, since the design has no wheels or dropdowns. */
+function Stepper({
+  value, onPrev, onNext, prevEnabled = true, nextEnabled = true, label,
+}: {
+  value: string;
+  onPrev: () => void;
+  onNext: () => void;
+  prevEnabled?: boolean;
+  nextEnabled?: boolean;
+  label: string;
+}) {
+  const Arrow = ({ dir, on, press }: { dir: string; on: boolean; press: () => void }) => (
+    <Pressable
+      onPress={on ? press : undefined}
+      disabled={!on}
+      accessibilityRole="button"
+      accessibilityLabel={`${dir === '‹' ? 'Previous' : 'Next'} ${label}`}
+      style={({ pressed }) => ({
+        paddingHorizontal: 14, paddingVertical: 13,
+        backgroundColor: pressed && on ? color.hover : 'transparent',
+      })}
+    >
+      <Text style={{ fontFamily: t.rowTitle.fontFamily, fontSize: 16,
+        color: on ? color.ink : color.muted3 }}>{dir}</Text>
+    </Pressable>
+  );
+
+  return (
+    <View style={{
+      flex: 1, flexDirection: 'row', alignItems: 'center',
+      justifyContent: 'space-between',
+      borderWidth: 1, borderColor: color.chipBorder,
+    }}>
+      <Arrow dir="‹" on={prevEnabled} press={onPrev} />
+      <Text
+        accessibilityLabel={`${label} ${value}`}
+        style={{ fontFamily: t.statValue.fontFamily, fontSize: 15, color: color.ink }}
+      >
+        {value}
+      </Text>
+      <Arrow dir="›" on={nextEnabled} press={onNext} />
+    </View>
+  );
+}
