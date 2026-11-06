@@ -41,7 +41,7 @@ function longDate(iso: string): string {
 
 interface Row { label: string; value: string; onPress: () => void }
 
-export function ProfileView({ footer }: { footer?: React.ReactNode }) {
+export function ProfileView() {
   const router = useRouter();
   const { state, plan, preferences, weaknesses } = useApp();
   const { email, status } = useSession();
@@ -145,7 +145,6 @@ export function ProfileView({ footer }: { footer?: React.ReactNode }) {
           ))}
         </View>
       ))}
-      {footer}
     </ScrollView>
   );
 }

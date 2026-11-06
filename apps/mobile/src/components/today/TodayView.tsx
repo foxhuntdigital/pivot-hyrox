@@ -35,12 +35,12 @@ import type { ShapeBar } from '@/data/sessionShape';
 import { displayName, feelOf } from '@/data/planWeek';
 import { LENGTH_NAME, checkinLine, readinessLine } from '@/data/todayView';
 import { variantOverrideFailed, variantSource, variantStep, type VariantStep } from '@/data/variantChoice';
-import { hoursToClock, mmss, LOW_SLEEP_HOURS } from '@/lib/format';
+import { hoursToClock, mmss, isoDayLabel, clockTime, LOW_SLEEP_HOURS } from '@/lib/format';
 import { track } from '@/lib/analytics';
 
 const MOVEMENT_WORD = { run: 'Run', erg: 'Erg', station: 'Stations' } as const;
 
-export function TodayView({ footer }: { footer?: React.ReactNode }) {
+export function TodayView() {
   const router = useRouter();
   const dialog = useDialog();
   const {
@@ -221,7 +221,7 @@ export function TodayView({ footer }: { footer?: React.ReactNode }) {
           <View style={{ backgroundColor: color.ink, paddingHorizontal: space.gutter, paddingTop: 20, paddingBottom: 22 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 12 }}>
               <Label tone="salmon" style={{ flexShrink: 1 }}>{goal.label}</Label>
-              {plan.race?.event_date ? <Label tone="onDarkMuted">{raceDay(plan.race.event_date)}</Label> : null}
+              {plan.race?.event_date ? <Label tone="onDarkMuted">{isoDayLabel(plan.race.event_date)}</Label> : null}
             </View>
             <View
               accessible
@@ -467,7 +467,6 @@ export function TodayView({ footer }: { footer?: React.ReactNode }) {
               + "factored into today's options. Nothing is marked missed."
             : "Nothing is marked missed. Check in and today's options are recalculated from how you actually slept."}
         </Text>
-        {footer}
       </ScrollView>
 
       <AdaptSheet visible={sheetOpen} onClose={() => setSheetOpen(false)} />
@@ -634,22 +633,13 @@ function capitalise(text: string): string {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
-/** "Sat 14 Mar", for the hero's race date. */
-function raceDay(iso: string): string {
-  const d = new Date(`${iso}T00:00:00Z`);
-  if (Number.isNaN(d.getTime())) return '';
-  const wd = d.toLocaleDateString('en-GB', { weekday: 'short', timeZone: 'UTC' });
-  const dm = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
-  return `${wd} ${dm}`;
-}
-
 const styles = {
   /** The countdown: Archivo Black, sized to read across a gym. */
   countdown: { fontFamily: t.hero.fontFamily, fontSize: 124, lineHeight: 120, letterSpacing: -7 },
 } as const;
 
 /**
- * "Finished 11:05" in the phone's own clock. Null is a session finished here
+ * "Finished 11:05 AM" in the phone's own clock. Null is a session finished here
  * and not yet on the server ("Just now"); undefined is a server that does not
  * send times yet, which says nothing rather than something untrue.
  */
@@ -658,5 +648,5 @@ function finishTime(iso: string | null | undefined): string {
   if (iso === null) return 'Just now';
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return '';
-  return `Finished ${d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
+  return `Finished ${clockTime(d)}`;
 }

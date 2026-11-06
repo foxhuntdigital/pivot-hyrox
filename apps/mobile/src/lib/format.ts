@@ -43,7 +43,10 @@ const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 /**
- * The app header's date — "Wed 19 Aug".
+ * The app header's date — "Wed Aug 19".
+ *
+ * Month before day: this is a US-first app, and an athlete reading "19 Aug"
+ * has to stop and re-parse it. Every date the app shows is this shape.
  *
  * Formatted here rather than with `toLocaleDateString`: Hermes ships without
  * full ICU on some builds and silently falls back to a different shape, which
@@ -53,7 +56,36 @@ const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
  * yesterday because their stored timezone says so.
  */
 export function headerDateLabel(now: Date = new Date()): string {
-  return `${WEEKDAYS[now.getDay()]} ${now.getDate()} ${MONTHS_SHORT[now.getMonth()]}`;
+  return `${WEEKDAYS[now.getDay()]} ${MONTHS_SHORT[now.getMonth()]} ${now.getDate()}`;
+}
+
+/**
+ * A plan date — `2026-03-14` — as "Sat Mar 14", for the Today hero's race day.
+ *
+ * Read in UTC, because a plan date is a calendar day the server named and not
+ * an instant: parsed in the device's zone, an athlete west of UTC sees the day
+ * before their own race. Hand-rolled for the same ICU reason as
+ * `headerDateLabel`, and US-shaped to match it.
+ */
+export function isoDayLabel(iso: string): string {
+  const d = new Date(`${iso}T00:00:00Z`);
+  if (Number.isNaN(d.getTime())) return '';
+  return `${WEEKDAYS[d.getUTCDay()]} ${MONTHS_SHORT[d.getUTCMonth()]} ${d.getUTCDate()}`;
+}
+
+/**
+ * A finish instant as the phone's own clock reads it — "11:05 AM".
+ *
+ * Hand-rolled rather than `toLocaleTimeString` for the ICU reason above: with
+ * no full ICU, Hermes can fall back to a 24-hour clock, so a US athlete who
+ * finished at 5pm reads "17:05" in a release build and "5:05 PM" in the
+ * simulator. The accessors are always the device's own zone.
+ */
+export function clockTime(d: Date): string {
+  const h = d.getHours();
+  const suffix = h < 12 ? 'AM' : 'PM';
+  const hour12 = h % 12 === 0 ? 12 : h % 12;
+  return `${hour12}:${String(d.getMinutes()).padStart(2, '0')} ${suffix}`;
 }
 
 /**
