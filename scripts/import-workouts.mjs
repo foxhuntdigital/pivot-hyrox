@@ -593,7 +593,10 @@ for (const { meta, w, id, blocks } of accepted) {
     typeof w.postpartum_friendly === 'boolean' ? w.postpartum_friendly : true,
     allItems.some(i => i.exercise_id === 'ex_run'),
     allItems.some(i => i.exercise_id === 'ex_skierg'),
-    w.description ?? meta.default_description ?? `${meta.pack ?? 'Imported'} workout.`,
+    // No description is none. This used to fall back to the pack's name
+    // ("… workout."), which the app then showed athletes as if it described
+    // the session (migration 0026 cleared those).
+    w.description ?? meta.default_description ?? null,
     w.coaching_notes ?? meta.default_coaching_notes ?? null,
     // training_domain and session_type are left for apply-classification.mjs,
     // which reads them off the session's structure rather than its label. An

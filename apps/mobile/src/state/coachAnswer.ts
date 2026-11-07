@@ -25,6 +25,7 @@ import type { PlanView } from '@/data/plan';
 import type { ComparableSeries, QueuedSession } from '@/data/todayRepo';
 import { REASON_CODE_COPY, type CoachIntent, type CoachSignals } from '@/data/coach';
 import { hoursToClock } from '@/lib/format';
+import { readableDescription } from '@/data/templateText';
 
 /* ---------------------------------------------------------------- types --- */
 
@@ -862,7 +863,7 @@ function kitUse(t: WorkoutTemplate, kitIds: string[]): number {
   if (!using) return 0;
   // Singular, so "Kettlebells" finds "8-Minute Kettlebell EMOM", and the
   // short form the library also writes ("KB Ballistic").
-  const text = ` ${t.name} ${t.description} `.toLowerCase();
+  const text = ` ${t.name} ${t.description ?? ''} `.toLowerCase();
   const named = kitIds.some(id => {
     const name = (equipmentName.get(id) ?? id).toLowerCase().replace(/s$/, '');
     return text.includes(name) || text.includes(` ${id} `);
@@ -883,7 +884,8 @@ function workoutCard(rec: Recommendation, source: string): CoachCard {
     name: rec.template.name,
     variant: VARIANT_LABEL[rec.variant.variant_code],
     minutes: rec.estimated_minutes,
-    goal: `${stimulusLabel(rec.primary_stimulus)} · ${rec.template.description}`,
+    goal: [stimulusLabel(rec.primary_stimulus), readableDescription(rec.template.description)]
+      .filter(Boolean).join(' · '),
     intensity: rec.template.intensity_target ?? `RPE guided`,
     blocks: blockRows(rec),
     prescription: rec.blocks,
