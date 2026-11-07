@@ -8,6 +8,15 @@ Goal: the athlete can connect Apple Health in onboarding and in
 Profile › Settings, disconnect it, reconnect it, and see heart rate on the
 workout player (`apps/mobile/app/active.tsx`).
 
+## Decisions so far
+
+| Date | Decision |
+|---|---|
+| 7 Nov 2026 | "Workouts you record elsewhere" moves to v2; launch copy drops it (section 5). |
+| 7 Nov 2026 | Apple Watch owners get the synced reading with its age on the player in v1. No Watch app for launch. |
+| 7 Nov 2026 | Coach stays on self-reported sleep and readiness. No HealthKit-derived value reaches the LLM provider. |
+| 7 Nov 2026 | Zone boundaries below iOS 27 use a birth date asked in onboarding and editable in Profile, not the HealthKit `dateOfBirth` characteristic. |
+
 ---
 
 ## 1. iOS facts: confirmed or corrected
@@ -145,8 +154,8 @@ on iOS 27 use the athlete's Apple zones as the boundaries.**
   a zone), and add up per zone.
 - Boundaries: on iOS 27, read the preferred zones so PIVOT's numbers match the
   Workout app. Below 27, compute 5 zones from age and resting heart rate
-  (resting HR is already read). Age needs either the `dateOfBirth`
-  characteristic (one more type in the sheet) or an onboarding answer.
+  (resting HR is already read) and the birth date from onboarding / Profile
+  (decided; see step 3b). No birth date: no zones, and the summary says why.
   Say on the summary which zones were used. Don't present them as Apple's
   zones when they aren't.
 - Later on iOS 27, Apple's `zoneDurations` can serve as a cross-check, or
@@ -193,6 +202,13 @@ own CoreBluetooth module or `react-native-ble-manager`, at the same estimate.
 - `apps/mobile/src/components/profile/SettingsPages.tsx`: add `'apple-health'` to `PAGES`, plus an `AppleHealthPage` in `BODIES` with the states in section 5. Leave the existing `health` page ("Things to train around") as it is, and keep the two rows clearly separate.
 - The Profile list (wherever the rows to `/settings/[page]` are defined) gets an "Apple Health" row with a Connected / Off value.
 
+**Step 3b — birth date (1–1.5 d)**
+- `supabase/migrations/0027_birth_date.sql`: `athlete_profiles.birth_date date` (nullable), with a comment marking it personal data, owner-only under the existing RLS, never sent to analytics or Coach.
+- Onboarding: ask on the experience step (`(onboarding)/experience.tsx`) as an optional "Birth date" field using the existing `DateChooser` (`src/components/onboarding.tsx`), so the step count stays at 8. Carry it in `src/state/onboarding.tsx` and through the `onboarding-plan` function's profile write.
+- Profile: add a `'birthdate'` page to `PAGES` / `BODIES` in `SettingsPages.tsx` (saved on tap, like Name), a row in `ProfileView.tsx`, and the column in `profileRepo.ts` / `data/profile.ts` / `store.tsx`, following `postpartum_birth_date`.
+- Copy: label "Birth date", helper "Optional. Used to set your heart-rate zones. Never shared." Profile row value: the date, or "Not set".
+- Privacy: add to the privacy manifest's declared data (it's personal info) and the privacy policy. No age or age bucket in Amplitude unless PRD §16 adds one.
+
 **Step 4 — live heart rate on the player (3–4 d with d; +1 d for fallback a)**
 - New local Expo module `apps/mobile/modules/pivot-workout-session/`: Swift module with `start(activityType)`, `pause`, `resume`, `end(save: boolean)`, `discard`, and an `onHeartRate({ bpm, at })` event. It's guarded by `if #available(iOS 26, *)` and reports `unsupported` below that. It uses `HKLiveWorkoutBuilderDelegate.didCollectDataOf` → `statistics(for: heartRate).mostRecentQuantity()`. Use activity type `.functionalStrengthTraining` or `.crossTraining` for HYROX sessions, decided in the spike. Crash recovery through the new scene delegate is v2. In v1, a crash loses the in-progress Health workout but not PIVOT's own session data.
 - `apps/mobile/app/active.tsx` (the slot at ~line 312): a `useHeartRate()` hook in `src/lib/health.ts` that uses the session on iOS 26+, otherwise anchored `heartRate` queries (fallback a). It shows a number with a freshness rule and keeps "— not connected" / "— no sensor" otherwise. Start the session with `workout_started`, mirror pause and resume, and end it at completion. **Discard it when the athlete abandons the session.**
@@ -210,7 +226,7 @@ own CoreBluetooth module or `react-native-ble-manager`, at the same estimate.
 **Step 7 — privacy (1 d code + your decisions)**
 - `apps/mobile/ios/PIVOT/PrivacyInfo.xcprivacy`: add `NSPrivacyCollectedDataTypeHealth` and `…Fitness`, linked to the user, not tracking, purpose App Functionality. Section 1 of the launch checklist already lists this.
 - `apps/mobile/src/lib/analytics.ts`: no HealthKit-derived value in any event. `sleep_bucket` (from `store.tsx:976`) must stay **self-reported only**. Add a header-comment rule. If you want `health_connected` / `health_disconnected` events, they need a PRD §16 change first, because the taxonomy is fixed there.
-- **Decision needed: Coach.** `supabase/functions/coach/index.ts` sends `sleep_hours` and readiness to the LLM provider. Once those can come from HealthKit, that's HealthKit data reaching a third party. Guideline 5.1.3 limits HealthKit disclosure, and 5.1.2(i) requires disclosure and consent for sharing with third-party AI. Options: keep Coach on self-reported values only (recommended for launch), or add explicit consent and privacy-policy language.
+- **Decided: Coach stays on self-reported values.** `supabase/functions/coach/index.ts` sends `sleep_hours` and readiness to the LLM provider. Once those can come from HealthKit, that's HealthKit data reaching a third party. Guideline 5.1.3 limits HealthKit disclosure, and 5.1.2(i) requires disclosure and consent for sharing with third-party AI. Coach keeps reading only the check-in's self-reported `sleep_hours` and a readiness computed without HealthKit inputs, or Coach is handed the self-reported variant explicitly. Add a test that fails if a `source: 'connected'` value reaches the Coach input.
 - Privacy policy and App Store text: say HealthKit is used and what's read and written. HealthKit apps must identify the integration in the UI and marketing text. No HealthKit data goes in iCloud or to advertising.
 
 **Step 8 — device QA (1–1.5 d).** Grant all, deny all, partial, revoke in Health, reinstall, new phone, iPad (Health exists on iPadOS 17+), iOS 25 device (fallback path), strap disconnected mid-session, phone locked mid-session.
@@ -227,6 +243,7 @@ own CoreBluetooth module or `react-native-ble-manager`, at the same estimate.
 | Write workouts | 1 d | 0.5–1 d |
 | Read side (RHR / HRV / sleep → table → engine) | 3–5 d | 3–5 d |
 | Time in zone on the session summary | — | 1.5–2 d |
+| Birth date in onboarding and Profile | — | 1–1.5 d |
 | Device QA | — | 1–1.5 d |
 | **Goal only** (connect, disconnect, reconnect, HR on player) | ~7–9 d | **~10–12 d** |
 | **Everything the onboarding screen promises** | ~11–15 d | **~14–17 d** |
