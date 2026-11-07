@@ -139,20 +139,53 @@ export function TodayView() {
     }
     return true;
   };
-  const chooseLength = async (code: VariantCode) => {
-    if (session.kind !== 'session' || code === session.variant.variant_code) return;
+  /**
+   * The length the card is showing. Tapping a length only previews it; it is
+   * chosen when the athlete starts it, so they can look at all three first.
+   * Null is the session as decided.
+   */
+  const [picked, setPicked] = useState<VariantCode | null>(null);
+  const templateId = session.kind === 'session' ? session.template.id : null;
+  const decided = session.kind === 'session' ? session.variant.variant_code : null;
+  // A new decision (another session, or a length chosen in Adapt) starts the
+  // card on what was decided again.
+  useEffect(() => { setPicked(null); }, [templateId, decided]);
+
+  /** Commits a length, with the same rules and copy as the Adapt sheet. */
+  const chooseLength = async (code: VariantCode): Promise<boolean> => {
+    if (session.kind !== 'session') return false;
+    if (code === session.variant.variant_code) return true;
     const label = VARIANT_LABEL[code];
     const result = chooseVariant(session.template.id, code);
     if (!result.ok) {
       const step = variantStep(result, label,
         variantSource({ checkedIn: !!state.checkin, energy: state.energy }));
-      if (!(await show(step)) || step.kind !== 'confirm') return;
+      if (!(await show(step)) || step.kind !== 'confirm') return false;
       if (!chooseVariant(session.template.id, code, { override: true }).ok) {
         await show(variantOverrideFailed(label));
-        return;
+        return false;
       }
     }
-    Haptics.selectionAsync();
+    return true;
+  };
+
+  /**
+   * Starting a length other than the decided one commits it first. The player
+   * reads the decision as of the next render, so the start waits for the
+   * session to become that length rather than opening the old one.
+   */
+  const [startOnce, setStartOnce] = useState<VariantCode | null>(null);
+  useEffect(() => {
+    if (startOnce && decided === startOnce) {
+      setStartOnce(null);
+      start();
+    }
+  }, [startOnce, decided]);
+
+  const startPicked = async () => {
+    if (!picked || picked === decided) { start(); return; }
+    const code = picked;
+    if (await chooseLength(code)) setStartOnce(code);
   };
 
   return (
@@ -369,9 +402,14 @@ export function TodayView() {
 
         {(!finishedToday || stacked) && (session.kind === 'session' ? (
           <SessionCard
-            onStart={start}
+            onStart={startPicked}
             onAdapt={() => setSheetOpen(true)}
-            onLength={chooseLength}
+            picked={picked}
+            onLength={(code) => {
+              if (code === (picked ?? decided)) return;
+              Haptics.selectionAsync();
+              setPicked(code === decided ? null : code);
+            }}
           />
         ) : (
           <View style={{ marginHorizontal: space.gutter }}>
@@ -476,16 +514,26 @@ export function TodayView() {
 
 /* ── The session card ─────────────────────────────────────────────────────── */
 
-function SessionCard({ onStart, onAdapt, onLength }: {
+function SessionCard({ onStart, onAdapt, onLength, picked }: {
   onStart: () => void;
   onAdapt: () => void;
   onLength: (code: VariantCode) => void;
+  /** The length being previewed, when it is not the decided one. */
+  picked: VariantCode | null;
 }) {
-  const { session, state } = useApp();
+  const { session, state, previewVariant } = useApp();
   if (session.kind !== 'session') return null;
   const tpl = session.template;
-  // The session as it will be performed: adapted blocks, not the template's.
-  const look = lookOf(tpl.id, session.blocks);
+  const decided = session.variant.variant_code;
+  const current = picked ?? decided;
+  // The decided session, or what the engine would build for the previewed
+  // length: adapted blocks either way, not the template's.
+  const preview = current === decided ? null : previewVariant(tpl.id, current);
+  const unavailable = current !== decided && !preview;
+  const blocks = current === decided ? session.blocks : preview?.blocks ?? [];
+  const minutes = current === decided ? session.estimated_minutes
+    : preview?.estimated_minutes ?? variantMinutes(tpl, tpl.variants.find(v => v.variant_code === current)!);
+  const look = lookOf(tpl.id, blocks);
   const kind: SessionKind = look?.kind ?? 'strength';
   const bars: ShapeBar[] = look?.bars ?? [];
   const parts = [...new Set(bars.filter(b => b.effort > 0 && b.kind).map(b => b.kind!))];
@@ -493,7 +541,6 @@ function SessionCard({ onStart, onAdapt, onLength }: {
   // so the legend has to say what that colour means here.
   const hasOther = parts.length > 0 && bars.some(b => b.effort > 0 && !b.kind);
   const lengths = [...tpl.variants].sort((a, b) => b.volume_multiplier - a.volume_multiplier);
-  const current = session.variant.variant_code;
 
   return (
     <TourSpot id="session" style={{ marginHorizontal: space.gutter }}>
@@ -504,7 +551,7 @@ function SessionCard({ onStart, onAdapt, onLength }: {
             <Text style={[t.labelXs, { fontFamily: t.eyebrow.fontFamily, color: kindColor[kind] }]}>
               · {LENGTH_NAME[current] ?? ''}
             </Text>
-            {state.adapted ? (
+            {state.adapted && current === decided ? (
               <Text style={[t.labelXs, { fontFamily: t.eyebrow.fontFamily, color: color.redDark }]}>· Adapted</Text>
             ) : null}
           </View>
@@ -513,7 +560,7 @@ function SessionCard({ onStart, onAdapt, onLength }: {
               {displayName(tpl.name)}
             </Text>
             <Text style={[t.h2, { fontSize: 26, lineHeight: 29, color: color.ink }]}>
-              {session.estimated_minutes}
+              {minutes}
               <Text style={[t.labelSm, { fontFamily: t.eyebrow.fontFamily, color: color.muted2 }]}> MIN</Text>
             </Text>
           </View>
@@ -524,7 +571,7 @@ function SessionCard({ onStart, onAdapt, onLength }: {
         </View>
 
         {/* Every adaptation explains itself (PRD §2). */}
-        {state.adapted ? (
+        {state.adapted && current === decided ? (
           <View style={{
             backgroundColor: color.tint, borderTopWidth: 1, borderBottomWidth: 1,
             borderColor: color.tintBorder, paddingVertical: 10, paddingHorizontal: 14,
@@ -558,8 +605,9 @@ function SessionCard({ onStart, onAdapt, onLength }: {
           ) : null}
         </View>
 
-        {/* The quick path to a shorter session. Adapt keeps the rest (time,
-            equipment, low impact). Same rules as Adapt's own choice. */}
+        {/* The quick path to a shorter session. A tap previews that length
+            below; Start chooses it, under the same rules as Adapt's own
+            choice. Adapt keeps the rest (time, equipment, low impact). */}
         {lengths.length > 1 ? (
           <View accessibilityRole="radiogroup" accessibilityLabel="Session length" style={{
             marginHorizontal: 14, marginTop: 14, flexDirection: 'row', borderWidth: 1, borderColor: color.ink,
@@ -583,7 +631,8 @@ function SessionCard({ onStart, onAdapt, onLength }: {
                     {LENGTH_NAME[v.variant_code]}
                   </Text>
                   <Text style={[t.meta, { fontFamily: t.rowTitle.fontFamily, fontSize: 12, color: on ? color.onDark : color.ink }]}>
-                    {on ? `${session.estimated_minutes} min` : `about ${variantMinutes(tpl, v)}`}
+                    {on ? `${minutes} min` : v.variant_code === decided
+                      ? `${session.estimated_minutes} min` : `about ${variantMinutes(tpl, v)}`}
                   </Text>
                 </Pressable>
               );
@@ -593,11 +642,20 @@ function SessionCard({ onStart, onAdapt, onLength }: {
 
         {/* What it asks for, in numbers. */}
         <View style={{ paddingHorizontal: 14, paddingTop: 14, paddingBottom: 4 }}>
-          <SessionRows blocks={session.blocks} kind={kind} />
+          {unavailable ? (
+            <Text style={[t.bodySm, { color: color.muted2, paddingBottom: 8 }]}>
+              {LENGTH_NAME[current]} can't be built from what you have reported today.
+            </Text>
+          ) : (
+            <SessionRows blocks={blocks} kind={kind} />
+          )}
         </View>
 
         <TourSpot id="actions" style={{ flexDirection: 'row', gap: 8, paddingHorizontal: 14, paddingTop: 10, paddingBottom: 14 }}>
-          <ActionButton label="Start workout" onPress={onStart} style={{ flex: 1 }} />
+          <ActionButton
+            label={current === decided ? 'Start workout' : `Start ${LENGTH_NAME[current]}`}
+            onPress={onStart} style={{ flex: 1 }}
+          />
           <ActionButton label="Adapt" variant="outline" arrow={null} onPress={onAdapt}
             style={{ width: 96, borderWidth: 2 }} />
         </TourSpot>

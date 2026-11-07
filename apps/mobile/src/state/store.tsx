@@ -701,6 +701,14 @@ interface Store {
     templateId: string, variant: VariantCode, opts?: { override?: boolean },
   ): VariantChoice;
   /**
+   * The session a variant would be, without choosing it: the same engine run
+   * `chooseVariant` makes, so the preview shows exactly what Start would play.
+   * Nothing is dispatched or recorded. It previews as if the athlete had
+   * overruled recovery advice, because that question is asked when they start
+   * it, not when they look; null means it cannot be built at all.
+   */
+  previewVariant(templateId: string, variant: VariantCode): VariantPreview | null;
+  /**
    * The last profile/equipment read or write that failed, with which of the two
    * it was. `kind` exists because the banner used to say "Not saved" over a
    * message about a failed *load*, which reads as the athlete's answers having
@@ -733,6 +741,11 @@ interface Store {
  * advice, not a limit of the world, and the caller may put it to the athlete
  * and call again with `override`.
  */
+export interface VariantPreview {
+  blocks: Extract<EngineDecision, { kind: 'session' }>['blocks'];
+  estimated_minutes: number;
+}
+
 export type VariantChoice =
   | { ok: true }
   | { ok: false; reason: 'recovery' | 'symptom' | 'unavailable' };
@@ -1711,6 +1724,24 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     return { ok: true };
   }, [engineInput, commitAdaptation]);
 
+  const previewVariant = useCallback((
+    templateId: string, variantCode: VariantCode,
+  ): VariantPreview | null => {
+    const template = TEMPLATES.find(t => t.id === templateId);
+    const variant = template?.variants.find(v => v.variant_code === variantCode);
+    if (!template || !variant) return null;
+    const needed = variantMinutes(template, variant);
+    const out = recommend({
+      ...engineInput,
+      available_minutes: Math.max(engineInput.available_minutes, needed),
+      candidates: [{ ...template, variants: [variant] }],
+      athlete_override: true,
+    }, EXERCISES);
+    return out.kind === 'session'
+      ? { blocks: out.blocks, estimated_minutes: out.estimated_minutes }
+      : null;
+  }, [engineInput]);
+
   const switchToQueued = useCallback((
     templateId: string, opts?: { override?: boolean },
   ): VariantChoice => {
@@ -1849,7 +1880,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       commitProfile, commitCheckin, commitEquipment, reportSymptom,
       beginSession, finishSession, discardSession, commitAdaptation, switchToQueued,
       startSupplemental,
-      chooseVariant, pendingSync,
+      chooseVariant, previewVariant, pendingSync,
       profileError, refreshProfile, today, todayLoading, todayError, refreshToday,
       localDate,
     }),
@@ -1858,7 +1889,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
      preferences, setPreference, weaknesses, setWeakness,
      beginSession, finishSession, discardSession, commitAdaptation, switchToQueued,
      startSupplemental,
-     chooseVariant, pendingSync,
+     chooseVariant, previewVariant, pendingSync,
      profileError, refreshProfile, today, todayLoading, todayError, refreshToday,
      localDate]);
 
