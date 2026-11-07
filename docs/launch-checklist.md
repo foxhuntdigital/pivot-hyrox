@@ -76,6 +76,8 @@ Likely rejections if submitted as-is.
 Not required by Apple. If it is not in the first release, close the last item
 of section 1 by hiding the onboarding screen.
 
+Discovery, recommendation and estimate: `docs/apple-health-discovery.md`.
+
 - [ ] HealthKit library, entitlement and usage strings `[code]`
 - [ ] Connect in onboarding `[code]`
 - [ ] Connect / disconnect / reconnect in Settings `[code]`
