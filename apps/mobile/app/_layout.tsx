@@ -89,7 +89,7 @@ function SplashGate({ fontsLoaded, onDone }: { fontsLoaded: boolean; onDone: () 
   const ready =
     fontsLoaded && status !== 'loading' && !(status === 'signed_in' && onboarding === 'checking');
 
-  return <Splash ready={ready} onDone={onDone} />;
+  return <Splash ready={ready} fontsLoaded={fontsLoaded} onDone={onDone} />;
 }
 
 export default function RootLayout() {
