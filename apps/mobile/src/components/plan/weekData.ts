@@ -14,6 +14,7 @@ import { EXERCISES, TEMPLATES } from '@/data/content';
 import { rpeOf, sessionKind, sessionShape, type ShapeBar, type ShapeBlock } from '@/data/sessionShape';
 import { buildWeek, effortOf, type TemplateLook } from '@/data/planWeek';
 import { useApp } from '@/state/store';
+import { readableDescription } from '@/data/templateText';
 
 export const templateById = new Map(TEMPLATES.map(tpl => [tpl.id, tpl]));
 const exerciseIndex = new Map(EXERCISES.map(e => [e.id, e]));
@@ -34,7 +35,7 @@ export function lookOf(templateId: string, blocks?: ShapeBlock[]): Look | null {
     bars,
     kind: sessionKind(tpl, bars),
     effort: effortOf(rpeOf(tpl.intensity_target)),
-    description: tpl.description ?? null,
+    description: readableDescription(tpl.description),
     supplemental: (tpl.workout_role ?? 'primary') === 'supplemental',
     circuit: tpl.session_type === 'strength_endurance',
   };

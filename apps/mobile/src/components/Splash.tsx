@@ -61,6 +61,9 @@ const HEADER_ROW = 15;
  */
 const WORD_W_ESTIMATE = 196;
 
+/** Room past the measured wordmark, so the text box never wraps or crops it. */
+const WORD_SLACK = 24;
+
 /** A sprinter's acceleration up the lane; the turn carries its momentum out. */
 const EASE_UP = Easing.inOut(Easing.quad);
 const EASE_OUT = Easing.out(Easing.cubic);
@@ -77,7 +80,16 @@ function seg(t: number, [a, b]: readonly [number, number]) {
  * finishes, but the hand-off waits for fonts and the session so it never
  * reveals a spinner.
  */
-export function Splash({ ready, onDone }: { ready: boolean; onDone: () => void }) {
+export function Splash({ ready, fontsLoaded, onDone }: {
+  ready: boolean;
+  /**
+   * The splash mounts before Archivo has loaded, so a first measurement is of
+   * the fallback face, which is narrower. Remeasuring once it lands keeps the
+   * reveal's clip from cutting the last letter off ENGINE.
+   */
+  fontsLoaded: boolean;
+  onDone: () => void;
+}) {
   const { width: W, height: H } = useWindowDimensions();
   const insets = useSafeAreaInsets();
 
@@ -135,6 +147,7 @@ export function Splash({ ready, onDone }: { ready: boolean; onDone: () => void }
   }, [drawn, ready, reduced, wipe]);
 
   const slide = reduced ? 0 : 1;
+  const wordW_ = wordW ?? WORD_W_ESTIMATE;
   const { sqX, sqY, wordX, runEnd, lineXs, linesTop, handOff } = L;
   const laneH = H - linesTop;
 
@@ -175,8 +188,11 @@ export function Splash({ ready, onDone }: { ready: boolean; onDone: () => void }
   }));
 
   const wordReveal = useAnimatedStyle(() => {
-    const tail = sqX + SQUARE + (runEnd - sqX - SQUARE) * EASE_OUT(seg(clock.value, T.tailOut));
-    return { width: Math.max(0, tail - wordX) };
+    const p = seg(clock.value, T.tailOut);
+    const tail = sqX + SQUARE + (runEnd - sqX - SQUARE) * EASE_OUT(p);
+    // Once the run is over the clip has done its job; leave room past the
+    // measured end so a measurement a pixel or a glyph short never crops it.
+    return { width: p >= 1 ? wordW_ + WORD_SLACK : Math.max(0, tail - wordX) };
   });
 
   // The mark rides up into the header at half size, arriving just as the
@@ -237,7 +253,7 @@ export function Splash({ ready, onDone }: { ready: boolean; onDone: () => void }
           {/* Its own width, so the narrowing clip reveals it rather than
               squeezing it onto a second line. */}
           <Animated.Text
-            style={[styles.word, { position: 'absolute', left: 0, top: 0, width: (wordW ?? WORD_W_ESTIMATE) + 4 }, wordColour]}
+            style={[styles.word, { position: 'absolute', left: 0, top: 0, width: wordW_ + WORD_SLACK }, wordColour]}
           >
             PIVOT ENGINE
           </Animated.Text>
@@ -247,6 +263,7 @@ export function Splash({ ready, onDone }: { ready: boolean; onDone: () => void }
       {/* Measured off-screen at full width, so the reveal's clip never
           truncates the measurement. */}
       <Animated.Text
+        key={fontsLoaded ? 'archivo' : 'fallback'}
         onLayout={measure}
         style={[styles.word, { position: 'absolute', left: -9999, top: 0, opacity: 0 }]}
       >

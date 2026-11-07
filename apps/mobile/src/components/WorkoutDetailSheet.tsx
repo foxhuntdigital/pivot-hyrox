@@ -43,6 +43,7 @@ import { FullWorkout } from '@/components/FullWorkout';
 import { EXERCISES, exerciseById, templateById } from '@/data/content';
 import { useApp } from '@/state/store';
 import type { QueuedSession } from '@/data/todayRepo';
+import { readableDescription } from '@/data/templateText';
 
 /** One key/value in the header strip. */
 function Fact({ label, value }: { label: string; value: string }) {
@@ -154,11 +155,11 @@ export function WorkoutDetailSheet({
             <Fact label="Intensity" value={template?.intensity_target ?? '—'} />
           </View>
 
-          {template?.description ? (
+          {readableDescription(template?.description) ? (
             <Text style={[t.bodySm, {
               paddingHorizontal: space.gutter, paddingBottom: 14, color: color.muted2,
             }]}>
-              {template.description}
+              {readableDescription(template?.description)}
             </Text>
           ) : null}
 

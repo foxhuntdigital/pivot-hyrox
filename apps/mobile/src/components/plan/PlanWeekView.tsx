@@ -380,6 +380,8 @@ function Tile({ tile, width, selected, onPress }: {
         <View style={{ gap: 4 }}>
           <Text style={[t.statValue, { fontSize: 18, lineHeight: 20, letterSpacing: -0.4, color: fg }]}>
             {tile.minutes ?? '–'}
+            {/* The minute mark, so the number reads as a length (40′). */}
+            {tile.minutes != null ? '\u2032' : null}
           </Text>
           <View style={{ flexDirection: 'row', gap: 2 }}>
             {[1, 2, 3].map(i => (

@@ -25,6 +25,7 @@ import { metresOf, mmss, paceText, roundTable, shortDate, weekday, type SplitLik
 import { movementKind } from '@/data/sessionShape';
 import { localToday } from '@/lib/format';
 import { rememberedSession, rememberSessions, useProgress } from '@/state/progress';
+import { readableDescription } from '@/data/templateText';
 
 const exercises = new Map(EXERCISES.map(e => [e.id, e]));
 
@@ -118,7 +119,9 @@ function Body({ s }: { s: HistorySession }) {
           </Text>
         </View>
         <Text style={[t.h2, { color: color.ink }]}>{displayName(s.name)}</Text>
-        {tpl?.description ? <Text style={[t.bodySm, { fontSize: 13, color: color.muted2 }]}>{tpl.description}</Text> : null}
+        {readableDescription(tpl?.description) ? (
+          <Text style={[t.bodySm, { fontSize: 13, color: color.muted2 }]}>{readableDescription(tpl?.description)}</Text>
+        ) : null}
       </View>
 
       <View style={{ flexDirection: 'row', marginHorizontal: space.gutter, marginTop: 16, borderTopWidth: 2, borderBottomWidth: 1, borderTopColor: color.ink, borderBottomColor: color.rule }}>
