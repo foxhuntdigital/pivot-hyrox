@@ -109,6 +109,8 @@ export type AnalyticsEvent =
   /** "Intent classification only; do not mirror raw sensitive text" (§16). */
   | { name: 'coach_message_sent'; intent: string }
   | { name: 'coach_action_applied'; action_type: string }
+  /** Why the server Coach did not answer (CoachFailure). Never the message. */
+  | { name: 'coach_fallback'; reason: string; status: number | null }
   | {
       name: 'health_connection_started' | 'health_connection_completed' | 'health_connection_failed';
       provider: string;

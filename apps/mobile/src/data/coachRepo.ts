@@ -110,12 +110,40 @@ function signalsFrom(entities: RemoteEntities | undefined): CoachSignals {
  */
 const COACH_TIMEOUT_MS = 30_000;
 
+/**
+ * Why the server Coach did not answer. The app falls back to its on-phone
+ * answer either way, but these used to be thrown away, which left "Quick
+ * answer" on screen with no way to tell an outage from a missing API key from
+ * an athlete at their monthly limit. They are reported to analytics so that
+ * question can be answered without reading server logs.
+ */
+export type CoachFailure =
+  | 'app_unconfigured'   // this build has no Supabase settings
+  | 'timeout'            // no answer within COACH_TIMEOUT_MS
+  | 'offline'            // the request never reached the function
+  | 'monthly_limit'      // 429: the athlete has used this month's messages
+  | 'server_unconfigured'// 503: the function has no model API key
+  | 'unauthorized'       // 401/403: the session was not accepted
+  | 'server_error'       // any other non-2xx
+  | 'bad_response';      // 2xx without a message
+
+export type CoachResult =
+  | { ok: true; answer: RemoteAnswer }
+  | { ok: false; failure: CoachFailure; status?: number };
+
+function failureFromStatus(status: number): CoachFailure {
+  if (status === 429) return 'monthly_limit';
+  if (status === 503) return 'server_unconfigured';
+  if (status === 401 || status === 403) return 'unauthorized';
+  return 'server_error';
+}
+
 export async function askCoach(args: {
   message: string;
   threadId?: string | null;
   history?: { role: 'user' | 'assistant'; content: string }[];
-}): Promise<RemoteAnswer | null> {
-  if (!supabase) return null;
+}): Promise<CoachResult> {
+  if (!supabase) return { ok: false, failure: 'app_unconfigured' };
 
   const abort = new AbortController();
   const timeout = setTimeout(() => abort.abort(), COACH_TIMEOUT_MS);
@@ -129,12 +157,21 @@ export async function askCoach(args: {
         history: (args.history ?? []).slice(-4),
       },
     });
-    if (error || !data) return null;
+    if (error) {
+      if (abort.signal.aborted) return { ok: false, failure: 'timeout' };
+      // supabase-js: FunctionsHttpError carries the Response as `context`;
+      // FunctionsFetchError and FunctionsRelayError mean it never got there.
+      const status = (error as { context?: { status?: unknown } }).context?.status;
+      if (error.name === 'FunctionsHttpError' && typeof status === 'number') {
+        return { ok: false, failure: failureFromStatus(status), status };
+      }
+      return { ok: false, failure: 'offline' };
+    }
 
-    const turn = data as CoachTurnResponse & { entities?: RemoteEntities };
-    if (!turn.response?.message) return null;
+    const turn = data as (CoachTurnResponse & { entities?: RemoteEntities }) | null;
+    if (!turn?.response?.message) return { ok: false, failure: 'bad_response' };
 
-    return {
+    const answer: RemoteAnswer = {
       text: turn.response.message,
       response_type: turn.response.response_type,
       confidence: turn.response.confidence,
@@ -145,8 +182,9 @@ export async function askCoach(args: {
       signals: signalsFrom(turn.entities),
       versions: turn.versions ?? {},
     };
+    return { ok: true, answer };
   } catch {
-    return null;   // offline, rate-limited, timed out, or unconfigured — fall back locally
+    return { ok: false, failure: abort.signal.aborted ? 'timeout' : 'offline' };
   } finally {
     clearTimeout(timeout);
   }

@@ -324,6 +324,11 @@ function Answer({ message, answer, narrative, basedOpen, onBased }: {
           </View>
         ) : null}
       </View>
+      {message.fallbackReason === 'monthly_limit' ? (
+        <Text style={[t.meta, { color: color.muted2, marginBottom: 6 }]}>
+          You have used this month's Coach messages, so this answer comes from your plan on your phone.
+        </Text>
+      ) : null}
       <Text style={[t.body, { fontSize: 15, lineHeight: 22, color: color.ink }]}>{narrative}</Text>
 
       {card ? (

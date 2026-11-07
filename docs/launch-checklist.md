@@ -41,7 +41,7 @@ Likely rejections if submitted as-is.
 
 - [x] **Health and medical disclaimer** `[code]`
   Onboarding ("Anything to train around?", step 3) and Coach home. Guideline 1.4.1.
-  - [ ] Wording approved `[you]`
+  - [x] Wording approved `[you]`
 - [ ] **Subscriptions work end to end** `[ops]`
   - [ ] Products created in App Store Connect and attached to the version
   - [ ] RevenueCat offering and paywall configured; paywall shows price, length, renewal terms
@@ -59,15 +59,44 @@ Likely rejections if submitted as-is.
   - [ ] `EXPO_PUBLIC_PRIVACY_POLICY_URL` set (and `EXPO_PUBLIC_TERMS_URL` if not using Apple's standard EULA)
   - [ ] Production Supabase has every migration applied (through `0026`) and the seed loaded
   - [ ] Coach function has its model API key and limits configured
-- [ ] **Native project in sync** `[code]`
+- [x] **Native project in sync** `[code]`
   `ios/` is committed, so EAS builds from it and `app.json` changes do not
-  reach the build without `expo prebuild`. Confirm Info.plist, entitlements and
-  the privacy manifest are what ships.
+  reach the build without `expo prebuild`. Checked 2026-11-07: bundle ID,
+  display name, portrait-only iPhone, light mode, URL schemes, ATS (no
+  arbitrary loads), encryption flag and the privacy manifest all match; no
+  entitlements are needed yet. Re-check after adding HealthKit or push.
+  - [ ] Version: Info.plist says 0.1.0 and the Xcode project's MARKETING_VERSION
+    says 1.0. Pick the launch version (1.0.0 suggested) and set both, plus
+    `app.json` (section 3) `[you]` `[code]`
 - [ ] **Account deletion verified on production** `[ops]`
   Settings › Account › Delete account removes the auth user and all rows.
 - [ ] **Coach reliability** `[ops]` `[code]`
   Find why the server Coach falls back to "Quick answer"; reviewers will use Coach.
+  - [x] The app reports why, as the Amplitude event `coach_fallback` with
+    `reason`: `timeout`, `offline`, `monthly_limit`, `server_unconfigured`
+    (no `ANTHROPIC_API_KEY`), `unauthorized`, `server_error`, `bad_response`,
+    `app_unconfigured`. Also logged to the console in development. `[code]`
+  - [x] An athlete over the monthly limit is told so instead of a bare
+    "Quick answer" `[code]`
+  - [ ] Read the reasons (Amplitude, or the `coach` function logs in Supabase)
+    and fix the cause `[ops]`
+  - [ ] `COACH_MONTHLY_MESSAGE_LIMIT` (default 200) is the number you want `[you]`
 - [ ] **Further Coach testing** `[you]`
+
+### Where these settings live
+
+- **EAS (builds and build-time settings):** sign in at https://expo.dev with
+  the Expo account that owns the project, open the project **pivot** (project
+  ID `15177b35-c97f-4a05-9006-f34a83a0b0a8`, from `app.json`), then
+  **Environment variables**, environment **production**. Or from a terminal in
+  `apps/mobile`: `npx eas-cli whoami`, then
+  `npx eas-cli env:list --environment production`. The local `.env` is
+  gitignored and does not reach cloud builds; the values must be in EAS.
+- **Supabase:** dashboard › project › **Edge Functions › coach › Logs** for
+  Coach failures; **Edge Functions › Secrets** for `ANTHROPIC_API_KEY` and
+  `COACH_MONTHLY_MESSAGE_LIMIT`; **SQL editor** for the migration check:
+  `select version from supabase_migrations.schema_migrations order by version desc limit 5;`
+  (the newest should be `0026`, if migrations are applied with the Supabase CLI).
 
 ## 3. Store listing
 

@@ -15,7 +15,7 @@ import { track } from '@/lib/analytics';
 import {
   INTENT_TITLE, INTENT_UTTERANCE, classify, type CoachIntent, type CoachSignals,
 } from '@/data/coach';
-import { askCoach, type RemoteAnswer } from '@/data/coachRepo';
+import { askCoach, type CoachFailure, type RemoteAnswer } from '@/data/coachRepo';
 
 export interface CoachMessage {
   id: string;
@@ -37,6 +37,8 @@ export interface CoachMessage {
    * reached.
    */
   fallback?: boolean;
+  /** Why it fell back, when it did. */
+  fallbackReason?: CoachFailure;
 }
 
 export interface CoachThread {
@@ -163,14 +165,20 @@ export function CoachProvider({ children }: { children: React.ReactNode }) {
       .slice(-2)
       .map(m => ({ role: 'user' as const, content: m.text! }));
 
-    const markFallback = () => setThreads(prev => prev.map(t => ({
-      ...t,
-      messages: t.messages.map(m => m.id === coach.id ? { ...m, fallback: true } : m),
-    })));
+    const markFallback = (reason: CoachFailure, status?: number) => {
+      track({ name: 'coach_fallback', reason, status: status ?? null });
+      if (__DEV__) console.warn(`Coach fell back to the on-phone answer: ${reason}${status ? ` (${status})` : ''}`);
+      setThreads(prev => prev.map(t => ({
+        ...t,
+        messages: t.messages.map(m => m.id === coach.id
+          ? { ...m, fallback: true, fallbackReason: reason } : m),
+      })));
+    };
 
     askCoach({ message: utterance, threadId: remoteThreadId.current, history })
-      .then(remote => {
-        if (remote) {
+      .then(result => {
+        if (result.ok) {
+          const remote = result.answer;
           remoteThreadId.current = remote.thread_id ?? remoteThreadId.current;
           setThreads(prev => prev.map(t => {
             const latest = t.messages[t.messages.length - 1]?.id === coach.id;
@@ -190,10 +198,10 @@ export function CoachProvider({ children }: { children: React.ReactNode }) {
             };
           }));
         } else {
-          markFallback();
+          markFallback(result.failure, result.status);
         }
       })
-      .catch(markFallback)
+      .catch(() => markFallback('offline'))
       .finally(() => {
         const wait = Math.max(0, MIN_PENDING_MS - (Date.now() - started));
         if (timer.current) clearTimeout(timer.current);
