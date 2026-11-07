@@ -71,6 +71,54 @@ UX tradeoffs:
 - **(d) folds two features into one.** A live readout and "write completed sessions to Health" come from the same session. One Health connection covers both, so there's no second (Bluetooth) permission to explain. Pairing a strap happens in iOS Settings, where athletes have already paired it for Apple Fitness.
 - **(d) needs Health connected to show HR.** That fits the goal: heart rate only appears for athletes who connected Health. It also means a denied heart-rate read looks the same as "no sensor". The player can't tell them apart, so the copy has to cover both (section 5).
 - **Apple Watch owners**, likely the largest group, don't get a live number from (d). They get (a): "142 · Watch, 20 s ago". Real live Watch heart rate is option (c), a separate project. Decide after launch from how many athletes are on a Watch.
+
+### If your main device is an Apple Watch
+
+**For a truly live number on the phone, yes, you need a Watch app.** Nothing
+else gets Watch heart rate to the iPhone at about once a second:
+
+- A Watch is not a sensor for an iPhone workout session (d). Apple's guidance
+  is to run the workout on the Watch and mirror it to the phone, and mirroring
+  only works from **your own** Watch app's `HKWorkoutSession`.
+- `startWatchApp(with:)`, which the HealthKit library exposes, only launches
+  your own Watch app. It can't start Apple's Workout app.
+- The Watch can't broadcast as a Bluetooth heart-rate strap without a
+  third-party Watch app, and PIVOT shouldn't depend on one.
+
+**What a Watch owner gets without a Watch app (fallback a):**
+
+- If they start a workout in Apple's Workout app (for example Functional
+  Strength or HIIT), the Watch samples heart rate every few seconds and writes
+  it to Health. PIVOT reads those samples as they sync to the phone. Apple
+  doesn't promise a delay; expect anything from a few seconds to minutes. The
+  player shows the reading **with its age** ("142 · Watch, 20 s ago"), never as
+  if it were live.
+- If they don't start a Watch workout, readings are minutes apart. Show
+  "no recent reading" rather than a stale number.
+- **After the session, the data is complete.** Once the Watch syncs, PIVOT can
+  show reliable average and max heart rate and time in zones on the summary.
+  This is the dependable value for Watch owners at launch.
+- **Avoid double workouts.** If an Apple Workout overlaps the PIVOT session,
+  PIVOT should not save its own workout to Health. The Watch's workout already
+  fills the Activity rings.
+- Add one setting so the player knows which path to use: "Heart rate from:
+  Apple Watch / Chest strap or earbuds". Reading the setting is simpler and more
+  honest than guessing from what hardware is paired.
+
+**The device spike should measure Watch → iPhone delay** during an Apple
+Workout session. If it is usually under ~10–15 s, (a) is acceptable at launch
+for Watch owners. If it is usually minutes, show heart rate only on the summary
+for Watch owners and don't show a number on the player.
+
+**A minimal Watch app (v2), estimated 1.5–2.5 weeks:** a SwiftUI watchOS target
+added to the committed Xcode project, with one screen (elapsed time and heart
+rate, plus pause and end). The phone starts it with `startWatchApp(with:)`. The
+Watch runs the `HKWorkoutSession`, mirrors it to the phone (iOS 17+ /
+watchOS 10+), and sends heart rate about once a second. The Watch saves the
+workout, so PIVOT doesn't. Costs to count: a second bundle ID and provisioning
+profile on EAS, Watch-specific App Review, and testing on real Watch hardware.
+Step-by-step guidance on the Watch (next station, targets) would make it larger,
+toward the 2–4 weeks of option (c).
 - **(b) works on older iOS and doesn't need Health**, but PIVOT then owns device pickers, reconnects and battery drain. Keep it as the plan B if the spike shows (d) needs more than one-time system pairing.
 - **Don't invent values.** The player already shows "— not connected" (PRD §8.3). Keep that rule: show a number only if a sample is less than ~10 s old (live) or label its age (Watch).
 
@@ -93,7 +141,7 @@ own CoreBluetooth module or `react-native-ble-manager`, at the same estimate.
 **Step 2 — connection state (1 d)**
 - New `apps/mobile/src/lib/health.ts`: the only file that imports the library. It exposes `isAvailable()`, `requestAccess()`, `requestStatus()`, `canSaveWorkouts()` (write status), `latestHeartRate()`, and later the daily reads. Every function returns a "not available" result on Android, iPad without Health, or when the module is missing, so nothing else branches on platform.
 - New `apps/mobile/src/state/health.tsx` (or a slice of `state/store.tsx`): `connected` (app-owned, AsyncStorage), `promptShown`, `lastDataSeenAt`, `writeStatus`. Mirror `connected` to the profile row so the server knows; this needs a small profile field or migration.
-- One requested type set, defined once: read `heartRate`, `restingHeartRate`, `heartRateVariabilitySDNN`, `sleepAnalysis` (plus `workoutType` if "workouts you record elsewhere" stays); write `workoutType` and `heartRate` (for the builder). Ask for everything in one sheet. Splitting it means the second sheet appears at a surprising moment.
+- One requested type set, defined once: read `heartRate`, `restingHeartRate`, `heartRateVariabilitySDNN`, `sleepAnalysis`, plus `workoutType` so PIVOT can detect an overlapping Apple Watch workout (section 3) and not save a duplicate; write `workoutType` and `heartRate` (for the builder). Ask for everything in one sheet. Splitting it means the second sheet appears at a surprising moment.
 
 **Step 3 — onboarding and Settings UI (2–2.5 d)**
 - `apps/mobile/app/(onboarding)/health.tsx`: replace the "Not yet available" box with Connect / Not now. Set `health_connected` in `src/state/onboarding.tsx` from the real result. That field already feeds `onboarding_completed`.
@@ -111,7 +159,7 @@ own CoreBluetooth module or `react-native-ble-manager`, at the same estimate.
 **Step 6 — read side into `health_daily_metrics` (3–5 d, as first estimated)**
 - On app foreground, read the last 7 days: daily `restingHeartRate`, overnight `heartRateVariabilitySDNN` average, and sleep minutes. For sleep, merge overlapping `asleepCore` / `asleepDeep` / `asleepREM` / `asleepUnspecified` samples across sources and count each minute once. That's the fiddly part. Upsert with `source = 'apple_health'` (unique key `user_id, local_date, source`). Writes go through a new edge function or RLS-checked insert, and never overwrite self-reported rows (PRD §11.1, already the schema's rule).
 - `supabase/functions/today/index.ts` (~line 357) and `packages/engine/src/readiness.ts` (`recovery_signal`): prefer connected sleep and RHR/HRV when present, and carry `source: 'connected'`. The client types `todayRepo.ts` and `store.tsx` already allow `'connected'`.
-- "Workouts you record elsewhere", promised by the onboarding copy: +1–2 d (query workouts, exclude `currentAppSource()`, map them to recent sessions). **Either build it or remove it from the copy.**
+- "Workouts you record elsewhere" is **v2** (section 6). The launch copy no longer promises it.
 
 **Step 7 — privacy (1 d code + your decisions)**
 - `apps/mobile/ios/PIVOT/PrivacyInfo.xcprivacy`: add `NSPrivacyCollectedDataTypeHealth` and `…Fitness`, linked to the user, not tracking, purpose App Functionality. Section 1 of the launch checklist already lists this.
@@ -131,10 +179,10 @@ own CoreBluetooth module or `react-native-ble-manager`, at the same estimate.
 | Privacy | 1 d | 1 d + Coach decision |
 | Live HR | (b) 3–4 d | (d) 3–4 d + (a) fallback 1 d |
 | Write workouts | 1 d | 0.5–1 d |
-| Read side (RHR / HRV / sleep → table → engine) | 3–5 d | 3–5 d (+1–2 d for "workouts elsewhere") |
+| Read side (RHR / HRV / sleep → table → engine) | 3–5 d | 3–5 d |
 | Device QA | — | 1–1.5 d |
 | **Goal only** (connect, disconnect, reconnect, HR on player) | ~7–9 d | **~10–12 d** |
-| **Everything the onboarding screen promises** | ~11–15 d | **~14–19 d** |
+| **Everything the onboarding screen promises** | ~11–15 d | **~14–17 d** |
 
 If section 4 is cut from the first release, the cheapest honest option is the
 one the checklist already names: hide `(onboarding)/health.tsx`.
@@ -153,7 +201,13 @@ written, and never claims a connection it can't verify.
 
 - Title: **"Connect Apple Health"**
 - Description: "Optional. Your plan works without it. You choose exactly what PIVOT can see on the next screen, and you can change it any time in the Health app."
-- Keep the READS / WRITES lists as they are, adding "Heart rate during sessions, shown live with a chest strap or compatible earbuds" (iOS 26+). Remove the workouts line if step 6's extra isn't built.
+- Launch lists. "Workouts you record elsewhere" is removed (v2):
+  - **What it reads**
+    - "Resting heart rate and heart-rate variability, as recovery signals"
+    - "Sleep duration, which can downgrade a hard session on a bad night"
+    - "Heart rate during sessions: live from a chest strap or compatible earbuds, or from your Apple Watch once it syncs"
+  - **What it writes**
+    - "Completed sessions, so your rings and history stay accurate"
 - Buttons: primary **"Connect Apple Health"**, secondary **"Not now"**.
 - After the sheet closes, PIVOT can't tell what was allowed, so it says: "Connected. If you turned anything off, PIVOT simply won't see it. Change it any time in Health › Profile › Apps › PIVOT." Then Continue.
 - Health unavailable (iPad without Health, or Android): skip the step.
@@ -188,6 +242,16 @@ own prompt about workout data while locked. That's expected; no extra PIVOT
 copy is needed.
 
 ---
+
+## 6. v2 (after launch)
+
+- **Workouts you record elsewhere.** Query workouts from other sources, exclude
+  `currentAppSource()`, and map them to recent sessions so the plan counts
+  training it didn't prescribe. About 1–2 days, plus engine work to weigh them.
+  When it ships, add the read line back to onboarding and Settings, and expect
+  a new permission sheet only if it needs a type not already requested.
+- **Minimal Apple Watch app** for live Watch heart rate (section 3), 1.5–2.5 weeks.
+- **Crash recovery** for the iPhone workout session (the iOS 26 scene delegate).
 
 ## Sources
 
