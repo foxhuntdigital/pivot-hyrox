@@ -224,6 +224,11 @@ export function CoachView() {
               </View>
             </>
           ) : null}
+
+          <Text style={[t.meta, { color: color.muted, paddingHorizontal: space.gutter, paddingTop: 20 }]}>
+            Coach gives training guidance, not medical advice. For pain, injury or a health
+            concern, talk to a doctor or physio.
+          </Text>
           </ScrollView>
       )}
 

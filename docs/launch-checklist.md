@@ -16,26 +16,32 @@ Likely rejections if submitted as-is.
 - [ ] **Privacy policy and Terms of Use (EULA) links in the app** `[you]` `[code]`
   - [ ] Privacy policy published at a public URL `[you]`
   - [ ] Terms of Use published, or Apple's standard EULA chosen `[you]`
-  - [ ] Both linked from Settings › Account `[code]`
-  - [ ] Both linked on, or next to, the paywall (guideline 3.1.2) `[code]` `[ops]`
+  - [x] Both linked from Settings › Account `[code]` (privacy link appears once `EXPO_PUBLIC_PRIVACY_POLICY_URL` is set; terms default to Apple's standard EULA unless `EXPO_PUBLIC_TERMS_URL` is set)
+  - [x] Both linked on the app's own subscription screen `[code]`
+  - [ ] Both shown on the RevenueCat paywall (dashboard paywall settings) `[ops]`
   - [ ] Privacy policy URL entered in App Store Connect `[ops]`
-- [ ] **Privacy manifest declares what is collected** `[code]`
-  `ios/PIVOT/PrivacyInfo.xcprivacy` lists no collected data types today. Declare:
-  - [ ] Email address and user ID (account)
-  - [ ] Fitness / health data: training history, check-ins, sleep, symptoms, postpartum status
-  - [ ] Product interaction (Amplitude events)
-  - [ ] Purchase history (RevenueCat)
+- [x] **Privacy manifest declares what is collected** `[code]`
+  `ios/PIVOT/PrivacyInfo.xcprivacy`, mirrored in `app.json` › `ios.privacyManifests` so a prebuild keeps it. Declared, all linked to the user, none used for tracking:
+  - [x] Email address, name and user ID (account)
+  - [x] Device ID (Amplitude)
+  - [x] Coach messages (other user content)
+  - [x] Fitness / health data: training history, check-ins, sleep, symptoms, postpartum status
+  - [x] Product interaction (Amplitude events)
+  - [x] Purchase history (RevenueCat)
   - [ ] Health data from HealthKit, if it ships (section 4)
 - [ ] **App Store Connect privacy questionnaire** matches the manifest `[ops]`
-- [ ] **Onboarding Health screen no longer advertises an unbuilt feature** `[code]`
-  Either hide `app/(onboarding)/health.tsx` until HealthKit ships, or ship
-  HealthKit (section 4). Placeholder features invite a 2.1 rejection.
+  Same nine types: account (email, name, user ID), device ID, health, fitness,
+  other user content, product interaction, purchase history. All linked to the
+  user, none used for tracking.
+- [x] **Onboarding Health screen no longer advertises an unbuilt feature** `[code]`
+  Hidden: availability goes straight to preferences, onboarding is 7 steps.
+  `app/(onboarding)/health.tsx` says how to put it back when HealthKit ships.
 
 ## 2. Should be done before submitting
 
-- [ ] **Health and medical disclaimer** `[you]` `[code]`
-  "Not medical advice; check with a clinician" wording in onboarding (near
-  symptoms, injury, postpartum) and in Coach. Guideline 1.4.1.
+- [x] **Health and medical disclaimer** `[code]`
+  Onboarding ("Anything to train around?", step 3) and Coach home. Guideline 1.4.1.
+  - [ ] Wording approved `[you]`
 - [ ] **Subscriptions work end to end** `[ops]`
   - [ ] Products created in App Store Connect and attached to the version
   - [ ] RevenueCat offering and paywall configured; paywall shows price, length, renewal terms
@@ -50,6 +56,7 @@ Likely rejections if submitted as-is.
   - [ ] `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_ANON_KEY` set for the EAS production profile (without them the app runs on the seeded athlete)
   - [ ] `EXPO_PUBLIC_REVENUECAT_IOS_KEY` set
   - [ ] `EXPO_PUBLIC_AMPLITUDE_API_KEY` set
+  - [ ] `EXPO_PUBLIC_PRIVACY_POLICY_URL` set (and `EXPO_PUBLIC_TERMS_URL` if not using Apple's standard EULA)
   - [ ] Production Supabase has every migration applied (through `0026`) and the seed loaded
   - [ ] Coach function has its model API key and limits configured
 - [ ] **Native project in sync** `[code]`

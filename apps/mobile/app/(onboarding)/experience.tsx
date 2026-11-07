@@ -112,6 +112,10 @@ export default function ExperienceScreen() {
           These constrain programming only. They are never shown in feeds, shared, or used for
           recommendations outside your plan. You can change them any time on Profile.
         </Text>
+        <Text style={[t.bodySm, { color: color.muted2, marginTop: 8 }]}>
+          PIVOT is a training app, not medical advice. If you are injured, pregnant or recently
+          postpartum, or have a medical condition, check with a doctor or physio before you train.
+        </Text>
       </View>
     </OnboardingStep>
   );

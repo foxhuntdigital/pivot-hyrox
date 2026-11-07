@@ -7,6 +7,10 @@
  * nothing else: an inert Connect button that grants nothing would be a lie
  * about what the app does, and the same posture the app takes elsewhere is to
  * show an honest disconnected state rather than invent one (§8.3).
+ *
+ * Not in the onboarding flow until HealthKit ships: availability.tsx goes
+ * straight to preferences. When it returns, put it back as step 6 and restore
+ * TOTAL_STEPS to 8.
  */
 import React from 'react';
 import { View, Text } from 'react-native';
