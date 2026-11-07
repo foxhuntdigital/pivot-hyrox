@@ -110,6 +110,51 @@ Workout session. If it is usually under ~10–15 s, (a) is acceptable at launch
 for Watch owners. If it is usually minutes, show heart rate only on the summary
 for Watch owners and don't show a number on the player.
 
+Decision (7 Nov 2026): fallback (a), with the reading's age shown, is good
+enough for Watch owners in v1, provided the spike shows the delay is moderate.
+
+### Time in zone
+
+**Not from iOS 26.** HealthKit's zone API is new in **iOS 27 / watchOS 27**
+(WWDC26 session 207, "Deliver workout insights with HealthKit workout zones"):
+
+- `HKWorkout` and `HKWorkoutActivity` gain `zoneGroupsByType`, with
+  `zoneDurations` (time in each zone) "automatically calculated by HealthKit,
+  based on incoming samples during the workout".
+- `HKLiveWorkoutBuilderDelegate` gets `didUpdateWorkoutZone`, sent only when
+  the current zone changes, with running totals.
+- The user's preferred zones can be read: either "automatically calculated from
+  user metrics like age and resting heart rate" or set by hand. Each zone has a
+  min and max. An app can also set its own zones (3–9) for one workout.
+- Authorization: read workouts and heart rate (cycling power is optional).
+  These are already in the requested set.
+- Not stated by Apple: whether live zone updates fire for an **iPhone** session,
+  whether workouts from Apple's Workout app carry zone data for other apps,
+  and whether older workouts have it. Check all three in the spike, on an iOS 27
+  phone.
+- `@kingstinct/react-native-healthkit` 16.2.0 has no zone API. It would go in
+  our own Swift module.
+
+**Recommendation: compute time in zone ourselves from heart-rate samples, and
+on iOS 27 use the athlete's Apple zones as the boundaries.**
+
+- One code path for every source (strap, earbuds, Watch after sync) and every
+  OS. The samples are already read for the player and the summary.
+- Calculation: sort the session's samples, give each sample's bpm the time up
+  to the next sample (cap gaps at ~15 s so a dropout doesn't count as time in
+  a zone), and add up per zone.
+- Boundaries: on iOS 27, read the preferred zones so PIVOT's numbers match the
+  Workout app. Below 27, compute 5 zones from age and resting heart rate
+  (resting HR is already read). Age needs either the `dateOfBirth`
+  characteristic (one more type in the sheet) or an onboarding answer.
+  Say on the summary which zones were used. Don't present them as Apple's
+  zones when they aren't.
+- Later on iOS 27, Apple's `zoneDurations` can serve as a cross-check, or
+  replace our calculation once it is shown to work for Watch-recorded and
+  iPhone workouts.
+- Effort: ~1–1.5 d (calculation, boundaries, summary rows), +0.5 d to read
+  iOS 27 preferred zones in the Swift module.
+
 **A minimal Watch app (v2), estimated 1.5–2.5 weeks:** a SwiftUI watchOS target
 added to the committed Xcode project, with one screen (elapsed time and heart
 rate, plus pause and end). The phone starts it with `startWatchApp(with:)`. The
@@ -159,6 +204,7 @@ own CoreBluetooth module or `react-native-ble-manager`, at the same estimate.
 **Step 6 — read side into `health_daily_metrics` (3–5 d, as first estimated)**
 - On app foreground, read the last 7 days: daily `restingHeartRate`, overnight `heartRateVariabilitySDNN` average, and sleep minutes. For sleep, merge overlapping `asleepCore` / `asleepDeep` / `asleepREM` / `asleepUnspecified` samples across sources and count each minute once. That's the fiddly part. Upsert with `source = 'apple_health'` (unique key `user_id, local_date, source`). Writes go through a new edge function or RLS-checked insert, and never overwrite self-reported rows (PRD §11.1, already the schema's rule).
 - `supabase/functions/today/index.ts` (~line 357) and `packages/engine/src/readiness.ts` (`recovery_signal`): prefer connected sleep and RHR/HRV when present, and carry `source: 'connected'`. The client types `todayRepo.ts` and `store.tsx` already allow `'connected'`.
+- Time in zone (section 3): computed from the session's heart-rate samples, shown on the session summary (`apps/mobile/app/done.tsx`), stored with the session if the summary needs to come back later.
 - "Workouts you record elsewhere" is **v2** (section 6). The launch copy no longer promises it.
 
 **Step 7 — privacy (1 d code + your decisions)**
@@ -180,6 +226,7 @@ own CoreBluetooth module or `react-native-ble-manager`, at the same estimate.
 | Live HR | (b) 3–4 d | (d) 3–4 d + (a) fallback 1 d |
 | Write workouts | 1 d | 0.5–1 d |
 | Read side (RHR / HRV / sleep → table → engine) | 3–5 d | 3–5 d |
+| Time in zone on the session summary | — | 1.5–2 d |
 | Device QA | — | 1–1.5 d |
 | **Goal only** (connect, disconnect, reconnect, HR on player) | ~7–9 d | **~10–12 d** |
 | **Everything the onboarding screen promises** | ~11–15 d | **~14–17 d** |
@@ -255,6 +302,7 @@ copy is needed.
 
 ## Sources
 
+- Apple, WWDC26 "Deliver workout insights with HealthKit workout zones": https://developer.apple.com/videos/play/wwdc2026/207/
 - Apple, WWDC25 "Track workouts with HealthKit on iOS and iPadOS": https://developer.apple.com/videos/play/wwdc2025/322/
 - Apple Developer Forums, HealthKit tag (iOS 26 strap auto-connect reports): https://developer.apple.com/forums/tags/healthkit/?page=6
 - Developer reports on AirPods Pro 3 / iPhone sessions (secondary): https://github.com/DuarteSantos8/openGym/issues/818, https://github.com/calbotsman/IronBoi/pull/52
