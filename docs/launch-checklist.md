@@ -65,9 +65,9 @@ Likely rejections if submitted as-is.
   display name, portrait-only iPhone, light mode, URL schemes, ATS (no
   arbitrary loads), encryption flag and the privacy manifest all match; no
   entitlements are needed yet. Re-check after adding HealthKit or push.
-  - [ ] Version: Info.plist says 0.1.0 and the Xcode project's MARKETING_VERSION
-    says 1.0. Pick the launch version (1.0.0 suggested) and set both, plus
-    `app.json` (section 3) `[you]` `[code]`
+  - [x] Launch version 1.0.0 in Info.plist, the Xcode project's
+    MARKETING_VERSION and `app.json`. The build number is managed by EAS
+    (`appVersionSource: remote`, `autoIncrement`). `[you]` `[code]`
 - [ ] **Account deletion verified on production** `[ops]`
   Settings › Account › Delete account removes the auth user and all rows.
 - [ ] **Coach reliability** `[ops]` `[code]`
@@ -80,7 +80,7 @@ Likely rejections if submitted as-is.
     "Quick answer" `[code]`
   - [ ] Read the reasons (Amplitude, or the `coach` function logs in Supabase)
     and fix the cause `[ops]`
-  - [ ] `COACH_MONTHLY_MESSAGE_LIMIT` (default 200) is the number you want `[you]`
+  - [x] Monthly Coach limit stays at the default 200 (`COACH_MONTHLY_MESSAGE_LIMIT` unset, or set to 200) `[you]`
 - [ ] **Further Coach testing** `[you]`
 
 ### Where these settings live
@@ -105,7 +105,7 @@ Likely rejections if submitted as-is.
 - [ ] Support URL and marketing URL `[you]`
 - [ ] Age rating questionnaire `[ops]`
 - [ ] Category (Health & Fitness) `[ops]`
-- [ ] Version number (`app.json` is `0.1.0`) `[code]`
+- [x] Version number: 1.0.0 `[code]`
 
 ## 4. Apple Health (optional for launch)
 
