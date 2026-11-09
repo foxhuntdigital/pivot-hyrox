@@ -67,8 +67,8 @@ Likely rejections if submitted as-is.
     - [x] `ANTHROPIC_API_KEY`
     - [x] `REVENUECAT_WEBHOOK_SECRET`, same value as the Authorization header on RevenueCat's webhook
   - [x] RevenueCat webhook points at `https://urmdsasiqizuuszhikcz.supabase.co/functions/v1/revenuecat-webhook` (production and sandbox, all events); RevenueCat's test event returned 200 on 2026-11-09
-  - [ ] Auth: email sign-in on; URL configuration has `pivot://` as site URL and redirect URL; email confirmation decided (the repo's config has it off)
-  - [ ] Custom SMTP configured, so password-reset emails reach athletes (Supabase's built-in sender is for testing only)
+  - [x] Auth: email sign-in on; URL configuration has `pivot://` as site URL and redirect URL; confirm email **on** and secure email change on (2026-11-09; the repo's local `config.toml` still has confirmations off, which only affects local development)
+  - [ ] Custom SMTP configured, so password-reset emails reach athletes (Supabase's built-in sender is for testing only) — using Postmark
   - [ ] Reset Password email template includes `{{ .Token }}`: the app resets by six-digit code, not by link (`src/state/session.tsx`)
   - [ ] Email rate limit raised for launch (Authentication › Rate Limits)
   - [ ] Leaked-password protection on (a Pro feature)
