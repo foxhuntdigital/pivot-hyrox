@@ -59,8 +59,9 @@ Likely rejections if submitted as-is.
   - [x] `EXPO_PUBLIC_PRIVACY_POLICY_URL` set (and `EXPO_PUBLIC_TERMS_URL` if not using Apple's standard EULA)
   - Confirmed in the EAS dashboard and with `eas env:list --environment production` on 2026-11-09. `eas.json` pins each build profile to its environment.
   - [ ] First production build: the app signs in to real accounts, the paywall shows real prices (no "Test store build" note), and the Privacy Policy link opens the live page `[ops]`
-  - [ ] Production Supabase has every migration applied (through `0026`) and the seed loaded
-  - [ ] `content` is in the Data API's exposed schemas (the workout library lives there)
+  - [x] Production Supabase has every migration applied (through `0026`) and the seed loaded
+  - [x] `content` is in the Data API's exposed schemas (the workout library lives there)
+  - Migrations at `0026` and exposed schemas confirmed in the dashboard on 2026-11-09.
   - [ ] All 14 Edge Functions deployed: adapt, athlete-capacity, coach, complete-workout, history, onboarding-plan, progress, recovery-checkin, replan-week, reshape-week, revenuecat-webhook, start-workout, supplemental, today
   - [ ] Function secrets set: `ANTHROPIC_API_KEY`, `REVENUECAT_WEBHOOK_SECRET` (same value as the Authorization header on RevenueCat's webhook)
   - [ ] Auth: email sign-in on; URL configuration has `pivot://` as site URL and redirect URL; email confirmation decided (the repo's config has it off)
