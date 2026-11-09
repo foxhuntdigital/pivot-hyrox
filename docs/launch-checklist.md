@@ -68,11 +68,13 @@ Likely rejections if submitted as-is.
     - [x] `REVENUECAT_WEBHOOK_SECRET`, same value as the Authorization header on RevenueCat's webhook
   - [x] RevenueCat webhook points at `https://urmdsasiqizuuszhikcz.supabase.co/functions/v1/revenuecat-webhook` (production and sandbox, all events); RevenueCat's test event returned 200 on 2026-11-09
   - [x] Auth: email sign-in on; URL configuration has `pivot://` as site URL and redirect URL; confirm email **on** and secure email change on (2026-11-09; the repo's local `config.toml` still has confirmations off, which only affects local development)
-  - [ ] Custom SMTP configured, so password-reset emails reach athletes (Supabase's built-in sender is for testing only) — using Postmark
-  - [ ] Reset Password email template includes `{{ .Token }}`: the app resets by six-digit code, not by link (`src/state/session.tsx`)
+  - [x] Custom SMTP configured, so password-reset emails reach athletes (Supabase's built-in sender is for testing only) — using Postmark
+  - [x] Reset Password email template includes `{{ .Token }}`: the app resets by six-digit code, not by link (`src/state/session.tsx`)
   - [ ] Email rate limit raised for launch (Authentication › Rate Limits)
   - [ ] Leaked-password protection on (a Pro feature)
-  - [ ] Tested: "Forgot password" in the app delivers a code from your own sender, and the code sets a new password
+  - [x] Tested: "Forgot password" in the app delivers a code from your own sender, and the code sets a new password (2026-11-09, ashley@foxhuntdigital.com)
+  - [ ] Postmark account approved (out of Test mode); until then only @foxhuntdigital.com addresses receive email `[ops]`
+  - [ ] Confirm-signup email tested with a fresh account `[ops]`
   - [x] Project on a paid plan, so it is not paused for inactivity and has daily backups
     (Fox Hunt Digital moved to Pro on 2026-11-09)
   - [ ] Coach function has its model API key and limits configured
