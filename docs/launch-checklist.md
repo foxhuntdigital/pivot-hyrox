@@ -70,6 +70,7 @@ Likely rejections if submitted as-is.
   - [ ] Auth: email sign-in on; URL configuration has `pivot://` as site URL and redirect URL; email confirmation decided (the repo's config has it off)
   - [ ] Custom SMTP configured, so password-reset emails reach athletes (Supabase's built-in sender is for testing only)
   - [ ] Project on a paid plan, so it is not paused for inactivity and has daily backups
+    (the Fox Hunt Digital organisation was on the Free plan on 2026-11-09)
   - [ ] Coach function has its model API key and limits configured
 - [x] **Native project in sync** `[code]`
   `ios/` is committed, so EAS builds from it and `app.json` changes do not
@@ -92,6 +93,10 @@ Likely rejections if submitted as-is.
     "Quick answer" `[code]`
   - [ ] Read the reasons (Amplitude, or the `coach` function logs in Supabase)
     and fix the cause `[ops]`
+    - 2026-11-09: the Nov 7 logs had expired (free plan keeps one day). The
+      Anthropic console showed the API key was not attached to the account, so
+      the key was rotated and the new one saved in Supabase. Likely cause; still
+      to confirm with a fresh Coach question that answers without "Quick answer".
   - [x] Monthly Coach limit stays at the default 200 (`COACH_MONTHLY_MESSAGE_LIMIT` unset, or set to 200) `[you]`
 - [ ] **Further Coach testing** `[you]`
 
