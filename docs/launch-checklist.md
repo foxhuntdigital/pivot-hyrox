@@ -62,9 +62,9 @@ Likely rejections if submitted as-is.
   - [x] Production Supabase has every migration applied (through `0026`) and the seed loaded
   - [x] `content` is in the Data API's exposed schemas (the workout library lives there)
   - Migrations at `0026` and exposed schemas confirmed in the dashboard on 2026-11-09.
-  - [ ] All 14 Edge Functions deployed: adapt, athlete-capacity, coach, complete-workout, history, onboarding-plan, progress, recovery-checkin, replan-week, reshape-week, revenuecat-webhook, start-workout, supplemental, today
-  - [ ] Function secrets set:
-    - [ ] `ANTHROPIC_API_KEY`
+  - [x] All 14 Edge Functions deployed: adapt, athlete-capacity, coach, complete-workout, history, onboarding-plan, progress, recovery-checkin, replan-week, reshape-week, revenuecat-webhook, start-workout, supplemental, today
+  - [x] Function secrets set:
+    - [x] `ANTHROPIC_API_KEY`
     - [x] `REVENUECAT_WEBHOOK_SECRET`, same value as the Authorization header on RevenueCat's webhook
   - [x] RevenueCat webhook points at `https://urmdsasiqizuuszhikcz.supabase.co/functions/v1/revenuecat-webhook` (production and sandbox, all events); RevenueCat's test event returned 200 on 2026-11-09
   - [ ] Auth: email sign-in on; URL configuration has `pivot://` as site URL and redirect URL; email confirmation decided (the repo's config has it off)
