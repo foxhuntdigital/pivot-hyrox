@@ -5,6 +5,9 @@
  * project but disabled there, so they are not offered here — an inert provider
  * button is worse than an absent one.
  *
+ * Confirming a new account is a fourth mode on the same grounds: the code
+ * arrives by email, and the address is already typed.
+ *
  * Recovery is a third mode rather than a second screen. It is the same two
  * fields plus a code, it is reached from a moment of being stuck, and a route
  * change there costs the athlete the email address they already typed.
@@ -48,10 +51,10 @@ function Field({
 export default function SignInScreen() {
   const insets = useSafeAreaInsets();
   const {
-    signIn, signUp, requestPasswordReset, confirmPasswordReset, resendConfirmation,
+    signIn, signUp, requestPasswordReset, confirmPasswordReset, resendConfirmation, confirmSignUp,
   } = useSession();
 
-  const [mode, setMode] = useState<'sign_in' | 'sign_up' | 'recover'>('sign_in');
+  const [mode, setMode] = useState<'sign_in' | 'sign_up' | 'recover' | 'confirm'>('sign_in');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -62,29 +65,27 @@ export default function SignInScreen() {
   // Separate from `error`: a pending confirmation is a successful signup, and
   // reads as one. Reusing the error banner would call it a failure.
   const [notice, setNotice] = useState<string | null>(null);
-  // Offered only after a signup that needs one, so it is not a permanent
-  // invitation to send mail to an address nobody has registered.
-  const [canResend, setCanResend] = useState(false);
 
   const isSignUp = mode === 'sign_up';
   const isRecover = mode === 'recover';
+  const isConfirm = mode === 'confirm';
   const hasEmail = email.trim().length > 0;
 
   const canSubmit = !busy && hasEmail && (
-    isRecover
+    isConfirm ? code.trim().length > 0
+    : isRecover
       // Before the code is sent, the address is all that is needed. After, the
       // code and the new password are what the button acts on.
       ? (!codeSent || (code.trim().length > 0 && password.length > 0))
       : password.length > 0 && (!isSignUp || name.trim().length > 0));
 
-  function go(next: 'sign_in' | 'sign_up' | 'recover') {
+  function go(next: 'sign_in' | 'sign_up' | 'recover' | 'confirm') {
     setMode(next);
     setError(null);
     setNotice(null);
     setCode('');
     setCodeSent(false);
-    if (next !== 'sign_in') setCanResend(false);
-    if (next === 'recover') setPassword('');
+    if (next === 'recover' || next === 'confirm') setPassword('');
   }
 
   async function submit() {
@@ -93,7 +94,10 @@ export default function SignInScreen() {
     setError(null);
     setNotice(null);
     try {
-      if (isRecover && !codeSent) {
+      if (isConfirm) {
+        await confirmSignUp(email, code);
+        // Signed in; the gate takes it from here.
+      } else if (isRecover && !codeSent) {
         await requestPasswordReset(email);
         setCodeSent(true);
         // Worded so it says the same thing whether or not the address has an
@@ -109,13 +113,23 @@ export default function SignInScreen() {
         // takes over; when it did not, this is the only thing that will tell
         // the athlete the signup worked.
         if (needsConfirmation) {
-          setNotice(`Account created. Check ${email.trim()} for a confirmation link, then sign in.`);
-          setMode('sign_in');
-          setPassword('');
-          setCanResend(true);
+          go('confirm');
+          setNotice(`Account created. Enter the six-digit code we sent to ${email.trim()}.`);
         }
       } else {
-        await signIn(email, password);
+        try {
+          await signIn(email, password);
+        } catch (e) {
+          // An account that was never confirmed cannot sign in. Rather than a
+          // dead end, send a fresh code and ask for it here.
+          if ((e as { code?: string }).code === 'email_not_confirmed') {
+            go('confirm');
+            await resendConfirmation(email);
+            setNotice(`Your email is not confirmed yet. We sent a new code to ${email.trim()}.`);
+            return;
+          }
+          throw e;
+        }
       }
       // No navigation here: the session listener flips status and AuthGate
       // redirects, so there is one path into the app rather than two.
@@ -131,7 +145,7 @@ export default function SignInScreen() {
     setError(null);
     try {
       await resendConfirmation(email);
-      setNotice(`Confirmation sent again to ${email.trim()}.`);
+      setNotice(`A new code is on its way to ${email.trim()}.`);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not resend the confirmation.');
     } finally {
@@ -159,12 +173,15 @@ export default function SignInScreen() {
         <View style={{ paddingHorizontal: space.gutter, paddingBottom: 18 }}>
           <Text style={[t.h1, { color: color.ink }]}>
             {isSignUp ? 'Create your\naccount'
+              : isConfirm ? 'Confirm your\nemail'
               : isRecover ? 'Reset your\npassword'
                 : 'Welcome\nback'}
           </Text>
           <Text style={[t.bodySm, { color: color.muted2, marginTop: 10 }]}>
             {isSignUp
               ? 'Training that adapts to your life without losing the objective.'
+              : isConfirm
+                ? 'Enter the six-digit code from your confirmation email.'
               : isRecover
                 ? 'We will email you a six-digit code. Enter it with the password you want.'
                 : 'Sign in to pick your plan back up.'}
@@ -197,7 +214,7 @@ export default function SignInScreen() {
             />
             {/* In recovery the password field is what the athlete is setting,
                 so it appears only once there is a code to set it against. */}
-            {isRecover && codeSent ? (
+            {(isRecover && codeSent) || isConfirm ? (
               <Field
                 label="Code from your email" value={code} onChangeText={setCode}
                 keyboardType="number-pad" autoCapitalize="none" autoComplete="one-time-code"
@@ -205,7 +222,7 @@ export default function SignInScreen() {
               />
             ) : null}
 
-            {!isRecover || codeSent ? (
+            {!isConfirm && (!isRecover || codeSent) ? (
               <Field
                 label={isRecover ? 'New password' : 'Password'}
                 value={password} onChangeText={setPassword}
@@ -236,6 +253,7 @@ export default function SignInScreen() {
 
             <ActionButton
               label={busy ? 'Working…'
+                : isConfirm ? 'Confirm email'
                 : isRecover ? (codeSent ? 'Set new password' : 'Email me a code')
                   : isSignUp ? 'Create account' : 'Sign in'}
               variant="primary"
@@ -254,11 +272,10 @@ export default function SignInScreen() {
               </Pressable>
             ) : null}
 
-            {/* Only after a signup that actually needs confirming. */}
-            {mode === 'sign_in' && canResend ? (
+            {isConfirm ? (
               <Pressable onPress={busy ? undefined : resend} style={{ paddingTop: 14 }}>
                 <Text style={[t.bodySm, { color: color.muted2, textAlign: 'center' }]}>
-                  Confirmation email not arrived?{' '}
+                  Code did not arrive?{' '}
                   <Text style={{ fontFamily: t.rowTitle.fontFamily, color: color.ink }}>
                     Send it again
                   </Text>
@@ -281,13 +298,14 @@ export default function SignInScreen() {
             ) : null}
 
             <Pressable
-              onPress={() => go(isRecover ? 'sign_in' : isSignUp ? 'sign_in' : 'sign_up')}
+              onPress={() => go(isRecover || isSignUp || isConfirm ? 'sign_in' : 'sign_up')}
               style={{ paddingVertical: 18 }}
             >
               <Text style={[t.bodySm, { color: color.muted2, textAlign: 'center' }]}>
-                {isRecover ? 'Remembered it? ' : isSignUp ? 'Already have an account? ' : 'New here? '}
+                {isRecover ? 'Remembered it? ' : isSignUp ? 'Already have an account? '
+                  : isConfirm ? 'Confirmed already? ' : 'New here? '}
                 <Text style={{ fontFamily: t.rowTitle.fontFamily, color: color.ink }}>
-                  {isRecover || isSignUp ? 'Sign in' : 'Create one'}
+                  {isRecover || isSignUp || isConfirm ? 'Sign in' : 'Create one'}
                 </Text>
               </Text>
             </Pressable>
