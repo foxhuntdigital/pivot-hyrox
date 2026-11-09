@@ -53,10 +53,12 @@ Likely rejections if submitted as-is.
   Email/password login with an active plan, so Today, Plan and Coach show
   real content. Entered in App Review notes, with how to reach the paywall.
 - [ ] **Production build configuration** `[ops]`
-  - [ ] `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_ANON_KEY` set for the EAS production profile (without them the app runs on the seeded athlete)
-  - [ ] `EXPO_PUBLIC_REVENUECAT_IOS_KEY` set
-  - [ ] `EXPO_PUBLIC_AMPLITUDE_API_KEY` set
-  - [ ] `EXPO_PUBLIC_PRIVACY_POLICY_URL` set (and `EXPO_PUBLIC_TERMS_URL` if not using Apple's standard EULA)
+  - [x] `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_ANON_KEY` set for the EAS production profile (without them the app runs on the seeded athlete)
+  - [x] `EXPO_PUBLIC_REVENUECAT_IOS_KEY` set
+  - [x] `EXPO_PUBLIC_AMPLITUDE_API_KEY` set
+  - [x] `EXPO_PUBLIC_PRIVACY_POLICY_URL` set (and `EXPO_PUBLIC_TERMS_URL` if not using Apple's standard EULA)
+  - Confirmed in the EAS dashboard and with `eas env:list --environment production` on 2026-11-09. `eas.json` pins each build profile to its environment.
+  - [ ] First production build: the app signs in to real accounts, the paywall shows real prices (no "Test store build" note), and the Privacy Policy link opens the live page `[ops]`
   - [ ] Production Supabase has every migration applied (through `0026`) and the seed loaded
   - [ ] Coach function has its model API key and limits configured
 - [x] **Native project in sync** `[code]`
