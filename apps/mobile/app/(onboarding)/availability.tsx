@@ -37,7 +37,10 @@ export default function AvailabilityScreen() {
       title="How much time do you have?"
       description="The plan is built around the session you can actually do, not the one you wish you had time for."
       onBack={() => router.back()}
-      onContinue={() => router.push('/health' as never)}
+      // Straight to preferences: the Health step is hidden until HealthKit
+      // ships (see health.tsx). A screen describing an unbuilt feature invites
+      // an App Review rejection (2.1).
+      onContinue={() => router.push('/preferences' as never)}
     >
       <ChipRow
         label="Typical session"

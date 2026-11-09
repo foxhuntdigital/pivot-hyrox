@@ -66,7 +66,7 @@ export default function PreferencesScreen() {
 
   return (
     <OnboardingStep
-      step={7}
+      step={6}
       title="What you enjoy, and what needs work"
       description="Two different questions. Neither overrules recovery, your equipment, or what your race needs. They order the sessions your plan already allows."
       onBack={() => router.back()}

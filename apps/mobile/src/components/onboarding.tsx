@@ -15,7 +15,7 @@ import { useSession } from '@/state/session';
 import { daysInMonth, readDateChoice, tapDateChip } from '@/state/dateChoice';
 
 /** D02–D08 inclusive: the steps an athlete actually walks through. */
-export const TOTAL_STEPS = 8;
+export const TOTAL_STEPS = 7;
 
 /**
  * The way out of onboarding.

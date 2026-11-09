@@ -224,6 +224,11 @@ export function CoachView() {
               </View>
             </>
           ) : null}
+
+          <Text style={[t.meta, { color: color.muted, paddingHorizontal: space.gutter, paddingTop: 20 }]}>
+            Coach gives training guidance, not medical advice. For pain, injury or a health
+            concern, talk to a doctor or physio.
+          </Text>
           </ScrollView>
       )}
 
@@ -319,6 +324,11 @@ function Answer({ message, answer, narrative, basedOpen, onBased }: {
           </View>
         ) : null}
       </View>
+      {message.fallbackReason === 'monthly_limit' ? (
+        <Text style={[t.meta, { color: color.muted2, marginBottom: 6 }]}>
+          You have used this month's Coach messages, so this answer comes from your plan on your phone.
+        </Text>
+      ) : null}
       <Text style={[t.body, { fontSize: 15, lineHeight: 22, color: color.ink }]}>{narrative}</Text>
 
       {card ? (

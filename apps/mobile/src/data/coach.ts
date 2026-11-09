@@ -171,7 +171,15 @@ const BUILD_RE =
   // `workouts?` throughout: "any strength workouts with dumbbells" failed to
   // match `(workout|session) with` on the plural alone, and fell through to
   // being read as a travel plan.
-  /build|give me|make me|write me|create|design|show me (a )?(workout|session)s?|(workout|session)s? (for|with|using|that)|i want a (workout|session)|something with/;
+  // Asking in your own words ("I want a EMOM workout today", "I'd like an
+  // interval session", "can I get a sled workout") used to be matched only as
+  // "i want a (workout|session)", which missed every request that named the
+  // kind of work in between — most of them.
+  new RegExp([
+    /build|give me|make me|write me|create|design|show me (a )?(workout|session)s?|(workout|session)s? (for|with|using|that)|something with/.source,
+    /\b(i|i'd|i would)( really)? (want|need|like|could use|fancy)\b[^.?!]{0,40}\b(workout|session)s?\b/.source,
+    /\bcan (i|you) (get|have|do|give)\b[^.?!]{0,40}\b(workout|session)s?\b/.source,
+  ].join('|'));
 
 /**
  * A question about what the library holds, rather than a statement about what

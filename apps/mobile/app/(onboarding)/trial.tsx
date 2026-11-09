@@ -23,6 +23,7 @@ import { color, space, type as t } from '@/theme/tokens';
 import { SignOutEscape } from '@/components/onboarding';
 import { fetchEntitlement, restorePurchases } from '@/data/subscriptionRepo';
 import { ENTITLEMENT_ID, isPurchasesConfigured, isTestStore } from '@/lib/purchases';
+import { LegalLinks } from '@/components/LegalLinks';
 
 /** What the subscription buys, in the app's own terms. Fallback screen only. */
 const INCLUDED = [
@@ -174,6 +175,7 @@ export default function TrialScreen() {
             not charged. Payment is taken by Apple, not by us. Length, price and
             renewal period are shown before you confirm.
           </Text>
+          <LegalLinks style={{ marginTop: 10 }} />
           {isTestStore ? (
             <Text style={[t.meta, { color: color.redDark, marginTop: 10 }]}>
               Test store build. Purchases are simulated and nothing is charged.

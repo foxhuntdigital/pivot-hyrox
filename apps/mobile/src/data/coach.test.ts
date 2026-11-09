@@ -108,3 +108,19 @@ describe('Coach intent: the beta transcript', () => {
     assert.equal(classify('I only have dumbbells this week').intent, 'travel');
   });
 });
+
+describe('Asking for a session in your own words', () => {
+  test('a request that names the kind of work is a build, carrying the kind', () => {
+    for (const [q, kw] of [
+      ['I want a EMOM workout today', 'emom'],
+      ["I'd like an interval session", 'interval'],
+      ['I need a sled workout', 'sled'],
+      ['can I get a threshold run session?', 'threshold'],
+      ['I really want a chipper workout this morning', 'chipper'],
+    ] as const) {
+      const { intent, signals } = classify(q);
+      assert.equal(intent, 'build', q);
+      assert.ok(signals.keywords?.includes(kw), `${q} → ${signals.keywords}`);
+    }
+  });
+});

@@ -40,6 +40,7 @@ import { useProgress } from '@/state/progress';
 import { useSession } from '@/state/session';
 import { useApp } from '@/state/store';
 import { useEquipmentCatalogue } from '@/state/equipmentCatalogue';
+import { LegalLinks } from '@/components/LegalLinks';
 
 export const PAGES = ['equipment', 'length', 'week', 'running', 'fitness', 'enjoy', 'needs-work', 'health', 'name', 'account', 'goal'] as const;
 export type Page = (typeof PAGES)[number];
@@ -710,6 +711,7 @@ function AccountPage() {
             ? 'Not signed in. Profile changes stay on this device.'
             : 'No account is connected to this build, so profile changes stay on this device and there is nothing to log out of.'}
         </Note>
+        <LegalLinks style={{ paddingHorizontal: space.gutter, paddingTop: 18 }} />
       </>
     );
   }
@@ -729,6 +731,7 @@ function AccountPage() {
           : <Text style={[t.rowTitle, { fontSize: 14, color: color.redDeep }]}>Delete account</Text>}
       </Pressable>
       <Note>Deletes your account and all of your training data for good. There is no undo and no recovery period.</Note>
+      <LegalLinks style={{ paddingHorizontal: space.gutter, paddingTop: 22, paddingBottom: 24 }} />
     </ScrollView>
   );
 }
