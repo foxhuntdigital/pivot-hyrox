@@ -69,8 +69,8 @@ Likely rejections if submitted as-is.
   - [x] RevenueCat webhook points at `https://urmdsasiqizuuszhikcz.supabase.co/functions/v1/revenuecat-webhook` (production and sandbox, all events); RevenueCat's test event returned 200 on 2026-11-09
   - [ ] Auth: email sign-in on; URL configuration has `pivot://` as site URL and redirect URL; email confirmation decided (the repo's config has it off)
   - [ ] Custom SMTP configured, so password-reset emails reach athletes (Supabase's built-in sender is for testing only)
-  - [ ] Project on a paid plan, so it is not paused for inactivity and has daily backups
-    (the Fox Hunt Digital organisation was on the Free plan on 2026-11-09)
+  - [x] Project on a paid plan, so it is not paused for inactivity and has daily backups
+    (Fox Hunt Digital moved to Pro on 2026-11-09)
   - [ ] Coach function has its model API key and limits configured
 - [x] **Native project in sync** `[code]`
   `ios/` is committed, so EAS builds from it and `app.json` changes do not
