@@ -28,6 +28,7 @@
 import {
   clientFor, corsHeaders, HttpError, json, requireUser,
 } from '../_shared/context.ts';
+import { captureFailure, captureProblem } from '../_shared/monitoring.ts';
 import { stimuliFor, type PhaseType } from '../_shared/periodization.ts';
 import { effectiveLoadCapacity } from '../_shared/rebuilding.ts';
 
@@ -132,6 +133,7 @@ Deno.serve(async (req) => {
           // program is better than a saved capacity that reached no week at all.
           if (error) {
             console.error('requirement rewrite failed', cycle.id, error.message);
+            await captureProblem('requirement rewrite failed', error);
             continue;
           }
         }
@@ -147,6 +149,7 @@ Deno.serve(async (req) => {
     }, 200, origin);
   } catch (err) {
     const status = err instanceof HttpError ? err.status : 500;
+    await captureFailure(err, status, { fn: 'athlete-capacity' });
     return json({ error: (err as Error).message }, status, origin);
   }
 });

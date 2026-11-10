@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import * as Sentry from '@sentry/react-native';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -11,6 +12,7 @@ import {
 
 import { Splash } from '@/components/Splash';
 import { initAnalytics } from '@/lib/analytics';
+import { initMonitoring } from '@/lib/monitoring';
 import { AppProvider } from '@/state/store';
 import { CoachProvider } from '@/state/coach';
 import { SessionProvider, useSession } from '@/state/session';
@@ -23,7 +25,12 @@ import { color } from '@/theme/tokens';
  * Started at module scope rather than in an effect: the SDK queues events until
  * it is ready, so starting it before the first render means an event fired by a
  * provider's mount effect is held rather than dropped.
+ *
+ * Monitoring goes first, and for a stronger reason than ordering tidiness: a
+ * crash while the providers mount is exactly the crash worth having, and an
+ * `init` that ran after them would miss it.
  */
+initMonitoring();
 initAnalytics();
 
 function Holding() {
@@ -92,7 +99,7 @@ function SplashGate({ fontsLoaded, onDone }: { fontsLoaded: boolean; onDone: () 
   return <Splash ready={ready} fontsLoaded={fontsLoaded} onDone={onDone} />;
 }
 
-export default function RootLayout() {
+function RootLayout() {
   const [loaded] = useFonts({
     Archivo_400Regular, Archivo_500Medium, Archivo_600SemiBold,
     Archivo_700Bold, Archivo_800ExtraBold, Archivo_900Black,
@@ -146,3 +153,10 @@ export default function RootLayout() {
     </SafeAreaProvider>
   );
 }
+
+/**
+ * Wrapped so the SDK sees what the app cannot report for itself: app-start
+ * timing, navigation context, and a JS crash during the first render — the one
+ * case where there is no mounted component left to catch it.
+ */
+export default Sentry.wrap(RootLayout);

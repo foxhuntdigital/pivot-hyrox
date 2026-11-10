@@ -24,6 +24,7 @@ import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
   loadTodaySessions, localDate, requireEntitlement, requireUser,
 } from '../_shared/context.ts';
+import { captureFailure, captureProblem } from '../_shared/monitoring.ts';
 import { claimableFor, type QueueItem } from '../_shared/queue.ts';
 
 interface StartBody {
@@ -341,7 +342,10 @@ Deno.serve(async (req) => {
       );
       // A missing block row costs per-block actuals, not the session. The
       // athlete is already training by the time this would surface.
-      if (blocksError) console.error('session_blocks insert failed', blocksError.message);
+      if (blocksError) {
+        console.error('session_blocks insert failed', blocksError.message);
+        await captureProblem('session_blocks insert failed', blocksError);
+      }
     }
 
     return json({
@@ -364,6 +368,7 @@ Deno.serve(async (req) => {
     }, 201, origin);
   } catch (err) {
     const status = err instanceof HttpError ? err.status : 500;
+    await captureFailure(err, status, { fn: 'start-workout' });
     return json({ error: (err as Error).message }, status, origin);
   }
 });

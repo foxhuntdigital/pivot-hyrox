@@ -134,6 +134,14 @@
           "image": "./assets/splash-blank.png",
           "imageWidth": 1
         }
+      ],
+      [
+        "@sentry/react-native",
+        {
+          "organization": "fox-hunt-digital",
+          "project": "pivot-mobile",
+          "url": "https://sentry.io/"
+        }
       ]
     ],
     "experiments": {

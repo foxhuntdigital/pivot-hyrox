@@ -16,6 +16,7 @@ import { recoverySignal } from '../../../packages/engine/src/index.ts';
 import {
   clientFor, corsHeaders, HttpError, json, localDate, requireUser,
 } from '../_shared/context.ts';
+import { captureFailure } from '../_shared/monitoring.ts';
 
 /** 1–5 scales, or null. Anything else is a client bug worth surfacing. */
 function scale(value: unknown, field: string): number | null {
@@ -94,6 +95,7 @@ Deno.serve(async (req) => {
     }, 200, origin);
   } catch (error) {
     const status = error instanceof HttpError ? error.status : 500;
+    await captureFailure(error, status, { fn: 'recovery-checkin' });
     const message = error instanceof Error ? error.message : 'check-in failed';
     return json({ error: message }, status, origin);
   }

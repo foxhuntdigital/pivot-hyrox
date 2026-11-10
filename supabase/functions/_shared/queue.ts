@@ -11,6 +11,7 @@ import {
   type EngineInput, type Exercise, type WorkoutTemplate,
 } from '../../../packages/engine/src/index.ts';
 import { HttpError } from './context.ts';
+import { captureProblem } from './monitoring.ts';
 
 /** A queue row as the functions read it. */
 export interface QueueItem {
@@ -531,6 +532,7 @@ export async function ensureWeekQueue(args: {
   // for the sake of a list.
   if (error) {
     console.error('session_queue_items insert failed', error.message);
+    await captureProblem('session_queue_items insert failed', error);
     return [];
   }
   return items;

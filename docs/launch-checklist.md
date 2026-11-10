@@ -149,5 +149,11 @@ of section 1 by hiding the onboarding screen.
 - [ ] Dumbbell-only coverage: recovery-domain primary sessions need authoring
   (`expected-failures.json`) `[you]`
 - [ ] Real descriptions for the 148 templates whose placeholder was cleared `[you]`
-- [ ] Crash reporting (e.g. Sentry) `[code]`
+- [x] Crash reporting: Sentry in the mobile app, project `pivot-mobile` `[code]`
+  - [ ] Production stack traces: set `SENTRY_AUTH_TOKEN` in the EAS build env so
+    source maps and dSYMs upload `[you]`
+  - [x] Edge functions report to Sentry, project `pivot-functions` (5xx only;
+    4xx are answers, not incidents) `[code]`
+  - [ ] Set the functions' `SENTRY_DSN`: `supabase secrets set SENTRY_DSN=...`
+    and `SENTRY_ENVIRONMENT=production`. Until then `init` is a no-op `[you]`
 - [ ] README "Known gaps" is stale (onboarding is built) `[code]`
