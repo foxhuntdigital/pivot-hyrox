@@ -73,7 +73,7 @@ Likely rejections if submitted as-is.
   - [ ] Email rate limit raised for launch (Authentication › Rate Limits)
   - [ ] Leaked-password protection on (a Pro feature)
   - [x] Tested: "Forgot password" in the app delivers a code from your own sender, and the code sets a new password (2026-11-09, ashley@foxhuntdigital.com)
-  - [ ] Postmark account approved (out of Test mode); until then only @foxhuntdigital.com addresses receive email `[ops]`
+  - [x] Postmark account approved (out of Test mode) on 2026-11-10 `[ops]`
   - [ ] Confirm signup email template includes `{{ .Token }}`: the app confirms by six-digit code too (needs a build with commit "Sign-up confirmation by code") `[ops]`
   - [ ] Confirm-signup email tested with a fresh account `[ops]`
   - [x] Project on a paid plan, so it is not paused for inactivity and has daily backups
