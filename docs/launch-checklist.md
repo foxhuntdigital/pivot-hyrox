@@ -78,7 +78,7 @@ Likely rejections if submitted as-is.
   - [ ] Confirm-signup email tested with a fresh account `[ops]`
   - [x] Project on a paid plan, so it is not paused for inactivity and has daily backups
     (Fox Hunt Digital moved to Pro on 2026-11-09)
-  - [ ] Coach function has its model API key and limits configured
+  - [x] Coach function has its model API key and limits configured (key rotated 2026-11-09; 200 messages a month)
 - [x] **Native project in sync** `[code]`
   `ios/` is committed, so EAS builds from it and `app.json` changes do not
   reach the build without `expo prebuild`. Checked 2026-11-07: bundle ID,
