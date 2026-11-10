@@ -10,6 +10,7 @@
 import {
   clientFor, corsHeaders, HttpError, json, localDate, requireUser,
 } from '../_shared/context.ts';
+import { captureFailure } from '../_shared/monitoring.ts';
 import { historyEntriesFrom, loadHistory } from '../_shared/history.ts';
 
 const DEFAULT_LIMIT = 20;
@@ -75,6 +76,7 @@ Deno.serve(async (req) => {
     }, 200, origin);
   } catch (e) {
     const status = e instanceof HttpError ? e.status : 500;
+    await captureFailure(e, status, { fn: 'history' });
     return json({ error: e instanceof Error ? e.message : 'unknown' }, status, origin);
   }
 });

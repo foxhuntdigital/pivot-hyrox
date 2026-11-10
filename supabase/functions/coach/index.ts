@@ -30,6 +30,7 @@ import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
   localDate, requireEntitlement, requireUser,
 } from '../_shared/context.ts';
+import { captureFailure } from '../_shared/monitoring.ts';
 import { comparableSeries } from '../_shared/comparable.ts';
 import { exerciseHistory, loadPerformanceLogs } from '../_shared/exercise-history.ts';
 import { performanceTrend } from '../_shared/trends.ts';
@@ -429,6 +430,7 @@ Deno.serve(async (req) => {
     }, 200, origin);
   } catch (error) {
     const status = error instanceof HttpError ? error.status : 500;
+    await captureFailure(error, status, { fn: 'coach' });
     const messageText = error instanceof Error ? error.message : 'Coach failed';
     return json({ error: messageText }, status, origin);
   }

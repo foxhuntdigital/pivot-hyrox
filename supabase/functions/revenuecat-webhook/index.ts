@@ -19,6 +19,7 @@
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 import { corsHeaders, json } from '../_shared/context.ts';
+import { captureFailure } from '../_shared/monitoring.ts';
 
 /**
  * The entitlement configured in RevenueCat. Events for any other entitlement
@@ -148,6 +149,7 @@ Deno.serve(async (req) => {
     if (error) return json({ error: error.message }, 500, origin);
     return json({ ok: true, status, user_id: user.id }, 200, origin);
   } catch (e) {
+    await captureFailure(e, 500, { fn: 'revenuecat-webhook' });
     return json({ error: e instanceof Error ? e.message : 'unknown' }, 500, origin);
   }
 });

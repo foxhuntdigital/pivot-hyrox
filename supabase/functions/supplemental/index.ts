@@ -23,6 +23,7 @@ import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, loadContent,
   loadTodaySessions, localDate, requireEntitlement, requireUser,
 } from '../_shared/context.ts';
+import { captureFailure } from '../_shared/monitoring.ts';
 
 
 Deno.serve(async (req) => {
@@ -118,6 +119,7 @@ Deno.serve(async (req) => {
     return json({ ...offer, local_date: today, minutes }, 200, origin);
   } catch (err) {
     const status = err instanceof HttpError ? err.status : 500;
+    await captureFailure(err, status, { fn: 'supplemental' });
     return json({ error: (err as Error).message }, status, origin);
   }
 });

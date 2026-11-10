@@ -21,6 +21,7 @@ import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, localDate,
   requireEntitlement, requireUser,
 } from '../_shared/context.ts';
+import { captureFailure, captureProblem } from '../_shared/monitoring.ts';
 
 interface CompleteBody {
   session_id: string;
@@ -224,6 +225,7 @@ Deno.serve(async (req) => {
     }, 200, origin);
   } catch (err) {
     const status = err instanceof HttpError ? err.status : 500;
+    await captureFailure(err, status, { fn: 'complete-workout' });
     return json({ error: (err as Error).message }, status, origin);
   }
 });
@@ -296,8 +298,12 @@ async function writeCapabilityEvidence(
         source_session_id: r.source_session_id,
         rules_version: r.rules_version,
       })));
-    if (error) console.error('capability evidence insert failed', error.message);
+    if (error) {
+      console.error('capability evidence insert failed', error.message);
+      await captureProblem('capability evidence insert failed', error);
+    }
   } catch (err) {
     console.error('capability evidence failed', (err as Error).message);
+    await captureProblem('capability evidence failed', err);
   }
 }

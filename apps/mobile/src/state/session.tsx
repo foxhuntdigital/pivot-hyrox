@@ -14,6 +14,7 @@ import type { Session } from '@supabase/supabase-js';
 
 import { configurePurchases } from '@/lib/purchases';
 import { identifyAthlete, resetAthlete } from '@/lib/analytics';
+import { identifyForMonitoring } from '@/lib/monitoring';
 import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 
 export type AuthStatus = 'loading' | 'signed_in' | 'signed_out' | 'unconfigured';
@@ -73,6 +74,17 @@ function applyAnalyticsIdentity(next: Session | null): void {
 }
 
 /**
+ * Tells Sentry whose crash it is, on the same paths as the analytics identity.
+ *
+ * The id and nothing else, and cleared on sign-out for the reason the analytics
+ * reset exists: the next athlete on a shared phone must not inherit the last
+ * one's crashes.
+ */
+function applyMonitoringIdentity(next: Session | null): void {
+  identifyForMonitoring(next?.user.id ?? null);
+}
+
+/**
  * Tells RevenueCat who is buying, on the same paths as the analytics identity.
  *
  * The id used here is what `revenuecat-webhook` resolves the athlete by, so it
@@ -102,6 +114,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       setSession(data.session);
       setStatus(data.session ? 'signed_in' : 'signed_out');
       applyAnalyticsIdentity(data.session);
+      applyMonitoringIdentity(data.session);
       applyPurchasesIdentity(data.session);
     });
 
@@ -109,6 +122,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       setSession(next);
       setStatus(next ? 'signed_in' : 'signed_out');
       applyAnalyticsIdentity(next);
+      applyMonitoringIdentity(next);
       applyPurchasesIdentity(next);
     });
 

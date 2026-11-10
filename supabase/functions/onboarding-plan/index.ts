@@ -17,6 +17,7 @@ import { recoveryFromEnergy } from '../../../packages/engine/src/index.ts';
 import {
   clientFor, corsHeaders, HttpError, json, loadContent, requireEntitlement, requireUser, localDate,
 } from '../_shared/context.ts';
+import { captureFailure, captureProblem } from '../_shared/monitoring.ts';
 import { ensureWeekQueue } from '../_shared/queue.ts';
 import {
   blockEndDate, clampBlockWeeks, MAX_BLOCK_WEEKS, MIN_BLOCK_WEEKS, planBlockPhases,
@@ -376,6 +377,7 @@ Deno.serve(async (req) => {
     }, 200, origin);
   } catch (err) {
     const status = err instanceof HttpError ? err.status : 500;
+    await captureFailure(err, status, { fn: 'onboarding-plan' });
     return json({ error: (err as Error).message }, status, origin);
   }
 });
@@ -511,5 +513,6 @@ async function planFirstWeek(
     });
   } catch (e) {
     console.error('first week queue not planned', (e as Error).message);
+    await captureProblem('first week queue not planned', e);
   }
 }

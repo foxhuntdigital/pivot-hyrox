@@ -2365,6 +2365,29 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
+  - RNSentry (8.34.0):
+    - hermes-engine
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-Core-prebuilt
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-hermes
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - ReactNativeDependencies
+    - Yoga
   - RNWorklets (0.10.1):
     - hermes-engine
     - RCTRequired
@@ -2549,6 +2572,7 @@ DEPENDENCIES:
   - RNPurchases (from `../../../node_modules/react-native-purchases`)
   - RNReanimated (from `../../../node_modules/react-native-reanimated`)
   - RNScreens (from `../../../node_modules/react-native-screens`)
+  - "RNSentry (from `../../../node_modules/@sentry/react-native`)"
   - RNWorklets (from `../../../node_modules/react-native-worklets`)
   - Yoga (from `../../../node_modules/react-native/ReactCommon/yoga`)
 
@@ -2779,6 +2803,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../../../node_modules/react-native-screens"
+  RNSentry:
+    :path: "../../../node_modules/@sentry/react-native"
   RNWorklets:
     :path: "../../../node_modules/react-native-worklets"
   Yoga:
@@ -2898,6 +2924,7 @@ SPEC CHECKSUMS:
   RNPurchases: d3601e9d241046f8ef3837505b62ce7bd3057720
   RNReanimated: 3a204af3747842859392545d41d443b9c5e428a3
   RNScreens: c1a06fd73d0581a2a28a160577be393f579662b9
+  RNSentry: 7bd9a6dd8c3c6a88ff95f02203159bb11f8adcd5
   RNWorklets: 63cb8f15b2886288da888ac65cc21934c9ebc80a
   Yoga: 9891cfb1c680f64de9c41b09e7453dea33454d2b
 

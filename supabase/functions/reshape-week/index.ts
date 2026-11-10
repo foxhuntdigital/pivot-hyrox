@@ -23,6 +23,7 @@ import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, localDate,
   requireEntitlement, requireUser,
 } from '../_shared/context.ts';
+import { captureFailure } from '../_shared/monitoring.ts';
 import { validateReshape, type QueueItem } from '../_shared/queue.ts';
 
 interface ReshapeBody {
@@ -89,6 +90,7 @@ Deno.serve(async (req) => {
     }, 200, origin);
   } catch (err) {
     const status = err instanceof HttpError ? err.status : 500;
+    await captureFailure(err, status, { fn: 'reshape-week' });
     return json({ error: (err as Error).message }, status, origin);
   }
 });

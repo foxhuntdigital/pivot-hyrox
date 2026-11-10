@@ -13,6 +13,7 @@
 import {
   clientFor, corsHeaders, HttpError, json, loadAthleteState, localDate, requireUser,
 } from '../_shared/context.ts';
+import { captureFailure } from '../_shared/monitoring.ts';
 import { loadProgressSnapshot } from '../_shared/progress.ts';
 import { exerciseHistory, EXPOSURE_WINDOW_DAYS, loadPerformanceLogs } from '../_shared/exercise-history.ts';
 import { daysAgo } from '../_shared/readiness-history.ts';
@@ -125,6 +126,7 @@ Deno.serve(async (req) => {
     }, 200, origin);
   } catch (e) {
     const status = e instanceof HttpError ? e.status : 500;
+    await captureFailure(e, status, { fn: 'progress' });
     return json({ error: e instanceof Error ? e.message : 'unknown' }, status, origin);
   }
 });
