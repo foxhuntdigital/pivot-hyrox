@@ -70,8 +70,8 @@ Likely rejections if submitted as-is.
   - [x] Auth: email sign-in on; URL configuration has `pivot://` as site URL and redirect URL; confirm email **on** and secure email change on (2026-11-09; the repo's local `config.toml` still has confirmations off, which only affects local development)
   - [x] Custom SMTP configured, so password-reset emails reach athletes (Supabase's built-in sender is for testing only) — using Postmark
   - [x] Reset Password email template includes `{{ .Token }}`: the app resets by six-digit code, not by link (`src/state/session.tsx`)
-  - [ ] Email rate limit raised for launch (Authentication › Rate Limits)
-  - [ ] Leaked-password protection on (a Pro feature)
+  - [x] Email rate limit raised for launch (Authentication › Rate Limits)
+  - [x] Leaked-password protection on (a Pro feature)
   - [x] Tested: "Forgot password" in the app delivers a code from your own sender, and the code sets a new password (2026-11-09, ashley@foxhuntdigital.com)
   - [x] Postmark account approved (out of Test mode) on 2026-11-10 `[ops]`
   - [ ] Confirm signup email template includes `{{ .Token }}`: the app confirms by six-digit code too (needs a build with commit "Sign-up confirmation by code") `[ops]`
