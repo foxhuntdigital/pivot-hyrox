@@ -22,6 +22,7 @@ Likely rejections if submitted as-is.
   - [ ] Privacy policy URL entered in App Store Connect `[ops]`
 - [x] **Privacy manifest declares what is collected** `[code]`
   `ios/PIVOT/PrivacyInfo.xcprivacy`, mirrored in `app.json` › `ios.privacyManifests` so a prebuild keeps it. Declared, all linked to the user, none used for tracking:
+  - [x] Crash data and performance data (Sentry)
   - [x] Email address, name and user ID (account)
   - [x] Device ID (Amplitude)
   - [x] Coach messages (other user content)
@@ -30,9 +31,9 @@ Likely rejections if submitted as-is.
   - [x] Purchase history (RevenueCat)
   - [ ] Health data from HealthKit, if it ships (section 4)
 - [ ] **App Store Connect privacy questionnaire** matches the manifest `[ops]`
-  Same nine types: account (email, name, user ID), device ID, health, fitness,
-  other user content, product interaction, purchase history. All linked to the
-  user, none used for tracking.
+  Same eleven types: account (email, name, user ID), device ID, health, fitness,
+  other user content, product interaction, purchase history, crash data,
+  performance data. All linked to the user, none used for tracking.
 - [x] **Onboarding Health screen no longer advertises an unbuilt feature** `[code]`
   Hidden: availability goes straight to preferences, onboarding is 7 steps.
   `app/(onboarding)/health.tsx` says how to put it back when HealthKit ships.
@@ -150,8 +151,11 @@ of section 1 by hiding the onboarding screen.
   (`expected-failures.json`) `[you]`
 - [ ] Real descriptions for the 148 templates whose placeholder was cleared `[you]`
 - [x] Crash reporting: Sentry in the mobile app, project `pivot-mobile` `[code]`
-  - [ ] Production stack traces: set `SENTRY_AUTH_TOKEN` in the EAS build env so
-    source maps and dSYMs upload `[you]`
+  - [ ] `EXPO_PUBLIC_SENTRY_DSN` in the EAS **production** environment (Plain
+    text). Without it the app's Sentry `init` is a no-op and builds report nothing `[ops]`
+  - [ ] Production stack traces: set `SENTRY_AUTH_TOKEN` in the EAS build env
+    (visibility **Secret**) so source maps and dSYMs upload `[you]`
+  - [x] Privacy manifest declares crash data and performance data (Sentry) `[code]`
   - [x] Edge functions report to Sentry, project `pivot-functions` (5xx only;
     4xx are answers, not incidents) `[code]`
   - [ ] Set the functions' `SENTRY_DSN`: `supabase secrets set SENTRY_DSN=...`
