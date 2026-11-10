@@ -51,6 +51,11 @@ interface SessionStore {
   confirmPasswordReset(email: string, code: string, password: string): Promise<void>;
   /** Sends the signup confirmation again, for the one that never arrived. */
   resendConfirmation(email: string): Promise<void>;
+  /**
+   * Confirms a new account with the six-digit code from its confirmation
+   * email, which also signs the athlete in.
+   */
+  confirmSignUp(email: string, code: string): Promise<void>;
 }
 
 /**
@@ -168,6 +173,23 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       // takes them into the app, so there is no second sign-in to perform.
     }, []);
 
+  /**
+   * Sign-up confirmation, by code rather than by link — for the reasons
+   * recovery uses one, and one more: mail scanners and link previews open a
+   * one-time link before the athlete does, so the athlete's own tap then fails
+   * as "expired". A typed code cannot be spent by anyone else.
+   *
+   * Requires the Confirm signup email template to render `{{ .Token }}`.
+   */
+  const confirmSignUp = useCallback(async (email: string, code: string) => {
+    if (!supabase) throw new Error('Supabase is not configured.');
+    const { error } = await supabase.auth.verifyOtp({
+      email: email.trim(), token: code.trim(), type: 'email',
+    });
+    if (error) throw error;
+    // Signed in; the auth listener and AuthGate take it from here.
+  }, []);
+
   const resendConfirmation = useCallback(async (email: string) => {
     if (!supabase) throw new Error('Supabase is not configured.');
     const { error } = await supabase.auth.resend({ type: 'signup', email: email.trim() });
@@ -203,9 +225,9 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     session,
     email: session?.user.email ?? null,
     signIn, signUp, signOut, deleteAccount,
-    requestPasswordReset, confirmPasswordReset, resendConfirmation,
+    requestPasswordReset, confirmPasswordReset, resendConfirmation, confirmSignUp,
   }), [status, session, signIn, signUp, signOut, deleteAccount,
-       requestPasswordReset, confirmPasswordReset, resendConfirmation]);
+       requestPasswordReset, confirmPasswordReset, resendConfirmation, confirmSignUp]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
