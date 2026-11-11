@@ -16,6 +16,7 @@ import { initMonitoring } from '@/lib/monitoring';
 import { AppProvider } from '@/state/store';
 import { CoachProvider } from '@/state/coach';
 import { SessionProvider, useSession } from '@/state/session';
+import { EntitlementProvider, useEntitlement } from '@/state/entitlement';
 import { OnboardingProvider, useOnboarding } from '@/state/onboarding';
 import { TourProvider } from '@/state/tour';
 import { DialogProvider } from '@/components/Dialog';
@@ -52,6 +53,7 @@ function Holding() {
 function AuthGate({ children }: { children: React.ReactNode }) {
   const { status } = useSession();
   const { status: onboarding } = useOnboarding();
+  const { lapsed } = useEntitlement();
   const segments = useSegments();
   const router = useRouter();
 
@@ -72,10 +74,24 @@ function AuthGate({ children }: { children: React.ReactNode }) {
     // the athlete's constraints are without ever saying what is done with them.
     if (onboarding === 'needed' && !inOnboarding) {
       router.replace('/intro' as never);
-    } else if (onboarding === 'complete' && (inAuthGroup || inOnboarding)) {
+      return;
+    }
+    if (onboarding !== 'complete') return;
+
+    // A subscription that has ended goes to the screen that says so, rather
+    // than leaving the athlete in an app whose every request is refused.
+    // Settings stays open (deleting an account must not need a subscription),
+    // and so does a workout already under way, so it can be finished.
+    const onSubscribe = segments[0] === 'subscribe';
+    const exempt = onSubscribe || ['settings', 'active', 'done'].includes(segments[0] ?? '');
+    if (lapsed && !exempt) {
+      router.replace('/subscribe' as never);
+    } else if (!lapsed && onSubscribe) {
+      router.replace('/today' as never);
+    } else if (inAuthGroup || inOnboarding) {
       router.replace('/today' as never);
     }
-  }, [status, onboarding, segments, router]);
+  }, [status, onboarding, lapsed, segments, router]);
 
   // Holding rather than the app: rendering tabs for an unresolved session would
   // flash athlete data that may belong to a signed-out user, and rendering them
@@ -110,6 +126,7 @@ function RootLayout() {
     <SafeAreaProvider>
       <DialogProvider>
       <SessionProvider>
+        <EntitlementProvider>
         <OnboardingProvider>
         <AppProvider>
           <CoachProvider>
@@ -141,6 +158,7 @@ function RootLayout() {
               <Stack.Screen name="settings/[page]" options={{ animation: 'slide_from_right' }} />
               <Stack.Screen name="active" options={{ animation: 'slide_from_bottom', gestureEnabled: false }} />
               <Stack.Screen name="done" options={{ animation: 'fade', gestureEnabled: false }} />
+              <Stack.Screen name="subscribe" options={{ animation: 'fade', gestureEnabled: false }} />
             </Stack>}
           </AuthGate>
           {!splashDone && <SplashGate fontsLoaded={loaded} onDone={() => setSplashDone(true)} />}
@@ -148,6 +166,7 @@ function RootLayout() {
           </CoachProvider>
         </AppProvider>
         </OnboardingProvider>
+        </EntitlementProvider>
       </SessionProvider>
       </DialogProvider>
     </SafeAreaProvider>

@@ -15,7 +15,7 @@
  * Edge Functions gate on the server's answer regardless of what the device
  * believes.
  */
-import { NativeModules, Platform } from 'react-native';
+import { Linking, NativeModules, Platform } from 'react-native';
 import Purchases, {
   LOG_LEVEL,
   type CustomerInfo,
@@ -175,6 +175,17 @@ export async function restore(): Promise<PurchaseOutcome> {
     if (e?.userCancelled) return { kind: 'cancelled' };
     return { kind: 'error', message: e?.message ?? 'Restore failed.' };
   }
+}
+
+/**
+ * Opens Apple's own subscription management (change plan, cancel). Falls back
+ * to the App Store's subscriptions page when the SDK is not in the build.
+ */
+export async function manageSubscriptions(): Promise<void> {
+  if (isPurchasesConfigured()) {
+    try { await Purchases.showManageSubscriptions(); return; } catch { /* fall through */ }
+  }
+  await Linking.openURL('https://apps.apple.com/account/subscriptions').catch(() => {});
 }
 
 /**

@@ -27,6 +27,8 @@ import {
 import { localToday } from '@/lib/format';
 import { useProgress } from '@/state/progress';
 import { useSession } from '@/state/session';
+import { useEntitlement } from '@/state/entitlement';
+import { describeSubscription } from '@/data/subscriptionView';
 import { useApp } from '@/state/store';
 import { useTour } from '@/state/tour';
 import { useEquipmentCatalogue } from '@/state/equipmentCatalogue';
@@ -45,6 +47,7 @@ export function ProfileView() {
   const router = useRouter();
   const { state, plan, preferences, weaknesses } = useApp();
   const { email, status } = useSession();
+  const { entitlement } = useEntitlement();
   const tour = useTour();
   const { data } = useProgress();
   const { choices: equipmentChoices } = useEquipmentCatalogue();
@@ -84,6 +87,11 @@ export function ProfileView() {
     ] },
     { title: 'Account', note: '', rows: [
       { label: 'Name', value: profile.display_name.trim() || 'Not set', onPress: go('name') },
+      ...(status === 'signed_in' ? [{
+        label: 'Subscription',
+        value: entitlement ? describeSubscription(entitlement).headline : 'Checking…',
+        onPress: go('subscription'),
+      }] : []),
       { label: 'Account',
         value: status === 'signed_in' ? `${email ?? 'Signed in'} · log out or delete` : 'Not signed in on this device',
         onPress: go('account') },

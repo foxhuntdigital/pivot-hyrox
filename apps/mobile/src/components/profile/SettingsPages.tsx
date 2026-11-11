@@ -41,8 +41,9 @@ import { useSession } from '@/state/session';
 import { useApp } from '@/state/store';
 import { useEquipmentCatalogue } from '@/state/equipmentCatalogue';
 import { LegalLinks } from '@/components/LegalLinks';
+import { SubscriptionPanel } from '@/components/SubscriptionPanel';
 
-export const PAGES = ['equipment', 'length', 'week', 'running', 'fitness', 'enjoy', 'needs-work', 'health', 'name', 'account', 'goal'] as const;
+export const PAGES = ['equipment', 'length', 'week', 'running', 'fitness', 'enjoy', 'needs-work', 'health', 'name', 'account', 'goal', 'subscription'] as const;
 export type Page = (typeof PAGES)[number];
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -736,6 +737,24 @@ function AccountPage() {
   );
 }
 
+function SubscriptionPage() {
+  const { status } = useSession();
+  if (status !== 'signed_in') {
+    return (
+      <>
+        <Title title="Subscription" />
+        <Note>Sign in to see and manage your subscription.</Note>
+      </>
+    );
+  }
+  return (
+    <ScrollView>
+      <Title title="Subscription" />
+      <SubscriptionPanel />
+    </ScrollView>
+  );
+}
+
 function ProfileErrorTop() {
   const { profileError } = useApp();
   return profileError ? <View style={{ marginTop: 14 }}><ProfileError /></View> : null;
@@ -744,7 +763,7 @@ function ProfileErrorTop() {
 const BODIES: Record<Page, () => React.ReactElement> = {
   equipment: EquipmentPage, running: RunningPage, fitness: FitnessPage, goal: GoalPage,
   length: LengthPage, week: WeekPage, enjoy: EnjoyPage, 'needs-work': NeedsWorkPage,
-  health: HealthPage, name: NamePage, account: AccountPage,
+  health: HealthPage, name: NamePage, account: AccountPage, subscription: SubscriptionPage,
 };
 
 /** `‹ value ›` — a flat stepper, since the design has no wheels or dropdowns. */

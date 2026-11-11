@@ -50,7 +50,12 @@ Likely rejections if submitted as-is.
   - [x] `revenuecat-webhook` receives and applies the sandbox events
   - [ ] RevenueCat paywall's own Restore button has its action set to Restore purchases `[ops]`
   - [ ] Restore works on a second device
-  - [ ] Cancel / expiry removes access
+  - [x] Settings › Subscription: status, renewal or end date, See plans,
+    Manage in the App Store, Restore purchases `[code]`
+  - [x] A lapsed subscriber lands on "Your plan is waiting" (subscribe, restore,
+    account settings, sign out) instead of an app that silently refuses
+    everything `[code]`
+  - [ ] Cancel / expiry removes access, and the app shows "Your plan is waiting"; subscribing again from there returns to Today
 - [ ] **Beta comp access closed** `[ops]` `[code]`
   Migration `0019_beta_access.sql` gives every new signup free access
   (`product_id = 'beta_comp'`), which is why no paywall appears. A reviewer

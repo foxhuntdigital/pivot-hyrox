@@ -24,6 +24,7 @@ import { SignOutEscape } from '@/components/onboarding';
 import { awaitEntitlement, fetchEntitlement, restorePurchases } from '@/data/subscriptionRepo';
 import { ENTITLEMENT_ID, isPurchasesConfigured, isTestStore } from '@/lib/purchases';
 import { LegalLinks } from '@/components/LegalLinks';
+import { useEntitlement } from '@/state/entitlement';
 
 /** What the subscription buys, in the app's own terms. Fallback screen only. */
 const INCLUDED = [
@@ -41,7 +42,15 @@ export default function TrialScreen() {
   const [error, setError] = useState<string | null>(null);
   const presented = useRef(false);
 
-  const proceed = useCallback(() => router.replace('/goal' as never), [router]);
+  const { refresh: refreshEntitlement } = useEntitlement();
+  // The app-wide subscription state was read at sign-in, before this screen
+  // granted anything. Refresh it on the way through, or the end of onboarding
+  // would find a stale "no subscription" and send a paying athlete to the
+  // subscription-ended screen.
+  const proceed = useCallback(() => {
+    void refreshEntitlement();
+    router.replace('/goal' as never);
+  }, [router, refreshEntitlement]);
 
   /** The server decides, not the device — a refund can outrank a local receipt. */
   const settleFromServer = useCallback(async () => {

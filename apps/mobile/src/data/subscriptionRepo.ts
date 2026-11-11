@@ -17,13 +17,15 @@ export interface Entitlement {
   /** True while access is paid for — trials and grace periods included. */
   active: boolean;
   product_id: string | null;
+  /** 'app_store', 'promotional' (beta comp), … — who bills it. */
+  store: string | null;
   trial_ends_at: string | null;
   current_period_end: string | null;
   will_renew: boolean;
 }
 
 export const NO_ENTITLEMENT: Entitlement = {
-  status: 'none', active: false, product_id: null,
+  status: 'none', active: false, product_id: null, store: null,
   trial_ends_at: null, current_period_end: null, will_renew: false,
 };
 
@@ -43,7 +45,7 @@ export async function fetchEntitlement(): Promise<Entitlement | null> {
   try {
     const { data, error } = await supabase
       .from('subscriptions')
-      .select('status, product_id, trial_ends_at, current_period_end, will_renew')
+      .select('status, product_id, store, trial_ends_at, current_period_end, will_renew')
       .maybeSingle();
     if (error) return null;
     if (!data) return NO_ENTITLEMENT;
@@ -51,6 +53,7 @@ export async function fetchEntitlement(): Promise<Entitlement | null> {
       status: data.status as SubscriptionStatus,
       active: isActive(data),
       product_id: data.product_id,
+      store: data.store ?? null,
       trial_ends_at: data.trial_ends_at,
       current_period_end: data.current_period_end,
       will_renew: !!data.will_renew,
