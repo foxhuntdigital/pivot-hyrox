@@ -151,13 +151,14 @@ of section 1 by hiding the onboarding screen.
   (`expected-failures.json`) `[you]`
 - [ ] Real descriptions for the 148 templates whose placeholder was cleared `[you]`
 - [x] Crash reporting: Sentry in the mobile app, project `pivot-mobile` `[code]`
-  - [ ] `EXPO_PUBLIC_SENTRY_DSN` in the EAS **production** environment (Plain
+  - [x] `EXPO_PUBLIC_SENTRY_DSN` in the EAS **production** environment (Plain
     text). Without it the app's Sentry `init` is a no-op and builds report nothing `[ops]`
-  - [ ] Production stack traces: set `SENTRY_AUTH_TOKEN` in the EAS build env
+  - [x] Production stack traces: set `SENTRY_AUTH_TOKEN` in the EAS build env
     (visibility **Secret**) so source maps and dSYMs upload `[you]`
   - [x] Privacy manifest declares crash data and performance data (Sentry) `[code]`
+  - [ ] Verified on the first production build: traces arrive in `pivot-mobile` and `pivot-functions` (environment production), and source maps/debug files show an upload `[ops]`
   - [x] Edge functions report to Sentry, project `pivot-functions` (5xx only;
     4xx are answers, not incidents) `[code]`
-  - [ ] Set the functions' `SENTRY_DSN`: `supabase secrets set SENTRY_DSN=...`
+  - [x] Set the functions' `SENTRY_DSN`: `supabase secrets set SENTRY_DSN=...`
     and `SENTRY_ENVIRONMENT=production`. Until then `init` is a no-op `[you]`
 - [ ] README "Known gaps" is stale (onboarding is built) `[code]`
