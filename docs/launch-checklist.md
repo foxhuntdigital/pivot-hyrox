@@ -73,6 +73,11 @@ Likely rejections if submitted as-is.
   leaves at the offer comes back to it, with their plan saved.
   - [ ] Deploy `onboarding-plan` (`npx supabase functions deploy onboarding-plan`) with the build that has this `[ops]`
   - [ ] App Review notes say the paywall appears after setup, at the end of onboarding `[ops]`
+- [x] **Offer codes can be redeemed in the app** `[code]`: "Have a code? Redeem
+  it" on the trial screen (behind RevenueCat's paywall, once it is closed) and
+  on Settings › Subscription / "Your plan is waiting". Opens Apple's sheet.
+  - [ ] Offer codes created in App Store Connect (each subscription › Offer Codes) `[you]`
+  - [ ] A code tested end to end on a build: redeem → "Confirming…" → Today `[ops]`
 - [ ] **Demo account for App Review** `[ops]`
   Email/password login with an active plan, so Today, Plan and Coach show
   real content. Entered in App Review notes, with how to reach the paywall.

@@ -22,7 +22,10 @@ import { ActionButton, Label, Rule } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
 import { SignOutEscape } from '@/components/onboarding';
 import { awaitEntitlement, fetchEntitlement, restorePurchases } from '@/data/subscriptionRepo';
-import { ENTITLEMENT_ID, isPurchasesConfigured, isTestStore } from '@/lib/purchases';
+import {
+  ENTITLEMENT_ID, hasEntitlement, isPurchasesConfigured, isTestStore, onCustomerInfoChange, presentRedeemCode,
+} from '@/lib/purchases';
+import { RedeemCodeLink } from '@/components/RedeemCodeLink';
 import { LegalLinks } from '@/components/LegalLinks';
 import { useEntitlement } from '@/state/entitlement';
 
@@ -114,6 +117,29 @@ export default function TrialScreen() {
 
     return () => { cancelled = true; };
   }, [settleFromServer, confirmPurchase]);
+
+  /**
+   * Offer codes. Apple's sheet returns before anything is redeemed, so listen
+   * for RevenueCat to report the entitlement, then confirm it with the server
+   * exactly as a purchase is confirmed.
+   */
+  const [awaitingCode, setAwaitingCode] = useState(false);
+  const confirming = useRef(false);
+  useEffect(() => {
+    if (!awaitingCode) return;
+    return onCustomerInfoChange(info => {
+      if (!hasEntitlement(info) || confirming.current) return;
+      confirming.current = true;
+      setAwaitingCode(false);
+      void confirmPurchase().finally(() => { confirming.current = false; });
+    });
+  }, [awaitingCode, confirmPurchase]);
+
+  async function redeemCode() {
+    setError(null);
+    if (await presentRedeemCode()) setAwaitingCode(true);
+    else setError('Codes cannot be redeemed in this build.');
+  }
 
   /** Re-opens RevenueCat's paywall from the fallback screen. */
   async function openPaywall() {
@@ -237,6 +263,7 @@ export default function TrialScreen() {
           onPress={busy ? undefined : openPaywall}
           style={{ opacity: busy ? 0.45 : 1 }}
         />
+        <RedeemCodeLink onPress={busy ? () => {} : () => { void redeemCode(); }} style={{ paddingBottom: 0 }} />
         {/* The paywall is the sharpest place to discover you signed up on the
             wrong account, and it was the one with no way out. */}
         <SignOutEscape />
