@@ -14,8 +14,8 @@ Last reviewed: 2026-11-07.
 Likely rejections if submitted as-is.
 
 - [ ] **Privacy policy and Terms of Use (EULA) links in the app** `[you]` `[code]`
-  - [ ] Privacy policy published at a public URL `[you]`
-  - [ ] Terms of Use published, or Apple's standard EULA chosen `[you]`
+  - [x] Privacy policy published at a public URL `[you]`
+  - [x] Terms of Use published, or Apple's standard EULA chosen `[you]`
   - [x] Both linked from Settings › Account `[code]` (privacy link appears once `EXPO_PUBLIC_PRIVACY_POLICY_URL` is set; terms default to Apple's standard EULA unless `EXPO_PUBLIC_TERMS_URL` is set)
   - [x] Both linked on the app's own subscription screen `[code]`
   - [ ] Both shown on the RevenueCat paywall (dashboard paywall settings) `[ops]`
@@ -59,7 +59,8 @@ Likely rejections if submitted as-is.
   - [x] `EXPO_PUBLIC_AMPLITUDE_API_KEY` set
   - [x] `EXPO_PUBLIC_PRIVACY_POLICY_URL` set (and `EXPO_PUBLIC_TERMS_URL` if not using Apple's standard EULA)
   - Confirmed in the EAS dashboard and with `eas env:list --environment production` on 2026-11-09. `eas.json` pins each build profile to its environment.
-  - [ ] First production build: the app signs in to real accounts, the paywall shows real prices (no "Test store build" note), and the Privacy Policy link opens the live page `[ops]`
+  - [x] First production build (2026-11-11): real accounts (sign-up and confirmation by code work), and the Privacy Policy and Terms links open the live pages
+  - [ ] Paywall shows real prices, with no "Test store build" note `[ops]`
   - [x] Production Supabase has every migration applied (through `0026`) and the seed loaded
   - [x] `content` is in the Data API's exposed schemas (the workout library lives there)
   - Migrations at `0026` and exposed schemas confirmed in the dashboard on 2026-11-09.
@@ -91,7 +92,7 @@ Likely rejections if submitted as-is.
     (`appVersionSource: remote`, `autoIncrement`). `[you]` `[code]`
 - [ ] **Account deletion verified on production** `[ops]`
   Settings › Account › Delete account removes the auth user and all rows.
-- [ ] **Coach reliability** `[ops]` `[code]`
+- [x] **Coach reliability** `[ops]` `[code]`
   Find why the server Coach falls back to "Quick answer"; reviewers will use Coach.
   - [x] The app reports why, as the Amplitude event `coach_fallback` with
     `reason`: `timeout`, `offline`, `monthly_limit`, `server_unconfigured`
@@ -99,15 +100,11 @@ Likely rejections if submitted as-is.
     `app_unconfigured`. Also logged to the console in development. `[code]`
   - [x] An athlete over the monthly limit is told so instead of a bare
     "Quick answer" `[code]`
-  - [ ] Anthropic account has credits, auto-reload on, and a monthly spend limit
-    (2026-11-11: Sentry caught `credit balance is too low` from the coach
-    function on the first production build) `[ops]`
-  - [ ] Read the reasons (Amplitude, or the `coach` function logs in Supabase)
-    and fix the cause `[ops]`
-    - 2026-11-09: the Nov 7 logs had expired (free plan keeps one day). The
-      Anthropic console showed the API key was not attached to the account, so
-      the key was rotated and the new one saved in Supabase. Likely cause; still
-      to confirm with a fresh Coach question that answers without "Quick answer".
+  - [x] Causes found and fixed `[ops]`: the API key was not attached to the
+    Anthropic account (rotated 2026-11-09), then the account had no credits
+    (Sentry caught `credit balance is too low` on the first production build;
+    credits added 2026-11-11). Coach answered the EMOM question on that build.
+  - [ ] Auto-reload on and a monthly spend limit set in the Anthropic Console `[ops]`
   - [x] Monthly Coach limit stays at the default 200 (`COACH_MONTHLY_MESSAGE_LIMIT` unset, or set to 200) `[you]`
 - [ ] **Further Coach testing** `[you]`
 
