@@ -13,13 +13,13 @@ Last reviewed: 2026-11-07.
 
 Likely rejections if submitted as-is.
 
-- [ ] **Privacy policy and Terms of Use (EULA) links in the app** `[you]` `[code]`
+- [x] **Privacy policy and Terms of Use (EULA) links in the app** `[you]` `[code]`
   - [x] Privacy policy published at a public URL `[you]`
   - [x] Terms of Use published, or Apple's standard EULA chosen `[you]`
   - [x] Both linked from Settings › Account `[code]` (privacy link appears once `EXPO_PUBLIC_PRIVACY_POLICY_URL` is set; terms default to Apple's standard EULA unless `EXPO_PUBLIC_TERMS_URL` is set)
   - [x] Both linked on the app's own subscription screen `[code]`
   - [x] Both shown on the RevenueCat paywall (dashboard paywall settings) `[ops]`
-  - [ ] Privacy policy URL entered in App Store Connect `[ops]`
+  - [x] Privacy policy URL entered in App Store Connect `[ops]`
 - [x] **Privacy manifest declares what is collected** `[code]`
   `ios/PIVOT/PrivacyInfo.xcprivacy`, mirrored in `app.json` › `ios.privacyManifests` so a prebuild keeps it. Declared, all linked to the user, none used for tracking:
   - [x] Crash data and performance data (Sentry)
