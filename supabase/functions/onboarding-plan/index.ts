@@ -495,6 +495,17 @@ async function planFirstWeek(
         candidates: content.candidates,
         substitutions: content.substitutions,
         /**
+         * The experience answers, which every later week's planning and every
+         * day's decision read from the profile. The first week was planned
+         * without them, so it could queue a session the technical gate then
+         * refuses to build (a dumbbell athlete at experience 2 was given
+         * Burpee Broad Jump · Durability, technical demand 3, and could only
+         * read "Not one you can do today" about it). Load is the sized value,
+         * the same one the week's targets use.
+         */
+        load_capacity: loadCapacity,
+        technical_capacity: body?.profile?.technical_capacity ?? null,
+        /**
          * The two things the athlete just told us, at exactly the authority
          * they were given.
          *

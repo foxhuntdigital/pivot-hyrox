@@ -78,6 +78,12 @@ Likely rejections if submitted as-is.
   on Settings › Subscription / "Your plan is waiting". Opens Apple's sheet.
   - [ ] Offer codes created in App Store Connect (each subscription › Offer Codes) `[you]`
   - [ ] A code tested end to end on a build: redeem → "Confirming…" → Today `[ops]`
+- [x] **First week respects the experience answer** `[code]`: `onboarding-plan`
+  planned week 1 without `technical_capacity`/`load_capacity`, so it could queue
+  sessions the engine then refuses (found 2026-11-11: Burpee Broad Jump ·
+  Durability for a dumbbell athlete at experience 2). The workout sheet now
+  names the reason and hides "Do it today" when nothing today could change it.
+  - [ ] Deploy `onboarding-plan` with the build that has this `[ops]`
 - [ ] **Demo account for App Review** `[ops]`
   Email/password login with an active plan, so Today, Plan and Coach show
   real content. Entered in App Review notes, with how to reach the paywall.
