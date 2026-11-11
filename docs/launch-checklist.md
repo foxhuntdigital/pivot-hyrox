@@ -18,7 +18,7 @@ Likely rejections if submitted as-is.
   - [x] Terms of Use published, or Apple's standard EULA chosen `[you]`
   - [x] Both linked from Settings › Account `[code]` (privacy link appears once `EXPO_PUBLIC_PRIVACY_POLICY_URL` is set; terms default to Apple's standard EULA unless `EXPO_PUBLIC_TERMS_URL` is set)
   - [x] Both linked on the app's own subscription screen `[code]`
-  - [ ] Both shown on the RevenueCat paywall (dashboard paywall settings) `[ops]`
+  - [x] Both shown on the RevenueCat paywall (dashboard paywall settings) `[ops]`
   - [ ] Privacy policy URL entered in App Store Connect `[ops]`
 - [x] **Privacy manifest declares what is collected** `[code]`
   `ios/PIVOT/PrivacyInfo.xcprivacy`, mirrored in `app.json` › `ios.privacyManifests` so a prebuild keeps it. Declared, all linked to the user, none used for tracking:
@@ -48,7 +48,7 @@ Likely rejections if submitted as-is.
   - [x] RevenueCat offering and paywall configured; paywall shows price, length, renewal terms
   - [x] Sandbox purchase grants access in the app (2026-11-11; on that build only via Restore, fixed in the next build: the screen now waits for the webhook)
   - [x] `revenuecat-webhook` receives and applies the sandbox events
-  - [ ] RevenueCat paywall's own Restore button has its action set to Restore purchases `[ops]`
+  - [x] RevenueCat paywall's own Restore button has its action set to Restore purchases `[ops]`
   - [ ] Restore works on a second device
   - [x] Settings › Subscription: status, renewal or end date, See plans,
     Manage in the App Store, Restore purchases `[code]`
@@ -65,8 +65,9 @@ Likely rejections if submitted as-is.
   - [x] Existing beta testers (2 accounts) keep their comps to their end date. Decided: their comps run to their
     `current_period_end` unless deleted, and deleting one makes the server
     refuse that tester's requests (402) until they subscribe `[you]`
-  - [ ] Remove the grant from the signup trigger with a migration (0019's own
-    instructions: restore 0004's function body) `[code]`
+  - [x] Remove the grant from the signup trigger with a migration (0019's own
+    instructions: restore 0004's function body) `[code]`: `0027_end_beta_access.sql`
+    - [ ] Apply 0027 to production (`npx supabase db push`) `[ops]`
 - [x] **Paywall after the plan** `[code]`: intro → 7 questions → "Your plan is
   ready" → trial offer → Today. `onboarding-plan` no longer needs a
   subscription (everything that uses the plan still does). An athlete who
@@ -159,6 +160,8 @@ Likely rejections if submitted as-is.
   (the newest should be `0026`, if migrations are applied with the Supabase CLI).
 
 ## 3. Store listing
+
+Draft text, URLs, age-rating answers and App Review notes: `docs/app-store-listing.md`.
 
 - [ ] App name, subtitle, description, keywords `[you]`
 - [ ] Screenshots for 6.9" and 6.5" iPhones `[you]`
