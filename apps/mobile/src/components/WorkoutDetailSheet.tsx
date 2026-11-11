@@ -44,6 +44,7 @@ import { EXERCISES, exerciseById, templateById } from '@/data/content';
 import { useApp } from '@/state/store';
 import type { QueuedSession } from '@/data/todayRepo';
 import { readableDescription } from '@/data/templateText';
+import { UNAVAILABLE_COPY, whyUnavailable } from '@/data/unavailableReason';
 
 /** One key/value in the header strip. */
 function Fact({ label, value }: { label: string; value: string }) {
@@ -93,6 +94,12 @@ export function WorkoutDetailSheet({
 
   const built = resolved?.kind === 'session' ? resolved : null;
   const refused = resolved && resolved.kind !== 'session' ? resolved : null;
+
+  // Which constraint refused it, worded for this session rather than as the
+  // day's "take the rest" guidance, and whether choosing it can still work.
+  const why = useMemo(() => (refused && template
+    ? whyUnavailable(engineInput, i => recommend({ ...i, candidates: [template] }, EXERCISES).kind === 'session')
+    : null), [refused, template, engineInput]);
 
   // The engine's blocks when it built the session; the library's only as a
   // fallback for a template this client does not hold, where name, stimulus and
@@ -228,10 +235,10 @@ export function WorkoutDetailSheet({
               paddingHorizontal: 13, paddingVertical: 12,
             }}>
               <Label tone="redDark" size="sm" style={{ paddingBottom: 6 }}>
-                Not one you can do today
+                {why?.hard ? 'Not available for you yet' : 'Not one for today'}
               </Label>
               <Text style={[t.bodySm, { color: color.redDeep }]}>
-                {refused.guidance || refused.rationale}
+                {why ? UNAVAILABLE_COPY[why.reason] : refused.rationale}
               </Text>
             </View>
           ) : (
@@ -256,7 +263,15 @@ export function WorkoutDetailSheet({
           borderTopWidth: 1, borderTopColor: color.rule,
           paddingBottom: 28, backgroundColor: color.paper,
         }}>
-          {isToday ? (
+          {why?.hard ? (
+            // Nothing done today changes a skill, impact, health or equipment
+            // constraint, so a button that only leads to a refusal is not offered.
+            <Text style={[t.bodySm, {
+              paddingHorizontal: space.gutter, paddingTop: 14, color: color.muted2,
+            }]}>
+              Pick another session from your week for today.
+            </Text>
+          ) : isToday ? (
             <Text style={[t.bodySm, {
               paddingHorizontal: space.gutter, paddingTop: 14, color: color.muted2,
             }]}>

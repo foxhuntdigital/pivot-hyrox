@@ -9,7 +9,7 @@
  * would be a second place to get it wrong. Restore is always offered, because
  * the athlete on a new phone is the one who needs it and cannot tell us so.
  */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 
 import { color, space, type as t } from '@/theme/tokens';
@@ -17,14 +17,25 @@ import { ActionButton, Label } from '@/components/primitives';
 import { LegalLinks } from '@/components/LegalLinks';
 import { describeSubscription } from '@/data/subscriptionView';
 import { useEntitlement } from '@/state/entitlement';
+import { RedeemCodeLink } from '@/components/RedeemCodeLink';
 
 export function SubscriptionPanel({ onActive }: {
   /** Called when a subscribe or restore leaves the athlete entitled. */
   onActive?: () => void;
 }) {
-  const { entitlement, subscribe, restore, manage } = useEntitlement();
+  const { entitlement, subscribe, restore, manage, redeemCode } = useEntitlement();
   const [busy, setBusy] = useState<null | 'subscribe' | 'restore'>(null);
   const [message, setMessage] = useState<string | null>(null);
+  // A redeemed code arrives as a RevenueCat update that EntitlementProvider
+  // confirms with the server; this only notices the result.
+  const [redeeming, setRedeeming] = useState(false);
+  const active = entitlement?.active ?? false;
+  useEffect(() => {
+    if (!redeeming || !active) return;
+    setRedeeming(false);
+    setMessage('Code redeemed.');
+    onActive?.();
+  }, [redeeming, active, onActive]);
 
   if (!entitlement) {
     return (
@@ -105,6 +116,17 @@ export function SubscriptionPanel({ onActive }: {
           </Text>
         )}
       </Pressable>
+
+      {offerPlans ? (
+        <RedeemCodeLink
+          style={{ paddingTop: 0 }}
+          onPress={async () => {
+            setMessage(null);
+            if (await redeemCode()) setRedeeming(true);
+            else setMessage('Codes cannot be redeemed in this build.');
+          }}
+        />
+      ) : null}
 
       <Text style={[t.meta, { color: color.muted, lineHeight: 17, marginHorizontal: space.gutter }]}>
         {canManage

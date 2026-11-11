@@ -177,6 +177,24 @@ export async function restore(): Promise<PurchaseOutcome> {
   }
 }
 
+/** Offer codes are redeemed through Apple's own sheet, which exists on iOS only. */
+export const canRedeemCodes = () => isPurchasesConfigured() && Platform.OS === 'ios';
+
+/**
+ * Opens Apple's offer-code sheet. It returns as soon as the sheet is shown, not
+ * when a code is redeemed: a redemption arrives later as a RevenueCat customer
+ * update (and, on the server, as a webhook), so callers listen for that.
+ */
+export async function presentRedeemCode(): Promise<boolean> {
+  if (!canRedeemCodes()) return false;
+  try {
+    await Purchases.presentCodeRedemptionSheet();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Opens Apple's own subscription management (change plan, cancel). Falls back
  * to the App Store's subscriptions page when the SDK is not in the build.

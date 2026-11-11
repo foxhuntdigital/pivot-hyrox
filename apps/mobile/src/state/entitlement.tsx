@@ -19,7 +19,9 @@ import RevenueCatUI, { PAYWALL_RESULT } from 'react-native-purchases-ui';
 import {
   awaitEntitlement, fetchEntitlement, restorePurchases, type Entitlement,
 } from '@/data/subscriptionRepo';
-import { isPurchasesConfigured, manageSubscriptions, onCustomerInfoChange } from '@/lib/purchases';
+import {
+  hasEntitlement, isPurchasesConfigured, manageSubscriptions, onCustomerInfoChange, presentRedeemCode,
+} from '@/lib/purchases';
 import { useSession } from '@/state/session';
 
 /** What a subscribe or restore attempt came to, worded for the athlete. */
@@ -42,6 +44,8 @@ interface EntitlementStore {
   subscribe(): Promise<ActionOutcome>;
   restore(): Promise<ActionOutcome>;
   manage(): Promise<void>;
+  /** Apple's offer-code sheet. False when codes cannot be redeemed in this build. */
+  redeemCode(): Promise<boolean>;
 }
 
 const Ctx = createContext<EntitlementStore | null>(null);
@@ -69,7 +73,17 @@ export function EntitlementProvider({ children }: { children: React.ReactNode })
   useEffect(() => {
     if (status !== 'signed_in') return;
     const sub = AppState.addEventListener('change', next => { if (next === 'active') void refresh(); });
-    const off = onCustomerInfoChange(() => { void refresh(); });
+    const off = onCustomerInfoChange(info => {
+      // RevenueCat knows about a purchase or a redeemed code before the server
+      // does (the webhook follows a few seconds later). When the device says
+      // the athlete is now entitled, wait for the server to agree rather than
+      // reading once and keeping the stale answer.
+      if (hasEntitlement(info)) {
+        void awaitEntitlement().then(e => { if (e) setEntitlement(e); });
+      } else {
+        void refresh();
+      }
+    });
     return () => { sub.remove(); off(); };
   }, [status, refresh]);
 
@@ -116,12 +130,14 @@ export function EntitlementProvider({ children }: { children: React.ReactNode })
     void refresh();
   }, [refresh]);
 
+  const redeemCode = useCallback(() => presentRedeemCode(), []);
+
   const value = useMemo<EntitlementStore>(() => ({
     entitlement,
     lapsed: status === 'signed_in' && entitlement !== null && !entitlement.active,
     neverSubscribed: status === 'signed_in' && entitlement?.status === 'none',
-    refresh, subscribe, restore, manage,
-  }), [entitlement, status, refresh, subscribe, restore, manage]);
+    refresh, subscribe, restore, manage, redeemCode,
+  }), [entitlement, status, refresh, subscribe, restore, manage, redeemCode]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
