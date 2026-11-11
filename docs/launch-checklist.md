@@ -61,6 +61,7 @@ Likely rejections if submitted as-is.
   - Confirmed in the EAS dashboard and with `eas env:list --environment production` on 2026-11-09. `eas.json` pins each build profile to its environment.
   - [x] First production build (2026-11-11): real accounts (sign-up and confirmation by code work), and the Privacy Policy and Terms links open the live pages
   - [ ] Paywall shows real prices, with no "Test store build" note `[ops]`
+    - 2026-11-11: no paywall appeared on the first production build. Expected until the subscription products, Paid Apps agreement and RevenueCat offering below are set up
   - [x] Production Supabase has every migration applied (through `0026`) and the seed loaded
   - [x] `content` is in the Data API's exposed schemas (the workout library lives there)
   - Migrations at `0026` and exposed schemas confirmed in the dashboard on 2026-11-09.
@@ -90,7 +91,7 @@ Likely rejections if submitted as-is.
   - [x] Launch version 1.0.0 in Info.plist, the Xcode project's
     MARKETING_VERSION and `app.json`. The build number is managed by EAS
     (`appVersionSource: remote`, `autoIncrement`). `[you]` `[code]`
-- [ ] **Account deletion verified on production** `[ops]`
+- [x] **Account deletion verified on production** `[ops]` (2026-11-11)
   Settings › Account › Delete account removes the auth user and all rows.
 - [x] **Coach reliability** `[ops]` `[code]`
   Find why the server Coach falls back to "Quick answer"; reviewers will use Coach.
@@ -157,7 +158,7 @@ of section 1 by hiding the onboarding screen.
     (visibility **Secret**) so source maps and dSYMs upload `[you]`
   - [x] Privacy manifest declares crash data and performance data (Sentry) `[code]`
   - [x] Edge Functions reporting verified: the first production build's Coach error reached Sentry (2026-11-11)
-  - [ ] Verified on the first production build: traces arrive in `pivot-mobile` and `pivot-functions` (environment production), and source maps/debug files show an upload `[ops]`
+  - [x] Verified on the first production build: traces arrive  in `pivot-mobile` and `pivot-functions` (environment production), and source maps/debug files show an upload `[ops]`
   - [x] Edge functions report to Sentry, project `pivot-functions` (5xx only;
     4xx are answers, not incidents) `[code]`
   - [x] Set the functions' `SENTRY_DSN`: `supabase secrets set SENTRY_DSN=...`
