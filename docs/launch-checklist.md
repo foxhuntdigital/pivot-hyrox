@@ -75,8 +75,8 @@ Likely rejections if submitted as-is.
   - [x] Leaked-password protection on (a Pro feature)
   - [x] Tested: "Forgot password" in the app delivers a code from your own sender, and the code sets a new password (2026-11-09, ashley@foxhuntdigital.com)
   - [x] Postmark account approved (out of Test mode) on 2026-11-10 `[ops]`
-  - [ ] Confirm signup email template includes `{{ .Token }}`: the app confirms by six-digit code too (needs a build with commit "Sign-up confirmation by code") `[ops]`
-  - [ ] Confirm-signup email tested with a fresh account `[ops]`
+  - [x] Confirm signup email template includes `{{ .Token }}`: the app confirms by six-digit code too (needs a build with commit "Sign-up confirmation by code") `[ops]`
+  - [x] Confirm-signup email tested with a fresh account `[ops]`
   - [x] Project on a paid plan, so it is not paused for inactivity and has daily backups
     (Fox Hunt Digital moved to Pro on 2026-11-09)
   - [x] Coach function has its model API key and limits configured (key rotated 2026-11-09; 200 messages a month)
@@ -99,6 +99,9 @@ Likely rejections if submitted as-is.
     `app_unconfigured`. Also logged to the console in development. `[code]`
   - [x] An athlete over the monthly limit is told so instead of a bare
     "Quick answer" `[code]`
+  - [ ] Anthropic account has credits, auto-reload on, and a monthly spend limit
+    (2026-11-11: Sentry caught `credit balance is too low` from the coach
+    function on the first production build) `[ops]`
   - [ ] Read the reasons (Amplitude, or the `coach` function logs in Supabase)
     and fix the cause `[ops]`
     - 2026-11-09: the Nov 7 logs had expired (free plan keeps one day). The
@@ -156,6 +159,7 @@ of section 1 by hiding the onboarding screen.
   - [x] Production stack traces: set `SENTRY_AUTH_TOKEN` in the EAS build env
     (visibility **Secret**) so source maps and dSYMs upload `[you]`
   - [x] Privacy manifest declares crash data and performance data (Sentry) `[code]`
+  - [x] Edge Functions reporting verified: the first production build's Coach error reached Sentry (2026-11-11)
   - [ ] Verified on the first production build: traces arrive in `pivot-mobile` and `pivot-functions` (environment production), and source maps/debug files show an upload `[ops]`
   - [x] Edge functions report to Sentry, project `pivot-functions` (5xx only;
     4xx are answers, not incidents) `[code]`
