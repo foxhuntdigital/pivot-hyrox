@@ -29,8 +29,14 @@ export type ActionOutcome =
 
 interface EntitlementStore {
   entitlement: Entitlement | null;
-  /** True only when the server has said, definitely, that access has ended. */
+  /** True only when the server has said, definitely, that there is no access. */
   lapsed: boolean;
+  /**
+   * Lapsed because they have never subscribed: a new athlete who built a plan
+   * and left at the trial offer. They go back to the offer, not to the
+   * "subscription ended" screen, which would be untrue.
+   */
+  neverSubscribed: boolean;
   refresh(): Promise<Entitlement | null>;
   /** RevenueCat's paywall, then waits for the server to confirm a purchase. */
   subscribe(): Promise<ActionOutcome>;
@@ -113,6 +119,7 @@ export function EntitlementProvider({ children }: { children: React.ReactNode })
   const value = useMemo<EntitlementStore>(() => ({
     entitlement,
     lapsed: status === 'signed_in' && entitlement !== null && !entitlement.active,
+    neverSubscribed: status === 'signed_in' && entitlement?.status === 'none',
     refresh, subscribe, restore, manage,
   }), [entitlement, status, refresh, subscribe, restore, manage]);
 

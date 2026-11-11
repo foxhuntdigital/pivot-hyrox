@@ -1,10 +1,10 @@
 /**
- * The trial offer, shown once the explainer has said what the app is for.
+ * The trial offer, shown after "Your plan is ready".
  *
- * Placement is the point: asking for a card before the four scenes would be
- * asking someone to pay for something they have not been told about. By here
- * they have seen the fixed date, the three variants, the coach and the stimulus
- * model, so the offer answers a question they now have.
+ * Placement is the point: by here the athlete has answered the questions and
+ * seen the plan built from them, so the offer is to start training on that
+ * plan, not to pay before knowing what the app does. An athlete who leaves
+ * here keeps the plan; AuthGate brings them back to this screen next time.
  *
  * The paywall itself is RevenueCat's, so pricing, copy and the yearly/monthly
  * split are changed in the dashboard rather than in a release. The screen below
@@ -47,15 +47,18 @@ export default function TrialScreen() {
   // granted anything. Refresh it on the way through, or the end of onboarding
   // would find a stale "no subscription" and send a paying athlete to the
   // subscription-ended screen.
-  const proceed = useCallback(() => {
-    void refreshEntitlement();
-    router.replace('/goal' as never);
+  const proceed = useCallback(async () => {
+    // Awaited: AuthGate holds a never-subscribed athlete on this screen, so
+    // leaving before the shared state knows about the subscription would be
+    // bounced straight back here.
+    await refreshEntitlement();
+    router.replace('/today' as never);
   }, [router, refreshEntitlement]);
 
   /** The server decides, not the device — a refund can outrank a local receipt. */
   const settleFromServer = useCallback(async () => {
     const e = await fetchEntitlement();
-    if (e?.active) { proceed(); return true; }
+    if (e?.active) { await proceed(); return true; }
     return false;
   }, [proceed]);
 
@@ -68,7 +71,7 @@ export default function TrialScreen() {
   const confirmPurchase = useCallback(async () => {
     setPhase('confirming');
     const e = await awaitEntitlement();
-    if (e?.active) { proceed(); return true; }
+    if (e?.active) { await proceed(); return true; }
     setPhase('fallback');
     setError('Your purchase went through, but we have not received confirmation yet. '
       + 'Tap Restore in a moment to continue. You will not be charged again.');
@@ -136,7 +139,7 @@ export default function TrialScreen() {
     setError(null);
     const r = await restorePurchases();
     setBusy(false);
-    if (r.ok) { proceed(); return; }
+    if (r.ok) { await proceed(); return; }
     if (r.reason === 'cancelled') return;
     setError(
       r.reason === 'pending' ? 'Purchase found. Waiting for it to be confirmed. Try again in a moment.'
@@ -176,10 +179,10 @@ export default function TrialScreen() {
 
       <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
         <View style={{ paddingHorizontal: space.gutter, paddingTop: 22 }}>
-          <Text style={[t.h1, { color: color.ink }]}>Start your trial</Text>
+          <Text style={[t.h1, { color: color.ink }]}>{'Start your\nplan free'}</Text>
           <Text style={[t.bodySm, { color: color.muted2, paddingTop: 10 }]}>
-            Long enough to see the plan adapt around a real week: a missed day, a
-            short day, a day you feel strong.
+            Your plan is built and saved. The free trial is long enough to see it
+            adapt around a real week: a missed day, a short day, a day you feel strong.
           </Text>
         </View>
 

@@ -67,6 +67,12 @@ Likely rejections if submitted as-is.
     refuse that tester's requests (402) until they subscribe `[you]`
   - [ ] Remove the grant from the signup trigger with a migration (0019's own
     instructions: restore 0004's function body) `[code]`
+- [x] **Paywall after the plan** `[code]`: intro → 7 questions → "Your plan is
+  ready" → trial offer → Today. `onboarding-plan` no longer needs a
+  subscription (everything that uses the plan still does). An athlete who
+  leaves at the offer comes back to it, with their plan saved.
+  - [ ] Deploy `onboarding-plan` (`npx supabase functions deploy onboarding-plan`) with the build that has this `[ops]`
+  - [ ] App Review notes say the paywall appears after setup, at the end of onboarding `[ops]`
 - [ ] **Demo account for App Review** `[ops]`
   Email/password login with an active plan, so Today, Plan and Coach show
   real content. Entered in App Review notes, with how to reach the paywall.

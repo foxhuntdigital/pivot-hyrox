@@ -15,7 +15,7 @@
  */
 import { recoveryFromEnergy } from '../../../packages/engine/src/index.ts';
 import {
-  clientFor, corsHeaders, HttpError, json, loadContent, requireEntitlement, requireUser, localDate,
+  clientFor, corsHeaders, HttpError, json, loadContent, requireUser, localDate,
 } from '../_shared/context.ts';
 import { captureFailure, captureProblem } from '../_shared/monitoring.ts';
 import { ensureWeekQueue } from '../_shared/queue.ts';
@@ -94,7 +94,11 @@ Deno.serve(async (req) => {
 
     const db = clientFor(req);
     const user = await requireUser(db);
-    await requireEntitlement(db, user.id);
+    // No entitlement check here, on purpose. The paywall comes after the plan
+    // is built and shown ("Your plan is ready" → trial), so building it must
+    // be open to an athlete who has not subscribed yet. Using the plan is
+    // still paid: today, start-workout, complete-workout, coach and the rest
+    // all call requireEntitlement.
 
     const today = localDate(user.timezone);
 

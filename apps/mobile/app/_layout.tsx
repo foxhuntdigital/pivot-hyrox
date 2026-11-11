@@ -53,7 +53,7 @@ function Holding() {
 function AuthGate({ children }: { children: React.ReactNode }) {
   const { status } = useSession();
   const { status: onboarding } = useOnboarding();
-  const { lapsed } = useEntitlement();
+  const { lapsed, neverSubscribed, entitlement } = useEntitlement();
   const segments = useSegments();
   const router = useRouter();
 
@@ -78,20 +78,36 @@ function AuthGate({ children }: { children: React.ReactNode }) {
     }
     if (onboarding !== 'complete') return;
 
+    const route = segments as string[];
+    const page = route[0] === '(onboarding)' ? route[1] : route[0];
+    const onSubscribe = page === 'subscribe';
+
+    // A plan exists but the athlete has never subscribed: they built it and
+    // left at the trial offer (ready → trial). Back to the offer, with the
+    // plan screen they just saw and Settings still open.
+    if (neverSubscribed) {
+      if (!['ready', 'trial', 'settings'].includes(page ?? '')) router.replace('/trial' as never);
+      return;
+    }
+
     // A subscription that has ended goes to the screen that says so, rather
     // than leaving the athlete in an app whose every request is refused.
     // Settings stays open (deleting an account must not need a subscription),
     // and so does a workout already under way, so it can be finished.
-    const onSubscribe = segments[0] === 'subscribe';
-    const exempt = onSubscribe || ['settings', 'active', 'done'].includes(segments[0] ?? '');
-    if (lapsed && !exempt) {
-      router.replace('/subscribe' as never);
-    } else if (!lapsed && onSubscribe) {
-      router.replace('/today' as never);
-    } else if (inAuthGroup || inOnboarding) {
-      router.replace('/today' as never);
+    if (lapsed) {
+      if (!['subscribe', 'settings', 'active', 'done'].includes(page ?? '')) {
+        router.replace('/subscribe' as never);
+      }
+      return;
     }
-  }, [status, onboarding, lapsed, segments, router]);
+
+    // Not yet known (a read that failed or is still in flight): leave an
+    // athlete inside onboarding where they are, rather than skipping them past
+    // the plan and the offer on a guess.
+    if (entitlement === null && inOnboarding) return;
+
+    if (onSubscribe || inAuthGroup || inOnboarding) router.replace('/today' as never);
+  }, [status, onboarding, lapsed, neverSubscribed, entitlement, segments, router]);
 
   // Holding rather than the app: rendering tabs for an unresolved session would
   // flash athlete data that may belong to a signed-out user, and rendering them
