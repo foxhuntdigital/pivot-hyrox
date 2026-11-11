@@ -79,7 +79,7 @@ const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
  * not reached us yet is 'pending', not a failure — the athlete has been
  * charged, and telling them it failed would be wrong.
  */
-async function awaitEntitlement(attempts = 5): Promise<Entitlement | null> {
+export async function awaitEntitlement(attempts = 8): Promise<Entitlement | null> {
   for (let i = 0; i < attempts; i++) {
     const e = await fetchEntitlement();
     if (e?.active) return e;

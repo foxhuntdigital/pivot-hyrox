@@ -21,7 +21,7 @@ import RevenueCatUI, { PAYWALL_RESULT } from 'react-native-purchases-ui';
 import { ActionButton, Label, Rule } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
 import { SignOutEscape } from '@/components/onboarding';
-import { fetchEntitlement, restorePurchases } from '@/data/subscriptionRepo';
+import { awaitEntitlement, fetchEntitlement, restorePurchases } from '@/data/subscriptionRepo';
 import { ENTITLEMENT_ID, isPurchasesConfigured, isTestStore } from '@/lib/purchases';
 import { LegalLinks } from '@/components/LegalLinks';
 
@@ -36,7 +36,7 @@ const INCLUDED = [
 export default function TrialScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const [phase, setPhase] = useState<'checking' | 'paywall' | 'fallback'>('checking');
+  const [phase, setPhase] = useState<'checking' | 'confirming' | 'paywall' | 'fallback'>('checking');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const presented = useRef(false);
@@ -47,6 +47,22 @@ export default function TrialScreen() {
   const settleFromServer = useCallback(async () => {
     const e = await fetchEntitlement();
     if (e?.active) { proceed(); return true; }
+    return false;
+  }, [proceed]);
+
+  /**
+   * After a purchase or restore, the server hears about it from RevenueCat's
+   * webhook, which takes a few seconds. Checking once, straight away, missed
+   * it every time and dropped a paying athlete back on this screen with no
+   * explanation. So wait for it, and say what is happening while we do.
+   */
+  const confirmPurchase = useCallback(async () => {
+    setPhase('confirming');
+    const e = await awaitEntitlement();
+    if (e?.active) { proceed(); return true; }
+    setPhase('fallback');
+    setError('Your purchase went through, but we have not received confirmation yet. '
+      + 'Tap Restore in a moment to continue. You will not be charged again.');
     return false;
   }, [proceed]);
 
@@ -72,7 +88,8 @@ export default function TrialScreen() {
         if (result === PAYWALL_RESULT.PURCHASED
           || result === PAYWALL_RESULT.RESTORED
           || result === PAYWALL_RESULT.NOT_PRESENTED) {
-          if (await settleFromServer()) return;
+          await confirmPurchase();
+          return;
         }
         setPhase('fallback');
         if (result === PAYWALL_RESULT.ERROR) {
@@ -84,7 +101,7 @@ export default function TrialScreen() {
     })();
 
     return () => { cancelled = true; };
-  }, [settleFromServer]);
+  }, [settleFromServer, confirmPurchase]);
 
   /** Re-opens RevenueCat's paywall from the fallback screen. */
   async function openPaywall() {
@@ -93,8 +110,8 @@ export default function TrialScreen() {
     try {
       const result = await RevenueCatUI.presentPaywall();
       if (result === PAYWALL_RESULT.PURCHASED || result === PAYWALL_RESULT.RESTORED) {
-        if (await settleFromServer()) return;
-        setError('Purchase received. Waiting for it to be confirmed. Try again in a moment.');
+        await confirmPurchase();
+        return;
       } else if (result === PAYWALL_RESULT.ERROR) {
         setError('The store could not be reached. Nothing has been charged.');
       }
@@ -119,10 +136,13 @@ export default function TrialScreen() {
       : 'The store could not be reached. Try again in a moment.');
   }
 
-  if (phase === 'checking') {
+  if (phase === 'checking' || phase === 'confirming') {
     return (
-      <View style={{ flex: 1, backgroundColor: color.paper, justifyContent: 'center' }}>
+      <View style={{ flex: 1, backgroundColor: color.paper, justifyContent: 'center', alignItems: 'center', gap: 14 }}>
         <ActivityIndicator color={color.red} />
+        {phase === 'confirming' ? (
+          <Text style={[t.bodySm, { color: color.muted2 }]}>Confirming your purchase…</Text>
+        ) : null}
       </View>
     );
   }
