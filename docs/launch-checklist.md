@@ -50,6 +50,17 @@ Likely rejections if submitted as-is.
   - [ ] `revenuecat-webhook` receives and applies the sandbox events
   - [ ] Restore works on a second device
   - [ ] Cancel / expiry removes access
+- [ ] **Beta comp access closed** `[ops]` `[code]`
+  Migration `0019_beta_access.sql` gives every new signup free access
+  (`product_id = 'beta_comp'`), which is why no paywall appears. A reviewer
+  who signs up would be comped too and never reach the paywall: a 2.1 rejection.
+  - [ ] New grants stopped: `update public.app_config set beta_open = false, updated_at = now();` `[ops]`
+  - [ ] Paywall seen on a fresh signup after that, with real prices `[ops]`
+  - [ ] Decide what existing beta testers keep: their comps run to their
+    `current_period_end` unless deleted, and deleting one makes the server
+    refuse that tester's requests (402) until they subscribe `[you]`
+  - [ ] Remove the grant from the signup trigger with a migration (0019's own
+    instructions: restore 0004's function body) `[code]`
 - [ ] **Demo account for App Review** `[ops]`
   Email/password login with an active plan, so Today, Plan and Coach show
   real content. Entered in App Review notes, with how to reach the paywall.
