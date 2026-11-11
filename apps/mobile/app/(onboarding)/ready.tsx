@@ -99,8 +99,10 @@ export default function ReadyScreen() {
       description={plan.race
         ? `${plan.total_weeks} week${plan.total_weeks === 1 ? '' : 's'} to ${plan.race.event_name}.`
         : `A ${plan.total_weeks}-week block, starting today.`}
-      onContinue={() => router.replace('/today' as never)}
-      continueLabel="Go to today"
+      // To the trial offer, not Today: the plan is built and shown first, then
+      // starting it is what the subscription is for.
+      onContinue={() => router.replace('/trial' as never)}
+      continueLabel="Start training"
     >
       {plan.current_phase ? (
         <View style={{

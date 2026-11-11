@@ -14,8 +14,8 @@ Last reviewed: 2026-11-07.
 Likely rejections if submitted as-is.
 
 - [ ] **Privacy policy and Terms of Use (EULA) links in the app** `[you]` `[code]`
-  - [ ] Privacy policy published at a public URL `[you]`
-  - [ ] Terms of Use published, or Apple's standard EULA chosen `[you]`
+  - [x] Privacy policy published at a public URL `[you]`
+  - [x] Terms of Use published, or Apple's standard EULA chosen `[you]`
   - [x] Both linked from Settings › Account `[code]` (privacy link appears once `EXPO_PUBLIC_PRIVACY_POLICY_URL` is set; terms default to Apple's standard EULA unless `EXPO_PUBLIC_TERMS_URL` is set)
   - [x] Both linked on the app's own subscription screen `[code]`
   - [ ] Both shown on the RevenueCat paywall (dashboard paywall settings) `[ops]`
@@ -44,12 +44,35 @@ Likely rejections if submitted as-is.
   Onboarding ("Anything to train around?", step 3) and Coach home. Guideline 1.4.1.
   - [x] Wording approved `[you]`
 - [ ] **Subscriptions work end to end** `[ops]`
-  - [ ] Products created in App Store Connect and attached to the version
-  - [ ] RevenueCat offering and paywall configured; paywall shows price, length, renewal terms
-  - [ ] Sandbox purchase grants access in the app
-  - [ ] `revenuecat-webhook` receives and applies the sandbox events
+  - [x] Products created in App Store Connect and attached to the version
+  - [x] RevenueCat offering and paywall configured; paywall shows price, length, renewal terms
+  - [x] Sandbox purchase grants access in the app (2026-11-11; on that build only via Restore, fixed in the next build: the screen now waits for the webhook)
+  - [x] `revenuecat-webhook` receives and applies the sandbox events
+  - [ ] RevenueCat paywall's own Restore button has its action set to Restore purchases `[ops]`
   - [ ] Restore works on a second device
-  - [ ] Cancel / expiry removes access
+  - [x] Settings › Subscription: status, renewal or end date, See plans,
+    Manage in the App Store, Restore purchases `[code]`
+  - [x] A lapsed subscriber lands on "Your plan is waiting" (subscribe, restore,
+    account settings, sign out) instead of an app that silently refuses
+    everything `[code]`
+  - [ ] Cancel / expiry removes access, and the app shows "Your plan is waiting"; subscribing again from there returns to Today
+- [ ] **Beta comp access closed** `[ops]` `[code]`
+  Migration `0019_beta_access.sql` gives every new signup free access
+  (`product_id = 'beta_comp'`), which is why no paywall appears. A reviewer
+  who signs up would be comped too and never reach the paywall: a 2.1 rejection.
+  - [x] New grants stopped: `update public.app_config set beta_open = false, updated_at = now();` `[ops]` (2026-11-11)
+  - [x] Paywall seen on a fresh signup after that, with real prices `[ops]`
+  - [x] Existing beta testers (2 accounts) keep their comps to their end date. Decided: their comps run to their
+    `current_period_end` unless deleted, and deleting one makes the server
+    refuse that tester's requests (402) until they subscribe `[you]`
+  - [ ] Remove the grant from the signup trigger with a migration (0019's own
+    instructions: restore 0004's function body) `[code]`
+- [x] **Paywall after the plan** `[code]`: intro → 7 questions → "Your plan is
+  ready" → trial offer → Today. `onboarding-plan` no longer needs a
+  subscription (everything that uses the plan still does). An athlete who
+  leaves at the offer comes back to it, with their plan saved.
+  - [ ] Deploy `onboarding-plan` (`npx supabase functions deploy onboarding-plan`) with the build that has this `[ops]`
+  - [ ] App Review notes say the paywall appears after setup, at the end of onboarding `[ops]`
 - [ ] **Demo account for App Review** `[ops]`
   Email/password login with an active plan, so Today, Plan and Coach show
   real content. Entered in App Review notes, with how to reach the paywall.
@@ -59,7 +82,9 @@ Likely rejections if submitted as-is.
   - [x] `EXPO_PUBLIC_AMPLITUDE_API_KEY` set
   - [x] `EXPO_PUBLIC_PRIVACY_POLICY_URL` set (and `EXPO_PUBLIC_TERMS_URL` if not using Apple's standard EULA)
   - Confirmed in the EAS dashboard and with `eas env:list --environment production` on 2026-11-09. `eas.json` pins each build profile to its environment.
-  - [ ] First production build: the app signs in to real accounts, the paywall shows real prices (no "Test store build" note), and the Privacy Policy link opens the live page `[ops]`
+  - [x] First production build (2026-11-11): real accounts (sign-up and confirmation by code work), and the Privacy Policy and Terms links open the live pages
+  - [x] Paywall shows real prices, with no "Test store build" note `[ops]`
+    - 2026-11-11: no paywall appeared on the first production build. Expected until the subscription products, Paid Apps agreement and RevenueCat offering below are set up
   - [x] Production Supabase has every migration applied (through `0026`) and the seed loaded
   - [x] `content` is in the Data API's exposed schemas (the workout library lives there)
   - Migrations at `0026` and exposed schemas confirmed in the dashboard on 2026-11-09.
@@ -75,8 +100,8 @@ Likely rejections if submitted as-is.
   - [x] Leaked-password protection on (a Pro feature)
   - [x] Tested: "Forgot password" in the app delivers a code from your own sender, and the code sets a new password (2026-11-09, ashley@foxhuntdigital.com)
   - [x] Postmark account approved (out of Test mode) on 2026-11-10 `[ops]`
-  - [ ] Confirm signup email template includes `{{ .Token }}`: the app confirms by six-digit code too (needs a build with commit "Sign-up confirmation by code") `[ops]`
-  - [ ] Confirm-signup email tested with a fresh account `[ops]`
+  - [x] Confirm signup email template includes `{{ .Token }}`: the app confirms by six-digit code too (needs a build with commit "Sign-up confirmation by code") `[ops]`
+  - [x] Confirm-signup email tested with a fresh account `[ops]`
   - [x] Project on a paid plan, so it is not paused for inactivity and has daily backups
     (Fox Hunt Digital moved to Pro on 2026-11-09)
   - [x] Coach function has its model API key and limits configured (key rotated 2026-11-09; 200 messages a month)
@@ -89,9 +114,9 @@ Likely rejections if submitted as-is.
   - [x] Launch version 1.0.0 in Info.plist, the Xcode project's
     MARKETING_VERSION and `app.json`. The build number is managed by EAS
     (`appVersionSource: remote`, `autoIncrement`). `[you]` `[code]`
-- [ ] **Account deletion verified on production** `[ops]`
+- [x] **Account deletion verified on production** `[ops]` (2026-11-11)
   Settings › Account › Delete account removes the auth user and all rows.
-- [ ] **Coach reliability** `[ops]` `[code]`
+- [x] **Coach reliability** `[ops]` `[code]`
   Find why the server Coach falls back to "Quick answer"; reviewers will use Coach.
   - [x] The app reports why, as the Amplitude event `coach_fallback` with
     `reason`: `timeout`, `offline`, `monthly_limit`, `server_unconfigured`
@@ -99,12 +124,11 @@ Likely rejections if submitted as-is.
     `app_unconfigured`. Also logged to the console in development. `[code]`
   - [x] An athlete over the monthly limit is told so instead of a bare
     "Quick answer" `[code]`
-  - [ ] Read the reasons (Amplitude, or the `coach` function logs in Supabase)
-    and fix the cause `[ops]`
-    - 2026-11-09: the Nov 7 logs had expired (free plan keeps one day). The
-      Anthropic console showed the API key was not attached to the account, so
-      the key was rotated and the new one saved in Supabase. Likely cause; still
-      to confirm with a fresh Coach question that answers without "Quick answer".
+  - [x] Causes found and fixed `[ops]`: the API key was not attached to the
+    Anthropic account (rotated 2026-11-09), then the account had no credits
+    (Sentry caught `credit balance is too low` on the first production build;
+    credits added 2026-11-11). Coach answered the EMOM question on that build.
+  - [ ] Auto-reload on and a monthly spend limit set in the Anthropic Console `[ops]`
   - [x] Monthly Coach limit stays at the default 200 (`COACH_MONTHLY_MESSAGE_LIMIT` unset, or set to 200) `[you]`
 - [ ] **Further Coach testing** `[you]`
 
@@ -151,13 +175,15 @@ of section 1 by hiding the onboarding screen.
   (`expected-failures.json`) `[you]`
 - [ ] Real descriptions for the 148 templates whose placeholder was cleared `[you]`
 - [x] Crash reporting: Sentry in the mobile app, project `pivot-mobile` `[code]`
-  - [ ] `EXPO_PUBLIC_SENTRY_DSN` in the EAS **production** environment (Plain
+  - [x] `EXPO_PUBLIC_SENTRY_DSN` in the EAS **production** environment (Plain
     text). Without it the app's Sentry `init` is a no-op and builds report nothing `[ops]`
-  - [ ] Production stack traces: set `SENTRY_AUTH_TOKEN` in the EAS build env
+  - [x] Production stack traces: set `SENTRY_AUTH_TOKEN` in the EAS build env
     (visibility **Secret**) so source maps and dSYMs upload `[you]`
   - [x] Privacy manifest declares crash data and performance data (Sentry) `[code]`
+  - [x] Edge Functions reporting verified: the first production build's Coach error reached Sentry (2026-11-11)
+  - [x] Verified on the first production build: traces arrive  in `pivot-mobile` and `pivot-functions` (environment production), and source maps/debug files show an upload `[ops]`
   - [x] Edge functions report to Sentry, project `pivot-functions` (5xx only;
     4xx are answers, not incidents) `[code]`
-  - [ ] Set the functions' `SENTRY_DSN`: `supabase secrets set SENTRY_DSN=...`
+  - [x] Set the functions' `SENTRY_DSN`: `supabase secrets set SENTRY_DSN=...`
     and `SENTRY_ENVIRONMENT=production`. Until then `init` is a no-op `[you]`
 - [ ] README "Known gaps" is stale (onboarding is built) `[code]`

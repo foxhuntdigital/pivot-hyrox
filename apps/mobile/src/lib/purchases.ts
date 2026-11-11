@@ -15,7 +15,7 @@
  * Edge Functions gate on the server's answer regardless of what the device
  * believes.
  */
-import { NativeModules, Platform } from 'react-native';
+import { Linking, NativeModules, Platform } from 'react-native';
 import Purchases, {
   LOG_LEVEL,
   type CustomerInfo,
@@ -137,6 +137,8 @@ export type PurchaseOutcome =
   | { kind: 'purchased'; info: CustomerInfo }
   | { kind: 'cancelled' }
   | { kind: 'unavailable' }
+  /** A restore that completed and found no active subscription on this Apple ID. */
+  | { kind: 'nothing_to_restore' }
   | { kind: 'error'; message: string };
 
 /**
@@ -163,11 +165,27 @@ export async function restore(): Promise<PurchaseOutcome> {
   if (!isPurchasesConfigured()) return { kind: 'unavailable' };
   try {
     const info = await Purchases.restorePurchases();
+    // A restore succeeds even when the Apple ID has never bought anything. Only
+    // an active entitlement is something to wait for the server to agree with;
+    // without one, waiting would end in "purchase found, waiting" for a
+    // purchase that does not exist.
+    if (!hasEntitlement(info)) return { kind: 'nothing_to_restore' };
     return { kind: 'purchased', info };
   } catch (e: any) {
     if (e?.userCancelled) return { kind: 'cancelled' };
     return { kind: 'error', message: e?.message ?? 'Restore failed.' };
   }
+}
+
+/**
+ * Opens Apple's own subscription management (change plan, cancel). Falls back
+ * to the App Store's subscriptions page when the SDK is not in the build.
+ */
+export async function manageSubscriptions(): Promise<void> {
+  if (isPurchasesConfigured()) {
+    try { await Purchases.showManageSubscriptions(); return; } catch { /* fall through */ }
+  }
+  await Linking.openURL('https://apps.apple.com/account/subscriptions').catch(() => {});
 }
 
 /**

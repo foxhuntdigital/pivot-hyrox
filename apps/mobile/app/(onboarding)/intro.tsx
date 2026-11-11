@@ -35,11 +35,11 @@ export default function IntroScreen() {
   const isLast = index >= total - 1;
   const { id, Scene } = INTRO_SCENES[index];
 
-  // The offer comes after the explainer, never before it: by here the athlete
-  // has been told what the thing is, so the trial answers a question rather
-  // than interrupting one. Skip lands in the same place — skipping the scenes
-  // is not opting out of the offer.
-  const begin = () => router.replace('/trial' as never);
+  // Straight into the questions. The paywall comes at the end of onboarding,
+  // after the athlete has seen the plan built from their answers (ready →
+  // trial), so the offer is to start that plan rather than to find out what
+  // the app is.
+  const begin = () => router.replace('/goal' as never);
   const next = () => (isLast ? begin() : setIndex(i => i + 1));
 
   return (
@@ -98,8 +98,8 @@ export default function IntroScreen() {
           </Text>
         ) : null}
 
-        {/* This screen and `trial` both `replace` their way forward, so neither
-            has a Back and the account just created has no other exit. */}
+        {/* This screen `replace`s its way forward, so it has no Back and the
+            account just created has no other exit. */}
         <SignOutEscape />
       </View>
     </View>

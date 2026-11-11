@@ -17,13 +17,15 @@ export interface Entitlement {
   /** True while access is paid for — trials and grace periods included. */
   active: boolean;
   product_id: string | null;
+  /** 'app_store', 'promotional' (beta comp), … — who bills it. */
+  store: string | null;
   trial_ends_at: string | null;
   current_period_end: string | null;
   will_renew: boolean;
 }
 
 export const NO_ENTITLEMENT: Entitlement = {
-  status: 'none', active: false, product_id: null,
+  status: 'none', active: false, product_id: null, store: null,
   trial_ends_at: null, current_period_end: null, will_renew: false,
 };
 
@@ -43,7 +45,7 @@ export async function fetchEntitlement(): Promise<Entitlement | null> {
   try {
     const { data, error } = await supabase
       .from('subscriptions')
-      .select('status, product_id, trial_ends_at, current_period_end, will_renew')
+      .select('status, product_id, store, trial_ends_at, current_period_end, will_renew')
       .maybeSingle();
     if (error) return null;
     if (!data) return NO_ENTITLEMENT;
@@ -51,6 +53,7 @@ export async function fetchEntitlement(): Promise<Entitlement | null> {
       status: data.status as SubscriptionStatus,
       active: isActive(data),
       product_id: data.product_id,
+      store: data.store ?? null,
       trial_ends_at: data.trial_ends_at,
       current_period_end: data.current_period_end,
       will_renew: !!data.will_renew,
@@ -70,7 +73,7 @@ export async function fetchEntitlement(): Promise<Entitlement | null> {
  */
 export type PurchaseResult =
   | { ok: true; entitlement: Entitlement }
-  | { ok: false; reason: 'cancelled' | 'unavailable' | 'pending' | 'error'; message?: string };
+  | { ok: false; reason: 'cancelled' | 'unavailable' | 'pending' | 'nothing_to_restore' | 'error'; message?: string };
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -79,7 +82,7 @@ const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
  * not reached us yet is 'pending', not a failure — the athlete has been
  * charged, and telling them it failed would be wrong.
  */
-async function awaitEntitlement(attempts = 5): Promise<Entitlement | null> {
+export async function awaitEntitlement(attempts = 8): Promise<Entitlement | null> {
   for (let i = 0; i < attempts; i++) {
     const e = await fetchEntitlement();
     if (e?.active) return e;
@@ -91,6 +94,7 @@ async function awaitEntitlement(attempts = 5): Promise<Entitlement | null> {
 async function settle(outcome: PurchaseOutcome): Promise<PurchaseResult> {
   if (outcome.kind === 'cancelled') return { ok: false, reason: 'cancelled' };
   if (outcome.kind === 'unavailable') return { ok: false, reason: 'unavailable' };
+  if (outcome.kind === 'nothing_to_restore') return { ok: false, reason: 'nothing_to_restore' };
   if (outcome.kind === 'error') return { ok: false, reason: 'error', message: outcome.message };
 
   const entitlement = await awaitEntitlement();
