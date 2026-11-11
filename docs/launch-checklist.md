@@ -56,7 +56,7 @@ Likely rejections if submitted as-is.
     account settings, sign out) instead of an app that silently refuses
     everything `[code]`
   - [ ] Cancel / expiry removes access, and the app shows "Your plan is waiting"; subscribing again from there returns to Today
-- [ ] **Beta comp access closed** `[ops]` `[code]`
+- [x] **Beta comp access closed** `[ops]` `[code]`
   Migration `0019_beta_access.sql` gives every new signup free access
   (`product_id = 'beta_comp'`), which is why no paywall appears. A reviewer
   who signs up would be comped too and never reach the paywall: a 2.1 rejection.
@@ -67,7 +67,7 @@ Likely rejections if submitted as-is.
     refuse that tester's requests (402) until they subscribe `[you]`
   - [x] Remove the grant from the signup trigger with a migration (0019's own
     instructions: restore 0004's function body) `[code]`: `0027_end_beta_access.sql`
-    - [ ] Apply 0027 to production (`npx supabase db push`) `[ops]`
+    - [x] Apply 0027 to production (`npx supabase db push`) `[ops]` (2026-11-11)
 - [x] **Paywall after the plan** `[code]`: intro → 7 questions → "Your plan is
   ready" → trial offer → Today. `onboarding-plan` no longer needs a
   subscription (everything that uses the plan still does). An athlete who
@@ -163,11 +163,11 @@ Likely rejections if submitted as-is.
 
 Draft text, URLs, age-rating answers and App Review notes: `docs/app-store-listing.md`.
 
-- [ ] App name, subtitle, description, keywords `[you]`
+- [x] App name, subtitle, description, keywords `[you]`
 - [ ] Screenshots for 6.9" and 6.5" iPhones `[you]`
-- [ ] Support URL and marketing URL `[you]`
-- [ ] Age rating questionnaire `[ops]`
-- [ ] Category (Health & Fitness) `[ops]`
+- [x] Support URL and marketing URL `[you]`
+- [x] Age rating questionnaire `[ops]`
+- [x] Category (Health & Fitness) `[ops]`
 - [x] Version number: 1.0.0 `[code]`
 
 ## 4. Apple Health (optional for launch)
