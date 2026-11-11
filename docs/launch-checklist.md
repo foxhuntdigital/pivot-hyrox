@@ -44,10 +44,11 @@ Likely rejections if submitted as-is.
   Onboarding ("Anything to train around?", step 3) and Coach home. Guideline 1.4.1.
   - [x] Wording approved `[you]`
 - [ ] **Subscriptions work end to end** `[ops]`
-  - [ ] Products created in App Store Connect and attached to the version
-  - [ ] RevenueCat offering and paywall configured; paywall shows price, length, renewal terms
-  - [ ] Sandbox purchase grants access in the app
-  - [ ] `revenuecat-webhook` receives and applies the sandbox events
+  - [x] Products created in App Store Connect and attached to the version
+  - [x] RevenueCat offering and paywall configured; paywall shows price, length, renewal terms
+  - [x] Sandbox purchase grants access in the app (2026-11-11; on that build only via Restore, fixed in the next build: the screen now waits for the webhook)
+  - [x] `revenuecat-webhook` receives and applies the sandbox events
+  - [ ] RevenueCat paywall's own Restore button has its action set to Restore purchases `[ops]`
   - [ ] Restore works on a second device
   - [ ] Cancel / expiry removes access
 - [ ] **Beta comp access closed** `[ops]` `[code]`
@@ -55,7 +56,7 @@ Likely rejections if submitted as-is.
   (`product_id = 'beta_comp'`), which is why no paywall appears. A reviewer
   who signs up would be comped too and never reach the paywall: a 2.1 rejection.
   - [x] New grants stopped: `update public.app_config set beta_open = false, updated_at = now();` `[ops]` (2026-11-11)
-  - [ ] Paywall seen on a fresh signup after that, with real prices `[ops]`
+  - [x] Paywall seen on a fresh signup after that, with real prices `[ops]`
   - [x] Existing beta testers (2 accounts) keep their comps to their end date. Decided: their comps run to their
     `current_period_end` unless deleted, and deleting one makes the server
     refuse that tester's requests (402) until they subscribe `[you]`
@@ -71,7 +72,7 @@ Likely rejections if submitted as-is.
   - [x] `EXPO_PUBLIC_PRIVACY_POLICY_URL` set (and `EXPO_PUBLIC_TERMS_URL` if not using Apple's standard EULA)
   - Confirmed in the EAS dashboard and with `eas env:list --environment production` on 2026-11-09. `eas.json` pins each build profile to its environment.
   - [x] First production build (2026-11-11): real accounts (sign-up and confirmation by code work), and the Privacy Policy and Terms links open the live pages
-  - [ ] Paywall shows real prices, with no "Test store build" note `[ops]`
+  - [x] Paywall shows real prices, with no "Test store build" note `[ops]`
     - 2026-11-11: no paywall appeared on the first production build. Expected until the subscription products, Paid Apps agreement and RevenueCat offering below are set up
   - [x] Production Supabase has every migration applied (through `0026`) and the seed loaded
   - [x] `content` is in the Data API's exposed schemas (the workout library lives there)
