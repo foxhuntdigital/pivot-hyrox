@@ -70,7 +70,7 @@ export async function fetchEntitlement(): Promise<Entitlement | null> {
  */
 export type PurchaseResult =
   | { ok: true; entitlement: Entitlement }
-  | { ok: false; reason: 'cancelled' | 'unavailable' | 'pending' | 'error'; message?: string };
+  | { ok: false; reason: 'cancelled' | 'unavailable' | 'pending' | 'nothing_to_restore' | 'error'; message?: string };
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -91,6 +91,7 @@ async function awaitEntitlement(attempts = 5): Promise<Entitlement | null> {
 async function settle(outcome: PurchaseOutcome): Promise<PurchaseResult> {
   if (outcome.kind === 'cancelled') return { ok: false, reason: 'cancelled' };
   if (outcome.kind === 'unavailable') return { ok: false, reason: 'unavailable' };
+  if (outcome.kind === 'nothing_to_restore') return { ok: false, reason: 'nothing_to_restore' };
   if (outcome.kind === 'error') return { ok: false, reason: 'error', message: outcome.message };
 
   const entitlement = await awaitEntitlement();

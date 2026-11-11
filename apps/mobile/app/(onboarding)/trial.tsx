@@ -112,9 +112,11 @@ export default function TrialScreen() {
     setBusy(false);
     if (r.ok) { proceed(); return; }
     if (r.reason === 'cancelled') return;
-    setError(r.reason === 'pending'
-      ? 'Purchase found. Waiting for it to be confirmed. Try again in a moment.'
-      : 'No previous purchase found on this Apple ID.');
+    setError(
+      r.reason === 'pending' ? 'Purchase found. Waiting for it to be confirmed. Try again in a moment.'
+      : r.reason === 'nothing_to_restore' ? 'No active PIVOT subscription found on this Apple ID.'
+      : r.reason === 'unavailable' ? 'Purchases are not available in this build.'
+      : 'The store could not be reached. Try again in a moment.');
   }
 
   if (phase === 'checking') {
