@@ -1,0 +1,10 @@
+{
+  "name": "pivot-health-spike",
+  "version": "0.0.1",
+  "description": "Throwaway HealthKit spike: iPhone workout session, live heart rate, Watch sample delay, workout zones.",
+  "private": true,
+  "main": "index.ts",
+  "license": "UNLICENSED",
+  "author": "PIVOT",
+  "homepage": "https://github.com/foxhuntdigital/pivot-hyrox"
+}

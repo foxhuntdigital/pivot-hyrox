@@ -12,7 +12,10 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.adaptiveathlete.pivot",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIBackgroundModes": [
+          "workout-processing"
+        ]
       },
       "icon": "./assets/icon.png"
     },
@@ -35,6 +38,14 @@
           "backgroundColor": "#1F252C",
           "image": "./assets/splash-blank.png",
           "imageWidth": 1
+        }
+      ],
+      [
+        "@kingstinct/react-native-healthkit",
+        {
+          "background": false,
+          "NSHealthShareUsageDescription": "PIVOT reads your resting heart rate, heart-rate variability, sleep and heart rate during sessions to adjust your training and show your heart rate while you work out.",
+          "NSHealthUpdateUsageDescription": "PIVOT saves the sessions you complete, with their heart rate, so your Activity rings and Health history stay accurate."
         }
       ]
     ],

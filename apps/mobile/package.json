@@ -12,6 +12,7 @@
   "dependencies": {
     "@amplitude/analytics-react-native": "^1.7.0",
     "@expo-google-fonts/archivo": "^0.4.2",
+    "@kingstinct/react-native-healthkit": "16.2.0",
     "@pivot/engine": "*",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@supabase/supabase-js": "^2.112.3",
@@ -28,6 +29,7 @@
     "react": "19.2.3",
     "react-native": "0.86.2",
     "react-native-gesture-handler": "~2.32.0",
+    "react-native-nitro-modules": "0.37.2",
     "react-native-purchases": "^10.8.1",
     "react-native-purchases-ui": "^10.8.1",
     "react-native-reanimated": "4.5.1",

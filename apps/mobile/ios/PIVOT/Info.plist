@@ -57,6 +57,10 @@
 	<array>
 		<string>_expo._tcp</string>
 	</array>
+	<key>NSHealthShareUsageDescription</key>
+	<string>PIVOT reads your resting heart rate, heart-rate variability, sleep and heart rate during sessions to adjust your training and show your heart rate while you work out.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>PIVOT saves the sessions you complete, with their heart rate, so your Activity rings and Health history stay accurate.</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Expo Dev Launcher uses the local network to discover and connect to development servers running on your computer.</string>
 	<key>NSUserActivityTypes</key>
@@ -67,6 +71,10 @@
 	<string>$(RCT_METRO_PORT)</string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>workout-processing</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
