@@ -114,7 +114,9 @@ export interface WeekRequirement {
  *   * Round-robin inside a priority tier, so three aerobic sessions do not sit
  *     in a row ahead of the threshold work they share a tier with.
  *   * Within a stimulus, the most race-specific template the athlete is
- *     eligible for, and a different one each time until the pool runs out.
+ *     eligible for, and a different one each time. When the pool runs out the
+ *     slot borrows from a neighbouring stimulus, or the week is a session
+ *     shorter; a week never lists the same session twice.
  *
  * Eligibility is the engine's own — equipment, impact, considerations, phase —
  * so a queue can never hold a session the athlete would be refused. Spacing is
@@ -208,7 +210,9 @@ export function planWeekQueue(args: {
       pool: poolFor(r.stimulus_type),
       taken: 0,
     }))
-    .filter(n => n.remaining > 0 && n.pool.length > 0);
+    // A stimulus with nothing of its own still gets its slots if it has
+    // neighbours to borrow from (`BORROW_FROM`); otherwise it is unmet.
+    .filter(n => n.remaining > 0 && (n.pool.length > 0 || n.stimulus in BORROW_FROM));
 
   const items: PlannedQueueItem[] = [];
   const used = new Set<string>(args.alreadyPlanned ?? []);
@@ -272,6 +276,22 @@ export function planWeekQueue(args: {
     return reduced * 1000 + archetypeMiss * 100 + variety;
   };
 
+  const best = (pool: WorkoutTemplate[], stimulus: string) =>
+    pool.reduce((b, t) => (preference(t, stimulus) < preference(b, stimulus) ? t : b));
+  const take = (pick: WorkoutTemplate, stimulus: string) => {
+    used.add(pick.id);
+    familiesUsed.add(pick.workout_family);
+    countType(pick);
+    if (stimulus === 'strength') strengthSlot += 1;
+  };
+
+  /**
+   * Slots in week order. A slot its own stimulus could not fill without a
+   * repeat is held open (`null`) until every stimulus has had its own pick,
+   * so borrowing never takes a session a later stimulus needed for itself.
+   */
+  const slots: { stimulus: string; pick: WorkoutTemplate | null }[] = [];
+
   for (const tier of tiers) {
     const inTier = needs.filter(n => n.priority === tier);
     // Round-robin: one exposure from each stimulus in turn until the tier's
@@ -279,31 +299,75 @@ export function planWeekQueue(args: {
     while (inTier.some(n => n.taken < n.remaining)) {
       for (const need of inTier) {
         if (need.taken >= need.remaining) continue;
-        // The kind of session the week has least of, then a family it does
-        // not hold, then pool order; and only once every template is used, a
-        // repeat. A week asking for three of a stimulus the library has two of
-        // repeats one rather than dropping the exposure.
-        const fresh = need.pool.filter(t => !used.has(t.id));
-        const pick = fresh.length
-          ? fresh.reduce((best, t) =>
-            (preference(t, need.stimulus) < preference(best, need.stimulus) ? t : best))
-          : need.pool[need.taken % need.pool.length];
-        used.add(pick.id);
-        familiesUsed.add(pick.workout_family);
-        countType(pick);
-        if (need.stimulus === 'strength') strengthSlot += 1;
         need.taken += 1;
-        items.push({
-          workout_template_id: pick.id,
-          stimulus_type: need.stimulus,
-          rank: items.length,
-        });
+        // The kind of session the week has least of, then a family it does
+        // not hold, then pool order.
+        const fresh = need.pool.filter(t => !used.has(t.id));
+        if (!fresh.length) { slots.push({ stimulus: need.stimulus, pick: null }); continue; }
+        const pick = best(fresh, need.stimulus);
+        take(pick, need.stimulus);
+        slots.push({ stimulus: need.stimulus, pick });
       }
     }
   }
 
+  /**
+   * A week never lists the same session twice.
+   *
+   * It used to: once a stimulus ran out of templates it repeated one, on the
+   * reasoning that three exposures asked for should be three rows. On a thin
+   * pool that is most weeks — a bodyweight athlete's aerobic work is two burpee
+   * broad jump sessions, so one of them appeared twice, and about one planned
+   * week in six held a duplicate. To the athlete that reads as a bug, not as
+   * programming.
+   *
+   * So an open slot first borrows an unused session from a neighbouring
+   * stimulus (`BORROW_FROM`): conditioning that trains the same system from a
+   * different angle. It keeps the slot's stimulus, so the week's accounting —
+   * what a replan counts as still owed — is unchanged. If nothing neighbouring
+   * is left either, the week is a session shorter. A repeat is never the
+   * answer, and neither is reaching across into strength.
+   */
+  const poolCache = new Map<string, WorkoutTemplate[]>();
+  const neighbours = (stimulus: string) => {
+    const from = BORROW_FROM[stimulus] ?? [];
+    return [...new Set(from.flatMap(s => {
+      if (!poolCache.has(s)) poolCache.set(s, poolFor(s));
+      return poolCache.get(s)!;
+    }))];
+  };
+  for (const slot of slots) {
+    if (slot.pick) continue;
+    const fresh = neighbours(slot.stimulus).filter(t => !used.has(t.id));
+    if (!fresh.length) continue;
+    slot.pick = best(fresh, slot.stimulus);
+    take(slot.pick, slot.stimulus);
+  }
+
+  for (const slot of slots) {
+    if (!slot.pick) continue;
+    items.push({
+      workout_template_id: slot.pick.id,
+      stimulus_type: slot.stimulus,
+      rank: items.length,
+    });
+  }
+
   return items;
 }
+
+/**
+ * Where a stimulus may borrow a session when its own pool is used up, in
+ * order of preference. The three conditioning stimuli lend to each other;
+ * strength and recovery neither borrow nor lend, because a strength slot
+ * filled with conditioning, or a recovery slot filled with hard work, is not
+ * the week the periodisation asked for. A programming call, kept in one place.
+ */
+const BORROW_FROM: Record<string, string[]> = {
+  aerobic_durability: ['race_specific', 'threshold'],
+  threshold: ['race_specific', 'aerobic_durability'],
+  race_specific: ['threshold', 'aerobic_durability'],
+};
 
 /**
  * Which kind of strength session each of a week's strength exposures should

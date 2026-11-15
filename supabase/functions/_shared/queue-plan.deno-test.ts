@@ -175,13 +175,35 @@ describe('Planning a week', () => {
     assert.deepEqual(items.map(i => i.workout_template_id), ['a', 'b']);
   });
 
-  test('a thin library repeats rather than dropping the exposure', () => {
-    // Asking for three of a stimulus the library has one of is still three
-    // exposures — the week is what it is, and a missing row would read as a
-    // requirement nobody intended to meet.
+  test('a thin library never lists a session twice', () => {
+    // Three asked for, one in the library, nothing to borrow: the week is one
+    // session, not the same session three times.
     const items = plan([req('aerobic_durability', 3, 1)], [template({ id: 'only' })]);
-    assert.equal(items.length, 3);
-    assert.deepEqual([...new Set(items.map(i => i.workout_template_id))], ['only']);
+    assert.deepEqual(items.map(i => i.workout_template_id), ['only']);
+  });
+
+  test('a stimulus that runs out borrows from a neighbouring one', () => {
+    // Two aerobic sessions for three aerobic slots: the third is a threshold
+    // session the week was not already using, and keeps the aerobic slot.
+    const items = plan([req('aerobic_durability', 3, 1), req('threshold', 1, 1)], [
+      template({ id: 'a1' }), template({ id: 'a2' }),
+      template({ id: 't1', primary_goal: 'threshold' }),
+      template({ id: 't2', primary_goal: 'threshold' }),
+    ]);
+    const ids = items.map(i => i.workout_template_id);
+    assert.equal(new Set(ids).size, ids.length);
+    assert.equal(items.length, 4);
+    assert.deepEqual(items.filter(i => i.stimulus_type === 'aerobic_durability').length, 3);
+    // Threshold took its own session before aerobic borrowed one.
+    assert.ok(items.some(i => i.stimulus_type === 'threshold' && ['t1', 't2'].includes(i.workout_template_id)));
+  });
+
+  test('strength does not borrow conditioning', () => {
+    const items = plan([req('strength', 2, 1)], [
+      template({ id: 'lift', primary_goal: 'strength' }),
+      template({ id: 'run' }),
+    ]);
+    assert.deepEqual(items.map(i => i.workout_template_id), ['lift']);
   });
 
   test('a session the athlete could not be offered is never queued', () => {
