@@ -90,7 +90,7 @@ Likely rejections if submitted as-is.
 - [x] **Demo account for App Review** `[ops]` (2026-11-15: set up through the plan, not subscribed, login and notes in App Store Connect)
   Email/password login with an active plan, so Today, Plan and Coach show
   real content. Entered in App Review notes, with how to reach the paywall.
-- [ ] **Production build configuration** `[ops]`
+- [x] **Production build configuration** `[ops]`
   - [x] `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_ANON_KEY` set for the EAS production profile (without them the app runs on the seeded athlete)
   - [x] `EXPO_PUBLIC_REVENUECAT_IOS_KEY` set
   - [x] `EXPO_PUBLIC_AMPLITUDE_API_KEY` set
