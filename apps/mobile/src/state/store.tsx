@@ -1638,18 +1638,32 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
      * say, and refusing everything falls back to the engine's own pick.
      */
     const chosen = template.variants.filter(v => v.variant_code === state.override_variant);
-    const forced = recommend(
+    const run = (variants: typeof template.variants) => recommend(
       {
         ...engineInput,
         // Scoped to this forced run alone. `engineInput` itself is never given
         // the flag, so the engine's own recommendation — `decision`, and the
-        // fallback on the line below — is always computed under the full
-        // guardrails.
+        // fallback below — is always computed under the full guardrails.
         athlete_override: state.override_forced,
-        candidates: [{ ...template, variants: chosen.length ? chosen : template.variants }],
+        candidates: [{ ...template, variants }],
       },
       EXERCISES);
-    return forced.kind === 'session' ? forced : decision;
+    const forced = run(chosen.length ? chosen : template.variants);
+    if (forced.kind === 'session') return forced;
+    /**
+     * The pinned version no longer fits, but the workout may still.
+     *
+     * Adapt recalculates on this value, so answering "15 minutes" after a
+     * Full was pinned made the pinned run fail and fell straight back to the
+     * engine's own pick — a different workout, usually the one the athlete
+     * had just swapped out from Plan. Another version of the workout they
+     * chose is the closer answer; only if none builds does `decision` stand.
+     */
+    if (chosen.length && chosen.length < template.variants.length) {
+      const any = run(template.variants);
+      if (any.kind === 'session') return any;
+    }
+    return decision;
   }, [decision, engineInput, state.override_template_id, state.override_variant,
       state.override_forced]);
 
