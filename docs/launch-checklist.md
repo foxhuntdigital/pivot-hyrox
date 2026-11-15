@@ -57,7 +57,7 @@ Likely rejections if submitted as-is.
   - [x] A lapsed subscriber lands on "Your plan is waiting" (subscribe, restore,
     account settings, sign out) instead of an app that silently refuses
     everything `[code]`
-  - [ ] Cancel / expiry removes access, and the app shows "Your plan is waiting"; subscribing again from there returns to Today
+  - [x] Cancel / expiry removes access, and the app shows "Your plan is waiting"; subscribing again from there returns to Today (2026-11-15)
 - [x] **Beta comp access closed** `[ops]` `[code]`
   Migration `0019_beta_access.sql` gives every new signup free access
   (`product_id = 'beta_comp'`), which is why no paywall appears. A reviewer
