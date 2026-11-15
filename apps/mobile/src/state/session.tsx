@@ -28,6 +28,13 @@ export type AuthStatus = 'loading' | 'signed_in' | 'signed_out' | 'unconfigured'
  */
 export interface SignUpResult {
   needsConfirmation: boolean;
+  /**
+   * The address already has an account. With email confirmation on, Supabase
+   * does not error for this: it returns a stand-in user with no identities and
+   * sends nothing, so without this check the athlete waited on "Confirm your
+   * email" for a code that was never coming.
+   */
+  alreadyRegistered: boolean;
 }
 
 interface SessionStore {
@@ -147,8 +154,12 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       options: { data: { display_name: displayName.trim() } },
     });
     if (error) throw error;
+    // Supabase's documented signal for an address that is already registered:
+    // a user with an empty identities list, and no session.
+    const alreadyRegistered = !!data.user && Array.isArray(data.user.identities)
+      && data.user.identities.length === 0;
     // A null session here means confirmation is pending, not that signup failed.
-    return { needsConfirmation: data.session === null };
+    return { needsConfirmation: !alreadyRegistered && data.session === null, alreadyRegistered };
   }, []);
 
   /**
