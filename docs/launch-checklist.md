@@ -57,7 +57,7 @@ Likely rejections if submitted as-is.
   - [x] A lapsed subscriber lands on "Your plan is waiting" (subscribe, restore,
     account settings, sign out) instead of an app that silently refuses
     everything `[code]`
-  - [ ] Cancel / expiry removes access, and the app shows "Your plan is waiting"; subscribing again from there returns to Today
+  - [x] Cancel / expiry removes access, and the app shows "Your plan is waiting"; subscribing again from there returns to Today (2026-11-15)
 - [x] **Beta comp access closed** `[ops]` `[code]`
   Migration `0019_beta_access.sql` gives every new signup free access
   (`product_id = 'beta_comp'`), which is why no paywall appears. A reviewer
@@ -74,23 +74,23 @@ Likely rejections if submitted as-is.
   ready" → trial offer → Today. `onboarding-plan` no longer needs a
   subscription (everything that uses the plan still does). An athlete who
   leaves at the offer comes back to it, with their plan saved.
-  - [ ] Deploy `onboarding-plan` (`npx supabase functions deploy onboarding-plan`) with the build that has this `[ops]`
-  - [ ] App Review notes say the paywall appears after setup, at the end of onboarding `[ops]`
+  - [x] Deploy `onboarding-plan` (`npx supabase functions deploy onboarding-plan`) with the build that has this `[ops]` (evident 2026-11-15: the demo account built its plan before subscribing)
+  - [x] App Review notes say the paywall appears after setup, at the end of onboarding `[ops]`
 - [x] **Offer codes can be redeemed in the app** `[code]`: "Have a code? Redeem
   it" on the trial screen (behind RevenueCat's paywall, once it is closed) and
   on Settings › Subscription / "Your plan is waiting". Opens Apple's sheet.
-  - [ ] Offer codes created in App Store Connect (each subscription › Offer Codes) `[you]`
-  - [ ] A code tested end to end on a build: redeem → "Confirming…" → Today `[ops]`
+  - [x] Offer codes created in App Store Connect (each subscription › Offer Codes) `[you]`
+  - [x] A code tested end to end on a build: redeem → "Confirming…" → Today `[ops]` (2026-11-15)
 - [x] **First week respects the experience answer** `[code]`: `onboarding-plan`
   planned week 1 without `technical_capacity`/`load_capacity`, so it could queue
   sessions the engine then refuses (found 2026-11-11: Burpee Broad Jump ·
   Durability for a dumbbell athlete at experience 2). The workout sheet now
   names the reason and hides "Do it today" when nothing today could change it.
-  - [ ] Deploy `onboarding-plan` with the build that has this `[ops]`
-- [ ] **Demo account for App Review** `[ops]`
+  - [x] Deploy `onboarding-plan` with the build that has this `[ops]` (evident 2026-11-15: the demo account built its plan before subscribing)
+- [x] **Demo account for App Review** `[ops]` (2026-11-15: set up through the plan, not subscribed, login and notes in App Store Connect)
   Email/password login with an active plan, so Today, Plan and Coach show
   real content. Entered in App Review notes, with how to reach the paywall.
-- [ ] **Production build configuration** `[ops]`
+- [x] **Production build configuration** `[ops]`
   - [x] `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_ANON_KEY` set for the EAS production profile (without them the app runs on the seeded athlete)
   - [x] `EXPO_PUBLIC_REVENUECAT_IOS_KEY` set
   - [x] `EXPO_PUBLIC_AMPLITUDE_API_KEY` set
@@ -142,7 +142,7 @@ Likely rejections if submitted as-is.
     Anthropic account (rotated 2026-11-09), then the account had no credits
     (Sentry caught `credit balance is too low` on the first production build;
     credits added 2026-11-11). Coach answered the EMOM question on that build.
-  - [ ] Auto-reload on and a monthly spend limit set in the Anthropic Console `[ops]`
+  - [x] Auto-reload on and a monthly spend limit set in the Anthropic Console `[ops]` (2026-11-15)
   - [x] Monthly Coach limit stays at the default 200 (`COACH_MONTHLY_MESSAGE_LIMIT` unset, or set to 200) `[you]`
 - [ ] **Further Coach testing** `[you]`
 
@@ -167,6 +167,7 @@ Draft text, URLs, age-rating answers and App Review notes: `docs/app-store-listi
 
 - [x] App name, subtitle, description, keywords `[you]`
 - [ ] Screenshots for 6.9" and 6.5" iPhones `[you]`
+  - Fill the screenshot account's Progress first: `npm run -s seed:screenshots -- --email <screenshot account> > seed.sql`, then run `seed.sql` in the Supabase SQL editor. Six weeks of invented history for that one account; the file ends with the statements that remove it. Never run it on the App Review demo account or a real athlete.
 - [x] Support URL and marketing URL `[you]`
 - [x] Age rating questionnaire `[ops]`
 - [x] Category (Health & Fitness) `[ops]`

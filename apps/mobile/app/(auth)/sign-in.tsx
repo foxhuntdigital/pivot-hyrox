@@ -65,6 +65,8 @@ export default function SignInScreen() {
   // Separate from `error`: a pending confirmation is a successful signup, and
   // reads as one. Reusing the error banner would call it a failure.
   const [notice, setNotice] = useState<string | null>(null);
+  // Sign-up found an existing account for this address.
+  const [exists, setExists] = useState(false);
 
   const isSignUp = mode === 'sign_up';
   const isRecover = mode === 'recover';
@@ -81,6 +83,7 @@ export default function SignInScreen() {
 
   function go(next: 'sign_in' | 'sign_up' | 'recover' | 'confirm') {
     setMode(next);
+    setExists(false);
     setError(null);
     setNotice(null);
     setCode('');
@@ -108,7 +111,14 @@ export default function SignInScreen() {
         await confirmPasswordReset(email, code, password);
         // Signed in as a side effect of the reset; the gate takes it from here.
       } else if (isSignUp) {
-        const { needsConfirmation } = await signUp(email, password, name);
+        const { needsConfirmation, alreadyRegistered } = await signUp(email, password, name);
+        if (alreadyRegistered) {
+          // Said plainly, with both ways forward one tap away and the address
+          // kept, rather than a confirm step whose code never arrives.
+          go('sign_in');
+          setExists(true);
+          return;
+        }
         // The account exists either way. When a session came back the listener
         // takes over; when it did not, this is the only thing that will tell
         // the athlete the signup worked.
@@ -242,7 +252,23 @@ export default function SignInScreen() {
               </View>
             ) : null}
 
-            {error ? (
+            {exists ? (
+              <View style={{
+                backgroundColor: color.tint, borderWidth: 1, borderColor: color.tintBorder,
+                paddingHorizontal: 13, paddingVertical: 12, marginBottom: 16, gap: 10,
+              }}>
+                <Text style={[t.bodySm, { color: color.ink }]}>
+                  {`${email.trim()} already has a PIVOT account. Sign in with its password, or reset the password if you don't remember it.`}
+                </Text>
+                <Pressable onPress={() => go('recover')} accessibilityRole="button">
+                  <Text style={[t.bodySm, { color: color.ink, fontFamily: t.rowTitle.fontFamily }]}>
+                    Reset my password
+                  </Text>
+                </Pressable>
+              </View>
+            ) : null}
+
+                        {error ? (
               <View style={{
                 backgroundColor: color.tint, borderWidth: 1, borderColor: color.tintBorder,
                 paddingHorizontal: 13, paddingVertical: 12, marginBottom: 16,
