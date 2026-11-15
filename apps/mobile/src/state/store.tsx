@@ -931,11 +931,38 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const todayRef = useRef(today);
   todayRef.current = today;
 
+  /**
+   * Answers that decide which sessions the engine will build at all.
+   *
+   * Changing one used to save and stop there, so Plan went on listing sessions
+   * planned before the change — turning on Postpartum left a week with three
+   * sessions marked "Not available for you yet". Equipment and impact already
+   * replanned; these now do too. `today` also repairs a stale week on its own,
+   * so this is about Plan updating now rather than on the next open.
+   */
+  const replanTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const commitProfile = useCallback((patch: Partial<AthleteProfile>) => {
     if (authStatusRef.current !== 'signed_in') return;
     setProfileError(null);
-    saveProfile(patch).catch(e =>
-      setProfileError({ kind: 'save', message: messageOf(e, 'Could not save your profile.') }));
+    const reshapesWeek = (['considerations', 'technical_capacity', 'load_capacity'] as const)
+      .some(k => k in patch);
+    saveProfile(patch)
+      .then(() => {
+        if (!reshapesWeek) return;
+        // Debounced like equipment: Health saves on every tap, and one replan
+        // against the settled answers is enough.
+        if (replanTimer.current) clearTimeout(replanTimer.current);
+        replanTimer.current = setTimeout(async () => {
+          const result = await replanWeek();
+          if (result && (result.expired > 0 || result.added > 0)) refreshToday();
+        }, 600);
+      })
+      .catch(e =>
+        setProfileError({ kind: 'save', message: messageOf(e, 'Could not save your profile.') }));
+  }, [refreshToday]);
+
+  useEffect(() => () => {
+    if (replanTimer.current) clearTimeout(replanTimer.current);
   }, []);
 
   /**

@@ -22,7 +22,7 @@ import {
   localDate, requireEntitlement, requireUser,
 } from '../_shared/context.ts';
 import { captureFailure } from '../_shared/monitoring.ts';
-import { CLAIMABLE_STATES, replanWeekQueue, type QueueItem } from '../_shared/queue.ts';
+import { replanWeekQueue, writeWeekReplan, type QueueItem } from '../_shared/queue.ts';
 
 Deno.serve(async (req) => {
   const origin = req.headers.get('Origin');
@@ -79,31 +79,7 @@ Deno.serve(async (req) => {
       rotation: (state.programWeek ?? 1) - 1,
     });
 
-    // Additions first. If the second write fails the week briefly holds both
-    // the old session and its replacement, which the next replan settles; the
-    // other order could leave it with neither.
-    if (add.length) {
-      const { error } = await db.from('session_queue_items').insert(
-        add.map(i => ({
-          weekly_cycle_id: cycleId,
-          workout_template_id: i.workout_template_id,
-          stimulus_type: i.stimulus_type,
-          rank: i.rank,
-          state: 'queued',
-        })),
-      );
-      if (error) throw new HttpError(500, `Could not add the replacement sessions: ${error.message}`);
-    }
-
-    if (expire.length) {
-      // Only while still open: a session started since the week was read is
-      // the athlete's now, whatever it needs.
-      const { error } = await db.from('session_queue_items')
-        .update({ state: 'expired' })
-        .in('id', expire)
-        .in('state', CLAIMABLE_STATES);
-      if (error) throw new HttpError(500, `Could not retire the old sessions: ${error.message}`);
-    }
+    await writeWeekReplan({ db, cycleId, replan: { expire, add } });
 
     return json({
       weekly_cycle_id: cycleId,

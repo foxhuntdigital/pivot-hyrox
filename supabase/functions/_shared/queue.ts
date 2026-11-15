@@ -483,6 +483,44 @@ export function replanWeekQueue(args: {
 }
 
 /**
+ * Writes a `replanWeekQueue` result: replacements first, then retirements.
+ *
+ * Shared by `replan-week`, which runs it on request after a profile change, and
+ * `today`, which runs it whenever it finds the open week holding a session the
+ * athlete can no longer be given. Additions go first: if the second write fails
+ * the week briefly holds both the old session and its replacement, which the
+ * next replan settles; the other order could leave it with neither.
+ */
+export async function writeWeekReplan(args: {
+  db: { from: (table: string) => any };
+  cycleId: string;
+  replan: WeekReplan;
+}): Promise<void> {
+  const { db, cycleId, replan: { expire, add } } = args;
+  if (add.length) {
+    const { error } = await db.from('session_queue_items').insert(
+      add.map(i => ({
+        weekly_cycle_id: cycleId,
+        workout_template_id: i.workout_template_id,
+        stimulus_type: i.stimulus_type,
+        rank: i.rank,
+        state: 'queued',
+      })),
+    );
+    if (error) throw new HttpError(500, `Could not add the replacement sessions: ${error.message}`);
+  }
+  if (expire.length) {
+    // Only while still open: a session started since the week was read is the
+    // athlete's now, whatever it needs.
+    const { error } = await db.from('session_queue_items')
+      .update({ state: 'expired' })
+      .in('id', expire)
+      .in('state', CLAIMABLE_STATES);
+    if (error) throw new HttpError(500, `Could not retire the old sessions: ${error.message}`);
+  }
+}
+
+/**
  * Writes the week's queue, if it does not have one.
  *
  * Called when a plan is created and again whenever `today` finds the active

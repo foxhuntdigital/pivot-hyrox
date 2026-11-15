@@ -182,3 +182,31 @@ describe('Replanning a week after an equipment change', () => {
     assert.deepEqual(r.add.map(a => a.workout_template_id), ['row_a']);
   });
 });
+
+describe('Replanning a week after a health answer changes', () => {
+  // The week from the bug report: planned before Postpartum was turned on, then
+  // three of seven sessions read "Not available for you yet". `today` and
+  // `replan-week` both rely on this to bring such a week back in line.
+  const notPostpartumSafe = (t: WorkoutTemplate): WorkoutTemplate =>
+    ({ ...t, id: `${t.id}_pp`, postpartum_friendly: false });
+  const templates = [...TEMPLATES, notPostpartumSafe(template('lift_c', 'strength', 'ex_squat'))];
+
+  test('a session no longer postpartum-safe is expired and replaced with one that is', () => {
+    const r = replanWeekQueue({
+      items: [item('q1', 'run_a', 'aerobic_durability', 0), item('q2', 'lift_c_pp', 'strength', 1)],
+      requirements: [req('aerobic_durability', 1), req('strength', 1)],
+      templates, exercises: EXERCISES, input: { ...INPUT, considerations: ['Postpartum'] },
+    });
+    assert.deepEqual(r.expire, ['q2']);
+    assert.deepEqual(r.add, [{ workout_template_id: 'lift_a', stimulus_type: 'strength', rank: 1 }]);
+  });
+
+  test('without the answer, the same week is left alone', () => {
+    const r = replanWeekQueue({
+      items: [item('q1', 'run_a', 'aerobic_durability', 0), item('q2', 'lift_c_pp', 'strength', 1)],
+      requirements: [req('aerobic_durability', 1), req('strength', 1)],
+      templates, exercises: EXERCISES, input: INPUT,
+    });
+    assert.deepEqual(r, { expire: [], add: [] });
+  });
+});
