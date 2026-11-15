@@ -75,7 +75,7 @@ Likely rejections if submitted as-is.
   subscription (everything that uses the plan still does). An athlete who
   leaves at the offer comes back to it, with their plan saved.
   - [ ] Deploy `onboarding-plan` (`npx supabase functions deploy onboarding-plan`) with the build that has this `[ops]`
-  - [ ] App Review notes say the paywall appears after setup, at the end of onboarding `[ops]`
+  - [x] App Review notes say the paywall appears after setup, at the end of onboarding `[ops]`
 - [x] **Offer codes can be redeemed in the app** `[code]`: "Have a code? Redeem
   it" on the trial screen (behind RevenueCat's paywall, once it is closed) and
   on Settings › Subscription / "Your plan is waiting". Opens Apple's sheet.
@@ -87,7 +87,7 @@ Likely rejections if submitted as-is.
   Durability for a dumbbell athlete at experience 2). The workout sheet now
   names the reason and hides "Do it today" when nothing today could change it.
   - [ ] Deploy `onboarding-plan` with the build that has this `[ops]`
-- [ ] **Demo account for App Review** `[ops]`
+- [x] **Demo account for App Review** `[ops]` (2026-11-15: set up through the plan, not subscribed, login and notes in App Store Connect)
   Email/password login with an active plan, so Today, Plan and Coach show
   real content. Entered in App Review notes, with how to reach the paywall.
 - [ ] **Production build configuration** `[ops]`
