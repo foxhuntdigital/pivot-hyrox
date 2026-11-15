@@ -13,13 +13,13 @@ Last reviewed: 2026-11-07.
 
 Likely rejections if submitted as-is.
 
-- [ ] **Privacy policy and Terms of Use (EULA) links in the app** `[you]` `[code]`
+- [x] **Privacy policy and Terms of Use (EULA) links in the app** `[you]` `[code]`
   - [x] Privacy policy published at a public URL `[you]`
   - [x] Terms of Use published, or Apple's standard EULA chosen `[you]`
   - [x] Both linked from Settings › Account `[code]` (privacy link appears once `EXPO_PUBLIC_PRIVACY_POLICY_URL` is set; terms default to Apple's standard EULA unless `EXPO_PUBLIC_TERMS_URL` is set)
   - [x] Both linked on the app's own subscription screen `[code]`
   - [x] Both shown on the RevenueCat paywall (dashboard paywall settings) `[ops]`
-  - [ ] Privacy policy URL entered in App Store Connect `[ops]`
+  - [x] Privacy policy URL entered in App Store Connect `[ops]`
 - [x] **Privacy manifest declares what is collected** `[code]`
   `ios/PIVOT/PrivacyInfo.xcprivacy`, mirrored in `app.json` › `ios.privacyManifests` so a prebuild keeps it. Declared, all linked to the user, none used for tracking:
   - [x] Crash data and performance data (Sentry)
@@ -30,10 +30,12 @@ Likely rejections if submitted as-is.
   - [x] Product interaction (Amplitude events)
   - [x] Purchase history (RevenueCat)
   - [ ] Health data from HealthKit, if it ships (section 4)
-- [ ] **App Store Connect privacy questionnaire** matches the manifest `[ops]`
-  Same eleven types: account (email, name, user ID), device ID, health, fitness,
-  other user content, product interaction, purchase history, crash data,
-  performance data. All linked to the user, none used for tracking.
+- [x] **App Store Connect privacy questionnaire** matches the manifest `[ops]` (published 2026-11-15)
+  Same eleven types, all linked to the user and none used for tracking.
+  Purposes: Health, Fitness and User ID are App Functionality + Analytics
+  (banded check-in and workout data go to Amplitude); Device ID and Product
+  Interaction are Analytics; Email, Name, Other User Content, Purchase History,
+  Crash Data and Performance Data are App Functionality.
 - [x] **Onboarding Health screen no longer advertises an unbuilt feature** `[code]`
   Hidden: availability goes straight to preferences, onboarding is 7 steps.
   `app/(onboarding)/health.tsx` says how to put it back when HealthKit ships.
@@ -56,7 +58,7 @@ Likely rejections if submitted as-is.
     account settings, sign out) instead of an app that silently refuses
     everything `[code]`
   - [ ] Cancel / expiry removes access, and the app shows "Your plan is waiting"; subscribing again from there returns to Today
-- [ ] **Beta comp access closed** `[ops]` `[code]`
+- [x] **Beta comp access closed** `[ops]` `[code]`
   Migration `0019_beta_access.sql` gives every new signup free access
   (`product_id = 'beta_comp'`), which is why no paywall appears. A reviewer
   who signs up would be comped too and never reach the paywall: a 2.1 rejection.
@@ -67,7 +69,7 @@ Likely rejections if submitted as-is.
     refuse that tester's requests (402) until they subscribe `[you]`
   - [x] Remove the grant from the signup trigger with a migration (0019's own
     instructions: restore 0004's function body) `[code]`: `0027_end_beta_access.sql`
-    - [ ] Apply 0027 to production (`npx supabase db push`) `[ops]`
+    - [x] Apply 0027 to production (`npx supabase db push`) `[ops]` (2026-11-11)
 - [x] **Paywall after the plan** `[code]`: intro → 7 questions → "Your plan is
   ready" → trial offer → Today. `onboarding-plan` no longer needs a
   subscription (everything that uses the plan still does). An athlete who
@@ -163,11 +165,11 @@ Likely rejections if submitted as-is.
 
 Draft text, URLs, age-rating answers and App Review notes: `docs/app-store-listing.md`.
 
-- [ ] App name, subtitle, description, keywords `[you]`
+- [x] App name, subtitle, description, keywords `[you]`
 - [ ] Screenshots for 6.9" and 6.5" iPhones `[you]`
-- [ ] Support URL and marketing URL `[you]`
-- [ ] Age rating questionnaire `[ops]`
-- [ ] Category (Health & Fitness) `[ops]`
+- [x] Support URL and marketing URL `[you]`
+- [x] Age rating questionnaire `[ops]`
+- [x] Category (Health & Fitness) `[ops]`
 - [x] Version number: 1.0.0 `[code]`
 
 ## 4. Apple Health (optional for launch)
