@@ -31,9 +31,11 @@ Likely rejections if submitted as-is.
   - [x] Purchase history (RevenueCat)
   - [ ] Health data from HealthKit, if it ships (section 4)
 - [ ] **App Store Connect privacy questionnaire** matches the manifest `[ops]`
-  Same eleven types: account (email, name, user ID), device ID, health, fitness,
-  other user content, product interaction, purchase history, crash data,
-  performance data. All linked to the user, none used for tracking.
+  Same eleven types, all linked to the user and none used for tracking.
+  Purposes: Health, Fitness and User ID are App Functionality + Analytics
+  (banded check-in and workout data go to Amplitude); Device ID and Product
+  Interaction are Analytics; Email, Name, Other User Content, Purchase History,
+  Crash Data and Performance Data are App Functionality.
 - [x] **Onboarding Health screen no longer advertises an unbuilt feature** `[code]`
   Hidden: availability goes straight to preferences, onboarding is 7 steps.
   `app/(onboarding)/health.tsx` says how to put it back when HealthKit ships.
