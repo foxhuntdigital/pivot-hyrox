@@ -30,7 +30,7 @@ Likely rejections if submitted as-is.
   - [x] Product interaction (Amplitude events)
   - [x] Purchase history (RevenueCat)
   - [ ] Health data from HealthKit, if it ships (section 4)
-- [ ] **App Store Connect privacy questionnaire** matches the manifest `[ops]`
+- [x] **App Store Connect privacy questionnaire** matches the manifest `[ops]` (published 2026-11-15)
   Same eleven types, all linked to the user and none used for tracking.
   Purposes: Health, Fitness and User ID are App Functionality + Analytics
   (banded check-in and workout data go to Amplitude); Device ID and Product
