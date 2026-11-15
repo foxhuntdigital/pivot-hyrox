@@ -79,8 +79,8 @@ Likely rejections if submitted as-is.
 - [x] **Offer codes can be redeemed in the app** `[code]`: "Have a code? Redeem
   it" on the trial screen (behind RevenueCat's paywall, once it is closed) and
   on Settings › Subscription / "Your plan is waiting". Opens Apple's sheet.
-  - [ ] Offer codes created in App Store Connect (each subscription › Offer Codes) `[you]`
-  - [ ] A code tested end to end on a build: redeem → "Confirming…" → Today `[ops]`
+  - [x] Offer codes created in App Store Connect (each subscription › Offer Codes) `[you]`
+  - [x] A code tested end to end on a build: redeem → "Confirming…" → Today `[ops]` (2026-11-15)
 - [x] **First week respects the experience answer** `[code]`: `onboarding-plan`
   planned week 1 without `technical_capacity`/`load_capacity`, so it could queue
   sessions the engine then refuses (found 2026-11-11: Burpee Broad Jump ·
