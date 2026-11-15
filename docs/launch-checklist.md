@@ -167,6 +167,7 @@ Draft text, URLs, age-rating answers and App Review notes: `docs/app-store-listi
 
 - [x] App name, subtitle, description, keywords `[you]`
 - [ ] Screenshots for 6.9" and 6.5" iPhones `[you]`
+  - Fill the screenshot account's Progress first: `npm run -s seed:screenshots -- --email <screenshot account> > seed.sql`, then run `seed.sql` in the Supabase SQL editor. Six weeks of invented history for that one account; the file ends with the statements that remove it. Never run it on the App Review demo account or a real athlete.
 - [x] Support URL and marketing URL `[you]`
 - [x] Age rating questionnaire `[ops]`
 - [x] Category (Health & Fitness) `[ops]`

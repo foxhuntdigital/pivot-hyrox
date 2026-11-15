@@ -19,6 +19,7 @@
     "scripts:test": "node --test scripts/lib/*.test.mjs",
     "functions:test:deno": "deno test --allow-env --no-check --node-modules-dir=none supabase/functions/_shared/*.deno-test.ts",
     "smoke": "node scripts/smoke.mjs",
+    "seed:screenshots": "node --no-warnings --experimental-strip-types scripts/screenshot-seed.ts",
     "functions:check": "deno check --node-modules-dir=none supabase/functions/*/index.ts",
     "seed:build": "node scripts/convert-seed.mjs",
     "seed:import": "node scripts/import-workouts.mjs",
