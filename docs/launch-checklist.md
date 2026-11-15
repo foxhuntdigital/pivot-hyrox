@@ -142,7 +142,7 @@ Likely rejections if submitted as-is.
     Anthropic account (rotated 2026-11-09), then the account had no credits
     (Sentry caught `credit balance is too low` on the first production build;
     credits added 2026-11-11). Coach answered the EMOM question on that build.
-  - [ ] Auto-reload on and a monthly spend limit set in the Anthropic Console `[ops]`
+  - [x] Auto-reload on and a monthly spend limit set in the Anthropic Console `[ops]` (2026-11-15)
   - [x] Monthly Coach limit stays at the default 200 (`COACH_MONTHLY_MESSAGE_LIMIT` unset, or set to 200) `[you]`
 - [ ] **Further Coach testing** `[you]`
 
