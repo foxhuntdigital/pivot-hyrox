@@ -24,7 +24,11 @@ const ENERGY_CHOICES = ['low', 'normal', 'high'] as const;
 const FLAG_CHOICES = ['Low sleep', 'Something hurts', 'No equipment', 'Need low impact'];
 
 function AdaptSheetBody({ visible, onClose }: { visible: boolean; onClose: () => void }) {
-  const { state, dispatch, decision, chooseVariant } = useApp();
+  // `session`, not `decision`: the sheet adapts the workout Today's card is
+  // showing. `decision` is the engine's own pick and ignores a session swapped
+  // in from Plan ("Do today"), so the sheet used to open on the workout the
+  // athlete had just replaced.
+  const { state, dispatch, session: decision, chooseVariant } = useApp();
   const dialog = useDialog();
 
   // What the athlete arrived with, captured on open so `adaptation_applied`

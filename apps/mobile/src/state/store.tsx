@@ -931,11 +931,38 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const todayRef = useRef(today);
   todayRef.current = today;
 
+  /**
+   * Answers that decide which sessions the engine will build at all.
+   *
+   * Changing one used to save and stop there, so Plan went on listing sessions
+   * planned before the change — turning on Postpartum left a week with three
+   * sessions marked "Not available for you yet". Equipment and impact already
+   * replanned; these now do too. `today` also repairs a stale week on its own,
+   * so this is about Plan updating now rather than on the next open.
+   */
+  const replanTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const commitProfile = useCallback((patch: Partial<AthleteProfile>) => {
     if (authStatusRef.current !== 'signed_in') return;
     setProfileError(null);
-    saveProfile(patch).catch(e =>
-      setProfileError({ kind: 'save', message: messageOf(e, 'Could not save your profile.') }));
+    const reshapesWeek = (['considerations', 'technical_capacity', 'load_capacity'] as const)
+      .some(k => k in patch);
+    saveProfile(patch)
+      .then(() => {
+        if (!reshapesWeek) return;
+        // Debounced like equipment: Health saves on every tap, and one replan
+        // against the settled answers is enough.
+        if (replanTimer.current) clearTimeout(replanTimer.current);
+        replanTimer.current = setTimeout(async () => {
+          const result = await replanWeek();
+          if (result && (result.expired > 0 || result.added > 0)) refreshToday();
+        }, 600);
+      })
+      .catch(e =>
+        setProfileError({ kind: 'save', message: messageOf(e, 'Could not save your profile.') }));
+  }, [refreshToday]);
+
+  useEffect(() => () => {
+    if (replanTimer.current) clearTimeout(replanTimer.current);
   }, []);
 
   /**
@@ -1638,18 +1665,32 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
      * say, and refusing everything falls back to the engine's own pick.
      */
     const chosen = template.variants.filter(v => v.variant_code === state.override_variant);
-    const forced = recommend(
+    const run = (variants: typeof template.variants) => recommend(
       {
         ...engineInput,
         // Scoped to this forced run alone. `engineInput` itself is never given
         // the flag, so the engine's own recommendation — `decision`, and the
-        // fallback on the line below — is always computed under the full
-        // guardrails.
+        // fallback below — is always computed under the full guardrails.
         athlete_override: state.override_forced,
-        candidates: [{ ...template, variants: chosen.length ? chosen : template.variants }],
+        candidates: [{ ...template, variants }],
       },
       EXERCISES);
-    return forced.kind === 'session' ? forced : decision;
+    const forced = run(chosen.length ? chosen : template.variants);
+    if (forced.kind === 'session') return forced;
+    /**
+     * The pinned version no longer fits, but the workout may still.
+     *
+     * Adapt recalculates on this value, so answering "15 minutes" after a
+     * Full was pinned made the pinned run fail and fell straight back to the
+     * engine's own pick — a different workout, usually the one the athlete
+     * had just swapped out from Plan. Another version of the workout they
+     * chose is the closer answer; only if none builds does `decision` stand.
+     */
+    if (chosen.length && chosen.length < template.variants.length) {
+      const any = run(template.variants);
+      if (any.kind === 'session') return any;
+    }
+    return decision;
   }, [decision, engineInput, state.override_template_id, state.override_variant,
       state.override_forced]);
 
