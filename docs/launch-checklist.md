@@ -51,7 +51,8 @@ Likely rejections if submitted as-is.
   - [x] Sandbox purchase grants access in the app (2026-11-11; on that build only via Restore, fixed in the next build: the screen now waits for the webhook)
   - [x] `revenuecat-webhook` receives and applies the sandbox events
   - [x] RevenueCat paywall's own Restore button has its action set to Restore purchases `[ops]`
-  - [ ] Restore works on a second device
+  - [x] Restore works on a second device (2026-11-16)
+  - [ ] RevenueCat paywall shows the free trial to eligible users ("1 week free, then …", "Start free trial"), and the "Limited time offer" label is accurate or removed `[ops]`
   - [x] Settings › Subscription: status, renewal or end date, See plans,
     Manage in the App Store, Restore purchases `[code]`
   - [x] A lapsed subscriber lands on "Your plan is waiting" (subscribe, restore,
@@ -166,7 +167,7 @@ Likely rejections if submitted as-is.
 Draft text, URLs, age-rating answers and App Review notes: `docs/app-store-listing.md`.
 
 - [x] App name, subtitle, description, keywords `[you]`
-- [ ] Screenshots for 6.9" and 6.5" iPhones `[you]`
+- [x] Screenshots for 6.9" and 6.5" iPhones `[you]` (2026-11-16)
   - Fill the screenshot account's Progress first: `npm run -s seed:screenshots -- --email <screenshot account> > seed.sql`, then run `seed.sql` in the Supabase SQL editor. Six weeks of invented history for that one account; the file ends with the statements that remove it. Never run it on the App Review demo account or a real athlete.
 - [x] Support URL and marketing URL `[you]`
 - [x] Age rating questionnaire `[ops]`
