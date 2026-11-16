@@ -19,7 +19,9 @@ import { exerciseHistory, loadPerformanceLogs } from '../_shared/exercise-histor
 import { guidanceFor } from '../_shared/guidance.ts';
 import { performanceTrend } from '../_shared/trends.ts';
 import { daysAgo, sessionMinutes } from '../_shared/readiness-history.ts';
-import { ensureWeekQueue } from '../_shared/queue.ts';
+import {
+  CLAIMABLE_STATES, ensureWeekQueue, replanWeekQueue, writeWeekReplan, type QueueItem,
+} from '../_shared/queue.ts';
 import { pickOpportunities } from '../_shared/opportunities.ts';
 import { checkEligibility } from '../../../packages/engine/src/guardrails.ts';
 
@@ -113,6 +115,46 @@ Deno.serve(async (req) => {
         const { data } = await db.from('session_queue_items')
           .select('*').eq('weekly_cycle_id', state.currentCycle.id).order('rank');
         queueItems = data ?? [];
+      }
+    }
+
+    /**
+     * The open week, brought in line with who the athlete is now.
+     *
+     * A week is planned once, against the profile saved at that moment, and
+     * nothing re-checked it afterwards except an equipment or impact change.
+     * Turning on Postpartum, or lowering the experience answer, left Plan
+     * listing sessions the engine then refused to build: "Not available for you
+     * yet" on three of a week's seven. Re-checking here repairs every week that
+     * went stale, whatever changed and on whichever device, without the client
+     * having to know which answers matter to eligibility.
+     *
+     * Only acted on when something open is actually ineligible, so an ordinary
+     * open of Today writes nothing. Planned on a neutral day, as the week is:
+     * a symptom reported this morning is today's decision to make, not a
+     * reason to rewrite the rest of the week.
+     */
+    if (state.currentCycle?.id && queueItems.some(q => CLAIMABLE_STATES.includes(q.state))) {
+      try {
+        const replan = replanWeekQueue({
+          items: queueItems as QueueItem[],
+          requirements: state.stimulus_requirements,
+          templates: content.templates,
+          exercises: content.exercises,
+          input: { ...input, symptom_flags: [] },
+          rotation: (state.programWeek ?? 1) - 1,
+        });
+        if (replan.expire.length) {
+          await writeWeekReplan({ db, cycleId: state.currentCycle.id, replan });
+          const { data } = await db.from('session_queue_items')
+            .select('*').eq('weekly_cycle_id', state.currentCycle.id).order('rank');
+          queueItems = data ?? queueItems;
+        }
+      } catch (err) {
+        // Today still answers with the week as stored: the daily decision
+        // already reads the current profile, so nothing unsafe is offered.
+        console.error('week repair failed', (err as Error).message);
+        await captureFailure(err, 500, { fn: 'today:week-repair' });
       }
     }
 
