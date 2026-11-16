@@ -70,7 +70,55 @@ export function localDate(timezone: string): string {
  * Loads the curated library in engine shape. Content is small and identical for
  * every athlete, so it is fetched whole rather than filtered per request.
  */
-export async function loadContent(db: SupabaseClient): Promise<{
+/**
+ * Every row of a table, a page at a time.
+ *
+ * The Data API caps a response at `max_rows` (1000 in config.toml and in the
+ * production project). Two content tables are larger than that —
+ * block_exercises (1,201 rows) and workout_variants (1,047) — and a plain
+ * `.select('*')` returned the first 1000 in no particular order, so every Edge
+ * Function was running the engine on a library missing about 200 exercise
+ * prescriptions and 50 variants, different ones from request to request, while
+ * the app's bundled copy had them all. Ordered by the key so pages do not
+ * overlap or skip.
+ */
+const PAGE = 1000;
+async function selectAll(
+  table: () => any,
+  order: string[],
+): Promise<{ data: any[] | null; error: { message: string } | null }> {
+  const rows: any[] = [];
+  for (let from = 0; ; from += PAGE) {
+    let query = table();
+    for (const column of order) query = query.order(column, { ascending: true });
+    const { data, error } = await query.range(from, from + PAGE - 1);
+    if (error) return { data: null, error };
+    rows.push(...(data ?? []));
+    if (!data || data.length < PAGE) return { data: rows, error: null };
+  }
+}
+
+/**
+ * The library changes when content is imported, not between requests, and
+ * reading it is most of the work a request does: eight tables, a few thousand
+ * rows. A warm Edge Function isolate keeps it for a few minutes, so a busy
+ * morning reads it once per isolate rather than once per request. Short enough
+ * that an import shows up without a redeploy.
+ */
+const CONTENT_TTL_MS = 5 * 60_000;
+let contentCache: { at: number; value: Promise<Awaited<ReturnType<typeof readContent>>> } | null = null;
+
+export function loadContent(db: SupabaseClient): ReturnType<typeof readContent> {
+  const now = Date.now();
+  if (contentCache && now - contentCache.at < CONTENT_TTL_MS) return contentCache.value;
+  const value = readContent(db);
+  contentCache = { at: now, value };
+  // A failed read is not cached: the next request tries again.
+  value.catch(() => { if (contentCache?.value === value) contentCache = null; });
+  return value;
+}
+
+async function readContent(db: SupabaseClient): Promise<{
   exercises: Exercise[];
   /**
    * Every template, including retired ones.
@@ -99,15 +147,16 @@ export async function loadContent(db: SupabaseClient): Promise<{
   candidates: WorkoutTemplate[];
   substitutions: Substitution[];
 }> {
+  const content = () => db.schema('content');
   const [exRes, eqRes, tplRes, varRes, blkRes, bxRes, tagRes, subRes] = await Promise.all([
-    db.schema('content').from('exercises').select('*'),
-    db.schema('content').from('exercise_equipment').select('*'),
-    db.schema('content').from('workout_templates').select('*'),
-    db.schema('content').from('workout_variants').select('*'),
-    db.schema('content').from('workout_blocks').select('*'),
-    db.schema('content').from('block_exercises').select('*'),
-    db.schema('content').from('workout_tags').select('workout_id, tags(name)'),
-    db.schema('content').from('substitutions').select('*'),
+    selectAll(() => content().from('exercises').select('*'), ['id']),
+    selectAll(() => content().from('exercise_equipment').select('*'), ['exercise_id', 'equipment_id']),
+    selectAll(() => content().from('workout_templates').select('*'), ['id']),
+    selectAll(() => content().from('workout_variants').select('*'), ['id']),
+    selectAll(() => content().from('workout_blocks').select('*'), ['id']),
+    selectAll(() => content().from('block_exercises').select('*'), ['id']),
+    selectAll(() => content().from('workout_tags').select('workout_id, tag_id, tags(name)'), ['workout_id', 'tag_id']),
+    selectAll(() => content().from('substitutions').select('*'), ['id']),
   ]);
 
   for (const r of [exRes, eqRes, tplRes, varRes, blkRes, bxRes, tagRes, subRes]) {

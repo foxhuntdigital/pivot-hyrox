@@ -145,6 +145,12 @@ Likely rejections if submitted as-is.
     credits added 2026-11-11). Coach answered the EMOM question on that build.
   - [x] Auto-reload on and a monthly spend limit set in the Anthropic Console `[ops]` (2026-11-15)
   - [x] Monthly Coach limit stays at the default 200 (`COACH_MONTHLY_MESSAGE_LIMIT` unset, or set to 200) `[you]`
+- [x] **Edge Functions read the whole content library** `[code]`: the Data API
+  caps responses at 1000 rows, and `block_exercises` (1,201) and
+  `workout_variants` (1,047) are bigger, so every function ran the engine on a
+  truncated library. `loadContent` now pages through each table and caches the
+  library per warm isolate for 5 minutes.
+  - [ ] Deploy all functions: `npx supabase functions deploy` `[ops]`
 - [ ] **Further Coach testing** `[you]`
 
 ### Where these settings live
