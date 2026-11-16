@@ -15,10 +15,12 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { color, space, type as t } from '@/theme/tokens';
 import { SubscriptionPanel } from '@/components/SubscriptionPanel';
 import { SignOutEscape } from '@/components/onboarding';
+import { useScreenView } from '@/lib/useScreenView';
 
 export default function SubscribeScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  useScreenView('subscription_ended');
 
   return (
     <ScrollView
@@ -37,7 +39,7 @@ export default function SubscribeScreen() {
         </Text>
       </View>
 
-      <SubscriptionPanel onActive={() => router.replace('/today' as never)} />
+      <SubscriptionPanel placement="lapsed" onActive={() => router.replace('/today' as never)} />
 
       <Pressable
         onPress={() => router.push('/settings/account' as never)}

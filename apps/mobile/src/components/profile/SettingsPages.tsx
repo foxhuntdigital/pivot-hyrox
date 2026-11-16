@@ -42,6 +42,7 @@ import { useApp } from '@/state/store';
 import { useEquipmentCatalogue } from '@/state/equipmentCatalogue';
 import { LegalLinks } from '@/components/LegalLinks';
 import { SubscriptionPanel } from '@/components/SubscriptionPanel';
+import { track } from '@/lib/analytics';
 
 export const PAGES = ['equipment', 'length', 'week', 'running', 'fitness', 'enjoy', 'needs-work', 'health', 'name', 'account', 'goal', 'subscription'] as const;
 export type Page = (typeof PAGES)[number];
@@ -391,10 +392,10 @@ function GoalPage() {
     catch (e) { setError(e instanceof Error && e.message ? e.message : 'Could not update your plan.'); }
     finally { setBusy(false); }
   };
-  const rebuild = () => save(() => createPlan((d.mode === 'race'
+  const rebuild = () => save(() => (track({ name: 'setting_changed', setting: 'goal' }), createPlan((d.mode === 'race'
     ? { race: { event_name: d.name.trim() || 'My race', event_date: d.date!, division: d.division } }
-    : { block: { weeks: d.weeks } }) as PlanTarget));
-  const details = () => save(() => updateRaceDetails(plan.race!.id, { event_name: d.name.trim() || 'My race', division: d.division }));
+    : { block: { weeks: d.weeks } }) as PlanTarget)));
+  const details = () => save(() => (track({ name: 'setting_changed', setting: 'race_details' }), updateRaceDetails(plan.race!.id, { event_name: d.name.trim() || 'My race', division: d.division })));
 
   return (
     <>
@@ -750,7 +751,7 @@ function SubscriptionPage() {
   return (
     <ScrollView>
       <Title title="Subscription" />
-      <SubscriptionPanel />
+      <SubscriptionPanel placement="settings" />
     </ScrollView>
   );
 }

@@ -23,6 +23,7 @@ import {
   hasEntitlement, isPurchasesConfigured, manageSubscriptions, onCustomerInfoChange, presentRedeemCode,
 } from '@/lib/purchases';
 import { useSession } from '@/state/session';
+import { track, type Placement } from '@/lib/analytics';
 
 /** What a subscribe or restore attempt came to, worded for the athlete. */
 export type ActionOutcome =
@@ -41,11 +42,11 @@ interface EntitlementStore {
   neverSubscribed: boolean;
   refresh(): Promise<Entitlement | null>;
   /** RevenueCat's paywall, then waits for the server to confirm a purchase. */
-  subscribe(): Promise<ActionOutcome>;
-  restore(): Promise<ActionOutcome>;
+  subscribe(placement: Placement): Promise<ActionOutcome>;
+  restore(placement: Placement): Promise<ActionOutcome>;
   manage(): Promise<void>;
   /** Apple's offer-code sheet. False when codes cannot be redeemed in this build. */
-  redeemCode(): Promise<boolean>;
+  redeemCode(placement: Placement): Promise<boolean>;
 }
 
 const Ctx = createContext<EntitlementStore | null>(null);
@@ -87,10 +88,18 @@ export function EntitlementProvider({ children }: { children: React.ReactNode })
     return () => { sub.remove(); off(); };
   }, [status, refresh]);
 
-  const subscribe = useCallback(async (): Promise<ActionOutcome> => {
+  const subscribe = useCallback(async (placement: Placement): Promise<ActionOutcome> => {
     if (!isPurchasesConfigured()) return { ok: false, message: 'Purchases are not available in this build.' };
     try {
       const result = await RevenueCatUI.presentPaywall();
+      const closed = result === PAYWALL_RESULT.PURCHASED ? 'purchased'
+        : result === PAYWALL_RESULT.RESTORED ? 'restored'
+        : result === PAYWALL_RESULT.CANCELLED ? 'cancelled'
+        : result === PAYWALL_RESULT.ERROR ? 'error' : null;
+      if (closed) {
+        track({ name: 'paywall_viewed', placement });
+        track({ name: 'paywall_closed', placement, result: closed });
+      }
       if (result === PAYWALL_RESULT.CANCELLED || result === PAYWALL_RESULT.NOT_PRESENTED) {
         return { ok: false, cancelled: true };
       }
@@ -102,7 +111,11 @@ export function EntitlementProvider({ children }: { children: React.ReactNode })
       // telling a paying athlete nothing happened.
       const e = await awaitEntitlement();
       if (e) setEntitlement(e);
-      if (e?.active) return { ok: true };
+      if (e?.active) {
+        track({ name: 'subscription_confirmed', placement,
+          via: result === PAYWALL_RESULT.RESTORED ? 'restore' : 'purchase' });
+        return { ok: true };
+      }
       return { ok: false, message: 'Your purchase went through, but we have not received confirmation '
         + 'yet. Tap Restore purchases in a moment. You will not be charged again.' };
     } catch {
@@ -110,9 +123,14 @@ export function EntitlementProvider({ children }: { children: React.ReactNode })
     }
   }, []);
 
-  const restore = useCallback(async (): Promise<ActionOutcome> => {
+  const restore = useCallback(async (placement: Placement): Promise<ActionOutcome> => {
     const r = await restorePurchases();
-    if (r.ok) { setEntitlement(r.entitlement); return { ok: true }; }
+    track({ name: 'restore_attempted', placement, outcome: r.ok ? 'restored' : r.reason });
+    if (r.ok) {
+      setEntitlement(r.entitlement);
+      track({ name: 'subscription_confirmed', placement, via: 'restore' });
+      return { ok: true };
+    }
     if (r.reason === 'cancelled') return { ok: false, cancelled: true };
     return {
       ok: false,
@@ -124,13 +142,17 @@ export function EntitlementProvider({ children }: { children: React.ReactNode })
   }, []);
 
   const manage = useCallback(async () => {
+    track({ name: 'manage_subscription_opened' });
     await manageSubscriptions();
     // Back from Apple's sheet: a cancellation or plan change made there
     // reaches us by webhook, so look again.
     void refresh();
   }, [refresh]);
 
-  const redeemCode = useCallback(() => presentRedeemCode(), []);
+  const redeemCode = useCallback((placement: Placement) => {
+    track({ name: 'offer_code_opened', placement });
+    return presentRedeemCode();
+  }, []);
 
   const value = useMemo<EntitlementStore>(() => ({
     entitlement,

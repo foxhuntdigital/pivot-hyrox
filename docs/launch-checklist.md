@@ -151,6 +151,10 @@ Likely rejections if submitted as-is.
   truncated library. `loadContent` now pages through each table and caches the
   library per warm isolate for 5 minutes.
   - [ ] Deploy all functions: `npx supabase functions deploy` `[ops]`
+- [x] **Analytics covers the funnel** `[code]`: account, onboarding steps,
+  paywall and subscription, screens and feature use (`docs/analytics-events.md`)
+  - [ ] Turn on RevenueCat › Integrations › Amplitude, for trial, conversion,
+    renewal, cancellation and refund events with revenue `[ops]`
 - [ ] **Further Coach testing** `[you]`
 
 ### Where these settings live

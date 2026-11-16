@@ -27,6 +27,26 @@ import {
 } from '@/lib/purchases';
 import { RedeemCodeLink } from '@/components/RedeemCodeLink';
 import { LegalLinks } from '@/components/LegalLinks';
+import { track } from '@/lib/analytics';
+
+/** What RevenueCat's paywall closed with, for `paywall_closed`. Null when it never opened. */
+function closedWith(result: PAYWALL_RESULT): 'purchased' | 'restored' | 'cancelled' | 'error' | null {
+  switch (result) {
+    case PAYWALL_RESULT.PURCHASED: return 'purchased';
+    case PAYWALL_RESULT.RESTORED: return 'restored';
+    case PAYWALL_RESULT.CANCELLED: return 'cancelled';
+    case PAYWALL_RESULT.ERROR: return 'error';
+    default: return null;
+  }
+}
+
+/** A paywall that opened, and how it closed. */
+function trackPaywall(result: PAYWALL_RESULT) {
+  const closed = closedWith(result);
+  if (!closed) return;
+  track({ name: 'paywall_viewed', placement: 'onboarding' });
+  track({ name: 'paywall_closed', placement: 'onboarding', result: closed });
+}
 import { useEntitlement } from '@/state/entitlement';
 
 /** What the subscription buys, in the app's own terms. Fallback screen only. */
@@ -44,6 +64,11 @@ export default function TrialScreen() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const presented = useRef(false);
+  // The app's own offer screen, shown when RevenueCat's paywall is closed or
+  // cannot load. Counted separately from RevenueCat's paywall.
+  useEffect(() => {
+    if (phase === 'fallback') track({ name: 'screen_viewed', screen: 'trial_offer' });
+  }, [phase]);
 
   const { refresh: refreshEntitlement } = useEntitlement();
   // The app-wide subscription state was read at sign-in, before this screen
@@ -71,10 +96,14 @@ export default function TrialScreen() {
    * it every time and dropped a paying athlete back on this screen with no
    * explanation. So wait for it, and say what is happening while we do.
    */
-  const confirmPurchase = useCallback(async () => {
+  const confirmPurchase = useCallback(async (via: 'purchase' | 'restore' | 'code' = 'purchase') => {
     setPhase('confirming');
     const e = await awaitEntitlement();
-    if (e?.active) { await proceed(); return true; }
+    if (e?.active) {
+      track({ name: 'subscription_confirmed', placement: 'onboarding', via });
+      await proceed();
+      return true;
+    }
     setPhase('fallback');
     setError('Your purchase went through, but we have not received confirmation yet. '
       + 'Tap Restore in a moment to continue. You will not be charged again.');
@@ -96,6 +125,7 @@ export default function TrialScreen() {
           requiredEntitlementIdentifier: ENTITLEMENT_ID,
         });
         if (cancelled) return;
+        trackPaywall(result);
 
         // NOT_PRESENTED means RevenueCat already considers them entitled, so
         // the server should agree; if it does not, the webhook is behind and
@@ -103,7 +133,7 @@ export default function TrialScreen() {
         if (result === PAYWALL_RESULT.PURCHASED
           || result === PAYWALL_RESULT.RESTORED
           || result === PAYWALL_RESULT.NOT_PRESENTED) {
-          await confirmPurchase();
+          await confirmPurchase(result === PAYWALL_RESULT.RESTORED ? 'restore' : 'purchase');
           return;
         }
         setPhase('fallback');
@@ -131,12 +161,13 @@ export default function TrialScreen() {
       if (!hasEntitlement(info) || confirming.current) return;
       confirming.current = true;
       setAwaitingCode(false);
-      void confirmPurchase().finally(() => { confirming.current = false; });
+      void confirmPurchase('code').finally(() => { confirming.current = false; });
     });
   }, [awaitingCode, confirmPurchase]);
 
   async function redeemCode() {
     setError(null);
+    track({ name: 'offer_code_opened', placement: 'onboarding' });
     if (await presentRedeemCode()) setAwaitingCode(true);
     else setError('Codes cannot be redeemed in this build.');
   }
@@ -147,8 +178,9 @@ export default function TrialScreen() {
     setError(null);
     try {
       const result = await RevenueCatUI.presentPaywall();
+      trackPaywall(result);
       if (result === PAYWALL_RESULT.PURCHASED || result === PAYWALL_RESULT.RESTORED) {
-        await confirmPurchase();
+        await confirmPurchase(result === PAYWALL_RESULT.RESTORED ? 'restore' : 'purchase');
         return;
       } else if (result === PAYWALL_RESULT.ERROR) {
         setError('The store could not be reached. Nothing has been charged.');
@@ -165,7 +197,12 @@ export default function TrialScreen() {
     setError(null);
     const r = await restorePurchases();
     setBusy(false);
-    if (r.ok) { await proceed(); return; }
+    track({ name: 'restore_attempted', placement: 'onboarding', outcome: r.ok ? 'restored' : r.reason });
+    if (r.ok) {
+      track({ name: 'subscription_confirmed', placement: 'onboarding', via: 'restore' });
+      await proceed();
+      return;
+    }
     if (r.reason === 'cancelled') return;
     setError(
       r.reason === 'pending' ? 'Purchase found. Waiting for it to be confirmed. Try again in a moment.'

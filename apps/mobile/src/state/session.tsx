@@ -13,7 +13,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useS
 import type { Session } from '@supabase/supabase-js';
 
 import { configurePurchases } from '@/lib/purchases';
-import { identifyAthlete, resetAthlete } from '@/lib/analytics';
+import { identifyAthlete, resetAthlete, track } from '@/lib/analytics';
 import { identifyForMonitoring } from '@/lib/monitoring';
 import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 
@@ -142,6 +142,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       email: email.trim(), password,
     });
     if (error) throw error;
+    track({ name: 'signed_in' });
   }, []);
 
   const signUp = useCallback(async (email: string, password: string, displayName: string) => {
@@ -159,7 +160,11 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     const alreadyRegistered = !!data.user && Array.isArray(data.user.identities)
       && data.user.identities.length === 0;
     // A null session here means confirmation is pending, not that signup failed.
-    return { needsConfirmation: !alreadyRegistered && data.session === null, alreadyRegistered };
+    const needsConfirmation = !alreadyRegistered && data.session === null;
+    track(alreadyRegistered
+      ? { name: 'sign_up_existing_account' }
+      : { name: 'account_created', needs_confirmation: needsConfirmation });
+    return { needsConfirmation, alreadyRegistered };
   }, []);
 
   /**
@@ -180,6 +185,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     // right one: answering "no account here" to an unauthenticated request
     // tells a stranger which addresses are registered.
     if (error && error.status !== 400) throw error;
+    track({ name: 'password_reset_requested' });
   }, []);
 
   const confirmPasswordReset = useCallback(
@@ -194,6 +200,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
 
       const { error: updateError } = await supabase.auth.updateUser({ password });
       if (updateError) throw updateError;
+      track({ name: 'password_reset_completed' });
       // They are signed in now; the auth listener flips status and the gate
       // takes them into the app, so there is no second sign-in to perform.
     }, []);
@@ -212,6 +219,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       email: email.trim(), token: code.trim(), type: 'email',
     });
     if (error) throw error;
+    track({ name: 'email_confirmed' });
     // Signed in; the auth listener and AuthGate take it from here.
   }, []);
 
@@ -223,6 +231,9 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = useCallback(async () => {
     if (!supabase) throw new Error('Supabase is not configured.');
+    // Before signing out: the listener resets the analytics identity, and the
+    // event belongs to the athlete who is leaving.
+    track({ name: 'signed_out' });
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
   }, []);
@@ -242,6 +253,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     if (!supabase) throw new Error('Supabase is not configured.');
     const { error } = await supabase.rpc('delete_own_account');
     if (error) throw error;
+    track({ name: 'account_deleted' });
     await supabase.auth.signOut({ scope: 'local' });
   }, []);
 

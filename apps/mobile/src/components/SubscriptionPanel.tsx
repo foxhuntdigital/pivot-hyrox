@@ -18,10 +18,13 @@ import { LegalLinks } from '@/components/LegalLinks';
 import { describeSubscription } from '@/data/subscriptionView';
 import { useEntitlement } from '@/state/entitlement';
 import { RedeemCodeLink } from '@/components/RedeemCodeLink';
+import { track, type Placement } from '@/lib/analytics';
 
-export function SubscriptionPanel({ onActive }: {
+export function SubscriptionPanel({ onActive, placement }: {
   /** Called when a subscribe or restore leaves the athlete entitled. */
   onActive?: () => void;
+  /** Where the panel is, for analytics: Settings or the "subscription ended" screen. */
+  placement: Placement;
 }) {
   const { entitlement, subscribe, restore, manage, redeemCode } = useEntitlement();
   const [busy, setBusy] = useState<null | 'subscribe' | 'restore'>(null);
@@ -34,8 +37,9 @@ export function SubscriptionPanel({ onActive }: {
     if (!redeeming || !active) return;
     setRedeeming(false);
     setMessage('Code redeemed.');
+    track({ name: 'subscription_confirmed', placement, via: 'code' });
     onActive?.();
-  }, [redeeming, active, onActive]);
+  }, [redeeming, active, onActive, placement]);
 
   if (!entitlement) {
     return (
@@ -52,7 +56,7 @@ export function SubscriptionPanel({ onActive }: {
   const run = async (kind: 'subscribe' | 'restore') => {
     setBusy(kind);
     setMessage(null);
-    const r = await (kind === 'subscribe' ? subscribe() : restore());
+    const r = await (kind === 'subscribe' ? subscribe(placement) : restore(placement));
     setBusy(null);
     if (r.ok) {
       setMessage(kind === 'restore' ? 'Subscription restored.' : null);
@@ -122,7 +126,7 @@ export function SubscriptionPanel({ onActive }: {
           style={{ paddingTop: 0 }}
           onPress={async () => {
             setMessage(null);
-            if (await redeemCode()) setRedeeming(true);
+            if (await redeemCode(placement)) setRedeeming(true);
             else setMessage('Codes cannot be redeemed in this build.');
           }}
         />
