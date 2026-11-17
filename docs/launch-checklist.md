@@ -155,6 +155,11 @@ Likely rejections if submitted as-is.
   paywall and subscription, screens and feature use (`docs/analytics-events.md`)
   - [ ] Turn on RevenueCat › Integrations › Amplitude, for trial, conversion,
     renewal, cancellation and refund events with revenue `[ops]`
+- [ ] **Privacy policy updated and published** `[you]`: `docs/privacy-policy.md`
+  adds Anthropic (Coach) and Postmark, health ranges used for analytics (matches
+  the App Store label), in-app account deletion, provider retention, and Sentry's
+  account id. Set the "last updated" date, confirm Anthropic's no-training term
+  against your agreement, publish at the URL the app links to.
 - [ ] **Further Coach testing** `[you]`
 
 ### Where these settings live
