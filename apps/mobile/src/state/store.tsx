@@ -884,6 +884,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [serverReady]);
 
   const setWeakness = useCallback((value: string, stated: boolean) => {
+    track({ name: 'setting_changed', setting: 'needs_work' });
     setWeaknesses(prev => (stated
       ? (prev.includes(value) ? prev : [...prev, value])
       : prev.filter(v => v !== value)));
@@ -891,6 +892,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const setPreference = useCallback((value: string, rating: PreferenceRating | null) => {
+    track({ name: 'setting_changed', setting: 'enjoy' });
     setPreferences(prev => {
       const next = { ...prev };
       if (rating === null) delete next[value];
@@ -943,6 +945,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const replanTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const commitProfile = useCallback((patch: Partial<AthleteProfile>) => {
     if (authStatusRef.current !== 'signed_in') return;
+    // Which fields, never their values: considerations and dates are health data.
+    for (const key of Object.keys(patch)) track({ name: 'setting_changed', setting: key });
     setProfileError(null);
     const reshapesWeek = (['considerations', 'technical_capacity', 'load_capacity'] as const)
       .some(k => k in patch);
@@ -977,6 +981,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const equipmentTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const commitEquipment = useCallback((equipment: string[]) => {
     if (authStatusRef.current !== 'signed_in') return;
+    track({ name: 'setting_changed', setting: 'equipment' });
     if (equipmentTimer.current) clearTimeout(equipmentTimer.current);
     equipmentTimer.current = setTimeout(() => {
       setProfileError(null);
@@ -1815,6 +1820,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (!template) return false;
     const chosen = recommend({ ...engineInput, candidates: [template] }, EXERCISES);
     if (chosen.kind !== 'session') return false;
+    track({ name: 'supplemental_started', template_id: templateId });
     // `back_to_today` has already cleared the finished session's step index,
     // timings, entries and RPE, so this opens a clean one rather than resuming
     // the player mid-session.

@@ -10,9 +10,10 @@
  * part of the same arrival: the athlete has an account and no plan, and this is
  * the first thing they see.
  */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
+import { track } from '@/lib/analytics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ActionButton, Label, Rule } from '@/components/primitives';
@@ -26,6 +27,12 @@ export default function IntroScreen() {
   const insets = useSafeAreaInsets();
   const [index, setIndex] = useState(0);
   const reduced = useReduceMotion();
+
+  // The intro is the funnel's first screen; each scene is counted so a drop
+  // inside it shows which scene lost them.
+  useEffect(() => {
+    track({ name: 'onboarding_step_viewed', step: `intro_${index + 1}`, step_number: null });
+  }, [index]);
 
   // Held until the platform answers: starting an animation and then correcting
   // it is the thing Reduce Motion exists to prevent. The wait is a frame or two.

@@ -111,11 +111,47 @@ export type AnalyticsEvent =
   | { name: 'coach_action_applied'; action_type: string }
   /** Why the server Coach did not answer (CoachFailure). Never the message. */
   | { name: 'coach_fallback'; reason: string; status: number | null }
+  // ── Account ──────────────────────────────────────────────────────────────
+  // No address, name or reason: that it happened is the whole event.
+  | { name: 'account_created'; needs_confirmation: boolean }
+  | { name: 'sign_up_existing_account' }
+  | { name: 'email_confirmed' }
+  | { name: 'signed_in' }
+  | { name: 'signed_out' }
+  | { name: 'account_deleted' }
+  | { name: 'password_reset_requested' }
+  | { name: 'password_reset_completed' }
+  // ── Onboarding funnel ────────────────────────────────────────────────────
+  /** Each screen of setup, so drop-off can be read step by step. */
+  | { name: 'onboarding_step_viewed'; step: string; step_number: number | null }
+  // ── Subscription ─────────────────────────────────────────────────────────
+  // Where it happened is `placement`: the trial offer at the end of setup,
+  // Settings › Subscription, or the "subscription ended" screen. RevenueCat's
+  // Amplitude integration reports what Apple charged; these report what the
+  // app showed and what the athlete chose.
+  | { name: 'paywall_viewed'; placement: Placement }
+  | { name: 'paywall_closed'; placement: Placement; result: 'purchased' | 'restored' | 'cancelled' | 'error' }
+  | { name: 'subscription_confirmed'; placement: Placement; via: 'purchase' | 'restore' | 'code' | 'existing' }
+  | { name: 'restore_attempted'; placement: Placement; outcome: string }
+  | { name: 'offer_code_opened'; placement: Placement }
+  | { name: 'manage_subscription_opened' }
+  // ── Screens and features ─────────────────────────────────────────────────
+  /** Screens other than Today (`today_viewed`) and Progress (`readiness_viewed`). */
+  | { name: 'screen_viewed'; screen: string; detail?: string | null }
+  /** A length tapped on Today's card: previewed, not chosen (that is `adaptation_applied`). */
+  | { name: 'variant_previewed'; from_variant: string; to_variant: string }
+  | { name: 'supplemental_started'; template_id: string }
+  | { name: 'tour_started' }
+  | { name: 'tour_finished'; completed: boolean; step: number }
+  /** A Profile setting saved. Which one, never its value. */
+  | { name: 'setting_changed'; setting: string }
   | {
       name: 'health_connection_started' | 'health_connection_completed' | 'health_connection_failed';
       provider: string;
       permission_group: string;
     };
+
+export type Placement = 'onboarding' | 'settings' | 'lapsed';
 
 let started = false;
 

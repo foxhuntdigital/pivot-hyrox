@@ -96,6 +96,7 @@ export default function ReadyScreen() {
     <OnboardingStep
       step={7}
       title="Your plan is ready"
+      analyticsStep="plan_ready"
       description={plan.race
         ? `${plan.total_weeks} week${plan.total_weeks === 1 ? '' : 's'} to ${plan.race.event_name}.`
         : `A ${plan.total_weeks}-week block, starting today.`}

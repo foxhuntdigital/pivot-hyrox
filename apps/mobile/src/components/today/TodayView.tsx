@@ -407,6 +407,7 @@ export function TodayView() {
             picked={picked}
             onLength={(code) => {
               if (code === (picked ?? decided)) return;
+              track({ name: 'variant_previewed', from_variant: picked ?? decided ?? 'none', to_variant: code });
               Haptics.selectionAsync();
               setPicked(code === decided ? null : code);
             }}

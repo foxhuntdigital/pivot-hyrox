@@ -16,6 +16,7 @@ import React, {
   createContext, useCallback, useContext, useEffect, useMemo, useRef, useState,
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { track } from '@/lib/analytics';
 
 export interface TourRect {
   x: number;
@@ -148,10 +149,15 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
   const maybeStart = useCallback(() => {
     if (wanted.current) return;
     wanted.current = true;
-    if (seen.current === false) setActive(true);
+    if (seen.current === false) {
+      setActive(true);
+      track({ name: 'tour_started' });
+    }
   }, []);
 
   const end = useCallback(() => {
+    // Ended from the last step's button, or skipped part-way.
+    track({ name: 'tour_finished', completed: index >= TOUR_STEPS.length - 1, step: index + 1 });
     setActive(false);
     setIndex(0);
     setRect(null);
@@ -160,7 +166,7 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
       // Failing to record it means the athlete sees it once more next launch.
       // Nothing is lost, so this is not worth surfacing.
     });
-  }, []);
+  }, [index]);
 
   const next = useCallback(() => {
     setIndex(i => {
@@ -189,6 +195,7 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
     registerScroller,
     maybeStart,
     restart: () => {
+      track({ name: 'tour_started' });
       seen.current = false;
       setIndex(0);
       setRect(null);

@@ -22,6 +22,7 @@ import { localToday } from '@/lib/format';
 import { createPlan, updateRaceDetails, type PlanTarget } from '@/data/planRepo';
 import type { PlanView } from '@/data/plan';
 import { useDialog } from '@/components/Dialog';
+import { track } from '@/lib/analytics';
 
 type Mode = 'race' | 'block';
 
@@ -91,6 +92,7 @@ export function GoalSettings({ plan, onSaved }: {
         ? { race: { event_name: name.trim() || 'My race', event_date: date!, division } }
         : { block: { weeks } };
       await createPlan(target);
+      track({ name: 'setting_changed', setting: 'goal' });
       setSaved('rebuilt');
       onSaved();
     } catch (e) {
@@ -106,6 +108,7 @@ export function GoalSettings({ plan, onSaved }: {
     setError(null);
     setSaved(null);
     try {
+      track({ name: 'setting_changed', setting: 'race_details' });
       await updateRaceDetails(plan.race.id, {
         event_name: name.trim() || 'My race',
         division,

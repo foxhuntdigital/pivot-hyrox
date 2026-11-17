@@ -5,13 +5,15 @@
  * footer are identical, so they live here rather than being re-typed and
  * drifting apart.
  */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { usePathname } from 'expo-router';
 import { ScrollView, Text, View, Pressable, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ActionButton, Chip, Label, Rule } from '@/components/primitives';
 import { color, space, type as t } from '@/theme/tokens';
 import { useSession } from '@/state/session';
+import { track } from '@/lib/analytics';
 import { daysInMonth, readDateChoice, tapDateChip } from '@/state/dateChoice';
 
 /** D02–D08 inclusive: the steps an athlete actually walks through. */
@@ -89,6 +91,7 @@ export function OnboardingStep({
   skipLabel,
   busy,
   error,
+  analyticsStep,
 }: {
   step: number;
   title: string;
@@ -102,8 +105,15 @@ export function OnboardingStep({
   skipLabel?: string;
   busy?: boolean;
   error?: string | null;
+  /** The funnel name for this screen; defaults to its route ("goal", "race"…). */
+  analyticsStep?: string;
 }) {
   const insets = useSafeAreaInsets();
+  const pathname = usePathname();
+  const stepName = analyticsStep ?? (pathname.split('/').filter(Boolean).pop() ?? 'unknown');
+  useEffect(() => {
+    track({ name: 'onboarding_step_viewed', step: stepName, step_number: step });
+  }, [stepName, step]);
   return (
     <View style={{ flex: 1, backgroundColor: color.paper }}>
       <View style={{ paddingTop: insets.top + 12, paddingBottom: 14 }}>
